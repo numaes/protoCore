@@ -161,6 +161,42 @@ namespace proto
         return PROTO_NONE;
     }
 
+    /*
+     * This block implements a high-performance, per-thread method cache to accelerate
+     * repetitive method calls on the same object.
+     *
+     * The core idea is to avoid the expensive `getAttribute` lookup (which may traverse
+     * the prototype chain) on every invocation. Instead, it computes a fast hash from
+     * the object and method pointers to find a slot in the thread's local cache.
+     *
+     * On a cache hit, the previously resolved method is executed directly. On a miss,
+     * the method is resolved via `getAttribute`, stored in the cache for subsequent
+     * calls, and then executed.
+     *
+     * This per-thread approach is critical for multi-threaded performance, as it
+     * guarantees thread-safety without the need for expensive locks or synchronization
+     * primitives that a global cache would require.
+     */
+    ProtoObject* ProtoObject::call(ProtoContext* c,
+                          ParentLink* nextParent,
+                          ProtoString* method,
+                          ProtoObject* self,
+                          ProtoList* unnamedParametersList,
+                          ProtoSparseList* keywordParametersDict)
+    {
+        auto thread = reinterpret_cast<ProtoThreadImplementation>(c->thread);
+
+        unsigned int hash = (reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(method)) & (THREAD_CACHE_DEPTH - 1);
+        if (thread->method_cache[hash].object != this || thread->method_cache[hash].method_name != method)
+        {
+            thread->method_cache[hash].object = this;
+            thread->method_cache[hash].method_name = method;
+            thread->method_cache[hash].method = this->getAttribute(c, method);
+        }
+
+        return thread->method_cache[hash].method(c, nextParent, self, unnamedParametersList, keywordParametersDict);
+    }
+
     ProtoObject* ProtoObject::isInstanceOf(ProtoContext* c, const ProtoObject* prototype)
     {
         ProtoObjectPointer pa;

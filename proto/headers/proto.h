@@ -11,6 +11,8 @@
 #include <atomic>
 #include <condition_variable>
 
+#include "proto_internal.h"
+
 
 namespace proto
 {
@@ -484,7 +486,7 @@ namespace proto
 
 		ProtoContext* previous;
 		ProtoSpace* space;
-		ProtoThread* thread;
+		__resharper_unknown_type thread;
 		ProtoObject** localsBase;
 		unsigned int localsCount;
 

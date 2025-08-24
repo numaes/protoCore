@@ -12,6 +12,9 @@
 #include "../headers/proto.h"
 #include <thread>
 
+// Method cache per thread. It should be a power of 2
+#define THREAD_CACHE_DEPTH 1024
+
 namespace proto
 {
     // Forward declarations for implementation classes
@@ -992,6 +995,11 @@ namespace proto
         BigCell* freeCells; // Lista de celdas de memoria libres locales al hilo.
         ProtoContext* currentContext; // Pila de llamadas actual del hilo.
         unsigned int unmanagedCount; // Contador para llamadas anidadas a setUnmanaged/setManaged.
+        struct {
+            ProtoObject* object;
+            ProtoObject* method_name;
+            ProtoMethod method;
+        } *method_cache;
     };
 
 

@@ -10,6 +10,7 @@
 #include <thread>
 #include <utility> // Para std::move
 
+
 namespace proto
 {
     // --- Constructor y Destructor ---
@@ -31,6 +32,14 @@ namespace proto
         currentContext(nullptr),
         unmanagedCount(0)
     {
+        // Inicializar el cache de métodos
+        this->method_cache = std::malloc(THREAD_CACHE_DEPTH * sizeof(*(this->method_cache)));
+        for (unsigned int i = 0; i < THREAD_CACHE_DEPTH; ++i)
+        {
+            this->method_cache[i].object = nullptr;
+            this->method_cache[i].method_name = nullptr;
+        }
+
         // Registrar el hilo en el espacio de memoria.
         this->space->allocThread(context, reinterpret_cast<ProtoThread*>(this));
 
@@ -72,6 +81,9 @@ namespace proto
     // El destructor debe asegurarse de que el hilo del SO se haya unido o separado.
     ProtoThreadImplementation::~ProtoThreadImplementation()
     {
+        // Clean up method cache
+        std::free(this->method_cache);
+
         if (this->osThread)
         {
             if (this->osThread->joinable())
