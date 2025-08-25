@@ -212,12 +212,25 @@ namespace proto
         void (*method)(ProtoContext* context, void* self, Cell* cell)
     )
     {
-        // CORRECCIÓN CRÍTICA: Se deben procesar TODAS las referencias que el hilo mantiene vivas.
-        // 1. El nombre del hilo (si es una string gestionada).
-        // TODO REVISAR
-        // if (this->name && this->name->isCell(context)) {
-        //     method(context, self, this->name->asCell(context));
-        //}
+        // 1. El nombre del hilo. Aunque los ProtoString son inmortales debido a la
+        //    internalización, es una buena práctica tratarlo como una raíz por completitud.
+        if (this->name && this->name->isCell(context))
+        {
+            method(context, self, this->name->asCell(context));
+        }
+
+        // 2. El caché de métodos. Es VITAL escanear los punteros a OBJETOS.
+        //    Si un objeto sale del scope pero permanece en el caché, esta es la
+        //    única referencia que lo mantiene vivo, previniendo un bug de 'use-after-free'.
+        //    NOTA: No es necesario escanear 'method_name' porque los ProtoString son
+        //    inmortales (internalizados en 'tupleRoot') y nunca serán recolectados.
+        for (unsigned int i = 0; i < THREAD_CACHE_DEPTH; ++i)
+        {
+            if (this->method_cache[i].object)
+            {
+                method(context, self, this->method_cache[i].object->asCell(context));
+            }
+        }
 
         // 2. La cadena de contextos (el stack de llamadas del hilo).
         ProtoContext* ctx = this->currentContext;

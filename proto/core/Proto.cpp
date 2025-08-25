@@ -691,16 +691,6 @@ namespace proto
         return p.op.pointer_tag != POINTER_TAG_EMBEDEDVALUE;
     }
 
-    ProtoObject* ProtoObject::call(ProtoContext* c,
-                                   ParentLink* nextParent,
-                                   ProtoString* method,
-                                   ProtoObject* self,
-                                   ProtoList* unnamedParametersList,
-                                   ProtoSparseList* keywordParametersDict)
-    {
-        return PROTO_NONE;
-    }
-
     Cell* ProtoObject::asCell(ProtoContext* context)
     {
         ProtoObjectPointer p{};
