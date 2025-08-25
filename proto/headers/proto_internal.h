@@ -854,6 +854,12 @@ namespace proto
         ProtoMethod method{};
     };
 
+    struct MethodCacheEntry {
+        ProtoObject* object;
+        ProtoObject* method_name;
+        ProtoMethod* method;
+    };
+
     /**
  * @class ProtoExternalPointerImplementation
  * @brief Implementation of a cell containing an opaque pointer to external data.
@@ -995,11 +1001,7 @@ namespace proto
         BigCell* freeCells; // List of free memory cells local to the thread.
         ProtoContext* currentContext; // Current call stack of the thread.
         unsigned int unmanagedCount; // Counter for nested calls to setUnmanaged/setManaged.
-        struct {
-            ProtoObject* object;
-            ProtoObject* method_name;
-            ProtoMethod method;
-        } *method_cache;
+        struct MethodCacheEntry *method_cache;
     };
 
 

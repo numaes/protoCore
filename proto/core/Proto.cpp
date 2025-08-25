@@ -191,10 +191,10 @@ namespace proto
         {
             thread->method_cache[hash].object = this;
             thread->method_cache[hash].method_name = (ProtoObject*)method;
-            thread->method_cache[hash].method = this->getAttribute(c, method);
+            thread->method_cache[hash].method = reinterpret_cast<ProtoMethod*>(this->getAttribute(c, method));
         }
 
-        return thread->method_cache[hash].method(c, nextParent, self, unnamedParametersList, keywordParametersDict);
+        return (* thread->method_cache[hash].method)(c, self, nextParent, unnamedParametersList, keywordParametersDict);
     }
 
     ProtoObject* ProtoObject::isInstanceOf(ProtoContext* c, const ProtoObject* prototype)

@@ -33,7 +33,7 @@ namespace proto
         unmanagedCount(0)
     {
         // Initialize the method cache
-        this->method_cache = (MethodCacheEntry*)std::malloc(THREAD_CACHE_DEPTH * sizeof(*(this->method_cache)));
+        this->method_cache = static_cast<MethodCacheEntry*>(std::malloc(THREAD_CACHE_DEPTH * sizeof(*(this->method_cache))));
         for (unsigned int i = 0; i < THREAD_CACHE_DEPTH; ++i)
         {
             this->method_cache[i].object = nullptr;
@@ -212,13 +212,6 @@ namespace proto
         void (*method)(ProtoContext* context, void* self, Cell* cell)
     )
     {
-        // 1. The thread's name. Although ProtoStrings are immortal due to
-        //    interning, it is good practice to treat it as a root for completeness.
-        if (this->name && this->name->isCell(context))
-        {
-            method(context, self, this->name->asCell(context));
-        }
-
         // 2. The method cache. It is VITAL to scan the OBJECT pointers.
         //    If an object goes out of scope but remains in the cache, this is the
         //    only reference keeping it alive, preventing a use-after-free bug.

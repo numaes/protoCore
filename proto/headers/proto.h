@@ -11,8 +11,6 @@
 #include <atomic>
 #include <condition_variable>
 
-#include "proto_internal.h"
-
 
 namespace proto
 {
@@ -547,7 +545,15 @@ namespace proto
 		);
 		~ProtoSpace();
 
-		ProtoObject* getThreads();
+		ProtoObject* getThreads(ProtoContext *c);
+
+		ProtoThread* newThread(
+			ProtoContext *c,
+			ProtoString *name,
+			ProtoMethod mainFunction,
+			ProtoList *args,
+			ProtoSparseList* kwargs
+		);
 
 		ProtoObject* objectPrototype;
 		ProtoObject* smallIntegerPrototype;

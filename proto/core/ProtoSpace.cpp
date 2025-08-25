@@ -558,4 +558,30 @@ namespace proto
 
         this->gcLock.store(false);
     };
+
+    ProtoObject* ProtoSpace::getThreads(ProtoContext *c)
+    {
+        return this->threads->asObject(c);
+    }
+
+    ProtoThread* ProtoSpace::newThread(
+        ProtoContext *c,
+        ProtoString * name,
+        ProtoMethod mainFunction,
+        ProtoList *args,
+        ProtoSparseList *kwargs)
+    {
+        const auto newThread = new(c) ProtoThreadImplementation(
+            c,
+            name,
+            this,
+            mainFunction,
+            args,
+            kwargs
+        );
+
+        this->allocThread(c, newThread);
+        return newThread;
+    }
+
 };

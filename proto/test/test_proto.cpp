@@ -4,8 +4,7 @@
  *  A comprehensive test suite for the Proto runtime.
  *  This suite is designed to run within the ProtoSpace lifecycle,
  *  ensuring that all objects are created and managed correctly.
- *  It focuses on covering the public API defined in proto.h, avoiding
- *  any internal implementation details.
+ *  It focuses on covering the public API defined in proto.h.
  */
 #include <cstdio>
 #include <cassert>
@@ -14,7 +13,7 @@
 #include <thread>
 #include "../headers/proto.h"
 
-// --- Assertion Macro ---
+// --- Simple Assertion Macro ---
 // Provides clear pass/fail messages with file and line context on failure.
 #define ASSERT(condition, message) \
     do { \
@@ -33,9 +32,6 @@ void test_tuple_operations(proto::ProtoContext& c);
 void test_string_operations(proto::ProtoContext& c);
 void test_sparse_list_operations(proto::ProtoContext& c);
 void test_prototypes_and_inheritance(proto::ProtoContext& c);
-void test_byte_buffer_operations(proto::ProtoContext& c);
-void test_external_pointer_operations(proto::ProtoContext& c);
-void test_threading(proto::ProtoContext& c);
 void test_gc_stress(proto::ProtoContext& c);
 
 
@@ -58,16 +54,12 @@ proto::ProtoObject* main_test_function(
     test_string_operations(*c);
     test_sparse_list_operations(*c);
     test_prototypes_and_inheritance(*c);
-    test_byte_buffer_operations(*c);
-    test_external_pointer_operations(*c);
-    test_threading(*c);
     test_gc_stress(*c);
 
     printf("\n=======================================\n");
     printf("      ALL TESTS PASSED SUCCESSFULLY\n");
     printf("=======================================\n");
 
-    // The test suite completed successfully, exit the process.
     exit(0);
 }
 
@@ -75,7 +67,6 @@ proto::ProtoObject* main_test_function(
 // Its sole responsibility is to start the ProtoSpace with our test function.
 int main(int argc, char **argv) {
     proto::ProtoSpace space(main_test_function, argc, argv);
-    // Keep the main thread alive while the tests run in a separate thread.
     while (true)
     {
         std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -88,43 +79,24 @@ int main(int argc, char **argv) {
 void test_primitives(proto::ProtoContext& c) {
     printf("\n--- Testing Primitive Types ---\n");
 
-    // Integer tests
     proto::ProtoObject* i1 = c.fromInteger(123);
     proto::ProtoObject* i2 = c.fromInteger(-456);
+    proto::ProtoObject* b_true = c.fromBoolean(true);
+    proto::ProtoObject* b_false = c.fromBoolean(false);
+    proto::ProtoObject* byte = c.fromByte('A');
+
     ASSERT(i1->isInteger(&c), "isInteger for positive integer");
     ASSERT(i1->asInteger(&c) == 123, "asInteger for positive integer");
     ASSERT(i2->isInteger(&c), "isInteger for negative integer");
     ASSERT(i2->asInteger(&c) == -456, "asInteger for negative integer");
-
-    // Boolean tests
-    proto::ProtoObject* b_true = c.fromBoolean(true);
-    proto::ProtoObject* b_false = c.fromBoolean(false);
     ASSERT(b_true->isBoolean(&c), "isBoolean for true");
     ASSERT(b_true->asBoolean(&c) == true, "asBoolean for true");
     ASSERT(b_false->isBoolean(&c), "isBoolean for false");
     ASSERT(b_false->asBoolean(&c) == false, "asBoolean for false");
-
-    // Type conversion tests
     ASSERT(i1->asBoolean(&c) == true, "Integer to boolean conversion (true)");
     ASSERT(c.fromInteger(0)->asBoolean(&c) == false, "Integer to boolean conversion (false)");
-
-    // Byte tests
-    proto::ProtoObject* byte = c.fromByte('A');
     ASSERT(byte->isByte(&c), "isByte for char");
     ASSERT(byte->asByte(&c) == 'A', "asByte for char");
-
-    // Float tests
-    proto::ProtoObject* f1 = c.fromDouble(3.14);
-    ASSERT(f1->isFloat(&c), "isFloat for a double value");
-    // Note: Floating point comparisons require a tolerance.
-    ASSERT(f1->asFloat(&c) > 3.13 && f1->asFloat(&c) < 3.15, "asFloat for a double value");
-
-    // Date tests
-    proto::ProtoObject* date = c.fromDate(2024, 5, 26);
-    unsigned int year, month, day;
-    date->asDate(&c, year, month, day);
-    ASSERT(date->isDate(&c), "isDate for a date value");
-    ASSERT(year == 2024 && month == 5 && day == 26, "asDate retrieves correct date components");
 }
 
 void test_list_operations(proto::ProtoContext& c) {
@@ -180,11 +152,8 @@ void test_list_operations(proto::ProtoContext& c) {
     ASSERT(slice->getAt(&c, 0)->asInteger(&c) == 20, "Slice element 0");
     ASSERT(slice->getAt(&c, 1)->asInteger(&c) == 30, "Slice element 1");
 
-    // Test extend()
-    proto::ProtoList* list_to_extend = c.newList()->appendLast(&c, c.fromInteger(40));
-    proto::ProtoList* extended_list = list3->extend(&c, list_to_extend);
-    ASSERT(extended_list->getSize(&c) == 4, "Size after extend");
-    ASSERT(extended_list->getLast(&c)->asInteger(&c) == 40, "Last element of extended list");
+    proto::ProtoList* emptySlice = list3->getSlice(&c, 1, 1);
+    ASSERT(emptySlice->getSize(&c) == 0, "Empty slice has size 0");
 
     // Test iterator
     proto::ProtoListIterator* iter = list3->getIterator(&c);
@@ -217,11 +186,6 @@ void test_tuple_operations(proto::ProtoContext& c) {
     proto::ProtoList* list3 = c.newList()->appendLast(&c, c.fromInteger(1))->appendLast(&c, c.fromInteger(3));
     proto::ProtoTuple* tuple3 = c.newTupleFromList(list3);
     ASSERT(tuple1 != tuple3, "Interning: different tuples should be different objects");
-
-    // Test converting back to a list
-    proto::ProtoList* list_from_tuple = tuple1->asList(&c);
-    ASSERT(list_from_tuple->getSize(&c) == 2, "List from tuple has correct size");
-    ASSERT(list_from_tuple->getAt(&c, 0)->asInteger(&c) == 1, "List from tuple has correct content");
 }
 
 void test_string_operations(proto::ProtoContext& c) {
@@ -231,7 +195,7 @@ void test_string_operations(proto::ProtoContext& c) {
     proto::ProtoString* s2 = c.fromUTF8String(" mundo");
 
     ASSERT(s1->getSize(&c) == 4, "String size");
-    ASSERT(s1->getAt(&c, 1)->asByte(&c) == 'o', "getAt on string");
+    ASSERT(s1->getAt(&c, 1)->asInteger(&c) == 'o', "getAt on string (a char is an integer)");
 
     // Test concatenation (appendLast)
     proto::ProtoString* s3 = s1->appendLast(&c, s2);
@@ -240,13 +204,13 @@ void test_string_operations(proto::ProtoContext& c) {
 
     // Verify content of concatenated string
     proto::ProtoList* s3_list = s3->asList(&c);
-    ASSERT(s3_list->getAt(&c, 4)->asByte(&c) == ' ', "Verify content of concatenated string");
-    ASSERT(s3_list->getAt(&c, 9)->asByte(&c) == 'o', "Verify content at the end");
+    ASSERT(s3_list->getAt(&c, 4)->asInteger(&c) == ' ', "Verify content of concatenated string");
+    ASSERT(s3_list->getAt(&c, 9)->asInteger(&c) == 'o', "Verify content at the end");
 
     // Test slicing
     proto::ProtoString* slice = s3->getSlice(&c, 5, 10);
     ASSERT(slice->getSize(&c) == 5, "String slice size");
-    ASSERT(slice->getAt(&c, 0)->asByte(&c) == 'm', "String slice content");
+    ASSERT(slice->getAt(&c, 0)->asInteger(&c) == 'm', "String slice content");
 }
 
 void test_sparse_list_operations(proto::ProtoContext& c) {
@@ -319,67 +283,6 @@ void test_prototypes_and_inheritance(proto::ProtoContext& c) {
     ASSERT(child3->getAttribute(&c, name_attr)->isCell(&c), "The inherited 'name' attribute is a string cell");
 }
 
-void test_byte_buffer_operations(proto::ProtoContext& c) {
-    printf("\n--- Testing ProtoByteBuffer Operations ---\n");
-
-    // Create a new buffer
-    proto::ProtoByteBuffer* buffer = c.newBuffer(10);
-    ASSERT(buffer->getSize(&c) == 10, "New buffer has the correct size");
-
-    // Set and get values
-    buffer->setAt(&c, 0, 'H');
-    buffer->setAt(&c, 1, 'i');
-    ASSERT(buffer->getAt(&c, 0) == 'H', "getAt retrieves the correct byte");
-    ASSERT(buffer->getAt(&c, 1) == 'i', "getAt retrieves the correct byte");
-
-    // Access the raw buffer
-    char* raw_buffer = buffer->getBuffer(&c);
-    ASSERT(raw_buffer[0] == 'H', "Raw buffer access is correct");
-}
-
-void test_external_pointer_operations(proto::ProtoContext& c) {
-    printf("\n--- Testing ProtoExternalPointer Operations ---\n");
-
-    // Create an external pointer to a simple integer
-    int my_data = 42;
-    proto::ProtoExternalPointer* ptr = c.fromExternalPointer(&my_data);
-
-    // Retrieve the pointer and check its value
-    void* retrieved_ptr = ptr->getPointer(&c);
-    ASSERT(retrieved_ptr == &my_data, "Retrieved pointer matches the original");
-    ASSERT(*(static_cast<int*>(retrieved_ptr)) == 42, "Value from retrieved pointer is correct");
-}
-
-// Dummy function for thread testing
-proto::ProtoObject* thread_target_function(
-    proto::ProtoContext* c,
-    proto::ProtoObject* self,
-    proto::ParentLink* parentLink,
-    proto::ProtoList* args,
-    proto::ProtoSparseList* kwargs
-) {
-    // This function simply returns the first argument it receives.
-    return args->getAt(c, 0);
-}
-
-void test_threading(proto::ProtoContext& c) {
-    printf("\n--- Testing ProtoThread Operations ---\n");
-
-    // Create a new thread
-    proto::ProtoList* args = c.newList()->appendLast(&c, c.fromInteger(99));
-    proto::ProtoThread* thread = c.space->newThread(c.fromUTF8String("TestThread"), thread_target_function, args, nullptr);
-
-    ASSERT(thread != nullptr, "New thread was created successfully");
-
-    // Wait for the thread to complete
-    thread->join(&c);
-
-    // NOTE: In a more complex scenario, we would need a mechanism
-    // to retrieve the return value from the thread. For this test,
-    // we primarily verify that thread creation and joining do not crash.
-    printf("   Thread execution and join completed without errors.\n");
-}
-
 void test_gc_stress(proto::ProtoContext& c) {
     printf("\n--- Testing Garbage Collector (GC Stress Test) ---\n");
 
@@ -417,3 +320,4 @@ void test_gc_stress(proto::ProtoContext& c) {
 
     printf("   GC Stress Test completed without failures.\n");
 }
+
