@@ -163,35 +163,28 @@ namespace proto
 
     ProtoObject* ProtoObject::call(ProtoContext* c,
                           ParentLink* nextParent,
-                          ProtoObject* methodName,
-                          ProtoObject* self_obj,
+                          ProtoString* method,
+                          ProtoObject* self,
                           ProtoList* unnamedParametersList,
                           ProtoSparseList* keywordParametersDict)
     {
         auto* thread = toImpl<ProtoThreadImplementation>(c->thread);
 
-        const unsigned int hash = ((reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(methodName)) >> 4)
-                                    & (THREAD_CACHE_DEPTH - 1);
+        const unsigned int hash = (reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(method)) & (THREAD_CACHE_DEPTH - 1);
 
         auto& entry = thread->method_cache[hash];
 
-        if (entry.object != this || entry.method_name != methodName) [[unlikely]]
+        if (entry.object != this || entry.method_name != (ProtoObject*)method) [[unlikely]]
         {
             entry.object = this;
-            entry.method_name = methodName;
-            entry.method = this->getAttribute(c, methodName->asString(c))->asMethod(c);
+            entry.method_name = (ProtoObject*)method;
+            entry.method = this->getAttribute(c, method);
         }
 
         ProtoObjectPointer p;
-        p.method = entry.method;
+        p.oid.oid = entry.method;
         if (p.op.pointer_tag == POINTER_TAG_METHOD) {
-            return (entry.method)(
-                c,
-                self_obj,
-                nextParent,
-                unnamedParametersList,
-                keywordParametersDict
-            );
+            return entry.method(c, nextParent, self, unnamedParametersList, keywordParametersDict);
         }
         
         return PROTO_NONE;
@@ -1221,6 +1214,11 @@ namespace proto
         return toImpl<ProtoSparseListImplementation>(this)->implRemoveAt(context, index);
     }
 
+    int ProtoSparseList::isEqual(ProtoContext* context, ProtoSparseList* otherDict)
+    {
+        return toImpl<ProtoSparseListImplementation>(this)->implIsEqual(context, otherDict);
+    }
+
     unsigned long ProtoSparseList::getSize(ProtoContext* context)
     {
         return toImpl<ProtoSparseListImplementation>(this)->implGetSize(context);
@@ -1330,6 +1328,16 @@ namespace proto
     ProtoObjectCell* ProtoObjectCell::addParent(ProtoContext* context, ProtoObjectCell* object)
     {
         return toImpl<ProtoObjectCellImplementation>(this)->implAddParent(context, object);
+    }
+
+    ProtoObject* ProtoObjectCell::asObject(ProtoContext* context)
+    {
+        return toImpl<ProtoObjectCellImplementation>(this)->implAsObject(context);
+    }
+
+    unsigned long ProtoObjectCell::getHash(ProtoContext* context)
+    {
+        return toImpl<ProtoObjectCellImplementation>(this)->getHash(context);
     }
 
     // ------------------- ProtoThread -------------------
