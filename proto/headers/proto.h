@@ -92,7 +92,7 @@ namespace proto
 
 		ProtoObject* call(ProtoContext* c,
 		                  ParentLink* nextParent,
-		                  ProtoObject* method,
+		                  ProtoObject* methodName,
 		                  ProtoObject* self,
 		                  ProtoList* unnamedParametersList = nullptr,
 		                  ProtoSparseList* keywordParametersDict = nullptr);
@@ -137,7 +137,7 @@ namespace proto
 		ProtoStringIterator * asStringIterator(ProtoContext *context);
 		ProtoSparseList * asSparseList(ProtoContext *context);
 		ProtoSparseListIterator * asSparseListIterator(ProtoContext *context);
-		ProtoMethod * asMethod(ProtoContext *context);
+		ProtoMethod asMethod(ProtoContext *context);
 
 	};
 
@@ -521,7 +521,7 @@ namespace proto
 		ProtoObject* fromDate(unsigned year, unsigned month, unsigned day);
 		ProtoObject* fromTimestamp(unsigned long timestamp);
 		ProtoObject* fromTimeDelta(long timedelta);
-		
+
 		ProtoObject* fromThread(ProtoThread* thread);
 		ProtoObject* fromList(ProtoList* list);
 		ProtoObject* fromTuple(ProtoTuple* tuple);
@@ -557,14 +557,6 @@ namespace proto
 		~ProtoSpace();
 
 		ProtoObject* getThreads(ProtoContext *c);
-
-		ProtoThread* newThread(
-			ProtoContext *c,
-			ProtoString *name,
-			ProtoMethod mainFunction,
-			ProtoList *args,
-			ProtoSparseList* kwargs
-		);
 
 		ProtoObject* objectPrototype;
 		ProtoObject* smallIntegerPrototype;
@@ -616,7 +608,7 @@ namespace proto
 		 */
 		ProtoThread* newThread(
 			ProtoContext* context,
-			ProtoString* name,
+			ProtoString* threadName,
 			ProtoMethod target,
 			ProtoList* args,
 			ProtoSparseList* kwargs

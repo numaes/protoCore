@@ -152,7 +152,7 @@ namespace proto
                     (ProtoSparseList*)currentRoot->setAt(
                         context,
                         randomId,
-                        newObject
+                        (ProtoObject*)newObject
                     )
                 ));
             }
@@ -303,7 +303,7 @@ namespace proto
                 {
                     currentRoot = context->space->mutableRoot.load();
                     newRoot = (ProtoSparseList*)currentRoot->setAt(
-                        context, inmutableBase->mutable_ref, newObject);
+                        context, inmutableBase->mutable_ref, (ProtoObject*)newObject);
                 }
                 while (!context->space->mutableRoot.compare_exchange_strong(
                     currentRoot,
@@ -536,6 +536,23 @@ namespace proto
         p.oid.oid = this;
         return (p.op.pointer_tag == POINTER_TAG_EMBEDEDVALUE &&
             p.op.embedded_type == EMBEDED_TYPE_BOOLEAN);
+    }
+
+    bool ProtoObject::isMethod(ProtoContext* context)
+    {
+        ProtoObjectPointer p;
+        p.oid.oid = this;
+        return (p.op.pointer_tag == POINTER_TAG_METHOD);
+    }
+
+    ProtoMethod* ProtoObject::asMethod(ProtoContext* context)
+    {
+        ProtoObjectPointer p;
+        p.oid.oid = this;
+        if (isMethod(context)) {
+            return &(toImpl<ProtoMethodCellImplementation>(p.cell.cell)->method);
+        }
+        return nullptr;
     }
 
     bool ProtoObject::asBoolean(ProtoContext* context)
