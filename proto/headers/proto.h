@@ -298,7 +298,7 @@ namespace proto
 		ProtoObject* getAt(ProtoContext* context, unsigned long index) ;
 		ProtoSparseList* setAt(ProtoContext* context, unsigned long index, ProtoObject* value) ;
 		ProtoSparseList* removeAt(ProtoContext* context, unsigned long index) ;
-		int isEqual(ProtoContext* context, ProtoSparseList* otherDict) ;
+		bool isEqual(ProtoContext* context, ProtoSparseList* otherDict) ;
 
 		unsigned long getSize(ProtoContext* context) ;
 		ProtoObject* asObject(ProtoContext* context) ;

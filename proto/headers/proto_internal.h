@@ -524,7 +524,7 @@ namespace proto
         ProtoObject* implGetAt(ProtoContext* context, unsigned long index);
         ProtoSparseListImplementation* implSetAt(ProtoContext* context, unsigned long index, ProtoObject* value);
         ProtoSparseListImplementation* implRemoveAt(ProtoContext* context, unsigned long index);
-        int implIsEqual(ProtoContext* context, ProtoSparseList* otherDict);
+        bool implIsEqual(ProtoContext* context, ProtoSparseListImplementation* otherDict);
         ProtoObject* implGetAtOffset(ProtoContext* context, int offset);
 
         unsigned long implGetSize(ProtoContext* context);

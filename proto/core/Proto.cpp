@@ -1231,9 +1231,12 @@ namespace proto
         return toImpl<ProtoSparseListImplementation>(this)->implRemoveAt(context, index);
     }
 
-    int ProtoSparseList::isEqual(ProtoContext* context, ProtoSparseList* otherDict)
+    bool ProtoSparseList::isEqual(ProtoContext* context, ProtoSparseList* otherDict)
     {
-        return toImpl<ProtoSparseListImplementation>(this)->implIsEqual(context, otherDict);
+        return toImpl<ProtoSparseListImplementation>(this)->implIsEqual(
+            context,
+            toImpl<ProtoSparseListImplementation>(otherDict)
+        );
     }
 
     unsigned long ProtoSparseList::getSize(ProtoContext* context)

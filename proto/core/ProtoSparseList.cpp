@@ -386,11 +386,19 @@ namespace proto
         return this->count;
     }
 
-    int ProtoSparseListImplementation::implIsEqual(ProtoContext* context, ProtoSparseList* otherDict)
+    bool ProtoSparseListImplementation::implIsEqual(ProtoContext* context, ProtoSparseListImplementation* otherDict)
     {
-        // TODO: Implement actual comparison logic for sparse lists.
-        // This is a placeholder to resolve the linker error.
-        return 0;
+        if (this->count != otherDict->count) return false;
+        auto it = this->implGetIterator(context);
+        while (it->implHasNext(context))
+        {
+            auto key = it->implNextKey(context);
+            auto value = it->implNextValue(context);
+            if (!otherDict->getAt(context, key)) return false;
+            if (otherDict->getAt(context, key) != this->getAt(context, key)) return false;
+            it->implAdvance(context);
+        }
+        return true;
     }
 
     void ProtoSparseListImplementation::implProcessElements(
