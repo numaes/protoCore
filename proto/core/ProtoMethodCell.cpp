@@ -108,10 +108,12 @@ namespace proto
     };
 
     ProtoObject* ProtoMethodCellImplementation::implGetSelf(ProtoContext* context) {
+        // TODO: Implement actual logic to return the 'self' object associated with the method.
         return nullptr;
     }
 
     ProtoMethod ProtoMethodCellImplementation::implGetMethod(ProtoContext* context) {
+        // TODO: Implement actual logic to return the wrapped function pointer.
         return nullptr;
     }
 } // namespace proto

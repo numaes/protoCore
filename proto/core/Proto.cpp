@@ -163,7 +163,7 @@ namespace proto
 
     ProtoObject* ProtoObject::call(ProtoContext* c,
                           ParentLink* nextParent,
-                          ProtoObject* method,
+                          ProtoString* method,
                           ProtoObject* self,
                           ProtoList* unnamedParametersList,
                           ProtoSparseList* keywordParametersDict)
@@ -178,13 +178,18 @@ namespace proto
         {
             entry.object = this;
             entry.method_name = (ProtoObject*)method;
-            entry.method = this->getAttribute(c, method->asString(c))->asMethod(c);
+            
+            ProtoObject* resolved_attr = this->getAttribute(c, method);
+            if (resolved_attr && resolved_attr->isMethod(c)) {
+                // asMethod returns a pointer to the function pointer, so we dereference it.
+                entry.method = *(resolved_attr->asMethod(c));
+            } else {
+                entry.method = nullptr;
+            }
         }
 
-        ProtoObjectPointer p;
-        p.method = entry.method;
-        if (p.op.pointer_tag == POINTER_TAG_METHOD) {
-            return entry.method(c, self, nextParent, unnamedParametersList, keywordParametersDict);
+        if (entry.method) {
+            return entry.method(c, nextParent, self, unnamedParametersList, keywordParametersDict);
         }
         
         return PROTO_NONE;
@@ -545,12 +550,12 @@ namespace proto
         return (p.op.pointer_tag == POINTER_TAG_METHOD);
     }
 
-    ProtoMethod ProtoObject::asMethod(ProtoContext* context)
+    ProtoMethod* ProtoObject::asMethod(ProtoContext* context)
     {
         ProtoObjectPointer p;
         p.oid.oid = this;
         if (isMethod(context)) {
-            return p.method;
+            return &(toImpl<ProtoMethodCellImplementation>(p.cell.cell)->method);
         }
         return nullptr;
     }
@@ -1231,12 +1236,9 @@ namespace proto
         return toImpl<ProtoSparseListImplementation>(this)->implRemoveAt(context, index);
     }
 
-    bool ProtoSparseList::isEqual(ProtoContext* context, ProtoSparseList* otherDict)
+    int ProtoSparseList::isEqual(ProtoContext* context, ProtoSparseList* otherDict)
     {
-        return toImpl<ProtoSparseListImplementation>(this)->implIsEqual(
-            context,
-            toImpl<ProtoSparseListImplementation>(otherDict)
-        );
+        return toImpl<ProtoSparseListImplementation>(this)->implIsEqual(context, otherDict);
     }
 
     unsigned long ProtoSparseList::getSize(ProtoContext* context)

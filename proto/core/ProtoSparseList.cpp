@@ -449,8 +449,6 @@ namespace proto
         void (*method)(ProtoContext* context, void* self, Cell* cell)
     )
     {
-        // CRITICAL FIX: The previous implementation caused an infinite loop in the GC.
-        // All internal references are now processed correctly.
         if (this->previous)
         {
             method(context, self, this->previous);

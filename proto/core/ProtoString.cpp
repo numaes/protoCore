@@ -64,7 +64,8 @@ namespace proto
     // The finalizer does not need to do anything, so we use '= default'.
     void ProtoStringIteratorImplementation::finalize(ProtoContext* context)
     {
-    };
+        // TODO: No special finalization needed for this iterator.
+    }
 
     void ProtoStringIteratorImplementation::processReferences(
         ProtoContext* context,
@@ -350,36 +351,50 @@ namespace proto
         return Cell::getHash(context);
     }
 
-    int ProtoStringImplementation::implCmpToString(ProtoContext* context, ProtoString* otherString) { return 0; }
+    int ProtoStringImplementation::implCmpToString(ProtoContext* context, ProtoString* otherString) {
+        // TODO: Implement actual string comparison logic.
+        return 0;
+    }
 
     ProtoStringImplementation* ProtoStringImplementation::implSetAtString(
-        ProtoContext* context, int index, ProtoString* otherString) { return nullptr; }
+        ProtoContext* context, int index, ProtoString* otherString) {
+        // TODO: Implement actual logic for setting a string at a specific index.
+        return nullptr;
+    }
 
     ProtoStringImplementation* ProtoStringImplementation::implInsertAtString(
-        ProtoContext* context, int index, ProtoString* otherString) { return nullptr; }
+        ProtoContext* context, int index, ProtoString* otherString) {
+        // TODO: Implement actual logic for inserting a string at a specific index.
+        return nullptr;
+    }
 
     ProtoStringImplementation* ProtoStringImplementation::implSplitFirst(ProtoContext* context, int count)
     {
+        // TODO: Implement actual logic for splitting the string.
         return nullptr;
     }
 
     ProtoStringImplementation* ProtoStringImplementation::implSplitLast(ProtoContext* context, int count)
     {
+        // TODO: Implement actual logic for splitting the string.
         return nullptr;
     }
 
     ProtoStringImplementation* ProtoStringImplementation::implRemoveFirst(ProtoContext* context, int count)
     {
+        // TODO: Implement actual logic for removing the first 'count' characters.
         return nullptr;
     }
 
     ProtoStringImplementation* ProtoStringImplementation::implRemoveLast(ProtoContext* context, int count)
     {
+        // TODO: Implement actual logic for removing the last 'count' characters.
         return nullptr;
     }
 
     ProtoStringImplementation* ProtoStringImplementation::implRemoveAt(ProtoContext* context, int index)
     {
+        // TODO: Implement actual logic for removing a character at a specific index.
         return nullptr;
     }
 } // namespace proto
