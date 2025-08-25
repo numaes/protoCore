@@ -184,13 +184,13 @@ namespace proto
                           ProtoList* unnamedParametersList,
                           ProtoSparseList* keywordParametersDict)
     {
-        auto thread = reinterpret_cast<ProtoThreadImplementation>(c->thread);
+        auto thread = reinterpret_cast<ProtoThreadImplementation*>(c->thread);
 
         unsigned int hash = (reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(method)) & (THREAD_CACHE_DEPTH - 1);
-        if (thread->method_cache[hash].object != this || thread->method_cache[hash].method_name != method)
+        if (thread->method_cache[hash].object != this || thread->method_cache[hash].method_name != (ProtoObject*)method)
         {
             thread->method_cache[hash].object = this;
-            thread->method_cache[hash].method_name = method;
+            thread->method_cache[hash].method_name = (ProtoObject*)method;
             thread->method_cache[hash].method = this->getAttribute(c, method);
         }
 
@@ -205,7 +205,7 @@ namespace proto
 
         if (pa.op.pointer_tag == POINTER_TAG_OBJECT)
         {
-            auto* oc = pa.oc.objectCell;
+            auto* oc = (ProtoObjectCellImplementation*)pa.oc.objectCell;
 
             ParentLinkImplementation* currentParent = oc->parent;
             while (currentParent)
@@ -226,7 +226,7 @@ namespace proto
 
         if (pa.op.pointer_tag == POINTER_TAG_OBJECT)
         {
-            auto* oc = pa.oc.objectCell;
+            auto* oc = (ProtoObjectCellImplementation*)pa.oc.objectCell;
             if (oc->mutable_ref)
                 oc = static_cast<ProtoObjectCellImplementation*>(context->space->mutableRoot.load()->getAt(
                     context, oc->mutable_ref));
@@ -255,7 +255,7 @@ namespace proto
 
         if (pa.op.pointer_tag == POINTER_TAG_OBJECT)
         {
-            auto* oc = pa.oc.objectCell;
+            auto* oc = (ProtoObjectCellImplementation*)pa.oc.objectCell;
             if (oc->mutable_ref)
             {
                 oc = static_cast<ProtoObjectCellImplementation*>(context->space->mutableRoot.load()->getAt(
@@ -285,7 +285,7 @@ namespace proto
 
         if (pa.op.pointer_tag == POINTER_TAG_OBJECT)
         {
-            auto* oc = pa.oc.objectCell;
+            auto* oc = (ProtoObjectCellImplementation*)pa.oc.objectCell;
             ProtoObjectCellImplementation* inmutableBase = nullptr;
             ProtoSparseList* currentRoot;
             if (oc->mutable_ref)
@@ -312,14 +312,14 @@ namespace proto
                     newRoot = (ProtoSparseList*)currentRoot->setAt(
                         context, inmutableBase->mutable_ref, newObject);
                 }
-                while (context->space->mutableRoot.compare_exchange_strong(
+                while (!context->space->mutableRoot.compare_exchange_strong(
                     currentRoot,
                     newRoot
                 ));
                 return this;
             }
             else
-                return newObject;
+                return (ProtoObject*)newObject;
         }
         return this;
     }
@@ -332,12 +332,12 @@ namespace proto
 
         if (pa.op.pointer_tag == POINTER_TAG_OBJECT)
         {
-            const auto* oc = pa.oc.objectCell;
+            const auto* oc = (ProtoObjectCellImplementation*)pa.oc.objectCell;
             ProtoSparseList* currentRoot;
             if (oc->mutable_ref)
             {
                 currentRoot = context->space->mutableRoot.load();
-                oc = static_cast<ProtoObjectCellImplementation*>(currentRoot->getAt(context, oc->mutable_ref));
+                oc = static_cast<const ProtoObjectCellImplementation*>(currentRoot->getAt(context, oc->mutable_ref));
             }
 
             unsigned long hash = name->getHash(context);
@@ -354,7 +354,7 @@ namespace proto
 
         if (pa.op.pointer_tag == POINTER_TAG_OBJECT)
         {
-            auto* oc = pa.oc.objectCell;
+            auto* oc = (ProtoObjectCellImplementation*)pa.oc.objectCell;
             ProtoSparseList* currentRoot = nullptr;
             if (oc->mutable_ref)
             {
@@ -366,10 +366,10 @@ namespace proto
 
             while (oc)
             {
-                auto* ai = reinterpret_cast<ProtoListIterator*>(oc->attributes->getIterator(context));
+                auto* ai = (oc->attributes->getIterator(context));
                 while (ai->hasNext(context))
                 {
-                    const unsigned long attributeKey = reinterpret_cast<ProtoSparseListIterator*>(ai)->nextKey(context);
+                    const unsigned long attributeKey = (ai)->nextKey(context);
                     ProtoObject* attributeValue = oc->attributes->getAt(context, attributeKey);
                     attributes = (ProtoSparseList*)attributes->setAt(
                         context,
@@ -399,7 +399,7 @@ namespace proto
 
         if (pa.op.pointer_tag == POINTER_TAG_OBJECT)
         {
-            auto* oc = pa.oc.objectCell;
+            auto* oc = (ProtoObjectCellImplementation*)pa.oc.objectCell;
 
             if (oc->mutable_ref)
             {
@@ -423,7 +423,7 @@ namespace proto
         {
             ProtoList* parents = new(context) ProtoListImplementation(context);
 
-            auto* oc = pa.oc.objectCell;
+            auto* oc = (ProtoObjectCellImplementation*)pa.oc.objectCell;
             auto* parent = (ParentLinkImplementation*)oc->parent;
             while (parent)
             {
@@ -469,7 +469,7 @@ namespace proto
 
         if (pa.op.pointer_tag == POINTER_TAG_OBJECT)
         {
-            auto* oc = pa.oc.objectCell;
+            auto* oc = (ProtoObjectCellImplementation*)pa.oc.objectCell;
 
             // Collect existing parents
             ParentLinkImplementation* currentParent = oc->parent;
@@ -1080,7 +1080,7 @@ namespace proto
 
     ProtoString* ProtoString::removeSlice(ProtoContext* context, int from, int to)
     {
-        return toImpl<ProtoStringImplementation>(this->implRemoveSlice(context, from, to);
+        return toImpl<ProtoStringImplementation>(this)->implRemoveSlice(context, from, to);
     }
 
     ProtoObject* ProtoString::asObject(ProtoContext* context)
