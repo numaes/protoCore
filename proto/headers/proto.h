@@ -92,7 +92,7 @@ namespace proto
 
 		ProtoObject* call(ProtoContext* c,
 		                  ParentLink* nextParent,
-		                  ProtoString* method,
+		                  ProtoObject* method,
 		                  ProtoObject* self,
 		                  ProtoList* unnamedParametersList = nullptr,
 		                  ProtoSparseList* keywordParametersDict = nullptr);
@@ -113,6 +113,14 @@ namespace proto
 			)
 		);
 
+		bool isBoolean(ProtoContext *context);
+		bool isInteger(ProtoContext *context);
+		bool isFloat(ProtoContext *context);
+		bool isByte(ProtoContext *context);
+		bool isDate(ProtoContext *context);
+		bool isTimestamp(ProtoContext *context);
+		bool isTimeDelta(ProtoContext *context);
+		bool isMethod(ProtoContext *context);
 
 		bool asBoolean(ProtoContext *context);
 		int asInteger(ProtoContext *context);
@@ -121,15 +129,6 @@ namespace proto
 		void asDate(ProtoContext *context, unsigned int& year, unsigned& month, unsigned& day);
 		unsigned long asTimestamp(ProtoContext *context);
 		long asTimeDelta(ProtoContext *context);
-
-		bool isBoolean(ProtoContext *context);
-		bool isInteger(ProtoContext *context);
-		bool isFloat(ProtoContext *context);
-		bool isByte(ProtoContext *context);
-		bool isDate(ProtoContext *context);
-		bool isTimestamp(ProtoContext *context);
-		bool isTimeDelta(ProtoContext *context);
-
 		ProtoList * asList(ProtoContext *context);
 		ProtoListIterator * asListIterator(ProtoContext *context);
 		ProtoTuple * asTuple(ProtoContext *context);
@@ -138,6 +137,7 @@ namespace proto
 		ProtoStringIterator * asStringIterator(ProtoContext *context);
 		ProtoSparseList * asSparseList(ProtoContext *context);
 		ProtoSparseListIterator * asSparseListIterator(ProtoContext *context);
+		ProtoMethod * asMethod(ProtoContext *context);
 
 	};
 
@@ -521,6 +521,17 @@ namespace proto
 		ProtoObject* fromDate(unsigned year, unsigned month, unsigned day);
 		ProtoObject* fromTimestamp(unsigned long timestamp);
 		ProtoObject* fromTimeDelta(long timedelta);
+		
+		ProtoObject* fromThread(ProtoThread* thread);
+		ProtoObject* fromList(ProtoList* list);
+		ProtoObject* fromTuple(ProtoTuple* tuple);
+		ProtoObject* fromSparseList(ProtoSparseList* sparseList);
+		ProtoObject* fromString(ProtoString* string);
+		ProtoObject* fromMethodCell(ProtoMethodCell* methodCell);
+		ProtoObject* fromObjectCell(ProtoObjectCell* objectCell);
+		ProtoObject* fromObject(ProtoObject* object);
+		ProtoObject* fromPointer(void* pointer);
+		ProtoObject* fromMethod(ProtoMethod method);
 
 		ProtoList* newList();
 		ProtoTuple* newTuple();
@@ -593,6 +604,23 @@ namespace proto
 		void triggerGC();
 		void allocThread(ProtoContext* context, ProtoThread* thread);
 		void deallocThread(ProtoContext* context, ProtoThread* thread);
+
+		/**
+		 * @brief Creates and starts a new managed thread within this ProtoSpace.
+		 * @param context The current ProtoContext from which the thread is being created.
+		 * @param name A ProtoString representing the name of the new thread.
+		 * @param target The ProtoMethod to be executed by the new thread.
+		 * @param args A ProtoList of positional arguments for the target method.
+		 * @param kwargs A ProtoSparseList of keyword arguments for the target method.
+		 * @return A pointer to the newly created ProtoThread object.
+		 */
+		ProtoThread* newThread(
+			ProtoContext* context,
+			ProtoString* name,
+			ProtoMethod target,
+			ProtoList* args,
+			ProtoSparseList* kwargs
+		);
 
 		ProtoSparseList* threads;
 

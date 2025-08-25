@@ -39,6 +39,16 @@ namespace proto
             ProtoObject* oid;
         } oid;
 
+        ProtoMethod method;
+        ProtoObjectCell * objectCell;
+        ProtoSparseList * sparseList;
+        ProtoList * list;
+        ProtoTuple * tuple;
+        ProtoString * string;
+        ProtoByteBuffer * byteBuffer;
+        ProtoExternalPointer * externalPointer;
+        ProtoThread * thread;
+
         struct
         {
             ProtoObjectCellImplementation* objectCell;
@@ -857,7 +867,7 @@ namespace proto
     struct MethodCacheEntry {
         ProtoObject* object;
         ProtoObject* method_name;
-        ProtoMethod* method;
+        ProtoMethod method;
     };
 
     /**

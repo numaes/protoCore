@@ -77,7 +77,7 @@ namespace proto
 
         if (pa.op.pointer_tag == POINTER_TAG_OBJECT)
         {
-            auto* oc = pa.oc.objectCell;
+            auto* oc = (ProtoObjectCellImplementation*)pa.oc.objectCell;
 
             ProtoObject* newObject = (new(context) ProtoObjectCellImplementation(
                 context,
@@ -121,7 +121,7 @@ namespace proto
 
         if (pa.op.pointer_tag == POINTER_TAG_OBJECT)
         {
-            auto* oc = pa.oc.objectCell;
+            auto* oc = (ProtoObjectCellImplementation*)pa.oc.objectCell;
 
             auto* newObject = new(context) ProtoObjectCellImplementation(
                 context,
@@ -156,45 +156,45 @@ namespace proto
                     )
                 ));
             }
-            return newObject;
+            return (ProtoObject*)newObject;
         }
         return PROTO_NONE;
     }
 
-    /*
-     * This block implements a high-performance, per-thread method cache to accelerate
-     * repetitive method calls on the same object.
-     *
-     * The core idea is to avoid the expensive `getAttribute` lookup (which may traverse
-     * the prototype chain) on every invocation. Instead, it computes a fast hash from
-     * the object and method pointers to find a slot in the thread's local cache.
-     *
-     * On a cache hit, the previously resolved method is executed directly. On a miss,
-     * the method is resolved via `getAttribute`, stored in the cache for subsequent
-     * calls, and then executed.
-     *
-     * This per-thread approach is critical for multi-threaded performance, as it
-     * guarantees thread-safety without the need for expensive locks or synchronization
-     * primitives that a global cache would require.
-     */
     ProtoObject* ProtoObject::call(ProtoContext* c,
                           ParentLink* nextParent,
-                          ProtoString* method,
-                          ProtoObject* self,
+                          ProtoObject* methodName,
+                          ProtoObject* self_obj,
                           ProtoList* unnamedParametersList,
                           ProtoSparseList* keywordParametersDict)
     {
-        auto thread = reinterpret_cast<ProtoThreadImplementation*>(c->thread);
+        auto* thread = toImpl<ProtoThreadImplementation>(c->thread);
 
-        unsigned int hash = (reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(method)) & (THREAD_CACHE_DEPTH - 1);
-        if (thread->method_cache[hash].object != this || thread->method_cache[hash].method_name != (ProtoObject*)method)
+        const unsigned int hash = ((reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(methodName)) >> 4)
+                                    & (THREAD_CACHE_DEPTH - 1);
+
+        auto& entry = thread->method_cache[hash];
+
+        if (entry.object != this || entry.method_name != methodName) [[unlikely]]
         {
-            thread->method_cache[hash].object = this;
-            thread->method_cache[hash].method_name = (ProtoObject*)method;
-            thread->method_cache[hash].method = reinterpret_cast<ProtoMethod*>(this->getAttribute(c, method));
+            entry.object = this;
+            entry.method_name = methodName;
+            entry.method = this->getAttribute(c, methodName->asString(c))->asMethod(c);
         }
 
-        return (* thread->method_cache[hash].method)(c, self, nextParent, unnamedParametersList, keywordParametersDict);
+        ProtoObjectPointer p;
+        p.method = entry.method;
+        if (p.op.pointer_tag == POINTER_TAG_METHOD) {
+            return (entry.method)(
+                c,
+                self_obj,
+                nextParent,
+                unnamedParametersList,
+                keywordParametersDict
+            );
+        }
+        
+        return PROTO_NONE;
     }
 
     ProtoObject* ProtoObject::isInstanceOf(ProtoContext* c, const ProtoObject* prototype)
@@ -514,7 +514,6 @@ namespace proto
         return p.si.smallInteger;
     }
 
-    // --- CORRECTED METHOD ---
     bool ProtoObject::isFloat(ProtoContext* context)
     {
         ProtoObjectPointer p;
@@ -523,15 +522,11 @@ namespace proto
             p.op.embedded_type == EMBEDED_TYPE_FLOAT);
     }
 
-    // --- CORRECTED METHOD ---
     float ProtoObject::asFloat(ProtoContext* context)
     {
         ProtoObjectPointer p;
         p.oid.oid = this;
 
-        // We use a union to reinterpret the integer's bits
-        // as a floating-point value, which is the correct way
-        // to perform this conversion.
         union
         {
             unsigned int uiv;
@@ -570,6 +565,65 @@ namespace proto
         ProtoObjectPointer p;
         p.oid.oid = this;
         return p.byteValue.byteData;
+    }
+
+    bool ProtoObject::isDate(ProtoContext* context)
+    {
+        ProtoObjectPointer p;
+        p.oid.oid = this;
+        return (p.op.pointer_tag == POINTER_TAG_EMBEDEDVALUE &&
+                p.op.embedded_type == EMBEDED_TYPE_DATE);
+    }
+
+    void ProtoObject::asDate(ProtoContext* context, unsigned int& year, unsigned& month, unsigned& day)
+    {
+        ProtoObjectPointer p;
+        p.oid.oid = this;
+        if (isDate(context)) {
+            year = p.date.year;
+            month = p.date.month;
+            day = p.date.day;
+        } else {
+            year = 0;
+            month = 0;
+            day = 0;
+        }
+    }
+
+    bool ProtoObject::isTimestamp(ProtoContext* context)
+    {
+        ProtoObjectPointer p;
+        p.oid.oid = this;
+        return (p.op.pointer_tag == POINTER_TAG_EMBEDEDVALUE &&
+                p.op.embedded_type == EMBEDED_TYPE_TIMESTAMP);
+    }
+
+    unsigned long ProtoObject::asTimestamp(ProtoContext* context)
+    {
+        ProtoObjectPointer p;
+        p.oid.oid = this;
+        if (isTimestamp(context)) {
+            return p.timestampValue.timestamp;
+        }
+        return 0;
+    }
+
+    bool ProtoObject::isTimeDelta(ProtoContext* context)
+    {
+        ProtoObjectPointer p;
+        p.oid.oid = this;
+        return (p.op.pointer_tag == POINTER_TAG_EMBEDEDVALUE &&
+                p.op.embedded_type == EMBEDED_TYPE_TIMEDELTA);
+    }
+
+    long ProtoObject::asTimeDelta(ProtoContext* context)
+    {
+        ProtoObjectPointer p;
+        p.oid.oid = this;
+        if (isTimeDelta(context)) {
+            return p.timedeltaValue.timedelta;
+        }
+        return 0;
     }
 
     ProtoList* ProtoObject::asList(ProtoContext* context)
@@ -698,6 +752,13 @@ namespace proto
         return p.cell.cell;
     }
 
+    void ProtoObject::finalize(ProtoContext* context)
+    {
+        // This is a virtual method intended to be overridden by Cell implementations.
+        // The base ProtoObject, which can represent non-cell embedded values,
+        // has no resources to finalize.
+    }
+
     void ProtoObject::processReferences(ProtoContext* context,
                                         void* self,
                                         void (*method)(
@@ -706,6 +767,9 @@ namespace proto
                                             Cell* cell
                                         ))
     {
+        // This is a virtual method intended to be overridden by Cell implementations.
+        // The base ProtoObject, which can represent non-cell embedded values,
+        // has no references to process.
     }
 
     /*

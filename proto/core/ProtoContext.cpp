@@ -240,7 +240,6 @@ namespace proto
     }
 
     // --- Collection Type Constructors (new...) ---
-    // ADJUSTED: Template syntax was removed.
 
     ProtoList* ProtoContext::newList()
     {
@@ -329,21 +328,33 @@ namespace proto
 
     ProtoMethodCell* ProtoContext::fromMethod(ProtoObject* self, ProtoMethod method)
     {
-        return new(this) ProtoMethodCellImplementation(this, method);
+        ProtoObjectPointer p;
+        p.oid.oid = (ProtoObject*) new(this) ProtoMethodCellImplementation(this, method);
+        p.op.pointer_tag = POINTER_TAG_METHOD;
+        return (ProtoMethodCell*)p.oid.oid;
     }
 
     ProtoExternalPointer* ProtoContext::fromExternalPointer(void* pointer)
     {
-        return new(this) ProtoExternalPointerImplementation(this, pointer);
+        ProtoObjectPointer p;
+        p.oid.oid = (ProtoObject*) new(this) ProtoExternalPointerImplementation(this, pointer);
+        p.op.pointer_tag = POINTER_TAG_EXTERNAL_POINTER;
+        return (ProtoExternalPointer*)p.oid.oid;
     }
 
     ProtoByteBuffer* ProtoContext::fromBuffer(unsigned long length, char* buffer)
     {
-        return new(this) ProtoByteBufferImplementation(this, length, buffer);
+        ProtoObjectPointer p;
+        p.oid.oid = (ProtoObject*) new(this) ProtoByteBufferImplementation(this, length, buffer);
+        p.op.pointer_tag = POINTER_TAG_BYTE_BUFFER;
+        return (ProtoByteBuffer*)p.oid.oid;
     }
 
     ProtoByteBuffer* ProtoContext::newBuffer(unsigned long length)
     {
-        return new(this) ProtoByteBufferImplementation(this, length, NULL);
+        ProtoObjectPointer p;
+        p.oid.oid = (ProtoObject*) new(this) ProtoByteBufferImplementation(this, length, NULL);
+        p.op.pointer_tag = POINTER_TAG_BYTE_BUFFER;
+        return (ProtoByteBuffer*)p.oid.oid;
     }
 } // namespace proto
