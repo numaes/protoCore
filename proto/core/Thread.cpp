@@ -212,20 +212,7 @@ namespace proto
         void (*method)(ProtoContext* context, void* self, Cell* cell)
     )
     {
-        // 2. The method cache. It is VITAL to scan the OBJECT pointers.
-        //    If an object goes out of scope but remains in the cache, this is the
-        //    only reference keeping it alive, preventing a use-after-free bug.
-        //    NOTE: It is not necessary to scan 'method_name' because ProtoStrings are
-        //    immortal (interned in 'tupleRoot') and will never be collected.
-        for (unsigned int i = 0; i < THREAD_CACHE_DEPTH; ++i)
-        {
-            if (this->method_cache[i].object)
-            {
-                method(context, self, this->method_cache[i].object->asCell(context));
-            }
-        }
-
-        // 3. The context chain (the thread's call stack).
+        // 1. The context chain (the thread's call stack).
         ProtoContext* ctx = this->currentContext;
         while (ctx)
         {
@@ -243,13 +230,20 @@ namespace proto
             ctx = ctx->previous;
         }
 
-        // 5. The thread's local list of free cells.
+        // 2. The thread's local list of context created objects (it uses the freeCells pointer).
         Cell* currentFree = this->freeCells;
         while (currentFree)
         {
             method(context, self, currentFree);
             currentFree = currentFree->nextCell;
         }
+
+        // 3. The thread's method cache
+        struct MethodCacheEntry* mce = this->method_cache;
+        for (unsigned int i = 0;
+            i < THREAD_CACHE_DEPTH; ++i)
+            mce++->object = nullptr;
+
     }
 
     ProtoObject* ProtoThreadImplementation::implAsObject(ProtoContext* context)
