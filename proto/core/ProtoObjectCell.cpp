@@ -102,15 +102,4 @@ namespace proto
 
         return p.asHash.hash;
     }
-
-
-    ProtoObject* ProtoObjectCell::asObject(ProtoContext* context)
-    {
-        return nullptr;
-    }
-
-    unsigned long ProtoObjectCell::getHash(ProtoContext* context)
-    {
-        return 0;
-    }
 } // namespace proto

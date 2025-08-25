@@ -163,7 +163,7 @@ namespace proto
 
     ProtoObject* ProtoObject::call(ProtoContext* c,
                           ParentLink* nextParent,
-                          ProtoString* method,
+                          ProtoObject* method,
                           ProtoObject* self,
                           ProtoList* unnamedParametersList,
                           ProtoSparseList* keywordParametersDict)
@@ -178,13 +178,13 @@ namespace proto
         {
             entry.object = this;
             entry.method_name = (ProtoObject*)method;
-            entry.method = this->getAttribute(c, method);
+            entry.method = this->getAttribute(c, method->asString(c))->asMethod(c);
         }
 
         ProtoObjectPointer p;
-        p.oid.oid = entry.method;
+        p.method = entry.method;
         if (p.op.pointer_tag == POINTER_TAG_METHOD) {
-            return entry.method(c, nextParent, self, unnamedParametersList, keywordParametersDict);
+            return entry.method(c, self, nextParent, unnamedParametersList, keywordParametersDict);
         }
         
         return PROTO_NONE;
@@ -545,12 +545,12 @@ namespace proto
         return (p.op.pointer_tag == POINTER_TAG_METHOD);
     }
 
-    ProtoMethod* ProtoObject::asMethod(ProtoContext* context)
+    ProtoMethod ProtoObject::asMethod(ProtoContext* context)
     {
         ProtoObjectPointer p;
         p.oid.oid = this;
         if (isMethod(context)) {
-            return &(toImpl<ProtoMethodCellImplementation>(p.cell.cell)->method);
+            return p.method;
         }
         return nullptr;
     }

@@ -386,6 +386,13 @@ namespace proto
         return this->count;
     }
 
+    int ProtoSparseListImplementation::implIsEqual(ProtoContext* context, ProtoSparseList* otherDict)
+    {
+        // TODO: Implement actual comparison logic for sparse lists.
+        // This is a placeholder to resolve the linker error.
+        return 0;
+    }
+
     void ProtoSparseListImplementation::implProcessElements(
         ProtoContext* context,
         void* self,
