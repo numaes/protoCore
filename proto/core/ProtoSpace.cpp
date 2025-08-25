@@ -1,7 +1,7 @@
 /*
  * ProtoSpace.cpp
  *
- *  Created on: 20 de jun. de 2016
+ *  Created on: Jun 20, 2016
  *      Author: gamarino
  */
 

@@ -1,18 +1,18 @@
 /*
  * list.cpp
  *
- *  Created on: 6 de ago. de 2017
+ *  Created on: Aug 6, 2017
  *      Author: gamarino
  */
 
 #include "../headers/proto_internal.h"
-#include <algorithm> // Para std::max
+#include <algorithm> // For std::max
 
 namespace proto
 {
     // --- ProtoListIteratorImplementation ---
 
-    // Constructor modernizado con lista de inicialización
+    // Modernized constructor with initialization list
     ProtoListIteratorImplementation::ProtoListIteratorImplementation(
         ProtoContext* context,
         ProtoListImplementation* base,
@@ -21,12 +21,12 @@ namespace proto
     {
     }
 
-    // Destructor por defecto
+    // Default destructor
     ProtoListIteratorImplementation::~ProtoListIteratorImplementation() = default;
 
     int ProtoListIteratorImplementation::implHasNext(ProtoContext* context)
     {
-        // Es más seguro comprobar si la base no es nula.
+        // It is safer to check if the base is not null.
         if (!this->base)
         {
             return false;
@@ -40,15 +40,15 @@ namespace proto
         {
             return PROTO_NONE;
         }
-        // Devuelve el elemento actual, pero no avanza el iterador.
-        // El avance se hace explícitamente con advance().
+        // Returns the current element, but does not advance the iterator.
+        // Advancement is done explicitly with advance().
         return this->base->implGetAt(context, this->currentIndex);
     }
 
     ProtoListIteratorImplementation* ProtoListIteratorImplementation::implAdvance(ProtoContext* context)
     {
-        // CORRECCIÓN CRÍTICA: El iterador debe avanzar al siguiente índice.
-        // La versión anterior creaba un iterador en la misma posición.
+        // CRITICAL FIX: The iterator must advance to the next index.
+        // The previous version created an iterator at the same position.
         return new(context) ProtoListIteratorImplementation(context, this->base, this->currentIndex + 1);
     }
 
@@ -74,7 +74,7 @@ namespace proto
         )
     )
     {
-        // Informar al GC sobre la referencia a la lista base.
+        // Inform the GC about the reference to the base list.
         if (this->base)
         {
             method(context, self, this->base);
@@ -89,7 +89,7 @@ namespace proto
 
     // --- ProtoListImplementation ---
 
-    // Constructor modernizado con lista de inicialización
+    // Modernized constructor with initialization list
     ProtoListImplementation::ProtoListImplementation(
         ProtoContext* context,
         ProtoObject* value,
@@ -100,7 +100,7 @@ namespace proto
         next(newNext),
         value(value)
     {
-        // Calcular hash y contadores después de inicializar los miembros.
+        // Calculate hash and counters after initializing members.
         this->hash = (value ? value->getHash(context) : 0) ^
             (previous ? previous->hash : 0) ^
             (next ? next->hash : 0);
@@ -116,11 +116,11 @@ namespace proto
 
     ProtoListImplementation::~ProtoListImplementation() = default;
 
-    // --- Lógica de Árbol AVL (Corregida) ---
+    // --- AVL Tree Logic (Corrected) ---
 
     namespace
     {
-        // Funciones auxiliares anónimas
+        // Anonymous helper functions
 
         int getHeight(const ProtoListImplementation* node)
         {
@@ -141,7 +141,7 @@ namespace proto
             ProtoListImplementation* x = y->previous;
             ProtoListImplementation* T2 = x->next;
 
-            // Realizar rotación
+            // Perform rotation
             ProtoListImplementation* new_y = new(context) ProtoListImplementation(context, y->value, T2, y->next);
             return new(context) ProtoListImplementation(context, x->value, x->previous, new_y);
         }
@@ -151,32 +151,32 @@ namespace proto
             ProtoListImplementation* y = x->next;
             ProtoListImplementation* T2 = y->previous;
 
-            // Realizar rotación
+            // Perform rotation
             auto* new_x = new(context) ProtoListImplementation(context, x->value, x->previous, T2);
             return new(context) ProtoListImplementation(context, y->value, new_x, y->next);
         }
 
-        // CORRECCIÓN CRÍTICA: La lógica de rebalanceo estaba rota.
-        // Esta es una implementación estándar y correcta para un árbol AVL.
+        // CRITICAL FIX: The rebalancing logic was broken.
+        // This is a standard and correct implementation for an AVL tree.
         ProtoListImplementation* rebalance(ProtoContext* context, ProtoListImplementation* node)
         {
             if (!node) return nullptr;
 
             int balance = getBalance(node);
 
-            // Caso 1: Izquierda-Izquierda (LL)
+            // Case 1: Left-Left (LL)
             if (balance < -1 && getBalance(node->previous) <= 0)
             {
                 return rightRotate(context, node);
             }
 
-            // Caso 2: Derecha-Derecha (RR)
+            // Case 2: Right-Right (RR)
             if (balance > 1 && getBalance(node->next) >= 0)
             {
                 return leftRotate(context, node);
             }
 
-            // Caso 3: Izquierda-Derecha (LR)
+            // Case 3: Left-Right (LR)
             if (balance < -1 && getBalance(node->previous) > 0)
             {
                 ProtoListImplementation* new_prev = leftRotate(context, node->previous);
@@ -185,7 +185,7 @@ namespace proto
                 return rightRotate(context, new_node);
             }
 
-            // Caso 4: Derecha-Izquierda (RL)
+            // Case 4: Right-Left (RL)
             if (balance > 1 && getBalance(node->next) < 0)
             {
                 ProtoListImplementation* new_next = rightRotate(context, node->next);
@@ -194,11 +194,11 @@ namespace proto
                 return leftRotate(context, new_node);
             }
 
-            return node; // El nodo ya está balanceado
+            return node; // The node is already balanced
         }
-    } // fin del namespace anónimo
+    } // end of anonymous namespace
 
-    // --- Métodos de la Interfaz Pública ---
+    // --- Public Interface Methods ---
 
     ProtoObject* ProtoListImplementation::implGetAt(ProtoContext* context, int index)
     {
@@ -235,7 +235,7 @@ namespace proto
                 index -= (thisIndex + 1);
             }
         }
-        return PROTO_NONE; // No debería llegar aquí si la lógica es correcta
+        return PROTO_NONE; // Should not reach here if the logic is correct
     }
 
     ProtoObject* ProtoListImplementation::implGetFirst(ProtoContext* context)
@@ -255,8 +255,8 @@ namespace proto
 
     bool ProtoListImplementation::implHas(ProtoContext* context, ProtoObject* value)
     {
-        // CORRECCIÓN CRÍTICA: Bucle corregido para evitar acceso fuera de límites.
-        // El bucle original (i <= this->count) iteraba una vez de más.
+        // CRITICAL FIX: Loop corrected to avoid out-of-bounds access.
+        // The original loop (i <= this->count) iterated one time too many.
         for (unsigned long i = 0; i < this->count; i++)
         {
             if (this->implGetAt(context, i) == value)
@@ -295,13 +295,13 @@ namespace proto
 
     ProtoListImplementation* ProtoListImplementation::implRemoveLast(ProtoContext* context)
     {
-        // STUB implementation, la lógica real es más compleja.
+        // STUB implementation, the actual logic is more complex.
         return this->implRemoveAt(context, -1);
     }
 
-    // ... Implementación del resto de los métodos (setAt, insertAt, etc.) ...
-    // NOTA: Muchos de estos métodos usan la variable 'value' que no está definida.
-    // Se debe corregir a 'this->value' en todos los casos.
+    // ... Implementation of the rest of the methods (setAt, insertAt, etc.) ...
+    // NOTE: Many of these methods use the 'value' variable which is not defined.
+    // It must be corrected to 'this->value' in all cases.
 
     ProtoListImplementation* ProtoListImplementation::implRemoveAt(ProtoContext* context, int index)
     {
@@ -309,7 +309,7 @@ namespace proto
         {
             return new(context) ProtoListImplementation(context);
         }
-        // ... Lógica de normalización de índice ...
+        // ... Index normalization logic ...
         if (index < 0) index += this->count;
         if (index < 0 || static_cast<unsigned>(index) >= this->count) return this;
 
@@ -318,11 +318,11 @@ namespace proto
 
         if (static_cast<unsigned long>(index) == thisIndex)
         {
-            // Lógica para unir subárboles izquierdo y derecho
+            // Logic to join left and right subtrees
             if (!this->previous) return this->next;
             if (!this->next) return this->previous;
 
-            // Unir los dos subárboles
+            // Join the two subtrees
             ProtoObject* rightmost_of_left = this->previous->implGetLast(context);
             auto* left_without_rightmost = static_cast<ProtoListImplementation*>(this->previous->
                 implRemoveLast(context));
@@ -346,7 +346,7 @@ namespace proto
             {
                 auto* new_next = static_cast<ProtoListImplementation*>(this->next->implRemoveAt(
                     context, index - thisIndex - 1));
-                // CORRECCIÓN CRÍTICA: Usar this->value en lugar de 'value'
+                // CRITICAL FIX: Use this->value instead of 'value'
                 newNode = new(context) ProtoListImplementation(context, this->value, this->previous, new_next);
             }
         }
@@ -732,7 +732,7 @@ namespace proto
     };
 
 
-    // ... El resto de las implementaciones deben ser revisadas para corregir el error de 'value' ...
+    // ... The rest of the implementations must be reviewed to correct the 'value' error ...
 
     ProtoObject* ProtoListImplementation::implAsObject(ProtoContext* context)
     {
@@ -744,14 +744,14 @@ namespace proto
 
     unsigned long ProtoListImplementation::getHash(ProtoContext* context)
     {
-        // La clase base Cell ya proporciona un hash basado en la dirección,
-        // que es consistente. Se puede usar esa o la que estaba aquí.
+        // The base Cell class already provides an address-based hash,
+        // which is consistent. That one or the one that was here can be used.
         return Cell::getHash(context);
     }
 
     ProtoListIteratorImplementation* ProtoListImplementation::implGetIterator(ProtoContext* context)
     {
-        // CORRECCIÓN CRÍTICA: El iterador debe apuntar a 'this', no a 'nullptr'.
+        // CRITICAL FIX: The iterator must point to 'this', not 'nullptr'.
         return new(context) ProtoListIteratorImplementation(context, this, 0);
     }
 
@@ -769,7 +769,7 @@ namespace proto
         )
     )
     {
-        // Recorrer recursivamente todas las referencias para el GC.
+        // Recursively traverse all references for the GC.
         if (this->previous)
         {
             this->previous->processReferences(context, self, method);

@@ -1,7 +1,7 @@
 /*
  * proto_object.cpp
  *
- *  Created on: 6 de ago. de 2017
+ *  Created on: Aug 6, 2017
  *      Author: gamarino
  */
 
@@ -9,10 +9,10 @@
 
 namespace proto
 {
-    // --- Constructor y Destructor ---
+    // --- Constructor and Destructor ---
 
-    // Constructor modernizado con lista de inicialización de miembros.
-    // AJUSTADO: Se eliminó el tipo de plantilla de 'ProtoSparseListImplementation'.
+    // Modernized constructor with member initialization list.
+    // ADJUSTED: The template type from 'ProtoSparseListImplementation' was removed.
     ProtoObjectCellImplementation::ProtoObjectCellImplementation(
         ProtoContext* context,
         ParentLinkImplementation* parent,
@@ -21,33 +21,33 @@ namespace proto
     ) : Cell(context), parent(parent), mutable_ref(mutable_ref),
         attributes(attributes ? attributes : new(context) ProtoSparseListImplementation(context))
     {
-        // El cuerpo del constructor ahora puede estar vacío.
+        // The constructor body can now be empty.
     }
 
-    // Para destructores vacíos, usar '= default' es la práctica recomendada.
+    // For empty destructors, using '= default' is the recommended practice.
     ProtoObjectCellImplementation::~ProtoObjectCellImplementation()
     {
     }
 
 
-    // --- Métodos de la Interfaz ---
+    // --- Interface Methods ---
 
     ProtoObjectCell* ProtoObjectCellImplementation::implAddParent(ProtoContext* context, ProtoObjectCell* newParent)
     {
-        // Crea un nuevo eslabón en la cadena de herencia.
+        // Creates a new link in the inheritance chain.
         ParentLinkImplementation* newParentLink = new(context) ParentLinkImplementation(
             context,
-            this->parent, // El padre del nuevo eslabón es nuestro padre actual.
-            (ProtoObjectCellImplementation*)newParent // El objeto del nuevo eslabón es el nuevo padre.
+            this->parent, // The parent of the new link is our current parent.
+            (ProtoObjectCellImplementation*)newParent // The object of the new link is the new parent.
         );
 
-        // Devuelve una nueva ProtoObjectCell que es una copia de la actual,
-        // pero con la cadena de herencia extendida.
+        // Returns a new ProtoObjectCell that is a copy of the current one,
+        // but with the extended inheritance chain.
         return reinterpret_cast<ProtoObjectCell*>(
             new(context) ProtoObjectCellImplementation(
                 context,
                 newParentLink,
-                this->mutable_ref, // Se conservan las demás propiedades.
+                this->mutable_ref, // The other properties are preserved.
                 this->attributes
             )
         );
@@ -62,14 +62,14 @@ namespace proto
     }
 
 
-    // --- Métodos del Recolector de Basura (GC) ---
+    // --- Garbage Collector (GC) Methods ---
 
-    // Un finalizador vacío también se puede declarar como 'default'.
+    // An empty finalizer can also be declared as 'default'.
     void ProtoObjectCellImplementation::finalize(ProtoContext* context)
     {
     };
 
-    // Informa al GC sobre todas las referencias internas para que puedan ser rastreadas.
+    // Informs the GC about all internal references so they can be tracked.
     void ProtoObjectCellImplementation::processReferences(
         ProtoContext* context,
         void* self,
@@ -80,13 +80,13 @@ namespace proto
         )
     )
     {
-        // 1. Procesar la referencia a la cadena de padres.
+        // 1. Process the reference to the parent chain.
         if (this->parent)
         {
             method(context, self, this->parent);
         }
 
-        // 2. Procesar la referencia a la lista de atributos.
+        // 2. Process the reference to the attributes list.
         if (this->attributes)
         {
             method(context, self, this->attributes);
@@ -95,8 +95,8 @@ namespace proto
 
     long unsigned ProtoObjectCellImplementation::getHash(ProtoContext* context)
     {
-        // El hash de una Cell se deriva directamente de su dirección de memoria.
-        // Esto proporciona un identificador rápido y único para el objeto.
+        // The hash of a Cell is derived directly from its memory address.
+        // This provides a fast and unique identifier for the object.
         ProtoObjectPointer p;
         p.oid.oid = (ProtoObject*)this;
 

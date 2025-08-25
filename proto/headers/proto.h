@@ -21,29 +21,30 @@ namespace proto
 
 	typedef int BOOLEAN;
 
-	// Usefull constants.
-	// ATENTION: They should be kept on synch with proto_internal.h!
+	// Useful constants.
+	// ATTENTION: They should be kept in sync with proto_internal.h!
 
 #define PROTO_TRUE ((proto::ProtoObject *)  0x010FL)
 #define PROTO_FALSE ((proto::ProtoObject *) 0x000FL)
 #define PROTO_NONE ((proto::ProtoObject *) NULL)
 
-	// Root base of any internal structure.
-	// All Cell objects should be non mutable once initialized
-	// They could only change their context and nextCell, assuming that the
-	// new nextCell includes the previous chain.
-	// Changing the context or the nextCell are the ONLY changes allowed
-	// (taking into account the previous restriction).
-	// Changes should be atomic
-	//
-	// Cells should be always smaller or equal to 64 bytes.
-	// Been a power of two size has huge advantages and it opens
-	// the posibility to extend the model to massive parallel computers
-	//
-	// Allocations of Cells will be performed in OS page size chunks
-	// Page size is allways a power of two and bigger than 64 bytes
-	// There is no other form of allocation for proto objects or scalars
-	//
+	/**
+	 * @brief The root base for any internal structure.
+	 *
+	 * All Cell objects are designed to be immutable once initialized.
+	 * The only mutable fields are `context` and `nextCell`, with the assumption
+	 * that any new `nextCell` preserves the existing chain.
+	 * Modifying `context` or `nextCell` are the only permitted changes,
+	 * and they must be performed atomically.
+	 *
+	 * Cells must always be less than or equal to 64 bytes in size.
+	 * Maintaining a power-of-two size offers significant advantages and opens
+	 * the possibility of extending the model to massively parallel computing architectures.
+	 *
+	 * Cell allocations are performed in OS page-sized chunks.
+	 * The page size is always a power of two and larger than 64 bytes.
+	 * This is the only allocation method for Proto objects or scalars.
+	 */
 
 	// Forward declarations
 
@@ -143,7 +144,7 @@ namespace proto
 	};
 
 
-	// ParentPointers are chains of parent classes used to solve attribute access
+	// Represents a link in the prototype chain, used for attribute lookup.
 	class ParentLink
 	{
 	public:
@@ -350,77 +351,91 @@ namespace proto
 		unsigned long getHash(ProtoContext* context) ;
 	};
 
-	// In order to compile a method the folling structure is recommended:
-	// method (self, parent, p1, p2, p3, p4=init4, p5=init5) {
-	//	   super().method()
-	// }
-	//
-	// ProtoObject *literalForP4, *literalForP5;
-	// ProtoObject *constantForInit4, *constantForInit5;
-	//
-	// ProtoObject *method(ProtoContext *previousContext, ProtoParent *parent, ProtoList *positionalParameters, ProtoSparseList *keywordParameters)
-	//      // Parameters + locals
-	//		struct {
-	//   		ProtoObject *p1, *p2, *p3, *p4, *p5, *l1, *l2, *l3;
-	//		} locals;
-	//		ProtoContext context(previousContext, &locals, sizeof(locals) / sizeof(ProtoObject *));
-	//
-	//		locals.p4 = alreadyInitializedConstantForInit4;
-	//		locals.p5 = alreadyInitializedConstantForInit5;
-	//
-	//      if (positionalParameters) {
-	//     		int unnamedSize = positionalParameters->getSize(&context);
-	//
-	//          if (unnamedSize < 3)
-	//    			raise "Too few parameters. At least 3 positional parameters are expected"
-	//
-	//	    	locals.p1 = positionalParameters->getAt(&context, 0);
-	//	    	locals.p2 = positionalParameters->getAt(&context, 1);
-	//	    	locals.p3 = positionalParameters->getAt(&context, 2);
-	//
-	//          if (unnamedSize > 3)
-	//			    locals.p4 = positionalParameters->getAt(&context, 3);
-	//
-	//          if (unnamedSize > 4)
-	//	    		locals.p5 = positionalParameters->getAt(&context, 4);
-	//
-	//		    if (unnamedSize > 5)
-	//			    raise "Too many parameters"
-	//      }
-	//      else
-	//          raise "At least 3 positional parameters expected"
-	//
-	//      if (keywordParameters) {
-	//          if (keywordParameters->has(&context, literalForP4)) {
-	//	    	    if (unnamedSize > 4)
-	//		    	    raise "Double assignment on p4"
-	//
-	//			    locals.p4 = keywordParameters->getAt(&context, literalForP4);
-	//          }
-	//
-	//          if (keywordParameters->has(&context, literalForP5)) {
-	//	    	    if (unnamedSize > 5)
-	//		    	    raise "Double assignment on p5"
-	//
-	//			    locals.p5 = keywordParameters->getAt(&context, literalForP5);
-	//          }
-	//      }
-	//
-	//		ProtoParent *nextParent;
-	//      if (parent)
-	//		    nextParent = parent;
-	//
-	//      if (nextParent)
-	//          nextParent->object->call(this, nextParent->parent, positionalParameters, keywordParameters);
-	//      else
-	//          raise "There is no super!!"
-	//
-	//
-	//
-	// Not used keywordParameters are not detected
-	// This provides a similar behaviour to Python, and it can be automatically generated based on compilation time info
-	//
-	// You can use try ... catch to handle exceptions or not, it's up to you
+	/**
+	 * @brief Recommended structure for compiling a method.
+	 *
+	 * This comment block illustrates the recommended C++ structure for implementing
+	 * a Proto method, including argument parsing and handling `super` calls.
+	 *
+	 * @example
+	 * // Pseudo-code for the target method:
+	 * // method(self, parent, p1, p2, p3, p4=init4, p5=init5) {
+	 * //     super().method()
+	 * // }
+	 *
+	 * // C++ implementation:
+	 * ProtoObject* my_method(
+	 *     ProtoContext* previousContext,
+	 *     ParentLink* parent,
+	 *     ProtoList* positionalParameters,
+	 *     ProtoSparseList* keywordParameters
+	 * ) {
+	 *     // 1. Define literals for keyword argument names.
+	 *     ProtoString* literalForP4 = context->fromUTF8String("p4");
+	 *     ProtoString* literalForP5 = context->fromUTF8String("p5");
+	 *
+	 *     // 2. Define constants for default parameter values.
+	 *     ProtoObject* constantForInit4 = context->fromInteger(4);
+	 *     ProtoObject* constantForInit5 = context->fromInteger(5);
+	 *
+	 *     // 3. Set up the local stack frame and a new context.
+	 *     struct {
+	 *         ProtoObject *p1, *p2, *p3, *p4, *p5, *local1, *local2;
+	 *     } locals;
+	 *     ProtoContext context(previousContext, &locals, sizeof(locals) / sizeof(ProtoObject*));
+	 *
+	 *     // 4. Initialize parameters with default values.
+	 *     locals.p4 = constantForInit4;
+	 *     locals.p5 = constantForInit5;
+	 *
+	 *     // 5. Parse positional arguments.
+	 *     if (positionalParameters) {
+	 *         int pos_count = positionalParameters->getSize(&context);
+	 *         if (pos_count < 3) {
+	 *             // raise error: "Too few positional arguments."
+	 *         }
+	 *         locals.p1 = positionalParameters->getAt(&context, 0);
+	 *         locals.p2 = positionalParameters->getAt(&context, 1);
+	 *         locals.p3 = positionalParameters->getAt(&context, 2);
+	 *         if (pos_count > 3) locals.p4 = positionalParameters->getAt(&context, 3);
+	 *         if (pos_count > 4) locals.p5 = positionalParameters->getAt(&context, 4);
+	 *         if (pos_count > 5) {
+	 *             // raise error: "Too many positional arguments."
+	 *         }
+	 *     } else {
+	 *         // raise error: "Expected at least 3 positional arguments."
+	 *     }
+	 *
+	 *     // 6. Parse keyword arguments, checking for duplicates.
+	 *     if (keywordParameters) {
+	 *         if (keywordParameters->has(&context, literalForP4->getHash(&context))) {
+	 *             if (positionalParameters && positionalParameters->getSize(&context) > 3) {
+	 *                 // raise error: "Multiple values for argument 'p4'."
+	 *             }
+	 *             locals.p4 = keywordParameters->getAt(&context, literalForP4->getHash(&context));
+	 *         }
+	 *         // ... and so on for p5 ...
+	 *     }
+	 *
+	 *     // 7. Handle a `super` call.
+	 *     ParentLink* nextParent = parent;
+	 *     if (nextParent) {
+	 *         nextParent->getObject(&context)->call(
+	 *             &context,
+	 *             nextParent->getParent(&context), // The next link in the chain
+	 *             this_method_name, // A ProtoString for the current method name
+	 *             positionalParameters,
+	 *             keywordParameters
+	 *         );
+	 *     } else {
+	 *         // raise error: "super() called but no parent exists."
+	 *     }
+	 *
+	 *     // Note: Unused keyword arguments are not detected, similar to Python's behavior.
+	 *     // This structure can be auto-generated from compile-time information.
+	 *     // Exception handling (e.g., try/catch) is optional.
+	 * }
+	 */
 
 	class ProtoMethodCell
 	{
@@ -460,7 +475,7 @@ namespace proto
 
 		void detach(ProtoContext* context) ;
 		void join(ProtoContext* context) ;
-		void exit(ProtoContext* context) ; // ONLY for current thread!!!
+		void exit(ProtoContext* context) ; // Must only be called by the current thread.
 
 		ProtoObject* getName(ProtoContext* context) ;
 		ProtoObject* asObject(ProtoContext* context) ;
@@ -486,7 +501,7 @@ namespace proto
 
 		ProtoContext* previous;
 		ProtoSpace* space;
-		__resharper_unknown_type thread;
+		ProtoThread* thread;
 		ProtoObject** localsBase;
 		unsigned int localsCount;
 
@@ -494,7 +509,7 @@ namespace proto
 		void setReturnValue(ProtoContext* context, ProtoObject* returnValue);
 		void addCell2Context(Cell* newCell);
 
-		// Constructors for base types, here to get the right context on invoke
+		// Factory methods for primitive types.
 		ProtoObject* fromInteger(int value);
 		ProtoObject* fromDouble(double value);
 		ProtoObject* fromUTF8Char(const char* utf8OneCharString);

@@ -6,9 +6,8 @@ namespace proto
 
     /**
      * @brief Constructor
-     * @param context El contexto de ejecución actual.
-     * @param method Método a utilizar
-     * @param kwargs Una lista dispersa de argumentos por palabra clave.
+     * @param context The current execution context.
+     * @param method The method to be used.
      */
 
     ProtoMethodCellImplementation::ProtoMethodCellImplementation(ProtoContext* context, ProtoMethod method): Cell(
@@ -18,16 +17,16 @@ namespace proto
     };
 
     /**
-     * @brief Invoca el método C nativo encapsulado por esta celda.
+     * @brief Invokes the native C method encapsulated by this cell.
      *
-     * Esta función actúa como un puente entre el sistema de objetos de Proto
-     * y el código C nativo. Delega la llamada al puntero de función 'method'
-     * que se almacenó durante la construcción.
+     * This function acts as a bridge between the Proto object system
+     * and native C code. It delegates the call to the 'method' function pointer
+     * that was stored during construction.
      *
-     * @param context El contexto de ejecución actual.
-     * @param args Una lista de argumentos posicionales para la función.
-     * @param kwargs Una lista dispersa de argumentos por palabra clave.
-     * @return El ProtoObject resultante de la ejecución del método nativo.
+     * @param context The current execution context.
+     * @param args A list of positional arguments for the function.
+     * @param kwargs A sparse list of keyword arguments.
+     * @return The ProtoObject resulting from the execution of the native method.
      */
     ProtoObject* ProtoMethodCellImplementation::implInvoke(
         ProtoContext* context,
@@ -35,38 +34,38 @@ namespace proto
         ProtoSparseList* kwargs
     )
     {
-        // La lógica principal es simplemente llamar al puntero de función almacenado.
-        // Se asume que this->method no es nulo, lo cual debería garantizarse en el constructor.
+        // The main logic is to simply call the stored function pointer.
+        // It is assumed that this->method is not null, which should be guaranteed in the constructor.
         return this->method(context, this->implAsObject(context), static_cast<ParentLink*>(nullptr), args, kwargs);
     }
 
     /**
-     * @brief Devuelve la representación de esta celda como un ProtoObject genérico.
+     * @brief Returns the representation of this cell as a generic ProtoObject.
      *
-     * Este método es esencial para que la celda se pueda manejar como un objeto
-     * de primera clase dentro del sistema Proto. Asigna el puntero 'this' y
-     * establece el tag de puntero correcto para identificarlo como un método.
+     * This method is essential for the cell to be handled as a first-class object
+     * within the Proto system. It assigns the 'this' pointer and
+     * sets the correct pointer tag to identify it as a method.
      *
-     * @param context El contexto de ejecución actual.
-     * @return Un ProtoObject que representa esta celda de método.
+     * @param context The current execution context.
+     * @return A ProtoObject representing this method cell.
      */
     ProtoObject* ProtoMethodCellImplementation::implAsObject(ProtoContext* context)
     {
         ProtoObjectPointer p;
         p.oid.oid = (ProtoObject*)this;
-        p.op.pointer_tag = POINTER_TAG_METHOD; // Tag para identificar celdas de método
+        p.op.pointer_tag = POINTER_TAG_METHOD; // Tag to identify method cells
         return p.oid.oid;
     }
 
     /**
-     * @brief Obtiene el código hash para esta celda.
+     * @brief Gets the hash code for this cell.
      *
-     * Reutiliza la implementación de la clase base 'Cell', que genera un hash
-     * basado en la dirección de memoria del objeto. Esto es eficiente y garantiza
-     * la unicidad del hash para cada instancia de celda.
+     * Reuses the implementation from the base class 'Cell', which generates a hash
+     * based on the object's memory address. This is efficient and guarantees
+     * the uniqueness of the hash for each cell instance.
      *
-     * @param context El contexto de ejecución actual.
-     * @return El valor del hash como un unsigned long.
+     * @param context The current execution context.
+     * @return The hash value as an unsigned long.
      */
     unsigned long ProtoMethodCellImplementation::getHash(ProtoContext* context)
     {
@@ -74,30 +73,30 @@ namespace proto
     }
 
     /**
-     * @brief Finalizador para la celda de método.
+     * @brief Finalizer for the method cell.
      *
-     * Este método se llama antes de que el recolector de basura reclame la memoria
-     * del objeto. En este caso, no se necesita ninguna limpieza especial, ya que
-     * el puntero a la función no es un recurso que deba liberarse manualmente.
+     * This method is called before the garbage collector reclaims the object's memory.
+     * In this case, no special cleanup is needed, as the function pointer
+     * is not a resource that needs to be manually released.
      *
-     * @param context El contexto de ejecución actual.
+     * @param context The current execution context.
      */
     void ProtoMethodCellImplementation::finalize(ProtoContext* context)
     {
-        // No se requiere ninguna acción de finalización.
+        // No finalization action is required.
     }
 
     /**
-     * @brief Procesa las referencias para el recolector de basura.
+     * @brief Processes references for the garbage collector.
      *
-     * Esta implementación está vacía porque una ProtoMethodCellImplementation
-     * contiene un puntero a una función C, no referencias a otras 'Cells' que
-     * el recolector de basura necesite rastrear. Es crucial que este método
-     * no procese 'this' para evitar bucles infinitos en el GC.
+     * This implementation is empty because a ProtoMethodCellImplementation
+     * contains a pointer to a C function, not references to other 'Cells' that
+     * the garbage collector needs to track. It is crucial that this method
+     * does not process 'this' to avoid infinite loops in the GC.
      *
-     * @param context El contexto de ejecución actual.
-     * @param self Puntero al objeto que se está procesando.
-     * @param method Función de callback del GC para marcar referencias.
+     * @param context The current execution context.
+     * @param self Pointer to the object being processed.
+     * @param method GC callback function to mark references.
      */
     void ProtoMethodCellImplementation::processReferences(
         ProtoContext* context,
@@ -105,7 +104,7 @@ namespace proto
         void (*method)(ProtoContext* context, void* self, Cell* cell)
     )
     {
-        // Esta celda no contiene referencias a otras celdas, por lo que el cuerpo está vacío.
+        // This cell contains no references to other cells, so the body is empty.
     };
 
     ProtoObject* ProtoMethodCellImplementation::implGetSelf(ProtoContext* context) {

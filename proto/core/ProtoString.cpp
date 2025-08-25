@@ -1,18 +1,18 @@
 /*
  * ProtoString.cpp
  *
- *  Created on: 6 de ago. de 2017
+ *  Created on: Aug 6, 2017
  *      Author: gamarino
  */
 
 #include "../headers/proto_internal.h"
-#include <algorithm> // Para std::max y std::min
+#include <algorithm> // For std::max and std::min
 
 namespace proto
 {
     // --- ProtoStringIteratorImplementation ---
 
-    // Constructor modernizado con lista de inicialización.
+    // Modernized constructor with initialization list.
     ProtoStringIteratorImplementation::ProtoStringIteratorImplementation(
         ProtoContext* context,
         ProtoStringImplementation* base,
@@ -21,12 +21,12 @@ namespace proto
     {
     }
 
-    // Destructor por defecto.
+    // Default destructor.
     ProtoStringIteratorImplementation::~ProtoStringIteratorImplementation() = default;
 
     int ProtoStringIteratorImplementation::implHasNext(ProtoContext* context)
     {
-        // Es más seguro comprobar si la base no es nula.
+        // It is safer to check if the base is not null.
         if (!this->base)
         {
             return false;
@@ -40,15 +40,15 @@ namespace proto
         {
             return PROTO_NONE;
         }
-        // Devuelve el elemento actual, pero no avanza el iterador.
-        // El avance se hace explícitamente con advance().
+        // Returns the current element, but does not advance the iterator.
+        // Advancement is done explicitly with advance().
         return this->base->implGetAt(context, this->currentIndex);
     }
 
     ProtoStringIteratorImplementation* ProtoStringIteratorImplementation::implAdvance(ProtoContext* context)
     {
-        // CORRECCIÓN CRÍTICA: El iterador debe avanzar al siguiente índice.
-        // La versión anterior creaba un iterador en la misma posición.
+        // CRITICAL FIX: The iterator must advance to the next index.
+        // The previous version created an iterator at the same position.
         return new(context) ProtoStringIteratorImplementation(context, this->base, this->currentIndex + 1);
     }
 
@@ -56,12 +56,12 @@ namespace proto
     {
         ProtoObjectPointer p;
         p.oid.oid = (ProtoObject*)this;
-        // CORRECCIÓN CRÍTICA: Usar el tag correcto para el iterador de string.
+        // CRITICAL FIX: Use the correct tag for the string iterator.
         p.op.pointer_tag = POINTER_TAG_STRING_ITERATOR;
         return p.oid.oid;
     }
 
-    // El finalizador no necesita hacer nada, por lo que usamos '= default'.
+    // The finalizer does not need to do anything, so we use '= default'.
     void ProtoStringIteratorImplementation::finalize(ProtoContext* context)
     {
     };
@@ -72,7 +72,7 @@ namespace proto
         void (*method)(ProtoContext* context, void* self, Cell* cell)
     )
     {
-        // CORRECCIÓN: Informar al GC sobre la referencia a la string base.
+        // FIX: Inform the GC about the reference to the base string.
         if (this->base)
         {
             method(context, self, this->base);
@@ -82,7 +82,7 @@ namespace proto
 
     // --- ProtoStringImplementation ---
 
-    // Constructor modernizado.
+    // Modernized constructor.
     ProtoStringImplementation::ProtoStringImplementation(
         ProtoContext* context,
         ProtoTupleImplementation* baseTuple
@@ -90,24 +90,24 @@ namespace proto
     {
     }
 
-    // Destructor por defecto.
+    // Default destructor.
     ProtoStringImplementation::~ProtoStringImplementation() = default;
 
-    // --- Métodos de Acceso y Utilidad ---
+    // --- Access and Utility Methods ---
 
     ProtoObject* ProtoStringImplementation::implGetAt(ProtoContext* context, int index)
     {
-        // Delega directamente a la tupla base.
+        // Delegates directly to the base tuple.
         return this->baseTuple->implGetAt(context, index);
     }
 
     unsigned long ProtoStringImplementation::implGetSize(ProtoContext* context)
     {
-        // Delega directamente a la tupla base.
+        // Delegates directly to the base tuple.
         return this->baseTuple->implGetSize(context);
     }
 
-    // Función auxiliar para normalizar los índices de un slice.
+    // Helper function to normalize slice indices.
     namespace
     {
         void normalizeSliceIndices(int& from, int& to, int size)
@@ -130,7 +130,7 @@ namespace proto
 
         if (from >= to)
         {
-            // Devuelve una string vacía si el rango no es válido.
+            // Returns an empty string if the range is invalid.
             return new(context) ProtoStringImplementation(
                 context, (ProtoTupleImplementation*)context->newTuple());
         }
@@ -147,14 +147,14 @@ namespace proto
         );
     }
 
-    // --- Métodos de Modificación (Inmutables) ---
+    // --- Modification Methods (Immutable) ---
 
     ProtoStringImplementation* ProtoStringImplementation::implSetAt(ProtoContext* context, int index,
                                                                     ProtoObject* value)
     {
         if (!value)
         {
-            return this; // Devolver la string original si el valor es nulo.
+            return this; // Return the original string if the value is null.
         }
 
         int thisSize = this->baseTuple->implGetSize(context);
@@ -165,7 +165,7 @@ namespace proto
 
         if (index < 0 || index >= thisSize)
         {
-            return this; // Índice fuera de rango, devolver la string original.
+            return this; // Index out of range, return the original string.
         }
 
         ProtoList* sourceList = context->newList();
@@ -200,7 +200,7 @@ namespace proto
         {
             index += thisSize;
         }
-        // Permitir inserción al final.
+        // Allow insertion at the end.
         if (index < 0) index = 0;
         if (index > thisSize) index = thisSize;
 
@@ -245,7 +245,7 @@ namespace proto
     ProtoStringImplementation* ProtoStringImplementation::implAppendFirst(
         ProtoContext* context, ProtoString* otherString)
     {
-        // CORRECCIÓN CRÍTICA: La lógica original era incorrecta.
+        // CRITICAL FIX: The original logic was incorrect.
         if (!otherString)
         {
             return this;
@@ -266,22 +266,22 @@ namespace proto
 
     ProtoStringImplementation* ProtoStringImplementation::implRemoveSlice(ProtoContext* context, int from, int to)
     {
-        // CORRECCIÓN: La lógica original creaba un slice, no eliminaba uno.
+        // FIX: The original logic created a slice, not removed one.
         int thisSize = this->baseTuple->implGetSize(context);
         normalizeSliceIndices(from, to, thisSize);
 
         if (from >= to)
         {
-            return this; // No hay nada que eliminar.
+            return this; // Nothing to delete.
         }
 
         ProtoList* sourceList = context->newList();
-        // Parte antes del slice
+        // Part before the slice
         for (int i = 0; i < from; i++)
         {
             sourceList = (ProtoList*)sourceList->appendLast(context, this->implGetAt(context, i));
         }
-        // Parte después del slice
+        // Part after the slice
         for (int i = to; i < thisSize; i++)
         {
             sourceList = (ProtoList*)sourceList->appendLast(context, this->implGetAt(context, i));
@@ -293,11 +293,11 @@ namespace proto
         );
     }
 
-    // --- Métodos de Conversión y GC ---
+    // --- Conversion and GC Methods ---
 
     ProtoListImplementation* ProtoStringImplementation::implAsList(ProtoContext* context)
     {
-        // AJUSTADO: Se eliminó la sintaxis de plantillas.
+        // ADJUSTED: Template syntax was removed.
         auto* result = reinterpret_cast<ProtoListImplementation*>(context->newList());
         unsigned long thisSize = this->implGetSize(context);
         for (unsigned long i = 0; i < thisSize; i++)
@@ -317,7 +317,7 @@ namespace proto
         void (*method)(ProtoContext* context, void* self, Cell* cell)
     )
     {
-        // Informar al GC sobre la tupla base que contiene los caracteres.
+        // Inform the GC about the base tuple containing the characters.
         if (this->baseTuple)
         {
             method(context, self, reinterpret_cast<Cell*>(this->baseTuple));
@@ -334,14 +334,14 @@ namespace proto
 
     unsigned long ProtoStringImplementation::getHash(ProtoContext* context)
     {
-        // Delega el hash a la tupla base para consistencia.
-        // Si la tupla es la misma, el hash de la string será el mismo.
+        // Delegates the hash to the base tuple for consistency.
+        // If the tuple is the same, the string's hash will be the same.
         return this->baseTuple ? this->baseTuple->getHash(context) : 0;
     }
 
     ProtoStringIteratorImplementation* ProtoStringImplementation::implGetIterator(ProtoContext* context)
     {
-        // AJUSTADO: Se eliminó la sintaxis de plantillas.
+        // ADJUSTED: Template syntax was removed.
         return new(context) ProtoStringIteratorImplementation(context, this, 0);
     }
 

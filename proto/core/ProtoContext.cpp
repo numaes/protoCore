@@ -8,22 +8,22 @@
 #include "../headers/proto_internal.h"
 
 #include <thread>
-#include <cstdlib>   // Para std::malloc
-#include <algorithm> // Para std::max
+#include <cstdlib>   // For std::malloc
+#include <algorithm> // For std::max
 #include <random>
 
 namespace proto
 {
     uint64_t generate_mutable_ref()
     {
-        // 'thread_local' asegura que cada hilo tenga su propio generador de números,
-        // lo que es crucial para la seguridad en entornos multihilo.
-        // Se siembra con std::random_device para una aleatoriedad de alta calidad.
+        // 'thread_local' ensures that each thread has its own number generator,
+        // which is crucial for safety in multithreaded environments.
+        // It is seeded with std::random_device for high-quality randomness.
         thread_local std::mt19937_64 generator(std::random_device{}());
 
         uint64_t id = 0;
-        // Nos aseguramos de que el ID generado nunca sea 0,
-        // ya que 0 está reservado para los objetos inmutables.
+        // We ensure that the generated ID is never 0,
+        // as 0 is reserved for immutable objects.
         while (id == 0)
         {
             id = generator();
@@ -31,15 +31,15 @@ namespace proto
         return id;
     }
 
-    // ADVERTENCIA: Estas variables globales pueden causar problemas en un entorno
-    // multihilo y dificultan el razonamiento del estado. Considera encapsularlas
-    // dentro de la clase ProtoSpace.
+    // WARNING: These global variables can cause issues in a multithreaded
+    // environment and make state reasoning difficult. Consider encapsulating them
+    // within the ProtoSpace class.
     std::atomic<bool> literalMutex(false);
     BigCell* literalFreeCells = nullptr;
     unsigned literalFreeCellsIndex = 0;
     ProtoContext globalContext;
 
-    // --- Constructor y Destructor ---
+    // --- Constructor and Destructor ---
 
     ProtoContext::ProtoContext(
         ProtoContext* previous,
@@ -58,21 +58,21 @@ namespace proto
     {
         if (previous)
         {
-            // Si hay un contexto anterior, heredar su espacio y hilo.
+            // If there is a previous context, inherit its space and thread.
             this->space = previous->space;
             this->thread = previous->thread;
         }
 
         if (this->thread)
         {
-            // Actualizar el contexto actual del hilo a través de un método público.
+            // Update the thread's current context through a public method.
             this->thread->setCurrentContext(this);
         }
 
         if (this->localsBase)
         {
-            // CORRECCIÓN CRÍTICA: Bucle corregido para evitar desbordamiento de búfer.
-            // El bucle original (i <= localsCount) escribía un elemento de más.
+            // CRITICAL FIX: Loop corrected to prevent buffer overflow.
+            // The original loop (i <= localsCount) wrote one element too many.
             for (unsigned int i = 0; i < this->localsCount; ++i)
             {
                 this->localsBase[i] = nullptr;
@@ -85,20 +85,20 @@ namespace proto
     {
         if (this->previous && this->space && this->lastAllocatedCell)
         {
-            // Al destruir un contexto, se informa al espacio sobre las celdas
-            // que se asignaron en él para que el GC pueda analizarlas.
+            // When a context is destroyed, the space is informed about the cells
+            // that were allocated in it so the GC can analyze them.
             this->space->analyzeUsedCells(this->lastAllocatedCell);
         }
     }
 
-    // --- Gestión de Celdas y GC ---
+    // --- Cell and GC Management ---
 
     void ProtoContext::setReturnValue(ProtoContext* context, ProtoObject* returnValue)
     {
         if (this->previous)
         {
-            // Asegura que el valor de retorno se mantenga como una referencia válida
-            // cuando este contexto se destruya, asignándolo al contexto anterior.
+            // Ensures that the return value is kept as a valid reference
+            // when this context is destroyed, by assigning it to the previous context.
             this->previous->lastReturnValue = returnValue;
         }
     }
@@ -127,15 +127,15 @@ namespace proto
         }
         else
         {
-            // ADVERTENCIA: Esta rama usa malloc directamente, lo que evita el GC.
-            // Esto es probablemente un remanente de código antiguo y podría ser una fuente de fugas de memoria.
-            // Todas las asignaciones de celdas deberían pasar por el gestor de memoria del espacio.
+            // WARNING: This branch uses malloc directly, which bypasses the GC.
+            // This is likely a remnant of old code and could be a source of memory leaks.
+            // All cell allocations should go through the space's memory manager.
             void* newChunk = std::malloc(sizeof(BigCell));
             ::new(newChunk) Cell(this);
             newCell = static_cast<Cell*>(newChunk);
         }
 
-        // Las celdas se encadenan en una lista simple para su seguimiento dentro del contexto.
+        // The cells are chained in a simple list for tracking within the context.
         newCell->nextCell = this->lastAllocatedCell;
         this->lastAllocatedCell = newCell;
         return newCell;
@@ -147,7 +147,7 @@ namespace proto
         this->lastAllocatedCell = newCell;
     }
 
-    // --- Constructores de Tipos Primitivos (from...) ---
+    // --- Primitive Type Constructors (from...) ---
 
     ProtoObject* ProtoContext::fromInteger(int value)
     {
@@ -205,8 +205,8 @@ namespace proto
         else if ((firstByte & 0xF8) == 0xF0)
         {
             // 4-byte char
-            // CORRECCIÓN CRÍTICA: Se corrigió un error de copiado y pegado.
-            // La versión anterior usaba utf8OneCharString[1] dos veces.
+            // CRITICAL FIX: A copy-paste error was corrected.
+            // The previous version used utf8OneCharString[1] twice.
             unicodeValue = ((firstByte & 0x07) << 18) | ((utf8OneCharString[1] & 0x3F) << 12) | ((utf8OneCharString[2] &
                 0x3F) << 6) | (utf8OneCharString[3] & 0x3F);
         }
@@ -224,23 +224,23 @@ namespace proto
         {
             charList = (ProtoList*)charList->appendLast(this, this->fromUTF8Char(currentChar));
 
-            // Avanzar el puntero según el número de bytes del carácter UTF-8
+            // Advance the pointer according to the number of bytes of the UTF-8 character
             if ((*currentChar & 0x80) == 0) currentChar += 1;
             else if ((*currentChar & 0xE0) == 0xC0) currentChar += 2;
             else if ((*currentChar & 0xF0) == 0xE0) currentChar += 3;
             else if ((*currentChar & 0xF8) == 0xF0) currentChar += 4;
-            else currentChar += 1; // Carácter inválido, avanzar 1 para evitar bucle infinito
+            else currentChar += 1; // Invalid character, advance 1 to avoid an infinite loop
         }
 
-        // La creación de una cadena implica convertir la lista de caracteres en una tupla.
+        // Creating a string involves converting the list of characters into a tuple.
         return new(this) ProtoStringImplementation(
             this,
             ProtoTupleImplementation::tupleFromList(this, charList)
         );
     }
 
-    // --- Constructores de Tipos de Colección (new...) ---
-    // AJUSTADO: Se eliminó la sintaxis de plantillas.
+    // --- Collection Type Constructors (new...) ---
+    // ADJUSTED: Template syntax was removed.
 
     ProtoList* ProtoContext::newList()
     {
@@ -273,7 +273,7 @@ namespace proto
     }
 
 
-    // --- Otros Constructores (from...) ---
+    // --- Other Constructors (from...) ---
 
     ProtoObject* ProtoContext::fromBoolean(bool value)
     {

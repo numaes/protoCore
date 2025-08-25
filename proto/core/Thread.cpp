@@ -6,16 +6,16 @@
  */
 
 #include "../headers/proto_internal.h"
-#include <cstdlib> // Usar la cabecera C++ estándar
+#include <cstdlib> // Use the standard C++ header
 #include <thread>
-#include <utility> // Para std::move
+#include <utility> // For std::move
 
 
 namespace proto
 {
-    // --- Constructor y Destructor ---
+    // --- Constructor and Destructor ---
 
-    // Constructor modernizado con lista de inicialización y ajustado para no usar plantillas.
+    // Modernized constructor with an initialization list, adjusted to not use templates.
     ProtoThreadImplementation::ProtoThreadImplementation(
         ProtoContext* context,
         ProtoString* name,
@@ -32,29 +32,29 @@ namespace proto
         currentContext(nullptr),
         unmanagedCount(0)
     {
-        // Inicializar el cache de métodos
-        this->method_cache = std::malloc(THREAD_CACHE_DEPTH * sizeof(*(this->method_cache)));
+        // Initialize the method cache
+        this->method_cache = (MethodCacheEntry*)std::malloc(THREAD_CACHE_DEPTH * sizeof(*(this->method_cache)));
         for (unsigned int i = 0; i < THREAD_CACHE_DEPTH; ++i)
         {
             this->method_cache[i].object = nullptr;
             this->method_cache[i].method_name = nullptr;
         }
 
-        // Registrar el hilo en el espacio de memoria.
+        // Register the thread in the memory space.
         this->space->allocThread(context, reinterpret_cast<ProtoThread*>(this));
 
-        // Crear e iniciar el hilo del sistema operativo si se proporciona código para ejecutar.
+        // Create and start the operating system thread if code is provided to execute.
         if (targetCode)
         {
-            // Usar std::unique_ptr para gestionar la vida del hilo de forma segura.
-            // La lambda ahora captura por valor para evitar problemas de tiempo de vida.
+            // Use std::thread to manage the thread's life safely.
+            // The lambda now captures by value to avoid lifetime issues.
             this->osThread = new std::thread(
                 [=](ProtoThreadImplementation* self)
                 {
-                    // Cada hilo necesita su propio contexto base.
+                    // Each thread needs its own base context.
                     ProtoContext baseContext(nullptr, nullptr, 0,
                                              reinterpret_cast<ProtoThread*>(self), self->space);
-                    // Ejecutar el código del hilo.
+                    // Execute the thread's code.
                     targetCode(
                         &baseContext,
                         self->implAsObject(&baseContext),
@@ -62,7 +62,7 @@ namespace proto
                         args,
                         kwargs
                     );
-                    // Cuando el código termina, el hilo se da de baja.
+                    // When the code finishes, the thread deallocates itself.
                     self->space->deallocThread(&baseContext, reinterpret_cast<ProtoThread*>(self));
                 },
                 this
@@ -70,15 +70,15 @@ namespace proto
         }
         else
         {
-            // Este es el caso especial para el hilo principal, que no tiene un std::thread
-            // asociado porque ya es el hilo principal del proceso.
-            // CORRECCIÓN: Se eliminó la creación de un ProtoContext con 'new', que causaba una fuga de memoria.
-            // El contexto del hilo principal es gestionado externamente por ProtoSpace.
+            // This is the special case for the main thread, which does not have an associated std::thread
+            // because it is already the main process thread.
+            // FIX: Removed the creation of a ProtoContext with 'new', which caused a memory leak.
+            // The main thread's context is managed externally by ProtoSpace.
             this->space->mainThreadId = std::this_thread::get_id();
         }
     }
 
-    // El destructor debe asegurarse de que el hilo del SO se haya unido o separado.
+    // The destructor must ensure that the OS thread has been joined or detached.
     ProtoThreadImplementation::~ProtoThreadImplementation()
     {
         // Clean up method cache
@@ -88,8 +88,8 @@ namespace proto
         {
             if (this->osThread->joinable())
             {
-                // Por seguridad, si el hilo todavía se puede unir, lo separamos
-                // para evitar que el programa termine abruptamente.
+                // For safety, if the thread is still joinable, we detach it
+                // to prevent the program from terminating abruptly.
                 this->osThread->detach();
             }
             delete this->osThread;
@@ -97,7 +97,7 @@ namespace proto
         }
     }
 
-    // --- Métodos de la Interfaz Pública ---
+    // --- Public Interface Methods ---
 
     void ProtoThreadImplementation::implSetUnmanaged()
     {
@@ -135,22 +135,22 @@ namespace proto
 
     void ProtoThreadImplementation::implExit(ProtoContext* context)
     {
-        // CORRECCIÓN: Añadido un chequeo para evitar un fallo si osThread es nulo (hilo principal).
+        // FIX: Added a check to prevent a crash if osThread is null (main thread).
         if (this->osThread && this->osThread->get_id() == std::this_thread::get_id())
         {
             this->space->deallocThread(context, reinterpret_cast<ProtoThread*>(this));
-            // NOTA: En un sistema real, aquí se debería lanzar una excepción o
-            // usar un mecanismo para terminar el hilo de forma segura.
-            // std::terminate() o similar podría ser una opción, pero es abrupto.
+            // NOTE: In a real system, an exception should be thrown here or
+            // a mechanism used to terminate the thread safely.
+            // std::terminate() or similar could be an option, but it is abrupt.
         }
     }
 
-    // --- Sincronización con el Recolector de Basura (GC) ---
+    // --- Synchronization with the Garbage Collector (GC) ---
 
     void ProtoThreadImplementation::implSynchToGC()
     {
-        // CORRECCIÓN CRÍTICA: La lógica de estado estaba rota.
-        // Se debe comprobar el estado del 'space', no el del 'thread'.
+        // CRITICAL FIX: The state logic was broken.
+        // The state of the 'space' must be checked, not the 'thread's'.
         if (this->state == THREAD_STATE_MANAGED && this->space->state != SPACE_STATE_RUNNING)
         {
             if (this->space->state == SPACE_STATE_STOPPING_WORLD)
@@ -158,7 +158,7 @@ namespace proto
                 this->state = THREAD_STATE_STOPPING;
                 this->space->stopTheWorldCV.notify_one();
 
-                // Esperar a que el GC indique que el mundo debe detenerse.
+                // Wait for the GC to indicate that the world should stop.
                 std::unique_lock lk(ProtoSpace::globalMutex);
                 this->space->restartTheWorldCV.wait(lk, [this]
                 {
@@ -168,7 +168,7 @@ namespace proto
                 this->state = THREAD_STATE_STOPPED;
                 this->space->stopTheWorldCV.notify_one();
 
-                // Esperar a que el GC termine y el mundo se reinicie.
+                // Wait for the GC to finish and the world to restart.
                 this->space->restartTheWorldCV.wait(lk, [this]
                 {
                     return this->space->state == SPACE_STATE_RUNNING;
@@ -183,24 +183,24 @@ namespace proto
     {
         if (!this->freeCells)
         {
-            // Si nos quedamos sin celdas locales, sincronizamos con el GC
-            // y pedimos un nuevo bloque de celdas al espacio.
+            // If we run out of local cells, we synchronize with the GC
+            // and request a new block of cells from the space.
             this->implSynchToGC();
             this->freeCells = static_cast<BigCell*>(this->space->getFreeCells(reinterpret_cast<ProtoThread*>(this)));
         }
 
-        // Tomar la primera celda de la lista local.
+        // Take the first cell from the local list.
         Cell* newCell = this->freeCells;
         if (newCell)
         {
             this->freeCells = static_cast<BigCell*>(newCell->nextCell);
-            newCell->nextCell = nullptr; // Desvincularla completamente.
+            newCell->nextCell = nullptr; // Unlink it completely.
         }
 
         return newCell;
     }
 
-    // --- Métodos del Recolector de Basura (GC) ---
+    // --- Garbage Collector (GC) Methods ---
 
     void ProtoThreadImplementation::finalize(ProtoContext* context)
     {
@@ -212,18 +212,18 @@ namespace proto
         void (*method)(ProtoContext* context, void* self, Cell* cell)
     )
     {
-        // 1. El nombre del hilo. Aunque los ProtoString son inmortales debido a la
-        //    internalización, es una buena práctica tratarlo como una raíz por completitud.
+        // 1. The thread's name. Although ProtoStrings are immortal due to
+        //    interning, it is good practice to treat it as a root for completeness.
         if (this->name && this->name->isCell(context))
         {
             method(context, self, this->name->asCell(context));
         }
 
-        // 2. El caché de métodos. Es VITAL escanear los punteros a OBJETOS.
-        //    Si un objeto sale del scope pero permanece en el caché, esta es la
-        //    única referencia que lo mantiene vivo, previniendo un bug de 'use-after-free'.
-        //    NOTA: No es necesario escanear 'method_name' porque los ProtoString son
-        //    inmortales (internalizados en 'tupleRoot') y nunca serán recolectados.
+        // 2. The method cache. It is VITAL to scan the OBJECT pointers.
+        //    If an object goes out of scope but remains in the cache, this is the
+        //    only reference keeping it alive, preventing a use-after-free bug.
+        //    NOTE: It is not necessary to scan 'method_name' because ProtoStrings are
+        //    immortal (interned in 'tupleRoot') and will never be collected.
         for (unsigned int i = 0; i < THREAD_CACHE_DEPTH; ++i)
         {
             if (this->method_cache[i].object)
@@ -232,11 +232,11 @@ namespace proto
             }
         }
 
-        // 2. La cadena de contextos (el stack de llamadas del hilo).
+        // 3. The context chain (the thread's call stack).
         ProtoContext* ctx = this->currentContext;
         while (ctx)
         {
-            // 3. Las variables locales en cada frame del stack.
+            // 4. Local variables in each stack frame.
             if (ctx->localsBase)
             {
                 for (unsigned int i = 0; i < ctx->localsCount; ++i)
@@ -250,7 +250,7 @@ namespace proto
             ctx = ctx->previous;
         }
 
-        // 4. La lista de celdas libres locales del hilo.
+        // 5. The thread's local list of free cells.
         Cell* currentFree = this->freeCells;
         while (currentFree)
         {
@@ -263,7 +263,7 @@ namespace proto
     {
         ProtoObjectPointer p;
         p.oid.oid = (ProtoObject*)this;
-        // CORRECCIÓN CRÍTICA: Usar el tag correcto para un hilo.
+        // CRITICAL FIX: Use the correct tag for a thread.
         p.op.pointer_tag = POINTER_TAG_THREAD;
         return p.oid.oid;
     }
@@ -280,8 +280,8 @@ namespace proto
 
     unsigned long ProtoThreadImplementation::getHash(ProtoContext* context)
     {
-        // El hash de una Cell se deriva directamente de su dirección de memoria.
-        // Esto proporciona un identificador rápido y único para el objeto.
+        // The hash of a Cell is derived directly from its memory address.
+        // This provides a fast and unique identifier for the object.
         ProtoObjectPointer p{};
         p.oid.oid = reinterpret_cast<ProtoObject*>(this);
 

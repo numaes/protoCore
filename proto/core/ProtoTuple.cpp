@@ -1,19 +1,19 @@
 /*
  * ProtoTuple.cpp
  *
- *  Revisado y corregido en 2024 para incorporar las últimas
- *  mejoras del proyecto, como la gestión de memoria moderna,
- *  correcciones de lógica y consistencia de la API.
+ *  Revised and corrected in 2024 to incorporate the latest
+ *  project improvements, such as modern memory management,
+ *  logic fixes, and API consistency.
  */
 
 #include "../headers/proto_internal.h"
-#include <algorithm> // Para std::max y otros algoritmos
-#include <vector>    // Útil para la creación de tuplas
+#include <algorithm> // For std::max and other algorithms
+#include <vector>    // Useful for tuple creation
 
 
 namespace proto
 {
-    // Función auxiliar recomendada
+    // Recommended helper function
     int getBalance(const TupleDictionary* node)
     {
         if (!node) return 0;
@@ -281,67 +281,67 @@ namespace proto
 
     TupleDictionary* TupleDictionary::rebalance(ProtoContext* context)
     {
-        // Tu convención: balance = height(derecha) - height(izquierda)
-        int balance = getBalance(this); // getBalance debe encapsular el cálculo
+        // Convention: balance = height(right) - height(left)
+        int balance = getBalance(this); // getBalance should encapsulate the calculation
 
-        // CASO 1: Subárbol Izquierdo es más pesado
+        // CASE 1: Left subtree is heavier
         if (balance < -1)
         {
-            // Se necesita una rotación a la derecha. ¿Pero simple o doble?
-            // Hay que mirar el balance del hijo izquierdo.
+            // A right rotation is needed. But single or double?
+            // We need to look at the balance of the left child.
             int left_child_balance = getBalance(this->previous);
 
-            // Caso Izquierda-Derecha (requiere rotación doble)
-            if (left_child_balance > 0) // El hijo izquierdo está pesado a la DERECHA
+            // Left-Right Case (requires double rotation)
+            if (left_child_balance > 0) // The left child is heavy on the RIGHT
             {
-                // Paso 1: Rotar el hijo izquierdo hacia la izquierda.
+                // Step 1: Rotate the left child to the left.
                 TupleDictionary* new_left_child = this->previous->leftRotate(context);
-                // Paso 2: Crear un nuevo nodo 'this' con el hijo izquierdo actualizado.
+                // Step 2: Create a new 'this' node with the updated left child.
                 TupleDictionary* new_this = new(context)
                     TupleDictionary(context, this->key, new_left_child, this->next);
-                // Paso 3: Rotar este nuevo nodo a la derecha.
+                // Step 3: Rotate this new node to the right.
                 return new_this->rightRotate(context);
             }
-            // Caso Izquierda-Izquierda (requiere rotación simple)
+            // Left-Left Case (requires single rotation)
             else
             {
                 return this->rightRotate(context);
             }
         }
 
-        // CASO 2: Subárbol Derecho es más pesado
+        // CASE 2: Right subtree is heavier
         if (balance > 1)
         {
-            // Se necesita una rotación a la izquierda. ¿Pero simple o doble?
-            // Hay que mirar el balance del hijo derecho.
+            // A left rotation is needed. But single or double?
+            // We need to look at the balance of the right child.
             int right_child_balance = getBalance(this->next);
 
-            // Caso Derecha-Izquierda (requiere rotación doble)
-            if (right_child_balance < 0) // El hijo derecho está pesado a la IZQUIERDA
+            // Right-Left Case (requires double rotation)
+            if (right_child_balance < 0) // The right child is heavy on the LEFT
             {
-                // Paso 1: Rotar el hijo derecho hacia la derecha.
+                // Step 1: Rotate the right child to the right.
                 TupleDictionary* new_right_child = this->next->rightRotate(context);
-                // Paso 2: Crear un nuevo nodo 'this' con el hijo derecho actualizado.
+                // Step 2: Create a new 'this' node with the updated right child.
                 TupleDictionary* new_this = new(context) TupleDictionary(
                     context, this->key, this->previous, new_right_child);
-                // Paso 3: Rotar este nuevo nodo a la izquierda.
+                // Step 3: Rotate this new node to the left.
                 return new_this->leftRotate(context);
             }
-            // Caso Derecha-Derecha (requiere rotación simple)
+            // Right-Right Case (requires single rotation)
             else
             {
                 return this->leftRotate(context);
             }
         }
 
-        // Si no hay desequilibrio, simplemente devuelve el nodo actual.
+        // If there is no imbalance, simply return the current node.
         return this;
     }
 
     long unsigned int TupleDictionary::getHash(proto::ProtoContext*)
     {
-        // El hash de una Cell se deriva directamente de su dirección de memoria.
-        // Esto proporciona un identificador rápido y único para el objeto.
+        // The hash of a Cell is derived directly from its memory address.
+        // This provides a fast and unique identifier for the object.
         ProtoObjectPointer p;
         p.oid.oid = (ProtoObject*)this;
 

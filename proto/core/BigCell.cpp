@@ -4,10 +4,10 @@
  *  Created on: 2024
  *      Author: Gemini Code Assist
  *
- *  Este archivo proporciona una definición no-inline para el constructor
- *  y destructor de BigCell. Su propósito es darle al compilador un lugar
- *  único para generar la v-table y la información de RTTI para la clase,
- *  solucionando errores de "undefined reference to typeinfo".
+ *  This file provides a non-inline definition for the BigCell constructor
+ *  and destructor. Its purpose is to give the compiler a unique place
+ *  to generate the v-table and RTTI information for the class,
+ *  resolving "undefined reference to typeinfo" errors.
  */
 #include "../headers/proto_internal.h"
 

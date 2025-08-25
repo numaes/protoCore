@@ -6,12 +6,12 @@
  */
 
 #include "../headers/proto_internal.h"
-#include <utility> // Para std::move y otras utilidades
+#include <utility> // For std::move and other utilities
 
 namespace proto
 {
     // --- Constructor ---
-    // Usa la lista de inicialización de miembros para mayor eficiencia y claridad.
+    // Uses member initialization list for greater efficiency and clarity.
     ProtoByteBufferImplementation::ProtoByteBufferImplementation(
         ProtoContext* context,
         unsigned long size,
@@ -20,16 +20,16 @@ namespace proto
     {
         if (buffer)
         {
-            // Si se proporciona un búfer externo, simplemente lo envolvemos.
-            // No somos dueños de esta memoria.
+            // If an external buffer is provided, we simply wrap it.
+            // We do not own this memory.
             this->buffer = buffer;
             this->freeOnExit = false;
         }
         else
         {
-            // Si no se proporciona un búfer, creamos uno nuevo.
-            // Somos dueños de esta memoria y debemos liberarla.
-            // Usar 'new char[size]' es más seguro y idiomático en C++ que 'malloc'.
+            // If no buffer is provided, we create a new one.
+            // We own this memory and must free it.
+            // Using 'new char[size]' is safer and more idiomatic in C++ than 'malloc'.
             this->buffer = new char[size];
             this->freeOnExit = true;
         }
@@ -38,35 +38,35 @@ namespace proto
     // --- Destructor ---
     ProtoByteBufferImplementation::~ProtoByteBufferImplementation()
     {
-        // Liberamos la memoria solo si somos los dueños.
-        // Se usa 'delete[]' porque la memoria se asignó con 'new[]'.
+        // We free the memory only if we own it.
+        // 'delete[]' is used because the memory was allocated with 'new[]'.
         if (this->buffer && this->freeOnExit)
         {
             delete[] this->buffer;
         }
-        // Usar nullptr es la práctica moderna en C++.
+        // Using nullptr is modern C++ practice.
         this->buffer = nullptr;
     }
 
-    // --- Métodos de Acceso ---
+    // --- Access Methods ---
 
-    // Función auxiliar privada para normalizar el índice.
-    // Esto evita la duplicación de código y mejora la legibilidad.
+    // Private helper function to normalize the index.
+    // This avoids code duplication and improves readability.
     bool ProtoByteBufferImplementation::normalizeIndex(int& index)
     {
         if (this->size == 0)
         {
-            return false; // No hay índices válidos en un búfer vacío.
+            return false; // There are no valid indices in an empty buffer.
         }
 
-        // Manejo de índices negativos (desde el final del búfer).
+        // Handling of negative indices (from the end of the buffer).
         if (index < 0)
         {
             index += this->size;
         }
 
-        // Verificación de límites. Si está fuera de rango, no es válido.
-        // Usar 'unsigned long' para la comparación evita problemas de signo.
+        // Bounds checking. If it is out of range, it is not valid.
+        // Using 'unsigned long' for comparison avoids sign issues.
         if (index < 0 || (unsigned long)index >= this->size)
         {
             return false;
@@ -77,25 +77,25 @@ namespace proto
 
     char ProtoByteBufferImplementation::implGetAt(ProtoContext* context, int index)
     {
-        // Usamos la función auxiliar para validar y normalizar el índice.
+        // We use the helper function to validate and normalize the index.
         if (normalizeIndex(index))
         {
             return this->buffer[index];
         }
-        // Si el índice no es válido, devolvemos 0 como valor por defecto.
+        // If the index is invalid, we return 0 as a default value.
         return 0;
     }
 
     void ProtoByteBufferImplementation::implSetAt(ProtoContext* context, int index, char value)
     {
-        // Solo escribimos si el índice es válido.
+        // We only write if the index is valid.
         if (normalizeIndex(index))
         {
             this->buffer[index] = value;
         }
     }
 
-    // --- Métodos del Recolector de Basura (GC) ---
+    // --- Garbage Collector (GC) Methods ---
 
     void ProtoByteBufferImplementation::processReferences(
         ProtoContext* context,
@@ -107,19 +107,19 @@ namespace proto
         )
     )
     {
-        // CORRECCIÓN CRÍTICA: Este método DEBE estar vacío.
-        // Un ProtoByteBuffer contiene datos crudos, no referencias a otras 'Cells'.
-        // La implementación anterior (method(context, self, this)) causaría un
-        // bucle infinito en el recolector de basura, bloqueando el programa.
+        // CRITICAL FIX: This method MUST be empty.
+        // A ProtoByteBuffer contains raw data, not references to other 'Cells'.
+        // The previous implementation (method(context, self, this)) would cause an
+        // infinite loop in the garbage collector, blocking the program.
     }
 
-    // El finalizador no necesita hacer nada, por lo que usamos '= default'.
+    // The finalizer does not need to do anything, so we use '= default'.
     void ProtoByteBufferImplementation::finalize(ProtoContext* context)
     {
     };
 
 
-    // --- Métodos de Interfaz ---
+    // --- Interface Methods ---
 
     ProtoObject* ProtoByteBufferImplementation::implAsObject(ProtoContext* context)
     {
@@ -131,8 +131,8 @@ namespace proto
 
     unsigned long ProtoByteBufferImplementation::getHash(ProtoContext* context)
     {
-        // El hash de una Cell se deriva directamente de su dirección de memoria.
-        // Esto proporciona un identificador rápido y único para el objeto.
+        // The hash of a Cell is derived directly from its memory address.
+        // This provides a fast and unique identifier for the object.
         ProtoObjectPointer p;
         p.oid.oid = (ProtoObject*)this;
 

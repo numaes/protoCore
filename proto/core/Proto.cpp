@@ -514,7 +514,7 @@ namespace proto
         return p.si.smallInteger;
     }
 
-    // --- MÉTODO CORREGIDO ---
+    // --- CORRECTED METHOD ---
     bool ProtoObject::isFloat(ProtoContext* context)
     {
         ProtoObjectPointer p;
@@ -523,15 +523,15 @@ namespace proto
             p.op.embedded_type == EMBEDED_TYPE_FLOAT);
     }
 
-    // --- MÉTODO CORREGIDO ---
+    // --- CORRECTED METHOD ---
     float ProtoObject::asFloat(ProtoContext* context)
     {
         ProtoObjectPointer p;
         p.oid.oid = this;
 
-        // Usamos una unión para reinterpretar los bits del entero
-        // como un valor de punto flotante, que es la forma correcta
-        // de hacer esta conversión.
+        // We use a union to reinterpret the integer's bits
+        // as a floating-point value, which is the correct way
+        // to perform this conversion.
         union
         {
             unsigned int uiv;
@@ -709,13 +709,13 @@ namespace proto
     }
 
     /*
-     *  Este bloque proporciona implementaciones "stub" para las clases de la
-     *  interfaz pública definidas en proto.h. Su único propósito es darle al
-     *  compilador un lugar para generar las v-tables necesarias para el enlazado,
-     *  respetando el diseño de ocultación de la implementación.
+     * This block provides "stub" implementations for the public interface
+     * classes defined in proto.h. Its sole purpose is to give the
+     * compiler a place to generate the v-tables necessary for linking,
+     * while respecting the implementation-hiding design.
      *
-     *  Estas funciones nunca deberían ser llamadas directamente. El polimorfismo
-     *  debería redirigir las llamadas a las clases de implementación.
+     * These functions should never be called directly. Polymorphism
+     * should redirect calls to the actual implementation classes.
      */
 
 
@@ -1080,7 +1080,7 @@ namespace proto
 
     ProtoString* ProtoString::removeSlice(ProtoContext* context, int from, int to)
     {
-        return toImpl<ProtoStringImplementation>(this)->implRemoveSlice(context, from, to);
+        return toImpl<ProtoStringImplementation>(this->implRemoveSlice(context, from, to);
     }
 
     ProtoObject* ProtoString::asObject(ProtoContext* context)

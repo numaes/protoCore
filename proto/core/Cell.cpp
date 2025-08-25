@@ -12,30 +12,30 @@ namespace proto
 {
     Cell::Cell(ProtoContext* context)
     {
-        // Cada Cell recién creada se registra inmediatamente en el contexto actual
-        // para la gestión de memoria y el seguimiento del recolector de basura.
+        // Each newly created Cell is immediately registered with the current context
+        // for memory management and garbage collection tracking.
         context->addCell2Context(this);
     };
 
-    // Es una buena práctica usar '= default' para destructores simples en C++ moderno.
+    // It is good practice to use '= default' for simple destructors in modern C++.
     Cell::~Cell() = default;
 
     unsigned long Cell::getHash(ProtoContext* context)
     {
-        // El hash de una Cell se deriva directamente de su dirección de memoria.
-        // Esto proporciona un identificador rápido y único para el objeto.
+        // The hash of a Cell is derived directly from its memory address.
+        // This provides a fast and unique identifier for the object.
         ProtoObjectPointer p;
         p.oid.oid = (ProtoObject*)this;
 
         return p.asHash.hash;
     }
 
-    // Implementación base para la finalización.
-    // Las clases derivadas deben sobreescribir este método si necesitan realizar
-    // alguna limpieza antes de ser reclamadas por el recolector de basura.
+    // Base implementation for finalization.
+    // Derived classes should override this method if they need to perform
+    // any cleanup before being reclaimed by the garbage collector.
     void Cell::finalize(ProtoContext* context)
     {
-        // No hace nada en la clase base.
+        // Does nothing in the base class.
     };
 
     ProtoObject* Cell::asObject(ProtoContext* context)
@@ -43,15 +43,15 @@ namespace proto
         return reinterpret_cast<ProtoObject*>(this);
     }
 
-    // Sobrecarga del operador 'new' para usar el asignador de memoria del contexto.
+    // Overloads the 'new' operator to use the context's memory allocator.
     void* Cell::operator new(unsigned long size, ProtoContext* context)
     {
         return context->allocCell();
     };
 
-    // Implementación base para el recorrido de referencias del recolector de basura.
-    // Las clases derivadas DEBEN sobreescribir este método para llamar al 'method'
-    // en cada ProtoObject* o Cell* que contengan, permitiendo al GC marcar los objetos alcanzables.
+    // Base implementation for the garbage collector's reference traversal.
+    // Derived classes MUST override this method to call the 'method'
+    // on every ProtoObject* or Cell* they contain, allowing the GC to mark reachable objects.
     void Cell::processReferences(
         ProtoContext* context,
         void* self,
@@ -62,6 +62,6 @@ namespace proto
         )
     )
     {
-        // No hace nada en la clase base, ya que no contiene referencias a otros objetos.
+        // Does nothing in the base class, as it contains no references to other objects.
     };
 };

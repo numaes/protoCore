@@ -1,7 +1,7 @@
 /*
 * parent_link.cpp
  *
- *  Created on: 6 de ago. de 2017
+ *  Created on: Aug 6, 2017
  *      Author: gamarino
  */
 
@@ -9,17 +9,17 @@
 
 namespace proto
 {
-    // Usar la lista de inicialización de miembros es más idiomático y eficiente en C++.
+    // Using a member initialization list is more idiomatic and efficient in C++.
     ParentLinkImplementation::ParentLinkImplementation(
         ProtoContext* context,
         ParentLinkImplementation* parent,
         ProtoObjectCellImplementation* object
     ) : Cell(context), parent(parent), object(object)
     {
-        // El cuerpo del constructor ahora puede estar vacío.
+        // The constructor body can now be empty.
     };
 
-    // El destructor no necesita realizar ninguna acción.
+    // The destructor does not need to perform any action.
     ParentLinkImplementation::~ParentLinkImplementation()
     {
     }
@@ -34,32 +34,32 @@ namespace proto
         )
     )
     {
-        // Para el recolector de basura, es crucial procesar todas las referencias a otras Cells.
+        // For the garbage collector, it is crucial to process all references to other Cells.
 
-        // 1. Procesar el enlace al padre anterior en la cadena.
+        // 1. Process the link to the previous parent in the chain.
         if (this->parent)
         {
             method(context, self, this->parent);
         }
 
-        // 2. CORRECCIÓN CRÍTICA: Procesar el objeto (ProtoObjectCell) que este enlace representa.
-        // La versión anterior no procesaba esta referencia, lo que causaría que el objeto
-        // fuera recolectado incorrectamente por el GC.
+        // 2. CRITICAL FIX: Process the object (ProtoObjectCell) that this link represents.
+        // The previous version did not process this reference, which would cause the object
+        // to be incorrectly collected by the GC.
         if (this->object)
         {
             method(context, self, reinterpret_cast<Cell*>(this->object));
         }
 
-        // NOTA: La llamada a 'method(context, self, this)' fue eliminada.
-        // El recolector de basura ya está procesando 'this' cuando llama a este método.
-        // Volver a pasárselo a sí mismo causaría un bucle infinito durante la recolección.
+        // NOTE: The call to 'method(context, self, this)' was removed.
+        // The garbage collector is already processing 'this' when it calls this method.
+        // Passing it to itself again would cause an infinite loop during collection.
     }
 
-    // El método finalize debe ser implementado ya que es virtual puro en la clase base.
+    // The finalize method must be implemented as it is pure virtual in the base class.
     void ParentLinkImplementation::finalize(ProtoContext* context)
     {
-        // Este método se deja vacío intencionalmente porque ParentLinkImplementation
-        // no adquiere recursos que necesiten una limpieza explícita.
+        // This method is intentionally left empty because ParentLinkImplementation
+        // does not acquire resources that require explicit cleanup.
     }
 
     ProtoObject* ParentLinkImplementation::asObject(ProtoContext* context)
@@ -69,13 +69,13 @@ namespace proto
 
     unsigned long ParentLinkImplementation::getHash(ProtoContext* context)
     {
-        // Deberíamos obtener el hash del objeto que este enlace representa,
-        // no el hash del enlace en sí.
+        // We should get the hash of the object that this link represents,
+        // not the hash of the link itself.
         if (this->object)
         {
             return this->object->getHash(context);
         }
-        // Devolver 0 o algún otro valor por defecto si no hay objeto.
+        // Return 0 or some other default value if there is no object.
         return 0;
     }
 };

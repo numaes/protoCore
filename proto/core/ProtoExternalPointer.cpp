@@ -9,22 +9,22 @@
 
 namespace proto
 {
-    // --- Constructor y Destructor ---
+    // --- Constructor and Destructor ---
 
-    // Se utiliza la lista de inicialización de miembros, que es más eficiente e idiomática en C++.
+    // The member initialization list is used, which is more efficient and idiomatic in C++.
     ProtoExternalPointerImplementation::ProtoExternalPointerImplementation(
         ProtoContext* context,
         void* pointer
     ) : Cell(context), pointer(pointer)
     {
-        // El cuerpo del constructor ahora puede estar vacío.
+        // The constructor body can now be empty.
     }
 
-    // Para destructores vacíos, usar '= default' es la práctica recomendada.
+    // For empty destructors, using '= default' is the recommended practice.
     ProtoExternalPointerImplementation::~ProtoExternalPointerImplementation() {}
 
 
-    // --- Métodos de la Interfaz ---
+    // --- Interface Methods ---
 
     void* ProtoExternalPointerImplementation::implGetPointer(ProtoContext* context)
     {
@@ -39,7 +39,7 @@ namespace proto
         return p.oid.oid;
     }
 
-    // --- Métodos del Recolector de Basura (GC) ---
+    // --- Garbage Collector (GC) Methods ---
 
     void ProtoExternalPointerImplementation::processReferences(
         ProtoContext* context,
@@ -51,21 +51,21 @@ namespace proto
         )
     )
     {
-        // Este método se deja vacío intencionadamente.
-        // Un ProtoExternalPointer contiene un puntero opaco (void*) que no es
-        // gestionado por el recolector de basura de Proto. Por lo tanto, no
-        // hay referencias a otras 'Cells' que necesiten ser procesadas.
+        // This method is intentionally left empty.
+        // A ProtoExternalPointer contains an opaque pointer (void*) that is not
+        // managed by the Proto garbage collector. Therefore, there are no
+        // references to other 'Cells' that need to be processed.
     }
 
-    // Un finalizador vacío también se puede declarar como 'default'.
+    // An empty finalizer can also be declared as 'default'.
     void ProtoExternalPointerImplementation::finalize(ProtoContext* context)
     {
     };
 
     unsigned long ProtoExternalPointerImplementation::getHash(ProtoContext* context)
     {
-        // El hash de una Cell se deriva directamente de su dirección de memoria.
-        // Esto proporciona un identificador rápido y único para el objeto.
+        // The hash of a Cell is derived directly from its memory address.
+        // This provides a fast and unique identifier for the object.
         ProtoObjectPointer p;
         p.oid.oid = (ProtoObject*)this;
 

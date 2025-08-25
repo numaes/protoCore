@@ -6,13 +6,13 @@
  */
 
 #include "../headers/proto_internal.h"
-#include <algorithm> // Para std::max
+#include <algorithm> // For std::max
 
 namespace proto
 {
     // --- ProtoSparseListIteratorImplementation ---
 
-    // Constructor modernizado con lista de inicialización.
+    // Modernized constructor with initialization list.
     ProtoSparseListIteratorImplementation::ProtoSparseListIteratorImplementation(
         ProtoContext* context,
         int state,
@@ -22,13 +22,13 @@ namespace proto
     {
     }
 
-    // Destructor por defecto.
+    // Default destructor.
     ProtoSparseListIteratorImplementation::~ProtoSparseListIteratorImplementation() = default;
 
     int ProtoSparseListIteratorImplementation::implHasNext(ProtoContext* context)
     {
-        // La lógica original es compleja pero se mantiene.
-        // Un iterador tiene "siguiente" si está en un estado válido o si la cola de iteradores tiene elementos.
+        // The original logic is complex but is maintained.
+        // An iterator has a "next" if it is in a valid state or if the iterator queue has elements.
         if (this->state == ITERATOR_NEXT_PREVIOUS && this->current && this->current->previous)
             return true;
         if (this->state == ITERATOR_NEXT_THIS && this->current)
@@ -61,8 +61,8 @@ namespace proto
 
     ProtoSparseListIteratorImplementation* ProtoSparseListIteratorImplementation::implAdvance(ProtoContext* context)
     {
-        // La lógica de avance es compleja, creando una nueva cadena de iteradores
-        // para mantener el estado del recorrido in-order.
+        // The advance logic is complex, creating a new chain of iterators
+        // to maintain the state of the in-order traversal.
         if (this->state == ITERATOR_NEXT_PREVIOUS)
         {
             return new(context) ProtoSparseListIteratorImplementation(
@@ -77,16 +77,16 @@ namespace proto
         {
             if (this->current && this->current->next)
             {
-                // Si hay un subárbol derecho, el siguiente es el primer elemento de ese subárbol.
+                // If there is a right subtree, the next is the first element of that subtree.
                 return dynamic_cast<ProtoSparseListIteratorImplementation*>(this->current->next->
                     implGetIterator(context));
             }
             if (this->queue)
             {
-                // Si no hay subárbol derecho, el siguiente es el padre en la cola.
+                // If there is no right subtree, the next is the parent in the queue.
                 return static_cast<ProtoSparseListIteratorImplementation*>(this->queue->implAdvance(context));
             }
-            return nullptr; // Fin de la iteración.
+            return nullptr; // End of iteration.
         }
 
         if (this->state == ITERATOR_NEXT_NEXT && this->queue)
@@ -115,7 +115,7 @@ namespace proto
         void (*method)(ProtoContext* context, void* self, Cell* cell)
     )
     {
-        // Informar al GC sobre las referencias internas.
+        // Inform the GC about internal references.
         if (this->current)
         {
             method(context, self, this->current);
@@ -134,7 +134,7 @@ namespace proto
 
     // --- ProtoSparseListImplementation ---
 
-    // Constructor modernizado.
+    // Modernized constructor.
     ProtoSparseListImplementation::ProtoSparseListImplementation(
         ProtoContext* context,
         const unsigned long index,
@@ -143,7 +143,7 @@ namespace proto
         ProtoSparseListImplementation* next
     ) : Cell(context), previous(previous), next(next), index(index), value(value)
     {
-        // Calcular hash, contador y altura después de inicializar los miembros.
+        // Calculate hash, count, and height after initializing members.
         this->hash = index ^
             (value ? value->getHash(context) : 0) ^
             (previous ? previous->hash : 0) ^
@@ -160,11 +160,11 @@ namespace proto
 
     ProtoSparseListImplementation::~ProtoSparseListImplementation() = default;
 
-    // --- Lógica de Árbol AVL (Corregida) ---
+    // --- AVL Tree Logic (Corrected) ---
 
     namespace
     {
-        // Funciones auxiliares anónimas para la lógica del árbol.
+        // Anonymous helper functions for tree logic.
 
         int getHeight(const ProtoSparseListImplementation* node)
         {
@@ -182,7 +182,7 @@ namespace proto
             ProtoSparseListImplementation* x = y->previous;
             ProtoSparseListImplementation* T2 = x->next;
 
-            // Realizar rotación
+            // Perform rotation
             auto* new_y = new(context) ProtoSparseListImplementation(
                 context, y->index, y->value, T2, y->next);
             return new(context) ProtoSparseListImplementation(context, x->index, x->value, x->previous, new_y);
@@ -193,31 +193,31 @@ namespace proto
             ProtoSparseListImplementation* y = x->next;
             ProtoSparseListImplementation* T2 = y->previous;
 
-            // Realizar rotación
+            // Perform rotation
             auto* new_x = new(context) ProtoSparseListImplementation(
                 context, x->index, x->value, x->previous, T2);
             return new(context) ProtoSparseListImplementation(context, y->index, y->value, new_x, y->next);
         }
 
-        // CORRECCIÓN CRÍTICA: La lógica de rebalanceo estaba rota.
-        // Esta es una implementación estándar y correcta para un árbol AVL.
+        // CRITICAL FIX: The rebalancing logic was broken.
+        // This is a standard and correct implementation for an AVL tree.
         ProtoSparseListImplementation* rebalance(ProtoContext* context, ProtoSparseListImplementation* node)
         {
             if (!node) return nullptr;
 
             const int balance = getBalance(node);
 
-            // Caso 1: Izquierda-Izquierda (LL)
+            // Case 1: Left-Left (LL)
             if (balance < -1 && getBalance(node->previous) <= 0)
             {
                 return rightRotate(context, node);
             }
-            // Caso 2: Derecha-Derecha (RR)
+            // Case 2: Right-Right (RR)
             if (balance > 1 && getBalance(node->next) >= 0)
             {
                 return leftRotate(context, node);
             }
-            // Caso 3: Izquierda-Derecha (LR)
+            // Case 3: Left-Right (LR)
             if (balance < -1 && getBalance(node->previous) > 0)
             {
                 ProtoSparseListImplementation* new_prev = leftRotate(context, node->previous);
@@ -225,7 +225,7 @@ namespace proto
                     context, node->index, node->value, new_prev, node->next);
                 return rightRotate(context, new_node);
             }
-            // Caso 4: Derecha-Izquierda (RL)
+            // Case 4: Right-Left (RL)
             if (balance > 1 && getBalance(node->next) < 0)
             {
                 ProtoSparseListImplementation* new_next = rightRotate(context, node->next);
@@ -234,15 +234,15 @@ namespace proto
                 return leftRotate(context, new_node);
             }
 
-            return node; // El nodo ya está balanceado.
+            return node; // The node is already balanced.
         }
-    } // fin del namespace anónimo
+    } // end of anonymous namespace
 
-    // --- Métodos de la Interfaz Pública ---
+    // --- Public Interface Methods ---
 
     bool ProtoSparseListImplementation::implHas(ProtoContext* context, const unsigned long index)
     {
-        // La búsqueda es más eficiente con un puntero no constante.
+        // The search is more efficient with a non-constant pointer.
         const ProtoSparseListImplementation* node = this;
         while (node)
         {
@@ -250,7 +250,7 @@ namespace proto
             {
                 return node->value != PROTO_NONE;
             }
-            // CORRECCIÓN CRÍTICA: La comparación era incorrecta.
+            // CRITICAL FIX: The comparison was incorrect.
             if (index < node->index)
             {
                 node = node->previous;
@@ -272,7 +272,7 @@ namespace proto
             {
                 return node->value;
             }
-            // CORRECCIÓN CRÍTICA: La comparación era incorrecta.
+            // CRITICAL FIX: The comparison was incorrect.
             if (index < node->index)
             {
                 node = node->previous;
@@ -291,7 +291,7 @@ namespace proto
     {
         ProtoSparseListImplementation* newNode;
 
-        // Caso base: árbol vacío o nodo hoja.
+        // Base case: empty tree or leaf node.
         if (this->value == PROTO_NONE && this->count == 0)
         {
             return new(context) ProtoSparseListImplementation(context, index, value);
@@ -321,9 +321,9 @@ namespace proto
         else
         {
             // index == this->index
-            // Si el valor es el mismo, no hacer nada.
+            // If the value is the same, do nothing.
             if (this->value == value) return this;
-            // Reemplazar el valor en el nodo actual.
+            // Replace the value in the current node.
             newNode = new(context) ProtoSparseListImplementation(context, this->index, value, this->previous,
                                                                  this->next);
         }
@@ -336,14 +336,14 @@ namespace proto
     {
         if (this->value == PROTO_NONE && this->count == 0)
         {
-            return this; // No se encontró el elemento.
+            return this; // The element was not found.
         }
 
         ProtoSparseListImplementation* newNode;
 
         if (index < this->index)
         {
-            if (!this->previous) return this; // No se encontró.
+            if (!this->previous) return this; // Not found.
             auto* new_prev = dynamic_cast<ProtoSparseListImplementation*>(this->previous->
                 implRemoveAt(context, index));
             newNode = new(context) ProtoSparseListImplementation(context, this->index, this->value, new_prev,
@@ -351,7 +351,7 @@ namespace proto
         }
         else if (index > this->index)
         {
-            if (!this->next) return this; // No se encontró.
+            if (!this->next) return this; // Not found.
             auto* new_next = dynamic_cast<ProtoSparseListImplementation*>(this->next->implRemoveAt(
                 context, index));
             newNode = new(context) ProtoSparseListImplementation(context, this->index, this->value, this->previous,
@@ -360,20 +360,20 @@ namespace proto
         else
         {
             // index == this->index
-            // Nodo encontrado. Lógica de eliminación.
-            if (!this->previous) return this->next; // Caso con 0 o 1 hijo (derecho).
-            if (!this->next) return this->previous; // Caso con 1 hijo (izquierdo).
+            // Node found. Deletion logic.
+            if (!this->previous) return this->next; // Case with 0 or 1 child (right).
+            if (!this->next) return this->previous; // Case with 1 child (left).
 
-            // Caso con 2 hijos: encontrar el sucesor in-order (el más pequeño del subárbol derecho).
+            // Case with 2 children: find the in-order successor (the smallest in the right subtree).
             const ProtoSparseListImplementation* successor = this->next;
             while (successor->previous)
             {
                 successor = successor->previous;
             }
-            // Eliminar el sucesor del subárbol derecho.
+            // Remove the successor from the right subtree.
             auto* new_next = dynamic_cast<ProtoSparseListImplementation*>(this->next->implRemoveAt(
                 context, successor->index));
-            // Reemplazar este nodo con el sucesor.
+            // Replace this node with the successor.
             newNode = new(context) ProtoSparseListImplementation(context, successor->index, successor->value,
                                                                  this->previous, new_next);
         }
@@ -392,7 +392,7 @@ namespace proto
         void (*method)(ProtoContext* context, void* self, unsigned long index, ProtoObject* value)
     )
     {
-        // Recorrido in-order para procesar elementos.
+        // In-order traversal to process elements.
         if (this->previous)
         {
             this->previous->implProcessElements(context, self, method);
@@ -413,7 +413,7 @@ namespace proto
         void (*method)(ProtoContext* context, void* self, ProtoObject* value)
     )
     {
-        // Recorrido in-order para procesar solo los valores.
+        // In-order traversal to process only the values.
         if (this->previous)
         {
             this->previous->implProcessValues(context, self, method);
@@ -434,8 +434,8 @@ namespace proto
         void (*method)(ProtoContext* context, void* self, Cell* cell)
     )
     {
-        // CORRECCIÓN CRÍTICA: La implementación anterior causaba un bucle infinito en el GC.
-        // Ahora se procesan correctamente todas las referencias internas.
+        // CRITICAL FIX: The previous implementation caused an infinite loop in the GC.
+        // All internal references are now processed correctly.
         if (this->previous)
         {
             method(context, self, this->previous);
@@ -460,8 +460,8 @@ namespace proto
 
     ProtoSparseListIteratorImplementation* ProtoSparseListImplementation::implGetIterator(ProtoContext* context)
     {
-        // La lógica del iterador es compleja, pero se mantiene la estructura original.
-        // Encuentra el primer nodo (el más a la izquierda) y construye la cola de iteradores.
+        // The iterator logic is complex, but the original structure is maintained.
+        // Find the first node (the leftmost) and build the iterator queue.
         auto node = this;
         ProtoSparseListIteratorImplementation* queue = nullptr;
         while (node->previous)
@@ -481,6 +481,6 @@ namespace proto
     {
     };
 
-    // El método getHash se hereda de la clase base Cell, que proporciona un hash
-    // basado en la dirección, lo cual es suficiente y consistente.
+    // The getHash method is inherited from the base class Cell, which provides a hash
+    // based on the address, which is sufficient and consistent.
 } // namespace proto

@@ -186,14 +186,14 @@ namespace proto
 
 #define TYPE_SHIFT                          4
 
-    // Plantilla para convertir de puntero a la API pública a puntero a la implementación
+    // Template to convert from a public API pointer to an implementation pointer
     template <typename Impl, typename Api>
     inline Impl* toImpl(Api* ptr)
     {
         return reinterpret_cast<Impl*>(ptr);
     }
 
-    // Plantilla para convertir de puntero a la API pública constante
+    // Template to convert from a constant public API pointer
     template <typename Impl, typename Api>
     inline const Impl* toImpl(const Api* ptr)
     {
@@ -256,7 +256,7 @@ namespace proto
         void * undetermined[6];
     };
 
-    static_assert(sizeof(BigCell) == 64, "El tamaño de la clase BigCell debe ser exactamente 64 bytes.");
+    static_assert(sizeof(BigCell) == 64, "The size of the BigCell class must be exactly 64 bytes.");
 
 
     class ParentLinkImplementation : public Cell, public ParentLink
@@ -290,21 +290,21 @@ namespace proto
 
     /**
      * @class ProtoObjectCellImplementation
-     * @brief Implementación de una celda que representa un objeto Proto.
+     * @brief Implementation of a cell representing a Proto object.
      *
-     * Hereda de 'Cell' para la gestión de memoria y de 'ProtoObjectCell'
-     * para la interfaz pública de objetos. Contiene una referencia a su cadena
-     * de herencia (padres) y una lista de atributos.
+     * Inherits from 'Cell' for memory management and from 'ProtoObjectCell'
+     * for the public object interface. It contains a reference to its
+     * inheritance chain (parents) and a list of attributes.
      */
     class ProtoObjectCellImplementation : public Cell, public ProtoObject
     {
     public:
         /**
          * @brief Constructor.
-         * @param context El contexto de ejecución actual.
-         * @param parent Puntero al primer eslabón de la cadena de herencia.
-         * @param mutable_ref Un indicador de si el objeto es mutable.
-         * @param attributes La lista dispersa de atributos del objeto.
+         * @param context The current execution context.
+         * @param parent Pointer to the first link in the inheritance chain.
+         * @param mutable_ref A flag indicating if the object is mutable.
+         * @param attributes The sparse list of object attributes.
          */
         ProtoObjectCellImplementation(
             ProtoContext* context,
@@ -314,15 +314,15 @@ namespace proto
         );
 
         /**
-         * @brief Destructor virtual.
+         * @brief Virtual destructor.
          */
         ~ProtoObjectCellImplementation();
 
         /**
-         * @brief Crea una nueva celda de objeto con un padre adicional en su cadena de herencia.
-         * @param context El contexto de ejecución actual.
-         * @param newParentToAdd El objeto padre que se va a añadir.
-         * @return Una *nueva* ProtoObjectCellImplementation con la cadena de herencia actualizada.
+         * @brief Creates a new object cell with an additional parent in its inheritance chain.
+         * @param context The current execution context.
+         * @param newParentToAdd The parent object to be added.
+         * @return A *new* ProtoObjectCellImplementation with the updated inheritance chain.
          */
         ProtoObjectCell* implAddParent(
             ProtoContext* context,
@@ -330,25 +330,25 @@ namespace proto
         );
 
         /**
-         * @brief Devuelve la representación de esta celda como un ProtoObject.
-         * @param context El contexto de ejecución actual.
-         * @return Un ProtoObject que representa este objeto.
+         * @brief Returns the representation of this cell as a ProtoObject.
+         * @param context The current execution context.
+         * @return A ProtoObject representing this object.
          */
         ProtoObject* implAsObject(ProtoContext* context);
 
         /**
-         * @brief Finalizador para el recolector de basura.
+         * @brief Finalizer for the garbage collector.
          *
-         * Este método es llamado por el GC antes de liberar la memoria de la celda.
-         * @param context El contexto de ejecución actual.
+         * This method is called by the GC before freeing the cell's memory.
+         * @param context The current execution context.
          */
         void finalize(ProtoContext* context);
 
         /**
-         * @brief Procesa las referencias internas para el recolector de basura.
+         * @brief Processes internal references for the garbage collector.
          *
-         * Recorre las referencias al padre y a los atributos para que el GC
-         * pueda marcar los objetos alcanzables.
+         * Traverses references to the parent and attributes so that the GC
+         * can mark reachable objects.
          */
         void processReferences(
             ProtoContext* context,
@@ -566,7 +566,7 @@ namespace proto
         unsigned long type : 4{};
     };
 
-    // --- Iterador de Tuplas ---
+    // --- Tuple Interning Dictionary ---
 #define TUPLE_SIZE 5
 
     class TupleDictionary : public Cell
@@ -611,7 +611,7 @@ namespace proto
         TupleDictionary* set(ProtoContext* context, ProtoTupleImplementation* tuple);
     };
 
-    // Implementación concreta para ProtoTupleIterator
+    // Concrete implementation for ProtoTupleIterator
     class ProtoTupleIteratorImplementation : public Cell, public ProtoTupleIterator
     {
     public:
@@ -625,12 +625,12 @@ namespace proto
         // Destructor
         ~ProtoTupleIteratorImplementation();
 
-        // --- Métodos de la interfaz ProtoTupleIterator ---
+        // --- ProtoTupleIterator interface methods ---
         int implHasNext(ProtoContext* context);
         ProtoObject* implNext(ProtoContext* context);
         ProtoTupleIteratorImplementation* implAdvance(ProtoContext* context);
 
-        // --- Métodos de la interfaz Cell ---
+        // --- Cell interface methods ---
         ProtoObject* implAsObject(ProtoContext* context);
         unsigned long getHash(ProtoContext* context);
         void finalize(ProtoContext* context);
@@ -641,12 +641,12 @@ namespace proto
         );
 
     private:
-        ProtoTupleImplementation* base; // La tupla que se está iterando
-        unsigned long currentIndex; // La posición actual en la tupla
+        ProtoTupleImplementation* base; // The tuple being iterated over
+        unsigned long currentIndex; // The current position in the tuple
     };
 
     // --- ProtoTuple ---
-    // Implementación de tuplas, potencialmente usando una estructura de "rope" para eficiencia.
+    // Implementation of tuples, potentially using a "rope" structure for efficiency.
     class ProtoTupleImplementation : public Cell, public ProtoTuple
     {
     public:
@@ -668,7 +668,7 @@ namespace proto
         // Destructor
         ~ProtoTupleImplementation();
 
-        // --- Métodos de la interfaz ProtoTuple ---
+        // --- ProtoTuple interface methods ---
         ProtoObject* implGetAt(ProtoContext* context, int index);
         ProtoObject* implGetFirst(ProtoContext* context);
         ProtoObject* implGetLast(ProtoContext* context);
@@ -689,7 +689,7 @@ namespace proto
         ProtoTupleImplementation* implRemoveAt(ProtoContext* context, int index);
         ProtoTupleImplementation* implRemoveSlice(ProtoContext* context, int from, int to);
 
-        // --- Métodos de la interfaz Cell ---
+        // --- Cell interface methods ---
         ProtoObject* implAsObject(ProtoContext* context);
         unsigned long getHash(ProtoContext* context);
         void finalize(ProtoContext* context);
@@ -709,7 +709,7 @@ namespace proto
     };
 
     // --- ProtoStringIterator ---
-    // Implementación concreta para el iterador de ProtoString.
+    // Concrete implementation for the ProtoString iterator.
     class ProtoStringIteratorImplementation : public Cell, public ProtoStringIterator
     {
     public:
@@ -723,14 +723,14 @@ namespace proto
         // Destructor
         ~ProtoStringIteratorImplementation();
 
-        // --- Métodos de la interfaz ProtoStringIterator ---
+        // --- ProtoStringIterator interface methods ---
         int implHasNext(ProtoContext* context);
         ProtoObject* implNext(ProtoContext* context);
         ProtoStringIteratorImplementation* implAdvance(ProtoContext* context);
 
-        // --- Métodos de la interfaz Cell ---
+        // --- Cell interface methods ---
         ProtoObject* implAsObject(ProtoContext* context);
-        unsigned long getHash(ProtoContext* context); // Heredado de Cell, importante para la consistencia.
+        unsigned long getHash(ProtoContext* context); // Inherited from Cell, important for consistency.
         void finalize(ProtoContext* context);
         void processReferences(
             ProtoContext* context,
@@ -739,12 +739,12 @@ namespace proto
         );
 
     private:
-        ProtoStringImplementation* base; // La string que se está iterando.
-        unsigned long currentIndex; // La posición actual en la string.
+        ProtoStringImplementation* base; // The string being iterated over.
+        unsigned long currentIndex; // The current position in the string.
     };
 
     // --- ProtoString ---
-    // Implementación de string inmutable, basada en una tupla de caracteres.
+    // Implementation of an immutable string, based on a tuple of characters.
     class ProtoStringImplementation : public Cell, public ProtoString
     {
     public:
@@ -757,7 +757,7 @@ namespace proto
         // Destructor
         ~ProtoStringImplementation();
 
-        // --- Métodos de la interfaz ProtoString ---
+        // --- ProtoString interface methods ---
         int implCmpToString(ProtoContext* context, ProtoString* otherString);
         ProtoObject* implGetAt(ProtoContext* context, int index);
         unsigned long implGetSize(ProtoContext* context);
@@ -777,7 +777,7 @@ namespace proto
         ProtoStringImplementation* implRemoveLast(ProtoContext* context, int count);
         ProtoStringImplementation* implRemoveAt(ProtoContext* context, int index);
 
-        // --- Métodos de la interfaz Cell ---
+        // --- Cell interface methods ---
         ProtoObject* implAsObject(ProtoContext* context);
         unsigned long getHash(ProtoContext* context);
         void finalize(ProtoContext* context);
@@ -788,34 +788,34 @@ namespace proto
         );
 
     private:
-        ProtoTupleImplementation* baseTuple; // La tupla subyacente que almacena los caracteres.
+        ProtoTupleImplementation* baseTuple; // The underlying tuple that stores the characters.
     };
 
 
     // --- ProtoByteBufferImplementation ---
-    // Implementación de un búfer de bytes que puede gestionar su propia memoria
-    // o envolver un búfer existente.
+    // Implementation of a byte buffer that can manage its own memory
+    // or wrap an existing buffer.
     class ProtoByteBufferImplementation : public Cell, public ProtoByteBuffer
     {
     public:
-        // Constructor: crea o envuelve un búfer de memoria.
-        // Si 'buffer' es nulo, se asignará nueva memoria.
+        // Constructor: creates or wraps a memory buffer.
+        // If 'buffer' is null, new memory will be allocated.
         ProtoByteBufferImplementation(
             ProtoContext* context,
             unsigned long size,
             char* buffer = nullptr
         );
 
-        // Destructor: libera la memoria si la clase es propietaria.
+        // Destructor: frees the memory if the class owns it.
         ~ProtoByteBufferImplementation();
 
-        // --- Métodos de la interfaz ProtoByteBuffer ---
+        // --- ProtoByteBuffer interface methods ---
         char implGetAt(ProtoContext* context, int index);
         void implSetAt(ProtoContext* context, int index, char value);
         unsigned long implGetSize(ProtoContext* context);
         char* implGetBuffer(ProtoContext* context);
 
-        // --- Métodos de la interfaz Cell ---
+        // --- Cell interface methods ---
         void processReferences(
             ProtoContext* context,
             void* self,
@@ -826,16 +826,16 @@ namespace proto
         unsigned long getHash(ProtoContext* context);
 
     private:
-        // Función auxiliar para validar y normalizar índices.
+        // Helper function to validate and normalize indices.
         bool normalizeIndex(int& index);
 
-        unsigned long size; // El tamaño del búfer en bytes.
-        char* buffer; // Puntero a la memoria del búfer.
-        bool freeOnExit; // Flag que indica si el destructor debe liberar `buffer`.
+        unsigned long size; // The size of the buffer in bytes.
+        char* buffer; // Pointer to the buffer's memory.
+        bool freeOnExit; // Flag indicating if the destructor should free `buffer`.
     };
 
     // --- ProtoMethodCellImplementation ---
-    // Implementación de un puntero a un método c
+    // Implementation of a pointer to a C method
     class ProtoMethodCellImplementation : public Cell, public ProtoMethodCell
     {
     public:
@@ -856,19 +856,19 @@ namespace proto
 
     /**
  * @class ProtoExternalPointerImplementation
- * @brief Implementación de una celda que contiene un puntero opaco a datos externos.
+ * @brief Implementation of a cell containing an opaque pointer to external data.
  *
- * Esta clase encapsula un puntero `void*` que no es gestionado por el recolector
- * de basura de Proto. Es útil para integrar Proto con bibliotecas o datos C/C++
- * externos, permitiendo que estos punteros se pasen como objetos de primera clase.
+ * This class encapsulates a `void*` pointer that is not managed by the Proto
+ * garbage collector. It is useful for integrating Proto with external C/C++
+ * libraries or data, allowing these pointers to be passed as first-class objects.
  */
     class ProtoExternalPointerImplementation : public Cell, public ProtoExternalPointer
     {
     public:
         /**
          * @brief Constructor.
-         * @param context El contexto de ejecución actual.
-         * @param pointer El puntero externo (void*) que se va a encapsular.
+         * @param context The current execution context.
+         * @param pointer The external pointer (void*) to be encapsulated.
          */
         ProtoExternalPointerImplementation(ProtoContext* context, void* pointer);
 
@@ -878,33 +878,33 @@ namespace proto
         ~ProtoExternalPointerImplementation();
 
         /**
-         * @brief Obtiene el puntero externo encapsulado.
-         * @param context El contexto de ejecución actual.
-         * @return El puntero (void*) almacenado.
+         * @brief Gets the encapsulated external pointer.
+         * @param context The current execution context.
+         * @return The stored (void*) pointer.
          */
         void* implGetPointer(ProtoContext* context);
 
         /**
-         * @brief Devuelve la representación de esta celda como un ProtoObject.
-         * @param context El contexto de ejecución actual.
-         * @return Un ProtoObject que representa este puntero externo.
+         * @brief Returns the representation of this cell as a ProtoObject.
+         * @param context The current execution context.
+         * @return A ProtoObject representing this external pointer.
          */
         ProtoObject* implAsObject(ProtoContext* context);
 
         /**
-         * @brief Finalizador para el recolector de basura.
+         * @brief Finalizer for the garbage collector.
          *
-         * No realiza ninguna acción, ya que el puntero externo no es gestionado por el GC.
-         * @param context El contexto de ejecución actual.
+         * Performs no action, as the external pointer is not managed by the GC.
+         * @param context The current execution context.
          */
         void finalize(ProtoContext* context);
         unsigned long getHash(ProtoContext* context);
 
         /**
-         * @brief Procesa las referencias para el recolector de basura.
+         * @brief Processes references for the garbage collector.
          *
-         * El cuerpo está vacío porque el puntero externo no es una referencia
-         * que el recolector de basura deba seguir.
+         * The body is empty because the external pointer is not a reference
+         * that the garbage collector should follow.
          */
         void processReferences(
             ProtoContext* context,
@@ -913,18 +913,18 @@ namespace proto
         );
 
     private:
-        void* pointer; // El puntero opaco a los datos externos.
+        void* pointer; // The opaque pointer to external data.
     };
 
     // --- ProtoThreadImplementation ---
-    // La implementación interna de un hilo gestionado por el runtime de Proto.
-    // Hereda de 'Cell' para ser gestionada por el recolector de basura.
+    // The internal implementation of a thread managed by the Proto runtime.
+    // Inherits from 'Cell' to be managed by the garbage collector.
     class ProtoThreadImplementation : public Cell, public ProtoThread
     {
     public:
-        // --- Constructor y Destructor ---
+        // --- Constructor and Destructor ---
 
-        // Crea una nueva instancia de hilo.
+        // Creates a new thread instance.
         ProtoThreadImplementation(
             ProtoContext* context,
             ProtoString* name,
@@ -933,53 +933,53 @@ namespace proto
             ProtoList* args,
             ProtoSparseList* kwargs);
 
-        // Destructor virtual para asegurar la limpieza correcta.
+        // Virtual destructor to ensure proper cleanup.
         virtual ~ProtoThreadImplementation();
 
         unsigned long getHash(ProtoContext* context);
 
-        // --- Control de Gestión del GC ---
+        // --- GC Management Control ---
 
-        // Marca el hilo como "no gestionado" para que el GC no lo detenga.
+        // Marks the thread as "unmanaged" so the GC does not stop it.
         void implSetUnmanaged();
 
-        // Devuelve el hilo al estado "gestionado" por el GC.
+        // Returns the thread to the "managed" state by the GC.
         void implSetManaged();
 
-        // --- Control del Ciclo de Vida del Hilo ---
+        // --- Thread Lifecycle Control ---
 
-        // Desvincula el hilo del objeto, permitiendo que se ejecute de forma independiente.
+        // Detaches the thread from the object, allowing it to run independently.
         void implDetach(ProtoContext* context);
 
-        // Bloquea el hilo actual hasta que este hilo termine su ejecución.
+        // Blocks the current thread until this thread finishes its execution.
         void implJoin(ProtoContext* context);
 
-        // Solicita la finalización del hilo.
+        // Requests the termination of the thread.
         void implExit(ProtoContext* context);
 
-        // --- Asignación de Memoria y Sincronización ---
+        // --- Memory Allocation and Synchronization ---
 
-        // Asigna una nueva celda de memoria para el hilo.
+        // Allocates a new memory cell for the thread.
         Cell* implAllocCell();
 
-        // Sincroniza el hilo con el recolector de basura.
+        // Synchronizes the thread with the garbage collector.
         void implSynchToGC();
 
-        // --- Interfaz con el Sistema de Tipos ---
+        // --- Type System Interface ---
 
-        // Establece el contexto de ejecución actual para el hilo.
+        // Sets the current execution context for the thread.
         void implSetCurrentContext(ProtoContext* context);
         ProtoContext* implGetCurrentContext();
 
-        // Convierte la implementación a un ProtoObject* genérico.
+        // Converts the implementation to a generic ProtoObject*.
         ProtoObject* implAsObject(ProtoContext* context);
 
-        // --- Métodos para el Recolector de Basura (Heredados de Cell) ---
+        // --- Garbage Collector Methods (Inherited from Cell) ---
 
-        // Finalizador llamado por el GC antes de liberar la memoria.
+        // Finalizer called by the GC before freeing the memory.
         void finalize(ProtoContext* context);
 
-        // Procesa las referencias a otras celdas para el barrido del GC.
+        // Processes references to other cells for the GC sweep.
         void processReferences(
             ProtoContext* context,
             void* self,
@@ -987,14 +987,14 @@ namespace proto
 
         static ProtoThread* implGetCurrentThread(ProtoContext* context);
 
-        // --- Datos Miembro ---
-        int state; // Estado actual del hilo respecto al GC.
-        ProtoString* name; // Nombre del hilo (para depuración).
-        ProtoSpace* space; // El espacio de memoria al que pertenece el hilo.
-        std::thread* osThread; // El hilo real del sistema operativo.
-        BigCell* freeCells; // Lista de celdas de memoria libres locales al hilo.
-        ProtoContext* currentContext; // Pila de llamadas actual del hilo.
-        unsigned int unmanagedCount; // Contador para llamadas anidadas a setUnmanaged/setManaged.
+        // --- Member Data ---
+        int state; // Current state of the thread with respect to the GC.
+        ProtoString* name; // Name of the thread (for debugging).
+        ProtoSpace* space; // The memory space to which the thread belongs.
+        std::thread* osThread; // The actual operating system thread.
+        BigCell* freeCells; // List of free memory cells local to the thread.
+        ProtoContext* currentContext; // Current call stack of the thread.
+        unsigned int unmanagedCount; // Counter for nested calls to setUnmanaged/setManaged.
         struct {
             ProtoObject* object;
             ProtoObject* method_name;
