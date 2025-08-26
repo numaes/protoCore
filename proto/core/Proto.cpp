@@ -172,24 +172,18 @@ namespace proto
 
         const unsigned int hash = (reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(method)) & (THREAD_CACHE_DEPTH - 1);
 
-        auto& entry = thread->method_cache[hash];
+        auto& entry = thread->attribute_cache[hash];
 
-        if (entry.object != this || entry.method_name != (ProtoObject*)method) [[unlikely]]
+        if (entry.object != this || entry.attribute_name != method) [[unlikely]]
         {
             entry.object = this;
-            entry.method_name = (ProtoObject*)method;
+            entry.attribute_name = method;
             
-            ProtoObject* resolved_attr = this->getAttribute(c, method);
-            if (resolved_attr && resolved_attr->isMethod(c)) {
-                // asMethod returns a pointer to the function pointer, so we dereference it.
-                entry.method = *(resolved_attr->asMethod(c));
-            } else {
-                entry.method = nullptr;
-            }
+            entry.value = this->getAttribute(c, method);
         }
 
-        if (entry.method) {
-            return entry.method(c, nextParent, self, unnamedParametersList, keywordParametersDict);
+        if (entry.value && entry.value->isMethod(c)) {
+            return entry.value->asMethod(c)(c, self, nextParent, unnamedParametersList, keywordParametersDict);
         }
         
         return PROTO_NONE;
@@ -222,32 +216,23 @@ namespace proto
         auto* thread = toImpl<ProtoThreadImplementation>(context->thread);
 
         // Calculate the cache slot index.
-        const unsigned int hash = (reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(name)) & (THREAD_CACHE_DEPTH - 1);
+        const unsigned int hash =
+            ((reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(name)) >> 4) & (THREAD_CACHE_DEPTH - 1);
 
         // Get a direct reference to the cache entry.
         auto& entry = thread->attribute_cache[hash];
 
         // On a cache hit, return the resolved value immediately.
         if (entry.object == this && entry.attribute_name == name) {
-            return entry.resolved_value;
+            return entry.value;
         }
 
         // On a cache miss, take the slow path.
-        ProtoObject* result = this->getAttribute_slow_path(context, name);
-
-        // Populate the cache for the next lookup.
-        entry.object = this;
-        entry.attribute_name = name;
-        entry.resolved_value = result;
-
-        return result;
-    }
-
-    ProtoObject* ProtoObject::getAttribute_slow_path(ProtoContext* context, ProtoString* name)
-    {
         ProtoObjectPointer pa;
 
         pa.oid.oid = this;
+
+        ProtoObject* result = PROTO_NONE;
 
         if (pa.op.pointer_tag == POINTER_TAG_OBJECT)
         {
@@ -260,7 +245,10 @@ namespace proto
             do
             {
                 if (oc->attributes->has(context, hash))
-                    return oc->attributes->getAt(context, hash);
+                {
+                    result = oc->attributes->getAt(context, hash);
+                    break;
+                }
                 if (oc->parent && oc->parent->object)
                     oc = oc->parent->object;
                 else
@@ -268,8 +256,15 @@ namespace proto
             }
             while (oc);
         }
+        else
+            result = PROTO_NONE;
 
-        return PROTO_NONE;
+        // Populate the cache for the next lookup.
+        entry.object = this;
+        entry.attribute_name = name;
+        entry.value = result;
+
+        return result;
     }
 
     ProtoObject* ProtoObject::hasAttribute(ProtoContext* context, ProtoString* name)
@@ -577,12 +572,12 @@ namespace proto
         return (p.op.pointer_tag == POINTER_TAG_METHOD);
     }
 
-    ProtoMethod* ProtoObject::asMethod(ProtoContext* context)
+    ProtoMethod ProtoObject::asMethod(ProtoContext* context)
     {
         ProtoObjectPointer p;
         p.oid.oid = this;
         if (isMethod(context)) {
-            return &(toImpl<ProtoMethodCellImplementation>(p.cell.cell)->method);
+            return ProtoMethod(&(toImpl<ProtoMethodCellImplementation>(p.cell.cell)->method));
         }
         return nullptr;
     }
@@ -1263,9 +1258,16 @@ namespace proto
         return toImpl<ProtoSparseListImplementation>(this)->implRemoveAt(context, index);
     }
 
-    int ProtoSparseList::isEqual(ProtoContext* context, ProtoSparseList* otherDict)
+    bool ProtoSparseList::isEqual(ProtoContext* context, ProtoSparseList* otherDict)
     {
-        return toImpl<ProtoSparseListImplementation>(this)->implIsEqual(context, otherDict);
+        ProtoObjectPointer p;
+        p.sparseList = otherDict;
+        if (p.op.pointer_tag != POINTER_TAG_SPARSE_LIST)
+            return false;
+
+        p.op.pointer_tag = POINTER_TAG_OBJECT;
+        return toImpl<ProtoSparseListImplementation>(this)->implIsEqual(context,
+            (ProtoSparseListImplementation*) (void *) p.oc.objectCell);
     }
 
     unsigned long ProtoSparseList::getSize(ProtoContext* context)

@@ -33,11 +33,12 @@ namespace proto
         unmanagedCount(0)
     {
         // Initialize the method cache
-        this->method_cache = static_cast<MethodCacheEntry*>(std::malloc(THREAD_CACHE_DEPTH * sizeof(*(this->method_cache))));
+        this->attribute_cache = static_cast<AttributeCacheEntry*>(
+            std::malloc(THREAD_CACHE_DEPTH * sizeof(*(this->attribute_cache))));
         for (unsigned int i = 0; i < THREAD_CACHE_DEPTH; ++i)
         {
-            this->method_cache[i].object = nullptr;
-            this->method_cache[i].method_name = nullptr;
+            this->attribute_cache[i].object = nullptr;
+            this->attribute_cache[i].attribute_name = nullptr;
         }
 
         // Register the thread in the memory space.
@@ -82,7 +83,7 @@ namespace proto
     ProtoThreadImplementation::~ProtoThreadImplementation()
     {
         // Clean up method cache
-        std::free(this->method_cache);
+        std::free(this->attribute_cache);
 
         if (this->osThread)
         {
@@ -239,7 +240,7 @@ namespace proto
         }
 
         // 3. The thread's method cache
-        struct MethodCacheEntry* mce = this->method_cache;
+        struct AttributeCacheEntry* mce = this->attribute_cache;
         for (unsigned int i = 0;
             i < THREAD_CACHE_DEPTH; ++i)
             mce++->object = nullptr;

@@ -92,10 +92,9 @@ namespace proto
 
 		ProtoObject* call(ProtoContext* c,
 		                  ParentLink* nextParent,
-		                  ProtoObject* methodName,
+		                  ProtoString* method,
 		                  ProtoObject* self,
-		                  ProtoList* unnamedParametersList = nullptr,
-		                  ProtoSparseList* keywordParametersDict = nullptr);
+		                  ProtoList* unnamedParametersList = nullptr, ProtoSparseList* keywordParametersDict = nullptr);
 
 		unsigned long getHash(ProtoContext* context);
 		int isCell(ProtoContext* context);

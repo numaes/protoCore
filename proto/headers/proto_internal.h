@@ -860,14 +860,13 @@ namespace proto
         ProtoObject* implGetSelf(ProtoContext* context);
         ProtoMethod implGetMethod(ProtoContext* context);
 
-    private:
         ProtoMethod method{};
     };
 
-    struct MethodCacheEntry {
+    struct AttributeCacheEntry {
         ProtoObject* object;
-        ProtoObject* method_name;
-        ProtoMethod method;
+        ProtoString* attribute_name;
+        ProtoObject* value;
     };
 
     /**
@@ -1011,7 +1010,7 @@ namespace proto
         BigCell* freeCells; // List of free memory cells local to the thread.
         ProtoContext* currentContext; // Current call stack of the thread.
         unsigned int unmanagedCount; // Counter for nested calls to setUnmanaged/setManaged.
-        struct MethodCacheEntry *method_cache;
+        struct AttributeCacheEntry *attribute_cache;
     };
 
 

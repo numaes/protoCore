@@ -388,6 +388,8 @@ namespace proto
 
     bool ProtoSparseListImplementation::implIsEqual(ProtoContext* context, ProtoSparseListImplementation* otherDict)
     {
+
+
         if (this->count != otherDict->count) return false;
         auto it = this->implGetIterator(context);
         while (it->implHasNext(context))
