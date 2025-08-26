@@ -134,13 +134,15 @@ test: bin/test_proto
 bin/%: obj/performance-debug/%.o lib/libproto-debug.a
 	@echo "Linking performance benchmark $@"
 	@mkdir -p bin
-	@$(CXX) -o $@ -pthread $(LINKD) $^
+	@$(CXX) -o $@ -pthread $^ lib/lib$(LIB_TARGET_NAME)-debug.a
 
-performance: bin/list_benchmark bin/sparse_list_benchmark
+performance: bin/list_benchmark bin/sparse_list_benchmark bin/object_access_benchmark
 	@echo "Running list benchmark ..."
 	@./bin/list_benchmark
 	@echo "Running sparse list benchmark ..."
 	@./bin/sparse_list_benchmark
+	@echo "Running object access benchmark ..."
+	@./bin/object_access_benchmark
 
 # +------------------------------------+
 # | Generic Source->Object Build Rules |

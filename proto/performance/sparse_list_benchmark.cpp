@@ -10,7 +10,7 @@
 
 const int NUM_OPERATIONS = 100000;
 
-int main() {
+proto::ProtoObject *benchmarks(proto::ProtoContext *c, proto::ProtoObject* self, proto::ParentLink* parentLink, proto::ProtoList* args, proto::ProtoSparseList* kwargs) {
     // --- STD::VECTOR BENCHMARKS ---
     std::cout << "--- Benchmarking std::vector ---" << std::endl;
 
@@ -55,13 +55,11 @@ int main() {
     // --- PROTOLIST BENCHMARKS ---
     std::cout << "\n--- Benchmarking ProtoList ---" << std::endl;
 
-    proto::ProtoContext c;
-
     // 1. Append Benchmark
     start = std::chrono::high_resolution_clock::now();
-    proto::ProtoList* proto_list = c.newList();
+    proto::ProtoList* proto_list = c->newList();
     for (int i = 0; i < NUM_OPERATIONS; ++i) {
-        proto_list = proto_list->appendLast(&c, c.fromInteger(i));
+        proto_list = proto_list->appendLast(c, c->fromInteger(i));
     }
     end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> proto_append_time = end - start;
@@ -71,7 +69,7 @@ int main() {
     start = std::chrono::high_resolution_clock::now();
     long long proto_sum = 0;
     for (int index : random_indices) {
-        proto_sum += proto_list->getAt(&c, index)->asInteger(&c);
+        proto_sum += proto_list->getAt(c, index)->asInteger(c);
     }
     end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> proto_access_time = end - start;
@@ -80,10 +78,10 @@ int main() {
     // 3. Iteration Benchmark
     start = std::chrono::high_resolution_clock::now();
     proto_sum = 0;
-    proto::ProtoListIterator* iter = proto_list->getIterator(&c);
-    while (iter->hasNext(&c)) {
-        proto_sum += iter->next(&c)->asInteger(&c);
-        iter = iter->advance(&c);
+    proto::ProtoListIterator* iter = proto_list->getIterator(c);
+    while (iter->hasNext(c)) {
+        proto_sum += iter->next(c)->asInteger(c);
+        iter = iter->advance(c);
     }
     end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> proto_iteration_time = end - start;
@@ -91,3 +89,12 @@ int main() {
 
     return 0;
 }
+
+int main(int argc, char **argv) {
+    auto space = proto::ProtoSpace(benchmarks, argc, argv);
+    while (true)
+    {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
+}
+

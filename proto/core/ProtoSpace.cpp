@@ -488,11 +488,12 @@ namespace proto
                 }
                 else
                 {
-                    printf(
-                        "\nmalloc of %d bytes, from current %d already allocated\n",
-                        toAllocBytes,
-                        this->heapSize
-                    );
+                    // printf(
+                    //    "\nmalloc of %d bytes, from current %d already allocated\n",
+                    //    toAllocBytes,
+                    //    this->heapSize
+                    // );
+
                     BigCell* newBlocks = static_cast<BigCell*>(malloc(toAllocBytes));
                     if (!newBlocks)
                     {
