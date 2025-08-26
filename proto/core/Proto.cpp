@@ -218,6 +218,33 @@ namespace proto
 
     ProtoObject* ProtoObject::getAttribute(ProtoContext* context, ProtoString* name)
     {
+        // This is a critical hot-path, optimized for cache hits.
+        auto* thread = toImpl<ProtoThreadImplementation>(context->thread);
+
+        // Calculate the cache slot index.
+        const unsigned int hash = (reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(name)) & (THREAD_CACHE_DEPTH - 1);
+
+        // Get a direct reference to the cache entry.
+        auto& entry = thread->attribute_cache[hash];
+
+        // On a cache hit, return the resolved value immediately.
+        if (entry.object == this && entry.attribute_name == name) {
+            return entry.resolved_value;
+        }
+
+        // On a cache miss, take the slow path.
+        ProtoObject* result = this->getAttribute_slow_path(context, name);
+
+        // Populate the cache for the next lookup.
+        entry.object = this;
+        entry.attribute_name = name;
+        entry.resolved_value = result;
+
+        return result;
+    }
+
+    ProtoObject* ProtoObject::getAttribute_slow_path(ProtoContext* context, ProtoString* name)
+    {
         ProtoObjectPointer pa;
 
         pa.oid.oid = this;
