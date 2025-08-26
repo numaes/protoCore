@@ -1,14 +1,14 @@
 # Welcome to Proto
 
-Proto is a high-performance, low-latency C++ runtime library designed to be the foundation for building next-generation systems and languages. It provides a robust, concurrent, and efficient environment, enabling developers to focus on logic rather than low-level memory and concurrency management. Its primary goal is to deliver predictable, real-time performance for applications where latency is critical.
+Proto is a high-performance, low-latency C++ runtime library engineered for systems where predictable, real-time performance is paramount. It achieves this through a unique combination of architectural choices that eliminate common performance bottlenecks. By providing near-zero overhead for core operations like garbage collection and attribute access, Proto allows developers to build complex systems that remain fast and responsive under concurrent load.
 
 ## Key Features
 
-*   **Low-Latency Garbage Collector:** A concurrent GC with a minimal "stop-the-world" phase, ensuring your application remains responsive.
-*   **Lock-Free Mutability:** A novel approach to handling mutable state that avoids locks, eliminating bottlenecks and simplifying concurrent programming.
-*   **Tagged Pointers:** An efficient memory representation for objects, allowing small values like integers and booleans to be stored without heap allocation.
+*   **Aggressive Per-Thread Caching:** Attribute lookups, a frequent operation in object-oriented systems, are transformed into a constant-time (`O(1)`) operation via a per-thread cache. This avoids costly prototype chain traversals and requires zero cross-thread locking.
+*   **Minimal Stop-The-World GC:** A concurrent garbage collector that limits its "stop-the-world" phase to a fast, parallel cache clearing operation, making GC pauses brief and predictable.
+*   **Lock-Free Mutability:** A novel model for handling mutable state via an atomic indirection table, which eliminates the need for mutexes on state changes and dramatically simplifies GC root scanning.
+*   **Efficient Immutable Data Structures:** Core collections like strings and tuples are implemented as immutable tree-like structures (ropes), making operations like concatenation and slicing `O(log N)` instead of `O(N)`.
 *   **Prototype-Based Object Model:** A flexible, dynamic object system based on prototypes, not classes.
-*   **Immutable Core Data Structures:** Efficient and thread-safe strings and tuples built as tree-like structures.
 *   **Agnostic & Embeddable:** Designed as a library to be the backend for any language, interpreter, VM, or AOT compiler.
 
 ## Who is this for?
