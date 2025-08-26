@@ -85,8 +85,11 @@ HEADER_COPIES     := $(addprefix include/,$(HEADERS))
 # | Stand alone program sources (Tests)  |
 # | Finds all .cpp files in test/ folder |
 # +--------------------------------------+
-TEST_SRCS := $(wildcard test/*.cpp)
+TEST_SRCS = $(wildcard test/*.cpp)
+TEST_OBJS_DEBUG = $(patsubst test/%.cpp,obj/test-debug/%.o,$(TEST_SRCS))
 
+PERF_SRCS = $(wildcard performance/*.cpp)
+PERF_OBJS_DEBUG = $(patsubst performance/%.cpp,obj/performance-debug/%.o,$(PERF_SRCS))
 
 # +--------------------------------+
 # | Object Aggregation for Targets |
@@ -126,6 +129,19 @@ test: bin/test_proto
 	@echo "Running test suite"
 	@./bin/test_proto
 
+# --- Performance Benchmarks ---
+# Generic rule for linking any benchmark executable
+bin/%: obj/performance-debug/%.o lib/libproto-debug.a
+	@echo "Linking performance benchmark $@"
+	@mkdir -p bin
+	@$(CXX) -o $@ -pthread $(LINKD) $^
+
+performance: bin/list_benchmark bin/sparse_list_benchmark
+	@echo "Running list benchmark ..."
+	@./bin/list_benchmark
+	@echo "Running sparse list benchmark ..."
+	@./bin/sparse_list_benchmark
+
 # +------------------------------------+
 # | Generic Source->Object Build Rules |
 # +------------------------------------+
@@ -140,6 +156,11 @@ debug/%.o: core/%.cpp
 # Generic rule for compiling test files into the debug/ directory
 debug/%.o: test/%.cpp
 	@echo "Compiling test file for debug $@"
+	@$(CXX) $(CXXDFLAGS) -o $@ -c $<
+
+obj/performance-debug/%.o: performance/%.cpp
+	@echo "Compiling performance benchmark for debug $@"
+	@mkdir -p obj/performance-debug
 	@$(CXX) $(CXXDFLAGS) -o $@ -c $<
 
 
@@ -162,6 +183,7 @@ clean:
 	-@$(RM) -fv $(DEBUG)
 	-@$(RM) -fv $(OBJ)
 	-@$(RM) -fv $(TEST_OBJS_DEBUG)
+	-@$(RM) -fv $(PERF_OBJS_DEBUG)
 	-@$(RM) -fv $(DEBUG:.o=.d) $(OBJ:.o=.d) $(TEST_OBJS_DEBUG:.o=.d)
 	-@$(RM) -rfv bin lib obj debug include
 	@echo "--- Limpieza finalizada ---"
