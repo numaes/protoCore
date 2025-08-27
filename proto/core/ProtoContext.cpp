@@ -159,20 +159,23 @@ namespace proto
         return p.oid.oid;
     }
 
-    ProtoObject* ProtoContext::fromDouble(double value)
+    ProtoObject* ProtoContext::fromFloat(float value)
     {
         ProtoObjectPointer p{};
         p.oid.oid = nullptr;
         p.sd.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
         p.sd.embedded_type = EMBEDDED_TYPE_FLOAT;
 
+        // Use a union for type-punning to safely get the bit representation
+        // of the float as a 32-bit integer, which is standard-compliant.
         union
         {
-            unsigned long lv;
-            double dv;
+            unsigned int uiv;
+            float fv;
         } u;
-        u.dv = value;
-        p.sd.floatValue = u.lv >> TYPE_SHIFT;
+        u.fv = value;
+        // Store the 32-bit pattern directly without any shifting.
+        p.sd.floatValue = u.uiv;
         return p.oid.oid;
     }
 
