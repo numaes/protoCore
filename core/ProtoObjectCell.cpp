@@ -13,11 +13,11 @@ namespace proto
 
     // Modernized constructor with member initialization list.
     // ADJUSTED: The template type from 'ProtoSparseListImplementation' was removed.
-    ProtoObjectCellImplementation::ProtoObjectCellImplementation(
+    ProtoObjectCell::ProtoObjectCell(
         ProtoContext* context,
         ParentLinkImplementation* parent,
-        unsigned long mutable_ref,
-        ProtoSparseListImplementation* attributes
+        ProtoSparseListImplementation* attributes,
+        const unsigned long mutable_ref
     ) : Cell(context), parent(parent), mutable_ref(mutable_ref),
         attributes(attributes ? attributes : new(context) ProtoSparseListImplementation(context))
     {
@@ -25,35 +25,32 @@ namespace proto
     }
 
     // For empty destructors, using '= default' is the recommended practice.
-    ProtoObjectCellImplementation::~ProtoObjectCellImplementation()
-    {
-    }
+    ProtoObjectCell::~ProtoObjectCell() = default;
 
 
     // --- Interface Methods ---
 
-    ProtoObjectCellImplementation* ProtoObjectCellImplementation::implAddParent(
-        ProtoContext* context, ProtoObjectCell* newParent) const
+    ProtoObjectCell* ProtoObjectCell::addParent(
+        ProtoContext* context, ProtoObject* newParent) const
     {
         // Creates a new link in the inheritance chain.
         auto* newParentLink = new(context) ParentLinkImplementation(
             context,
             this->parent, // The parent of the new link is our current parent.
-            reinterpret_cast<ProtoObjectCellImplementation*>(newParent // The object of the new link is the new parent.
-            ) // The object of the new link is the new parent.
+            newParent // The object of the new link is the new parent.
         );
 
         // Returns a new ProtoObjectCell that is a copy of the current one,
         // but with the extended inheritance chain.
-        return new(context) ProtoObjectCellImplementation(
+        return new(context) ProtoObjectCell(
             context,
             newParentLink,
-            this->mutable_ref, // The other properties are preserved.
-            this->attributes
+            this->attributes,
+            this->mutable_ref // The other properties are preserved.
         );
     }
 
-    ProtoObject* ProtoObjectCellImplementation::implAsObject(ProtoContext* context)
+    ProtoObject* ProtoObjectCell::asObject(ProtoContext* context)
     {
         ProtoObjectPointer p{};
         p.objectCellImplementation = this;
@@ -65,12 +62,12 @@ namespace proto
     // --- Garbage Collector (GC) Methods ---
 
     // An empty finalizer can also be declared as 'default'.
-    void ProtoObjectCellImplementation::finalize(ProtoContext* context)
+    void ProtoObjectCell::finalize(ProtoContext* context)
     {
     };
 
     // Informs the GC about all internal references so they can be tracked.
-    void ProtoObjectCellImplementation::processReferences(
+    void ProtoObjectCell::processReferences(
         ProtoContext* context,
         void* self,
         void (*method)(
@@ -93,7 +90,7 @@ namespace proto
         }
     }
 
-    long unsigned ProtoObjectCellImplementation::getHash(ProtoContext* context)
+    long unsigned ProtoObjectCell::getHash(ProtoContext* context)
     {
         // The hash of a Cell is derived directly from its memory address.
         // This provides a fast and unique identifier for the object.
@@ -102,4 +99,16 @@ namespace proto
 
         return p.asHash.hash;
     }
+
+    // ------------------- ProtoObjectCell -------------------
+
+    ProtoObject* ProtoObjectCell::asObject(ProtoContext* context)
+    {
+        ProtoObjectPointer p{};
+        p.oid.oid = toImpl<ProtoObjectCell>(this)->implAsObject(context);
+        p.op.pointer_tag = POINTER_TAG_OBJECT;
+        return p.oid.oid;
+    }
+
+
 } // namespace proto

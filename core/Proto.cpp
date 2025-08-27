@@ -79,12 +79,12 @@ namespace proto
         {
             auto* oc = pa.objectCellImplementation;
 
-            ProtoObject* newObject = (new(context) ProtoObjectCellImplementation(
+            ProtoObject* newObject = (new(context) ProtoObjectCell(
                 context,
                 oc->parent,
-                0,
-                oc->attributes
-            ))->implAsObject(context);
+                oc->attributes,
+                0
+            ))->asObject(context);
 
             if (isMutable)
             {
@@ -123,15 +123,15 @@ namespace proto
         {
             auto* oc = pa.objectCellImplementation;
 
-            auto* newObject = new(context) ProtoObjectCellImplementation(
+            auto* newObject = new(context) ProtoObjectCell(
                 context,
                 new(context) ParentLinkImplementation(
                     context,
                     oc->parent,
                     oc
                 ),
-                0,
-                new(context) ProtoSparseListImplementation(context)
+                new(context) ProtoSparseListImplementation(context),
+                0
             );
 
             if (isMutable)
@@ -202,7 +202,7 @@ namespace proto
             ParentLinkImplementation* currentParent = oc->parent;
             while (currentParent)
             {
-                if (currentParent->object->asObject(context) == prototype)
+                if (currentParent->object == prototype)
                     return PROTO_TRUE;
                 currentParent = currentParent->parent;
             }
@@ -251,8 +251,21 @@ namespace proto
                     result = oc->attributes->getAt(context, hash);
                     break;
                 }
-                if (oc->parent && oc->parent->object)
-                    oc = oc->parent->object;
+                if (oc->parent)
+                {
+                    auto pl = oc->parent;
+                    while (pl)
+                    {
+                        pa.oid.oid = pl->object;
+                        if (pa.op.pointer_tag == POINTER_TAG_OBJECT)
+                        {
+                            oc = pa.objectCell;
+                            break;
+                        }
+                        else
+                            pl = pl->parent;
+                    }
+                }
                 else
                     break;
             }
@@ -292,8 +305,21 @@ namespace proto
             {
                 if (oc->attributes->has(context, hash))
                     return oc->attributes->getAt(context, hash);
-                if (oc->parent && oc->parent->object)
-                    oc = oc->parent->object;
+                if (oc->parent)
+                {
+                    auto pl = oc->parent;
+                    while (pl)
+                    {
+                        pa.oid.oid = pl->object;
+                        if (pa.op.pointer_tag == POINTER_TAG_OBJECT)
+                        {
+                            oc = pa.objectCell;
+                            break;
+                        }
+                        else
+                            pl = pl->parent;
+                    }
+                }
                 else
                     break;
             }
@@ -311,7 +337,7 @@ namespace proto
         if (pa.op.pointer_tag == POINTER_TAG_OBJECT)
         {
             auto* oc = pa.objectCellImplementation;
-            ProtoObjectCellImplementation* inmutableBase = nullptr;
+            ProtoObjectCell* inmutableBase = nullptr;
             ProtoSparseList* currentRoot;
             if (oc->mutable_ref)
             {
@@ -325,11 +351,11 @@ namespace proto
             const unsigned int hash =
                 ((reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(name)) >> 4) & (THREAD_CACHE_DEPTH - 1);
 
-            auto* newObject = new(context) ProtoObjectCellImplementation(
+            auto* newObject = new(context) ProtoObjectCell(
                 context,
                 oc->parent,
-                oc->mutable_ref,
-                oc->attributes->implSetAt(context, hash, value)
+                oc->attributes->implSetAt(context, hash, value),
+                oc->mutable_ref
             );
 
             if (inmutableBase)
@@ -413,7 +439,19 @@ namespace proto
                 }
                 if (oc->parent)
                 {
-                    oc = oc->parent->object;
+                    auto pl = oc->parent;
+                    while (pl)
+                    {
+                        pa.oid.oid = pl->object;
+                        if (pa.op.pointer_tag == POINTER_TAG_OBJECT)
+                        {
+                            oc = pa.objectCell;
+                            break;
+                        }
+                        else
+                            pl = pl->parent;
+                    }
+
                     if (oc->mutable_ref) {
                         auto currentRoot = context->space->mutableRoot.load();
                         pa.oid.oid = currentRoot->getAt(context, oc->mutable_ref);
@@ -435,22 +473,30 @@ namespace proto
     ProtoSparseList* ProtoObject::getOwnAttributes(ProtoContext* context)
     {
         ProtoObjectPointer pa{};
-
         pa.oid.oid = this;
 
         if (pa.op.pointer_tag == POINTER_TAG_OBJECT)
         {
             if (auto* oc = pa.objectCellImplementation; oc->mutable_ref)
             {
-                auto* mutableCurrentObject = reinterpret_cast<ProtoObjectCell*>(context->space->mutableRoot.load()->
-                    getAt(context, oc->mutable_ref));
-                return mutableCurrentObject->attributes;
+                // For mutable objects, we must look up the current immutable version
+                // from the global mutable root.
+                ProtoObject* currentVersion = context->space->mutableRoot.load()->getAt(context, oc->mutable_ref);
+                
+                // Cast the generic object pointer to its specific implementation type.
+                auto* implementation = toImpl<ProtoObjectCell>(currentVersion);
+                
+                // Return its attributes. The result (ProtoSparseListImplementation*) is
+                // safely convertible to the public API type (ProtoSparseList*).
+                return implementation->attributes;
             }
             else
-                // FIX: Cast the implementation type to the public API type.
-                return static_cast<ProtoSparseList*>(oc->attributes);
+            {
+                // For immutable objects, we can directly access their attributes.
+                return oc->attributes;
+            }
         }
-        return nullptr;
+        return nullptr; // Not an object, so it has no attributes.
     }
 
     ProtoList* ProtoObject::getParents(ProtoContext* context)
@@ -467,7 +513,7 @@ namespace proto
             auto* parent = (ParentLinkImplementation*)oc->parent;
             while (parent)
             {
-                parents = (ProtoList*)parents->appendLast(context, parent->object->asObject(context));
+                parents = (ProtoList*)parents->appendLast(context, parent->object);
                 parent = parent->parent;
             }
 
@@ -485,7 +531,7 @@ namespace proto
             // FIX: The recursive call must be on the next parent, not the current one.
             processTail(context, existingParents, currentParent->parent, newParentLink);
 
-        if (!(*existingParents)->has(context, currentParent->object->getHash(context)))
+        if (!(*existingParents)->has(context, currentParent->object->getObjectHash(context)))
         {
             *newParentLink = new(context) ParentLinkImplementation(
                 context,
@@ -494,7 +540,7 @@ namespace proto
             );
             (*existingParents) = (ProtoSparseList*)(*existingParents)->setAt(
                 context,
-                currentParent->object->getHash(context),
+                currentParent->object->getObjectHash(context),
                 (*newParentLink)->asObject(context)
             );
         }
@@ -518,22 +564,22 @@ namespace proto
             {
                 existingParents = (ProtoSparseList*)existingParents->setAt(
                     context,
-                    currentParent->object->getHash(context),
+                    currentParent->object->getObjectHash(context),
                     nullptr
                 );
                 currentParent = currentParent->parent;
             };
 
             auto* newParentLink = new(context) ParentLinkImplementation(
-                context, oc->parent, reinterpret_cast<ProtoObjectCellImplementation*>(newParent)
+                context, oc->parent, reinterpret_cast<ProtoObjectCell*>(newParent)
             );
 
-            return (new(context) ProtoObjectCellImplementation(
+            return (new(context) ProtoObjectCell(
                 context,
                 newParentLink,
-                oc->mutable_ref,
-                oc->attributes
-            ))->implAsObject(context);
+                oc->attributes,
+                oc->mutable_ref
+            ))->asObject(context);
         }
         else
             return this;
@@ -1308,33 +1354,6 @@ namespace proto
     ProtoObject* ProtoExternalPointer::asObject(ProtoContext* context)
     {
         return toImpl<ProtoExternalPointerImplementation>(this)->implAsObject(context);
-    }
-
-    // ------------------- ProtoMethodCell -------------------
-
-    ProtoObject* ProtoMethodCell::getSelf(ProtoContext* context)
-    {
-        return toImpl<ProtoMethodCellImplementation>(this)->implGetSelf(context);
-    }
-
-    ProtoMethod ProtoMethodCell::getMethod(ProtoContext* context)
-    {
-        return toImpl<ProtoMethodCellImplementation>(this)->implGetMethod(context);
-    }
-
-    ProtoObject* ProtoMethodCell::asObject(ProtoContext* context)
-    {
-        return toImpl<ProtoMethodCellImplementation>(this)->implAsObject(context);
-    }
-
-    // ------------------- ProtoObjectCell -------------------
-
-    ProtoObject* ProtoObjectCell::asObject(ProtoContext* context)
-    {
-        ProtoObjectPointer p{};
-        p.oid.oid = toImpl<ProtoObjectCellImplementation>(this)->implAsObject(context);
-        p.op.pointer_tag = POINTER_TAG_OBJECT;
-        return p.oid.oid;
     }
 
     // ------------------- ProtoThread -------------------

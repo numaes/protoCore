@@ -13,16 +13,14 @@ namespace proto
     ParentLinkImplementation::ParentLinkImplementation(
         ProtoContext* context,
         ParentLinkImplementation* parent,
-        ProtoObjectCellImplementation* object
+        ProtoObject* object
     ) : Cell(context), parent(parent), object(object)
     {
         // The constructor body can now be empty.
     };
 
     // The destructor does not need to perform any action.
-    ParentLinkImplementation::~ParentLinkImplementation()
-    {
-    }
+    ParentLinkImplementation::~ParentLinkImplementation() = default;
 
     void ParentLinkImplementation::processReferences(
         ProtoContext* context,
@@ -62,20 +60,4 @@ namespace proto
         // does not acquire resources that require explicit cleanup.
     }
 
-    ProtoObject* ParentLinkImplementation::asObject(ProtoContext* context)
-    {
-        return this->object->implAsObject(context);
-    }
-
-    unsigned long ParentLinkImplementation::getHash(ProtoContext* context)
-    {
-        // We should get the hash of the object that this link represents,
-        // not the hash of the link itself.
-        if (this->object)
-        {
-            return this->object->getHash(context);
-        }
-        // Return 0 or some other default value if there is no object.
-        return 0;
-    }
 };

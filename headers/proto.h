@@ -418,37 +418,6 @@ namespace proto
      */
 
     /**
-     * @brief A cell that holds a method pointer and the object it is bound to (`self`).
-     */
-    class ProtoMethodCell
-    {
-    public:
-        ProtoObject* getSelf(ProtoContext* context);
-        ProtoMethod getMethod(ProtoContext* context);
-        ProtoObject* asObject(ProtoContext* context);
-
-        ProtoMethod method{};
-        ProtoObject* self{};
-    };
-
-    /**
-     * @brief The internal data storage for a standard ProtoObject.
-     *
-     * It contains the object's attributes and a link to its parent in the
-     * prototype chain.
-     */
-    class ProtoObjectCell
-    {
-    public:
-        ProtoObjectCell* addParent(ProtoContext* context, ProtoObjectCell* object);
-        ProtoObject* asObject(ProtoContext* context);
-
-        unsigned long mutable_ref{};
-        ParentLink* parent{};
-        ProtoSparseList* attributes{};
-    };
-
-    /**
      * @brief Represents a thread of execution within a ProtoSpace.
      */
     class ProtoThread
@@ -505,13 +474,13 @@ namespace proto
 
         //- Factory methods for primitive types.
         static ProtoObject* fromInteger(int value);
-        static ProtoObject* fromDouble(double value);
+        static ProtoObject* fromFloat(float value);
         static ProtoObject* fromUTF8Char(const char* utf8OneCharString);
-        ProtoString* fromUTF8String(const char* zeroTerminatedUtf8String);
-        ProtoMethodCell* fromMethod(ProtoObject* self, ProtoMethod method);
-        ProtoExternalPointer* fromExternalPointer(void* pointer);
-        ProtoByteBuffer* fromBuffer(unsigned long length, char* buffer);
-        ProtoByteBuffer* newBuffer(unsigned long length);
+        ProtoObject* fromUTF8String(const char* zeroTerminatedUtf8String);
+        static ProtoObject* fromMethod(ProtoObject* self, ProtoMethod method);
+        ProtoObject* fromExternalPointer(void* pointer);
+        ProtoObject* fromBuffer(unsigned long length, char* buffer);
+        ProtoObject* newBuffer(unsigned long length);
         static ProtoObject* fromBoolean(bool value);
         static ProtoObject* fromByte(char c);
         static ProtoObject* fromDate(unsigned year, unsigned month, unsigned day);
@@ -524,18 +493,6 @@ namespace proto
         ProtoTuple* newTupleFromList(ProtoList* sourceList);
         ProtoSparseList* newSparseList();
         ProtoObject* newObject(bool mutableObject = false);
-
-        //- Internal conversion/wrapping
-        ProtoObject* fromThread(ProtoThread* thread);
-        ProtoObject* fromList(ProtoList* list);
-        ProtoObject* fromTuple(ProtoTuple* tuple);
-        ProtoObject* fromSparseList(ProtoSparseList* sparseList);
-        ProtoObject* fromString(ProtoString* string);
-        ProtoObject* fromMethodCell(ProtoMethodCell* methodCell);
-        ProtoObject* fromObjectCell(ProtoObjectCell* objectCell);
-        ProtoObject* fromObject(ProtoObject* object);
-        ProtoObject* fromPointer(void* pointer);
-        ProtoObject* fromMethod(ProtoMethod method);
 
         Cell* lastAllocatedCell;
         unsigned int allocatedCellsCount;

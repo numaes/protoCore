@@ -351,7 +351,7 @@ namespace proto
     ProtoObject* ProtoContext::fromMethod(ProtoObject* self, ProtoMethod method)
     {
         ProtoObjectPointer p{};
-        p.oid.oid = reinterpret_cast<ProtoObject*>(new(this) ProtoMethodCellImplementation(this, method));
+        p.oid.oid = reinterpret_cast<ProtoObject*>(new(this) ProtoMethodCell(this, method));
         p.op.pointer_tag = POINTER_TAG_METHOD;
         return p.oid.oid;
     }

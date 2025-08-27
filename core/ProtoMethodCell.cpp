@@ -10,7 +10,7 @@ namespace proto
      * @param method The method to be used.
      */
 
-    ProtoMethodCellImplementation::ProtoMethodCellImplementation(ProtoContext* context, const ProtoMethod method): Cell(
+    ProtoMethodCell::ProtoMethodCell(ProtoContext* context, const ProtoMethod method): Cell(
         context)
     {
         this->method = method;
@@ -28,7 +28,7 @@ namespace proto
      * @param kwargs A sparse list of keyword arguments.
      * @return The ProtoObject resulting from the execution of the native method.
      */
-    ProtoObject* ProtoMethodCellImplementation::implInvoke(
+    ProtoObject* ProtoMethodCell::implInvoke(
         ProtoContext* context,
         ProtoList* args,
         ProtoSparseList* kwargs
@@ -49,7 +49,7 @@ namespace proto
      * @param context The current execution context.
      * @return A ProtoObject representing this method cell.
      */
-    ProtoObject* ProtoMethodCellImplementation::implAsObject(ProtoContext* context)
+    ProtoObject* ProtoMethodCell::implAsObject(ProtoContext* context)
     {
         ProtoObjectPointer p{};
         p.methodCellImplementation = this;
@@ -67,7 +67,7 @@ namespace proto
      * @param context The current execution context.
      * @return The hash value as an unsigned long.
      */
-    unsigned long ProtoMethodCellImplementation::getHash(ProtoContext* context)
+    unsigned long ProtoMethodCell::getHash(ProtoContext* context)
     {
         return Cell::getHash(context);
     }
@@ -81,7 +81,7 @@ namespace proto
      *
      * @param context The current execution context.
      */
-    void ProtoMethodCellImplementation::finalize(ProtoContext* context)
+    void ProtoMethodCell::finalize(ProtoContext* context)
     {
         // No finalization action is required.
     }
@@ -98,7 +98,7 @@ namespace proto
      * @param self Pointer to the object being processed.
      * @param method GC callback function to mark references.
      */
-    void ProtoMethodCellImplementation::processReferences(
+    void ProtoMethodCell::processReferences(
         ProtoContext* context,
         void* self,
         void (*method)(ProtoContext* context, void* self, Cell* cell)
@@ -107,12 +107,12 @@ namespace proto
         // This cell contains no references to other cells, so the body is empty.
     };
 
-    ProtoObject* ProtoMethodCellImplementation::implGetSelf(ProtoContext* context) {
+    ProtoObject* ProtoMethodCell::implGetSelf(ProtoContext* context) {
         // TODO: Implement actual logic to return the 'self' object associated with the method.
         return nullptr;
     }
 
-    ProtoMethod ProtoMethodCellImplementation::implGetMethod(ProtoContext* context) {
+    ProtoMethod ProtoMethodCell::implGetMethod(ProtoContext* context) {
         // TODO: Implement actual logic to return the wrapped function pointer.
         return nullptr;
     }
