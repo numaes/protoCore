@@ -1,72 +1,65 @@
-# Arquitectura de la Biblioteca Proto
+# Proto Architecture & Design
 
-Esta biblioteca implementa un runtime para lenguajes de programación, con un fuerte enfoque en estructuras de datos inmutables, un modelo de objetos basado en prototipos y un sistema de gestión de memoria concurrente de alto rendimiento.
+This document outlines the core architectural principles and design decisions behind the Proto library. Proto is a high-performance, embeddable runtime for a dynamic, prototype-based object system, engineered from the ground up in modern C++.
 
-## Principios de Diseño
+## Core Design Philosophy
 
-El núcleo de la biblioteca se basa en los siguientes principios:
+Proto is built on a set of synergistic principles designed to unify performance, flexibility, and concurrent safety:
 
-1.  **Inmutabilidad:** Todas las estructuras de datos fundamentales (listas, tuplas, cadenas) son inmutables. Las modificaciones no alteran las estructuras existentes, sino que crean nuevas versiones con los cambios aplicados (copy-on-write). Esto simplifica enormemente la programación concurrente al eliminar la necesidad de locks complejos para proteger los datos.
-2.  **Gestión de Memoria Basada en Celdas:** Toda la memoria para los objetos del runtime se gestiona a través de celdas de tamaño fijo (64 bytes). Este enfoque elimina la fragmentación de memoria y permite el uso de un asignador (allocator) extremadamente simple y rápido.
-3.  **Modelo de Objetos Basado en Prototipos:** En lugar de clases tradicionales, el sistema utiliza un modelo de objetos basado en prototipos, donde los objetos heredan propiedades y comportamientos directamente de otros objetos.
-4.  **Alto Rendimiento y Concurrencia:** El diseño está optimizado para sistemas multi-core, minimizando la contención de locks y maximizando el paralelismo.
+1.  **Immutability by Default**: Core data structures are immutable to eliminate entire classes of concurrency bugs. Modifications produce new versions via structural sharing (copy-on-write), making parallel code safer and easier to reason about.
+2.  **Performance through Optimized Memory Management**: The memory model is designed for extreme speed and low latency, using techniques like per-thread allocation arenas, tagged pointers, and a concurrent garbage collector.
+3.  **Flexible Prototype-Based Object Model**: Instead of rigid class hierarchies, Proto uses a powerful object model based on Lieberman-style prototypes, allowing for dynamic and flexible object composition and inheritance.
+4.  **Concurrency as a First-Class Citizen**: The entire system is architected for true multi-core parallelism, with no Global Interpreter Lock (GIL). Safety is derived from the immutable data model, not from complex and error-prone locking.
 
-## Gestión de Memoria y Garbage Collection (GC)
+---
 
-El sistema de gestión de memoria es uno de los componentes más críticos y sofisticados de la biblioteca.
+## 1. High-Performance Memory Management
 
-### Asignador de Memoria (Allocator)
+The memory management system is a cornerstone of Proto's performance.
 
--   **Pool por Thread:** Cada thread del sistema operativo posee su propio pool de celdas de memoria libres. Cuando un thread necesita crear un nuevo objeto, toma una celda de su pool local.
--   **Asignación Rápida:** Este diseño permite una asignación de memoria casi instantánea, ya que no requiere un lock global. La contención se minimiza, permitiendo que los threads se ejecuten en paralelo sin bloquearse mutuamente durante la creación de objetos.
--   **Obtención de Bloques:** Si el pool local de un thread se agota, solicita un nuevo bloque de celdas al `ProtoSpace` global, que gestiona el heap principal. El `ProtoSpace` también es responsable de la asignación inicial de grandes bloques de memoria del sistema operativo.
+### Tagged Pointers for Primitives
 
-### Garbage Collector (GC) Concurrente
+To avoid the overhead of heap allocation and garbage collection for common, simple values, Proto uses **tagged pointers**. A 64-bit `ProtoObject*` can represent either a true pointer to a heap object or an immediate value. The lowest bits of the pointer are used as a tag to distinguish the type:
 
-El GC está diseñado para minimizar las pausas y el impacto en el rendimiento de la aplicación.
+*   **If the tag indicates a pointer**, the remaining bits are the memory address of a `Cell`.
+*   **If the tag indicates an embedded value**, the remaining bits store the value directly (e.g., a 56-bit integer, a 32-bit float, a boolean, a date).
 
--   **Thread Dedicado:** El GC se ejecuta en su propio thread (`gcThreadLoop` en `ProtoSpace.cpp`), operando en paralelo con los threads de la aplicación.
--   **Seguimiento de Asignaciones (`DirtySegment`):** Las celdas recién asignadas por los threads de la aplicación se encadenan en `DirtySegment`s, que son luego procesados por el GC. Esto permite al GC identificar eficientemente la memoria que necesita ser analizada.
--   **Sincronización de Threads (`synchToGC`):** Los threads de la aplicación utilizan el método `synchToGC` para coordinar con el GC. Durante una fase de "stop-the-world" parcial, los threads se detienen brevemente (`THREAD_STATE_STOPPED`) para permitir que el GC recolecte las raíces de forma segura.
--   **GC Híbrido (Stop-the-World Parcial):** El GC no detiene el mundo por completo para todo su ciclo. La fase de "stop-the-world" es muy breve y se utiliza únicamente para recolectar de forma segura las **raíces (roots)** del sistema. Las raíces incluyen los stacks de todos los threads activos y las referencias globales (como los objetos mutables gestionados por `mutableRoot` en `ProtoSpace`).
--   **Fases Concurrentes de Mark and Sweep:** Una vez que las raíces han sido recolectadas, las fases de marcado (`mark`) y limpieza (`sweep`) se ejecutan de forma concurrente mientras los threads de la aplicación continúan su ejecución. La inmutabilidad de los datos es clave aquí, ya que garantiza que las referencias entre objetos no cambiarán mientras el GC está trabajando.
+This optimization dramatically reduces memory pressure and improves performance for scalar operations.
 
-### Ciclo de Vida de los Objetos y Limpieza por Ámbito
+### Cell-Based Allocation & Per-Thread Arenas
 
--   **Objetos de Corta Duración:** La biblioteca implementa una optimización para objetos de corta duración. Cuando un método o función finaliza, todas las celdas de memoria que fueron asignadas dentro de su ámbito y que no son parte del valor de retorno explícito, se devuelven a un "pool de análisis".
--   **Análisis Asíncrono:** Los objetos en este pool son candidatos para ser liberados. El GC analiza de forma asíncrona estas celdas para asegurarse de que no haya ninguna referencia viva a ellas desde las raíces del sistema. Si no hay referencias, la celda se devuelve al pool global de celdas libres, lista para ser reutilizada.
--   **Eficiencia:** Este mecanismo actúa como una forma de recolección generacional, permitiendo que la mayoría de los objetos (que suelen tener una vida corta) se recolecten de manera muy eficiente sin necesidad de un ciclo completo de mark-and-sweep sobre todo el heap.
+*   **Fixed-Size Cells**: All heap-allocated objects reside in fixed-size memory blocks called `Cell`s (specifically, `BigCell`, which is 64 bytes). This strategy eliminates memory fragmentation and simplifies the allocator.
+*   **Per-Thread Arenas**: Each OS thread (`ProtoThread`) maintains its own local pool of free `Cell`s. When an object needs to be allocated, the thread takes a cell from its local pool. This operation is extremely fast and **requires no global lock**, minimizing contention and allowing threads to allocate memory in parallel at full speed.
+*   **Global Space**: If a thread's local pool is exhausted, it requests a new batch of cells from the global `ProtoSpace`, which manages the main heap.
 
-## Estructuras de Datos Inmutables
+### Concurrent, Low-Latency Garbage Collector (GC)
 
-El runtime `proto` proporciona implementaciones de estructuras de datos fundamentales que son inherentemente inmutables, lo que contribuye a la seguridad y la concurrencia del sistema.
+The GC is designed to minimize application pauses and operate concurrently with the application threads.
 
-### Listas (`ProtoList`)
+*   **Dedicated GC Thread**: The GC runs in its own background thread (`gcThread`).
+*   **Brief Stop-The-World Phase**: The GC only requires a very short "stop-the-world" pause. During this phase, all application threads are temporarily halted (`THREAD_STATE_STOPPED`) so the GC can safely and quickly scan the root set (thread stacks, global mutable objects).
+*   **Concurrent Mark and Sweep**: Once the roots are identified, the marking and sweeping phases run concurrently while the application threads resume execution. The immutable nature of the data structures is critical here, as it guarantees that the object graph will not be modified during the concurrent marking phase.
+*   **Implicit Generational Collection**: The `ProtoContext` object, which represents the call stack, plays a key role. Objects allocated within a function call are tied to its context. When the function returns, any objects that are not part of the return value become immediate candidates for collection. This acts as a highly efficient, implicit form of generational GC, as most objects are short-lived.
 
--   Implementadas como árboles balanceados (posiblemente AVL o similar, dado el uso de `leftRotate`, `rightRotate` y `rebalance`).
--   Las operaciones como `appendFirst`, `appendLast`, `insertAt`, `setAt`, `removeAt`, `splitFirst`, `splitLast`, `removeFirst`, `removeLast` y `removeSlice` no modifican la lista original, sino que devuelven una nueva lista con los cambios. Esto garantiza la persistencia de la estructura de datos.
--   Optimizadas para acceso eficiente y modificaciones en entornos concurrentes.
+---
 
-### Tuplas (`ProtoTuple`)
+## 2. Immutable Data Structures
 
--   Representan colecciones inmutables de elementos, similares a las tuplas en Python.
--   Implementadas como árboles de búsqueda (posiblemente un árbol B o similar, dado el uso de `TupleDictionary` para la gestión de la raíz de tuplas y la deduplicación).
--   Las tuplas son internadas (`tupleRoot` en `ProtoSpace`), lo que significa que las tuplas idénticas comparten la misma instancia en memoria, optimizando el uso de memoria y las comparaciones.
--   Proporcionan acceso eficiente a los elementos y operaciones de slicing.
+All core collection types in Proto are implemented as persistent, immutable data structures, backed by self-balancing AVL trees. This provides efficient structural sharing and guarantees O(log n) performance for most operations.
 
-### Cadenas (`ProtoString`)
+*   **`ProtoTuple` & `ProtoString`**: These are implemented as **ropes**, which are a specific type of tree structure. This makes operations like concatenation, slicing, and insertion/deletion extremely efficient, even for very large strings and tuples, as it avoids massive data copies.
+*   **`ProtoList` & `ProtoSparseList`**: These are also backed by balanced trees, ensuring that operations at any point in the collection (beginning, middle, or end) have consistent, logarithmic time complexity.
+*   **Interning for Tuples and Strings**: To conserve memory, all tuples and strings with identical content are **interned**. This means they are guaranteed to be the *exact same object in memory*. This is managed by a global `TupleDictionary` in the `ProtoSpace` and makes equality checks (which become simple pointer comparisons) incredibly fast.
 
--   Las cadenas son inmutables y se construyen sobre `ProtoTuple`, lo que significa que se benefician de las optimizaciones de inmutabilidad y deduplicación de las tuplas.
--   Las operaciones de cadena como concatenación, inserción y eliminación también devuelven nuevas instancias de cadena.
+---
 
-## Modelo de Objetos Basado en Prototipos
+## 3. Prototype-Based Object Model
 
-El sistema `proto` implementa un modelo de objetos flexible y dinámico basado en prototipos, similar a JavaScript o Self.
+Proto implements a flexible and dynamic object model inspired by the Self programming language and JavaScript.
 
--   **Objetos (`ProtoObjectCell`):** Los objetos son representados por `ProtoObjectCellImplementation`, que contienen un enlace a su `parent` (prototipo) y un `ProtoSparseList` de `attributes`.
--   **Herencia Basada en Prototipos:** Los objetos heredan propiedades y métodos de sus objetos `parent`. La búsqueda de atributos (`getAttribute`) recorre la cadena de prototipos hasta encontrar el atributo o llegar al final de la cadena.
--   **Clonación y Creación de Hijos (`clone`, `newChild`):** Los objetos pueden ser clonados (`clone`) para crear nuevas instancias con los mismos atributos, o se pueden crear nuevos objetos que hereden directamente de un prototipo existente (`newChild`).
--   **Atributos Dinámicos:** Los atributos pueden ser añadidos o modificados dinámicamente en los objetos. Las operaciones `setAttribute` y `hasAttribute` gestionan estos atributos.
--   **Llamada a Métodos (`call`):** El mecanismo de llamada a métodos permite invocar funciones asociadas a objetos, resolviendo el método a través de la cadena de prototipos.
--   **Objetos Mutables:** Aunque las estructuras de datos fundamentales son inmutables, el sistema soporta la noción de objetos mutables (`mutable_ref` en `ProtoObjectCellImplementation` y `mutableRoot` en `ProtoSpace`). Esto permite que ciertos objetos se comporten de manera mutable, mientras que el GC gestiona su visibilidad y recolección de forma segura en un entorno concurrente.
-
+*   **`ProtoObjectCell`**: A standard object is represented internally by a `ProtoObjectCellImplementation`. This cell contains:
+    *   A `ParentLink` pointing to its prototype(s).
+    *   A `ProtoSparseList` to hold its own local attributes.
+*   **Prototype Chains & Multiple Inheritance**: Objects inherit behavior and data from their prototypes. The `ParentLink` forms a chain (or more accurately, a directed acyclic graph), allowing for multiple inheritance. Attribute lookup traverses this graph.
+*   **Dynamic Modification**: Objects can be cloned (`clone`) or used as prototypes for new objects (`newChild`). Their attributes can be modified at any time.
+*   **Controlled Mutability**: While the default is immutability, Proto provides a safe mechanism for controlled mutation. A mutable object holds a reference to an entry in a global, thread-safe sparse list (`mutableRoot` in `ProtoSpace`). A "mutation" is an atomic operation that replaces the immutable value associated with that reference, preserving the safety of the overall system.

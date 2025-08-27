@@ -1,99 +1,73 @@
-Conceptual Introduction to Proto Abstractions
-=============================================
+=========================================
+Conceptual Introduction to Proto
+=========================================
 
-Proto is designed to be a flexible and high-performance runtime for new programming languages. At its core, it provides a set of fundamental abstractions that language designers can leverage to build their own unique language semantics. Understanding these core components is key to effectively utilizing Proto.
+Proto is more than a runtime; it is a complete, high-performance object system designed from first principles. It brings the dynamism and flexibility of prototype-based languages into the C++ ecosystem, guided by a philosophy of safety through immutability and performance through a highly optimized, concurrent memory model. Understanding its core architectural pillars is key to leveraging its full potential.
 
-The `proto.h` header file exposes the primary interfaces you'll interact with when building a language on Proto. Let's explore some of the most important ones:
+The primary public interface is exposed via ``proto.h``.
 
-ProtoObject: The Universal Base
--------------------------------
+Architectural Pillar 1: The Immutable-First Object Model
+--------------------------------------------------------
 
-At the heart of Proto is the :cpp:class:`proto::ProtoObject` class. Every single entity in a Proto-based language, from numbers and strings to functions and custom data structures, is ultimately a `ProtoObject`. This provides a unified and consistent way to interact with all data within the runtime.
+**ProtoObject: The Universal, Dynamic Base**
 
-Think of `ProtoObject` as the `Object` class in languages like Java or Python. It provides fundamental behaviors such as:
+Every entity in Proto is a ``ProtoObject``. It is the polymorphic base class for all data, from a simple integer to a complex, user-defined object. This provides a consistent and powerful API for interacting with any piece of data in the system.
 
-*   **Cloning and Instantiation**: :cpp:func:`proto::ProtoObject::clone` and :cpp:func:`proto::ProtoObject::newChild` allow you to create copies or new instances based on existing objects.
-*   **Attribute Management**: Methods like :cpp:func:`proto::ProtoObject::getAttribute`, :cpp:func:`proto::ProtoObject::setAttribute`, and :cpp:func:`proto::ProtoObject::hasAttribute` enable dynamic property access, crucial for object-oriented or prototype-based languages.
-*   **Method Invocation**: The :cpp:func:`proto::ProtoObject::call` method is the entry point for executing behavior associated with an object, supporting flexible dispatch mechanisms.
-*   **Type Coercion**: Methods like :cpp:func:`proto::ProtoObject::asInteger`, :cpp:func:`proto::ProtoObject::asBoolean`, and :cpp:func:`proto::ProtoObject::asDouble` allow objects to be interpreted as fundamental data types when appropriate.
+Unlike traditional C++ class hierarchies, Proto's object model is based on **prototypes**. Objects are not instances of a rigid class; they are cloned from other objects and can have their structure and behavior modified dynamically at runtime.
 
-**Why this matters to you:**
-As a language designer, you'll define your language's types by extending `ProtoObject`. This powerful abstraction means you don't have to reinvent basic object behaviors; you can focus on the unique aspects of your language.
+*   :cpp:func:`proto::ProtoObject::newChild` creates a new object that inherits from the original.
+*   :cpp:func:`proto::ProtoObject::getAttribute` and :cpp:func:`proto::ProtoObject::setAttribute` allow for dynamic property access.
 
-Cell: The Atomic Memory Unit
-----------------------------
+**ParentLink: Enabling Multiple Inheritance**
 
-While `ProtoObject` defines behavior, :cpp:class:`proto::Cell` represents the fundamental unit of memory allocation within Proto. All `ProtoObject` instances, and indeed most internal data structures, are composed of or reside within `Cell` objects.
+The ``ParentLink`` is the mechanism that enables Proto's powerful prototype chain. Each object can have multiple parents, forming a directed acyclic graph. When an attribute is accessed on an object, the runtime first checks the object itself. If the attribute is not found, it traverses the ``ParentLink`` chain until the attribute is found or the chain is exhausted. This enables flexible and powerful code and data sharing.
 
-Key characteristics of `Cell`:
+**Immutable Data Structures: Concurrency by Design**
 
-*   **Fixed Size**: Cells are designed to be small and fixed-size (e.g., 64 bytes). This design choice is critical for performance and efficient memory management, especially in highly concurrent environments.
-*   **Non-Mutable (mostly)**: Once initialized, `Cell` objects are largely immutable, except for specific pointers like `context` and `nextCell` which can be atomically updated. This immutability simplifies concurrency and garbage collection.
-*   **Page-Aligned Allocation**: Cells are allocated in OS page-sized chunks, optimizing memory access and cache utilization.
+To eliminate a vast class of concurrency bugs, Proto's core data structures are **immutable by default**.
 
-**Why this matters to you:**
-You typically won't directly manipulate `Cell` objects. Instead, Proto's runtime handles their allocation and management. However, understanding that your language's objects are built from these atomic, immutable units helps in designing efficient data structures and understanding Proto's performance characteristics.
+*   :cpp:class:`proto::ProtoTuple`: An immutable, ordered sequence of objects. Any operation that "modifies" a tuple, such as adding an element, returns a *new* tuple, efficiently sharing memory with the original for any unchanged parts (structural sharing).
+*   :cpp:class:`proto::ProtoString`: An immutable sequence of characters, built upon the same efficient, rope-like implementation as ``ProtoTuple``.
+*   :cpp:class:`proto::ProtoList`: For cases where mutability is required, the ``ProtoList`` provides a mutable, ordered collection.
 
-ProtoContext: The Execution Environment
----------------------------------------
+This immutable-first design is the cornerstone of Proto's elite concurrency model. It makes parallel programming fundamentally safer and easier to reason about, as it removes the need for complex locking around shared data.
 
-The :cpp:class:`proto::ProtoContext` is your window into the current execution state. It's passed around almost every operation and provides access to:
-
-*   **Local Variables**: Manages the stack frame and local variables for method calls.
-*   **Object Creation**: Provides factory methods (e.g., :cpp:func:`proto::ProtoContext::fromInteger`, :cpp:func:`proto::ProtoContext::fromUTF8String`, :cpp:func:`proto::ProtoContext::newList`) to create new `ProtoObject` instances of various types.
-*   **Thread Management**: Links to the current :cpp:class:`proto::ProtoThread` of execution.
-*   **Space Management**: Provides access to the global :cpp:class:`proto::ProtoSpace`.
-
-**Why this matters to you:**
-When implementing your language's built-in functions or methods, the `ProtoContext` is your primary tool for interacting with the runtime, creating objects, and managing execution flow.
-
-ProtoSpace: The Universe of Your Language
------------------------------------------
-
-The :cpp:class:`proto::ProtoSpace` represents the entire runtime environment for your language. It's the "universe" where all objects live and all execution happens.
-
-`ProtoSpace` is responsible for:
-
-*   **Prototypes**: Holds references to the prototype objects for all built-in types (e.g., `objectPrototype`, `listPrototype`, `stringPrototype`). These are the foundational objects from which all other instances of that type are derived.
-*   **Garbage Collection**: Manages memory reclamation, ensuring efficient use of resources.
-*   **Thread Management**: Oversees all active :cpp:class:`proto::ProtoThread` instances.
-*   **Global State**: Manages global literals and other shared resources.
-
-**Why this matters to you:**
-When you initialize your language, you'll create a `ProtoSpace`. This is where you define the initial state of your language, including its fundamental types and global objects.
-
-Core Data Structures: Lists, Tuples, Strings, and Sparse Lists
---------------------------------------------------------------
-
-Proto provides highly optimized implementations of common data structures, exposed through interfaces like:
-
-*   :cpp:class:`proto::ProtoList`: A mutable, ordered collection of ProtoObjects, similar to Python lists or JavaScript arrays.
-*   :cpp:class:`proto::ProtoTuple`: An immutable, ordered collection, akin to Python tuples.
-*   :cpp:class:`proto::ProtoString`: An immutable sequence of characters, optimized for UTF-8.
-*   :cpp:class:`proto::ProtoSparseList`: A key-value store where keys are unsigned long integers, useful for sparse arrays or dictionaries.
-
-Each of these comes with its own iterator classes (e.g., :cpp:class:`proto::ProtoListIterator`) for efficient traversal.
-
-**Why this matters to you:**
-These built-in data structures provide a high-performance foundation for your language's collections. You can directly use them or build more complex data structures on top of them.
-
-ProtoMethod and ParentLink: Functionality and Inheritance
+Architectural Pillar 2: The High-Performance Memory Model
 ---------------------------------------------------------
 
-*   :cpp:type:`proto::ProtoMethod`: This is a function pointer type that defines the signature for methods in your Proto-based language. It allows for dynamic dispatch and execution of code.
-*   :cpp:class:`proto::ParentLink`: This abstraction is crucial for implementing inheritance and prototype-based object models. It represents a chain of parent objects, allowing Proto to resolve attribute lookups and method calls through an object's inheritance hierarchy.
+**Tagged Pointers: Avoiding Allocation for Primitives**
 
-**Why this matters to you:**
-These components are fundamental for defining the behavior of your objects and how they relate to each other through inheritance or delegation.
+Proto employs a critical optimization known as **tagged pointers**. For simple, common data types like integers, booleans, and even dates, the value is stored directly within the 64-bit pointer itself, using tag bits to differentiate it from an actual memory address. This completely avoids heap allocation and garbage collector overhead for these types, providing a significant performance boost.
 
-Experiment and Explore!
------------------------
+**Cell & BigCell: The Atomic Unit of Memory**
 
-The best way to understand Proto's abstractions is to experiment. Consider these ideas:
+For any object that requires heap allocation, the fundamental unit of memory is the ``Cell``. All cells are a fixed size (64 bytes, aliased as ``BigCell``). This design has several advantages:
 
-*   **Implement a simple calculator language**: Define `Number` and `Operator` objects, and use `ProtoMethod` to implement arithmetic operations.
-*   **Build a basic object system**: Use `ProtoObject` and its attribute management methods to create a simple prototype-based object model.
-*   **Explore data structures**: Create instances of `ProtoList` and `ProtoString` and experiment with their methods to understand their performance characteristics.
-*   **Custom memory management**: While Proto handles most memory, you could experiment with `ProtoByteBuffer` for direct byte manipulation for specific use cases.
+*   **Extremely Fast Allocation**: Allocating memory is as simple as taking a free cell from a list.
+*   **No Fragmentation**: Fixed-size blocks eliminate memory fragmentation.
+*   **Efficient GC**: The garbage collector can treat all memory uniformly.
 
-By diving into the code and building small examples, you'll quickly grasp the power and flexibility that Proto offers for language development.
+**Low-Latency, Concurrent Garbage Collector**
+
+Proto features a custom, concurrent, stop-the-world garbage collector designed for minimal application pauses. It runs in its own thread, and the "stop-the-world" phase—where application threads are paused—is extremely short, typically only for scanning the root set of objects. This makes Proto suitable for interactive and soft real-time applications.
+
+Architectural Pillar 3: The Concurrent Execution Environment
+----------------------------------------------------------
+
+**ProtoSpace: The Isolated Universe**
+
+A ``ProtoSpace`` is a self-contained runtime environment. It manages its own heap, its own garbage collector, and its own set of threads. Multiple ``ProtoSpace`` instances can exist within the same process, providing a powerful sandboxing mechanism for plugins or multi-tenant applications. They are completely isolated from one another, yet can share immutable data like interned strings and tuples, maximizing memory efficiency.
+
+**ProtoThread: True, GIL-Free Concurrency**
+
+Each ``ProtoThread`` is a true, native OS thread. Proto was designed from the ground up for multithreading and has no Global Interpreter Lock (GIL). This allows it to fully leverage modern multi-core processors for CPU-bound workloads.
+
+**ProtoContext: The Execution State**
+
+The ``ProtoContext`` is an essential object that is passed to nearly every function. It represents the current state of a thread's execution, including:
+
+*   The call stack (via a link to the `previous` context).
+*   The local variables for the current scope.
+*   A link to the current ``ProtoThread`` and ``ProtoSpace``.
+
+Crucially, the ``ProtoContext`` also acts as the **primary factory for creating objects**. Calling methods like :cpp:func:`proto::ProtoContext::fromInteger` or :cpp:func:`proto::ProtoContext::newObject` ensures that newly created objects are correctly registered with the memory manager and garbage collector.
