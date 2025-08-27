@@ -24,8 +24,8 @@ namespace proto
     {
         // The hash of a Cell is derived directly from its memory address.
         // This provides a fast and unique identifier for the object.
-        ProtoObjectPointer p;
-        p.oid.oid = (ProtoObject*)this;
+        ProtoObjectPointer p{};
+        p.voidPointer = static_cast<void*>(this);
 
         return p.asHash.hash;
     }

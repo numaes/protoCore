@@ -44,7 +44,7 @@ namespace proto
     ProtoContext::ProtoContext(
         ProtoContext* previous,
         ProtoObject** localsBase,
-        unsigned int localsCount,
+        const unsigned int localsCount,
         ProtoThread* thread,
         ProtoSpace* space
     ) : previous(previous),
@@ -93,7 +93,7 @@ namespace proto
 
     // --- Cell and GC Management ---
 
-    void ProtoContext::setReturnValue(ProtoContext* context, ProtoObject* returnValue)
+    void ProtoContext::setReturnValue(ProtoContext* context, ProtoObject* returnValue) const
     {
         if (this->previous)
         {
@@ -119,7 +119,7 @@ namespace proto
         Cell* newCell;
         if (this->thread)
         {
-            newCell = ((ProtoThreadImplementation*)(this->thread))->implAllocCell();
+            newCell = static_cast<ProtoThreadImplementation*>(this->thread)->implAllocCell();
             ::new(newCell) Cell(this);
             newCell = static_cast<Cell*>(newCell);
             this->allocatedCellsCount++;
@@ -151,7 +151,7 @@ namespace proto
 
     ProtoObject* ProtoContext::fromInteger(int value)
     {
-        ProtoObjectPointer p;
+        ProtoObjectPointer p{};
         p.oid.oid = nullptr;
         p.si.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
         p.si.embedded_type = EMBEDDED_TYPE_SMALLINT;
@@ -161,7 +161,7 @@ namespace proto
 
     ProtoObject* ProtoContext::fromDouble(double value)
     {
-        ProtoObjectPointer p;
+        ProtoObjectPointer p{};
         p.oid.oid = nullptr;
         p.sd.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
         p.sd.embedded_type = EMBEDDED_TYPE_FLOAT;
@@ -178,15 +178,14 @@ namespace proto
 
     ProtoObject* ProtoContext::fromUTF8Char(const char* utf8OneCharString)
     {
-        ProtoObjectPointer p;
+        ProtoObjectPointer p{};
         p.oid.oid = nullptr;
         p.unicodeChar.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
         p.unicodeChar.embedded_type = EMBEDDED_TYPE_UNICODECHAR;
 
         unsigned unicodeValue = 0U;
-        unsigned char firstByte = utf8OneCharString[0];
 
-        if ((firstByte & 0x80) == 0)
+        if (unsigned char firstByte = utf8OneCharString[0]; (firstByte & 0x80) == 0)
         {
             // 1-byte char (ASCII)
             unicodeValue = firstByte;
@@ -222,7 +221,7 @@ namespace proto
 
         while (*currentChar)
         {
-            charList = (ProtoList*)charList->appendLast(this, this->fromUTF8Char(currentChar));
+            charList = (ProtoList*)charList->appendLast(this, proto::ProtoContext::fromUTF8Char(currentChar));
 
             // Advance the pointer according to the number of bytes of the UTF-8 character
             if ((*currentChar & 0x80) == 0) currentChar += 1;
@@ -261,7 +260,7 @@ namespace proto
         return new(this) ProtoSparseListImplementation(this);
     }
 
-    ProtoObject* ProtoContext::newObject(bool mutableObject)
+    ProtoObject* ProtoContext::newObject(const bool mutableObject)
     {
         return new(this) ProtoObjectCellImplementation(
             this,
@@ -276,7 +275,7 @@ namespace proto
 
     ProtoObject* ProtoContext::fromBoolean(bool value)
     {
-        ProtoObjectPointer p;
+        ProtoObjectPointer p{};
         p.oid.oid = nullptr;
         p.booleanValue.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
         p.booleanValue.embedded_type = EMBEDDED_TYPE_BOOLEAN;
@@ -286,7 +285,7 @@ namespace proto
 
     ProtoObject* ProtoContext::fromByte(char c)
     {
-        ProtoObjectPointer p;
+        ProtoObjectPointer p{};
         p.oid.oid = nullptr;
         p.byteValue.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
         p.byteValue.embedded_type = EMBEDDED_TYPE_BYTE;
@@ -296,7 +295,7 @@ namespace proto
 
     ProtoObject* ProtoContext::fromDate(unsigned year, unsigned month, unsigned day)
     {
-        ProtoObjectPointer p;
+        ProtoObjectPointer p{};
         p.oid.oid = nullptr;
         p.date.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
         p.date.embedded_type = EMBEDDED_TYPE_DATE;
@@ -308,7 +307,7 @@ namespace proto
 
     ProtoObject* ProtoContext::fromTimestamp(unsigned long timestamp)
     {
-        ProtoObjectPointer p;
+        ProtoObjectPointer p{};
         p.oid.oid = nullptr;
         p.timestampValue.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
         p.timestampValue.embedded_type = EMBEDDED_TYPE_TIMESTAMP;
@@ -318,7 +317,7 @@ namespace proto
 
     ProtoObject* ProtoContext::fromTimeDelta(long timedelta)
     {
-        ProtoObjectPointer p;
+        ProtoObjectPointer p{};
         p.oid.oid = nullptr;
         p.timedeltaValue.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
         p.timedeltaValue.embedded_type = EMBEDDED_TYPE_TIMEDELTA;
@@ -326,35 +325,35 @@ namespace proto
         return p.oid.oid;
     }
 
-    ProtoMethodCell* ProtoContext::fromMethod(ProtoObject* self, ProtoMethod method)
+    ProtoObject* ProtoContext::fromMethod(ProtoObject* self, ProtoMethod method)
     {
-        ProtoObjectPointer p;
-        p.oid.oid = (ProtoObject*) new(this) ProtoMethodCellImplementation(this, method);
+        ProtoObjectPointer p{};
+        p.oid.oid = reinterpret_cast<ProtoObject*>(new(this) ProtoMethodCellImplementation(this, method));
         p.op.pointer_tag = POINTER_TAG_METHOD;
-        return (ProtoMethodCell*)p.oid.oid;
+        return p.oid.oid;
     }
 
     ProtoExternalPointer* ProtoContext::fromExternalPointer(void* pointer)
     {
-        ProtoObjectPointer p;
-        p.oid.oid = (ProtoObject*) new(this) ProtoExternalPointerImplementation(this, pointer);
+        ProtoObjectPointer p{};
+        p.externalPointerImplementation = new(this) ProtoExternalPointerImplementation(this, pointer);
         p.op.pointer_tag = POINTER_TAG_EXTERNAL_POINTER;
-        return (ProtoExternalPointer*)p.oid.oid;
+        return p.externalPointerImplementation;
     }
 
     ProtoByteBuffer* ProtoContext::fromBuffer(unsigned long length, char* buffer)
     {
-        ProtoObjectPointer p;
-        p.oid.oid = (ProtoObject*) new(this) ProtoByteBufferImplementation(this, length, buffer);
+        ProtoObjectPointer p{};
+        p.byteBufferImplementation = new(this) ProtoByteBufferImplementation(this, length, buffer);
         p.op.pointer_tag = POINTER_TAG_BYTE_BUFFER;
-        return (ProtoByteBuffer*)p.oid.oid;
+        return p.byteBufferImplementation;
     }
 
     ProtoByteBuffer* ProtoContext::newBuffer(unsigned long length)
     {
-        ProtoObjectPointer p;
-        p.oid.oid = (ProtoObject*) new(this) ProtoByteBufferImplementation(this, length, NULL);
+        ProtoObjectPointer p{};
+        p.byteBuffer = new(this) ProtoByteBufferImplementation(this, length, nullptr);
         p.op.pointer_tag = POINTER_TAG_BYTE_BUFFER;
-        return (ProtoByteBuffer*)p.oid.oid;
+        return p.byteBuffer;
     }
 } // namespace proto

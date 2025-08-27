@@ -468,23 +468,23 @@ namespace proto
         unsigned int localsCount;
 
         void checkCellsCount();
-        void setReturnValue(ProtoContext* context, ProtoObject* returnValue);
+        void setReturnValue(ProtoContext* context, ProtoObject* returnValue) const;
         void addCell2Context(Cell* newCell);
 
         // Factory methods for primitive types.
-        ProtoObject* fromInteger(int value);
-        ProtoObject* fromDouble(double value);
-        ProtoObject* fromUTF8Char(const char* utf8OneCharString);
+        static ProtoObject* fromInteger(int value);
+        static ProtoObject* fromDouble(double value);
+        static ProtoObject* fromUTF8Char(const char* utf8OneCharString);
         ProtoString* fromUTF8String(const char* zeroTerminatedUtf8String);
         ProtoMethodCell* fromMethod(ProtoObject* self, ProtoMethod method);
         ProtoExternalPointer* fromExternalPointer(void* pointer);
         ProtoByteBuffer* fromBuffer(unsigned long length, char* buffer);
         ProtoByteBuffer* newBuffer(unsigned long length);
-        ProtoObject* fromBoolean(bool value);
-        ProtoObject* fromByte(char c);
-        ProtoObject* fromDate(unsigned year, unsigned month, unsigned day);
-        ProtoObject* fromTimestamp(unsigned long timestamp);
-        ProtoObject* fromTimeDelta(long timedelta);
+        static ProtoObject* fromBoolean(bool value);
+        static ProtoObject* fromByte(char c);
+        static ProtoObject* fromDate(unsigned year, unsigned month, unsigned day);
+        static ProtoObject* fromTimestamp(unsigned long timestamp);
+        static ProtoObject* fromTimeDelta(long timedelta);
 
         ProtoObject* fromThread(ProtoThread* thread);
         ProtoObject* fromList(ProtoList* list);

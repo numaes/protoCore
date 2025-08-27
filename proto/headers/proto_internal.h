@@ -259,7 +259,7 @@ namespace proto
         virtual unsigned long getHash(ProtoContext* context);
         virtual ProtoObject* asObject(ProtoContext* context);
 
-        Cell* nextCell;
+        Cell* nextCell{};
     };
 
     class BigCell final : public Cell
@@ -288,7 +288,7 @@ namespace proto
         unsigned long getHash(ProtoContext* context) override { return Cell::getHash(context); };
         ProtoObject* asObject(ProtoContext* context) override { return Cell::asObject(context); };
 
-        void* undetermined[6];
+        void* undetermined[6]{};
     };
 
     static_assert(sizeof(BigCell) == 64, "The size of the BigCell class must be exactly 64 bytes.");
@@ -362,7 +362,7 @@ namespace proto
         ProtoObjectCellImplementation* implAddParent(
             ProtoContext* context,
             ProtoObjectCell* newParentToAdd
-        );
+        ) const;
 
         /**
          * @brief Returns the representation of this cell as a ProtoObject.
@@ -847,10 +847,10 @@ namespace proto
         ~ProtoByteBufferImplementation() override;
 
         // --- ProtoByteBuffer interface methods ---
-        char implGetAt(ProtoContext* context, int index);
-        void implSetAt(ProtoContext* context, int index, char value);
-        unsigned long implGetSize(ProtoContext* context);
-        char* implGetBuffer(ProtoContext* context);
+        char implGetAt(ProtoContext* context, int index) const;
+        void implSetAt(ProtoContext* context, int index, char value) const;
+        unsigned long implGetSize(ProtoContext* context) const;
+        char* implGetBuffer(ProtoContext* context) const;
 
         // --- Cell interface methods ---
         void processReferences(
@@ -864,7 +864,7 @@ namespace proto
 
     private:
         // Helper function to validate and normalize indices.
-        bool normalizeIndex(int& index);
+        bool normalizeIndex(int& index) const;
 
         unsigned long size; // The size of the buffer in bytes.
         char* buffer; // Pointer to the buffer's memory.
@@ -925,7 +925,7 @@ namespace proto
          * @param context The current execution context.
          * @return The stored (void*) pointer.
          */
-        void* implGetPointer(ProtoContext* context);
+        void* implGetPointer(ProtoContext* context) const;
 
         /**
          * @brief Returns the representation of this cell as a ProtoObject.
@@ -992,10 +992,10 @@ namespace proto
         // --- Thread Lifecycle Control ---
 
         // Detaches the thread from the object, allowing it to run independently.
-        void implDetach(ProtoContext* context);
+        void implDetach(ProtoContext* context) const;
 
         // Blocks the current thread until this thread finishes its execution.
-        void implJoin(ProtoContext* context);
+        void implJoin(ProtoContext* context) const;
 
         // Requests the termination of the thread.
         void implExit(ProtoContext* context);
@@ -1012,7 +1012,7 @@ namespace proto
 
         // Sets the current execution context for the thread.
         void implSetCurrentContext(ProtoContext* context);
-        ProtoContext* implGetCurrentContext();
+        ProtoContext* implGetCurrentContext() const;
 
         // Converts the implementation to a generic ProtoObject*.
         ProtoObject* implAsObject(ProtoContext* context);
@@ -1028,7 +1028,7 @@ namespace proto
             void* self,
             void (*method)(ProtoContext* context, void* self, Cell* cell)) override;
 
-        static ProtoThread* implGetCurrentThread(ProtoContext* context);
+        static ProtoThread* implGetCurrentThread(const ProtoContext* context);
 
         // --- Member Data ---
         int state; // Current state of the thread with respect to the GC.

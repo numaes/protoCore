@@ -32,31 +32,31 @@ namespace proto
 
     // --- Interface Methods ---
 
-    ProtoObjectCell* ProtoObjectCellImplementation::implAddParent(ProtoContext* context, ProtoObjectCell* newParent)
+    ProtoObjectCellImplementation* ProtoObjectCellImplementation::implAddParent(
+        ProtoContext* context, ProtoObjectCell* newParent) const
     {
         // Creates a new link in the inheritance chain.
-        ParentLinkImplementation* newParentLink = new(context) ParentLinkImplementation(
+        auto* newParentLink = new(context) ParentLinkImplementation(
             context,
             this->parent, // The parent of the new link is our current parent.
-            (ProtoObjectCellImplementation*)newParent // The object of the new link is the new parent.
+            reinterpret_cast<ProtoObjectCellImplementation*>(newParent // The object of the new link is the new parent.
+            ) // The object of the new link is the new parent.
         );
 
         // Returns a new ProtoObjectCell that is a copy of the current one,
         // but with the extended inheritance chain.
-        return reinterpret_cast<ProtoObjectCell*>(
-            new(context) ProtoObjectCellImplementation(
-                context,
-                newParentLink,
-                this->mutable_ref, // The other properties are preserved.
-                this->attributes
-            )
+        return new(context) ProtoObjectCellImplementation(
+            context,
+            newParentLink,
+            this->mutable_ref, // The other properties are preserved.
+            this->attributes
         );
     }
 
     ProtoObject* ProtoObjectCellImplementation::implAsObject(ProtoContext* context)
     {
-        ProtoObjectPointer p;
-        p.oid.oid = (ProtoObject*)this;
+        ProtoObjectPointer p{};
+        p.objectCellImplementation = this;
         p.op.pointer_tag = POINTER_TAG_OBJECT;
         return p.oid.oid;
     }
@@ -97,8 +97,8 @@ namespace proto
     {
         // The hash of a Cell is derived directly from its memory address.
         // This provides a fast and unique identifier for the object.
-        ProtoObjectPointer p;
-        p.oid.oid = (ProtoObject*)this;
+        ProtoObjectPointer p{};
+        p.objectCellImplementation = this;
 
         return p.asHash.hash;
     }

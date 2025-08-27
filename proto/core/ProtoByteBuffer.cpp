@@ -6,7 +6,6 @@
  */
 
 #include "../headers/proto_internal.h"
-#include <utility> // For std::move and other utilities
 
 namespace proto
 {
@@ -14,7 +13,7 @@ namespace proto
     // Uses member initialization list for greater efficiency and clarity.
     ProtoByteBufferImplementation::ProtoByteBufferImplementation(
         ProtoContext* context,
-        unsigned long size,
+        const unsigned long size,
         char* buffer
     ) : Cell(context), size(size), buffer(nullptr), freeOnExit(false)
     {
@@ -52,7 +51,7 @@ namespace proto
 
     // Private helper function to normalize the index.
     // This avoids code duplication and improves readability.
-    bool ProtoByteBufferImplementation::normalizeIndex(int& index)
+    bool ProtoByteBufferImplementation::normalizeIndex(int& index) const
     {
         if (this->size == 0)
         {
@@ -62,12 +61,12 @@ namespace proto
         // Handling of negative indices (from the end of the buffer).
         if (index < 0)
         {
-            index += this->size;
+            index += static_cast<int>(this->size);
         }
 
         // Bounds checking. If it is out of range, it is not valid.
         // Using 'unsigned long' for comparison avoids sign issues.
-        if (index < 0 || (unsigned long)index >= this->size)
+        if (index < 0 || index >= this->size)
         {
             return false;
         }
@@ -75,7 +74,7 @@ namespace proto
         return true;
     }
 
-    char ProtoByteBufferImplementation::implGetAt(ProtoContext* context, int index)
+    char ProtoByteBufferImplementation::implGetAt(ProtoContext* context, int index) const
     {
         // We use the helper function to validate and normalize the index.
         if (normalizeIndex(index))
@@ -86,7 +85,7 @@ namespace proto
         return 0;
     }
 
-    void ProtoByteBufferImplementation::implSetAt(ProtoContext* context, int index, char value)
+    void ProtoByteBufferImplementation::implSetAt(ProtoContext* context, int index, const char value) const
     {
         // We only write if the index is valid.
         if (normalizeIndex(index))
@@ -123,8 +122,8 @@ namespace proto
 
     ProtoObject* ProtoByteBufferImplementation::implAsObject(ProtoContext* context)
     {
-        ProtoObjectPointer p;
-        p.oid.oid = (ProtoObject*)this;
+        ProtoObjectPointer p{};
+        p.byteBufferImplementation = this;
         p.op.pointer_tag = POINTER_TAG_BYTE_BUFFER;
         return p.oid.oid;
     }
@@ -133,18 +132,18 @@ namespace proto
     {
         // The hash of a Cell is derived directly from its memory address.
         // This provides a fast and unique identifier for the object.
-        ProtoObjectPointer p;
-        p.oid.oid = (ProtoObject*)this;
+        ProtoObjectPointer p{};
+        p.byteBufferImplementation = this;
 
         return p.asHash.hash;
     }
 
-    unsigned long ProtoByteBufferImplementation::implGetSize(ProtoContext* context)
+    unsigned long ProtoByteBufferImplementation::implGetSize(ProtoContext* context) const
     {
         return this->size;
     }
 
-    char* ProtoByteBufferImplementation::implGetBuffer(ProtoContext* context)
+    char* ProtoByteBufferImplementation::implGetBuffer(ProtoContext* context) const
     {
         return this->buffer;
     }

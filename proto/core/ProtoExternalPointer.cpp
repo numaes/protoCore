@@ -21,20 +21,20 @@ namespace proto
     }
 
     // For empty destructors, using '= default' is the recommended practice.
-    ProtoExternalPointerImplementation::~ProtoExternalPointerImplementation() {}
+    ProtoExternalPointerImplementation::~ProtoExternalPointerImplementation() = default;
 
 
     // --- Interface Methods ---
 
-    void* ProtoExternalPointerImplementation::implGetPointer(ProtoContext* context)
+    void* ProtoExternalPointerImplementation::implGetPointer(ProtoContext* context) const
     {
         return this->pointer;
     }
 
     ProtoObject* ProtoExternalPointerImplementation::implAsObject(ProtoContext* context)
     {
-        ProtoObjectPointer p;
-        p.oid.oid = (ProtoObject*)this;
+        ProtoObjectPointer p{};
+        p.externalPointerImplementation = this;
         p.op.pointer_tag = POINTER_TAG_EXTERNAL_POINTER;
         return p.oid.oid;
     }
@@ -66,8 +66,8 @@ namespace proto
     {
         // The hash of a Cell is derived directly from its memory address.
         // This provides a fast and unique identifier for the object.
-        ProtoObjectPointer p;
-        p.oid.oid = (ProtoObject*)this;
+        ProtoObjectPointer p{};
+        p.externalPointerImplementation = this;
 
         return p.asHash.hash;
     }

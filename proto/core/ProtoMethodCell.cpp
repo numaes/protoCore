@@ -10,7 +10,7 @@ namespace proto
      * @param method The method to be used.
      */
 
-    ProtoMethodCellImplementation::ProtoMethodCellImplementation(ProtoContext* context, ProtoMethod method): Cell(
+    ProtoMethodCellImplementation::ProtoMethodCellImplementation(ProtoContext* context, const ProtoMethod method): Cell(
         context)
     {
         this->method = method;
@@ -51,8 +51,8 @@ namespace proto
      */
     ProtoObject* ProtoMethodCellImplementation::implAsObject(ProtoContext* context)
     {
-        ProtoObjectPointer p;
-        p.oid.oid = (ProtoObject*)this;
+        ProtoObjectPointer p{};
+        p.methodCellImplementation = this;
         p.op.pointer_tag = POINTER_TAG_METHOD; // Tag to identify method cells
         return p.oid.oid;
     }

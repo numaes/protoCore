@@ -8,7 +8,6 @@
 #include "../headers/proto_internal.h"
 #include <cstdlib> // Use the standard C++ header
 #include <thread>
-#include <utility> // For std::move
 
 
 namespace proto
@@ -118,7 +117,7 @@ namespace proto
         }
     }
 
-    void ProtoThreadImplementation::implDetach(ProtoContext* context)
+    void ProtoThreadImplementation::implDetach(ProtoContext* context) const
     {
         if (this->osThread && this->osThread->joinable())
         {
@@ -126,7 +125,7 @@ namespace proto
         }
     }
 
-    void ProtoThreadImplementation::implJoin(ProtoContext* context)
+    void ProtoThreadImplementation::implJoin(ProtoContext* context) const
     {
         if (this->osThread && this->osThread->joinable())
         {
@@ -249,8 +248,8 @@ namespace proto
 
     ProtoObject* ProtoThreadImplementation::implAsObject(ProtoContext* context)
     {
-        ProtoObjectPointer p;
-        p.oid.oid = (ProtoObject*)this;
+        ProtoObjectPointer p{};
+        p.threadImplementation = this;
         // CRITICAL FIX: Use the correct tag for a thread.
         p.op.pointer_tag = POINTER_TAG_THREAD;
         return p.oid.oid;
@@ -261,7 +260,7 @@ namespace proto
         this->currentContext = context;
     }
 
-    ProtoContext* ProtoThreadImplementation::implGetCurrentContext()
+    ProtoContext* ProtoThreadImplementation::implGetCurrentContext() const
     {
         return this->currentContext;
     }
@@ -276,7 +275,7 @@ namespace proto
         return p.asHash.hash;
     }
 
-    ProtoThread* ProtoThreadImplementation::implGetCurrentThread(ProtoContext* context)
+    ProtoThread* ProtoThreadImplementation::implGetCurrentThread(const ProtoContext* context)
     {
         return context->thread;
     }
