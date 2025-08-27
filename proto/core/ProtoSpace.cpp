@@ -39,7 +39,7 @@ namespace proto
         ProtoSparseListImplementation* cellSet = new(context) ProtoSparseListImplementation(context);
 
         // Go further in the scanning only if it is a cell and the cell belongs to current context!
-        if (p.op.pointer_tag != POINTER_TAG_EMBEDEDVALUE)
+        if (p.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE)
         {
             // It is an object pointer with references
             if (!cellSet->implHas(context, p.asHash.hash))
@@ -58,7 +58,7 @@ namespace proto
         ProtoSparseListImplementation* cellSet = new(context) ProtoSparseListImplementation(context);
 
         // Go further in the scanning only if it is a cell and the cell belongs to current context!
-        if (p.op.pointer_tag != POINTER_TAG_EMBEDEDVALUE)
+        if (p.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE)
         {
             // It is an object pointer with references
             if (!cellSet->implHas(context, p.asHash.hash))
@@ -187,7 +187,7 @@ namespace proto
                          n > 0;
                          n--)
                     {
-                        if (p.op.pointer_tag != POINTER_TAG_EMBEDEDVALUE)
+                        if (p.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE)
                         {
                             cellSet = cellSet->implSetAt(
                                 context,
@@ -409,7 +409,7 @@ namespace proto
         if (this->threads)
             this->threads = (ProtoSparseList*)this->threads->setAt(
                 context,
-                thread->getName(context)->getHash(context),
+                thread->getName(context)->getObjectHash(context),
                 thread->asObject(context)
             );
 

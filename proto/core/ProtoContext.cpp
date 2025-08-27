@@ -153,8 +153,8 @@ namespace proto
     {
         ProtoObjectPointer p;
         p.oid.oid = nullptr;
-        p.si.pointer_tag = POINTER_TAG_EMBEDEDVALUE;
-        p.si.embedded_type = EMBEDED_TYPE_SMALLINT;
+        p.si.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
+        p.si.embedded_type = EMBEDDED_TYPE_SMALLINT;
         p.si.smallInteger = value;
         return p.oid.oid;
     }
@@ -163,8 +163,8 @@ namespace proto
     {
         ProtoObjectPointer p;
         p.oid.oid = nullptr;
-        p.sd.pointer_tag = POINTER_TAG_EMBEDEDVALUE;
-        p.sd.embedded_type = EMBEDED_TYPE_FLOAT;
+        p.sd.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
+        p.sd.embedded_type = EMBEDDED_TYPE_FLOAT;
 
         union
         {
@@ -180,8 +180,8 @@ namespace proto
     {
         ProtoObjectPointer p;
         p.oid.oid = nullptr;
-        p.unicodeChar.pointer_tag = POINTER_TAG_EMBEDEDVALUE;
-        p.unicodeChar.embedded_type = EMBEDED_TYPE_UNICODECHAR;
+        p.unicodeChar.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
+        p.unicodeChar.embedded_type = EMBEDDED_TYPE_UNICODECHAR;
 
         unsigned unicodeValue = 0U;
         unsigned char firstByte = utf8OneCharString[0];
@@ -278,8 +278,8 @@ namespace proto
     {
         ProtoObjectPointer p;
         p.oid.oid = nullptr;
-        p.booleanValue.pointer_tag = POINTER_TAG_EMBEDEDVALUE;
-        p.booleanValue.embedded_type = EMBEDED_TYPE_BOOLEAN;
+        p.booleanValue.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
+        p.booleanValue.embedded_type = EMBEDDED_TYPE_BOOLEAN;
         p.booleanValue.booleanValue = value;
         return p.oid.oid;
     }
@@ -288,8 +288,8 @@ namespace proto
     {
         ProtoObjectPointer p;
         p.oid.oid = nullptr;
-        p.byteValue.pointer_tag = POINTER_TAG_EMBEDEDVALUE;
-        p.byteValue.embedded_type = EMBEDED_TYPE_BYTE;
+        p.byteValue.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
+        p.byteValue.embedded_type = EMBEDDED_TYPE_BYTE;
         p.byteValue.byteData = c;
         return p.oid.oid;
     }
@@ -298,8 +298,8 @@ namespace proto
     {
         ProtoObjectPointer p;
         p.oid.oid = nullptr;
-        p.date.pointer_tag = POINTER_TAG_EMBEDEDVALUE;
-        p.date.embedded_type = EMBEDED_TYPE_DATE;
+        p.date.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
+        p.date.embedded_type = EMBEDDED_TYPE_DATE;
         p.date.year = year;
         p.date.month = month;
         p.date.day = day;
@@ -310,8 +310,8 @@ namespace proto
     {
         ProtoObjectPointer p;
         p.oid.oid = nullptr;
-        p.timestampValue.pointer_tag = POINTER_TAG_EMBEDEDVALUE;
-        p.timestampValue.embedded_type = EMBEDED_TYPE_TIMESTAMP;
+        p.timestampValue.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
+        p.timestampValue.embedded_type = EMBEDDED_TYPE_TIMESTAMP;
         p.timestampValue.timestamp = timestamp;
         return p.oid.oid;
     }
@@ -320,8 +320,8 @@ namespace proto
     {
         ProtoObjectPointer p;
         p.oid.oid = nullptr;
-        p.timedeltaValue.pointer_tag = POINTER_TAG_EMBEDEDVALUE;
-        p.timedeltaValue.embedded_type = EMBEDED_TYPE_TIMEDELTA;
+        p.timedeltaValue.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
+        p.timedeltaValue.embedded_type = EMBEDDED_TYPE_TIMEDELTA;
         p.timedeltaValue.timedelta = timedelta;
         return p.oid.oid;
     }

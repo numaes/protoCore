@@ -145,7 +145,7 @@ namespace proto
     {
         // Calculate hash, count, and height after initializing members.
         this->hash = index ^
-            (value ? value->getHash(context) : 0) ^
+            (value ? value->getObjectHash(context) : 0) ^
             (previous ? previous->hash : 0) ^
             (next ? next->hash : 0);
 
