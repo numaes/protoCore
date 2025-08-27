@@ -116,7 +116,7 @@ namespace proto
         {
             unsigned long pointer_tag : 4;
             unsigned long embedded_type : 4;
-            unsigned char byteData;
+            char byteData;
         } byteValue;
 
         struct
