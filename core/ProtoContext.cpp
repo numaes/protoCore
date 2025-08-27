@@ -117,7 +117,27 @@ namespace proto
     Cell* ProtoContext::allocCell()
     {
         Cell* newCell;
-        if (this->thread)
+
+        if (this->space && this->space->emergency_allocator_active.load())
+        {
+            // Emergency allocation path. Use the pre-allocated buffer.
+            // This is a simple, non-thread-safe bump allocator, which is acceptable
+            // because an OOM condition is already a "stop the world" style event.
+            const size_t required_size = sizeof(BigCell);
+            if (this->space->emergency_ptr + required_size <= this->space->emergency_end)
+            {
+                newCell = reinterpret_cast<Cell*>(this->space->emergency_ptr);
+                this->space->emergency_ptr += required_size;
+                ::new(newCell) Cell(this);
+            }
+            else
+            {
+                // The emergency buffer is also exhausted. This is the final point of failure.
+                fprintf(stderr, "FATAL: Emergency memory buffer exhausted. Cannot continue.\n");
+                std::exit(1);
+            }
+        }
+        else if (this->thread)
         {
             newCell = static_cast<ProtoThreadImplementation*>(this->thread)->implAllocCell();
             ::new(newCell) Cell(this);

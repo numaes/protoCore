@@ -643,6 +643,12 @@ namespace proto
         std::condition_variable gcCV;
         int gcStarted;
 
+        //- Emergency Memory Management for OOM conditions
+        char* emergency_buffer;
+        char* emergency_ptr;
+        char* emergency_end;
+        std::atomic<bool> emergency_allocator_active;
+
         static std::mutex globalMutex;
     };
 }

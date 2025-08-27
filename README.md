@@ -81,18 +81,37 @@ The project now uses **CMake** for a modern, cross-platform build system. This a
     ```
     (Or, on Windows with Visual Studio, you would open the generated `.sln` file and build from there).
 
-4.  **Run the benchmarks:**
-    The compiled executables will be located in the `build` directory.
-    ```bash
-    ./list_benchmark
-    ./immutable_sharing_benchmark
-    # ... and so on for the other benchmarks
-    ```
+## Testing
 
-### Cleaning the Build
+The project includes a comprehensive test suite using the **Google Test** framework. The tests are automatically configured by CMake.
 
-To clean the build artifacts, simply remove the `build` directory:
+### Running the Tests
+
+After compiling the project, you can run the entire test suite from the `build` directory:
+
 ```bash
-cd ..
-rm -rf build
+ctest --verbose
+```
+
+This command will discover and run all tests, providing detailed output.
+
+### Test Coverage
+
+The test suite provides coverage for the most critical components of the runtime, including:
+
+*   **Primitives:** Correct handling of integers, booleans, and strings (validating the tagged pointer system).
+*   **Objects:** Creation, attribute access, and prototype-based inheritance.
+*   **Lists (`ProtoList`):** Appending, accessing, removing, and slicing.
+*   **Sparse Lists (`ProtoSparseList`):** Use with both integer keys and string hashes (for dictionaries).
+*   **Tuples (`ProtoTuple`):** Creation, access, slicing, and validation of the interning mechanism.
+
+## Benchmarks
+
+The compiled benchmark executables are located in the `build` directory. You can run them individually:
+
+```bash
+./immutable_sharing_benchmark
+./concurrent_append_benchmark
+./string_concat_benchmark
+# ... and so on for the other benchmarks
 ```

@@ -8,7 +8,10 @@ project(Proto CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# 3. Define the core Proto library
+# 3. Enable testing with CTest
+enable_testing()
+
+# 4. Define the core Proto library
 # This is a static library that will contain the runtime's core logic.
 
 # Find all the source files in the 'core' directory automatically
@@ -16,16 +19,15 @@ file(GLOB CORE_SOURCES "core/*.cpp")
 
 add_library(proto STATIC ${CORE_SOURCES})
 
-# Make sure that any target linking against 'proto' automatically gets the
-# 'headers' directory in its include path.
-target_include_directories(proto PUBLIC headers)
-
-# Enable pthreads for std::thread support
-target_link_libraries(proto PRIVATE pthread)
+# Make headers public and link libraries.
+# By making the include directory PUBLIC, any target that links against 'proto'
+# will automatically get the 'headers' directory in its include path.
+target_include_directories(proto PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/headers)
+target_link_libraries(proto PUBLIC pthread)
 
 message(STATUS "Configured Proto library target.")
 
-# 4. Define the performance benchmark executables
+# 5. Define the performance benchmark executables
 # This will automatically find every .cpp file in the 'performance' directory
 # and create a separate executable for each one.
 
@@ -43,5 +45,9 @@ foreach(BENCH_SOURCE ${BENCHMARK_SOURCES})
     message(STATUS "Configured benchmark: ${TARGET_NAME}")
 endforeach()
 
-# 5. User-friendly message on completion
-message(STATUS "Proto project configured successfully. Use 'make' to build.")
+# 6. Configure the test suite
+# This tells CMake to process the CMakeLists.txt file in the 'test' directory.
+add_subdirectory(test)
+
+# 7. User-friendly message on completion
+message(STATUS "Proto project configured successfully. Use 'make' to build and 'ctest' to run tests.")

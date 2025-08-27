@@ -335,6 +335,19 @@ namespace proto
         this->gcStarted = false;
         this->freeCells = nullptr;
 
+        // Pre-allocate the emergency buffer for OOM handling.
+        const size_t EMERGENCY_BUFFER_SIZE = 100 * 1024; // 100KB
+        this->emergency_buffer = new(std::nothrow) char[EMERGENCY_BUFFER_SIZE];
+        if (!this->emergency_buffer) {
+            // If we can't even allocate the emergency buffer, it's a fatal, unrecoverable error.
+            fprintf(stderr, "FATAL: Could not allocate the initial emergency memory buffer.\n");
+            std::exit(1);
+        }
+        this->emergency_ptr = this->emergency_buffer;
+        this->emergency_end = this->emergency_buffer + EMERGENCY_BUFFER_SIZE;
+        this->emergency_allocator_active.store(false);
+
+
         // Create GC thread and ensure it is working
         this->gcThread = new std::thread(
             (void (*)(ProtoSpace*))(&gcThreadLoop),
@@ -390,6 +403,9 @@ namespace proto
         this->triggerGC();
 
         this->gcThread->join();
+
+        // Free the emergency buffer
+        delete[] this->emergency_buffer;
     };
 
     void ProtoSpace::triggerGC()
@@ -495,10 +511,17 @@ namespace proto
                     // );
 
                     BigCell* newBlocks = static_cast<BigCell*>(malloc(toAllocBytes));
-                    if (!newBlocks)
-                    {
-                        printf("\nPANIC ERROR: Not enough MEMORY! Exiting ...\n");
-                        std::exit(1);
+                    if (!newBlocks) {
+                        if (this->emergency_allocator_active.load()) {
+                            // We've already entered emergency mode. A failure to get a large
+                            // block of memory now is truly fatal and unrecoverable.
+                            fprintf(stderr, "FATAL: Out of memory while trying to replenish cell pool, even after entering emergency mode.\n");
+                            std::exit(1);
+                        }
+
+                        // This is the first OOM failure. Activate emergency mode and notify the application.
+                        this->emergency_allocator_active.store(true);
+                        throw std::bad_alloc();
                     }
 
                     BigCell* currentBlock = newBlocks;
