@@ -51,12 +51,12 @@ Proto is in an **active, deep development phase** (Alpha/Experimental). It's not
 
 ## Getting Started & Building the Project
 
-The project uses `make` for its build system.
+The project now uses **CMake** for a modern, cross-platform build system. This allows you to build Proto easily on Linux, macOS, and Windows with a variety of compilers and IDEs.
 
 ### Prerequisites
 
-*   `g++` (GCC C++ Compiler)
-*   `make`
+*   **CMake** (version 3.16 or higher)
+*   A modern C++ compiler that supports C++20 (e.g., **GCC 10+**, **Clang 12+**, **MSVC v142 - VS 2019+**)
 
 ### Compilation Instructions
 
@@ -65,26 +65,34 @@ The project uses `make` for its build system.
     git clone <repository_url>
     cd proto
     ```
-2.  **Build the release version of the library:**
-    ```bash
-    make all
-    ```
-    This will compile the `proto` library and create `lib/libproto.a`.
 
-3.  **Build the debug version of the library and the test executable:**
+2.  **Configure the project with CMake:**
+    This is the standard "out-of-source" build process. It keeps your source directory clean.
     ```bash
-    make debug
+    mkdir build
+    cd build
+    cmake ..
     ```
-    This will compile the debug version of the library (`lib/libproto-debug.a`) and the `test_proto` executable located in `bin/`.
 
-4.  **Run the tests:**
+3.  **Compile the project:**
+    After CMake has generated the build files, you can compile everything.
     ```bash
-    make test
+    make
     ```
-    This will execute the `bin/test_proto` program.
+    (Or, on Windows with Visual Studio, you would open the generated `.sln` file and build from there).
 
-5.  **Clean the build artifacts:**
+4.  **Run the benchmarks:**
+    The compiled executables will be located in the `build` directory.
     ```bash
-    make clean
+    ./list_benchmark
+    ./immutable_sharing_benchmark
+    # ... and so on for the other benchmarks
     ```
-    This will remove all compiled objects, debug files, and generated libraries.
+
+### Cleaning the Build
+
+To clean the build artifacts, simply remove the `build` directory:
+```bash
+cd ..
+rm -rf build
+```
