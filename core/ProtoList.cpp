@@ -12,11 +12,11 @@ namespace proto
 {
     // --- ProtoListIteratorImplementation ---
 
-    // Modernized constructor with initialization list
+    // Modernized constructor with an initialization list
     ProtoListIteratorImplementation::ProtoListIteratorImplementation(
         ProtoContext* context,
         ProtoListImplementation* base,
-        unsigned long currentIndex
+        const unsigned long currentIndex
     ) : Cell(context), base(base), currentIndex(currentIndex)
     {
     }
@@ -24,7 +24,7 @@ namespace proto
     // Default destructor
     ProtoListIteratorImplementation::~ProtoListIteratorImplementation() = default;
 
-    int ProtoListIteratorImplementation::implHasNext(ProtoContext* context)
+    int ProtoListIteratorImplementation::implHasNext(ProtoContext* context) const
     {
         // It is safer to check if the base is not null.
         if (!this->base)
@@ -34,18 +34,18 @@ namespace proto
         return this->currentIndex < this->base->implGetSize(context);
     }
 
-    ProtoObject* ProtoListIteratorImplementation::implNext(ProtoContext* context)
+    ProtoObject* ProtoListIteratorImplementation::implNext(ProtoContext* context) const
     {
         if (!this->base)
         {
             return PROTO_NONE;
         }
-        // Returns the current element, but does not advance the iterator.
+        // Returns the current element but does not advance the iterator.
         // Advancement is done explicitly with advance().
-        return this->base->implGetAt(context, this->currentIndex);
+        return this->base->implGetAt(context, static_cast<int>(this->currentIndex));
     }
 
-    ProtoListIteratorImplementation* ProtoListIteratorImplementation::implAdvance(ProtoContext* context)
+    ProtoListIteratorImplementation* ProtoListIteratorImplementation::implAdvance(ProtoContext* context) const
     {
         // CRITICAL FIX: The iterator must advance to the next index.
         // The previous version created an iterator at the same position.
@@ -54,8 +54,8 @@ namespace proto
 
     ProtoObject* ProtoListIteratorImplementation::implAsObject(ProtoContext* context)
     {
-        ProtoObjectPointer p;
-        p.oid.oid = (ProtoObject*)this;
+        ProtoObjectPointer p{};
+        p.listIteratorImplementation = this;
         p.op.pointer_tag = POINTER_TAG_LIST_ITERATOR;
         return p.oid.oid;
     }
@@ -89,7 +89,7 @@ namespace proto
 
     // --- ProtoListImplementation ---
 
-    // Modernized constructor with initialization list
+    // Modernized constructor with an initialization list
     ProtoListImplementation::ProtoListImplementation(
         ProtoContext* context,
         ProtoObject* value,
@@ -138,11 +138,11 @@ namespace proto
 
         ProtoListImplementation* rightRotate(ProtoContext* context, const ProtoListImplementation* y)
         {
-            ProtoListImplementation* x = y->previous;
+            const ProtoListImplementation* x = y->previous;
             ProtoListImplementation* T2 = x->next;
 
             // Perform rotation
-            ProtoListImplementation* new_y = new(context) ProtoListImplementation(context, y->value, T2, y->next);
+            auto* new_y = new(context) ProtoListImplementation(context, y->value, T2, y->next);
             return new(context) ProtoListImplementation(context, x->value, x->previous, new_y);
         }
 
@@ -160,9 +160,7 @@ namespace proto
         // This is a standard and correct implementation for an AVL tree.
         ProtoListImplementation* rebalance(ProtoContext* context, ProtoListImplementation* node)
         {
-            if (!node) return nullptr;
-
-            int balance = getBalance(node);
+            const int balance = getBalance(node);
 
             // Case 1: Left-Left (LL)
             if (balance < -1 && getBalance(node->previous) <= 0)
@@ -200,7 +198,7 @@ namespace proto
 
     // --- Public Interface Methods ---
 
-    ProtoObject* ProtoListImplementation::implGetAt(ProtoContext* context, int index)
+    ProtoObject* ProtoListImplementation::implGetAt(ProtoContext* context, int index) const
     {
         if (!this->value)
         {
@@ -212,20 +210,20 @@ namespace proto
             index += this->count;
         }
 
-        if (index < 0 || (unsigned)index >= this->count)
+        if (index < 0 || static_cast<unsigned>(index) >= this->count)
         {
             return PROTO_NONE;
         }
 
-        const ProtoListImplementation* node = this;
+        auto node = this;
         while (node)
         {
             const unsigned long thisIndex = node->previous ? node->previous->count : 0;
-            if ((unsigned long)index == thisIndex)
+            if (static_cast<unsigned long>(index) == thisIndex)
             {
                 return node->value;
             }
-            if ((unsigned long)index < thisIndex)
+            if (static_cast<unsigned long>(index) < thisIndex)
             {
                 node = node->previous;
             }
@@ -238,28 +236,28 @@ namespace proto
         return PROTO_NONE; // Should not reach here if the logic is correct
     }
 
-    ProtoObject* ProtoListImplementation::implGetFirst(ProtoContext* context)
+    ProtoObject* ProtoListImplementation::implGetFirst(ProtoContext* context) const
     {
         return this->implGetAt(context, 0);
     }
 
-    ProtoObject* ProtoListImplementation::implGetLast(ProtoContext* context)
+    ProtoObject* ProtoListImplementation::implGetLast(ProtoContext* context) const
     {
         return this->implGetAt(context, -1);
     }
 
-    unsigned long ProtoListImplementation::implGetSize(ProtoContext* context)
+    unsigned long ProtoListImplementation::implGetSize(ProtoContext* context) const
     {
         return this->count;
     }
 
-    bool ProtoListImplementation::implHas(ProtoContext* context, ProtoObject* value)
+    bool ProtoListImplementation::implHas(ProtoContext* context, const ProtoObject* targetValue) const
     {
         // CRITICAL FIX: Loop corrected to avoid out-of-bounds access.
         // The original loop (i <= this->count) iterated one time too many.
         for (unsigned long i = 0; i < this->count; i++)
         {
-            if (this->implGetAt(context, i) == value)
+            if (this->implGetAt(context, i) == targetValue)
             {
                 return true;
             }
@@ -267,7 +265,7 @@ namespace proto
         return false;
     }
 
-    ProtoListImplementation* ProtoListImplementation::implAppendLast(ProtoContext* context, ProtoObject* newValue)
+    ProtoListImplementation* ProtoListImplementation::implAppendLast(ProtoContext* context, ProtoObject* newValue) const
     {
         if (!this->value)
         {
@@ -277,7 +275,7 @@ namespace proto
         ProtoListImplementation* newNode;
         if (this->next)
         {
-            ProtoListImplementation* new_next = static_cast<ProtoListImplementation*>(this->next->implAppendLast(
+            auto* new_next = static_cast<ProtoListImplementation*>(this->next->implAppendLast(
                 context, newValue));
             newNode = new(context) ProtoListImplementation(context, this->value, this->previous, new_next);
         }
@@ -313,7 +311,7 @@ namespace proto
         if (index < 0) index += this->count;
         if (index < 0 || static_cast<unsigned>(index) >= this->count) return this;
 
-        unsigned long thisIndex = this->previous ? this->previous->count : 0;
+        const unsigned long thisIndex = this->previous ? this->previous->count : 0;
         ProtoListImplementation* newNode;
 
         if (static_cast<unsigned long>(index) == thisIndex)
@@ -378,7 +376,7 @@ namespace proto
             return new(context) ProtoListImplementation(context);
     };
 
-    ProtoListImplementation* ProtoListImplementation::implSetAt(ProtoContext* context, int index, ProtoObject* value)
+    ProtoListImplementation* ProtoListImplementation::implSetAt(ProtoContext* context, int index, ProtoObject* newValue) const
     {
         if (!this->value)
         {
@@ -392,7 +390,7 @@ namespace proto
                 index = 0;
         }
 
-        if (((unsigned long)index) >= this->count)
+        if (static_cast<unsigned long>(index) >= this->count)
         {
             return nullptr;
         }
@@ -424,12 +422,12 @@ namespace proto
             );
     };
 
-    ProtoListImplementation* ProtoListImplementation::implInsertAt(ProtoContext* context, int index, ProtoObject* value)
+    ProtoListImplementation* ProtoListImplementation::implInsertAt(ProtoContext* context, int index, ProtoObject* newValue) const
     {
         if (!this->value)
             return new(context) ProtoListImplementation(
                 context,
-                value
+                newValue
             );
 
         if (index < 0)
@@ -439,16 +437,16 @@ namespace proto
                 index = 0;
         }
 
-        if (((unsigned long)index) >= this->count)
+        if (static_cast<unsigned long>(index) >= this->count)
             index = this->count - 1;
 
         unsigned long thisIndex = this->previous ? this->previous->count : 0;
         ProtoListImplementation* newNode;
 
-        if (thisIndex == ((unsigned long)index))
+        if (thisIndex == static_cast<unsigned long>(index))
             newNode = new(context) ProtoListImplementation(
                 context,
-                value,
+                newValue,
                 this->previous,
                 new(context) ProtoListImplementation(
                     context,
@@ -459,11 +457,11 @@ namespace proto
             );
         else
         {
-            if (((unsigned long)index) < thisIndex)
+            if (static_cast<unsigned long>(index) < thisIndex)
                 newNode = new(context) ProtoListImplementation(
                     context,
                     this->value,
-                    this->previous->implInsertAt(context, index, value),
+                    this->previous->implInsertAt(context, index, newValue),
                     this->next
                 );
             else
@@ -471,19 +469,19 @@ namespace proto
                     context,
                     this->value,
                     this->previous,
-                    this->next->implInsertAt(context, index - thisIndex - 1, value)
+                    this->next->implInsertAt(context, index - thisIndex - 1, newValue)
                 );
         }
 
         return rebalance(context, newNode);
     };
 
-    ProtoListImplementation* ProtoListImplementation::implAppendFirst(ProtoContext* context, ProtoObject* value)
+    ProtoListImplementation* ProtoListImplementation::implAppendFirst(ProtoContext* context, ProtoObject* newValue) const
     {
         if (!this->value)
             return new(context) ProtoListImplementation(
                 context,
-                value
+                newValue
             );
 
         ProtoListImplementation* newNode;
@@ -492,7 +490,7 @@ namespace proto
             newNode = new(context) ProtoListImplementation(
                 context,
                 this->value,
-                this->previous->implAppendFirst(context, value),
+                this->previous->implAppendFirst(context, newValue),
                 this->next
             );
         else
@@ -502,7 +500,7 @@ namespace proto
                 this->value,
                 new(context) ProtoListImplementation(
                     context,
-                    value
+                    newValue
                 ),
                 this->next
             );
@@ -511,10 +509,10 @@ namespace proto
         return rebalance(context, newNode);
     };
 
-    ProtoListImplementation* ProtoListImplementation::implExtend(ProtoContext* context, ProtoList* other)
+    ProtoListImplementation* ProtoListImplementation::implExtend(ProtoContext* context, ProtoListImplementation* other)
     {
         if (this->count == 0)
-            return (ProtoListImplementation*)other;
+            return other;
 
         unsigned long otherCount = other->getSize(context);
 
@@ -537,7 +535,7 @@ namespace proto
                     context,
                     other->getFirst(context),
                     this,
-                    (ProtoListImplementation*)other->removeFirst(context)
+                    static_cast<ProtoListImplementation*>(other->removeFirst(context))
                 ));
     };
 
@@ -548,34 +546,32 @@ namespace proto
 
         if (index < 0)
         {
-            index = (int)this->count + index;
+            index = static_cast<int>(this->count) + index;
             if (index < 0)
                 index = 0;
         }
 
-        if (index >= (int)this->count)
-            index = (int)this->count - 1;
+        if (index >= static_cast<int>(this->count))
+            index = static_cast<int>(this->count) - 1;
 
-        if (index == (int)this->count - 1)
+        if (index == static_cast<int>(this->count) - 1)
             return this;
 
         if (index == 0)
             return new(context) ProtoListImplementation(context);
 
-        ProtoListImplementation* newNode = NULL;
+        ProtoListImplementation* newNode = nullptr;
 
-        int thisIndex = (this->previous ? this->previous->count : 0);
-
-        if (thisIndex == index)
+        if (int thisIndex = (this->previous ? this->previous->count : 0); thisIndex == index)
             return this->previous;
         else
         {
             if (index > thisIndex)
             {
                 ProtoListImplementation* newNext = this->next->
-                                                         implSplitFirst(context, (unsigned long)index - thisIndex - 1);
+                                                         implSplitFirst(context, index - thisIndex - 1);
                 if (newNext->count == 0)
-                    newNext = NULL;
+                    newNext = nullptr;
                 newNode = new(context) ProtoListImplementation(
                     context,
                     this->value,
@@ -591,7 +587,7 @@ namespace proto
                     newNode = new(context) ProtoListImplementation(
                         context,
                         value,
-                        NULL,
+                        nullptr,
                         this->next->implSplitFirst(context, index - thisIndex - 1)
                     );
             }
@@ -612,17 +608,15 @@ namespace proto
                 index = 0;
         }
 
-        if (((unsigned long)index) >= this->count)
+        if (static_cast<unsigned long>(index) >= this->count)
             index = this->count - 1;
 
         if (index == 0)
             return this;
 
-        ProtoListImplementation* newNode = NULL;
+        ProtoListImplementation* newNode = nullptr;
 
-        int thisIndex = (this->previous ? this->previous->count : 0);
-
-        if (thisIndex == index)
+        if (int thisIndex = (this->previous ? this->previous->count : 0); thisIndex == index)
         {
             if (!this->previous)
                 return this;
@@ -631,7 +625,7 @@ namespace proto
                 newNode = new(context) ProtoListImplementation(
                     context,
                     value,
-                    NULL,
+                    nullptr,
                     this->next
                 );
             }
@@ -656,7 +650,7 @@ namespace proto
                 {
                     return this->next->implSplitLast(
                         context,
-                        ((unsigned long)index - thisIndex - 1)
+                        index - thisIndex - 1
                     );
                 }
             }
@@ -675,8 +669,8 @@ namespace proto
         if (this->previous)
         {
             newNode = this->previous->implRemoveFirst(context);
-            if (newNode->value == NULL)
-                newNode = NULL;
+            if (newNode->value == nullptr)
+                newNode = nullptr;
             newNode = new(context) ProtoListImplementation(
                 context,
                 value,
@@ -691,9 +685,9 @@ namespace proto
 
             newNode = new(context) ProtoListImplementation(
                 context,
-                NULL,
-                NULL,
-                NULL
+                nullptr,
+                nullptr,
+                nullptr
             );
         }
 
@@ -717,7 +711,6 @@ namespace proto
                 to = 0;
         }
 
-        ProtoListImplementation* slice = new(context) ProtoListImplementation(context);
         if (to >= from)
         {
             return this->implSplitFirst(context, from)->implExtend(
@@ -727,8 +720,6 @@ namespace proto
         }
         else
             return this;
-
-        return slice;
     };
 
 
@@ -737,7 +728,7 @@ namespace proto
     ProtoObject* ProtoListImplementation::implAsObject(ProtoContext* context)
     {
         ProtoObjectPointer p{};
-        p.oid.oid = (ProtoObject*)this;
+        p.listImplementation = this;
         p.op.pointer_tag = POINTER_TAG_LIST;
         return p.oid.oid;
     }
@@ -780,7 +771,8 @@ namespace proto
         }
         if (this->value && this->value->isCell(context))
         {
-            this->value->processReferences(context, self, method);
+            auto cell = this->value->asCell(context);
+            cell->processReferences(context, self, method);
         }
     }
 } // namespace proto

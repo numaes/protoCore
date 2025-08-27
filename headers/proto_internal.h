@@ -401,9 +401,9 @@ namespace proto
         );
         ~ProtoListIteratorImplementation() override;
 
-        int implHasNext(ProtoContext* context);
-        ProtoObject* implNext(ProtoContext* context);
-        ProtoListIteratorImplementation* implAdvance(ProtoContext* context);
+        int implHasNext(ProtoContext* context) const;
+        ProtoObject* implNext(ProtoContext* context) const;
+        ProtoListIteratorImplementation* implAdvance(ProtoContext* context) const;
 
         ProtoObject* implAsObject(ProtoContext* context);
         unsigned long getHash(ProtoContext* context) override;
@@ -438,20 +438,20 @@ namespace proto
         );
         ~ProtoListImplementation() override;
 
-        ProtoObject* implGetAt(ProtoContext* context, int index);
-        ProtoObject* implGetFirst(ProtoContext* context);
-        ProtoObject* implGetLast(ProtoContext* context);
+        ProtoObject* implGetAt(ProtoContext* context, int index) const;
+        ProtoObject* implGetFirst(ProtoContext* context) const;
+        ProtoObject* implGetLast(ProtoContext* context) const;
         ProtoListImplementation* implGetSlice(ProtoContext* context, int from, int to);
-        unsigned long implGetSize(ProtoContext* context);
+        unsigned long implGetSize(ProtoContext* context) const;
 
-        bool implHas(ProtoContext* context, ProtoObject* value);
-        ProtoListImplementation* implSetAt(ProtoContext* context, int index, ProtoObject* value = PROTO_NONE);
-        ProtoListImplementation* implInsertAt(ProtoContext* context, int index, ProtoObject* value);
+        bool implHas(ProtoContext* context, const ProtoObject* targetValue) const;
+        ProtoListImplementation* implSetAt(ProtoContext* context, int index, ProtoObject* value = PROTO_NONE) const;
+        ProtoListImplementation* implInsertAt(ProtoContext* context, int index, ProtoObject* newValue) const;
 
-        ProtoListImplementation* implAppendFirst(ProtoContext* context, ProtoObject* value);
-        ProtoListImplementation* implAppendLast(ProtoContext* context, ProtoObject* value);
+        ProtoListImplementation* implAppendFirst(ProtoContext* context, ProtoObject* newValue) const;
+        ProtoListImplementation* implAppendLast(ProtoContext* context, ProtoObject* newValue) const;
 
-        ProtoListImplementation* implExtend(ProtoContext* context, ProtoList* other);
+        ProtoListImplementation* implExtend(ProtoContext* context, ProtoListImplementation* other);
 
         ProtoListImplementation* implSplitFirst(ProtoContext* context, int index);
         ProtoListImplementation* implSplitLast(ProtoContext* context, int index);
