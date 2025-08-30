@@ -31,7 +31,7 @@ namespace proto
         return this->pointer;
     }
 
-    ProtoObject* ProtoExternalPointerImplementation::implAsObject(ProtoContext* context)
+    ProtoObject* ProtoExternalPointerImplementation::implAsObject(ProtoContext* context) const
     {
         ProtoObjectPointer p{};
         p.externalPointerImplementation = this;
@@ -62,7 +62,7 @@ namespace proto
     {
     };
 
-    unsigned long ProtoExternalPointerImplementation::getHash(ProtoContext* context)
+    unsigned long ProtoExternalPointerImplementation::implGetHash(ProtoContext* context) const
     {
         // The hash of a Cell is derived directly from its memory address.
         // This provides a fast and unique identifier for the object.
@@ -71,4 +71,5 @@ namespace proto
 
         return p.asHash.hash;
     }
+
 } // namespace proto

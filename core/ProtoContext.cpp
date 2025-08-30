@@ -56,12 +56,10 @@ namespace proto
         this->localsBase = localsBase;
         this->localsCount = localsCount;
 
-        if (this->localsBase)
+        if (localsBase)
         {
             for (unsigned int i = 0; i < this->localsCount; ++i)
-            {
-                this->localsBase[i] = nullptr;
-            }
+                localsBase[i] = nullptr;
         }
 
         if (previous)
@@ -73,7 +71,7 @@ namespace proto
         else
         {
             this->space = space;
-            this->thread = nullptr; // ensure initialization of thread
+            this->thread = nullptr; // ensure initialization of a thread
 
             this->thread = ProtoThreadImplementation::implGetCurrentThread(this);
         }
@@ -89,25 +87,50 @@ namespace proto
         if (this->lastAllocatedCell)
         {
             // When a context is destroyed, the space is informed about the cells
-            // that were allocated in it so the GC can analyze them.
+            // allocated in it so the GC can analyze them.
             this->space->analyzeUsedCells(this->lastAllocatedCell);
         }
 
         if (this->previous && this->returnValue)
         {
-            ProtoObjectPointer pa{};
-            pa.oid.oid = this->returnValue;
-            if (pa.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE)
+            // Unlink returnValue from context a link of created cells if it belongs to it
+            auto cell = this->lastAllocatedCell;
+            Cell* previousCell = nullptr;
+            auto returnCell = this->returnValue->asCell(this);
+            while (cell)
             {
-                Cell* rv = this->returnValue->asCell(this);
-                rv->next = this->previous->lastAllocatedCell;
+                if (cell == returnCell)
+                {
+                    if (previousCell)
+                        previousCell->next = cell->next;
+                    else
+                        this->lastAllocatedCell = cell->next;
+                    break;
+                }
+
+                previousCell = cell;
+                cell = cell->next;
+
+            }
+
+            // Link returnValue to previous context
+
+            if (this->previous)
+            {
+                ProtoObjectPointer pa{};
+                pa.oid.oid = this->returnValue;
+                if (pa.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE)
+                {
+                    Cell* rv = this->returnValue->asCell(this);
+                    rv->next = this->previous->lastAllocatedCell;
+                }
             }
         }
 
         if (this->previous->lastAllocatedCell)
             // When a context is destroyed, the space is informed about the cells
-                // that were allocated in it so the GC can analyze them.
-                    this->space->analyzeUsedCells(this->lastAllocatedCell);
+            // allocated in it so the GC can analyze them.
+            this->space->analyzeUsedCells(this->lastAllocatedCell);
 
     }
 
@@ -343,10 +366,10 @@ namespace proto
         return p.oid.oid;
     }
 
-    ProtoObject* ProtoContext::fromBuffer(unsigned long length, char* buffer)
+    ProtoObject* ProtoContext::fromBuffer(unsigned long length, char* buffer, bool freeOnExit)
     {
         ProtoObjectPointer p{};
-        p.byteBufferImplementation = new(this) ProtoByteBufferImplementation(this, buffer, length);
+        p.byteBufferImplementation = new(this) ProtoByteBufferImplementation(this, buffer, length, freeOnExit);
         p.op.pointer_tag = POINTER_TAG_BYTE_BUFFER;
         return p.oid.oid;
     }
@@ -354,7 +377,7 @@ namespace proto
     ProtoObject* ProtoContext::newBuffer(unsigned long length)
     {
         ProtoObjectPointer p{};
-        char* buffer = new char[length];
+        auto buffer = new char[length];
         p.byteBuffer = new(this) ProtoByteBufferImplementation(this, buffer, length);
         p.op.pointer_tag = POINTER_TAG_BYTE_BUFFER;
         return p.oid.oid;

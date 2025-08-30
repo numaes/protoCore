@@ -73,7 +73,7 @@ namespace proto
         ProtoStringImplementation* stringImplementation;
         ProtoStringIteratorImplementation* stringIteratorImplementation;
         const ProtoByteBufferImplementation* byteBufferImplementation;
-        ProtoExternalPointerImplementation* externalPointerImplementation;
+        const ProtoExternalPointerImplementation* externalPointerImplementation;
         ProtoThreadImplementation* threadImplementation;
 
         struct
@@ -635,15 +635,18 @@ namespace proto
         );
         ~ProtoExternalPointerImplementation() override;
         // ...
-        void implFinalize(ProtoContext* context);
-        void implProcessReferences(
+        void finalize(ProtoContext* context) override;
+        void processReferences(
             ProtoContext* context,
-            void* self
-        );
+            void* self,
+            void(* method)(ProtoContext* context, void* self, Cell* cell)) override;
 
         // ...
         void* implGetPointer(ProtoContext* context) const;
+
+        unsigned long implGetHash(ProtoContext* context) const;
         ProtoObject* implAsObject(ProtoContext* context) const;
+
         // ...
         void* pointer;
     };
