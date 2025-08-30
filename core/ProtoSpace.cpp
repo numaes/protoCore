@@ -425,7 +425,7 @@ namespace proto
         if (this->threads)
             this->threads = (ProtoSparseList*)this->threads->setAt(
                 context,
-                thread->getName(context)->getObjectHash(context),
+                thread->getName(context)->getHash(context),
                 thread->asObject(context)
             );
 

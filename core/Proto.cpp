@@ -809,7 +809,7 @@ namespace proto
     }
 
 
-    unsigned long ProtoObject::getObjectHash(ProtoContext* context) const
+    unsigned long ProtoObject::getHash(ProtoContext* context) const
     {
         ProtoObjectPointer p{};
         p.oid.oid = this;

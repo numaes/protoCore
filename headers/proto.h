@@ -32,12 +32,13 @@ namespace proto
     class ProtoSparseList;
     class ProtoSparseListIterator;
     class ProtoObjectCell;
+    class ProtoThread;
 
     //! Useful constants.
     //! @warning They should be kept in sync with proto_internal.h!
     #define PROTO_TRUE ((proto::ProtoObject *)  0x010FL)
     #define PROTO_FALSE ((proto::ProtoObject *) 0x000FL)
-    #define PROTO_NONE ((proto::ProtoObject *) NULL)
+    #define PROTO_NONE ((proto::ProtoObject *) nullptr)
 
     typedef ProtoObject*(*ProtoMethod)(
         ProtoContext* context,
@@ -76,7 +77,7 @@ namespace proto
                           ProtoSparseList* keywordParametersDict = nullptr);
 
         //- Internals & Type Checking
-        unsigned long getObjectHash(ProtoContext* context) const;
+        unsigned long getHash(ProtoContext* context) const;
         int isCell(ProtoContext* context) const;
         Cell* asCell(ProtoContext* context) const;
 
@@ -105,14 +106,8 @@ namespace proto
         ProtoStringIterator* asStringIterator(ProtoContext* context) const;
         ProtoSparseList* asSparseList(ProtoContext* context) const;
         ProtoSparseListIterator* asSparseListIterator(ProtoContext* context) const;
+        ProtoThread* asThread(ProtoContext* context) const;
         ProtoMethod asMethod(ProtoContext* context) const;
-    };
-
-    class ParentLink
-    {
-    public:
-        ProtoObject* getObject(ProtoContext* context) const;
-        ParentLink* getParent(ProtoContext* context) const;
     };
 
     class ProtoListIterator
@@ -151,6 +146,7 @@ namespace proto
         //- Conversion
         ProtoObject* asObject(ProtoContext* context) const;
         ProtoListIterator* getIterator(ProtoContext* context) const;
+        unsigned long getHash(ProtoContext* context) const;
     };
 
     class ProtoTupleIterator
@@ -189,6 +185,7 @@ namespace proto
         ProtoList* asList(ProtoContext* context) const;
         ProtoObject* asObject(ProtoContext* context) const;
         ProtoTupleIterator* getIterator(ProtoContext* context) const;
+        unsigned long getHash(ProtoContext* context) const;
     };
 
     class ProtoStringIterator
@@ -203,6 +200,8 @@ namespace proto
     class ProtoString
     {
     public:
+        static ProtoString* fromUTF8String(const char* zeroTerminatedUtf8String);
+
         int cmp_to_string(ProtoContext* context, ProtoString* otherString) const;
 
         //- Accessors
@@ -228,6 +227,7 @@ namespace proto
         ProtoObject* asObject(ProtoContext* context) const;
         ProtoList* asList(ProtoContext* context) const;
         ProtoStringIterator* getIterator(ProtoContext* context) const;
+        unsigned long getHash(ProtoContext* context) const;
     };
 
     class ProtoSparseListIterator
@@ -252,6 +252,7 @@ namespace proto
 
         ProtoObject* asObject(ProtoContext* context) const;
         ProtoSparseListIterator* getIterator(ProtoContext* context) const;
+        unsigned long getHash(ProtoContext* context) const;
 
         void processElements(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, unsigned long, ProtoObject*)) const;
         void processValues(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, ProtoObject*)) const;
@@ -265,6 +266,7 @@ namespace proto
         char getAt(ProtoContext* context, int index) const;
         void setAt(ProtoContext* context, int index, char value);
         ProtoObject* asObject(ProtoContext* context) const;
+        unsigned long getHash(ProtoContext* context) const;
     };
 
     class ProtoExternalPointer
@@ -272,6 +274,7 @@ namespace proto
     public:
         void* getPointer(ProtoContext* context) const;
         ProtoObject* asObject(ProtoContext* context) const;
+        unsigned long getHash(ProtoContext* context) const;
     };
 
     class ProtoThread
@@ -285,6 +288,8 @@ namespace proto
 
         ProtoObject* getName(ProtoContext* context) const;
         ProtoObject* asObject(ProtoContext* context) const;
+        unsigned long getHash(ProtoContext* context) const;
+
         void setCurrentContext(ProtoContext* context);
         void setManaged();
         void setUnmanaged();
@@ -318,28 +323,23 @@ namespace proto
         ProtoObject** localsBase;
         unsigned int localsCount;
 
-        //- Memory Management
-        void checkCellsCount();
-        void addCell2Context(Cell* newCell);
-        Cell* allocCell();
-
         //- Return Value
-        void setReturnValue(ProtoContext* context, ProtoObject* returnValue) const;
+        ProtoObject* returnValue;
 
         //- Factory methods for primitive types.
-        static ProtoObject* fromInteger(int value);
-        static ProtoObject* fromFloat(float value);
-        static ProtoObject* fromUTF8Char(const char* utf8OneCharString);
+        ProtoObject* fromInteger(int value);
+        ProtoObject* fromFloat(float value);
+        ProtoObject* fromUTF8Char(const char* utf8OneCharString);
         ProtoObject* fromUTF8String(const char* zeroTerminatedUtf8String);
-        static ProtoObject* fromMethod(ProtoObject* self, ProtoMethod method);
+        ProtoObject* fromMethod(ProtoObject* self, ProtoMethod method);
         ProtoObject* fromExternalPointer(void* pointer);
         ProtoObject* fromBuffer(unsigned long length, char* buffer);
         ProtoObject* newBuffer(unsigned long length);
-        static ProtoObject* fromBoolean(bool value);
-        static ProtoObject* fromByte(char c);
-        static ProtoObject* fromDate(unsigned year, unsigned month, unsigned day);
-        static ProtoObject* fromTimestamp(unsigned long timestamp);
-        static ProtoObject* fromTimeDelta(long timedelta);
+        ProtoObject* fromBoolean(bool value);
+        ProtoObject* fromByte(char c);
+        ProtoObject* fromDate(unsigned year, unsigned month, unsigned day);
+        ProtoObject* fromTimestamp(unsigned long timestamp);
+        ProtoObject* fromTimeDelta(long timedelta);
 
         //- Factory methods for complex types
         ProtoList* newList();
@@ -348,9 +348,11 @@ namespace proto
         ProtoSparseList* newSparseList();
         ProtoObject* newObject(bool mutableObject = false);
 
+        //- Memory Management
+        Cell* allocCell();
+
         Cell* lastAllocatedCell;
-        unsigned int allocatedCellsCount;
-        ProtoObject* lastReturnValue;
+        unsigned long allocatedCellsCount;
     };
 
     /**
@@ -365,8 +367,6 @@ namespace proto
     public:
         explicit ProtoSpace(ProtoMethod mainFunction, int argc, char** argv = nullptr);
         ~ProtoSpace();
-
-        ProtoObject* getThreads(ProtoContext* context);
 
         //- Core Prototypes
         ProtoObject* objectPrototype;
@@ -396,11 +396,6 @@ namespace proto
         ProtoObject* sparseListPrototype;
         ProtoObject* sparseListIteratorPrototype;
 
-        //- Cached Literals
-        ProtoString* literalGetAttribute;
-        ProtoString* literalSetAttribute;
-        ProtoString* literalCallMethod;
-
         //- Memory Management & GC
         Cell* getFreeCells(ProtoThread* currentThread);
         void analyzeUsedCells(Cell* cellsChain);
@@ -409,6 +404,9 @@ namespace proto
         //- Thread Management
         void allocThread(ProtoContext* context, ProtoThread* thread);
         void deallocThread(ProtoContext* context, ProtoThread* thread);
+        ProtoList* getThreads(ProtoContext* context);
+        ProtoThread* getCurrentThread(ProtoContext* context);
+        ProtoThread* getThreadByName(ProtoContext* context, ProtoString* threadName);
 
         /**
          * @brief Creates and starts a new managed thread within this ProtoSpace.
@@ -419,6 +417,7 @@ namespace proto
          * @param kwargs A ProtoSparseList of keyword arguments for the target method.
          * @return A pointer to the newly created ProtoThread object.
          */
+
         ProtoThread* newThread(
             ProtoContext* context,
             ProtoString* threadName,
@@ -427,40 +426,8 @@ namespace proto
             ProtoSparseList* kwargs
         );
 
+    private:
         ProtoSparseList* threads;
-
-        //- GC & Memory Internals
-        Cell* freeCells;
-        DirtySegment* dirtySegments;
-        int state;
-        unsigned int maxAllocatedCellsPerContext;
-        int blocksPerAllocation;
-        int heapSize;
-        int maxHeapSize;
-        int freeCellsCount;
-        unsigned int gcSleepMilliseconds;
-        int blockOnNoMemory;
-
-        //- Concurrency Control
-        std::atomic<TupleDictionary*> tupleRoot;
-        std::atomic<ProtoSparseList*> mutableRoot;
-        std::atomic<bool> mutableLock;
-        std::atomic<bool> threadsLock;
-        std::atomic<bool> gcLock;
-        std::thread::id mainThreadId;
-        std::thread* gcThread;
-        std::condition_variable stopTheWorldCV;
-        std::condition_variable restartTheWorldCV;
-        std::condition_variable gcCV;
-        int gcStarted;
-
-        //- Emergency Memory Management for OOM conditions
-        char* emergency_buffer;
-        char* emergency_ptr;
-        char* emergency_end;
-        std::atomic<bool> emergency_allocator_active;
-
-        static std::mutex globalMutex;
     };
 }
 

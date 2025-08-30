@@ -101,7 +101,7 @@ namespace proto
         value(value)
     {
         // Calculate hash and counters after initializing members.
-        this->hash = (value ? value->getObjectHash(context) : 0) ^
+        this->hash = (value ? value->getHash(context) : 0) ^
             (previous ? previous->hash : 0) ^
             (next ? next->hash : 0);
 

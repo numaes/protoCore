@@ -67,7 +67,7 @@ namespace proto
         for (i = 0; i <= cmpSize; i++)
         {
             int thisElementHash = this->key->implGetAt(context, i)->getObjectHash(context);
-            int tupleElementHash = list->getAt(context, i)->getObjectHash(context);
+            int tupleElementHash = list->getAt(context, i)->getHash(context);
             if (thisElementHash > tupleElementHash)
                 return 1;
             else if (thisElementHash < tupleElementHash)
@@ -223,7 +223,7 @@ namespace proto
         for (i = 0; i < cmpSize; i++)
         {
             int thisElementHash = this->key->implGetAt(context, i)->getObjectHash(context);
-            int tupleElementHash = tuple->getAt(context, i)->getObjectHash(context);
+            int tupleElementHash = tuple->getAt(context, i)->getHash(context);
             if (thisElementHash > tupleElementHash)
                 return 1;
             else if (thisElementHash < tupleElementHash)

@@ -247,10 +247,11 @@ namespace proto
         // ...
     };
 
-    class ParentLinkImplementation final : public Cell, public ParentLink
+    class ParentLinkImplementation final : public Cell
     {
     public:
-        // ...
+        ProtoObject* getObject(ProtoContext* context) const;
+        ParentLink* getParent(ProtoContext* context) const;
     };
 
     class ProtoObjectCell final : public Cell, public ProtoObject
@@ -296,6 +297,7 @@ namespace proto
         ProtoObject* implNext(ProtoContext* context);
         ProtoListIteratorImplementation* implAdvance(ProtoContext* context);
         ProtoObject* implAsObject(ProtoContext* context) const;
+        ProtoListIterator* asProtoListIterator(ProtoContext* context);
         unsigned long getHash(ProtoContext* context) const override;
 
         void finalize(ProtoContext* context);
@@ -339,6 +341,7 @@ namespace proto
         ProtoListImplementation* implRemoveAt(ProtoContext* context, int index) const;
         ProtoListImplementation* implRemoveSlice(ProtoContext* context, int from, int to) const;
         ProtoObject* implAsObject(ProtoContext* context) const;
+        ProtoList* asProtoList(ProtoContext* context) const;
         unsigned long getHash(ProtoContext* context) const override;
         ProtoListIteratorImplementation* implGetIterator(ProtoContext* context) const;
 
@@ -354,6 +357,7 @@ namespace proto
         ProtoObject* implNextValue(ProtoContext* context) const;
         ProtoSparseListIteratorImplementation* implAdvance(ProtoContext* context);
         ProtoObject* implAsObject(ProtoContext* context) const;
+        ProtoSparseListIterator* asProtoSparseListIterator(ProtoContext* context);
         // ...
     };
 
@@ -368,6 +372,7 @@ namespace proto
         bool implIsEqual(ProtoContext* context, const ProtoSparseListImplementation* otherDict) const;
         unsigned long implGetSize(ProtoContext* context) const;
         ProtoObject* implAsObject(ProtoContext* context) const;
+        ProtoSparseList* asProtoSparseList(ProtoContext* context) const;
         ProtoSparseListIteratorImplementation* implGetIterator(ProtoContext* context) const;
         void implProcessElements(
             ProtoContext* context,
@@ -390,6 +395,7 @@ namespace proto
         ProtoObject* implNext(ProtoContext* context);
         ProtoTupleIteratorImplementation* implAdvance(ProtoContext* context);
         ProtoObject* implAsObject(ProtoContext* context) const;
+        ProtoTupleIterator* asProtoTupleIterator(ProtoContext* context);
         // ...
     };
 
@@ -417,6 +423,7 @@ namespace proto
         ProtoTupleImplementation* implRemoveAt(ProtoContext* context, int index) const;
         ProtoTupleImplementation* implRemoveSlice(ProtoContext* context, int from, int to) const;
         ProtoObject* implAsObject(ProtoContext* context) const;
+        ProtoTuple* asProtoTuple(ProtoContext* context) const;
         // ...
     };
 
@@ -428,6 +435,7 @@ namespace proto
         ProtoObject* implNext(ProtoContext* context);
         ProtoStringIteratorImplementation* implAdvance(ProtoContext* context);
         ProtoObject* implAsObject(ProtoContext* context) const;
+        ProtoStringIterator* asProtoStringIterator(ProtoContext* context);
         // ...
     };
 
@@ -454,6 +462,8 @@ namespace proto
         ProtoStringImplementation* implRemoveLast(ProtoContext* context, int count) const;
         ProtoStringImplementation* implRemoveAt(ProtoContext* context, int index) const;
         ProtoObject* implAsObject(ProtoContext* context) const;
+        ProtoString* asProtoString(ProtoContext* context) const;
+        // ...
         // ...
     };
 
@@ -466,6 +476,8 @@ namespace proto
         unsigned long implGetSize(ProtoContext* context) const;
         char* implGetBuffer(ProtoContext* context) const;
         ProtoObject* implAsObject(ProtoContext* context) const;
+        ProtoByteBuffer* asProtoByteBuffer(ProtoContext* context) const;
+        // ...
         // ...
     };
 
@@ -476,6 +488,7 @@ namespace proto
         ProtoObject* implAsObject(ProtoContext* context) const;
         ProtoObject* implGetSelf(ProtoContext* context) const;
         ProtoMethod implGetMethod(ProtoContext* context) const;
+
         // ...
     };
 
@@ -496,9 +509,48 @@ namespace proto
         void implJoin(ProtoContext* context) const;
         [[nodiscard]] ProtoContext* implGetCurrentContext() const;
         ProtoObject* implAsObject(ProtoContext* context) const;
+        ProtoThread* asProtoThread(ProtoContext* context);
         static ProtoThread* implGetCurrentThread(const ProtoContext* context);
         // ...
     };
+
+    class ProtoSpaceImplementation final: public ProtoSpace
+    {
+    public:
+        //- GC & Memory Internals
+        Cell* freeCells;
+        DirtySegment* dirtySegments;
+        int state;
+        unsigned int maxAllocatedCellsPerContext;
+        int blocksPerAllocation;
+        int heapSize;
+        int maxHeapSize;
+        int freeCellsCount;
+        unsigned int gcSleepMilliseconds;
+        int blockOnNoMemory;
+
+        //- Concurrency Control
+        std::atomic<TupleDictionary*> tupleRoot;
+        std::atomic<ProtoSparseList*> mutableRoot;
+        std::atomic<bool> mutableLock;
+        std::atomic<bool> threadsLock;
+        std::atomic<bool> gcLock;
+        std::thread::id mainThreadId;
+        std::thread* gcThread;
+        std::condition_variable stopTheWorldCV;
+        std::condition_variable restartTheWorldCV;
+        std::condition_variable gcCV;
+        int gcStarted;
+
+        //- Emergency Memory Management for OOM conditions
+        char* emergency_buffer;
+        char* emergency_ptr;
+        char* emergency_end;
+        std::atomic<bool> emergency_allocator_active;
+
+        static std::mutex globalMutex;
+    };
+
 }
 
 #endif /* PROTO_INTERNAL_H */
