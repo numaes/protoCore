@@ -52,6 +52,7 @@ namespace proto
     {
     public:
         //- Object Model
+        ProtoObject* getPrototype(ProtoContext* context) const;
         ProtoObject* clone(ProtoContext* context, bool isMutable = false) const;
         ProtoObject* newChild(ProtoContext* context, bool isMutable = false) const;
 
@@ -350,6 +351,7 @@ namespace proto
 
         //- Memory Management
         Cell* allocCell();
+        void addCell2Context(Cell* cell);
 
         Cell* lastAllocatedCell;
         unsigned long allocatedCellsCount;

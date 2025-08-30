@@ -240,10 +240,19 @@ namespace proto
     class Cell
     {
     public:
+        Cell(ProtoContext* context);
         virtual ~Cell() = default;
+
+        // ...
+        virtual void finalize(ProtoContext* context);
+        virtual void processReferences(
+            ProtoContext* context,
+            void* self,
+            void (*method)(ProtoContext* context, void* self, Cell* cell)
+        );
         // ...
         virtual unsigned long getHash(ProtoContext* context) const;
-        virtual ProtoObject* asObject(ProtoContext* context) const;
+        virtual ProtoObject* implAsObject(ProtoContext* context) const;
         // ...
     };
 
@@ -550,6 +559,41 @@ namespace proto
 
         static std::mutex globalMutex;
     };
+
+    class BigCell final
+    {
+        union {
+            char byteData[64] = {};
+            ProtoObjectCell objectCell;
+            ProtoListIteratorImplementation listIteratorCell;
+            ProtoListImplementation listCell;
+            ProtoSparseListIteratorImplementation sparseListIteratorCell;
+            ProtoSparseListImplementation sparseListCell;
+            ProtoTupleIteratorImplementation tupleIteratorCell;
+            ProtoTupleImplementation tupleCell;
+            ProtoStringIteratorImplementation stringIteratorCell;
+            ProtoStringImplementation stringCell;
+            ProtoByteBufferImplementation byteBufferCell;
+            ProtoMethodCell methodCell;
+            ProtoExternalPointerImplementation externalPointerCell;
+            ProtoThreadImplementation threadCell;
+        };
+    };
+
+    static_assert(sizeof(BigCell) <= 64, "BigCell exceeds 64 bytes!!!!");
+    static_assert(sizeof(ProtoObjectCell) <= 64, "ProtoObjectCell exceeds 64 bytes!");
+    static_assert(sizeof(ProtoListIteratorImplementation) <= 64, "ProtoListIteratorImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoListImplementation) <= 64, "ProtoListImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoSparseListIteratorImplementation) <= 64, "ProtoSparseListIteratorImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoSparseListImplementation) <= 64, "ProtoSparseListImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoTupleIteratorImplementation) <= 64, "ProtoTupleIteratorImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoTupleImplementation) <= 64, "ProtoTupleImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoStringIteratorImplementation) <= 64, "ProtoStringIteratorImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoStringImplementation) <= 64, "ProtoStringImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoByteBufferImplementation) <= 64, "ProtoByteBufferImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoMethodCell) <= 64, "ProtoMethodCell exceeds 64 bytes!");
+    static_assert(sizeof(ProtoExternalPointerImplementation) <= 64, "ProtoExternalPointerImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoThreadImplementation) <= 64, "ProtoThreadImplementation exceeds 64 bytes!");
 
 }
 

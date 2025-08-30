@@ -17,17 +17,14 @@ namespace proto
         context->addCell2Context(this);
     };
 
-    // It is good practice to use '= default' for simple destructors in modern C++.
-    Cell::~Cell() = default;
-
-    unsigned long Cell::getHash(ProtoContext* context)
+    unsigned long Cell::getHash(ProtoContext* context) const
     {
         // The hash of a Cell is derived directly from its memory address.
         // This provides a fast and unique identifier for the object.
-        ProtoObjectPointer p{};
-        p.voidPointer = static_cast<void*>(this);
-
-        return p.asHash.hash;
+        // The pointer is safely cast to an integer. To preserve the original
+        // behavior of using a 60-bit hash, we apply a bitmask.
+        // This approach avoids undefined behavior from union-based type punning.
+        return reinterpret_cast<uintptr_t>(this) & ((1ULL << 60) - 1);
     }
 
     // Base implementation for finalization.
@@ -38,9 +35,10 @@ namespace proto
         // Does nothing in the base class.
     };
 
-    ProtoObject* Cell::asObject(ProtoContext* context)
+    ProtoObject* Cell::implAsObject(ProtoContext* context) const
     {
-        return reinterpret_cast<ProtoObject*>(this);
+        // It should be implemented by subclasses
+        return nullptr;
     }
 
     // Overloads the 'new' operator to use the context's memory allocator.
