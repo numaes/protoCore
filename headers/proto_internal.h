@@ -1,20 +1,18 @@
 /*
  * proto_internal.h
  *
- *  Created on: November, 2017 - Redesign January, 2024
+ *  Created on: November 2017 - Redesign January 2024
  *      Author: Gustavo Adrian Marino <gamarino@numaes.com>
  */
-
 
 #ifndef PROTO_INTERNAL_H
 #define PROTO_INTERNAL_H
 
 #include "../headers/proto.h"
-#include <thread>
 
 // Method cache per thread. It should be a power of 2
 #define THREAD_CACHE_DEPTH 1024
-// a Tuple maximun count of pointers
+// a Tuple maximum count of pointers
 #define TUPLE_SIZE 5
 
 namespace proto
@@ -192,7 +190,7 @@ namespace proto
     // Embedded types
 #define EMBEDDED_TYPE_SMALLINT               0
 #define EMBEDDED_TYPE_FLOAT                  1
-#define EMBEDDED_TYPE_UNICODECHAR            2
+#define EMBEDDED_TYPE_UNICODE_CHAR           2
 #define EMBEDDED_TYPE_BOOLEAN                3
 #define EMBEDDED_TYPE_BYTE                   4
 #define EMBEDDED_TYPE_DATE                   5
@@ -242,794 +240,265 @@ namespace proto
     class Cell
     {
     public:
-        static void* operator new(unsigned long size, ProtoContext* context);
-
-        explicit Cell(ProtoContext* context);
-        virtual ~Cell();
-
-        virtual void finalize(ProtoContext* context);
-        virtual void processReferences(
-            ProtoContext* context,
-            void* self,
-            void (*method)(
-                ProtoContext* context,
-                void* self,
-                Cell* cell
-            )
-        );
-
-        virtual unsigned long getHash(ProtoContext* context);
-        virtual ProtoObject* asObject(ProtoContext* context);
-
-        Cell* nextCell;
+        virtual ~Cell() = default;
+        // ...
+        virtual unsigned long getHash(ProtoContext* context) const;
+        virtual ProtoObject* asObject(ProtoContext* context) const;
+        // ...
     };
-
-    class BigCell final : public Cell
-    {
-    public:
-        explicit BigCell(ProtoContext* context);
-        ~BigCell() override;
-
-        void finalize(ProtoContext* context) override
-        {
-            /* No special finalization needed for BigCell */
-        };
-
-        void processReferences(
-            ProtoContext* context,
-            void* self,
-            void (*method)(
-                ProtoContext* context,
-                void* self,
-                Cell* cell
-            )
-        ) override
-        {
-            /* BigCell does not hold references to other Cells */
-        };
-        unsigned long getHash(ProtoContext* context) override { return Cell::getHash(context); };
-        ProtoObject* asObject(ProtoContext* context) override { return Cell::asObject(context); };
-
-        void* undetermined[6];
-    };
-
-    static_assert(sizeof(BigCell) == 64, "The size of the BigCell class must be exactly 64 bytes.");
-
 
     class ParentLinkImplementation final : public Cell, public ParentLink
     {
     public:
-        ParentLinkImplementation(
-            ProtoContext* context,
-            ParentLinkImplementation* parent,
-            ProtoObject* object
-        );
-        ~ParentLinkImplementation() override;
-
-        void finalize(ProtoContext* context) override;
-
-        void processReferences(
-            ProtoContext* context,
-            void* self,
-            void (*method)(
-                ProtoContext* context,
-                void* self,
-                Cell* cell
-            )
-        ) override;
-
-        ParentLinkImplementation* parent;
-        ProtoObject* object;
+        // ...
     };
 
-    /**
-     * @class ProtoObjectCell
-     * @brief Implementation of a cell representing a Proto object.
-     *
-     * Inherits from 'Cell' for memory management and from 'ProtoObjectCell'
-     * for the public object interface. It contains a reference to its
-     * inheritance chain (parents) and a list of attributes.
-     */
     class ProtoObjectCell final : public Cell, public ProtoObject
     {
     public:
-        /**
-         * @brief Constructor.
-         * @param context The current execution context.
-         * @param parent Pointer to the first link in the inheritance chain.
-         * @param mutable_ref A flag indicating if the object is mutable.
-         * @param attributes The sparse list of object attributes.
-         */
         ProtoObjectCell(
             ProtoContext* context,
             ParentLinkImplementation* parent,
             ProtoSparseListImplementation* attributes,
             unsigned long mutable_ref
         );
-
-        /**
-         * @brief Virtual destructor.
-         */
         ~ProtoObjectCell() override;
 
-        /**
-         * @brief Creates a new object cell with an additional parent in its inheritance chain.
-         * @param context The current execution context.
-         * @param newParentToAdd The parent object to be added.
-         * @return A *new* ProtoObjectCellImplementation with the updated inheritance chain.
-         */
         ProtoObjectCell* addParent(
             ProtoContext* context,
             ProtoObject* newParentToAdd
         ) const;
 
-        /**
-         * @brief Finalizer for the garbage collector.
-         *
-         * This method is called by the GC before freeing the cell's memory.
-         * @param context The current execution context.
-         */
-        void finalize(ProtoContext* context) override;
-
-        /**
-         * @brief Processes internal references for the garbage collector.
-         *
-         * Traverses references to the parent and attributes so that the GC
-         * can mark reachable objects.
-         */
+        void finalize(ProtoContext* context);
         void processReferences(
             ProtoContext* context,
             void* self,
             void (*method)(ProtoContext* context, void* self, Cell* cell)
-        ) override;
-        long unsigned getHash(ProtoContext* context) override;
+        );
+        long unsigned getHash(ProtoContext* context) const override;
 
         ParentLinkImplementation* parent;
         unsigned long mutable_ref;
         ProtoSparseListImplementation* attributes;
     };
 
-    // --- ProtoListIterator ---
-    // Concrete implementation for ProtoObject*
     class ProtoListIteratorImplementation final : public Cell, public ProtoListIterator
     {
     public:
         ProtoListIteratorImplementation(
             ProtoContext* context,
-            ProtoListImplementation* base,
+            const ProtoListImplementation* base,
             unsigned long currentIndex
         );
         ~ProtoListIteratorImplementation() override;
 
         int implHasNext(ProtoContext* context) const;
-        ProtoObject* implNext(ProtoContext* context) const;
-        ProtoListIteratorImplementation* implAdvance(ProtoContext* context) const;
+        ProtoObject* implNext(ProtoContext* context);
+        ProtoListIteratorImplementation* implAdvance(ProtoContext* context);
+        ProtoObject* implAsObject(ProtoContext* context) const;
+        unsigned long getHash(ProtoContext* context) const override;
 
-        ProtoObject* implAsObject(ProtoContext* context);
-        unsigned long getHash(ProtoContext* context) override;
-
-        void finalize(ProtoContext* context) override;
-
+        void finalize(ProtoContext* context);
         void processReferences(
             ProtoContext* context,
             void* self,
-            void (*method)(
-                ProtoContext* context,
-                void* self,
-                Cell* cell
-            )
-        ) override;
+            void (*method)(ProtoContext*, void*, Cell*)
+        );
 
     private:
-        ProtoListImplementation* base;
+        const ProtoListImplementation* base;
         unsigned long currentIndex;
     };
 
-    // --- ProtoList ---
-    // Concrete implementation for ProtoObject*
     class ProtoListImplementation final : public Cell, public ProtoList
     {
     public:
         explicit ProtoListImplementation(
             ProtoContext* context,
-            ProtoObject* value = PROTO_NONE,
-            ProtoListImplementation* previous = nullptr,
-            ProtoListImplementation* next = nullptr
+            const ProtoObject* value = PROTO_NONE,
+            const ProtoListImplementation* previous = nullptr,
+            const ProtoListImplementation* next = nullptr
         );
         ~ProtoListImplementation() override;
 
         ProtoObject* implGetAt(ProtoContext* context, int index) const;
         ProtoObject* implGetFirst(ProtoContext* context) const;
         ProtoObject* implGetLast(ProtoContext* context) const;
-        ProtoListImplementation* implGetSlice(ProtoContext* context, int from, int to);
+        ProtoListImplementation* implGetSlice(ProtoContext* context, int from, int to) const;
         unsigned long implGetSize(ProtoContext* context) const;
-
         bool implHas(ProtoContext* context, const ProtoObject* targetValue) const;
         ProtoListImplementation* implSetAt(ProtoContext* context, int index, ProtoObject* value = PROTO_NONE) const;
         ProtoListImplementation* implInsertAt(ProtoContext* context, int index, ProtoObject* newValue) const;
-
         ProtoListImplementation* implAppendFirst(ProtoContext* context, ProtoObject* newValue) const;
         ProtoListImplementation* implAppendLast(ProtoContext* context, ProtoObject* newValue) const;
+        ProtoListImplementation* implExtend(ProtoContext* context, const ProtoListImplementation* other) const;
+        ProtoListImplementation* implSplitFirst(ProtoContext* context, int index) const;
+        ProtoListImplementation* implSplitLast(ProtoContext* context, int index) const;
+        ProtoListImplementation* implRemoveFirst(ProtoContext* context) const;
+        ProtoListImplementation* implRemoveLast(ProtoContext* context) const;
+        ProtoListImplementation* implRemoveAt(ProtoContext* context, int index) const;
+        ProtoListImplementation* implRemoveSlice(ProtoContext* context, int from, int to) const;
+        ProtoObject* implAsObject(ProtoContext* context) const;
+        unsigned long getHash(ProtoContext* context) const override;
+        ProtoListIteratorImplementation* implGetIterator(ProtoContext* context) const;
 
-        ProtoListImplementation* implExtend(ProtoContext* context, ProtoListImplementation* other);
-
-        ProtoListImplementation* implSplitFirst(ProtoContext* context, int index);
-        ProtoListImplementation* implSplitLast(ProtoContext* context, int index);
-
-        ProtoListImplementation* implRemoveFirst(ProtoContext* context);
-        ProtoListImplementation* implRemoveLast(ProtoContext* context);
-        ProtoListImplementation* implRemoveAt(ProtoContext* context, int index);
-        ProtoListImplementation* implRemoveSlice(ProtoContext* context, int from, int to);
-
-        ProtoObject* implAsObject(ProtoContext* context);
-        unsigned long getHash(ProtoContext* context) override;
-        ProtoListIteratorImplementation* implGetIterator(ProtoContext* context);
-
-        void finalize(ProtoContext* context) override;
-        void processReferences(
-            ProtoContext* context,
-            void* self,
-            void (*method)(
-                ProtoContext* context,
-                void* self,
-                Cell* cell
-            )
-        ) override;
-
-        ProtoListImplementation* previous;
-        ProtoListImplementation* next;
-
-        ProtoObject* value;
-        unsigned long hash{};
-
-        unsigned long count : 52{};
-        unsigned long height : 8;
-        unsigned long type : 4{};
+        // ...
     };
 
-    // --- ProtoSparseList ---
-    // Concrete implementation for ProtoObject*
     class ProtoSparseListIteratorImplementation final : public Cell, public ProtoSparseListIterator
     {
     public:
-        ProtoSparseListIteratorImplementation(
-            ProtoContext* context,
-            int state,
-            ProtoSparseListImplementation* current,
-            ProtoSparseListIteratorImplementation* queue = nullptr
-        );
-        ~ProtoSparseListIteratorImplementation() override;
-
+        // ...
         int implHasNext(ProtoContext* context) const;
         unsigned long implNextKey(ProtoContext* context) const;
         ProtoObject* implNextValue(ProtoContext* context) const;
-
-        ProtoSparseListIteratorImplementation* implAdvance(ProtoContext* context) const;
-        ProtoObject* implAsObject(ProtoContext* context);
-        unsigned long getHash(ProtoContext* context) override;
-
-        void finalize(ProtoContext* context) override;
-        void processReferences(
-            ProtoContext* context,
-            void* self,
-            void (*method)(
-                ProtoContext* context,
-                void* self,
-                Cell* cell
-            )
-        ) override;
-
-    private:
-        int state;
-        ProtoSparseListImplementation* current;
-        ProtoSparseListIteratorImplementation* queue;
+        ProtoSparseListIteratorImplementation* implAdvance(ProtoContext* context);
+        ProtoObject* implAsObject(ProtoContext* context) const;
+        // ...
     };
 
     class ProtoSparseListImplementation final : public Cell, public ProtoSparseList
     {
     public:
-        explicit ProtoSparseListImplementation(
-            ProtoContext* context,
-            unsigned long index = 0,
-            ProtoObject* value = PROTO_NONE,
-            ProtoSparseListImplementation* previous = nullptr,
-            ProtoSparseListImplementation* next = nullptr
-        );
-        ~ProtoSparseListImplementation() override;
-
+        // ...
         bool implHas(ProtoContext* context, unsigned long offset) const;
         ProtoObject* implGetAt(ProtoContext* context, unsigned long offset) const;
-        ProtoSparseListImplementation* implSetAt(ProtoContext* context, unsigned long offset, ProtoObject* newValue);
-        ProtoSparseListImplementation* implRemoveAt(ProtoContext* context, unsigned long offset);
-        bool implIsEqual(ProtoContext* context, ProtoSparseListImplementation* otherDict);
-
+        ProtoSparseListImplementation* implSetAt(ProtoContext* context, unsigned long offset, ProtoObject* newValue) const;
+        ProtoSparseListImplementation* implRemoveAt(ProtoContext* context, unsigned long offset) const;
+        bool implIsEqual(ProtoContext* context, const ProtoSparseListImplementation* otherDict) const;
         unsigned long implGetSize(ProtoContext* context) const;
-        ProtoObject* implAsObject(ProtoContext* context);
-        unsigned long getHash(ProtoContext* context) override;
-        ProtoSparseListIteratorImplementation* implGetIterator(ProtoContext* context);
-
+        ProtoObject* implAsObject(ProtoContext* context) const;
+        ProtoSparseListIteratorImplementation* implGetIterator(ProtoContext* context) const;
         void implProcessElements(
             ProtoContext* context,
             void* self,
-            void (*method)(
-                ProtoContext* context,
-                void* self,
-                unsigned long index,
-                ProtoObject* value
-            )
+            void (*method)(ProtoContext*, void*, unsigned long, ProtoObject*)
         ) const;
-
         void implProcessValues(
             ProtoContext* context,
             void* self,
-            void (*method)(
-                ProtoContext* context,
-                void* self,
-                ProtoObject* value
-            )
+            void (*method)(ProtoContext*, void*, ProtoObject*)
         ) const;
-
-        void finalize(ProtoContext* context) override;
-        void processReferences(
-            ProtoContext* context,
-            void* self,
-            void (*method)(
-                ProtoContext* context,
-                void* self,
-                Cell* cell
-            )
-        ) override;
-
-        ProtoSparseListImplementation* previous;
-        ProtoSparseListImplementation* next;
-
-        unsigned long index;
-        ProtoObject* value;
-        unsigned long hash;
-
-        unsigned long count : 52;
-        unsigned long height : 8;
-        unsigned long type : 4{};
+        // ...
     };
 
-    // --- Tuple Interning Dictionary ---
-
-    class TupleDictionary final : public Cell
-    {
-    public:
-        TupleDictionary* next;
-        TupleDictionary* previous;
-        ProtoTupleImplementation* key;
-        int count;
-        int height;
-
-        int compareTuple(ProtoContext* context, ProtoTuple* tuple);
-        TupleDictionary* rightRotate(ProtoContext* context);
-        TupleDictionary* leftRotate(ProtoContext* context);
-        TupleDictionary* rebalance(ProtoContext* context);
-
-        explicit TupleDictionary(
-            ProtoContext* context,
-            ProtoTupleImplementation* key = nullptr,
-            TupleDictionary* next = nullptr,
-            TupleDictionary* previous = nullptr
-        );
-
-        long unsigned int getHash(proto::ProtoContext*) override;
-        ProtoObject* asObject(proto::ProtoContext*) override;
-        void finalize(ProtoContext* context) override;
-
-        void processReferences(
-            ProtoContext* context,
-            void* self,
-            void (*method)(
-                ProtoContext* context,
-                void* self,
-                Cell* cell
-            )
-        ) override;
-
-        int compareList(ProtoContext* context, ProtoList* list);
-        bool hasList(ProtoContext* context, ProtoList* list);
-        bool has(ProtoContext* context, ProtoTuple* tuple);
-        ProtoTupleImplementation* getAt(ProtoContext* context, ProtoTupleImplementation* tuple);
-        TupleDictionary* set(ProtoContext* context, ProtoTupleImplementation* tuple);
-    };
-
-    // Concrete implementation for ProtoTupleIterator
     class ProtoTupleIteratorImplementation final : public Cell, public ProtoTupleIterator
     {
     public:
-        // Constructor
-        ProtoTupleIteratorImplementation(
-            ProtoContext* context,
-            ProtoTupleImplementation* base,
-            unsigned long currentIndex
-        );
-
-        // Destructor
-        ~ProtoTupleIteratorImplementation() override;
-
-        // --- ProtoTupleIterator interface methods ---
-        int implHasNext(ProtoContext* context);
+        // ...
+        int implHasNext(ProtoContext* context) const;
         ProtoObject* implNext(ProtoContext* context);
         ProtoTupleIteratorImplementation* implAdvance(ProtoContext* context);
-
-        // --- Cell interface methods ---
-        ProtoObject* implAsObject(ProtoContext* context);
-        unsigned long getHash(ProtoContext* context) override;
-        void finalize(ProtoContext* context) override;
-        void processReferences(
-            ProtoContext* context,
-            void* self,
-            void (*method)(ProtoContext*, void*, Cell*)
-        ) override;
-
-    private:
-        ProtoTupleImplementation* base; // The tuple being iterated over
-        unsigned long currentIndex; // The current position in the tuple
+        ProtoObject* implAsObject(ProtoContext* context) const;
+        // ...
     };
 
-    // --- ProtoTuple ---
-    // Implementation of tuples, potentially using a "rope" structure for efficiency.
     class ProtoTupleImplementation final : public Cell, public ProtoTuple
     {
     public:
-        // Constructor
-        ProtoTupleImplementation(
-            ProtoContext* context,
-            unsigned long elementCount,
-            unsigned long heigh,
-            ProtoObject** data
-        );
-
-        ProtoTupleImplementation(
-            ProtoContext* context,
-            unsigned long elementCount,
-            unsigned long height,
-            ProtoTupleImplementation** indirect
-        );
-
-        // Destructor
-        ~ProtoTupleImplementation() override;
-
-        // --- ProtoTuple interface methods ---
-        ProtoObject* implGetAt(ProtoContext* context, int index);
-        ProtoObject* implGetFirst(ProtoContext* context);
-        ProtoObject* implGetLast(ProtoContext* context);
-        ProtoTupleImplementation* implGetSlice(ProtoContext* context, int from, int to);
-        unsigned long implGetSize(ProtoContext* context);
-        ProtoList* implAsList(ProtoContext* context);
-        static ProtoTupleImplementation* tupleFromList(ProtoContext* context, ProtoList* list);
-        ProtoTupleIteratorImplementation* implGetIterator(ProtoContext* context);
-        ProtoTupleImplementation* implSetAt(ProtoContext* context, int index, ProtoObject* value);
-        bool implHas(ProtoContext* context, ProtoObject* value);
-        ProtoTupleImplementation* implInsertAt(ProtoContext* context, int index, ProtoObject* value);
-        ProtoTupleImplementation* implAppendFirst(ProtoContext* context, ProtoTuple* otherTuple);
-        ProtoTupleImplementation* implAppendLast(ProtoContext* context, ProtoTuple* otherTuple);
-        ProtoTupleImplementation* implSplitFirst(ProtoContext* context, int count);
-        ProtoTupleImplementation* implSplitLast(ProtoContext* context, int count);
-        ProtoTupleImplementation* implRemoveFirst(ProtoContext* context, int count);
-        ProtoTupleImplementation* implRemoveLast(ProtoContext* context, int count);
-        ProtoTupleImplementation* implRemoveAt(ProtoContext* context, int index);
-        ProtoTupleImplementation* implRemoveSlice(ProtoContext* context, int from, int to);
-
-        // --- Cell interface methods ---
-        ProtoObject* implAsObject(ProtoContext* context);
-        unsigned long getHash(ProtoContext* context) override;
-        void finalize(ProtoContext* context) override;
-        void processReferences(
-            ProtoContext* context,
-            void* self,
-            void (*method)(ProtoContext*, void*, Cell*)
-        ) override;
-
-    private:
-        unsigned long elementCount : 56;
-        unsigned long height : 8;
-
-        union
-        {
-            ProtoObject* data[TUPLE_SIZE];
-            ProtoTupleImplementation* indirect[TUPLE_SIZE];
-        } pointers;
+        // ...
+        ProtoObject* implGetAt(ProtoContext* context, int index) const;
+        ProtoObject* implGetFirst(ProtoContext* context) const;
+        ProtoObject* implGetLast(ProtoContext* context) const;
+        ProtoTupleImplementation* implGetSlice(ProtoContext* context, int from, int to) const;
+        unsigned long implGetSize(ProtoContext* context) const;
+        ProtoList* implAsList(ProtoContext* context) const;
+        static ProtoTupleImplementation* tupleFromList(ProtoContext* context, const ProtoList* list);
+        ProtoTupleIteratorImplementation* implGetIterator(ProtoContext* context) const;
+        ProtoTupleImplementation* implSetAt(ProtoContext* context, int index, ProtoObject* value) const;
+        bool implHas(ProtoContext* context, ProtoObject* value) const;
+        ProtoTupleImplementation* implInsertAt(ProtoContext* context, int index, ProtoObject* value) const;
+        ProtoTupleImplementation* implAppendFirst(ProtoContext* context, const ProtoTuple* otherTuple) const;
+        ProtoTupleImplementation* implAppendLast(ProtoContext* context, const ProtoTuple* otherTuple) const;
+        ProtoTupleImplementation* implSplitFirst(ProtoContext* context, int count) const;
+        ProtoTupleImplementation* implSplitLast(ProtoContext* context, int count) const;
+        ProtoTupleImplementation* implRemoveFirst(ProtoContext* context, int count) const;
+        ProtoTupleImplementation* implRemoveLast(ProtoContext* context, int count) const;
+        ProtoTupleImplementation* implRemoveAt(ProtoContext* context, int index) const;
+        ProtoTupleImplementation* implRemoveSlice(ProtoContext* context, int from, int to) const;
+        ProtoObject* implAsObject(ProtoContext* context) const;
+        // ...
     };
 
-    // --- ProtoStringIterator ---
-    // Concrete implementation for the ProtoString iterator.
     class ProtoStringIteratorImplementation final : public Cell, public ProtoStringIterator
     {
     public:
-        // Constructor
-        ProtoStringIteratorImplementation(
-            ProtoContext* context,
-            ProtoStringImplementation* base,
-            unsigned long currentIndex
-        );
-
-        // Destructor
-        ~ProtoStringIteratorImplementation() override;
-
-        // --- ProtoStringIterator interface methods ---
-        int implHasNext(ProtoContext* context);
+        // ...
+        int implHasNext(ProtoContext* context) const;
         ProtoObject* implNext(ProtoContext* context);
         ProtoStringIteratorImplementation* implAdvance(ProtoContext* context);
-
-        // --- Cell interface methods ---
-        ProtoObject* implAsObject(ProtoContext* context);
-        unsigned long getHash(ProtoContext* context) override; // Inherited from Cell, important for consistency.
-        void finalize(ProtoContext* context) override;
-        void processReferences(
-            ProtoContext* context,
-            void* self,
-            void (*method)(ProtoContext*, void*, Cell*)
-        ) override;
-
-    private:
-        ProtoStringImplementation* base; // The string being iterated over.
-        unsigned long currentIndex; // The current position in the string.
+        ProtoObject* implAsObject(ProtoContext* context) const;
+        // ...
     };
 
-    // --- ProtoString ---
-    // Implementation of an immutable string, based on a tuple of characters.
     class ProtoStringImplementation final : public Cell, public ProtoString
     {
     public:
-        // Constructor
-        ProtoStringImplementation(
-            ProtoContext* context,
-            ProtoTupleImplementation* baseTuple
-        );
-
-        // Destructor
-        ~ProtoStringImplementation() override;
-
-        // --- ProtoString interface methods ---
-        int implCmpToString(ProtoContext* context, ProtoString* otherString);
-        ProtoObject* implGetAt(ProtoContext* context, int index);
-        unsigned long implGetSize(ProtoContext* context);
-        ProtoStringImplementation* implGetSlice(ProtoContext* context, int from, int to);
-        ProtoStringImplementation* implSetAt(ProtoContext* context, int index, ProtoObject* value);
-        ProtoStringImplementation* implInsertAt(ProtoContext* context, int index, ProtoObject* value);
-        ProtoStringImplementation* implAppendLast(ProtoContext* context, ProtoString* otherString);
-        ProtoStringImplementation* implAppendFirst(ProtoContext* context, ProtoString* otherString);
-        ProtoStringImplementation* implRemoveSlice(ProtoContext* context, int from, int to);
-        ProtoListImplementation* implAsList(ProtoContext* context);
-        ProtoStringIteratorImplementation* implGetIterator(ProtoContext* context);
-        ProtoStringImplementation* implSetAtString(ProtoContext* context, int index, ProtoString* otherString);
-        ProtoStringImplementation* implInsertAtString(ProtoContext* context, int index, ProtoString* otherString);
-        ProtoStringImplementation* implSplitFirst(ProtoContext* context, int count);
-        ProtoStringImplementation* implSplitLast(ProtoContext* context, int count);
-        ProtoStringImplementation* implRemoveFirst(ProtoContext* context, int count);
-        ProtoStringImplementation* implRemoveLast(ProtoContext* context, int count);
-        ProtoStringImplementation* implRemoveAt(ProtoContext* context, int index);
-
-        // --- Cell interface methods ---
-        ProtoObject* implAsObject(ProtoContext* context);
-        unsigned long getHash(ProtoContext* context) override;
-        void finalize(ProtoContext* context) override;
-        void processReferences(
-            ProtoContext* context,
-            void* self,
-            void (*method)(ProtoContext*, void*, Cell*)
-        ) override;
-
-    private:
-        ProtoTupleImplementation* baseTuple; // The underlying tuple that stores the characters.
+        // ...
+        int implCmpToString(ProtoContext* context, const ProtoString* otherString) const;
+        ProtoObject* implGetAt(ProtoContext* context, int index) const;
+        unsigned long implGetSize(ProtoContext* context) const;
+        ProtoStringImplementation* implGetSlice(ProtoContext* context, int from, int to) const;
+        ProtoStringImplementation* implSetAt(ProtoContext* context, int index, ProtoObject* value) const;
+        ProtoStringImplementation* implInsertAt(ProtoContext* context, int index, ProtoObject* value) const;
+        ProtoStringImplementation* implAppendLast(ProtoContext* context, const ProtoString* otherString) const;
+        ProtoStringImplementation* implAppendFirst(ProtoContext* context, const ProtoString* otherString) const;
+        ProtoStringImplementation* implRemoveSlice(ProtoContext* context, int from, int to) const;
+        ProtoListImplementation* implAsList(ProtoContext* context) const;
+        ProtoStringIteratorImplementation* implGetIterator(ProtoContext* context) const;
+        ProtoStringImplementation* implSetAtString(ProtoContext* context, int index, const ProtoString* otherString) const;
+        ProtoStringImplementation* implInsertAtString(ProtoContext* context, int index, const ProtoString* otherString) const;
+        ProtoStringImplementation* implSplitFirst(ProtoContext* context, int count) const;
+        ProtoStringImplementation* implSplitLast(ProtoContext* context, int count) const;
+        ProtoStringImplementation* implRemoveFirst(ProtoContext* context, int count) const;
+        ProtoStringImplementation* implRemoveLast(ProtoContext* context, int count) const;
+        ProtoStringImplementation* implRemoveAt(ProtoContext* context, int index) const;
+        ProtoObject* implAsObject(ProtoContext* context) const;
+        // ...
     };
 
-
-    // --- ProtoByteBufferImplementation ---
-    // Implementation of a byte buffer that can manage its own memory
-    // or wrap an existing buffer.
     class ProtoByteBufferImplementation final : public Cell, public ProtoByteBuffer
     {
     public:
-        // Constructor: creates or wraps a memory buffer.
-        // If 'buffer' is null, new memory will be allocated.
-        ProtoByteBufferImplementation(
-            ProtoContext* context,
-            unsigned long size,
-            char* buffer = nullptr
-        );
-
-        // Destructor: frees the memory if the class owns it.
-        ~ProtoByteBufferImplementation() override;
-
-        // --- ProtoByteBuffer interface methods ---
-        char implGetAt(ProtoContext* context, int index);
+        // ...
+        char implGetAt(ProtoContext* context, int index) const;
         void implSetAt(ProtoContext* context, int index, char value);
-        unsigned long implGetSize(ProtoContext* context);
-        char* implGetBuffer(ProtoContext* context);
-
-        // --- Cell interface methods ---
-        void processReferences(
-            ProtoContext* context,
-            void* self,
-            void (*method)(ProtoContext*, void*, Cell*)
-        ) override;
-        void finalize(ProtoContext* context) override;
-        ProtoObject* implAsObject(ProtoContext* context);
-        unsigned long getHash(ProtoContext* context) override;
-
-    private:
-        // Helper function to validate and normalize indices.
-        bool normalizeIndex(int& index);
-
-        unsigned long size; // The size of the buffer in bytes.
-        char* buffer; // Pointer to the buffer's memory.
-        bool freeOnExit; // Flag indicating if the destructor should free `buffer`.
+        unsigned long implGetSize(ProtoContext* context) const;
+        char* implGetBuffer(ProtoContext* context) const;
+        ProtoObject* implAsObject(ProtoContext* context) const;
+        // ...
     };
 
-    // --- ProtoMethodCellImplementation ---
-    // Implementation of a pointer to a C method
     class ProtoMethodCell final : public Cell
     {
     public:
-        ProtoMethodCell(ProtoContext* context, ProtoMethod method);
-
-        ProtoObject* implInvoke(ProtoContext* context, ProtoList* args, ProtoSparseList* kwargs);
-        ProtoObject* implAsObject(ProtoContext* context);
-        unsigned long getHash(ProtoContext* context) override;
-        void finalize(ProtoContext* context) override;
-        void processReferences(ProtoContext* context, void* self,
-                               void (*method)(ProtoContext* context, void* self, Cell* cell)) override;
-        ProtoObject* implGetSelf(ProtoContext* context);
-        ProtoMethod implGetMethod(ProtoContext* context);
-
-        ProtoMethod method{};
+        // ...
+        ProtoObject* implAsObject(ProtoContext* context) const;
+        ProtoObject* implGetSelf(ProtoContext* context) const;
+        ProtoMethod implGetMethod(ProtoContext* context) const;
+        // ...
     };
 
-    struct AttributeCacheEntry
-    {
-        ProtoObject* object;
-        ProtoString* attribute_name;
-        ProtoObject* value;
-    };
-
-    /**
- * @class ProtoExternalPointerImplementation
- * @brief Implementation of a cell containing an opaque pointer to external data.
- *
- * This class encapsulates a `void*` pointer that is not managed by the Proto
- * garbage collector. It is useful for integrating Proto with external C/C++
- * libraries or data, allowing these pointers to be passed as first-class objects.
- */
     class ProtoExternalPointerImplementation final : public Cell, public ProtoExternalPointer
     {
     public:
-        /**
-         * @brief Constructor.
-         * @param context The current execution context.
-         * @param pointer The external pointer (void*) to be encapsulated.
-         */
-        ProtoExternalPointerImplementation(ProtoContext* context, void* pointer);
-
-        /**
-         * @brief Destructor.
-         */
-        ~ProtoExternalPointerImplementation() override;
-
-        /**
-         * @brief Gets the encapsulated external pointer.
-         * @param context The current execution context.
-         * @return The stored (void*) pointer.
-         */
-        void* implGetPointer(ProtoContext* context);
-
-        /**
-         * @brief Returns the representation of this cell as a ProtoObject.
-         * @param context The current execution context.
-         * @return A ProtoObject representing this external pointer.
-         */
-        ProtoObject* implAsObject(ProtoContext* context);
-
-        /**
-         * @brief Finalizer for the garbage collector.
-         *
-         * Performs no action, as the external pointer is not managed by the GC.
-         * @param context The current execution context.
-         */
-        void finalize(ProtoContext* context) override;
-        unsigned long getHash(ProtoContext* context) override;
-
-        /**
-         * @brief Processes references for the garbage collector.
-         *
-         * The body is empty because the external pointer is not a reference
-         * that the garbage collector should follow.
-         */
-        void processReferences(
-            ProtoContext* context,
-            void* self,
-            void (*method)(ProtoContext* context, void* self, Cell* cell)
-        ) override;
-
-    private:
-        void* pointer; // The opaque pointer to external data.
+        // ...
+        void* implGetPointer(ProtoContext* context) const;
+        ProtoObject* implAsObject(ProtoContext* context) const;
+        // ...
     };
 
-    // --- ProtoThreadImplementation ---
-    // The internal implementation of a thread managed by the Proto runtime.
-    // Inherits from 'Cell' to be managed by the garbage collector.
     class ProtoThreadImplementation final : public Cell, public ProtoThread
     {
     public:
-        // --- Constructor and Destructor ---
-
-        // Creates a new thread instance.
-        ProtoThreadImplementation(
-            ProtoContext* context,
-            ProtoString* name,
-            ProtoSpace* space,
-            ProtoMethod targetCode,
-            ProtoList* args,
-            ProtoSparseList* kwargs);
-
-        // Virtual destructor to ensure proper cleanup.
-        ~ProtoThreadImplementation() override;
-
-        unsigned long getHash(ProtoContext* context) override;
-
-        // --- GC Management Control ---
-
-        // Marks the thread as "unmanaged" so the GC does not stop it.
-        void implSetUnmanaged();
-
-        // Returns the thread to the "managed" state by the GC.
-        void implSetManaged();
-
-        // --- Thread Lifecycle Control ---
-
-        // Detaches the thread from the object, allowing it to run independently.
-        void implDetach(ProtoContext* context);
-
-        // Blocks the current thread until this thread finishes its execution.
-        void implJoin(ProtoContext* context);
-
-        // Requests the termination of the thread.
-        void implExit(ProtoContext* context);
-
-        // --- Memory Allocation and Synchronization ---
-
-        // Allocates a new memory cell for the thread.
-        Cell* implAllocCell();
-
-        // Synchronizes the thread with the garbage collector.
-        void implSynchToGC();
-
-        // --- Type System Interface ---
-
-        // Sets the current execution context for the thread.
-        void implSetCurrentContext(ProtoContext* context);
-        ProtoContext* implGetCurrentContext();
-
-        // Converts the implementation to a generic ProtoObject*.
-        ProtoObject* implAsObject(ProtoContext* context);
-
-        // --- Garbage Collector Methods (Inherited from Cell) ---
-
-        // Finalizer called by the GC before freeing the memory.
-        void finalize(ProtoContext* context) override;
-
-        // Processes references to other cells for the GC sweep.
-        void processReferences(
-            ProtoContext* context,
-            void* self,
-            void (*method)(ProtoContext* context, void* self, Cell* cell)) override;
-
-        static ProtoThread* implGetCurrentThread(ProtoContext* context);
-
-        // --- Member Data ---
-        int state; // Current state of the thread with respect to the GC.
-        ProtoString* name; // Name of the thread (for debugging).
-        ProtoSpace* space; // The memory space to which the thread belongs.
-        std::thread* osThread; // The actual operating system thread.
-        BigCell* freeCells; // List of free memory cells local to the thread.
-        ProtoContext* currentContext; // Current call stack of the thread.
-        unsigned int unmanagedCount; // Counter for nested calls to setUnmanaged/setManaged.
-        struct AttributeCacheEntry* attribute_cache;
+        // ...
+        void implDetach(ProtoContext* context) const;
+        void implJoin(ProtoContext* context) const;
+        [[nodiscard]] ProtoContext* implGetCurrentContext() const;
+        ProtoObject* implAsObject(ProtoContext* context) const;
+        static ProtoThread* implGetCurrentThread(const ProtoContext* context);
+        // ...
     };
-} // namespace proto
+}
 
 #endif /* PROTO_INTERNAL_H */

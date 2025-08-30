@@ -118,27 +118,9 @@ namespace proto
     {
         Cell* newCell;
 
-        if (this->space && this->space->emergency_allocator_active.load())
+        if (this->thread)
         {
-            // Emergency allocation path. Use the pre-allocated buffer.
-            // This is a simple, non-thread-safe bump allocator, which is acceptable
-            // because an OOM condition is already a "stop the world" style event.
-            const size_t required_size = sizeof(BigCell);
-            if (this->space->emergency_ptr + required_size <= this->space->emergency_end)
-            {
-                newCell = reinterpret_cast<Cell*>(this->space->emergency_ptr);
-                this->space->emergency_ptr += required_size;
-                ::new(newCell) Cell(this);
-            }
-            else
-            {
-                // The emergency buffer is also exhausted. This is the final point of failure.
-                fprintf(stderr, "FATAL: Emergency memory buffer exhausted. Cannot continue.\n");
-                std::exit(1);
-            }
-        }
-        else if (this->thread)
-        {
+            // normal case path
             newCell = static_cast<ProtoThreadImplementation*>(this->thread)->implAllocCell();
             ::new(newCell) Cell(this);
             newCell = static_cast<Cell*>(newCell);
@@ -147,9 +129,9 @@ namespace proto
         }
         else
         {
-            // WARNING: This branch uses malloc directly, which bypasses the GC.
-            // This is likely a remnant of old code and could be a source of memory leaks.
-            // All cell allocations should go through the space's memory manager.
+            // This branch uses malloc directly, which bypasses the GC.
+            // It is only used on initialization of the space
+
             void* newChunk = std::malloc(sizeof(BigCell));
             ::new(newChunk) Cell(this);
             newCell = static_cast<Cell*>(newChunk);
@@ -204,7 +186,7 @@ namespace proto
         ProtoObjectPointer p{};
         p.oid.oid = nullptr;
         p.unicodeChar.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
-        p.unicodeChar.embedded_type = EMBEDDED_TYPE_UNICODECHAR;
+        p.unicodeChar.embedded_type = EMBEDDED_TYPE_UNICODE_CHAR;
 
         unsigned unicodeValue = 0U;
 
@@ -237,7 +219,7 @@ namespace proto
         return p.oid.oid;
     }
 
-    ProtoString* ProtoContext::fromUTF8String(const char* zeroTerminatedUtf8String)
+    ProtoObject* ProtoContext::fromUTF8String(const char* zeroTerminatedUtf8String)
     {
         const char* currentChar = zeroTerminatedUtf8String;
         ProtoList* charList = this->newList();
@@ -255,10 +237,11 @@ namespace proto
         }
 
         // Creating a string involves converting the list of characters into a tuple.
-        return new(this) ProtoStringImplementation(
+        const auto newString = new(this) ProtoStringImplementation(
             this,
             ProtoTupleImplementation::tupleFromList(this, charList)
         );
+        return newString->implAsObject(this);
     }
 
     // --- Collection Type Constructors (new...) ---
@@ -285,11 +268,11 @@ namespace proto
 
     ProtoObject* ProtoContext::newObject(const bool mutableObject)
     {
-        return new(this) ProtoObjectCellImplementation(
+        return new(this) ProtoObjectCell(
             this,
             nullptr,
-            mutableObject ? generate_mutable_ref() : 0,
-            nullptr
+            nullptr,
+            mutableObject ? generate_mutable_ref() : 0
         );
     }
 
@@ -351,32 +334,32 @@ namespace proto
     ProtoObject* ProtoContext::fromMethod(ProtoObject* self, ProtoMethod method)
     {
         ProtoObjectPointer p{};
-        p.oid.oid = reinterpret_cast<ProtoObject*>(new(this) ProtoMethodCell(this, method));
+        p.methodCellImplementation = new(this) ProtoMethodCell(this, method);
         p.op.pointer_tag = POINTER_TAG_METHOD;
         return p.oid.oid;
     }
 
-    ProtoExternalPointer* ProtoContext::fromExternalPointer(void* pointer)
+    ProtoObject* ProtoContext::fromExternalPointer(void* pointer)
     {
         ProtoObjectPointer p{};
         p.externalPointerImplementation = new(this) ProtoExternalPointerImplementation(this, pointer);
         p.op.pointer_tag = POINTER_TAG_EXTERNAL_POINTER;
-        return p.externalPointerImplementation;
+        return p.oid.oid;
     }
 
-    ProtoByteBuffer* ProtoContext::fromBuffer(unsigned long length, char* buffer)
+    ProtoObject* ProtoContext::fromBuffer(unsigned long length, char* buffer)
     {
         ProtoObjectPointer p{};
         p.byteBufferImplementation = new(this) ProtoByteBufferImplementation(this, length, buffer);
         p.op.pointer_tag = POINTER_TAG_BYTE_BUFFER;
-        return p.byteBufferImplementation;
+        return p.oid.oid;
     }
 
-    ProtoByteBuffer* ProtoContext::newBuffer(unsigned long length)
+    ProtoObject* ProtoContext::newBuffer(unsigned long length)
     {
         ProtoObjectPointer p{};
         p.byteBuffer = new(this) ProtoByteBufferImplementation(this, length, nullptr);
         p.op.pointer_tag = POINTER_TAG_BYTE_BUFFER;
-        return p.byteBuffer;
+        return p.oid.oid;
     }
 } // namespace proto

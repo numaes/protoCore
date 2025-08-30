@@ -25,9 +25,9 @@ Proto's performance and safety stem from a set of deeply integrated architectura
 
 1.  **Immutable-First Object Model**: At its core, Proto is built around immutable data structures. Operations that "modify" collections like tuples or strings actually produce new versions, efficiently sharing the unchanged parts of the original (structural sharing). This design is the foundation of Proto's concurrency story, making parallel programming fundamentally safer.
 
-2.  **High-Performance Memory Model**: Proto uses several optimizations to achieve high performance:
-    *   **Tagged Pointers**: Simple values like integers and booleans are stored directly inside the 64-bit pointer, completely avoiding heap allocation and GC overhead for primitive types.
-    *   **Fixed-Size Cell Allocation**: All heap objects reside in 64-byte `Cell`s, eliminating memory fragmentation and enabling a lightning-fast, per-thread allocator.
+2.  **Hardware-Aware Memory Model**: Proto's memory architecture is meticulously designed to leverage the features of modern multi-core CPUs, resulting in elite performance:
+    *   **Tagged Pointers**: Simple values like integers and booleans are stored directly inside the 64-bit pointer. This provides extreme cache locality and avoids heap allocation entirely for primitive types, dramatically reducing GC pressure.
+    *   **Cache-Line-Aligned Cells**: All heap objects reside in 64-byte `Cell`s, perfectly aligning with the 64-byte cache lines of modern CPUs. This ensures that an entire object is fetched in a single memory operation and, crucially, **eliminates false sharing**. When different cores access different objects, they are guaranteed not to contend for the same cache line, a common and severe performance bottleneck in multithreaded applications.
     *   **Concurrent Garbage Collector**: A dedicated GC thread works in parallel with the application, with extremely short "stop-the-world" pauses, making Proto suitable for interactive and soft real-time applications.
 
 3.  **True, GIL-Free Concurrency**: Each `ProtoThread` is a native OS thread. The runtime was designed from the ground up for parallelism and has no Global Interpreter Lock, allowing it to take full advantage of modern multi-core processors.

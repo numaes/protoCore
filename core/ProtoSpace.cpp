@@ -511,6 +511,8 @@ namespace proto
                     // );
 
                     BigCell* newBlocks = static_cast<BigCell*>(malloc(toAllocBytes));
+
+                    
                     if (!newBlocks) {
                         if (this->emergency_allocator_active.load()) {
                             // We've already entered emergency mode. A failure to get a large

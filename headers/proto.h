@@ -10,7 +10,6 @@
 
 #include <atomic>
 #include <condition_variable>
-#include <thread>
 
 
 namespace proto
@@ -40,13 +39,6 @@ namespace proto
     #define PROTO_FALSE ((proto::ProtoObject *) 0x000FL)
     #define PROTO_NONE ((proto::ProtoObject *) NULL)
 
-    /**
-     * @brief Defines the function pointer type for all methods implemented in C++.
-     *
-     * This represents a callable Proto method, which receives the execution
-     * context, the object itself (`self`), a link to the parent in the prototype
-     * chain for `super` calls, and the positional and keyword arguments.
-     */
     typedef ProtoObject*(*ProtoMethod)(
         ProtoContext* context,
         ProtoObject* self,
@@ -55,33 +47,25 @@ namespace proto
         ProtoSparseList* keywordParameters
     );
 
-    /**
-     * @brief The base class for all objects in the Proto object model.
-     *
-     * ProtoObject provides the core functionality for prototype-based inheritance,
-     * attribute access, and method invocation. It serves as the polymorphic base
-     * for all other data types in the system.
-     */
     class ProtoObject
     {
     public:
         //- Object Model
-        ProtoObject* getPrototype(const ProtoContext* context);
-        ProtoObject* clone(ProtoContext* context, bool isMutable = false);
-        ProtoObject* newChild(ProtoContext* context, bool isMutable = false);
+        ProtoObject* clone(ProtoContext* context, bool isMutable = false) const;
+        ProtoObject* newChild(ProtoContext* context, bool isMutable = false) const;
 
         //- Attributes
-        ProtoObject* getAttribute(ProtoContext* context, ProtoString* name);
-        ProtoObject* hasAttribute(ProtoContext* context, ProtoString* name);
-        ProtoObject* hasOwnAttribute(ProtoContext* context, ProtoString* name);
+        ProtoObject* getAttribute(ProtoContext* context, ProtoString* name) const;
+        ProtoObject* hasAttribute(ProtoContext* context, ProtoString* name) const;
+        ProtoObject* hasOwnAttribute(ProtoContext* context, ProtoString* name) const;
         ProtoObject* setAttribute(ProtoContext* context, ProtoString* name, ProtoObject* value);
-        ProtoSparseList* getAttributes(ProtoContext* context);
-        ProtoSparseList* getOwnAttributes(ProtoContext* context);
+        ProtoSparseList* getAttributes(ProtoContext* context) const;
+        ProtoSparseList* getOwnAttributes(ProtoContext* context) const;
 
         //- Inheritance
-        ProtoList* getParents(ProtoContext* context);
+        ProtoList* getParents(ProtoContext* context) const;
         ProtoObject* addParent(ProtoContext* context, ProtoObject* newParent);
-        ProtoObject* isInstanceOf(ProtoContext* context, const ProtoObject* prototype);
+        ProtoObject* isInstanceOf(ProtoContext* context, const ProtoObject* prototype) const;
 
         //- Execution
         ProtoObject* call(ProtoContext* context,
@@ -92,334 +76,204 @@ namespace proto
                           ProtoSparseList* keywordParametersDict = nullptr);
 
         //- Internals & Type Checking
-        unsigned long getObjectHash(ProtoContext* context);
-        int isCell(ProtoContext* context);
-        Cell* asCell(ProtoContext* context);
+        unsigned long getObjectHash(ProtoContext* context) const;
+        int isCell(ProtoContext* context) const;
+        Cell* asCell(ProtoContext* context) const;
 
-        bool isBoolean(ProtoContext* context);
-        bool isInteger(ProtoContext* context);
-        bool isFloat(ProtoContext* context);
-        bool isByte(ProtoContext* context);
-        bool isDate(ProtoContext* context);
-        bool isTimestamp(ProtoContext* context);
-        bool isTimeDelta(ProtoContext* context);
-        bool isMethod(ProtoContext* context);
+        bool isBoolean(ProtoContext* context) const;
+        bool isInteger(ProtoContext* context) const;
+        bool isFloat(ProtoContext* context) const;
+        bool isByte(ProtoContext* context) const;
+        bool isDate(ProtoContext* context) const;
+        bool isTimestamp(ProtoContext* context) const;
+        bool isTimeDelta(ProtoContext* context) const;
+        bool isMethod(ProtoContext* context) const;
 
         //- Type Coercion
-        bool asBoolean(ProtoContext* context);
-        int asInteger(ProtoContext* context);
-        float asFloat(ProtoContext* context);
-        char asByte(ProtoContext* context);
-        void asDate(ProtoContext* context, unsigned int& year, unsigned& month, unsigned& day);
-        unsigned long asTimestamp(ProtoContext* context);
-        long asTimeDelta(ProtoContext* context);
-        ProtoList* asList(ProtoContext* context);
-        ProtoListIterator* asListIterator(ProtoContext* context);
-        ProtoTuple* asTuple(ProtoContext* context);
-        ProtoTupleIterator* asTupleIterator(ProtoContext* context);
-        ProtoString* asString(ProtoContext* context);
-        ProtoStringIterator* asStringIterator(ProtoContext* context);
-        ProtoSparseList* asSparseList(ProtoContext* context);
-        ProtoSparseListIterator* asSparseListIterator(ProtoContext* context);
-        ProtoMethod asMethod(ProtoContext* context);
+        bool asBoolean(ProtoContext* context) const;
+        int asInteger(ProtoContext* context) const;
+        float asFloat(ProtoContext* context) const;
+        char asByte(ProtoContext* context) const;
+        void asDate(ProtoContext* context, unsigned int& year, unsigned& month, unsigned& day) const;
+        unsigned long asTimestamp(ProtoContext* context) const;
+        long asTimeDelta(ProtoContext* context) const;
+        ProtoList* asList(ProtoContext* context) const;
+        ProtoListIterator* asListIterator(ProtoContext* context) const;
+        ProtoTuple* asTuple(ProtoContext* context) const;
+        ProtoTupleIterator* asTupleIterator(ProtoContext* context) const;
+        ProtoString* asString(ProtoContext* context) const;
+        ProtoStringIterator* asStringIterator(ProtoContext* context) const;
+        ProtoSparseList* asSparseList(ProtoContext* context) const;
+        ProtoSparseListIterator* asSparseListIterator(ProtoContext* context) const;
+        ProtoMethod asMethod(ProtoContext* context) const;
     };
 
-    /**
-     * @brief Represents a link in the prototype chain for attribute lookup.
-     *
-     * When an attribute is not found in an object, the lookup continues through
-     * the chain of parents via these links.
-     */
     class ParentLink
     {
     public:
-        ProtoObject* getObject(ProtoContext* context);
-        ParentLink* getParent(ProtoContext* context);
+        ProtoObject* getObject(ProtoContext* context) const;
+        ParentLink* getParent(ProtoContext* context) const;
     };
 
-    /**
-     * @brief An iterator for traversing a ProtoList.
-     */
     class ProtoListIterator
     {
     public:
-        int hasNext(ProtoContext* context);
+        int hasNext(ProtoContext* context) const;
         ProtoObject* next(ProtoContext* context);
         ProtoListIterator* advance(ProtoContext* context);
-        ProtoObject* asObject(ProtoContext* context);
+        ProtoObject* asObject(ProtoContext* context) const;
     };
 
-    /**
-     * @brief A mutable, ordered sequence of ProtoObjects.
-     */
     class ProtoList
     {
     public:
         //- Accessors
-        ProtoObject* getAt(ProtoContext* context, int index);
-        ProtoObject* getFirst(ProtoContext* context);
-        ProtoObject* getLast(ProtoContext* context);
-        ProtoList* getSlice(ProtoContext* context, int from, int to);
-        unsigned long getSize(ProtoContext* context);
-        bool has(ProtoContext* context, ProtoObject* value);
+        ProtoObject* getAt(ProtoContext* context, int index) const;
+        ProtoObject* getFirst(ProtoContext* context) const;
+        ProtoObject* getLast(ProtoContext* context) const;
+        ProtoList* getSlice(ProtoContext* context, int from, int to) const;
+        unsigned long getSize(ProtoContext* context) const;
+        bool has(ProtoContext* context, ProtoObject* value) const;
 
-        //- Modifiers
-        ProtoList* setAt(ProtoContext* context, int index, ProtoObject* value);
-        ProtoList* insertAt(ProtoContext* context, int index, ProtoObject* value);
-        ProtoList* appendFirst(ProtoContext* context, ProtoObject* value);
-        ProtoList* appendLast(ProtoContext* context, ProtoObject* value);
-        ProtoList* extend(ProtoContext* context, ProtoList* other);
-        ProtoList* splitFirst(ProtoContext* context, int index);
-        ProtoList* splitLast(ProtoContext* context, int index);
-        ProtoList* removeFirst(ProtoContext* context);
-        ProtoList* removeLast(ProtoContext* context);
-        ProtoList* removeAt(ProtoContext* context, int index);
-        ProtoList* removeSlice(ProtoContext* context, int from, int to);
+        //- Modifiers that return a new list
+        ProtoList* setAt(ProtoContext* context, int index, ProtoObject* value) const;
+        ProtoList* insertAt(ProtoContext* context, int index, ProtoObject* value) const;
+        ProtoList* appendFirst(ProtoContext* context, ProtoObject* value) const;
+        ProtoList* appendLast(ProtoContext* context, ProtoObject* value) const;
+        ProtoList* extend(ProtoContext* context, ProtoList* other) const;
+        ProtoList* splitFirst(ProtoContext* context, int index) const;
+        ProtoList* splitLast(ProtoContext* context, int index) const;
+        ProtoList* removeFirst(ProtoContext* context) const;
+        ProtoList* removeLast(ProtoContext* context) const;
+        ProtoList* removeAt(ProtoContext* context, int index) const;
+        ProtoList* removeSlice(ProtoContext* context, int from, int to) const;
 
         //- Conversion
-        ProtoObject* asObject(ProtoContext* context);
-        ProtoListIterator* getIterator(ProtoContext* context);
+        ProtoObject* asObject(ProtoContext* context) const;
+        ProtoListIterator* getIterator(ProtoContext* context) const;
     };
 
-    /**
-     * @brief An iterator for traversing a ProtoTuple.
-     */
     class ProtoTupleIterator
     {
     public:
-        int hasNext(ProtoContext* context);
+        int hasNext(ProtoContext* context) const;
         ProtoObject* next(ProtoContext* context);
         ProtoTupleIterator* advance(ProtoContext* context);
-        ProtoObject* asObject(ProtoContext* context);
+        ProtoObject* asObject(ProtoContext* context) const;
     };
 
-    /**
-     * @brief An immutable, ordered sequence of ProtoObjects.
-     */
     class ProtoTuple
     {
     public:
         //- Accessors
-        ProtoObject* getAt(ProtoContext* context, int index);
-        ProtoObject* getFirst(ProtoContext* context);
-        ProtoObject* getLast(ProtoContext* context);
-        ProtoObject* getSlice(ProtoContext* context, int from, int to);
-        unsigned long getSize(ProtoContext* context);
-        bool has(ProtoContext* context, ProtoObject* value);
+        ProtoObject* getAt(ProtoContext* context, int index) const;
+        ProtoObject* getFirst(ProtoContext* context) const;
+        ProtoObject* getLast(ProtoContext* context) const;
+        ProtoObject* getSlice(ProtoContext* context, int from, int to) const;
+        unsigned long getSize(ProtoContext* context) const;
+        bool has(ProtoContext* context, ProtoObject* value) const;
 
         //- "Modifiers" (return new tuples)
-        ProtoObject* setAt(ProtoContext* context, int index, ProtoObject* value);
-        ProtoObject* insertAt(ProtoContext* context, int index, ProtoObject* value);
-        ProtoObject* appendFirst(ProtoContext* context, ProtoTuple* otherTuple);
-        ProtoObject* appendLast(ProtoContext* context, ProtoTuple* otherTuple);
-        ProtoObject* splitFirst(ProtoContext* context, int count);
-        ProtoObject* splitLast(ProtoContext* context, int count);
-        ProtoObject* removeFirst(ProtoContext* context, int count);
-        ProtoObject* removeLast(ProtoContext* context, int count);
-        ProtoObject* removeAt(ProtoContext* context, int index);
-        ProtoObject* removeSlice(ProtoContext* context, int from, int to);
+        ProtoObject* setAt(ProtoContext* context, int index, ProtoObject* value) const;
+        ProtoObject* insertAt(ProtoContext* context, int index, ProtoObject* value) const;
+        ProtoObject* appendFirst(ProtoContext* context, ProtoTuple* otherTuple) const;
+        ProtoObject* appendLast(ProtoContext* context, ProtoTuple* otherTuple) const;
+        ProtoObject* splitFirst(ProtoContext* context, int count) const;
+        ProtoObject* splitLast(ProtoContext* context, int count) const;
+        ProtoObject* removeFirst(ProtoContext* context, int count) const;
+        ProtoObject* removeLast(ProtoContext* context, int count) const;
+        ProtoObject* removeAt(ProtoContext* context, int index) const;
+        ProtoObject* removeSlice(ProtoContext* context, int from, int to) const;
 
         //- Conversion
-        ProtoList* asList(ProtoContext* context);
-        ProtoObject* asObject(ProtoContext* context);
-        ProtoTupleIterator* getIterator(ProtoContext* context);
+        ProtoList* asList(ProtoContext* context) const;
+        ProtoObject* asObject(ProtoContext* context) const;
+        ProtoTupleIterator* getIterator(ProtoContext* context) const;
     };
 
-    /**
-     * @brief An iterator for traversing a ProtoString.
-     */
     class ProtoStringIterator
     {
     public:
-        int hasNext(ProtoContext* context);
+        int hasNext(ProtoContext* context) const;
         ProtoObject* next(ProtoContext* context);
         ProtoStringIterator* advance(ProtoContext* context);
-        ProtoObject* asObject(ProtoContext* context);
+        ProtoObject* asObject(ProtoContext* context) const;
     };
 
-    /**
-     * @brief An immutable sequence of characters.
-     */
     class ProtoString
     {
     public:
-        int cmp_to_string(ProtoContext* context, ProtoString* otherString);
+        int cmp_to_string(ProtoContext* context, ProtoString* otherString) const;
 
         //- Accessors
-        ProtoObject* getAt(ProtoContext* context, int index);
-        unsigned long getSize(ProtoContext* context);
-        ProtoString* getSlice(ProtoContext* context, int from, int to);
+        ProtoObject* getAt(ProtoContext* context, int index) const;
+        unsigned long getSize(ProtoContext* context) const;
+        ProtoString* getSlice(ProtoContext* context, int from, int to) const;
 
         //- "Modifiers" (return new strings)
-        ProtoString* setAt(ProtoContext* context, int index, ProtoObject* character);
-        ProtoString* insertAt(ProtoContext* context, int index, ProtoObject* character);
-        ProtoString* setAtString(ProtoContext* context, int index, ProtoString* otherString);
-        ProtoString* insertAtString(ProtoContext* context, int index, ProtoString* otherString);
-        ProtoString* appendFirst(ProtoContext* context, ProtoString* otherString);
-        ProtoString* appendLast(ProtoContext* context, ProtoString* otherString);
-        ProtoString* splitFirst(ProtoContext* context, int count);
-        ProtoString* splitLast(ProtoContext* context, int count);
-        ProtoString* removeFirst(ProtoContext* context, int count);
-        ProtoString* removeLast(ProtoContext* context, int count);
-        ProtoString* removeAt(ProtoContext* context, int index);
-        ProtoString* removeSlice(ProtoContext* context, int from, int to);
+        ProtoString* setAt(ProtoContext* context, int index, ProtoObject* character) const;
+        ProtoString* insertAt(ProtoContext* context, int index, ProtoObject* character) const;
+        ProtoString* setAtString(ProtoContext* context, int index, ProtoString* otherString) const;
+        ProtoString* insertAtString(ProtoContext* context, int index, ProtoString* otherString) const;
+        ProtoString* appendFirst(ProtoContext* context, ProtoString* otherString) const;
+        ProtoString* appendLast(ProtoContext* context, ProtoString* otherString) const;
+        ProtoString* splitFirst(ProtoContext* context, int count) const;
+        ProtoString* splitLast(ProtoContext* context, int count) const;
+        ProtoString* removeFirst(ProtoContext* context, int count) const;
+        ProtoString* removeLast(ProtoContext* context, int count) const;
+        ProtoString* removeAt(ProtoContext* context, int index) const;
+        ProtoString* removeSlice(ProtoContext* context, int from, int to) const;
 
         //- Conversion
-        ProtoObject* asObject(ProtoContext* context);
-        ProtoList* asList(ProtoContext* context);
-        ProtoStringIterator* getIterator(ProtoContext* context);
+        ProtoObject* asObject(ProtoContext* context) const;
+        ProtoList* asList(ProtoContext* context) const;
+        ProtoStringIterator* getIterator(ProtoContext* context) const;
     };
 
-    /**
-     * @brief An iterator for traversing a ProtoSparseList (key-value pairs).
-     */
     class ProtoSparseListIterator
     {
     public:
-        int hasNext(ProtoContext* context);
-        unsigned long nextKey(ProtoContext* context);
-        ProtoObject* nextValue(ProtoContext* context);
+        int hasNext(ProtoContext* context) const;
+        unsigned long nextKey(ProtoContext* context) const;
+        ProtoObject* nextValue(ProtoContext* context) const;
         ProtoSparseListIterator* advance(ProtoContext* context);
-        ProtoObject* asObject(ProtoContext* context);
+        ProtoObject* asObject(ProtoContext* context) const;
     };
 
-    /**
-     * @brief A mutable mapping from integer hashes to ProtoObjects.
-     *
-     * This is used to implement object attributes and general-purpose dictionaries.
-     */
     class ProtoSparseList
     {
     public:
-        bool has(ProtoContext* context, unsigned long index);
-        ProtoObject* getAt(ProtoContext* context, unsigned long index);
-        ProtoSparseList* setAt(ProtoContext* context, unsigned long index, ProtoObject* value);
-        ProtoSparseList* removeAt(ProtoContext* context, unsigned long index);
-        bool isEqual(ProtoContext* context, ProtoSparseList* otherDict);
-        unsigned long getSize(ProtoContext* context);
+        bool has(ProtoContext* context, unsigned long index) const;
+        ProtoObject* getAt(ProtoContext* context, unsigned long index) const;
+        ProtoSparseList* setAt(ProtoContext* context, unsigned long index, ProtoObject* value) const;
+        ProtoSparseList* removeAt(ProtoContext* context, unsigned long index) const;
+        bool isEqual(ProtoContext* context, ProtoSparseList* otherDict) const;
+        unsigned long getSize(ProtoContext* context) const;
 
-        ProtoObject* asObject(ProtoContext* context);
-        ProtoSparseListIterator* getIterator(ProtoContext* context);
+        ProtoObject* asObject(ProtoContext* context) const;
+        ProtoSparseListIterator* getIterator(ProtoContext* context) const;
 
-        void processElements(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, unsigned long, ProtoObject*));
-        void processValues(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, ProtoObject*));
+        void processElements(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, unsigned long, ProtoObject*)) const;
+        void processValues(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, ProtoObject*)) const;
     };
 
-    /**
-     * @brief A mutable buffer of raw bytes.
-     */
     class ProtoByteBuffer
     {
     public:
-        unsigned long getSize(ProtoContext* context);
-        char* getBuffer(ProtoContext* context);
-        char getAt(ProtoContext* context, int index);
+        unsigned long getSize(ProtoContext* context) const;
+        char* getBuffer(ProtoContext* context) const;
+        char getAt(ProtoContext* context, int index) const;
         void setAt(ProtoContext* context, int index, char value);
-        ProtoObject* asObject(ProtoContext* context);
+        ProtoObject* asObject(ProtoContext* context) const;
     };
 
-    /**
-     * @brief A wrapper for an opaque, external C++ pointer.
-     *
-     * This allows native C++ data to be passed through the Proto object model
-     * without being managed by the garbage collector.
-     */
     class ProtoExternalPointer
     {
     public:
-        void* getPointer(ProtoContext* context);
-        ProtoObject* asObject(ProtoContext* context);
+        void* getPointer(ProtoContext* context) const;
+        ProtoObject* asObject(ProtoContext* context) const;
     };
 
-    /**
-     * @brief Recommended structure for compiling a method.
-     *
-     * This comment block illustrates the recommended C++ structure for implementing
-     * a Proto method, including argument parsing and handling `super` calls.
-     *
-     * @example
-     * // Pseudo-code for the target method:
-     * // method(self, parent, p1, p2, p3, p4=init4, p5=init5) {
-     * //     super().method()
-     * // }
-     *
-     * // C++ implementation:
-     * ProtoObject* my_method(
-     *     ProtoContext* previousContext,
-     *     ParentLink* parent,
-     *     ProtoList* positionalParameters,
-     *     ProtoSparseList* keywordParameters
-     * ) {
-     *     // 1. Define literals for keyword argument names.
-     *     ProtoString* literalForP4 = context->fromUTF8String("p4");
-     *     ProtoString* literalForP5 = context->fromUTF8String("p5");
-     *
-     *     // 2. Define constants for default parameter values.
-     *     ProtoObject* constantForInit4 = context->fromInteger(4);
-     *     ProtoObject* constantForInit5 = context->fromInteger(5);
-     *
-     *     // 3. Set up the local stack frame and a new context.
-     *     struct {
-     *         ProtoObject *p1, *p2, *p3, *p4, *p5, *local1, *local2;
-     *     } locals;
-     *     ProtoContext context(previousContext, &locals, sizeof(locals) / sizeof(ProtoObject*));
-     *
-     *     // 4. Initialize parameters with default values.
-     *     locals.p4 = constantForInit4;
-     *     locals.p5 = constantForInit5;
-     *
-     *     // 5. Parse positional arguments.
-     *     if (positionalParameters) {
-     *         int pos_count = positionalParameters->getSize(&context);
-     *         if (pos_count < 3) {
-     *             // raise error: "Too few positional arguments."
-     *         }
-     *         locals.p1 = positionalParameters->getAt(&context, 0);
-     *         locals.p2 = positionalParameters->getAt(&context, 1);
-     *         locals.p3 = positionalParameters->getAt(&context, 2);
-     *         if (pos_count > 3) locals.p4 = positionalParameters->getAt(&context, 3);
-     *         if (pos_count > 4) locals.p5 = positionalParameters->getAt(&context, 4);
-     *         if (pos_count > 5) {
-     *             // raise error: "Too many positional arguments."
-     *         }
-     *     } else {
-     *         // raise error: "Expected at least 3 positional arguments."
-     *     }
-     *
-     *     // 6. Parse keyword arguments, checking for duplicates.
-     *     if (keywordParameters) {
-     *         if (keywordParameters->has(&context, literalForP4->getHash(&context))) {
-     *             if (positionalParameters && positionalParameters->getSize(&context) > 3) {
-     *                 // raise error: "Multiple values for argument 'p4'."
-     *             }
-     *             locals.p4 = keywordParameters->getAt(&context, literalForP4->getHash(&context));
-     *         }
-     *         // ... and so on for p5 ...
-     *     }
-     *
-     *     // 7. Handle a `super` call.
-     *     ParentLink* nextParent = parent;
-     *     if (nextParent) {
-     *         nextParent->getObject(&context)->call(
-     *             &context,
-     *             nextParent->getParent(&context), // The next link in the chain
-     *             this_method_name, // A ProtoString for the current method name
-     *             positionalParameters,
-     *             keywordParameters
-     *         );
-     *     } else {
-     *         // raise error: "super() called but no parent exists."
-     *     }
-     *
-     *     // Note: Unused keyword arguments are not detected, similar to Python's behavior.
-     *     // This structure can be auto-generated from compile-time information.
-     *     // Exception handling (e.g., try/catch) is optional.
-     * }
-     */
-
-    /**
-     * @brief Represents a thread of execution within a ProtoSpace.
-     */
     class ProtoThread
     {
     public:
@@ -427,10 +281,10 @@ namespace proto
 
         void detach(ProtoContext* context);
         void join(ProtoContext* context);
-        void exit(ProtoContext* context); //!< Must only be called by the current thread.
+        void exit(ProtoContext* context);
 
-        ProtoObject* getName(ProtoContext* context);
-        ProtoObject* asObject(ProtoContext* context);
+        ProtoObject* getName(ProtoContext* context) const;
+        ProtoObject* asObject(ProtoContext* context) const;
         void setCurrentContext(ProtoContext* context);
         void setManaged();
         void setUnmanaged();
