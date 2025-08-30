@@ -31,13 +31,13 @@ namespace proto
     // --- Interface Methods ---
 
     ProtoObjectCell* ProtoObjectCell::addParent(
-        ProtoContext* context, ProtoObject* newParent) const
+        ProtoContext* context, ProtoObject* newParentToAdd) const
     {
         // Creates a new link in the inheritance chain.
         auto* newParentLink = new(context) ParentLinkImplementation(
             context,
             this->parent, // The parent of the new link is our current parent.
-            newParent // The object of the new link is the new parent.
+            newParentToAdd // The object of the new link is the new parent.
         );
 
         // Returns a new ProtoObjectCell that is a copy of the current one,

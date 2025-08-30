@@ -11,6 +11,8 @@
 #include <atomic>
 #include <condition_variable>
 
+#include "proto_internal.h"
+
 
 namespace proto
 {
@@ -33,6 +35,7 @@ namespace proto
     class ProtoSparseListIterator;
     class ProtoObjectCell;
     class ProtoThread;
+    class ProtoSpaceImplementation;
 
     //! Useful constants.
     //! @warning They should be kept in sync with proto_internal.h!
@@ -312,7 +315,6 @@ namespace proto
             ProtoContext* previous = nullptr,
             ProtoObject** localsBase = nullptr,
             unsigned int localsCount = 0,
-            ProtoThread* thread = nullptr,
             ProtoSpace* space = nullptr
         );
         ~ProtoContext();
@@ -334,7 +336,7 @@ namespace proto
         ProtoObject* fromUTF8String(const char* zeroTerminatedUtf8String);
         ProtoObject* fromMethod(ProtoObject* self, ProtoMethod method);
         ProtoObject* fromExternalPointer(void* pointer);
-        ProtoObject* fromBuffer(unsigned long length, char* buffer);
+        ProtoObject* fromBuffer(unsigned long length, char* buffer, bool freeOnExit = false);
         ProtoObject* newBuffer(unsigned long length);
         ProtoObject* fromBoolean(bool value);
         ProtoObject* fromByte(char c);
@@ -345,7 +347,7 @@ namespace proto
         //- Factory methods for complex types
         ProtoList* newList();
         ProtoTuple* newTuple();
-        ProtoTuple* newTupleFromList(ProtoList* sourceList);
+        ProtoTuple* newTupleFromList(const ProtoList* sourceList);
         ProtoSparseList* newSparseList();
         ProtoObject* newObject(bool mutableObject = false);
 
@@ -428,6 +430,7 @@ namespace proto
             ProtoSparseList* kwargs
         );
 
+        ProtoSpaceImplementation* impl;
     private:
         ProtoSparseList* threads;
     };

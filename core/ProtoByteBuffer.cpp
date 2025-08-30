@@ -10,19 +10,20 @@
 namespace proto
 {
     // --- Constructor ---
-    // Uses member initialization list for greater efficiency and clarity.
+    // Uses a member initialization list for greater efficiency and clarity.
     ProtoByteBufferImplementation::ProtoByteBufferImplementation(
         ProtoContext* context,
+        char* buffer,
         const unsigned long size,
-        char* buffer
-    ) : Cell(context), size(size), buffer(nullptr), freeOnExit(false)
+        const bool freeOnExit
+    ) : Cell(context), buffer(buffer), size(size), freeOnExit(false)
     {
         if (buffer)
         {
             // If an external buffer is provided, we simply wrap it.
             // We do not own this memory.
             this->buffer = buffer;
-            this->freeOnExit = false;
+            this->freeOnExit = freeOnExit;
         }
         else
         {
@@ -51,9 +52,9 @@ namespace proto
 
     // Private helper function to normalize the index.
     // This avoids code duplication and improves readability.
-    bool ProtoByteBufferImplementation::normalizeIndex(int& index) const
+    bool normalizeIndex(const ProtoByteBufferImplementation* self, int& index)
     {
-        if (this->size == 0)
+        if (self->size == 0)
         {
             return false; // There are no valid indices in an empty buffer.
         }
@@ -61,12 +62,12 @@ namespace proto
         // Handling of negative indices (from the end of the buffer).
         if (index < 0)
         {
-            index += static_cast<int>(this->size);
+            index += static_cast<int>(self->size);
         }
 
         // Bounds checking. If it is out of range, it is not valid.
         // Using 'unsigned long' for comparison avoids sign issues.
-        if (index < 0 || index >= this->size)
+        if (index < 0 || index >= self->size)
         {
             return false;
         }
@@ -77,7 +78,7 @@ namespace proto
     char ProtoByteBufferImplementation::implGetAt(ProtoContext* context, int index) const
     {
         // We use the helper function to validate and normalize the index.
-        if (normalizeIndex(index))
+        if (normalizeIndex(this, index))
         {
             return this->buffer[index];
         }
@@ -88,7 +89,7 @@ namespace proto
     void ProtoByteBufferImplementation::implSetAt(ProtoContext* context, int index, const char value) const
     {
         // We only write if the index is valid.
-        if (normalizeIndex(index))
+        if (normalizeIndex(this, index))
         {
             this->buffer[index] = value;
         }
@@ -106,21 +107,19 @@ namespace proto
         )
     )
     {
-        // CRITICAL FIX: This method MUST be empty.
-        // A ProtoByteBuffer contains raw data, not references to other 'Cells'.
-        // The previous implementation (method(context, self, this)) would cause an
-        // infinite loop in the garbage collector, blocking the program.
-    }
 
-    // The finalizer does not need to do anything, so we use '= default'.
+    };
+
     void ProtoByteBufferImplementation::finalize(ProtoContext* context)
     {
+        if (this->freeOnExit)
+            delete[] this->buffer;
     };
 
 
     // --- Interface Methods ---
 
-    ProtoObject* ProtoByteBufferImplementation::implAsObject(ProtoContext* context)
+    ProtoObject* ProtoByteBufferImplementation::implAsObject(ProtoContext* context) const
     {
         ProtoObjectPointer p{};
         p.byteBufferImplementation = this;
@@ -128,7 +127,15 @@ namespace proto
         return p.oid.oid;
     }
 
-    unsigned long ProtoByteBufferImplementation::getHash(ProtoContext* context)
+    ProtoByteBuffer* ProtoByteBufferImplementation::asByteBuffer(ProtoContext* context) const
+    {
+        ProtoObjectPointer p{};
+        p.byteBufferImplementation = this;
+        p.op.pointer_tag = POINTER_TAG_BYTE_BUFFER;
+        return p.byteBuffer;
+    }
+
+    unsigned long ProtoByteBufferImplementation::getImplHash(ProtoContext* context) const
     {
         // The hash of a Cell is derived directly from its memory address.
         // This provides a fast and unique identifier for the object.
@@ -147,6 +154,5 @@ namespace proto
     {
         return this->buffer;
     }
-
 
 } // namespace proto

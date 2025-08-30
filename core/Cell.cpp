@@ -10,7 +10,8 @@
 
 namespace proto
 {
-    Cell::Cell(ProtoContext* context)
+    Cell::Cell(ProtoContext* context, Cell* next)
+        : next(next)
     {
         // Each newly created Cell is immediately registered with the current context
         // for memory management and garbage collection tracking.

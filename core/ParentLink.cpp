@@ -60,4 +60,15 @@ namespace proto
         // does not acquire resources that require explicit cleanup.
     }
 
+    ProtoObject* ParentLinkImplementation::getObject(ProtoContext* context) const
+    {
+        return this->object;
+    };
+
+    ParentLinkImplementation* ParentLinkImplementation::getParent(ProtoContext* context) const
+    {
+        return this->parent;
+    };
+
+
 };

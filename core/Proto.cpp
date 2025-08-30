@@ -92,16 +92,16 @@ namespace proto
                 unsigned long randomId = 0;
                 do
                 {
-                    currentRoot = context->space->mutableRoot.load();
+                    currentRoot = context->space->impl->mutableRoot.load();
 
                     randomId = generate_mutable_ref();
 
                     if (currentRoot->has(context, randomId))
                         continue;
                 }
-                while (!context->space->mutableRoot.compare_exchange_strong(
+                while (!context->space->impl->mutableRoot.compare_exchange_strong(
                     currentRoot,
-                    (ProtoSparseList*)currentRoot->setAt(
+                    currentRoot->setAt(
                         context,
                         randomId,
                         newObject

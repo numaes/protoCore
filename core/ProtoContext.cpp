@@ -44,74 +44,71 @@ namespace proto
     ProtoContext::ProtoContext(
         ProtoContext* previous,
         ProtoObject** localsBase,
-        const unsigned int localsCount,
-        ProtoThread* thread,
+        unsigned int localsCount,
         ProtoSpace* space
-    ) : previous(previous),
-        space(space),
-        thread(thread),
-        localsBase(localsBase),
-        localsCount(localsCount),
-        lastAllocatedCell(nullptr),
-        allocatedCellsCount(0),
-        lastReturnValue(nullptr)
+    ) : previous(previous)
     {
+        this->lastAllocatedCell = nullptr;
+
+        if (!localsBase)
+            localsCount = 0;
+
+        this->localsBase = localsBase;
+        this->localsCount = localsCount;
+
+        if (this->localsBase)
+        {
+            for (unsigned int i = 0; i < this->localsCount; ++i)
+            {
+                this->localsBase[i] = nullptr;
+            }
+        }
+
         if (previous)
         {
             // If there is a previous context, inherit its space and thread.
             this->space = previous->space;
             this->thread = previous->thread;
         }
-
-        if (this->thread)
+        else
         {
-            // Update the thread's current context through a public method.
-            this->thread->setCurrentContext(this);
+            this->space = space;
+            this->thread = nullptr; // ensure initialization of thread
+
+            this->thread = ProtoThreadImplementation::implGetCurrentThread(this);
         }
 
-        if (this->localsBase)
-        {
-            // CRITICAL FIX: Loop corrected to prevent buffer overflow.
-            // The original loop (i <= localsCount) wrote one element too many.
-            for (unsigned int i = 0; i < this->localsCount; ++i)
-            {
-                this->localsBase[i] = nullptr;
-            }
-        }
+        // Update the thread's current context through a public method.
+        this->thread->setCurrentContext(this);
+
     }
 
 
     ProtoContext::~ProtoContext()
     {
-        if (this->previous && this->space && this->lastAllocatedCell)
+        if (this->lastAllocatedCell)
         {
             // When a context is destroyed, the space is informed about the cells
             // that were allocated in it so the GC can analyze them.
             this->space->analyzeUsedCells(this->lastAllocatedCell);
         }
-    }
 
-    // --- Cell and GC Management ---
-
-    void ProtoContext::setReturnValue(ProtoContext* context, ProtoObject* returnValue) const
-    {
-        if (this->previous)
+        if (this->previous && this->returnValue)
         {
-            // Ensures that the return value is kept as a valid reference
-            // when this context is destroyed, by assigning it to the previous context.
-            this->previous->lastReturnValue = returnValue;
+            ProtoObjectPointer pa{};
+            pa.oid.oid = this->returnValue;
+            if (pa.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE)
+            {
+                Cell* rv = this->returnValue->asCell(this);
+                rv->next = this->previous->lastAllocatedCell;
+            }
         }
-    }
 
-    void ProtoContext::checkCellsCount()
-    {
-        if (this->allocatedCellsCount >= this->space->maxAllocatedCellsPerContext)
-        {
-            this->space->analyzeUsedCells(this->lastAllocatedCell);
-            this->lastAllocatedCell = nullptr;
-            this->allocatedCellsCount = 0;
-            this->space->triggerGC();
-        }
+        if (this->previous->lastAllocatedCell)
+            // When a context is destroyed, the space is informed about the cells
+                // that were allocated in it so the GC can analyze them.
+                    this->space->analyzeUsedCells(this->lastAllocatedCell);
+
     }
 
     Cell* ProtoContext::allocCell()
@@ -125,7 +122,6 @@ namespace proto
             ::new(newCell) Cell(this);
             newCell = static_cast<Cell*>(newCell);
             this->allocatedCellsCount++;
-            this->checkCellsCount();
         }
         else
         {
@@ -138,15 +134,15 @@ namespace proto
         }
 
         // The cells are chained in a simple list for tracking within the context.
-        newCell->nextCell = this->lastAllocatedCell;
+        newCell->next = this->lastAllocatedCell;
         this->lastAllocatedCell = newCell;
         return newCell;
     }
 
-    void ProtoContext::addCell2Context(Cell* newCell)
+    void ProtoContext::addCell2Context(Cell* cell)
     {
-        newCell->nextCell = this->lastAllocatedCell;
-        this->lastAllocatedCell = newCell;
+        cell->next = this->lastAllocatedCell;
+        this->lastAllocatedCell = cell;
     }
 
     // --- Primitive Type Constructors (from...) ---
@@ -253,10 +249,10 @@ namespace proto
 
     ProtoTuple* ProtoContext::newTuple()
     {
-        return new(this) ProtoTupleImplementation(this, 0, 0, static_cast<ProtoObject**>(nullptr));
+        return new(this) ProtoTupleImplementation(this, 0);
     }
 
-    ProtoTuple* ProtoContext::newTupleFromList(ProtoList* sourceList)
+    ProtoTuple* ProtoContext::newTupleFromList(const ProtoList* sourceList)
     {
         return ProtoTupleImplementation::tupleFromList(this, sourceList);
     }
@@ -334,7 +330,7 @@ namespace proto
     ProtoObject* ProtoContext::fromMethod(ProtoObject* self, ProtoMethod method)
     {
         ProtoObjectPointer p{};
-        p.methodCellImplementation = new(this) ProtoMethodCell(this, method);
+        p.methodCellImplementation = new(this) ProtoMethodCell(this, self, method);
         p.op.pointer_tag = POINTER_TAG_METHOD;
         return p.oid.oid;
     }
@@ -350,7 +346,7 @@ namespace proto
     ProtoObject* ProtoContext::fromBuffer(unsigned long length, char* buffer)
     {
         ProtoObjectPointer p{};
-        p.byteBufferImplementation = new(this) ProtoByteBufferImplementation(this, length, buffer);
+        p.byteBufferImplementation = new(this) ProtoByteBufferImplementation(this, buffer, length);
         p.op.pointer_tag = POINTER_TAG_BYTE_BUFFER;
         return p.oid.oid;
     }
@@ -358,7 +354,8 @@ namespace proto
     ProtoObject* ProtoContext::newBuffer(unsigned long length)
     {
         ProtoObjectPointer p{};
-        p.byteBuffer = new(this) ProtoByteBufferImplementation(this, length, nullptr);
+        char* buffer = new char[length];
+        p.byteBuffer = new(this) ProtoByteBufferImplementation(this, buffer, length);
         p.op.pointer_tag = POINTER_TAG_BYTE_BUFFER;
         return p.oid.oid;
     }
