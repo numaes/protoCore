@@ -31,7 +31,7 @@ namespace proto
     // Base implementation for finalization.
     // Derived classes should override this method if they need to perform
     // any cleanup before being reclaimed by the garbage collector.
-    void Cell::finalize(ProtoContext* context)
+    void Cell::finalize(ProtoContext* context) const
     {
         // Does nothing in the base class.
     };
@@ -59,7 +59,7 @@ namespace proto
             void* self,
             Cell* cell
         )
-    )
+    ) const
     {
         // Does nothing in the base class, as it contains no references to other objects.
     };

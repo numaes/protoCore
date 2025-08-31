@@ -15,7 +15,7 @@ namespace proto
     // Modernized constructor with an initialization list
     ProtoListIteratorImplementation::ProtoListIteratorImplementation(
         ProtoContext* context,
-        const ProtoListImplementation base,
+        const ProtoListImplementation* base,
         const unsigned long currentIndex
     ) : Cell(context), base(base), currentIndex(currentIndex)
     {
@@ -34,7 +34,7 @@ namespace proto
         return this->currentIndex < this->base->implGetSize(context);
     }
 
-    ProtoObject* ProtoListIteratorImplementation::implNext(ProtoContext* context) const
+    const ProtoObject* ProtoListIteratorImplementation::implNext(ProtoContext* context) const
     {
         if (!this->base)
         {
@@ -45,14 +45,14 @@ namespace proto
         return this->base->implGetAt(context, static_cast<int>(this->currentIndex));
     }
 
-    ProtoListIteratorImplementation* ProtoListIteratorImplementation::implAdvance(ProtoContext* context) const
+    const ProtoListIteratorImplementation* ProtoListIteratorImplementation::implAdvance(ProtoContext* context) const
     {
         // CRITICAL FIX: The iterator must advance to the next index.
         // The previousNode version created an iterator at the same position.
         return new(context) ProtoListIteratorImplementation(context, this->base, this->currentIndex + 1);
     }
 
-    ProtoObject* ProtoListIteratorImplementation::implAsObject(ProtoContext* context)
+    const ProtoObject* ProtoListIteratorImplementation::implAsObject(ProtoContext* context) const
     {
         ProtoObjectPointer p{};
         p.listIteratorImplementation = this;
@@ -77,11 +77,11 @@ namespace proto
         // Inform the GC about the reference to the base list.
         if (this->base)
         {
-            method(context, self, this->base);
+            method(context, self, this->base->asCell(context));
         }
     }
 
-    unsigned long ProtoListIteratorImplementation::getHash(ProtoContext* context)
+    unsigned long ProtoListIteratorImplementation::getHash(ProtoContext* context) const
     {
         return Cell::getHash(context);
     }
@@ -92,15 +92,15 @@ namespace proto
     // Modernized constructor with an initialization list
     ProtoListImplementation::ProtoListImplementation(
         ProtoContext* context,
-        ProtoObject* value,
-        bool isEmpty,
-        ProtoListImplementation* previousNode,
-        ProtoListImplementation* nextNode
+        const ProtoObject* value,
+        const bool isEmpty,
+        const ProtoListImplementation* previousNode,
+        const ProtoListImplementation* nextNode
     ) : Cell(context),
         value(value),
-        isEmpty(isEmpty),
         previousNode(previousNode),
-        nextNode(nextNode)
+        nextNode(nextNode),
+        isEmpty(isEmpty)
     {
         if (isEmpty)
         {
@@ -111,7 +111,7 @@ namespace proto
 
         // Calculate hash and counters after initializing members.
         this->hash = (value ? value->getHash(context) : 0UL) ^
-            (this->previousNode ? this-previousNode->hash : 0UL) ^
+            (this->previousNode ? this->previousNode->hash : 0UL) ^
             (this->nextNode ? this->nextNode->hash : 0UL);
 
         const unsigned long previous_height = previousNode ? previousNode->height : 0;
@@ -208,7 +208,7 @@ namespace proto
 
     // --- Public Interface Methods ---
 
-    ProtoObject* ProtoListImplementation::implGetAt(ProtoContext* context, int index) const
+    const ProtoObject* ProtoListImplementation::implGetAt(ProtoContext* context, int index) const
     {
         if (this->isEmpty)
         {
@@ -246,12 +246,12 @@ namespace proto
         return PROTO_NONE; // Should not reach here if the logic is correct
     }
 
-    ProtoObject* ProtoListImplementation::implGetFirst(ProtoContext* context) const
+    const ProtoObject* ProtoListImplementation::implGetFirst(ProtoContext* context) const
     {
         return this->implGetAt(context, 0);
     }
 
-    ProtoObject* ProtoListImplementation::implGetLast(ProtoContext* context) const
+    const ProtoObject* ProtoListImplementation::implGetLast(ProtoContext* context) const
     {
         return this->implGetAt(context, -1);
     }
@@ -301,7 +301,7 @@ namespace proto
         return rebalance(context, newNode);
     }
 
-    ProtoListImplementation* ProtoListImplementation::implRemoveLast(ProtoContext* context) const
+    const ProtoListImplementation* ProtoListImplementation::implRemoveLast(ProtoContext* context) const
     {
         // STUB implementation, the actual logic is more complex.
         return this->implRemoveAt(context, -1);
@@ -311,7 +311,7 @@ namespace proto
     // NOTE: Many of these methods use the 'value' variable which is not defined.
     // It must be corrected to 'this->value' in all cases.
 
-    ProtoListImplementation* ProtoListImplementation::implRemoveAt(ProtoContext* context, int index) const
+    const ProtoListImplementation* ProtoListImplementation::implRemoveAt(ProtoContext* context, int index) const
     {
         if (this->isEmpty)
         {
@@ -361,7 +361,7 @@ namespace proto
         return rebalance(context, newNode);
     }
 
-    ProtoListImplementation* ProtoListImplementation::implGetSlice(ProtoContext* context, int from, int to) const
+    const ProtoListImplementation* ProtoListImplementation::implGetSlice(ProtoContext* context, int from, int to) const
     {
         if (from < 0)
         {
@@ -405,7 +405,7 @@ namespace proto
             return nullptr;
         }
 
-        int thisIndex = this->previousNode ? this->previousNode->hash : 0;
+        const int thisIndex = this->previousNode ? this->previousNode->hash : 0;
         if (thisIndex == index)
         {
             return new(context) ProtoListImplementation(
@@ -420,7 +420,7 @@ namespace proto
             return new(context) ProtoListImplementation(
                 context,
                 value,
-                this->previousNode->implSetAt(context, index, value),
+                this->previousNode->implSetAt(context, index, TODO),
                 this->nextNode
             );
         else
@@ -428,7 +428,7 @@ namespace proto
                 context,
                 value,
                 this->previousNode,
-                this->nextNode->implSetAt(context, index - thisIndex - 1, value)
+                this->nextNode->implSetAt(context, index - thisIndex - 1, TODO)
             );
     };
 
@@ -549,7 +549,7 @@ namespace proto
                 ));
     };
 
-    ProtoListImplementation* ProtoListImplementation::implSplitFirst(ProtoContext* context, int index) const
+    const ProtoListImplementation* ProtoListImplementation::implSplitFirst(ProtoContext* context, int index) const
     {
         if (!this->value)
             return this;
@@ -606,7 +606,7 @@ namespace proto
         return rebalance(context, newNode);
     };
 
-    ProtoListImplementation* ProtoListImplementation::implSplitLast(ProtoContext* context, int index) const
+    const ProtoListImplementation* ProtoListImplementation::implSplitLast(ProtoContext* context, int index) const
     {
         if (!this->value)
             return this;
@@ -669,7 +669,7 @@ namespace proto
         return rebalance(context, newNode);
     };
 
-    ProtoListImplementation* ProtoListImplementation::implRemoveFirst(ProtoContext* context) const
+    const ProtoListImplementation* ProtoListImplementation::implRemoveFirst(ProtoContext* context) const
     {
         if (!this->value)
             return this;
@@ -705,7 +705,8 @@ namespace proto
     };
 
 
-    ProtoListImplementation* ProtoListImplementation::implRemoveSlice(ProtoContext* context, int from, int to) const
+    const ProtoListImplementation* ProtoListImplementation::implRemoveSlice(
+        ProtoContext* context, int from, int to) const
     {
         if (from < 0)
         {
@@ -735,7 +736,7 @@ namespace proto
 
     // ... The rest of the implementations must be reviewed to correct the 'value' error ...
 
-    ProtoObject* ProtoListImplementation::implAsObject(ProtoContext* context) const
+    const ProtoObject* ProtoListImplementation::implAsObject(ProtoContext* context) const
     {
         ProtoObjectPointer p{};
         p.listImplementation = this;
@@ -750,7 +751,7 @@ namespace proto
         return Cell::getHash(context);
     }
 
-    ProtoListIteratorImplementation* ProtoListImplementation::implGetIterator(ProtoContext* context) const
+    const ProtoListIteratorImplementation* ProtoListImplementation::implGetIterator(ProtoContext* context) const
     {
         // CRITICAL FIX: The iterator must point to 'this', not 'nullptr'.
         return new(context) ProtoListIteratorImplementation(context, this, 0);
