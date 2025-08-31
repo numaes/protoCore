@@ -11,7 +11,7 @@
 namespace proto
 {
     Cell::Cell(ProtoContext* context, Cell* next)
-        : next(next)
+        : asCell(next)
     {
         // Each newly created Cell is immediately registered with the current context
         // for memory management and garbage collection tracking.
@@ -36,7 +36,7 @@ namespace proto
         // Does nothing in the base class.
     };
 
-    ProtoObject* Cell::implAsObject(ProtoContext* context) const
+    const ProtoObject* Cell::implAsObject(ProtoContext* context) const
     {
         // It should be implemented by subclasses
         return nullptr;

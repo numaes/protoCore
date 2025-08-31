@@ -254,6 +254,7 @@ namespace proto
         virtual unsigned long getHash(ProtoContext* context) const;
         virtual const ProtoObject* implAsObject(ProtoContext* context) const;
         static void* operator new(unsigned long size, ProtoContext* context);
+        virtual Cell* asCell(ProtoContext* context) const;
         // ...
         Cell* next;
     };
@@ -261,10 +262,10 @@ namespace proto
     class ParentLinkImplementation final : public Cell
     {
     public:
-        ParentLinkImplementation(ProtoContext* context, ParentLinkImplementation* parent, const ProtoObject* object);
+        ParentLinkImplementation(ProtoContext* context, const ParentLinkImplementation* parent, const ProtoObject* object);
         ~ParentLinkImplementation() override;
         const ProtoObject* getObject(ProtoContext* context) const;
-        ParentLinkImplementation* getParent(ProtoContext* context) const;
+        const ParentLinkImplementation* getParent(ProtoContext* context) const;
 
         virtual void finalize(ProtoContext* context) override;
         virtual void processReferences(
@@ -274,7 +275,7 @@ namespace proto
         ) override;
         // ...
 
-        ParentLinkImplementation* parent;
+        const ParentLinkImplementation* parent;
         const ProtoObject* object;
     };
 
@@ -631,8 +632,8 @@ namespace proto
         void implSetAt(ProtoContext* context, int index, char value) const;
         unsigned long implGetSize(ProtoContext* context) const;
         char* implGetBuffer(ProtoContext* context) const;
-        ProtoObject* implAsObject(ProtoContext* context) const override;
-        ProtoByteBuffer* asByteBuffer(ProtoContext* context) const;
+        const ProtoObject* implAsObject(ProtoContext* context) const override;
+        const ProtoByteBuffer* asByteBuffer(ProtoContext* context) const;
         unsigned long getImplHash(ProtoContext* context) const;
 
         void finalize(ProtoContext* context) override;
@@ -735,6 +736,13 @@ namespace proto
         std::thread thread;
         ProtoContext* context;
         Cell* firstFreeCell;
+
+        struct AttributeCacheItem
+        {
+            const ProtoObject* object;
+            const ProtoString* attributeName;
+            const ProtoObject* value;
+        }* attributeCache;
     };
 
     class ProtoSpaceImplementation final: public ProtoSpace

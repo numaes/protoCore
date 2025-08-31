@@ -119,7 +119,7 @@ namespace proto
 
     // --- Interface Methods ---
 
-    ProtoObject* ProtoByteBufferImplementation::implAsObject(ProtoContext* context) const
+    const ProtoObject* ProtoByteBufferImplementation::implAsObject(ProtoContext* context) const
     {
         ProtoObjectPointer p{};
         p.byteBufferImplementation = this;
@@ -127,7 +127,7 @@ namespace proto
         return p.oid.oid;
     }
 
-    ProtoByteBuffer* ProtoByteBufferImplementation::asByteBuffer(ProtoContext* context) const
+    const ProtoByteBuffer* ProtoByteBufferImplementation::asByteBuffer(ProtoContext* context) const
     {
         ProtoObjectPointer p{};
         p.byteBufferImplementation = this;

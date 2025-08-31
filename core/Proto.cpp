@@ -12,7 +12,7 @@ using namespace std;
 
 namespace proto
 {
-    const ProtoObject ProtoObject::getPrototype(ProtoContext* context) const
+    const ProtoObject* ProtoObject::getPrototype(ProtoContext* context) const
     {
         ProtoObjectPointer pa{};
 
@@ -69,7 +69,7 @@ namespace proto
         }
     }
 
-    ProtoObject* ProtoObject::clone(ProtoContext* context, bool isMutable) const
+    const ProtoObject* ProtoObject::clone(ProtoContext* context, bool isMutable) const
     {
         ProtoObjectPointer pa{};
 
@@ -79,7 +79,7 @@ namespace proto
         {
             auto* oc = toImpl<const ProtoObjectCell>(this);
 
-            ProtoObject* newObject = (new(context) ProtoObjectCell(
+            const ProtoObject* newObject = (new(context) ProtoObjectCell(
                 context,
                 oc->parent,
                 oc->attributes,
@@ -113,7 +113,7 @@ namespace proto
         return PROTO_NONE;
     }
 
-    ProtoObject* ProtoObject::newChild(ProtoContext* context, bool isMutable) const
+    const ProtoObject* ProtoObject::newChild(ProtoContext* context, bool isMutable) const
     {
         ProtoObjectPointer pa{};
 
@@ -128,7 +128,7 @@ namespace proto
                 new(context) ParentLinkImplementation(
                     context,
                     oc->parent,
-                    (ProtoObject*)this
+                    const_cast<ProtoObject*>(this)
                 ),
                 new(context) ProtoSparseListImplementation(context),
                 0
@@ -152,27 +152,27 @@ namespace proto
                     (ProtoSparseList*)currentRoot->setAt(
                         context,
                         randomId,
-                        (ProtoObject*)newObject
+                        (const ProtoObject*)newObject
                     )
                 ));
             }
-            return (ProtoObject*)newObject;
+            return (const ProtoObject*)newObject;
         }
         return PROTO_NONE;
     }
 
-    ProtoObject* ProtoObject::call(ProtoContext* context,
-                          ParentLink* nextParent,
-                          ProtoString* method,
-                          ProtoObject* self,
-                          ProtoList* unnamedParametersList,
-                          ProtoSparseList* keywordParametersDict)
+    const ProtoObject* ProtoObject::call(ProtoContext* context,
+                          const ParentLink* nextParent,
+                          const ProtoString* method,
+                          const ProtoObject* self,
+                          const ProtoList* unnamedParametersList,
+                          const ProtoSparseList* keywordParametersDict)
     {
         const auto* thread = toImpl<ProtoThreadImplementation>(context->thread);
 
         const unsigned int hash = (reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(method)) & (THREAD_CACHE_DEPTH - 1);
 
-        auto& [object, attribute_name, value] = thread->attribute_cache[hash];
+        auto& [object, attribute_name, value] = thread->attributeCache[hash];
 
         if (object != this || attribute_name != method) [[unlikely]]
         {
@@ -198,7 +198,7 @@ namespace proto
         return PROTO_NONE;
     }
 
-    ProtoObject* ProtoObject::isInstanceOf(ProtoContext* context, const ProtoObject* prototype) const
+    const ProtoObject* ProtoObject::isInstanceOf(ProtoContext* context, const ProtoObject* prototype) const
     {
         ProtoObjectPointer pa{};
 
@@ -219,7 +219,7 @@ namespace proto
         return PROTO_FALSE;
     }
 
-    ProtoObject* ProtoObject::getAttribute(ProtoContext* context, ProtoString* name) const
+    const ProtoObject* ProtoObject::getAttribute(ProtoContext* context, ProtoString* name) const
     {
         // This is a critical hot-path, optimized for cache hits.
         auto* thread = toImpl<ProtoThreadImplementation>(context->thread);
@@ -229,7 +229,7 @@ namespace proto
             ((reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(name)) >> 4) & (THREAD_CACHE_DEPTH - 1);
 
         // Get a direct reference to the cache entry.
-        auto& [object, attribute_name, value] = thread->attribute_cache[hash];
+        auto& [object, attribute_name, value] = thread->attributeCache[hash];
 
         // On a cache hit, return the resolved value immediately.
         if (object == this && attribute_name == name) {
@@ -282,22 +282,22 @@ namespace proto
         }
         else
         {
-            if (context->space->notFoundAttributeGetCallback)
-                result = (*context->space->notFoundAttributeGetCallback)(
-                    context, (ProtoObject*)this, name);
+            if (context->space->attributeNotFoundGetCallback)
+                result = (*context->space->attributeNotFoundGetCallback)(
+                    context, this, name);
             else
                 result = PROTO_NONE;
         }
 
         // Populate the cache for the next lookup.
-        object = (ProtoObject*)this;
+        object = (const ProtoObject*)this;
         attribute_name = name;
         value = result;
 
         return result;
     }
 
-    ProtoObject* ProtoObject::hasAttribute(ProtoContext* context, ProtoString* name) const
+    const ProtoObject* ProtoObject::hasAttribute(ProtoContext* context, ProtoString* name) const
     {
         ProtoObjectPointer pa{};
 
@@ -322,7 +322,7 @@ namespace proto
                     return oc->attributes->getAt(context, hash);
                 if (oc->parent)
                 {
-                    auto pl = oc->parent;
+                    const ParentLinkImplementation* pl = oc->parent;
                     while (pl)
                     {
                         pa.oid.oid = pl->object;
@@ -343,7 +343,7 @@ namespace proto
         return PROTO_FALSE;
     }
 
-    ProtoObject* ProtoObject::setAttribute(ProtoContext* context, ProtoString* name, ProtoObject* value)
+    const ProtoObject* ProtoObject::setAttribute(ProtoContext* context, ProtoString* name, const ProtoObject* value)
     {
         ProtoObjectPointer pa{};
 
@@ -380,7 +380,7 @@ namespace proto
                 {
                     currentRoot = context->space->mutableRoot.load();
                     newRoot = (ProtoSparseList*)currentRoot->setAt(
-                        context, inmutableBase->mutable_ref, (ProtoObject*)newObject);
+                        context, inmutableBase->mutable_ref, (const ProtoObject*)newObject);
                 }
                 while (!context->space->mutableRoot.compare_exchange_strong(
                     currentRoot,
@@ -389,12 +389,12 @@ namespace proto
                 return this;
             }
             else
-                return (ProtoObject*)newObject;
+                return (const ProtoObject*)newObject;
         }
         return this;
     }
 
-    ProtoObject* ProtoObject::hasOwnAttribute(ProtoContext* context, ProtoString* name) const
+    const ProtoObject* ProtoObject::hasOwnAttribute(ProtoContext* context, ProtoString* name) const
     {
         ProtoObjectPointer pa{};
 
@@ -419,7 +419,7 @@ namespace proto
         return PROTO_FALSE;
     }
 
-    ProtoSparseList* ProtoObject::getAttributes(ProtoContext* context) const
+    const ProtoSparseList* ProtoObject::getAttributes(ProtoContext* context) const
     {
         ProtoObjectPointer pa{};
 
@@ -435,7 +435,7 @@ namespace proto
                 oc = toImpl<const ProtoObjectCell>(pa.oid.oid);
             }
 
-            ProtoSparseList* attributes = context->newSparseList();
+            const ProtoSparseList* attributes = context->newSparseList();
 
             while (oc)
             {
@@ -443,12 +443,12 @@ namespace proto
                 while (ai->hasNext(context))
                 {
                     const unsigned long attributeKey = (ai)->nextKey(context);
-                    ProtoObject* attributeValue = oc->attributes->getAt(context, attributeKey);
-                    attributes = (ProtoSparseList*)attributes->setAt(
+                    const ProtoObject* attributeValue = oc->attributes->getAt(context, attributeKey);
+                    attributes = const_cast<ProtoSparseList*>(attributes->setAt(
                         context,
                         attributeKey,
                         attributeValue
-                    );
+                    ));
                     ai = ai->advance(context);
                 }
                 if (oc->parent)
@@ -483,7 +483,7 @@ namespace proto
         return nullptr;
     }
 
-    ProtoSparseList* ProtoObject::getOwnAttributes(ProtoContext* context) const
+    const ProtoSparseList* ProtoObject::getOwnAttributes(ProtoContext* context) const
     {
         ProtoObjectPointer pa{};
         pa.oid.oid = this;
@@ -493,7 +493,7 @@ namespace proto
             auto* oc = toImpl<const ProtoObjectCell>(this);
             if (oc->mutable_ref)
             {
-                ProtoObject* currentVersion = context->space->mutableRoot.load()->getAt(context, oc->mutable_ref);
+                const ProtoObject* currentVersion = context->space->mutableRoot.load()->getAt(context, oc->mutable_ref);
                 auto* implementation = toImpl<const ProtoObjectCell>(currentVersion);
                 return implementation->attributes;
             }
@@ -505,7 +505,7 @@ namespace proto
         return nullptr;
     }
 
-    ProtoList* ProtoObject::getParents(ProtoContext* context) const
+    const ProtoList* ProtoObject::getParents(ProtoContext* context) const
     {
         ProtoObjectPointer pa{};
 
@@ -528,13 +528,13 @@ namespace proto
         return nullptr;
     }
 
-    ProtoObject* ProtoObject::addParent(ProtoContext* context, ProtoObject* newParent)
+    const ProtoObject* ProtoObject::addParent(ProtoContext* context, const ProtoObject* newParent)
     {
         ProtoObjectPointer pa{};
 
         pa.oid.oid = this;
 
-        ProtoSparseList* existingParents = context->newSparseList();
+        const ProtoSparseList* existingParents = context->newSparseList();
 
         if (pa.op.pointer_tag == POINTER_TAG_OBJECT)
         {
@@ -546,7 +546,7 @@ namespace proto
             {
                 existingParents = (ProtoSparseList*)existingParents->setAt(
                     context,
-                    currentParent->object->getObjectHash(context),
+                    currentParent->object->getHash(context),
                     nullptr
                 );
                 currentParent = currentParent->parent;
@@ -712,10 +712,10 @@ namespace proto
         return 0;
     }
 
-    ProtoList* ProtoObject::asList(ProtoContext* context) const
+    const ProtoList* ProtoObject::asList(ProtoContext* context) const
     {
         ProtoObjectPointer p{};
-        p.oid.oid = (ProtoObject*)this;
+        p.oid.oid = (const ProtoObject*)this;
         if (p.op.pointer_tag == POINTER_TAG_LIST)
         {
             return p.list;
@@ -724,10 +724,10 @@ namespace proto
         return nullptr;
     }
 
-    ProtoListIterator* ProtoObject::asListIterator(ProtoContext* context) const
+    const ProtoListIterator* ProtoObject::asListIterator(ProtoContext* context) const
     {
         ProtoObjectPointer p{};
-        p.oid.oid = (ProtoObject*)this;
+        p.oid.oid = (const ProtoObject*)this;
         if (p.op.pointer_tag == POINTER_TAG_LIST_ITERATOR)
         {
             return p.listIterator;
@@ -736,10 +736,10 @@ namespace proto
         return nullptr;
     }
 
-    ProtoTuple* ProtoObject::asTuple(ProtoContext* context) const
+    const ProtoTuple* ProtoObject::asTuple(ProtoContext* context) const
     {
         ProtoObjectPointer p{};
-        p.oid.oid = (ProtoObject*)this;
+        p.oid.oid = (const ProtoObject*)this;
         if (p.op.pointer_tag == POINTER_TAG_TUPLE)
         {
             return p.tuple;
@@ -748,10 +748,10 @@ namespace proto
         return nullptr;
     }
 
-    ProtoTupleIterator* ProtoObject::asTupleIterator(ProtoContext* context) const
+    const ProtoTupleIterator* ProtoObject::asTupleIterator(ProtoContext* context) const
     {
         ProtoObjectPointer p{};
-        p.oid.oid = (ProtoObject*)this;
+        p.oid.oid = (const ProtoObject*)this;
         if (p.op.pointer_tag == POINTER_TAG_TUPLE_ITERATOR)
         {
             return p.tupleIterator;
@@ -760,10 +760,10 @@ namespace proto
         return nullptr;
     }
 
-    ProtoString* ProtoObject::asString(ProtoContext* context) const
+    const ProtoString* ProtoObject::asString(ProtoContext* context) const
     {
         ProtoObjectPointer p{};
-        p.oid.oid = (ProtoObject*)this;
+        p.oid.oid = (const ProtoObject*)this;
         if (p.op.pointer_tag == POINTER_TAG_STRING)
         {
             return p.string;
@@ -772,10 +772,10 @@ namespace proto
         return nullptr;
     }
 
-    ProtoStringIterator* ProtoObject::asStringIterator(ProtoContext* context) const
+    const ProtoStringIterator* ProtoObject::asStringIterator(ProtoContext* context) const
     {
         ProtoObjectPointer p{};
-        p.oid.oid = (ProtoObject*)this;
+        p.oid.oid = (const ProtoObject*)this;
         if (p.op.pointer_tag == POINTER_TAG_STRING_ITERATOR)
         {
             return p.stringIterator;
@@ -784,10 +784,10 @@ namespace proto
         return nullptr;
     }
 
-    ProtoSparseList* ProtoObject::asSparseList(ProtoContext* context) const
+    const ProtoSparseList* ProtoObject::asSparseList(ProtoContext* context) const
     {
         ProtoObjectPointer p{};
-        p.oid.oid = (ProtoObject*)this;
+        p.oid.oid = (const ProtoObject*)this;
         if (p.op.pointer_tag == POINTER_TAG_SPARSE_LIST)
         {
             return p.sparseList;
@@ -796,10 +796,10 @@ namespace proto
         return nullptr;
     }
 
-    ProtoSparseListIterator* ProtoObject::asSparseListIterator(ProtoContext* context) const
+    const ProtoSparseListIterator* ProtoObject::asSparseListIterator(ProtoContext* context) const
     {
         ProtoObjectPointer p{};
-        p.oid.oid = (ProtoObject*)this;
+        p.oid.oid = (const ProtoObject*)this;
         if (p.op.pointer_tag == POINTER_TAG_SPARSE_LIST_ITERATOR)
         {
             return p.sparseListIterator;

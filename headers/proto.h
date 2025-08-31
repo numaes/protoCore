@@ -45,10 +45,10 @@ namespace proto
 
     typedef const ProtoObject*(*ProtoMethod)(
         ProtoContext* context,
-        const ProtoObject self,
+        const ProtoObject* self,
         const ParentLink* parentLink,
-        const ProtoList positionalParameters,
-        const ProtoSparseList keywordParameters
+        const ProtoList* positionalParameters,
+        const ProtoSparseList* keywordParameters
     );
 
     class ProtoObject
@@ -60,10 +60,10 @@ namespace proto
         const ProtoObject* newChild(ProtoContext* context, bool isMutable = false) const;
 
         //- Attributes
-        const ProtoObject* getAttribute(ProtoContext* context, const ProtoString name) const;
-        const ProtoObject* hasAttribute(ProtoContext* context, const ProtoString* name) const;
-        const ProtoObject* hasOwnAttribute(ProtoContext* context, const ProtoString* name) const;
-        const ProtoObject* setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value);
+        const ProtoObject* getAttribute(ProtoContext* context, ProtoString* name) const;
+        const ProtoObject* hasAttribute(ProtoContext* context, ProtoString* name) const;
+        const ProtoObject* hasOwnAttribute(ProtoContext* context, ProtoString* name) const;
+        const ProtoObject* setAttribute(ProtoContext* context, ProtoString* name, const ProtoObject* value);
         const ProtoSparseList* getAttributes(ProtoContext* context) const;
         const ProtoSparseList* getOwnAttributes(ProtoContext* context) const;
 
@@ -74,11 +74,11 @@ namespace proto
 
         //- Execution
         const ProtoObject* call(ProtoContext* context,
-                          ParentLink* nextParent,
-                          const ProtoString* method,
-                          const ProtoObject* self,
-                          const ProtoList* unnamedParametersList = nullptr,
-                          const ProtoSparseList* keywordParametersDict = nullptr);
+                                const ParentLink* nextParent,
+                                const ProtoString* method,
+                                const ProtoObject* self,
+                                const ProtoList* unnamedParametersList = nullptr,
+                                const ProtoSparseList* keywordParametersDict = nullptr);
 
         //- Internals & Type Checking
         unsigned long getHash(ProtoContext* context) const;
@@ -398,6 +398,21 @@ namespace proto
         const ProtoObject* stringIteratorPrototype;
         const ProtoObject* sparseListPrototype;
         const ProtoObject* sparseListIteratorPrototype;
+
+        //- Callbacks
+        const ProtoObject* (*nonMethodCallback)(
+            ProtoContext* context,
+            const ParentLink* nextParent,
+            const ProtoString* method,
+            const ProtoObject* self,
+            const ProtoList* unnamedParametersList,
+            const ProtoSparseList* keywordParametersDict);
+
+        const ProtoObject* (*attributeNotFoundGetCallback)(
+            ProtoContext* context,
+            const ProtoObject* self,
+            const ProtoString* attributeName);
+
 
         //- Memory Management & GC
         Cell* getFreeCells(const ProtoThread* currentThread);

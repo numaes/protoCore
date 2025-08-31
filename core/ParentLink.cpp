@@ -12,8 +12,8 @@ namespace proto
     // Using a member initialization list is more idiomatic and efficient in C++.
     ParentLinkImplementation::ParentLinkImplementation(
         ProtoContext* context,
-        ParentLinkImplementation* parent,
-        const ProtoObject object
+        const ParentLinkImplementation* parent,
+        const ProtoObject* object
     ) : Cell(context), parent(parent), object(object)
     {
         // The constructor body can now be empty.
@@ -37,7 +37,7 @@ namespace proto
         // 1. Process the link to the previousNode parent in the chain.
         if (this->parent)
         {
-            method(context, self, this->parent);
+            method(context, self, this->parent->asCell(context));
         }
 
         // 2. CRITICAL FIX: Process the object (ProtoObjectCell) that this link represents.
@@ -45,7 +45,7 @@ namespace proto
         // to be incorrectly collected by the GC.
         if (this->object)
         {
-            method(context, self, reinterpret_cast<Cell*>(this->object));
+            method(context, self, this->object->asCell(context));
         }
 
         // NOTE: The call to 'method(context, self, this)' was removed.
@@ -60,12 +60,12 @@ namespace proto
         // does not acquire resources that require explicit cleanup.
     }
 
-    ProtoObject* ParentLinkImplementation::getObject(ProtoContext* context) const
+    const ProtoObject* ParentLinkImplementation::getObject(ProtoContext* context) const
     {
         return this->object;
     };
 
-    ParentLinkImplementation* ParentLinkImplementation::getParent(ProtoContext* context) const
+    const ParentLinkImplementation* ParentLinkImplementation::getParent(ProtoContext* context) const
     {
         return this->parent;
     };

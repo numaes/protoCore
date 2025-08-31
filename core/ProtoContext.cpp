@@ -102,14 +102,14 @@ namespace proto
                 if (cell == returnCell)
                 {
                     if (previousCell)
-                        previousCell->next = cell->next;
+                        previousCell->asCell = cell->asCell;
                     else
-                        this->lastAllocatedCell = cell->next;
+                        this->lastAllocatedCell = cell->asCell;
                     break;
                 }
 
                 previousCell = cell;
-                cell = cell->next;
+                cell = cell->asCell;
 
             }
 
@@ -122,7 +122,7 @@ namespace proto
                 if (pa.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE)
                 {
                     Cell* rv = this->returnValue->asCell(this);
-                    rv->next = this->previous->lastAllocatedCell;
+                    rv->asCell = this->previous->lastAllocatedCell;
                 }
             }
         }
@@ -157,14 +157,14 @@ namespace proto
         }
 
         // The cells are chained in a simple list for tracking within the context.
-        newCell->next = this->lastAllocatedCell;
+        newCell->asCell = this->lastAllocatedCell;
         this->lastAllocatedCell = newCell;
         return newCell;
     }
 
     void ProtoContext::addCell2Context(Cell* cell)
     {
-        cell->next = this->lastAllocatedCell;
+        cell->asCell = this->lastAllocatedCell;
         this->lastAllocatedCell = cell;
     }
 
