@@ -102,14 +102,14 @@ namespace proto
                 if (cell == returnCell)
                 {
                     if (previousCell)
-                        previousCell->asCell = cell->asCell;
+                        previousCell->next = cell;
                     else
-                        this->lastAllocatedCell = cell->asCell;
+                        this->lastAllocatedCell = cell;
                     break;
                 }
 
                 previousCell = cell;
-                cell = cell->asCell;
+                cell = cell->next;
 
             }
 
@@ -122,7 +122,7 @@ namespace proto
                 if (pa.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE)
                 {
                     Cell* rv = this->returnValue->asCell(this);
-                    rv->asCell = this->previous->lastAllocatedCell;
+                    rv->next = this->previous->lastAllocatedCell;
                 }
             }
         }
@@ -157,20 +157,20 @@ namespace proto
         }
 
         // The cells are chained in a simple list for tracking within the context.
-        newCell->asCell = this->lastAllocatedCell;
+        newCell->next = this->lastAllocatedCell;
         this->lastAllocatedCell = newCell;
         return newCell;
     }
 
     void ProtoContext::addCell2Context(Cell* cell)
     {
-        cell->asCell = this->lastAllocatedCell;
+        cell->next = this->lastAllocatedCell;
         this->lastAllocatedCell = cell;
     }
 
     // --- Primitive Type Constructors (from...) ---
 
-    ProtoObject* ProtoContext::fromInteger(int value)
+    const ProtoObject* ProtoContext::fromInteger(int value)
     {
         ProtoObjectPointer p{};
         p.oid.oid = nullptr;
@@ -180,7 +180,7 @@ namespace proto
         return p.oid.oid;
     }
 
-    ProtoObject* ProtoContext::fromFloat(float value)
+    const ProtoObject* ProtoContext::fromFloat(float value)
     {
         ProtoObjectPointer p{};
         p.oid.oid = nullptr;
@@ -200,7 +200,7 @@ namespace proto
         return p.oid.oid;
     }
 
-    ProtoObject* ProtoContext::fromUTF8Char(const char* utf8OneCharString)
+    const ProtoObject* ProtoContext::fromUTF8Char(const char* utf8OneCharString)
     {
         ProtoObjectPointer p{};
         p.oid.oid = nullptr;
@@ -238,14 +238,14 @@ namespace proto
         return p.oid.oid;
     }
 
-    ProtoObject* ProtoContext::fromUTF8String(const char* zeroTerminatedUtf8String)
+    const ProtoObject* ProtoContext::fromUTF8String(const char* zeroTerminatedUtf8String)
     {
         const char* currentChar = zeroTerminatedUtf8String;
-        ProtoList* charList = this->newList();
+        const ProtoList* charList = this->newList();
 
         while (*currentChar)
         {
-            charList = (ProtoList*)charList->appendLast(this, proto::ProtoContext::fromUTF8Char(currentChar));
+            charList = charList->appendLast(this, proto::ProtoContext::fromUTF8Char(currentChar));
 
             // Advance the pointer according to the number of bytes of the UTF-8 character
             if ((*currentChar & 0x80) == 0) currentChar += 1;
@@ -265,27 +265,27 @@ namespace proto
 
     // --- Collection Type Constructors (new...) ---
 
-    ProtoList* ProtoContext::newList()
+    const ProtoList* ProtoContext::newList()
     {
         return new(this) ProtoListImplementation(this);
     }
 
-    ProtoTuple* ProtoContext::newTuple()
+    const ProtoTuple* ProtoContext::newTuple()
     {
         return new(this) ProtoTupleImplementation(this, 0);
     }
 
-    ProtoTuple* ProtoContext::newTupleFromList(const ProtoList* sourceList)
+    const ProtoTuple* ProtoContext::newTupleFromList(const ProtoList* sourceList)
     {
         return ProtoTupleImplementation::tupleFromList(this, sourceList);
     }
 
-    ProtoSparseList* ProtoContext::newSparseList()
+    const ProtoSparseList* ProtoContext::newSparseList()
     {
         return new(this) ProtoSparseListImplementation(this);
     }
 
-    ProtoObject* ProtoContext::newObject(const bool mutableObject)
+    const ProtoObject* ProtoContext::newObject(const bool mutableObject)
     {
         return new(this) ProtoObjectCell(
             this,
@@ -298,7 +298,7 @@ namespace proto
 
     // --- Other Constructors (from...) ---
 
-    ProtoObject* ProtoContext::fromBoolean(bool value)
+    const ProtoObject* ProtoContext::fromBoolean(bool value)
     {
         ProtoObjectPointer p{};
         p.oid.oid = nullptr;
@@ -308,7 +308,7 @@ namespace proto
         return p.oid.oid;
     }
 
-    ProtoObject* ProtoContext::fromByte(char c)
+    const ProtoObject* ProtoContext::fromByte(char c)
     {
         ProtoObjectPointer p{};
         p.oid.oid = nullptr;
@@ -318,7 +318,7 @@ namespace proto
         return p.oid.oid;
     }
 
-    ProtoObject* ProtoContext::fromDate(unsigned year, unsigned month, unsigned day)
+    const ProtoObject* ProtoContext::fromDate(unsigned year, unsigned month, unsigned day)
     {
         ProtoObjectPointer p{};
         p.oid.oid = nullptr;
@@ -330,7 +330,7 @@ namespace proto
         return p.oid.oid;
     }
 
-    ProtoObject* ProtoContext::fromTimestamp(unsigned long timestamp)
+    const ProtoObject* ProtoContext::fromTimestamp(unsigned long timestamp)
     {
         ProtoObjectPointer p{};
         p.oid.oid = nullptr;
@@ -340,7 +340,7 @@ namespace proto
         return p.oid.oid;
     }
 
-    ProtoObject* ProtoContext::fromTimeDelta(long timedelta)
+    const ProtoObject* ProtoContext::fromTimeDelta(long timedelta)
     {
         ProtoObjectPointer p{};
         p.oid.oid = nullptr;
@@ -350,7 +350,7 @@ namespace proto
         return p.oid.oid;
     }
 
-    ProtoObject* ProtoContext::fromMethod(ProtoObject* self, ProtoMethod method)
+    const ProtoObject* ProtoContext::fromMethod(ProtoObject* self, ProtoMethod method)
     {
         ProtoObjectPointer p{};
         p.methodCellImplementation = new(this) ProtoMethodCell(this, self, method);
@@ -358,7 +358,7 @@ namespace proto
         return p.oid.oid;
     }
 
-    ProtoObject* ProtoContext::fromExternalPointer(void* pointer)
+    const ProtoObject* ProtoContext::fromExternalPointer(void* pointer)
     {
         ProtoObjectPointer p{};
         p.externalPointerImplementation = new(this) ProtoExternalPointerImplementation(this, pointer);
@@ -366,7 +366,7 @@ namespace proto
         return p.oid.oid;
     }
 
-    ProtoObject* ProtoContext::fromBuffer(unsigned long length, char* buffer, bool freeOnExit)
+    const ProtoObject* ProtoContext::fromBuffer(unsigned long length, char* buffer, bool freeOnExit)
     {
         ProtoObjectPointer p{};
         p.byteBufferImplementation = new(this) ProtoByteBufferImplementation(this, buffer, length, freeOnExit);
@@ -374,7 +374,7 @@ namespace proto
         return p.oid.oid;
     }
 
-    ProtoObject* ProtoContext::newBuffer(unsigned long length)
+    const ProtoObject* ProtoContext::newBuffer(unsigned long length)
     {
         ProtoObjectPointer p{};
         auto buffer = new char[length];
