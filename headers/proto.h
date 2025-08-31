@@ -313,17 +313,17 @@ namespace proto
     public:
         explicit ProtoContext(
             ProtoContext* previous = nullptr,
-            const ProtoObject** localsBase = nullptr,
+            ProtoObject** localsBase = nullptr,
             unsigned int localsCount = 0,
-            const ProtoSpace* space = nullptr
+            ProtoSpace* space = nullptr
         );
         ~ProtoContext();
 
         //- Execution State
         ProtoContext* previous;
-        const ProtoSpace* space;
-        const ProtoThread* thread;
-        const ProtoObject** localsBase;
+        ProtoSpace* space;
+        ProtoThread* thread;
+        ProtoObject** localsBase;
         unsigned int localsCount;
 
         //- Return Value
@@ -334,7 +334,7 @@ namespace proto
         const ProtoObject* fromFloat(float value);
         const ProtoObject* fromUTF8Char(const char* utf8OneCharString);
         const ProtoObject* fromUTF8String(const char* zeroTerminatedUtf8String);
-        const ProtoObject* fromMethod(const ProtoObject* self, ProtoMethod method);
+        const ProtoObject* fromMethod(ProtoObject* self, ProtoMethod method);
         const ProtoObject* fromExternalPointer(void* pointer);
         const ProtoObject* fromBuffer(unsigned long length, char* buffer, bool freeOnExit = false);
         const ProtoObject* newBuffer(unsigned long length);
