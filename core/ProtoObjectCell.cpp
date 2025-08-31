@@ -15,8 +15,8 @@ namespace proto
     // ADJUSTED: The template type from 'ProtoSparseListImplementation' was removed.
     ProtoObjectCell::ProtoObjectCell(
         ProtoContext* context,
-        ParentLinkImplementation* parent,
-        const ProtoSparseListImplementation attributes,
+        const ParentLinkImplementation* parent,
+        const ProtoSparseListImplementation* attributes,
         const unsigned long mutable_ref
     ) : Cell(context), parent(parent), mutable_ref(mutable_ref),
         attributes(attributes ? attributes : new(context) ProtoSparseListImplementation(context))
@@ -30,11 +30,11 @@ namespace proto
 
     // --- Interface Methods ---
 
-    const ProtoObjectCell ProtoObjectCell::addParent(
-        ProtoContext* context, const ProtoObject newParentToAdd) const
+    const ProtoObjectCell* ProtoObjectCell::addParent(
+        ProtoContext* context, const ProtoObject* newParentToAdd) const
     {
         // Creates a new link in the inheritance chain.
-        auto* newParentLink = new(context) ParentLinkImplementation(
+        const auto* newParentLink = new(context) ParentLinkImplementation(
             context,
             this->parent, // The parent of the new link is our current parent.
             newParentToAdd // The object of the new link is the new parent.
@@ -50,7 +50,7 @@ namespace proto
         );
     }
 
-    const ProtoObject ProtoObjectCell::asObject(ProtoContext* context)
+    const ProtoObject* ProtoObjectCell::asObject(ProtoContext* context) const
     {
         ProtoObjectPointer p{};
         p.objectCellImplementation = this;
@@ -62,7 +62,7 @@ namespace proto
     // --- Garbage Collector (GC) Methods ---
 
     // An empty finalizer can also be declared as 'default'.
-    void ProtoObjectCell::finalize(ProtoContext* context)
+    void ProtoObjectCell::finalize(ProtoContext* context) const
     {
     };
 
@@ -75,40 +75,19 @@ namespace proto
             void* self,
             Cell* cell
         )
-    )
+    ) const
     {
         // 1. Process the reference to the parent chain.
         if (this->parent)
         {
-            method(context, self, this->parent);
+            method(context, self, this->parent->asCell(context));
         }
 
         // 2. Process the reference to the attributes list.
         if (this->attributes)
         {
-            method(context, self, this->attributes);
+            method(context, self, this->attributes->asCell(context));
         }
     }
-
-    long unsigned ProtoObjectCell::getHash(ProtoContext* context)
-    {
-        // The hash of a Cell is derived directly from its memory address.
-        // This provides a fast and unique identifier for the object.
-        ProtoObjectPointer p{};
-        p.objectCellImplementation = this;
-
-        return p.asHash.hash;
-    }
-
-    // ------------------- ProtoObjectCell -------------------
-
-    const ProtoObject ProtoObjectCell::asObject(ProtoContext* context)
-    {
-        ProtoObjectPointer p{};
-        p.oid.oid = toImpl<ProtoObjectCell>(this)->implAsObject(context);
-        p.op.pointer_tag = POINTER_TAG_OBJECT;
-        return p.oid.oid;
-    }
-
 
 } // namespace proto

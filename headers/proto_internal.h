@@ -284,7 +284,7 @@ namespace proto
     public:
         ProtoObjectCell(
             ProtoContext* context,
-            ParentLinkImplementation* parent,
+            const ParentLinkImplementation* parent,
             const ProtoSparseListImplementation* attributes,
             unsigned long mutable_ref
         );
@@ -301,10 +301,9 @@ namespace proto
             void* self,
             void (*method)(ProtoContext* context, void* self, Cell* cell)
         ) const override;
-        long unsigned getHash(ProtoContext* context) const override;
         const ProtoObject* asObject(ProtoContext* context) const;
 
-        ParentLinkImplementation* parent;
+        const ParentLinkImplementation* parent;
         unsigned long mutable_ref;
         const ProtoSparseListImplementation* attributes;
     };
