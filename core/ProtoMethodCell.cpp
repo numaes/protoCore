@@ -7,13 +7,13 @@ namespace proto
     /**
      * @brief Constructor
      * @param context The current execution context.
-     * @param method The method to be used.
+     * @param selfObject The target of the method
+     * @param methodTarget The method to be used.
      */
 
-    ProtoMethodCell::ProtoMethodCell(ProtoContext* context, const ProtoMethod method): Cell(
-        context)
+    ProtoMethodCell::ProtoMethodCell(ProtoContext* context, const ProtoObject* selfObject, const ProtoMethod methodTarget) :
+        Cell(context), self(selfObject), method(methodTarget)
     {
-        this->method = method;
     };
 
     /**
@@ -28,11 +28,11 @@ namespace proto
      * @param kwargs A sparse list of keyword arguments.
      * @return The ProtoObject resulting from the execution of the native method.
      */
-    ProtoObject* ProtoMethodCell::implInvoke(
+    const ProtoObject* ProtoMethodCell::implInvoke(
         ProtoContext* context,
-        ProtoList* args,
-        ProtoSparseList* kwargs
-    )
+        const ProtoList* args,
+        const ProtoSparseList* kwargs
+    ) const
     {
         // The main logic is to simply call the stored function pointer.
         // It is assumed that this->method is not null, which should be guaranteed in the constructor.
@@ -49,7 +49,7 @@ namespace proto
      * @param context The current execution context.
      * @return A ProtoObject representing this method cell.
      */
-    ProtoObject* ProtoMethodCell::implAsObject(ProtoContext* context)
+    const ProtoObject* ProtoMethodCell::implAsObject(ProtoContext* context) const
     {
         ProtoObjectPointer p{};
         p.methodCellImplementation = this;
@@ -67,7 +67,7 @@ namespace proto
      * @param context The current execution context.
      * @return The hash value as an unsigned long.
      */
-    unsigned long ProtoMethodCell::getHash(ProtoContext* context)
+    unsigned long ProtoMethodCell::getHash(ProtoContext* context) const
     {
         return Cell::getHash(context);
     }
@@ -81,7 +81,7 @@ namespace proto
      *
      * @param context The current execution context.
      */
-    void ProtoMethodCell::finalize(ProtoContext* context)
+    void ProtoMethodCell::finalize(ProtoContext* context) const
     {
         // No finalization action is required.
     }
@@ -95,25 +95,24 @@ namespace proto
      * does not process 'this' to avoid infinite loops in the GC.
      *
      * @param context The current execution context.
-     * @param self Pointer to the object being processed.
-     * @param method GC callback function to mark references.
+     * @param target Pointer to the object being processed.
+     * @param auxMethod GC callback function to mark references.
      */
     void ProtoMethodCell::processReferences(
         ProtoContext* context,
-        void* self,
-        void (*method)(ProtoContext* context, void* self, Cell* cell)
-    )
+        void* target,
+        void (*auxMethod)(ProtoContext* context, void* self, Cell* cell)
+    ) const
     {
         // This cell contains no references to other cells, so the body is empty.
     };
 
-    ProtoObject* ProtoMethodCell::implGetSelf(ProtoContext* context) {
-        // TODO: Implement actual logic to return the 'self' object associated with the method.
-        return nullptr;
+    const ProtoObject* ProtoMethodCell::implGetSelf(ProtoContext* context) const {
+        return this->self;
     }
 
-    ProtoMethod ProtoMethodCell::implGetMethod(ProtoContext* context) {
-        // TODO: Implement actual logic to return the wrapped function pointer.
-        return nullptr;
+    ProtoMethod ProtoMethodCell::implGetMethod(ProtoContext* context) const {
+        return this->method;
     }
+
 } // namespace proto

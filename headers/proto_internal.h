@@ -655,24 +655,26 @@ namespace proto
     public:
         ProtoMethodCell(
             ProtoContext* context,
-            ProtoObject* self,
-            ProtoMethod method
+            const ProtoObject* selfObject,
+            ProtoMethod methodTarget
         );
         ~ProtoMethodCell() override;
         // ...
-        ProtoObject* implAsObject(ProtoContext* context) const;
-        ProtoObject* implGetSelf(ProtoContext* context) const;
+        const ProtoObject* implInvoke(ProtoContext* context, const ProtoList* args, const ProtoSparseList* kwargs) const;
+        const ProtoObject* implAsObject(ProtoContext* context) const;
+        const ProtoObject* implGetSelf(ProtoContext* context) const;
         ProtoMethod implGetMethod(ProtoContext* context) const;
 
+        unsigned long getHash(ProtoContext* context) const override;
         void finalize(ProtoContext* context) const override;
         void processReferences(
             ProtoContext* context,
-            void* self,
-            void (*method)(ProtoContext*, void*, Cell*)
+            void* target,
+            void (*auxMethod)(ProtoContext*, void*, Cell*)
         ) const override;
 
         // ...
-        ProtoObject* self;
+        const ProtoObject* self;
         ProtoMethod method;
     };
 
