@@ -687,7 +687,7 @@ namespace proto
         // ...
         void* implGetPointer(ProtoContext* context) const;
         unsigned long implGetHash(ProtoContext* context) const;
-        ProtoObject* implAsObject(ProtoContext* context) const;
+        const ProtoObject* implAsObject(ProtoContext* context) const;
 
         void finalize(ProtoContext* context) override;
         void processReferences(
