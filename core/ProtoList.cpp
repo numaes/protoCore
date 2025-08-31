@@ -60,7 +60,7 @@ namespace proto
         return p.oid.oid;
     }
 
-    void ProtoListIteratorImplementation::finalize(ProtoContext* context)
+    void ProtoListIteratorImplementation::finalize(ProtoContext* context) const
     {
     };
 
@@ -72,7 +72,7 @@ namespace proto
             void* self,
             Cell* cell
         )
-    )
+    ) const
     {
         // Inform the GC about the reference to the base list.
         if (this->base)
@@ -146,17 +146,17 @@ namespace proto
             return getHeight(node->nextNode) - getHeight(node->previousNode);
         }
 
-        ProtoListImplementation* rightRotate(ProtoContext* context, const ProtoListImplementation* y)
+        const ProtoListImplementation* rightRotate(ProtoContext* context, const ProtoListImplementation* y)
         {
             const ProtoListImplementation* x = y->previousNode;
             const auto T2 = x->nextNode;
 
             // Perform rotation
-            auto* new_y = new(context) ProtoListImplementation(context, y->value, T2, y->nextNode);
+            const auto* new_y = new(context) ProtoListImplementation(context, y->value, T2, y->nextNode);
             return new(context) ProtoListImplementation(context, x->value, x->previousNode, new_y);
         }
 
-        ProtoListImplementation* leftRotate(ProtoContext* context, const ProtoListImplementation* x)
+        const ProtoListImplementation* leftRotate(ProtoContext* context, const ProtoListImplementation* x)
         {
             const ProtoListImplementation* y = x->nextNode;
             const ProtoListImplementation* T2 = y->previousNode;
@@ -166,9 +166,7 @@ namespace proto
             return new(context) ProtoListImplementation(context, y->value, new_x, y->nextNode);
         }
 
-        // CRITICAL FIX: The rebalancing logic was broken.
-        // This is a standard and correct implementation for an AVL tree.
-        ProtoListImplementation* rebalance(ProtoContext* context, ProtoListImplementation* node)
+        const ProtoListImplementation* rebalance(ProtoContext* context, const ProtoListImplementation* node)
         {
             const int balance = getBalance(node);
 
@@ -187,7 +185,7 @@ namespace proto
             // Case 3: Left-Right (LR)
             if (balance < -1 && getBalance(node->previousNode) > 0)
             {
-                ProtoListImplementation* new_prev = leftRotate(context, node->previousNode);
+                const ProtoListImplementation* new_prev = leftRotate(context, node->previousNode);
                 const auto* new_node = new(context) ProtoListImplementation(
                     context, node->value, new_prev, node->nextNode);
                 return rightRotate(context, new_node);
@@ -196,7 +194,7 @@ namespace proto
             // Case 4: Right-Left (RL)
             if (balance > 1 && getBalance(node->nextNode) < 0)
             {
-                ProtoListImplementation* new_next = rightRotate(context, node->nextNode);
+                const ProtoListImplementation* new_next = rightRotate(context, node->nextNode);
                 const auto* new_node = new(context) ProtoListImplementation(
                     context, node->value, node->previousNode, new_next);
                 return leftRotate(context, new_node);
@@ -275,7 +273,7 @@ namespace proto
         return false;
     }
 
-    ProtoListImplementation* ProtoListImplementation::implAppendLast(ProtoContext* context, ProtoObject* newValue) const
+    const ProtoListImplementation* ProtoListImplementation::implAppendLast(ProtoContext* context, ProtoObject* newValue) const
     {
         if (!this->value)
         {
@@ -285,7 +283,7 @@ namespace proto
         ProtoListImplementation* newNode;
         if (this->nextNode)
         {
-            auto* new_next = static_cast<ProtoListImplementation*>(this->nextNode->implAppendLast(
+            auto* new_next = static_cast<const ProtoListImplementation*>(this->nextNode->implAppendLast(
                 context, newValue));
             newNode = new(context) ProtoListImplementation(context, this->value, this->previousNode, new_next);
         }
@@ -294,6 +292,7 @@ namespace proto
             newNode = new(context) ProtoListImplementation(
                 context,
                 this->value,
+                false,
                 this->previousNode,
                 new(context) ProtoListImplementation(context, newValue)
             );
@@ -331,8 +330,8 @@ namespace proto
             if (!this->nextNode) return this->previousNode;
 
             // Join the two subtrees
-            ProtoObject* rightmost_of_left = this->previousNode->implGetLast(context);
-            auto* left_without_rightmost = static_cast<ProtoListImplementation*>(this->previousNode->
+            const ProtoObject* rightmost_of_left = this->previousNode->implGetLast(context);
+            auto* left_without_rightmost = static_cast<const ProtoListImplementation*>(this->previousNode->
                 implRemoveLast(context));
 
             newNode = new(context) ProtoListImplementation(
@@ -346,15 +345,18 @@ namespace proto
         {
             if (static_cast<unsigned long>(index) < thisIndex)
             {
-                auto* new_prev = static_cast<ProtoListImplementation*>(this->previousNode->implRemoveAt(
-                    context, index));
+                auto* new_prev = this->previousNode?
+                    static_cast<const ProtoListImplementation*>(this->previousNode->implRemoveAt(context, index)) :
+                    nullptr;
+
                 newNode = new(context) ProtoListImplementation(context, this->value, new_prev, this->nextNode);
             }
             else
             {
-                auto* new_next = static_cast<ProtoListImplementation*>(this->nextNode->implRemoveAt(
-                    context, index - thisIndex - 1));
-                // CRITICAL FIX: Use this->value instead of 'value'
+                auto* new_next = this->nextNode?
+                    static_cast<const ProtoListImplementation*>(this->nextNode->implRemoveAt(context, index - thisIndex - 1)) :
+                    nullptr;
+
                 newNode = new(context) ProtoListImplementation(context, this->value, this->previousNode, new_next);
             }
         }
@@ -379,14 +381,15 @@ namespace proto
 
         if (to >= from)
         {
-            ProtoListImplementation* upperPart = this->implSplitLast(context, from);
+            const ProtoListImplementation* upperPart = this->implSplitLast(context, from);
             return upperPart->implSplitFirst(context, to - from);
         }
         else
             return new(context) ProtoListImplementation(context);
     };
 
-    ProtoListImplementation* ProtoListImplementation::implSetAt(ProtoContext* context, int index, ProtoObject* newValue) const
+    const ProtoListImplementation* ProtoListImplementation::implSetAt(ProtoContext* context, int index,
+                                                                      const ProtoObject* newValue) const
     {
         if (!this->value)
         {
@@ -420,7 +423,8 @@ namespace proto
             return new(context) ProtoListImplementation(
                 context,
                 value,
-                this->previousNode->implSetAt(context, index, TODO),
+                false,
+                this->previousNode? this->previousNode->implSetAt(context, index, value) : nullptr,
                 this->nextNode
             );
         else
@@ -428,11 +432,12 @@ namespace proto
                 context,
                 value,
                 this->previousNode,
-                this->nextNode->implSetAt(context, index - thisIndex - 1, TODO)
+                this->nextNode? this->nextNode->implSetAt(context, index - thisIndex - 1, value) : nullptr
             );
     };
 
-    ProtoListImplementation* ProtoListImplementation::implInsertAt(ProtoContext* context, int index, ProtoObject* newValue) const
+    const ProtoListImplementation* ProtoListImplementation::implInsertAt(
+        ProtoContext* context, int index, ProtoObject* newValue) const
     {
         if (!this->value)
             return new(context) ProtoListImplementation(
@@ -450,7 +455,7 @@ namespace proto
         if (static_cast<unsigned long>(index) >= this->hash)
             index = this->hash - 1;
 
-        unsigned long thisIndex = this->previousNode ? this->previousNode->hash : 0;
+        const unsigned long thisIndex = this->previousNode ? this->previousNode->hash : 0;
         ProtoListImplementation* newNode;
 
         if (thisIndex == static_cast<unsigned long>(index))
@@ -461,6 +466,7 @@ namespace proto
                 new(context) ProtoListImplementation(
                     context,
                     this->value,
+                    false,
                     nullptr,
                     this->nextNode
                 )
@@ -471,22 +477,25 @@ namespace proto
                 newNode = new(context) ProtoListImplementation(
                     context,
                     this->value,
-                    this->previousNode->implInsertAt(context, index, newValue),
+                    false,
+                    this->previousNode? this->previousNode->implInsertAt(context, index, newValue) : nullptr,
                     this->nextNode
                 );
             else
                 newNode = new(context) ProtoListImplementation(
                     context,
                     this->value,
+                    false,
                     this->previousNode,
-                    this->nextNode->implInsertAt(context, index - thisIndex - 1, newValue)
+                    this->nextNode? this->nextNode->implInsertAt(context, index - thisIndex - 1, newValue) : nullptr
                 );
         }
 
         return rebalance(context, newNode);
     };
 
-    ProtoListImplementation* ProtoListImplementation::implAppendFirst(ProtoContext* context, ProtoObject* newValue) const
+    const ProtoListImplementation* ProtoListImplementation::implAppendFirst(
+        ProtoContext* context, ProtoObject* newValue) const
     {
         if (!this->value)
             return new(context) ProtoListImplementation(
@@ -500,6 +509,7 @@ namespace proto
             newNode = new(context) ProtoListImplementation(
                 context,
                 this->value,
+                false,
                 this->previousNode->implAppendFirst(context, newValue),
                 this->nextNode
             );
@@ -508,6 +518,7 @@ namespace proto
             newNode = new(context) ProtoListImplementation(
                 context,
                 this->value,
+                false,
                 new(context) ProtoListImplementation(
                     context,
                     newValue
@@ -519,12 +530,12 @@ namespace proto
         return rebalance(context, newNode);
     };
 
-    ProtoListImplementation* ProtoListImplementation::implExtend(ProtoContext* context, ProtoListImplementation* other) const
+    const ProtoListImplementation* ProtoListImplementation::implExtend(ProtoContext* context, const ProtoListImplementation* other) const
     {
         if (this->hash == 0)
             return other;
 
-        unsigned long otherCount = other->getSize(context);
+        const unsigned long otherCount = other->getSize(context);
 
         if (otherCount == 0)
             return this;
@@ -535,8 +546,9 @@ namespace proto
                 new(context) ProtoListImplementation(
                     context,
                     this->implGetLast(context),
+                    false,
                     this->implRemoveLast(context),
-                    (ProtoListImplementation*)other
+                    other
                 ));
         else
             return rebalance(
@@ -544,8 +556,9 @@ namespace proto
                 new(context) ProtoListImplementation(
                     context,
                     other->getFirst(context),
+                    false,
                     this,
-                    static_cast<ProtoListImplementation*>(other->removeFirst(context))
+                    static_cast<const ProtoListImplementation*>(other->removeFirst(context))
                 ));
     };
 
@@ -570,15 +583,15 @@ namespace proto
         if (index == 0)
             return new(context) ProtoListImplementation(context);
 
-        ProtoListImplementation* newNode = nullptr;
+        const ProtoListImplementation* newNode = nullptr;
 
-        if (int thisIndex = (this->previousNode ? this->previousNode->hash : 0); thisIndex == index)
+        if (const int thisIndex = (this->previousNode ? this->previousNode->hash : 0); thisIndex == index)
             return this->previousNode;
         else
         {
             if (index > thisIndex)
             {
-                ProtoListImplementation* newNext = this->nextNode->
+                const ProtoListImplementation* newNext = this->nextNode->
                                                          implSplitFirst(context, index - thisIndex - 1);
                 if (newNext->hash == 0)
                     newNext = nullptr;
@@ -597,6 +610,7 @@ namespace proto
                     newNode = new(context) ProtoListImplementation(
                         context,
                         value,
+                        false,
                         nullptr,
                         this->nextNode->implSplitFirst(context, index - thisIndex - 1)
                     );
@@ -624,9 +638,9 @@ namespace proto
         if (index == 0)
             return this;
 
-        ProtoListImplementation* newNode = nullptr;
+        const ProtoListImplementation* newNode = nullptr;
 
-        if (int thisIndex = (this->previousNode ? this->previousNode->hash : 0); thisIndex == index)
+        if (const int thisIndex = (this->previousNode ? this->previousNode->hash : 0); thisIndex == index)
         {
             if (!this->previousNode)
                 return this;
@@ -635,6 +649,7 @@ namespace proto
                 newNode = new(context) ProtoListImplementation(
                     context,
                     value,
+                    false,
                     nullptr,
                     this->nextNode
                 );
@@ -647,7 +662,8 @@ namespace proto
                 newNode = new(context) ProtoListImplementation(
                     context,
                     this->value,
-                    this->previousNode->implSplitLast(context, index),
+                    false,
+                    this->previousNode? this->previousNode->implSplitLast(context, index) : nullptr,
                     this->nextNode
                 );
             }
@@ -674,7 +690,7 @@ namespace proto
         if (!this->value)
             return this;
 
-        ProtoListImplementation* newNode;
+        const ProtoListImplementation* newNode;
 
         if (this->previousNode)
         {
@@ -684,6 +700,7 @@ namespace proto
             newNode = new(context) ProtoListImplementation(
                 context,
                 value,
+                false,
                 newNode,
                 this->nextNode
             );
@@ -696,6 +713,7 @@ namespace proto
             newNode = new(context) ProtoListImplementation(
                 context,
                 nullptr,
+                false,
                 nullptr,
                 nullptr
             );
@@ -757,7 +775,7 @@ namespace proto
         return new(context) ProtoListIteratorImplementation(context, this, 0);
     }
 
-    void ProtoListImplementation::finalize(ProtoContext* context)
+    void ProtoListImplementation::finalize(ProtoContext* context) const
     {
     };
 
@@ -782,7 +800,7 @@ namespace proto
         }
         if (this->value && this->value->isCell(context))
         {
-            auto cell = this->value->asCell(context);
+            const auto cell = this->value->asCell(context);
             cell->processReferences(context, self, method);
         }
     }

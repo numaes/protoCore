@@ -356,11 +356,11 @@ namespace proto
         const ProtoListImplementation* implGetSlice(ProtoContext* context, int from, int to) const;
         unsigned long implGetSize(ProtoContext* context) const;
         bool implHas(ProtoContext* context, const ProtoObject* targetValue) const;
-        ProtoListImplementation* implSetAt(ProtoContext* context, int index, ProtoObject* newValue) const;
-        ProtoListImplementation* implInsertAt(ProtoContext* context, int index, ProtoObject* newValue) const;
-        ProtoListImplementation* implAppendFirst(ProtoContext* context, ProtoObject* newValue) const;
-        ProtoListImplementation* implAppendLast(ProtoContext* context, ProtoObject* newValue) const;
-        ProtoListImplementation* implExtend(ProtoContext* context, ProtoListImplementation* other) const;
+        const ProtoListImplementation* implSetAt(ProtoContext* context, int index, const ProtoObject* newValue) const;
+        const ProtoListImplementation* implInsertAt(ProtoContext* context, int index, ProtoObject* newValue) const;
+        const ProtoListImplementation* implAppendFirst(ProtoContext* context, ProtoObject* newValue) const;
+        const ProtoListImplementation* implAppendLast(ProtoContext* context, ProtoObject* newValue) const;
+        const ProtoListImplementation* implExtend(ProtoContext* context, const ProtoListImplementation* other) const;
         const ProtoListImplementation* implSplitFirst(ProtoContext* context, int index) const;
         const ProtoListImplementation* implSplitLast(ProtoContext* context, int index) const;
         const ProtoListImplementation* implRemoveFirst(ProtoContext* context) const;

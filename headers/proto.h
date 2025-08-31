@@ -12,6 +12,8 @@
 #include <condition_variable>
 
 #include "proto_internal.h"
+#include "proto_internal.h"
+#include "proto_internal.h"
 
 
 namespace proto
