@@ -16,9 +16,9 @@ long long checksum_vector(const std::vector<int>& vec) {
 }
 
 // A simple function to simulate reading from a ProtoList
-long long checksum_proto_list(proto::ProtoContext* c, proto::ProtoList* list) {
+long long checksum_proto_list(proto::ProtoContext* c, proto::const ProtoList list) {
     long long sum = 0;
-    proto::ProtoListIterator* iter = list->getIterator(c);
+    proto::const ProtoListIterator iter = list->getIterator(c);
     while (iter->hasNext(c)) {
         sum += iter->next(c)->asInteger(c);
         iter = iter->advance(c);

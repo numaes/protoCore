@@ -8,7 +8,7 @@
     <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="classproto_1_1ProtoListIteratorImplementation_1a1bb154babe8595968d0feb5709a2b46c" prot="private" static="no" mutable="no">
         <type><ref refid="classproto_1_1ProtoListImplementation" kindref="compound">ProtoListImplementation</ref> *</type>
-        <definition>ProtoListImplementation* proto::ProtoListIteratorImplementation::base</definition>
+        <definition>const ProtoListImplementation proto::ProtoListIteratorImplementation::base</definition>
         <argsstring></argsstring>
         <name>base</name>
         <qualifiedname>proto::ProtoListIteratorImplementation::base</qualifiedname>
@@ -39,7 +39,7 @@
       <memberdef kind="function" id="classproto_1_1ProtoListIteratorImplementation_1a591877b1e2971dde4e1653582c33dc1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>proto::ProtoListIteratorImplementation::ProtoListIteratorImplementation</definition>
-        <argsstring>(ProtoContext *context, ProtoListImplementation *base, unsigned long currentIndex)</argsstring>
+        <argsstring>(ProtoContext *context, const ProtoListImplementationbase, unsigned long currentIndex)</argsstring>
         <name>ProtoListIteratorImplementation</name>
         <qualifiedname>proto::ProtoListIteratorImplementation::ProtoListIteratorImplementation</qualifiedname>
         <param>
@@ -97,7 +97,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoListIteratorImplementation_1aa296256f4e0f4577003aa6c9850e5e52" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoListIteratorImplementation::next</definition>
+        <definition>const ProtoObject proto::ProtoListIteratorImplementation::next</definition>
         <argsstring>(ProtoContext *context) override</argsstring>
         <name>next</name>
         <qualifiedname>proto::ProtoListIteratorImplementation::next</qualifiedname>
@@ -116,7 +116,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoListIteratorImplementation_1adb17cbaa272d155b6708bfb44781d691" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoListIteratorImplementation" kindref="compound">ProtoListIteratorImplementation</ref> *</type>
-        <definition>ProtoListIteratorImplementation * proto::ProtoListIteratorImplementation::advance</definition>
+        <definition>const ProtoListIteratorImplementation proto::ProtoListIteratorImplementation::advance</definition>
         <argsstring>(ProtoContext *context) override</argsstring>
         <name>advance</name>
         <qualifiedname>proto::ProtoListIteratorImplementation::advance</qualifiedname>
@@ -135,7 +135,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoListIteratorImplementation_1a74ccd5981b2978fc86d69b673ca83dff" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoListIteratorImplementation::asObject</definition>
+        <definition>const ProtoObject proto::ProtoListIteratorImplementation::asObject</definition>
         <argsstring>(ProtoContext *context) override</argsstring>
         <name>asObject</name>
         <qualifiedname>proto::ProtoListIteratorImplementation::asObject</qualifiedname>

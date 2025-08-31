@@ -22,7 +22,7 @@
       </memberdef>
       <memberdef kind="variable" id="classproto_1_1ProtoThreadImplementation_1a5dab954aa6c5ad0f5c048b53acc0d454" prot="public" static="no" mutable="no">
         <type><ref refid="classproto_1_1ProtoString" kindref="compound">ProtoString</ref> *</type>
-        <definition>ProtoString* proto::ProtoThreadImplementation::name</definition>
+        <definition>const ProtoString proto::ProtoThreadImplementation::name</definition>
         <argsstring></argsstring>
         <name>name</name>
         <qualifiedname>proto::ProtoThreadImplementation::name</qualifiedname>
@@ -36,7 +36,7 @@
       </memberdef>
       <memberdef kind="variable" id="classproto_1_1ProtoThreadImplementation_1aecbe061bdd0d41a582c7ec76539632da" prot="public" static="no" mutable="no">
         <type><ref refid="classproto_1_1ProtoSpace" kindref="compound">ProtoSpace</ref> *</type>
-        <definition>ProtoSpace* proto::ProtoThreadImplementation::space</definition>
+        <definition>const ProtoSpace proto::ProtoThreadImplementation::space</definition>
         <argsstring></argsstring>
         <name>space</name>
         <qualifiedname>proto::ProtoThreadImplementation::space</qualifiedname>
@@ -109,7 +109,7 @@
       <memberdef kind="function" id="classproto_1_1ProtoThreadImplementation_1aa5b833da1252039af213a7d0f27255dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>proto::ProtoThreadImplementation::ProtoThreadImplementation</definition>
-        <argsstring>(ProtoContext *context, ProtoString *name, ProtoSpace *space, ProtoMethod targetCode, ProtoList *args, ProtoSparseList *kwargs)</argsstring>
+        <argsstring>(ProtoContext *context, const ProtoStringname, const ProtoSpacespace, ProtoMethod targetCode, const ProtoListargs, const ProtoSparseListkwargs)</argsstring>
         <name>ProtoThreadImplementation</name>
         <qualifiedname>proto::ProtoThreadImplementation::ProtoThreadImplementation</qualifiedname>
         <param>
@@ -314,7 +314,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoThreadImplementation_1ad360fd3d20a832d8acfadaf58ff84b5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoThreadImplementation::asObject</definition>
+        <definition>const ProtoObject proto::ProtoThreadImplementation::asObject</definition>
         <argsstring>(ProtoContext *context) override</argsstring>
         <name>asObject</name>
         <qualifiedname>proto::ProtoThreadImplementation::asObject</qualifiedname>

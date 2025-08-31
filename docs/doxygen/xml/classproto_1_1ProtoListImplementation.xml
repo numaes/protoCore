@@ -8,7 +8,7 @@
     <sectiondef kind="public-attrib">
       <memberdef kind="variable" id="classproto_1_1ProtoListImplementation_1a185ba7745b5a946b0e8f7698975918a0" prot="public" static="no" mutable="no">
         <type><ref refid="classproto_1_1ProtoListImplementation" kindref="compound">ProtoListImplementation</ref> *</type>
-        <definition>ProtoListImplementation* proto::ProtoListImplementation::previous</definition>
+        <definition>const ProtoListImplementation proto::ProtoListImplementation::previous</definition>
         <argsstring></argsstring>
         <name>previous</name>
         <qualifiedname>proto::ProtoListImplementation::previous</qualifiedname>
@@ -22,7 +22,7 @@
       </memberdef>
       <memberdef kind="variable" id="classproto_1_1ProtoListImplementation_1a655a28c56e7371ad80179c281e477a2e" prot="public" static="no" mutable="no">
         <type><ref refid="classproto_1_1ProtoListImplementation" kindref="compound">ProtoListImplementation</ref> *</type>
-        <definition>ProtoListImplementation* proto::ProtoListImplementation::next</definition>
+        <definition>const ProtoListImplementation proto::ProtoListImplementation::next</definition>
         <argsstring></argsstring>
         <name>next</name>
         <qualifiedname>proto::ProtoListImplementation::next</qualifiedname>
@@ -36,7 +36,7 @@
       </memberdef>
       <memberdef kind="variable" id="classproto_1_1ProtoListImplementation_1a1ed394ab784ad6403eefb18eb883931e" prot="public" static="no" mutable="no">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject* proto::ProtoListImplementation::value</definition>
+        <definition>const ProtoObject proto::ProtoListImplementation::value</definition>
         <argsstring></argsstring>
         <name>value</name>
         <qualifiedname>proto::ProtoListImplementation::value</qualifiedname>
@@ -113,7 +113,7 @@
       <memberdef kind="function" id="classproto_1_1ProtoListImplementation_1a46e87eb2b51bf9857346dceb514577d8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
         <definition>proto::ProtoListImplementation::ProtoListImplementation</definition>
-        <argsstring>(ProtoContext *context, ProtoObject *value=PROTO_NONE, ProtoListImplementation *previous=nullptr, ProtoListImplementation *next=nullptr)</argsstring>
+        <argsstring>(ProtoContext *context, const ProtoObjectvalue=PROTO_NONE, const ProtoListImplementationprevious=nullptr, const ProtoListImplementationnext=nullptr)</argsstring>
         <name>ProtoListImplementation</name>
         <qualifiedname>proto::ProtoListImplementation::ProtoListImplementation</qualifiedname>
         <param>
@@ -159,7 +159,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoListImplementation_1a9bc93269d85b8a74b7219cd0cec1c126" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoListImplementation::getAt</definition>
+        <definition>const ProtoObject proto::ProtoListImplementation::getAt</definition>
         <argsstring>(ProtoContext *context, int index) override</argsstring>
         <name>getAt</name>
         <qualifiedname>proto::ProtoListImplementation::getAt</qualifiedname>
@@ -182,7 +182,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoListImplementation_1a9f3b3bd0b6f2d9efc5ede9c542f5f04f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoListImplementation::getFirst</definition>
+        <definition>const ProtoObject proto::ProtoListImplementation::getFirst</definition>
         <argsstring>(ProtoContext *context) override</argsstring>
         <name>getFirst</name>
         <qualifiedname>proto::ProtoListImplementation::getFirst</qualifiedname>
@@ -201,7 +201,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoListImplementation_1a938076609c9033da7b6fce0be5d74a98" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoListImplementation::getLast</definition>
+        <definition>const ProtoObject proto::ProtoListImplementation::getLast</definition>
         <argsstring>(ProtoContext *context) override</argsstring>
         <name>getLast</name>
         <qualifiedname>proto::ProtoListImplementation::getLast</qualifiedname>
@@ -220,7 +220,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoListImplementation_1a86833846b6edaf16664a467dded0f361" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoListImplementation" kindref="compound">ProtoListImplementation</ref> *</type>
-        <definition>ProtoListImplementation * proto::ProtoListImplementation::getSlice</definition>
+        <definition>const ProtoListImplementation proto::ProtoListImplementation::getSlice</definition>
         <argsstring>(ProtoContext *context, int from, int to) override</argsstring>
         <name>getSlice</name>
         <qualifiedname>proto::ProtoListImplementation::getSlice</qualifiedname>
@@ -267,7 +267,7 @@
       <memberdef kind="function" id="classproto_1_1ProtoListImplementation_1a6213e46b60af2322cd12f170df42d503" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>bool proto::ProtoListImplementation::has</definition>
-        <argsstring>(ProtoContext *context, ProtoObject *value) override</argsstring>
+        <argsstring>(ProtoContext *context, const ProtoObjectvalue) override</argsstring>
         <name>has</name>
         <qualifiedname>proto::ProtoListImplementation::has</qualifiedname>
         <reimplements refid="classproto_1_1ProtoList_1ad5955668ca4cfb45bf3c328cbdaa28b4">has</reimplements>
@@ -289,8 +289,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoListImplementation_1a62ceb4427b6af04cffd7a9a72928e86d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoListImplementation" kindref="compound">ProtoListImplementation</ref> *</type>
-        <definition>ProtoListImplementation * proto::ProtoListImplementation::setAt</definition>
-        <argsstring>(ProtoContext *context, int index, ProtoObject *value=PROTO_NONE) override</argsstring>
+        <definition>const ProtoListImplementation proto::ProtoListImplementation::setAt</definition>
+        <argsstring>(ProtoContext *context, int index, const ProtoObjectvalue=PROTO_NONE) override</argsstring>
         <name>setAt</name>
         <qualifiedname>proto::ProtoListImplementation::setAt</qualifiedname>
         <reimplements refid="classproto_1_1ProtoList_1a53aa4e8ea95bc5a63800566349064518">setAt</reimplements>
@@ -317,8 +317,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoListImplementation_1a53b56fa53daa470de28ed7094be53e1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoListImplementation" kindref="compound">ProtoListImplementation</ref> *</type>
-        <definition>ProtoListImplementation * proto::ProtoListImplementation::insertAt</definition>
-        <argsstring>(ProtoContext *context, int index, ProtoObject *value) override</argsstring>
+        <definition>const ProtoListImplementation proto::ProtoListImplementation::insertAt</definition>
+        <argsstring>(ProtoContext *context, int index, const ProtoObjectvalue) override</argsstring>
         <name>insertAt</name>
         <qualifiedname>proto::ProtoListImplementation::insertAt</qualifiedname>
         <reimplements refid="classproto_1_1ProtoList_1a3368cdea460eac55bd296d1ac9b99fa8">insertAt</reimplements>
@@ -344,8 +344,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoListImplementation_1a52c3a526b2e314fd92f302a762c7f211" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoListImplementation" kindref="compound">ProtoListImplementation</ref> *</type>
-        <definition>ProtoListImplementation * proto::ProtoListImplementation::appendFirst</definition>
-        <argsstring>(ProtoContext *context, ProtoObject *value) override</argsstring>
+        <definition>const ProtoListImplementation proto::ProtoListImplementation::appendFirst</definition>
+        <argsstring>(ProtoContext *context, const ProtoObjectvalue) override</argsstring>
         <name>appendFirst</name>
         <qualifiedname>proto::ProtoListImplementation::appendFirst</qualifiedname>
         <reimplements refid="classproto_1_1ProtoList_1a30d12306a4bf0790694acb367cb208ee">appendFirst</reimplements>
@@ -367,8 +367,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoListImplementation_1aa8e26e82f03f6b1aafb936a5cf82cbf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoListImplementation" kindref="compound">ProtoListImplementation</ref> *</type>
-        <definition>ProtoListImplementation * proto::ProtoListImplementation::appendLast</definition>
-        <argsstring>(ProtoContext *context, ProtoObject *value) override</argsstring>
+        <definition>const ProtoListImplementation proto::ProtoListImplementation::appendLast</definition>
+        <argsstring>(ProtoContext *context, const ProtoObjectvalue) override</argsstring>
         <name>appendLast</name>
         <qualifiedname>proto::ProtoListImplementation::appendLast</qualifiedname>
         <reimplements refid="classproto_1_1ProtoList_1ac8efb538a15329581af32b742567a151">appendLast</reimplements>
@@ -390,8 +390,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoListImplementation_1a24930bbcd625ffe9a56709d0373b8fd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoListImplementation" kindref="compound">ProtoListImplementation</ref> *</type>
-        <definition>ProtoListImplementation * proto::ProtoListImplementation::extend</definition>
-        <argsstring>(ProtoContext *context, ProtoList *other) override</argsstring>
+        <definition>const ProtoListImplementation proto::ProtoListImplementation::extend</definition>
+        <argsstring>(ProtoContext *context, const ProtoListother) override</argsstring>
         <name>extend</name>
         <qualifiedname>proto::ProtoListImplementation::extend</qualifiedname>
         <reimplements refid="classproto_1_1ProtoList_1ad739cc83f90df4465d0da91e39c3cba1">extend</reimplements>
@@ -413,7 +413,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoListImplementation_1a57668261f009f5fc92e785651daf064f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoListImplementation" kindref="compound">ProtoListImplementation</ref> *</type>
-        <definition>ProtoListImplementation * proto::ProtoListImplementation::splitFirst</definition>
+        <definition>const ProtoListImplementation proto::ProtoListImplementation::splitFirst</definition>
         <argsstring>(ProtoContext *context, int index) override</argsstring>
         <name>splitFirst</name>
         <qualifiedname>proto::ProtoListImplementation::splitFirst</qualifiedname>
@@ -436,7 +436,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoListImplementation_1a7a5640f8b867dfc9ca212895bafe65ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoListImplementation" kindref="compound">ProtoListImplementation</ref> *</type>
-        <definition>ProtoListImplementation * proto::ProtoListImplementation::splitLast</definition>
+        <definition>const ProtoListImplementation proto::ProtoListImplementation::splitLast</definition>
         <argsstring>(ProtoContext *context, int index) override</argsstring>
         <name>splitLast</name>
         <qualifiedname>proto::ProtoListImplementation::splitLast</qualifiedname>
@@ -459,7 +459,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoListImplementation_1a650435a11bf21ae7b317d311da45723d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoListImplementation" kindref="compound">ProtoListImplementation</ref> *</type>
-        <definition>ProtoListImplementation * proto::ProtoListImplementation::removeFirst</definition>
+        <definition>const ProtoListImplementation proto::ProtoListImplementation::removeFirst</definition>
         <argsstring>(ProtoContext *context) override</argsstring>
         <name>removeFirst</name>
         <qualifiedname>proto::ProtoListImplementation::removeFirst</qualifiedname>
@@ -478,7 +478,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoListImplementation_1a53ec81d04ac7f1b55870907d3d6ad9f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoListImplementation" kindref="compound">ProtoListImplementation</ref> *</type>
-        <definition>ProtoListImplementation * proto::ProtoListImplementation::removeLast</definition>
+        <definition>const ProtoListImplementation proto::ProtoListImplementation::removeLast</definition>
         <argsstring>(ProtoContext *context) override</argsstring>
         <name>removeLast</name>
         <qualifiedname>proto::ProtoListImplementation::removeLast</qualifiedname>
@@ -497,7 +497,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoListImplementation_1a9390ccc7e11286449012fd794536c7da" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoListImplementation" kindref="compound">ProtoListImplementation</ref> *</type>
-        <definition>ProtoListImplementation * proto::ProtoListImplementation::removeAt</definition>
+        <definition>const ProtoListImplementation proto::ProtoListImplementation::removeAt</definition>
         <argsstring>(ProtoContext *context, int index) override</argsstring>
         <name>removeAt</name>
         <qualifiedname>proto::ProtoListImplementation::removeAt</qualifiedname>
@@ -520,7 +520,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoListImplementation_1ad0f181d67bf62c31c801af5a9f1331af" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoListImplementation" kindref="compound">ProtoListImplementation</ref> *</type>
-        <definition>ProtoListImplementation * proto::ProtoListImplementation::removeSlice</definition>
+        <definition>const ProtoListImplementation proto::ProtoListImplementation::removeSlice</definition>
         <argsstring>(ProtoContext *context, int from, int to) override</argsstring>
         <name>removeSlice</name>
         <qualifiedname>proto::ProtoListImplementation::removeSlice</qualifiedname>
@@ -547,7 +547,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoListImplementation_1a8330fc227fd22cc19356e3b36785796d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoListImplementation::asObject</definition>
+        <definition>const ProtoObject proto::ProtoListImplementation::asObject</definition>
         <argsstring>(ProtoContext *context) override</argsstring>
         <name>asObject</name>
         <qualifiedname>proto::ProtoListImplementation::asObject</qualifiedname>
@@ -585,7 +585,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoListImplementation_1a29a9a35970007e30cbd7fb370ccc91fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoListIteratorImplementation" kindref="compound">ProtoListIteratorImplementation</ref> *</type>
-        <definition>ProtoListIteratorImplementation * proto::ProtoListImplementation::getIterator</definition>
+        <definition>const ProtoListIteratorImplementation proto::ProtoListImplementation::getIterator</definition>
         <argsstring>(ProtoContext *context) override</argsstring>
         <name>getIterator</name>
         <qualifiedname>proto::ProtoListImplementation::getIterator</qualifiedname>

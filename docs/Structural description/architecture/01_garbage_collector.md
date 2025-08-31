@@ -47,7 +47,7 @@ The `processReferences` method is responsible for iterating over the stack of a 
 
 ```cpp
 // Illustrative snippet from Thread.cpp
-void Thread::processReferences(std::function<void(ProtoObject*)> processor) {
+void Thread::processReferences(std::function<void(const ProtoObject)> processor) {
     // ... logic to iterate over the current thread's stack ...
     for (auto& frame : call_stack) {
         for (auto& local : frame.locals) {

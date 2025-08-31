@@ -40,8 +40,8 @@ int main() {
     ProtoContext* context = new ProtoContext();
 
     // 2. Create some Proto objects
-    ProtoObject* my_int = context->fromInteger(42);
-    ProtoObject* my_str = context->newString("Hello from C++!");
+    const ProtoObject my_int = context->fromInteger(42);
+    const ProtoObject my_str = context->newString("Hello from C++!");
 
     // 3. Interact with the objects (here, just printing)
     // In a real app, you would call functions, pass them to other objects, etc.

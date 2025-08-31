@@ -15,7 +15,7 @@ namespace proto
     // Modernized constructor with initialization list.
     ProtoStringIteratorImplementation::ProtoStringIteratorImplementation(
         ProtoContext* context,
-        ProtoStringImplementation* base,
+        const ProtoStringImplementation base,
         unsigned long currentIndex
     ) : Cell(context), base(base), currentIndex(currentIndex)
     {
@@ -48,7 +48,7 @@ namespace proto
     ProtoStringIteratorImplementation* ProtoStringIteratorImplementation::implAdvance(ProtoContext* context)
     {
         // CRITICAL FIX: The iterator must advance to the next index.
-        // The previous version created an iterator at the same position.
+        // The previousNode version created an iterator at the same position.
         return new(context) ProtoStringIteratorImplementation(context, this->base, this->currentIndex + 1);
     }
 

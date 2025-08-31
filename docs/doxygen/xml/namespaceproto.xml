@@ -56,8 +56,8 @@
       </memberdef>
       <memberdef kind="typedef" id="namespaceproto_1a072c9272d67309d7b1802c6fbddb71d8" prot="public" static="no">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *(*</type>
-        <definition>typedef ProtoObject *(* proto::ProtoMethod) (ProtoContext *, ProtoObject *, ParentLink *, ProtoList *, ProtoSparseList *)</definition>
-        <argsstring>)(ProtoContext *, ProtoObject *, ParentLink *, ProtoList *, ProtoSparseList *)</argsstring>
+        <definition>typedef const ProtoObject(* proto::ProtoMethod) (ProtoContext *, const ProtoObject, ParentLink *, const ProtoList, const ProtoSparseList)</definition>
+        <argsstring>)(ProtoContext *, const ProtoObject, ParentLink *, const ProtoList, const ProtoSparseList)</argsstring>
         <name>ProtoMethod</name>
         <qualifiedname>proto::ProtoMethod</qualifiedname>
         <briefdescription>
@@ -162,7 +162,7 @@
       <memberdef kind="function" id="namespaceproto_1a1ce0c38bf1e3078bb9b388eedd2b83f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void proto::gcCollectObjects</definition>
-        <argsstring>(ProtoContext *context, void *self, ProtoObject *value)</argsstring>
+        <argsstring>(ProtoContext *context, void *self, const ProtoObjectvalue)</argsstring>
         <name>gcCollectObjects</name>
         <qualifiedname>proto::gcCollectObjects</qualifiedname>
         <param>
@@ -188,7 +188,7 @@
       <memberdef kind="function" id="namespaceproto_1af1bfb65acf676ca9bf4926ad1bf8ae18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void proto::gcScan</definition>
-        <argsstring>(ProtoContext *context, ProtoSpace *space)</argsstring>
+        <argsstring>(ProtoContext *context, const ProtoSpacespace)</argsstring>
         <name>gcScan</name>
         <qualifiedname>proto::gcScan</qualifiedname>
         <param>
@@ -210,7 +210,7 @@
       <memberdef kind="function" id="namespaceproto_1a7dce7a84785d50bcde0df03294a18460" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void proto::gcThreadLoop</definition>
-        <argsstring>(ProtoSpace *space)</argsstring>
+        <argsstring>(const ProtoSpacespace)</argsstring>
         <name>gcThreadLoop</name>
         <qualifiedname>proto::gcThreadLoop</qualifiedname>
         <param>
@@ -228,7 +228,7 @@
       <memberdef kind="function" id="namespaceproto_1a0a0758e2e6057af867b3bb72d8959793" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void proto::scanThreads</definition>
-        <argsstring>(ProtoContext *context, void *self, ProtoObject *value)</argsstring>
+        <argsstring>(ProtoContext *context, void *self, const ProtoObjectvalue)</argsstring>
         <name>scanThreads</name>
         <qualifiedname>proto::scanThreads</qualifiedname>
         <param>

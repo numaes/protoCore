@@ -31,7 +31,7 @@ namespace proto
         return this->pointer;
     }
 
-    ProtoObject* ProtoExternalPointerImplementation::implAsObject(ProtoContext* context) const
+    const ProtoObject ProtoExternalPointerImplementation::implAsObject(ProtoContext* context) const
     {
         ProtoObjectPointer p{};
         p.externalPointerImplementation = this;

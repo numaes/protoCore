@@ -17,11 +17,11 @@ namespace proto
     // Modernized constructor with an initialization list, adjusted to not use templates.
     ProtoThreadImplementation::ProtoThreadImplementation(
         ProtoContext* context,
-        ProtoString* name,
-        ProtoSpace* space,
+        const ProtoString name,
+        const ProtoSpace space,
         ProtoMethod targetCode,
-        ProtoList* args,
-        ProtoSparseList* kwargs
+        const ProtoList args,
+        const ProtoSparseList kwargs
     ) : Cell(context),
         state(THREAD_STATE_MANAGED),
         name(name),

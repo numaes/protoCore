@@ -8,7 +8,7 @@
     <sectiondef kind="public-attrib">
       <memberdef kind="variable" id="classproto_1_1ProtoSparseListImplementation_1a305477fd64f69299eff79a36f9f41f75" prot="public" static="no" mutable="no">
         <type><ref refid="classproto_1_1ProtoSparseListImplementation" kindref="compound">ProtoSparseListImplementation</ref> *</type>
-        <definition>ProtoSparseListImplementation* proto::ProtoSparseListImplementation::previous</definition>
+        <definition>const ProtoSparseListImplementation proto::ProtoSparseListImplementation::previous</definition>
         <argsstring></argsstring>
         <name>previous</name>
         <qualifiedname>proto::ProtoSparseListImplementation::previous</qualifiedname>
@@ -22,7 +22,7 @@
       </memberdef>
       <memberdef kind="variable" id="classproto_1_1ProtoSparseListImplementation_1ab846f4b64ede5c285779a41a9e7dfd0f" prot="public" static="no" mutable="no">
         <type><ref refid="classproto_1_1ProtoSparseListImplementation" kindref="compound">ProtoSparseListImplementation</ref> *</type>
-        <definition>ProtoSparseListImplementation* proto::ProtoSparseListImplementation::next</definition>
+        <definition>const ProtoSparseListImplementation proto::ProtoSparseListImplementation::next</definition>
         <argsstring></argsstring>
         <name>next</name>
         <qualifiedname>proto::ProtoSparseListImplementation::next</qualifiedname>
@@ -50,7 +50,7 @@
       </memberdef>
       <memberdef kind="variable" id="classproto_1_1ProtoSparseListImplementation_1a14afeabd7a882bd93ebae36f59f53634" prot="public" static="no" mutable="no">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject* proto::ProtoSparseListImplementation::value</definition>
+        <definition>const ProtoObject proto::ProtoSparseListImplementation::value</definition>
         <argsstring></argsstring>
         <name>value</name>
         <qualifiedname>proto::ProtoSparseListImplementation::value</qualifiedname>
@@ -126,7 +126,7 @@
       <memberdef kind="function" id="classproto_1_1ProtoSparseListImplementation_1ae4c96c863fe0f9375879d44495e108a0" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
         <definition>proto::ProtoSparseListImplementation::ProtoSparseListImplementation</definition>
-        <argsstring>(ProtoContext *context, unsigned long index=0, ProtoObject *value=PROTO_NONE, ProtoSparseListImplementation *previous=NULL, ProtoSparseListImplementation *next=NULL)</argsstring>
+        <argsstring>(ProtoContext *context, unsigned long index=0, const ProtoObjectvalue=PROTO_NONE, const ProtoSparseListImplementationprevious=NULL, const ProtoSparseListImplementationnext=NULL)</argsstring>
         <name>ProtoSparseListImplementation</name>
         <qualifiedname>proto::ProtoSparseListImplementation::ProtoSparseListImplementation</qualifiedname>
         <param>
@@ -200,7 +200,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoSparseListImplementation_1a3c2572fde8d800fa2a6487e87be89a04" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoSparseListImplementation::getAt</definition>
+        <definition>const ProtoObject proto::ProtoSparseListImplementation::getAt</definition>
         <argsstring>(ProtoContext *context, unsigned long index) override</argsstring>
         <name>getAt</name>
         <qualifiedname>proto::ProtoSparseListImplementation::getAt</qualifiedname>
@@ -223,8 +223,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoSparseListImplementation_1ae94620d94cb4fc62397e219538c59ed8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoSparseListImplementation" kindref="compound">ProtoSparseListImplementation</ref> *</type>
-        <definition>ProtoSparseListImplementation * proto::ProtoSparseListImplementation::setAt</definition>
-        <argsstring>(ProtoContext *context, unsigned long index, ProtoObject *value) override</argsstring>
+        <definition>const ProtoSparseListImplementation proto::ProtoSparseListImplementation::setAt</definition>
+        <argsstring>(ProtoContext *context, unsigned long index, const ProtoObjectvalue) override</argsstring>
         <name>setAt</name>
         <qualifiedname>proto::ProtoSparseListImplementation::setAt</qualifiedname>
         <reimplements refid="classproto_1_1ProtoSparseList_1a504b1934cea541b98970b36007cfe00a">setAt</reimplements>
@@ -250,7 +250,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoSparseListImplementation_1aa2490b205b7d9f0cfd31719dad79b500" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoSparseListImplementation" kindref="compound">ProtoSparseListImplementation</ref> *</type>
-        <definition>ProtoSparseListImplementation * proto::ProtoSparseListImplementation::removeAt</definition>
+        <definition>const ProtoSparseListImplementation proto::ProtoSparseListImplementation::removeAt</definition>
         <argsstring>(ProtoContext *context, unsigned long index) override</argsstring>
         <name>removeAt</name>
         <qualifiedname>proto::ProtoSparseListImplementation::removeAt</qualifiedname>
@@ -274,7 +274,7 @@
       <memberdef kind="function" id="classproto_1_1ProtoSparseListImplementation_1a6816e660ac505ff252cb1c49ab3ed471" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>int</type>
         <definition>int proto::ProtoSparseListImplementation::isEqual</definition>
-        <argsstring>(ProtoContext *context, ProtoSparseList *otherDict) override</argsstring>
+        <argsstring>(ProtoContext *context, const ProtoSparseListotherDict) override</argsstring>
         <name>isEqual</name>
         <qualifiedname>proto::ProtoSparseListImplementation::isEqual</qualifiedname>
         <reimplements refid="classproto_1_1ProtoSparseList_1ab0f182bb148acb2286d851a84cbb664b">isEqual</reimplements>
@@ -296,7 +296,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoSparseListImplementation_1aa68a610c1387f38b8695597b72f0e63d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoSparseListImplementation::getAtOffset</definition>
+        <definition>const ProtoObject proto::ProtoSparseListImplementation::getAtOffset</definition>
         <argsstring>(ProtoContext *context, int offset) override</argsstring>
         <name>getAtOffset</name>
         <qualifiedname>proto::ProtoSparseListImplementation::getAtOffset</qualifiedname>
@@ -338,7 +338,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoSparseListImplementation_1ab47221095c702c0e57c5ee327cea2dee" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoSparseListImplementation::asObject</definition>
+        <definition>const ProtoObject proto::ProtoSparseListImplementation::asObject</definition>
         <argsstring>(ProtoContext *context) override</argsstring>
         <name>asObject</name>
         <qualifiedname>proto::ProtoSparseListImplementation::asObject</qualifiedname>
@@ -376,7 +376,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoSparseListImplementation_1a449e4075e229e77859ddb5b31c1cd96d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoSparseListIteratorImplementation" kindref="compound">ProtoSparseListIteratorImplementation</ref> *</type>
-        <definition>ProtoSparseListIteratorImplementation * proto::ProtoSparseListImplementation::getIterator</definition>
+        <definition>const ProtoSparseListIteratorImplementation proto::ProtoSparseListImplementation::getIterator</definition>
         <argsstring>(ProtoContext *context)</argsstring>
         <name>getIterator</name>
         <qualifiedname>proto::ProtoSparseListImplementation::getIterator</qualifiedname>
@@ -396,7 +396,7 @@
       <memberdef kind="function" id="classproto_1_1ProtoSparseListImplementation_1a53f3533537a83b7c4cb1ac710ef9275b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
         <definition>void proto::ProtoSparseListImplementation::processElements</definition>
-        <argsstring>(ProtoContext *context, void *self, void(*method)(ProtoContext *context, void *self, unsigned long index, ProtoObject *value)) override</argsstring>
+        <argsstring>(ProtoContext *context, void *self, void(*method)(ProtoContext *context, void *self, unsigned long index, const ProtoObjectvalue)) override</argsstring>
         <name>processElements</name>
         <qualifiedname>proto::ProtoSparseListImplementation::processElements</qualifiedname>
         <reimplements refid="classproto_1_1ProtoSparseList_1a7f177acd9b00b6d79cca392f3e3f93e5">processElements</reimplements>
@@ -423,7 +423,7 @@
       <memberdef kind="function" id="classproto_1_1ProtoSparseListImplementation_1a3af2307b75f29ad264528b718d6a8658" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
         <definition>void proto::ProtoSparseListImplementation::processValues</definition>
-        <argsstring>(ProtoContext *context, void *self, void(*method)(ProtoContext *context, void *self, ProtoObject *value)) override</argsstring>
+        <argsstring>(ProtoContext *context, void *self, void(*method)(ProtoContext *context, void *self, const ProtoObjectvalue)) override</argsstring>
         <name>processValues</name>
         <qualifiedname>proto::ProtoSparseListImplementation::processValues</qualifiedname>
         <reimplements refid="classproto_1_1ProtoSparseList_1abe1b14df7c1fcdc49b748cf5d6a70a95">processValues</reimplements>

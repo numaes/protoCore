@@ -64,7 +64,7 @@ namespace proto
 
         if (previous)
         {
-            // If there is a previous context, inherit its space and thread.
+            // If there is a previousNode context, inherit its space and thread.
             this->space = previous->space;
             this->thread = previous->thread;
         }
@@ -113,7 +113,7 @@ namespace proto
 
             }
 
-            // Link returnValue to previous context
+            // Link returnValue to previousNode context
 
             if (this->previous)
             {
@@ -229,7 +229,7 @@ namespace proto
         {
             // 4-byte char
             // CRITICAL FIX: A copy-paste error was corrected.
-            // The previous version used utf8OneCharString[1] twice.
+            // The previousNode version used utf8OneCharString[1] twice.
             unicodeValue = ((firstByte & 0x07) << 18) | ((utf8OneCharString[1] & 0x3F) << 12) | ((utf8OneCharString[2] &
                 0x3F) << 6) | (utf8OneCharString[3] & 0x3F);
         }

@@ -12,7 +12,7 @@ using namespace std;
 
 namespace proto
 {
-    ProtoObject* ProtoObject::getPrototype(ProtoContext* context) const
+    const ProtoObject ProtoObject::getPrototype(ProtoContext* context) const
     {
         ProtoObjectPointer pa{};
 

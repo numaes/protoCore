@@ -39,46 +39,46 @@ namespace proto
 
     //! Useful constants.
     //! @warning They should be kept in sync with proto_internal.h!
-    #define PROTO_TRUE ((proto::ProtoObject *)  0x010FL)
-    #define PROTO_FALSE ((proto::ProtoObject *) 0x000FL)
-    #define PROTO_NONE ((proto::ProtoObject *) nullptr)
+    #define PROTO_TRUE ((const proto::ProtoObject*)  0x010FL)
+    #define PROTO_FALSE ((const proto::ProtoObject*) 0x000FL)
+    #define PROTO_NONE ((const proto::ProtoObject*) nullptr)
 
-    typedef ProtoObject*(*ProtoMethod)(
+    typedef const ProtoObject*(*ProtoMethod)(
         ProtoContext* context,
-        ProtoObject* self,
-        ParentLink* parentLink,
-        ProtoList* positionalParameters,
-        ProtoSparseList* keywordParameters
+        const ProtoObject self,
+        const ParentLink* parentLink,
+        const ProtoList positionalParameters,
+        const ProtoSparseList keywordParameters
     );
 
     class ProtoObject
     {
     public:
         //- Object Model
-        ProtoObject* getPrototype(ProtoContext* context) const;
-        ProtoObject* clone(ProtoContext* context, bool isMutable = false) const;
-        ProtoObject* newChild(ProtoContext* context, bool isMutable = false) const;
+        const ProtoObject* getPrototype(ProtoContext* context) const;
+        const ProtoObject* clone(ProtoContext* context, bool isMutable = false) const;
+        const ProtoObject* newChild(ProtoContext* context, bool isMutable = false) const;
 
         //- Attributes
-        ProtoObject* getAttribute(ProtoContext* context, ProtoString* name) const;
-        ProtoObject* hasAttribute(ProtoContext* context, ProtoString* name) const;
-        ProtoObject* hasOwnAttribute(ProtoContext* context, ProtoString* name) const;
-        ProtoObject* setAttribute(ProtoContext* context, ProtoString* name, ProtoObject* value);
-        ProtoSparseList* getAttributes(ProtoContext* context) const;
-        ProtoSparseList* getOwnAttributes(ProtoContext* context) const;
+        const ProtoObject* getAttribute(ProtoContext* context, const ProtoString name) const;
+        const ProtoObject* hasAttribute(ProtoContext* context, const ProtoString* name) const;
+        const ProtoObject* hasOwnAttribute(ProtoContext* context, const ProtoString* name) const;
+        const ProtoObject* setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value);
+        const ProtoSparseList* getAttributes(ProtoContext* context) const;
+        const ProtoSparseList* getOwnAttributes(ProtoContext* context) const;
 
         //- Inheritance
-        ProtoList* getParents(ProtoContext* context) const;
-        ProtoObject* addParent(ProtoContext* context, ProtoObject* newParent);
-        ProtoObject* isInstanceOf(ProtoContext* context, const ProtoObject* prototype) const;
+        const ProtoList* getParents(ProtoContext* context) const;
+        const ProtoObject* addParent(ProtoContext* context, const ProtoObject* newParent);
+        const ProtoObject* isInstanceOf(ProtoContext* context, const ProtoObject* prototype) const;
 
         //- Execution
-        ProtoObject* call(ProtoContext* context,
+        const ProtoObject* call(ProtoContext* context,
                           ParentLink* nextParent,
-                          ProtoString* method,
-                          ProtoObject* self,
-                          ProtoList* unnamedParametersList = nullptr,
-                          ProtoSparseList* keywordParametersDict = nullptr);
+                          const ProtoString* method,
+                          const ProtoObject* self,
+                          const ProtoList* unnamedParametersList = nullptr,
+                          const ProtoSparseList* keywordParametersDict = nullptr);
 
         //- Internals & Type Checking
         unsigned long getHash(ProtoContext* context) const;
@@ -102,15 +102,15 @@ namespace proto
         void asDate(ProtoContext* context, unsigned int& year, unsigned& month, unsigned& day) const;
         unsigned long asTimestamp(ProtoContext* context) const;
         long asTimeDelta(ProtoContext* context) const;
-        ProtoList* asList(ProtoContext* context) const;
-        ProtoListIterator* asListIterator(ProtoContext* context) const;
-        ProtoTuple* asTuple(ProtoContext* context) const;
-        ProtoTupleIterator* asTupleIterator(ProtoContext* context) const;
-        ProtoString* asString(ProtoContext* context) const;
-        ProtoStringIterator* asStringIterator(ProtoContext* context) const;
-        ProtoSparseList* asSparseList(ProtoContext* context) const;
-        ProtoSparseListIterator* asSparseListIterator(ProtoContext* context) const;
-        ProtoThread* asThread(ProtoContext* context) const;
+        const ProtoList* asList(ProtoContext* context) const;
+        const ProtoListIterator* asListIterator(ProtoContext* context) const;
+        const ProtoTuple* asTuple(ProtoContext* context) const;
+        const ProtoTupleIterator* asTupleIterator(ProtoContext* context) const;
+        const ProtoString* asString(ProtoContext* context) const;
+        const ProtoStringIterator* asStringIterator(ProtoContext* context) const;
+        const ProtoSparseList* asSparseList(ProtoContext* context) const;
+        const ProtoSparseListIterator* asSparseListIterator(ProtoContext* context) const;
+        const ProtoThread* asThread(ProtoContext* context) const;
         ProtoMethod asMethod(ProtoContext* context) const;
     };
 
@@ -118,38 +118,38 @@ namespace proto
     {
     public:
         int hasNext(ProtoContext* context) const;
-        ProtoObject* next(ProtoContext* context);
-        ProtoListIterator* advance(ProtoContext* context);
-        ProtoObject* asObject(ProtoContext* context) const;
+        const ProtoObject* next(ProtoContext* context);
+        const ProtoListIterator* advance(ProtoContext* context);
+        const ProtoObject* asObject(ProtoContext* context) const;
     };
 
     class ProtoList
     {
     public:
         //- Accessors
-        ProtoObject* getAt(ProtoContext* context, int index) const;
-        ProtoObject* getFirst(ProtoContext* context) const;
-        ProtoObject* getLast(ProtoContext* context) const;
-        ProtoList* getSlice(ProtoContext* context, int from, int to) const;
+        const ProtoObject* getAt(ProtoContext* context, int index) const;
+        const ProtoObject* getFirst(ProtoContext* context) const;
+        const ProtoObject* getLast(ProtoContext* context) const;
+        const ProtoList* getSlice(ProtoContext* context, int from, int to) const;
         unsigned long getSize(ProtoContext* context) const;
-        bool has(ProtoContext* context, ProtoObject* value) const;
+        bool has(ProtoContext* context, const ProtoObject* value) const;
 
         //- Modifiers that return a new list
-        ProtoList* setAt(ProtoContext* context, int index, ProtoObject* value) const;
-        ProtoList* insertAt(ProtoContext* context, int index, ProtoObject* value) const;
-        ProtoList* appendFirst(ProtoContext* context, ProtoObject* value) const;
-        ProtoList* appendLast(ProtoContext* context, ProtoObject* value) const;
-        ProtoList* extend(ProtoContext* context, ProtoList* other) const;
-        ProtoList* splitFirst(ProtoContext* context, int index) const;
-        ProtoList* splitLast(ProtoContext* context, int index) const;
-        ProtoList* removeFirst(ProtoContext* context) const;
-        ProtoList* removeLast(ProtoContext* context) const;
-        ProtoList* removeAt(ProtoContext* context, int index) const;
-        ProtoList* removeSlice(ProtoContext* context, int from, int to) const;
+        const ProtoList* setAt(ProtoContext* context, int index, const ProtoObject* value) const;
+        const ProtoList* insertAt(ProtoContext* context, int index, const ProtoObject* value) const;
+        const ProtoList* appendFirst(ProtoContext* context, const ProtoObject* value) const;
+        const ProtoList* appendLast(ProtoContext* context, const ProtoObject* value) const;
+        const ProtoList* extend(ProtoContext* context, const ProtoList* other) const;
+        const ProtoList* splitFirst(ProtoContext* context, int index) const;
+        const ProtoList* splitLast(ProtoContext* context, int index) const;
+        const ProtoList* removeFirst(ProtoContext* context) const;
+        const ProtoList* removeLast(ProtoContext* context) const;
+        const ProtoList* removeAt(ProtoContext* context, int index) const;
+        const ProtoList* removeSlice(ProtoContext* context, int from, int to) const;
 
         //- Conversion
-        ProtoObject* asObject(ProtoContext* context) const;
-        ProtoListIterator* getIterator(ProtoContext* context) const;
+        const ProtoObject* asObject(ProtoContext* context) const;
+        const ProtoListIterator* getIterator(ProtoContext* context) const;
         unsigned long getHash(ProtoContext* context) const;
     };
 
@@ -157,38 +157,38 @@ namespace proto
     {
     public:
         int hasNext(ProtoContext* context) const;
-        ProtoObject* next(ProtoContext* context);
-        ProtoTupleIterator* advance(ProtoContext* context);
-        ProtoObject* asObject(ProtoContext* context) const;
+        const ProtoObject* next(ProtoContext* context);
+        const ProtoTupleIterator* advance(ProtoContext* context);
+        const ProtoObject* asObject(ProtoContext* context) const;
     };
 
     class ProtoTuple
     {
     public:
         //- Accessors
-        ProtoObject* getAt(ProtoContext* context, int index) const;
-        ProtoObject* getFirst(ProtoContext* context) const;
-        ProtoObject* getLast(ProtoContext* context) const;
-        ProtoObject* getSlice(ProtoContext* context, int from, int to) const;
+        const ProtoObject* getAt(ProtoContext* context, int index) const;
+        const ProtoObject* getFirst(ProtoContext* context) const;
+        const ProtoObject* getLast(ProtoContext* context) const;
+        const ProtoObject* getSlice(ProtoContext* context, int from, int to) const;
         unsigned long getSize(ProtoContext* context) const;
-        bool has(ProtoContext* context, ProtoObject* value) const;
+        bool has(ProtoContext* context, const ProtoObject* value) const;
 
         //- "Modifiers" (return new tuples)
-        ProtoObject* setAt(ProtoContext* context, int index, ProtoObject* value) const;
-        ProtoObject* insertAt(ProtoContext* context, int index, ProtoObject* value) const;
-        ProtoObject* appendFirst(ProtoContext* context, ProtoTuple* otherTuple) const;
-        ProtoObject* appendLast(ProtoContext* context, ProtoTuple* otherTuple) const;
-        ProtoObject* splitFirst(ProtoContext* context, int count) const;
-        ProtoObject* splitLast(ProtoContext* context, int count) const;
-        ProtoObject* removeFirst(ProtoContext* context, int count) const;
-        ProtoObject* removeLast(ProtoContext* context, int count) const;
-        ProtoObject* removeAt(ProtoContext* context, int index) const;
-        ProtoObject* removeSlice(ProtoContext* context, int from, int to) const;
+        const ProtoObject* setAt(ProtoContext* context, int index, const ProtoObject* value) const;
+        const ProtoObject* insertAt(ProtoContext* context, int index, const ProtoObject* value) const;
+        const ProtoObject* appendFirst(ProtoContext* context, const ProtoTuple* otherTuple) const;
+        const ProtoObject* appendLast(ProtoContext* context, const ProtoTuple* otherTuple) const;
+        const ProtoObject* splitFirst(ProtoContext* context, int count) const;
+        const ProtoObject* splitLast(ProtoContext* context, int count) const;
+        const ProtoObject* removeFirst(ProtoContext* context, int count) const;
+        const ProtoObject* removeLast(ProtoContext* context, int count) const;
+        const ProtoObject* removeAt(ProtoContext* context, int index) const;
+        const ProtoObject* removeSlice(ProtoContext* context, int from, int to) const;
 
         //- Conversion
-        ProtoList* asList(ProtoContext* context) const;
-        ProtoObject* asObject(ProtoContext* context) const;
-        ProtoTupleIterator* getIterator(ProtoContext* context) const;
+        const ProtoList* asList(ProtoContext* context) const;
+        const ProtoObject* asObject(ProtoContext* context) const;
+        const ProtoTupleIterator* getIterator(ProtoContext* context) const;
         unsigned long getHash(ProtoContext* context) const;
     };
 
@@ -196,41 +196,41 @@ namespace proto
     {
     public:
         int hasNext(ProtoContext* context) const;
-        ProtoObject* next(ProtoContext* context);
-        ProtoStringIterator* advance(ProtoContext* context);
-        ProtoObject* asObject(ProtoContext* context) const;
+        const ProtoObject* next(ProtoContext* context);
+        const ProtoStringIterator* advance(ProtoContext* context);
+        const ProtoObject* asObject(ProtoContext* context) const;
     };
 
     class ProtoString
     {
     public:
-        static ProtoString* fromUTF8String(const char* zeroTerminatedUtf8String);
+        static const ProtoString* fromUTF8String(const char* zeroTerminatedUtf8String);
 
-        int cmp_to_string(ProtoContext* context, ProtoString* otherString) const;
+        int cmp_to_string(ProtoContext* context, const ProtoString* otherString) const;
 
         //- Accessors
-        ProtoObject* getAt(ProtoContext* context, int index) const;
+        const ProtoObject* getAt(ProtoContext* context, int index) const;
         unsigned long getSize(ProtoContext* context) const;
-        ProtoString* getSlice(ProtoContext* context, int from, int to) const;
+        const ProtoString* getSlice(ProtoContext* context, int from, int to) const;
 
         //- "Modifiers" (return new strings)
-        ProtoString* setAt(ProtoContext* context, int index, ProtoObject* character) const;
-        ProtoString* insertAt(ProtoContext* context, int index, ProtoObject* character) const;
-        ProtoString* setAtString(ProtoContext* context, int index, ProtoString* otherString) const;
-        ProtoString* insertAtString(ProtoContext* context, int index, ProtoString* otherString) const;
-        ProtoString* appendFirst(ProtoContext* context, ProtoString* otherString) const;
-        ProtoString* appendLast(ProtoContext* context, ProtoString* otherString) const;
-        ProtoString* splitFirst(ProtoContext* context, int count) const;
-        ProtoString* splitLast(ProtoContext* context, int count) const;
-        ProtoString* removeFirst(ProtoContext* context, int count) const;
-        ProtoString* removeLast(ProtoContext* context, int count) const;
-        ProtoString* removeAt(ProtoContext* context, int index) const;
-        ProtoString* removeSlice(ProtoContext* context, int from, int to) const;
+        const ProtoString* setAt(ProtoContext* context, int index, const ProtoObject* character) const;
+        const ProtoString* insertAt(ProtoContext* context, int index, const ProtoObject* character) const;
+        const ProtoString* setAtString(ProtoContext* context, int index, const ProtoString* otherString) const;
+        const ProtoString* insertAtString(ProtoContext* context, int index, const ProtoString* otherString) const;
+        const ProtoString* appendFirst(ProtoContext* context, const ProtoString* otherString) const;
+        const ProtoString* appendLast(ProtoContext* context, const ProtoString* otherString) const;
+        const ProtoString* splitFirst(ProtoContext* context, int count) const;
+        const ProtoString* splitLast(ProtoContext* context, int count) const;
+        const ProtoString* removeFirst(ProtoContext* context, int count) const;
+        const ProtoString* removeLast(ProtoContext* context, int count) const;
+        const ProtoString* removeAt(ProtoContext* context, int index) const;
+        const ProtoString* removeSlice(ProtoContext* context, int from, int to) const;
 
         //- Conversion
-        ProtoObject* asObject(ProtoContext* context) const;
-        ProtoList* asList(ProtoContext* context) const;
-        ProtoStringIterator* getIterator(ProtoContext* context) const;
+        const ProtoObject* asObject(ProtoContext* context) const;
+        const ProtoList* asList(ProtoContext* context) const;
+        const ProtoStringIterator* getIterator(ProtoContext* context) const;
         unsigned long getHash(ProtoContext* context) const;
     };
 
@@ -239,27 +239,27 @@ namespace proto
     public:
         int hasNext(ProtoContext* context) const;
         unsigned long nextKey(ProtoContext* context) const;
-        ProtoObject* nextValue(ProtoContext* context) const;
-        ProtoSparseListIterator* advance(ProtoContext* context);
-        ProtoObject* asObject(ProtoContext* context) const;
+        const ProtoObject* nextValue(ProtoContext* context) const;
+        const ProtoSparseListIterator* advance(ProtoContext* context);
+        const ProtoObject* asObject(ProtoContext* context) const;
     };
 
     class ProtoSparseList
     {
     public:
         bool has(ProtoContext* context, unsigned long index) const;
-        ProtoObject* getAt(ProtoContext* context, unsigned long index) const;
-        ProtoSparseList* setAt(ProtoContext* context, unsigned long index, ProtoObject* value) const;
-        ProtoSparseList* removeAt(ProtoContext* context, unsigned long index) const;
-        bool isEqual(ProtoContext* context, ProtoSparseList* otherDict) const;
+        const ProtoObject* getAt(ProtoContext* context, unsigned long index) const;
+        const ProtoSparseList* setAt(ProtoContext* context, unsigned long index, const ProtoObject* value) const;
+        const ProtoSparseList* removeAt(ProtoContext* context, unsigned long index) const;
+        bool isEqual(ProtoContext* context, const ProtoSparseList* otherDict) const;
         unsigned long getSize(ProtoContext* context) const;
 
-        ProtoObject* asObject(ProtoContext* context) const;
-        ProtoSparseListIterator* getIterator(ProtoContext* context) const;
+        const ProtoObject* asObject(ProtoContext* context) const;
+        const ProtoSparseListIterator* getIterator(ProtoContext* context) const;
         unsigned long getHash(ProtoContext* context) const;
 
-        void processElements(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, unsigned long, ProtoObject*)) const;
-        void processValues(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, ProtoObject*)) const;
+        void processElements(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, unsigned long, const ProtoObject*)) const;
+        void processValues(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const ProtoObject*)) const;
     };
 
     class ProtoByteBuffer
@@ -269,7 +269,7 @@ namespace proto
         char* getBuffer(ProtoContext* context) const;
         char getAt(ProtoContext* context, int index) const;
         void setAt(ProtoContext* context, int index, char value);
-        ProtoObject* asObject(ProtoContext* context) const;
+        const ProtoObject* asObject(ProtoContext* context) const;
         unsigned long getHash(ProtoContext* context) const;
     };
 
@@ -277,21 +277,21 @@ namespace proto
     {
     public:
         void* getPointer(ProtoContext* context) const;
-        ProtoObject* asObject(ProtoContext* context) const;
+        const ProtoObject* asObject(ProtoContext* context) const;
         unsigned long getHash(ProtoContext* context) const;
     };
 
     class ProtoThread
     {
     public:
-        static ProtoThread* getCurrentThread(ProtoContext* context);
+        static const ProtoThread* getCurrentThread(ProtoContext* context);
 
         void detach(ProtoContext* context);
         void join(ProtoContext* context);
         void exit(ProtoContext* context);
 
-        ProtoObject* getName(ProtoContext* context) const;
-        ProtoObject* asObject(ProtoContext* context) const;
+        const ProtoObject* getName(ProtoContext* context) const;
+        const ProtoObject* asObject(ProtoContext* context) const;
         unsigned long getHash(ProtoContext* context) const;
 
         void setCurrentContext(ProtoContext* context);
@@ -303,7 +303,7 @@ namespace proto
     /**
      * @brief Represents the execution context for a thread.
      *
-     * A ProtoContext holds the call stack (via the `previous` pointer),
+     * A ProtoContext holds the call stack (via the `previousNode` pointer),
      * the local variables for the current scope, and references to the
      * current thread and the ProtoSpace it belongs to. It also acts as
      * the primary factory for creating new Proto objects.
@@ -313,43 +313,43 @@ namespace proto
     public:
         explicit ProtoContext(
             ProtoContext* previous = nullptr,
-            ProtoObject** localsBase = nullptr,
+            const ProtoObject** localsBase = nullptr,
             unsigned int localsCount = 0,
-            ProtoSpace* space = nullptr
+            const ProtoSpace* space = nullptr
         );
         ~ProtoContext();
 
         //- Execution State
         ProtoContext* previous;
-        ProtoSpace* space;
-        ProtoThread* thread;
-        ProtoObject** localsBase;
+        const ProtoSpace* space;
+        const ProtoThread* thread;
+        const ProtoObject** localsBase;
         unsigned int localsCount;
 
         //- Return Value
-        ProtoObject* returnValue;
+        const ProtoObject* returnValue;
 
         //- Factory methods for primitive types.
-        ProtoObject* fromInteger(int value);
-        ProtoObject* fromFloat(float value);
-        ProtoObject* fromUTF8Char(const char* utf8OneCharString);
-        ProtoObject* fromUTF8String(const char* zeroTerminatedUtf8String);
-        ProtoObject* fromMethod(ProtoObject* self, ProtoMethod method);
-        ProtoObject* fromExternalPointer(void* pointer);
-        ProtoObject* fromBuffer(unsigned long length, char* buffer, bool freeOnExit = false);
-        ProtoObject* newBuffer(unsigned long length);
-        ProtoObject* fromBoolean(bool value);
-        ProtoObject* fromByte(char c);
-        ProtoObject* fromDate(unsigned year, unsigned month, unsigned day);
-        ProtoObject* fromTimestamp(unsigned long timestamp);
-        ProtoObject* fromTimeDelta(long timedelta);
+        const ProtoObject* fromInteger(int value);
+        const ProtoObject* fromFloat(float value);
+        const ProtoObject* fromUTF8Char(const char* utf8OneCharString);
+        const ProtoObject* fromUTF8String(const char* zeroTerminatedUtf8String);
+        const ProtoObject* fromMethod(const ProtoObject* self, ProtoMethod method);
+        const ProtoObject* fromExternalPointer(void* pointer);
+        const ProtoObject* fromBuffer(unsigned long length, char* buffer, bool freeOnExit = false);
+        const ProtoObject* newBuffer(unsigned long length);
+        const ProtoObject* fromBoolean(bool value);
+        const ProtoObject* fromByte(char c);
+        const ProtoObject* fromDate(unsigned year, unsigned month, unsigned day);
+        const ProtoObject* fromTimestamp(unsigned long timestamp);
+        const ProtoObject* fromTimeDelta(long timedelta);
 
         //- Factory methods for complex types
-        ProtoList* newList();
-        ProtoTuple* newTuple();
-        ProtoTuple* newTupleFromList(const ProtoList* sourceList);
-        ProtoSparseList* newSparseList();
-        ProtoObject* newObject(bool mutableObject = false);
+        const ProtoList* newList();
+        const ProtoTuple* newTuple();
+        const ProtoTuple* newTupleFromList(const ProtoList* sourceList);
+        const ProtoSparseList* newSparseList();
+        const ProtoObject* newObject(bool mutableObject = false);
 
         //- Memory Management
         Cell* allocCell();
@@ -363,8 +363,7 @@ namespace proto
      * @brief The main container for the Proto runtime environment.
      *
      * A ProtoSpace manages the global state, including the object heap,
-     * garbage collector, and all running threads. It holds the root prototypes
-     * for all built-in types.
+     * garbage collector, and all running threads. It holds the root const prototypes* for all built-in types.
      */
     class ProtoSpace
     {
@@ -373,44 +372,44 @@ namespace proto
         ~ProtoSpace();
 
         //- Core Prototypes
-        ProtoObject* objectPrototype;
-        ProtoObject* smallIntegerPrototype;
-        ProtoObject* floatPrototype;
-        ProtoObject* unicodeCharPrototype;
-        ProtoObject* bytePrototype;
-        ProtoObject* nonePrototype;
-        ProtoObject* methodPrototype;
-        ProtoObject* bufferPrototype;
-        ProtoObject* pointerPrototype;
-        ProtoObject* booleanPrototype;
-        ProtoObject* doublePrototype;
-        ProtoObject* datePrototype;
-        ProtoObject* timestampPrototype;
-        ProtoObject* timedeltaPrototype;
-        ProtoObject* threadPrototype;
-        ProtoObject* rootObject;
+        const ProtoObject* objectPrototype;
+        const ProtoObject* smallIntegerPrototype;
+        const ProtoObject* floatPrototype;
+        const ProtoObject* unicodeCharPrototype;
+        const ProtoObject* bytePrototype;
+        const ProtoObject* nonePrototype;
+        const ProtoObject* methodPrototype;
+        const ProtoObject* bufferPrototype;
+        const ProtoObject* pointerPrototype;
+        const ProtoObject* booleanPrototype;
+        const ProtoObject* doublePrototype;
+        const ProtoObject* datePrototype;
+        const ProtoObject* timestampPrototype;
+        const ProtoObject* timedeltaPrototype;
+        const ProtoObject* threadPrototype;
+        const ProtoObject* rootObject;
 
         //- Collection Prototypes
-        ProtoObject* listPrototype;
-        ProtoObject* listIteratorPrototype;
-        ProtoObject* tuplePrototype;
-        ProtoObject* tupleIteratorPrototype;
-        ProtoObject* stringPrototype;
-        ProtoObject* stringIteratorPrototype;
-        ProtoObject* sparseListPrototype;
-        ProtoObject* sparseListIteratorPrototype;
+        const ProtoObject* listPrototype;
+        const ProtoObject* listIteratorPrototype;
+        const ProtoObject* tuplePrototype;
+        const ProtoObject* tupleIteratorPrototype;
+        const ProtoObject* stringPrototype;
+        const ProtoObject* stringIteratorPrototype;
+        const ProtoObject* sparseListPrototype;
+        const ProtoObject* sparseListIteratorPrototype;
 
         //- Memory Management & GC
-        Cell* getFreeCells(ProtoThread* currentThread);
+        Cell* getFreeCells(const ProtoThread* currentThread);
         void analyzeUsedCells(Cell* cellsChain);
         void triggerGC();
 
         //- Thread Management
-        void allocThread(ProtoContext* context, ProtoThread* thread);
-        void deallocThread(ProtoContext* context, ProtoThread* thread);
-        ProtoList* getThreads(ProtoContext* context);
-        ProtoThread* getCurrentThread(ProtoContext* context);
-        ProtoThread* getThreadByName(ProtoContext* context, ProtoString* threadName);
+        void allocThread(ProtoContext* context, const ProtoThread* thread);
+        void deallocThread(ProtoContext* context, const ProtoThread* thread);
+        const ProtoList* getThreads(ProtoContext* context);
+        const ProtoThread* getCurrentThread(ProtoContext* context);
+        const ProtoThread* getThreadByName(ProtoContext* context, const ProtoString* threadName);
 
         /**
          * @brief Creates and starts a new managed thread within this ProtoSpace.
@@ -422,17 +421,17 @@ namespace proto
          * @return A pointer to the newly created ProtoThread object.
          */
 
-        ProtoThread* newThread(
+        const ProtoThread* newThread(
             ProtoContext* context,
-            ProtoString* threadName,
+            const ProtoString* threadName,
             ProtoMethod target,
-            ProtoList* args,
-            ProtoSparseList* kwargs
+            const ProtoList* args,
+            const ProtoSparseList* kwargs
         );
 
-        ProtoSpaceImplementation* impl;
+        const ProtoSpaceImplementation* impl;
     private:
-        ProtoSparseList* threads;
+        const ProtoSparseList* threads;
     };
 }
 

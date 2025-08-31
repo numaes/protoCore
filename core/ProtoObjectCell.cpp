@@ -16,7 +16,7 @@ namespace proto
     ProtoObjectCell::ProtoObjectCell(
         ProtoContext* context,
         ParentLinkImplementation* parent,
-        ProtoSparseListImplementation* attributes,
+        const ProtoSparseListImplementation attributes,
         const unsigned long mutable_ref
     ) : Cell(context), parent(parent), mutable_ref(mutable_ref),
         attributes(attributes ? attributes : new(context) ProtoSparseListImplementation(context))
@@ -30,8 +30,8 @@ namespace proto
 
     // --- Interface Methods ---
 
-    ProtoObjectCell* ProtoObjectCell::addParent(
-        ProtoContext* context, ProtoObject* newParentToAdd) const
+    const ProtoObjectCell ProtoObjectCell::addParent(
+        ProtoContext* context, const ProtoObject newParentToAdd) const
     {
         // Creates a new link in the inheritance chain.
         auto* newParentLink = new(context) ParentLinkImplementation(
@@ -50,7 +50,7 @@ namespace proto
         );
     }
 
-    ProtoObject* ProtoObjectCell::asObject(ProtoContext* context)
+    const ProtoObject ProtoObjectCell::asObject(ProtoContext* context)
     {
         ProtoObjectPointer p{};
         p.objectCellImplementation = this;
@@ -102,7 +102,7 @@ namespace proto
 
     // ------------------- ProtoObjectCell -------------------
 
-    ProtoObject* ProtoObjectCell::asObject(ProtoContext* context)
+    const ProtoObject ProtoObjectCell::asObject(ProtoContext* context)
     {
         ProtoObjectPointer p{};
         p.oid.oid = toImpl<ProtoObjectCell>(this)->implAsObject(context);

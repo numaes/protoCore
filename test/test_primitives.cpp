@@ -4,7 +4,7 @@
 // Test fixture for primitive type tests
 class PrimitivesTest : public ::testing::Test {
 protected:
-    proto::ProtoSpace* space;
+    proto::const ProtoSpace space;
     proto::ProtoContext* context;
 
     void SetUp() override {

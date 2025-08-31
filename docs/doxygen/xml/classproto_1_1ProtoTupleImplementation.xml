@@ -54,7 +54,7 @@
     <sectiondef kind="public-attrib">
       <memberdef kind="variable" id="classproto_1_1ProtoTupleImplementation_1a9a819bc3ee56934b5d8021ec3877ac9e" prot="public" static="no" mutable="no">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> **</type>
-        <definition>ProtoObject** proto::ProtoTupleImplementation::data</definition>
+        <definition>const ProtoObject* proto::ProtoTupleImplementation::data</definition>
         <argsstring></argsstring>
         <name>data</name>
         <qualifiedname>proto::ProtoTupleImplementation::data</qualifiedname>
@@ -69,7 +69,7 @@
       </memberdef>
       <memberdef kind="variable" id="classproto_1_1ProtoTupleImplementation_1a2a6fbd389b3ac379fbb13f31c490e55f" prot="public" static="no" mutable="no">
         <type><ref refid="classproto_1_1ProtoTupleImplementation" kindref="compound">ProtoTupleImplementation</ref> **</type>
-        <definition>ProtoTupleImplementation** proto::ProtoTupleImplementation::indirect</definition>
+        <definition>const ProtoTupleImplementation* proto::ProtoTupleImplementation::indirect</definition>
         <argsstring></argsstring>
         <name>indirect</name>
         <qualifiedname>proto::ProtoTupleImplementation::indirect</qualifiedname>
@@ -86,7 +86,7 @@
       <memberdef kind="function" id="classproto_1_1ProtoTupleImplementation_1a07dea1c70843eab67724811622b57ba0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>proto::ProtoTupleImplementation::ProtoTupleImplementation</definition>
-        <argsstring>(ProtoContext *context, unsigned long elementCount, ProtoObject **data)</argsstring>
+        <argsstring>(ProtoContext *context, unsigned long elementCount, const ProtoObject*data)</argsstring>
         <name>ProtoTupleImplementation</name>
         <qualifiedname>proto::ProtoTupleImplementation::ProtoTupleImplementation</qualifiedname>
         <param>
@@ -112,7 +112,7 @@
       <memberdef kind="function" id="classproto_1_1ProtoTupleImplementation_1a9f8b717304fe9c0639d19d3ad23f7dd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>proto::ProtoTupleImplementation::ProtoTupleImplementation</definition>
-        <argsstring>(ProtoContext *context, unsigned long elementCount, ProtoTupleImplementation **indirect)</argsstring>
+        <argsstring>(ProtoContext *context, unsigned long elementCount, const ProtoTupleImplementation*indirect)</argsstring>
         <name>ProtoTupleImplementation</name>
         <qualifiedname>proto::ProtoTupleImplementation::ProtoTupleImplementation</qualifiedname>
         <param>
@@ -151,7 +151,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTupleImplementation_1a57dfa6743bbe23a5ea73015a3b13d2bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoTupleImplementation::getAt</definition>
+        <definition>const ProtoObject proto::ProtoTupleImplementation::getAt</definition>
         <argsstring>(ProtoContext *context, int index) override</argsstring>
         <name>getAt</name>
         <qualifiedname>proto::ProtoTupleImplementation::getAt</qualifiedname>
@@ -193,7 +193,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTupleImplementation_1a4cf3125e1d98ae53661f2a9ab8c5f64d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoListImplementation" kindref="compound">ProtoListImplementation</ref> *</type>
-        <definition>ProtoListImplementation * proto::ProtoTupleImplementation::asList</definition>
+        <definition>const ProtoListImplementation proto::ProtoTupleImplementation::asList</definition>
         <argsstring>(ProtoContext *context) override</argsstring>
         <name>asList</name>
         <qualifiedname>proto::ProtoTupleImplementation::asList</qualifiedname>
@@ -212,7 +212,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTupleImplementation_1a7fc8460f7426ad7104eef65f45a42b7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoTupleIteratorImplementation" kindref="compound">ProtoTupleIteratorImplementation</ref> *</type>
-        <definition>ProtoTupleIteratorImplementation * proto::ProtoTupleImplementation::getIterator</definition>
+        <definition>const ProtoTupleIteratorImplementation proto::ProtoTupleImplementation::getIterator</definition>
         <argsstring>(ProtoContext *context) override</argsstring>
         <name>getIterator</name>
         <qualifiedname>proto::ProtoTupleImplementation::getIterator</qualifiedname>
@@ -231,8 +231,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTupleImplementation_1a958c15827320b368f028a92dc43b141a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoTupleImplementation" kindref="compound">ProtoTupleImplementation</ref> *</type>
-        <definition>ProtoTupleImplementation * proto::ProtoTupleImplementation::setAt</definition>
-        <argsstring>(ProtoContext *context, int index, ProtoObject *value) override</argsstring>
+        <definition>const ProtoTupleImplementation proto::ProtoTupleImplementation::setAt</definition>
+        <argsstring>(ProtoContext *context, int index, const ProtoObjectvalue) override</argsstring>
         <name>setAt</name>
         <qualifiedname>proto::ProtoTupleImplementation::setAt</qualifiedname>
         <reimplements refid="classproto_1_1ProtoTuple_1ad43584d544ac797c0d082962e73e03e6">setAt</reimplements>
@@ -258,7 +258,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTupleImplementation_1a35820f2f2cfe17914e77b71a37fd2b12" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoTupleImplementation::asObject</definition>
+        <definition>const ProtoObject proto::ProtoTupleImplementation::asObject</definition>
         <argsstring>(ProtoContext *context) override</argsstring>
         <name>asObject</name>
         <qualifiedname>proto::ProtoTupleImplementation::asObject</qualifiedname>
@@ -343,8 +343,8 @@
     <sectiondef kind="public-static-func">
       <memberdef kind="function" id="classproto_1_1ProtoTupleImplementation_1add3573d06218bb8e9acff4ad87d64433" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoTupleImplementation" kindref="compound">ProtoTupleImplementation</ref> *</type>
-        <definition>ProtoTupleImplementation * proto::ProtoTupleImplementation::tupleFromList</definition>
-        <argsstring>(ProtoContext *context, ProtoList *list)</argsstring>
+        <definition>const ProtoTupleImplementation proto::ProtoTupleImplementation::tupleFromList</definition>
+        <argsstring>(ProtoContext *context, const ProtoListlist)</argsstring>
         <name>tupleFromList</name>
         <qualifiedname>proto::ProtoTupleImplementation::tupleFromList</qualifiedname>
         <param>

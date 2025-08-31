@@ -35,7 +35,7 @@
       </memberdef>
       <memberdef kind="variable" id="classproto_1_1TupleDictionary_1a20904b3ca6327b38a21fcaf66c56aeac" prot="private" static="no" mutable="no">
         <type><ref refid="classproto_1_1ProtoTupleImplementation" kindref="compound">ProtoTupleImplementation</ref> *</type>
-        <definition>ProtoTupleImplementation* proto::TupleDictionary::key</definition>
+        <definition>const ProtoTupleImplementation proto::TupleDictionary::key</definition>
         <argsstring></argsstring>
         <name>key</name>
         <qualifiedname>proto::TupleDictionary::key</qualifiedname>
@@ -80,7 +80,7 @@
       <memberdef kind="function" id="classproto_1_1TupleDictionary_1a70f00ce7bc332327e30cd201b6c91cca" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int proto::TupleDictionary::compareTuple</definition>
-        <argsstring>(ProtoContext *context, ProtoTuple *tuple)</argsstring>
+        <argsstring>(ProtoContext *context, const ProtoTupletuple)</argsstring>
         <name>compareTuple</name>
         <qualifiedname>proto::TupleDictionary::compareTuple</qualifiedname>
         <param>
@@ -173,7 +173,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1TupleDictionary_1a4fdc725fd7a7003effeea5e5c46a2ca3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoTupleImplementation" kindref="compound">ProtoTupleImplementation</ref> *</type>
-        <definition>ProtoTupleImplementation * proto::TupleDictionary::getFirst</definition>
+        <definition>const ProtoTupleImplementation proto::TupleDictionary::getFirst</definition>
         <argsstring>(ProtoContext *context)</argsstring>
         <name>getFirst</name>
         <qualifiedname>proto::TupleDictionary::getFirst</qualifiedname>
@@ -194,7 +194,7 @@
       <memberdef kind="function" id="classproto_1_1TupleDictionary_1a9c4bbdc386eb7de5eef23727bc672567" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>proto::TupleDictionary::TupleDictionary</definition>
-        <argsstring>(ProtoContext *context, ProtoTupleImplementation *key=NULL, TupleDictionary *next=NULL, TupleDictionary *previous=NULL)</argsstring>
+        <argsstring>(ProtoContext *context, const ProtoTupleImplementationkey=NULL, TupleDictionary *next=NULL, TupleDictionary *previous=NULL)</argsstring>
         <name>TupleDictionary</name>
         <qualifiedname>proto::TupleDictionary::TupleDictionary</qualifiedname>
         <param>
@@ -244,7 +244,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1TupleDictionary_1a5ebb06ec30ead7ec4673a671b3ad22c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">proto::ProtoObject</ref> *</type>
-        <definition>proto::ProtoObject * proto::TupleDictionary::asObject</definition>
+        <definition>proto::const ProtoObject proto::TupleDictionary::asObject</definition>
         <argsstring>(proto::ProtoContext *)</argsstring>
         <name>asObject</name>
         <qualifiedname>proto::TupleDictionary::asObject</qualifiedname>
@@ -309,7 +309,7 @@
       <memberdef kind="function" id="classproto_1_1TupleDictionary_1a1ff2d55eff8501e478777882d0baec34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
         <definition>int proto::TupleDictionary::compareList</definition>
-        <argsstring>(ProtoContext *context, ProtoList *list)</argsstring>
+        <argsstring>(ProtoContext *context, const ProtoListlist)</argsstring>
         <name>compareList</name>
         <qualifiedname>proto::TupleDictionary::compareList</qualifiedname>
         <param>
@@ -331,7 +331,7 @@
       <memberdef kind="function" id="classproto_1_1TupleDictionary_1a3ddf4c3e1442dbbdbf3beca0373dad1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool proto::TupleDictionary::hasList</definition>
-        <argsstring>(ProtoContext *context, ProtoList *list)</argsstring>
+        <argsstring>(ProtoContext *context, const ProtoListlist)</argsstring>
         <name>hasList</name>
         <qualifiedname>proto::TupleDictionary::hasList</qualifiedname>
         <param>
@@ -353,7 +353,7 @@
       <memberdef kind="function" id="classproto_1_1TupleDictionary_1ab736bf77c4db8d09ad9e86083b1ed08a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool proto::TupleDictionary::has</definition>
-        <argsstring>(ProtoContext *context, ProtoTuple *tuple)</argsstring>
+        <argsstring>(ProtoContext *context, const ProtoTupletuple)</argsstring>
         <name>has</name>
         <qualifiedname>proto::TupleDictionary::has</qualifiedname>
         <param>
@@ -374,8 +374,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1TupleDictionary_1a1eb69e62ae55a447d9162bf77b0d6674" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoTupleImplementation" kindref="compound">ProtoTupleImplementation</ref> *</type>
-        <definition>ProtoTupleImplementation * proto::TupleDictionary::getAt</definition>
-        <argsstring>(ProtoContext *context, ProtoTupleImplementation *tuple)</argsstring>
+        <definition>const ProtoTupleImplementation proto::TupleDictionary::getAt</definition>
+        <argsstring>(ProtoContext *context, const ProtoTupleImplementationtuple)</argsstring>
         <name>getAt</name>
         <qualifiedname>proto::TupleDictionary::getAt</qualifiedname>
         <param>
@@ -397,7 +397,7 @@
       <memberdef kind="function" id="classproto_1_1TupleDictionary_1ad83b817166d0fcc89c4b93276ed9d503" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1TupleDictionary" kindref="compound">TupleDictionary</ref> *</type>
         <definition>TupleDictionary * proto::TupleDictionary::set</definition>
-        <argsstring>(ProtoContext *context, ProtoTupleImplementation *tuple)</argsstring>
+        <argsstring>(ProtoContext *context, const ProtoTupleImplementationtuple)</argsstring>
         <name>set</name>
         <qualifiedname>proto::TupleDictionary::set</qualifiedname>
         <param>
@@ -419,7 +419,7 @@
       <memberdef kind="function" id="classproto_1_1TupleDictionary_1ad06fe822221e9660104d23cd5f6e5642" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1TupleDictionary" kindref="compound">TupleDictionary</ref> *</type>
         <definition>TupleDictionary * proto::TupleDictionary::removeAt</definition>
-        <argsstring>(ProtoContext *context, ProtoTupleImplementation *tuple)</argsstring>
+        <argsstring>(ProtoContext *context, const ProtoTupleImplementationtuple)</argsstring>
         <name>removeAt</name>
         <qualifiedname>proto::TupleDictionary::removeAt</qualifiedname>
         <param>

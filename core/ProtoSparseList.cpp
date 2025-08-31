@@ -16,8 +16,8 @@ namespace proto
     ProtoSparseListIteratorImplementation::ProtoSparseListIteratorImplementation(
         ProtoContext* context,
         const int state,
-        ProtoSparseListImplementation* current,
-        ProtoSparseListIteratorImplementation* queue
+        const ProtoSparseListImplementation current,
+        const ProtoSparseListIteratorImplementation queue
     ) : Cell(context), state(state), current(current), queue(queue)
     {
     }
@@ -50,7 +50,7 @@ namespace proto
         return 0;
     }
 
-    ProtoObject* ProtoSparseListIteratorImplementation::implNextValue(ProtoContext* context) const
+    const ProtoObject ProtoSparseListIteratorImplementation::implNextValue(ProtoContext* context) const
     {
         if (this->state == ITERATOR_NEXT_THIS && this->current)
         {
@@ -59,7 +59,7 @@ namespace proto
         return PROTO_NONE;
     }
 
-    ProtoSparseListIteratorImplementation* ProtoSparseListIteratorImplementation::implAdvance(ProtoContext* context) const
+    const ProtoSparseListIteratorImplementation ProtoSparseListIteratorImplementation::implAdvance(ProtoContext* context) const
     {
         // The advance logic is complex, creating a new chain of iterators
         // to maintain the state of the in-order traversal.
@@ -78,29 +78,29 @@ namespace proto
             if (this->current && this->current->next)
             {
                 // If there is a right subtree, the next is the first element of that subtree.
-                return dynamic_cast<ProtoSparseListIteratorImplementation*>(this->current->next->
+                return dynamic_cast<const ProtoSparseListIteratorImplementation>(this->current->next->
                     implGetIterator(context));
             }
             if (this->queue)
             {
                 // If there is no right subtree, the next is the parent in the queue.
-                return static_cast<ProtoSparseListIteratorImplementation*>(this->queue->implAdvance(context));
+                return static_cast<const ProtoSparseListIteratorImplementation>(this->queue->implAdvance(context));
             }
             return nullptr; // End of iteration.
         }
 
         if (this->state == ITERATOR_NEXT_NEXT && this->queue)
         {
-            return static_cast<ProtoSparseListIteratorImplementation*>(this->queue->implAdvance(context));
+            return static_cast<const ProtoSparseListIteratorImplementation>(this->queue->implAdvance(context));
         }
 
         return nullptr;
     }
 
-    ProtoObject* ProtoSparseListIteratorImplementation::implAsObject(ProtoContext* context)
+    const ProtoObject ProtoSparseListIteratorImplementation::implAsObject(ProtoContext* context)
     {
         ProtoObjectPointer p{};
-        p.oid.oid = reinterpret_cast<ProtoObject*>(this);
+        p.oid.oid = reinterpret_cast<const ProtoObject>(this);
         p.op.pointer_tag = POINTER_TAG_SPARSE_LIST_ITERATOR;
         return p.oid.oid;
     }
@@ -138,9 +138,9 @@ namespace proto
     ProtoSparseListImplementation::ProtoSparseListImplementation(
         ProtoContext* context,
         const unsigned long index,
-        ProtoObject* value,
-        ProtoSparseListImplementation* previous,
-        ProtoSparseListImplementation* next
+        const ProtoObject value,
+        const ProtoSparseListImplementation previous,
+        const ProtoSparseListImplementation next
     ) : Cell(context), previous(previous), next(next), index(index), value(value)
     {
         // Calculate hash, count, and height after initializing members.
@@ -177,10 +177,10 @@ namespace proto
             return getHeight(node->next) - getHeight(node->previous);
         }
 
-        ProtoSparseListImplementation* rightRotate(ProtoContext* context, const ProtoSparseListImplementation* y)
+        const ProtoSparseListImplementation rightRotate(ProtoContext* context, const ProtoSparseListImplementation* y)
         {
             const ProtoSparseListImplementation* x = y->previous;
-            ProtoSparseListImplementation* T2 = x->next;
+            const ProtoSparseListImplementation T2 = x->next;
 
             // Perform rotation
             auto* new_y = new(context) ProtoSparseListImplementation(
@@ -188,10 +188,10 @@ namespace proto
             return new(context) ProtoSparseListImplementation(context, x->index, x->value, x->previous, new_y);
         }
 
-        ProtoSparseListImplementation* leftRotate(ProtoContext* context, const ProtoSparseListImplementation* x)
+        const ProtoSparseListImplementation leftRotate(ProtoContext* context, const ProtoSparseListImplementation* x)
         {
             const ProtoSparseListImplementation* y = x->next;
-            ProtoSparseListImplementation* T2 = y->previous;
+            const ProtoSparseListImplementation T2 = y->previous;
 
             // Perform rotation
             auto* new_x = new(context) ProtoSparseListImplementation(
@@ -201,7 +201,7 @@ namespace proto
 
         // CRITICAL FIX: The rebalancing logic was broken.
         // This is a standard and correct implementation for an AVL tree.
-        ProtoSparseListImplementation* rebalance(ProtoContext* context, ProtoSparseListImplementation* node)
+        const ProtoSparseListImplementation rebalance(ProtoContext* context, const ProtoSparseListImplementation node)
         {
             const int balance = getBalance(node);
 
@@ -218,7 +218,7 @@ namespace proto
             // Case 3: Left-Right (LR)
             if (balance < -1 && getBalance(node->previous) > 0)
             {
-                ProtoSparseListImplementation* new_prev = leftRotate(context, node->previous);
+                const ProtoSparseListImplementation new_prev = leftRotate(context, node->previous);
                 const auto* new_node = new(context) ProtoSparseListImplementation(
                     context, node->index, node->value, new_prev, node->next);
                 return rightRotate(context, new_node);
@@ -226,7 +226,7 @@ namespace proto
             // Case 4: Right-Left (RL)
             if (balance > 1 && getBalance(node->next) < 0)
             {
-                ProtoSparseListImplementation* new_next = rightRotate(context, node->next);
+                const ProtoSparseListImplementation new_next = rightRotate(context, node->next);
                 const auto* new_node = new(context) ProtoSparseListImplementation(
                     context, node->index, node->value, node->previous, new_next);
                 return leftRotate(context, new_node);
@@ -261,7 +261,7 @@ namespace proto
         return false;
     }
 
-    ProtoObject* ProtoSparseListImplementation::implGetAt(ProtoContext* context, const unsigned long offset) const
+    const ProtoObject ProtoSparseListImplementation::implGetAt(ProtoContext* context, const unsigned long offset) const
     {
         auto node = this;
         while (node)
@@ -283,11 +283,11 @@ namespace proto
         return PROTO_NONE;
     }
 
-    ProtoSparseListImplementation* ProtoSparseListImplementation::implSetAt(
+    const ProtoSparseListImplementation ProtoSparseListImplementation::implSetAt(
         ProtoContext* context, const unsigned long offset,
-        ProtoObject* newValue)
+        const ProtoObject newValue)
     {
-        ProtoSparseListImplementation* newNode;
+        const ProtoSparseListImplementation newNode;
 
         // Base case: empty tree or leaf node.
         if (this->value == PROTO_NONE && this->count == 0)
@@ -297,8 +297,8 @@ namespace proto
 
         if (offset < this->index)
         {
-            ProtoSparseListImplementation* new_prev = this->previous
-                                                          ? dynamic_cast<ProtoSparseListImplementation*>(this->previous
+            const ProtoSparseListImplementation new_prev = this->previous
+                                                          ? dynamic_cast<const ProtoSparseListImplementation>(this->previous
                                                               ->
                                                               implSetAt(context, offset, newValue))
                                                           : new(context) ProtoSparseListImplementation(
@@ -308,8 +308,8 @@ namespace proto
         }
         else if (offset > this->index)
         {
-            ProtoSparseListImplementation* new_next = this->next
-                                                          ? dynamic_cast<ProtoSparseListImplementation*>(this->next->
+            const ProtoSparseListImplementation new_next = this->next
+                                                          ? dynamic_cast<const ProtoSparseListImplementation>(this->next->
                                                               implSetAt(context, offset, newValue))
                                                           : new(context) ProtoSparseListImplementation(
                                                               context, offset, newValue);
@@ -329,7 +329,7 @@ namespace proto
         return rebalance(context, newNode);
     }
 
-    ProtoSparseListImplementation* ProtoSparseListImplementation::implRemoveAt(
+    const ProtoSparseListImplementation ProtoSparseListImplementation::implRemoveAt(
         ProtoContext* context, const unsigned long offset)
     {
         if (this->value == PROTO_NONE && this->count == 0)
@@ -337,12 +337,12 @@ namespace proto
             return this; // The element was not found.
         }
 
-        ProtoSparseListImplementation* newNode;
+        const ProtoSparseListImplementation newNode;
 
         if (offset < this->index)
         {
             if (!this->previous) return this; // Not found.
-            auto* new_prev = dynamic_cast<ProtoSparseListImplementation*>(this->previous->
+            auto* new_prev = dynamic_cast<const ProtoSparseListImplementation>(this->previous->
                 implRemoveAt(context, offset));
             newNode = new(context) ProtoSparseListImplementation(context, this->index, this->value, new_prev,
                                                                  this->next);
@@ -350,7 +350,7 @@ namespace proto
         else if (offset > this->index)
         {
             if (!this->next) return this; // Not found.
-            auto* new_next = dynamic_cast<ProtoSparseListImplementation*>(this->next->implRemoveAt(
+            auto* new_next = dynamic_cast<const ProtoSparseListImplementation>(this->next->implRemoveAt(
                 context, offset));
             newNode = new(context) ProtoSparseListImplementation(context, this->index, this->value, this->previous,
                                                                  new_next);
@@ -369,7 +369,7 @@ namespace proto
                 successor = successor->previous;
             }
             // Remove the successor from the right subtree.
-            auto* new_next = dynamic_cast<ProtoSparseListImplementation*>(this->next->implRemoveAt(
+            auto* new_next = dynamic_cast<const ProtoSparseListImplementation>(this->next->implRemoveAt(
                 context, successor->index));
             // Replace this node with the successor.
             newNode = new(context) ProtoSparseListImplementation(context, successor->index, successor->value,
@@ -384,7 +384,7 @@ namespace proto
         return this->count;
     }
 
-    bool ProtoSparseListImplementation::implIsEqual(ProtoContext* context, ProtoSparseListImplementation* otherDict)
+    bool ProtoSparseListImplementation::implIsEqual(ProtoContext* context, const ProtoSparseListImplementation otherDict)
     {
 
 
@@ -403,7 +403,7 @@ namespace proto
     void ProtoSparseListImplementation::implProcessElements(
         ProtoContext* context,
         void* self,
-        void (*method)(ProtoContext* context, void* self, unsigned long index, ProtoObject* value)
+        void (*method)(ProtoContext* context, void* self, unsigned long index, const ProtoObject value)
     ) const
     {
         // In-order traversal to process elements.
@@ -424,7 +424,7 @@ namespace proto
     void ProtoSparseListImplementation::implProcessValues(
         ProtoContext* context,
         void* self,
-        void (*method)(ProtoContext* context, void* self, ProtoObject* value)
+        void (*method)(ProtoContext* context, void* self, const ProtoObject value)
     ) const
     {
         // In-order traversal to process only the values.
@@ -462,20 +462,20 @@ namespace proto
         }
     }
 
-    ProtoObject* ProtoSparseListImplementation::implAsObject(ProtoContext* context)
+    const ProtoObject ProtoSparseListImplementation::implAsObject(ProtoContext* context)
     {
         ProtoObjectPointer p{};
-        p.oid.oid = reinterpret_cast<ProtoObject*>(this);
+        p.oid.oid = reinterpret_cast<const ProtoObject>(this);
         p.op.pointer_tag = POINTER_TAG_SPARSE_LIST;
         return p.oid.oid;
     }
 
-    ProtoSparseListIteratorImplementation* ProtoSparseListImplementation::implGetIterator(ProtoContext* context)
+    const ProtoSparseListIteratorImplementation ProtoSparseListImplementation::implGetIterator(ProtoContext* context)
     {
         // The iterator logic is complex, but the original structure is maintained.
         // Find the first node (the leftmost) and build the iterator queue.
         auto node = this;
-        ProtoSparseListIteratorImplementation* queue = nullptr;
+        const ProtoSparseListIteratorImplementation queue = nullptr;
         while (node->previous)
         {
             queue = new(context) ProtoSparseListIteratorImplementation(context, ITERATOR_NEXT_NEXT, node, queue);

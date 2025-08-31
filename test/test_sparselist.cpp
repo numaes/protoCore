@@ -4,7 +4,7 @@
 // Test fixture for ProtoSparseList tests
 class SparseListTest : public ::testing::Test {
 protected:
-    proto::ProtoSpace* space;
+    proto::const ProtoSpace space;
     proto::ProtoContext* context;
 
     void SetUp() override {

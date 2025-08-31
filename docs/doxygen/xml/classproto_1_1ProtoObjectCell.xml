@@ -37,7 +37,7 @@
       </memberdef>
       <memberdef kind="variable" id="classproto_1_1ProtoObjectCell_1a1fe4d8a06aeca6efddf17c8be3b4231f" prot="public" static="no" mutable="no">
         <type><ref refid="classproto_1_1ProtoSparseList" kindref="compound">ProtoSparseList</ref> *</type>
-        <definition>ProtoSparseList* proto::ProtoObjectCell::attributes</definition>
+        <definition>const ProtoSparseList proto::ProtoObjectCell::attributes</definition>
         <argsstring></argsstring>
         <name>attributes</name>
         <qualifiedname>proto::ProtoObjectCell::attributes</qualifiedname>
@@ -68,8 +68,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoObjectCell_1aca15c2bd801a44377a145d4bd1626947" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObjectCell" kindref="compound">ProtoObjectCell</ref> *</type>
-        <definition>virtual ProtoObjectCell * proto::ProtoObjectCell::addParent</definition>
-        <argsstring>(ProtoContext *context, ProtoObjectCell *object)</argsstring>
+        <definition>virtual const ProtoObjectCell proto::ProtoObjectCell::addParent</definition>
+        <argsstring>(ProtoContext *context, const ProtoObjectCellobject)</argsstring>
         <name>addParent</name>
         <qualifiedname>proto::ProtoObjectCell::addParent</qualifiedname>
         <param>
@@ -90,7 +90,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoObjectCell_1a25b651c0da27c7be5c4f86291ae3ce68" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>virtual ProtoObject * proto::ProtoObjectCell::asObject</definition>
+        <definition>virtual const ProtoObject proto::ProtoObjectCell::asObject</definition>
         <argsstring>(ProtoContext *context)</argsstring>
         <name>asObject</name>
         <qualifiedname>proto::ProtoObjectCell::asObject</qualifiedname>

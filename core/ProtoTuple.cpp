@@ -24,7 +24,7 @@ namespace proto
 
     TupleDictionary::TupleDictionary(
         ProtoContext* context,
-        ProtoTupleImplementation* key,
+        const ProtoTupleImplementation key,
         TupleDictionary* next,
         TupleDictionary* previous
     ): Cell(context)

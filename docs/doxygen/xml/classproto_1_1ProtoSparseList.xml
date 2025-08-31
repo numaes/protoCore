@@ -44,7 +44,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoSparseList_1aab7ee7d44edda13cf5af7ef82ff6a06b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>virtual ProtoObject * proto::ProtoSparseList::getAt</definition>
+        <definition>virtual const ProtoObject proto::ProtoSparseList::getAt</definition>
         <argsstring>(ProtoContext *context, unsigned long index)</argsstring>
         <name>getAt</name>
         <qualifiedname>proto::ProtoSparseList::getAt</qualifiedname>
@@ -67,8 +67,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoSparseList_1a504b1934cea541b98970b36007cfe00a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoSparseList" kindref="compound">ProtoSparseList</ref> *</type>
-        <definition>virtual ProtoSparseList * proto::ProtoSparseList::setAt</definition>
-        <argsstring>(ProtoContext *context, unsigned long index, ProtoObject *value)</argsstring>
+        <definition>virtual const ProtoSparseList proto::ProtoSparseList::setAt</definition>
+        <argsstring>(ProtoContext *context, unsigned long index, const ProtoObjectvalue)</argsstring>
         <name>setAt</name>
         <qualifiedname>proto::ProtoSparseList::setAt</qualifiedname>
         <reimplementedby refid="classproto_1_1ProtoSparseListImplementation_1ae94620d94cb4fc62397e219538c59ed8">setAt</reimplementedby>
@@ -94,7 +94,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoSparseList_1a9ec1bb8d0ef922402680bd054d72125f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoSparseList" kindref="compound">ProtoSparseList</ref> *</type>
-        <definition>virtual ProtoSparseList * proto::ProtoSparseList::removeAt</definition>
+        <definition>virtual const ProtoSparseList proto::ProtoSparseList::removeAt</definition>
         <argsstring>(ProtoContext *context, unsigned long index)</argsstring>
         <name>removeAt</name>
         <qualifiedname>proto::ProtoSparseList::removeAt</qualifiedname>
@@ -118,7 +118,7 @@
       <memberdef kind="function" id="classproto_1_1ProtoSparseList_1ab0f182bb148acb2286d851a84cbb664b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>int</type>
         <definition>virtual int proto::ProtoSparseList::isEqual</definition>
-        <argsstring>(ProtoContext *context, ProtoSparseList *otherDict)</argsstring>
+        <argsstring>(ProtoContext *context, const ProtoSparseListotherDict)</argsstring>
         <name>isEqual</name>
         <qualifiedname>proto::ProtoSparseList::isEqual</qualifiedname>
         <reimplementedby refid="classproto_1_1ProtoSparseListImplementation_1a6816e660ac505ff252cb1c49ab3ed471">isEqual</reimplementedby>
@@ -140,7 +140,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoSparseList_1a0d41033a47f5a119740404428a7eac00" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>virtual ProtoObject * proto::ProtoSparseList::getAtOffset</definition>
+        <definition>virtual const ProtoObject proto::ProtoSparseList::getAtOffset</definition>
         <argsstring>(ProtoContext *context, int offset)</argsstring>
         <name>getAtOffset</name>
         <qualifiedname>proto::ProtoSparseList::getAtOffset</qualifiedname>
@@ -182,7 +182,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoSparseList_1a9fdf2de2dae670a88eec4010e9cd1b23" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>virtual ProtoObject * proto::ProtoSparseList::asObject</definition>
+        <definition>virtual const ProtoObject proto::ProtoSparseList::asObject</definition>
         <argsstring>(ProtoContext *context)</argsstring>
         <name>asObject</name>
         <qualifiedname>proto::ProtoSparseList::asObject</qualifiedname>
@@ -220,7 +220,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoSparseList_1ad6fa9f0cc1a25fa086e0c33c5b154c9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoSparseListIterator" kindref="compound">ProtoSparseListIterator</ref> *</type>
-        <definition>virtual ProtoSparseListIterator * proto::ProtoSparseList::getIterator</definition>
+        <definition>virtual const ProtoSparseListIterator proto::ProtoSparseList::getIterator</definition>
         <argsstring>(ProtoContext *context)</argsstring>
         <name>getIterator</name>
         <qualifiedname>proto::ProtoSparseList::getIterator</qualifiedname>
@@ -240,7 +240,7 @@
       <memberdef kind="function" id="classproto_1_1ProtoSparseList_1a7f177acd9b00b6d79cca392f3e3f93e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
         <definition>virtual void proto::ProtoSparseList::processElements</definition>
-        <argsstring>(ProtoContext *context, void *self, void(*method)(ProtoContext *context, void *self, unsigned long index, ProtoObject *value))</argsstring>
+        <argsstring>(ProtoContext *context, void *self, void(*method)(ProtoContext *context, void *self, unsigned long index, const ProtoObjectvalue))</argsstring>
         <name>processElements</name>
         <qualifiedname>proto::ProtoSparseList::processElements</qualifiedname>
         <reimplementedby refid="classproto_1_1ProtoSparseListImplementation_1a53f3533537a83b7c4cb1ac710ef9275b">processElements</reimplementedby>
@@ -267,7 +267,7 @@
       <memberdef kind="function" id="classproto_1_1ProtoSparseList_1abe1b14df7c1fcdc49b748cf5d6a70a95" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
         <definition>virtual void proto::ProtoSparseList::processValues</definition>
-        <argsstring>(ProtoContext *context, void *self, void(*method)(ProtoContext *context, void *self, ProtoObject *value))</argsstring>
+        <argsstring>(ProtoContext *context, void *self, void(*method)(ProtoContext *context, void *self, const ProtoObjectvalue))</argsstring>
         <name>processValues</name>
         <qualifiedname>proto::ProtoSparseList::processValues</qualifiedname>
         <reimplementedby refid="classproto_1_1ProtoSparseListImplementation_1a3af2307b75f29ad264528b718d6a8658">processValues</reimplementedby>

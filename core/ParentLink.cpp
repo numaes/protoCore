@@ -13,7 +13,7 @@ namespace proto
     ParentLinkImplementation::ParentLinkImplementation(
         ProtoContext* context,
         ParentLinkImplementation* parent,
-        ProtoObject* object
+        const ProtoObject object
     ) : Cell(context), parent(parent), object(object)
     {
         // The constructor body can now be empty.
@@ -34,14 +34,14 @@ namespace proto
     {
         // For the garbage collector, it is crucial to process all references to other Cells.
 
-        // 1. Process the link to the previous parent in the chain.
+        // 1. Process the link to the previousNode parent in the chain.
         if (this->parent)
         {
             method(context, self, this->parent);
         }
 
         // 2. CRITICAL FIX: Process the object (ProtoObjectCell) that this link represents.
-        // The previous version did not process this reference, which would cause the object
+        // The previousNode version did not process this reference, which would cause the object
         // to be incorrectly collected by the GC.
         if (this->object)
         {

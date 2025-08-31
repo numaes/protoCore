@@ -14,7 +14,7 @@ The process is a multi-stage pipeline:
 2.  **AST Transformation:** It then walks this AST and converts Python concepts into their Proto equivalents.
     *   `print()` becomes a call to a Proto `stdout` object.
     *   `x + y` becomes a call to `x.operator_add(y)`.
-    *   Function definitions become C++ functions that operate on `ProtoObject*` pointers.
+    *   Function definitions become C++ functions that operate on `const ProtoObject` pointers.
 3.  **C++ Code Generation:** Finally, it generates a `.cpp` file containing the transformed logic.
 4.  **Compilation:** The `proto_python` tool then invokes your system's C++ compiler (like GCC or Clang) to compile the generated C++ code and link it against `libproto.a`, producing a final, standalone executable.
 

@@ -48,7 +48,7 @@ private:
 };
 
 // Usage:
-void my_native_wrapper(Thread* thread, ProtoObject* arg) {
+void my_native_wrapper(Thread* thread, const ProtoObject arg) {
     FFIGuard guard(thread); // Enters unmanaged mode
 
     // Now it's safe to call long-running C/C++ code
@@ -70,7 +70,7 @@ int count_characters(const char* str) {
 }
 
 // The C++ wrapper function exposed to Proto
-ProtoObject* proto_count_characters(Thread* thread, ProtoObject* p_str) {
+const ProtoObject proto_count_characters(Thread* thread, const ProtoObject p_str) {
     // 1. Use a guard for GC safety
     FFIGuard guard(thread);
 

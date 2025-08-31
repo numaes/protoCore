@@ -21,7 +21,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoList_1adc6eac862feb09e1322bf6230c2230cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>virtual ProtoObject * proto::ProtoList::getAt</definition>
+        <definition>virtual const ProtoObject proto::ProtoList::getAt</definition>
         <argsstring>(ProtoContext *context, int index)</argsstring>
         <name>getAt</name>
         <qualifiedname>proto::ProtoList::getAt</qualifiedname>
@@ -44,7 +44,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoList_1a897c656e4f80b77830f158e878de7793" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>virtual ProtoObject * proto::ProtoList::getFirst</definition>
+        <definition>virtual const ProtoObject proto::ProtoList::getFirst</definition>
         <argsstring>(ProtoContext *context)</argsstring>
         <name>getFirst</name>
         <qualifiedname>proto::ProtoList::getFirst</qualifiedname>
@@ -63,7 +63,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoList_1a8d54b145e74ead9469fbbc03103884e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>virtual ProtoObject * proto::ProtoList::getLast</definition>
+        <definition>virtual const ProtoObject proto::ProtoList::getLast</definition>
         <argsstring>(ProtoContext *context)</argsstring>
         <name>getLast</name>
         <qualifiedname>proto::ProtoList::getLast</qualifiedname>
@@ -82,7 +82,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoList_1af3faee1803f1f64afd800f87262837d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref> *</type>
-        <definition>virtual ProtoList * proto::ProtoList::getSlice</definition>
+        <definition>virtual const ProtoList proto::ProtoList::getSlice</definition>
         <argsstring>(ProtoContext *context, int from, int to)</argsstring>
         <name>getSlice</name>
         <qualifiedname>proto::ProtoList::getSlice</qualifiedname>
@@ -129,7 +129,7 @@
       <memberdef kind="function" id="classproto_1_1ProtoList_1ad5955668ca4cfb45bf3c328cbdaa28b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
         <definition>virtual bool proto::ProtoList::has</definition>
-        <argsstring>(ProtoContext *context, ProtoObject *value)</argsstring>
+        <argsstring>(ProtoContext *context, const ProtoObjectvalue)</argsstring>
         <name>has</name>
         <qualifiedname>proto::ProtoList::has</qualifiedname>
         <reimplementedby refid="classproto_1_1ProtoListImplementation_1a6213e46b60af2322cd12f170df42d503">has</reimplementedby>
@@ -151,8 +151,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoList_1a53aa4e8ea95bc5a63800566349064518" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref> *</type>
-        <definition>virtual ProtoList * proto::ProtoList::setAt</definition>
-        <argsstring>(ProtoContext *context, int index, ProtoObject *value)</argsstring>
+        <definition>virtual const ProtoList proto::ProtoList::setAt</definition>
+        <argsstring>(ProtoContext *context, int index, const ProtoObjectvalue)</argsstring>
         <name>setAt</name>
         <qualifiedname>proto::ProtoList::setAt</qualifiedname>
         <reimplementedby refid="classproto_1_1ProtoListImplementation_1a62ceb4427b6af04cffd7a9a72928e86d">setAt</reimplementedby>
@@ -178,8 +178,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoList_1a3368cdea460eac55bd296d1ac9b99fa8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref> *</type>
-        <definition>virtual ProtoList * proto::ProtoList::insertAt</definition>
-        <argsstring>(ProtoContext *context, int index, ProtoObject *value)</argsstring>
+        <definition>virtual const ProtoList proto::ProtoList::insertAt</definition>
+        <argsstring>(ProtoContext *context, int index, const ProtoObjectvalue)</argsstring>
         <name>insertAt</name>
         <qualifiedname>proto::ProtoList::insertAt</qualifiedname>
         <reimplementedby refid="classproto_1_1ProtoListImplementation_1a53b56fa53daa470de28ed7094be53e1a">insertAt</reimplementedby>
@@ -205,8 +205,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoList_1a30d12306a4bf0790694acb367cb208ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref> *</type>
-        <definition>virtual ProtoList * proto::ProtoList::appendFirst</definition>
-        <argsstring>(ProtoContext *context, ProtoObject *value)</argsstring>
+        <definition>virtual const ProtoList proto::ProtoList::appendFirst</definition>
+        <argsstring>(ProtoContext *context, const ProtoObjectvalue)</argsstring>
         <name>appendFirst</name>
         <qualifiedname>proto::ProtoList::appendFirst</qualifiedname>
         <reimplementedby refid="classproto_1_1ProtoListImplementation_1a52c3a526b2e314fd92f302a762c7f211">appendFirst</reimplementedby>
@@ -228,8 +228,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoList_1ac8efb538a15329581af32b742567a151" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref> *</type>
-        <definition>virtual ProtoList * proto::ProtoList::appendLast</definition>
-        <argsstring>(ProtoContext *context, ProtoObject *value)</argsstring>
+        <definition>virtual const ProtoList proto::ProtoList::appendLast</definition>
+        <argsstring>(ProtoContext *context, const ProtoObjectvalue)</argsstring>
         <name>appendLast</name>
         <qualifiedname>proto::ProtoList::appendLast</qualifiedname>
         <reimplementedby refid="classproto_1_1ProtoListImplementation_1aa8e26e82f03f6b1aafb936a5cf82cbf1">appendLast</reimplementedby>
@@ -251,8 +251,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoList_1ad739cc83f90df4465d0da91e39c3cba1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref> *</type>
-        <definition>virtual ProtoList * proto::ProtoList::extend</definition>
-        <argsstring>(ProtoContext *context, ProtoList *other)</argsstring>
+        <definition>virtual const ProtoList proto::ProtoList::extend</definition>
+        <argsstring>(ProtoContext *context, const ProtoListother)</argsstring>
         <name>extend</name>
         <qualifiedname>proto::ProtoList::extend</qualifiedname>
         <reimplementedby refid="classproto_1_1ProtoListImplementation_1a24930bbcd625ffe9a56709d0373b8fd7">extend</reimplementedby>
@@ -274,7 +274,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoList_1aeb35d313e153fd807c5ab5832185e662" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref> *</type>
-        <definition>virtual ProtoList * proto::ProtoList::splitFirst</definition>
+        <definition>virtual const ProtoList proto::ProtoList::splitFirst</definition>
         <argsstring>(ProtoContext *context, int index)</argsstring>
         <name>splitFirst</name>
         <qualifiedname>proto::ProtoList::splitFirst</qualifiedname>
@@ -297,7 +297,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoList_1a6be3729d5dcee3af1c5c1e96516f82cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref> *</type>
-        <definition>virtual ProtoList * proto::ProtoList::splitLast</definition>
+        <definition>virtual const ProtoList proto::ProtoList::splitLast</definition>
         <argsstring>(ProtoContext *context, int index)</argsstring>
         <name>splitLast</name>
         <qualifiedname>proto::ProtoList::splitLast</qualifiedname>
@@ -320,7 +320,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoList_1a7a2bcd2c2b9e8a9c6fc41200f8962557" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref> *</type>
-        <definition>virtual ProtoList * proto::ProtoList::removeFirst</definition>
+        <definition>virtual const ProtoList proto::ProtoList::removeFirst</definition>
         <argsstring>(ProtoContext *context)</argsstring>
         <name>removeFirst</name>
         <qualifiedname>proto::ProtoList::removeFirst</qualifiedname>
@@ -339,7 +339,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoList_1a4ba82f9bab3ad43cd13c48af1de0f908" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref> *</type>
-        <definition>virtual ProtoList * proto::ProtoList::removeLast</definition>
+        <definition>virtual const ProtoList proto::ProtoList::removeLast</definition>
         <argsstring>(ProtoContext *context)</argsstring>
         <name>removeLast</name>
         <qualifiedname>proto::ProtoList::removeLast</qualifiedname>
@@ -358,7 +358,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoList_1ac1d4335c2d1bc774b41b9d69ac8ea2b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref> *</type>
-        <definition>virtual ProtoList * proto::ProtoList::removeAt</definition>
+        <definition>virtual const ProtoList proto::ProtoList::removeAt</definition>
         <argsstring>(ProtoContext *context, int index)</argsstring>
         <name>removeAt</name>
         <qualifiedname>proto::ProtoList::removeAt</qualifiedname>
@@ -381,7 +381,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoList_1ae41eafec03bf44ead1ae41a6f9361263" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref> *</type>
-        <definition>virtual ProtoList * proto::ProtoList::removeSlice</definition>
+        <definition>virtual const ProtoList proto::ProtoList::removeSlice</definition>
         <argsstring>(ProtoContext *context, int from, int to)</argsstring>
         <name>removeSlice</name>
         <qualifiedname>proto::ProtoList::removeSlice</qualifiedname>
@@ -408,7 +408,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoList_1adb6c03f6daa744d97f253d6885b06efe" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>virtual ProtoObject * proto::ProtoList::asObject</definition>
+        <definition>virtual const ProtoObject proto::ProtoList::asObject</definition>
         <argsstring>(ProtoContext *context)</argsstring>
         <name>asObject</name>
         <qualifiedname>proto::ProtoList::asObject</qualifiedname>
@@ -446,7 +446,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoList_1a1b6b7379724f9d2e143549589febbed0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoListIterator" kindref="compound">ProtoListIterator</ref> *</type>
-        <definition>virtual ProtoListIterator * proto::ProtoList::getIterator</definition>
+        <definition>virtual const ProtoListIterator proto::ProtoList::getIterator</definition>
         <argsstring>(ProtoContext *context)</argsstring>
         <name>getIterator</name>
         <qualifiedname>proto::ProtoList::getIterator</qualifiedname>

@@ -21,13 +21,13 @@ void vector_append_worker() {
 }
 
 // --- 2. ProtoList (designed for concurrency) ---
-std::atomic<proto::ProtoList*> shared_proto_list;
+std::atomic<proto::const ProtoList> shared_proto_list;
 
 void proto_list_append_worker(proto::ProtoContext* c) {
     // Each thread gets its own context, simulating a real Proto environment
     proto::ProtoContext thread_context(c, nullptr, 0, proto::ProtoThread::getCurrentThread(c), c->space);
 
-    proto::ProtoList* local_list = shared_proto_list.load();
+    proto::const ProtoList local_list = shared_proto_list.load();
     for (int i = 0; i < OPERATIONS_PER_THREAD; ++i) {
         // The append operation itself is atomic and lock-free because it returns a new list.
         // We use a compare-and-swap loop to handle the race condition of multiple threads

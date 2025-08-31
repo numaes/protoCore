@@ -53,7 +53,7 @@ while (true) {
     // For this simple REPL, we'll lean on the proto_python
     // library's ability to evaluate a single line of code.
     // In a real application, this might involve a more complex parser.
-    ProtoObject* result = context->evalPython(line);
+    const ProtoObject result = context->evalPython(line);
 
     // 3. PRINT
     if (result) {
@@ -64,7 +64,7 @@ while (true) {
 
 ### A Note on Evaluation
 
-The `context->evalPython(line)` function is a high-level utility provided for convenience. It takes a string of Python code, transpiles it to Proto-compatible C++ in memory, executes it, and returns the result as a `ProtoObject*`. This is perfect for a simple tool like this.
+The `context->evalPython(line)` function is a high-level utility provided for convenience. It takes a string of Python code, transpiles it to Proto-compatible C++ in memory, executes it, and returns the result as a `const ProtoObject`. This is perfect for a simple tool like this.
 
 For a more advanced language, the "Eval" step would involve parsing the input text into an Abstract Syntax Tree (AST) and then walking that tree to execute the logic using Proto's C++ API.
 
@@ -97,7 +97,7 @@ int main(int argc, char** argv) {
         }
 
         // 3. EVALUATE the line using the Python bridge
-        ProtoObject* result = context->evalPython(line);
+        const ProtoObject result = context->evalPython(line);
 
         // 4. PRINT the string representation of the result
         if (result) {

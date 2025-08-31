@@ -6,7 +6,7 @@
 const int NUM_CONCATS = 50000;
 const char* SMALL_STRING = "abc ";
 
-proto::ProtoObject* benchmarks(proto::ProtoContext* c, proto::ProtoObject* self, proto::ParentLink* parentLink, proto::ProtoList* args, proto::ProtoSparseList* kwargs) {
+proto::const ProtoObject benchmarks(proto::ProtoContext* c, proto::const ProtoObject self, proto::ParentLink* parentLink, proto::const ProtoList args, proto::const ProtoSparseList kwargs) {
 
     std::cout << "--- String Concatenation Benchmark ---" << std::endl;
     std::cout << "Appending a small string " << NUM_CONCATS << " times." << std::endl << std::endl;

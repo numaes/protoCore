@@ -10,15 +10,15 @@
 
 const int NUM_OPERATIONS = 1000000;
 
-proto::ProtoObject *benchmarks(proto::ProtoContext *c, proto::ProtoObject* self, proto::ParentLink* parentLink, proto::ProtoList* args, proto::ProtoSparseList* kwargs) {
+proto::const ProtoObjectbenchmarks(proto::ProtoContext *c, proto::const ProtoObject self, proto::ParentLink* parentLink, proto::const ProtoList args, proto::const ProtoSparseList kwargs) {
 
     std::cout << "--- Benchmarking ProtoObject Attribute Access ---" << std::endl;
 
     // --- Test Setup ---
 
     // 1. Create a parent object with an attribute
-    proto::ProtoString* parent_attr_name = c->fromUTF8String("parent_attr");
-    proto::ProtoObject* parent_obj = c->newObject()->setAttribute(c, parent_attr_name, c->fromInteger(123));
+    proto::const ProtoString parent_attr_name = c->fromUTF8String("parent_attr");
+    proto::const ProtoObject parent_obj = c->newObject()->setAttribute(c, parent_attr_name, c->fromInteger(123));
 
     // 2. Create a child object that inherits from the parent
     proto::ProtoObject* child_obj = parent_obj->newChild(c);

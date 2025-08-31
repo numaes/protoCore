@@ -25,7 +25,7 @@ union ProtoObjectPointer {
     uint64_t raw;
 
     // The value interpreted as a pointer to a heap object
-    ProtoObject* as_object;
+    const ProtoObject as_object;
 
     // The value interpreted as a signed integer
     int64_t as_integer;

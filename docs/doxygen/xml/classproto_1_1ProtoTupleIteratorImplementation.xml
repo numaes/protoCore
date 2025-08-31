@@ -8,7 +8,7 @@
     <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="classproto_1_1ProtoTupleIteratorImplementation_1aeb07de78669948b7b097827ff72ef59c" prot="private" static="no" mutable="no">
         <type><ref refid="classproto_1_1ProtoTupleImplementation" kindref="compound">ProtoTupleImplementation</ref> *</type>
-        <definition>ProtoTupleImplementation* proto::ProtoTupleIteratorImplementation::base</definition>
+        <definition>const ProtoTupleImplementation proto::ProtoTupleIteratorImplementation::base</definition>
         <argsstring></argsstring>
         <name>base</name>
         <qualifiedname>proto::ProtoTupleIteratorImplementation::base</qualifiedname>
@@ -39,7 +39,7 @@
       <memberdef kind="function" id="classproto_1_1ProtoTupleIteratorImplementation_1acdaaf63b17da3541f151b3e275e76d6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
         <definition>proto::ProtoTupleIteratorImplementation::ProtoTupleIteratorImplementation</definition>
-        <argsstring>(ProtoContext *context, ProtoTupleImplementation *base, unsigned long currentIndex)</argsstring>
+        <argsstring>(ProtoContext *context, const ProtoTupleImplementationbase, unsigned long currentIndex)</argsstring>
         <name>ProtoTupleIteratorImplementation</name>
         <qualifiedname>proto::ProtoTupleIteratorImplementation::ProtoTupleIteratorImplementation</qualifiedname>
         <param>
@@ -97,7 +97,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTupleIteratorImplementation_1aea35787d5090934727ec28b03346a91e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoTupleIteratorImplementation::next</definition>
+        <definition>const ProtoObject proto::ProtoTupleIteratorImplementation::next</definition>
         <argsstring>(ProtoContext *context) override</argsstring>
         <name>next</name>
         <qualifiedname>proto::ProtoTupleIteratorImplementation::next</qualifiedname>
@@ -116,7 +116,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTupleIteratorImplementation_1a0dea046be20617e780ae4d76c6d9d4a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoTupleIteratorImplementation" kindref="compound">ProtoTupleIteratorImplementation</ref> *</type>
-        <definition>ProtoTupleIteratorImplementation * proto::ProtoTupleIteratorImplementation::advance</definition>
+        <definition>const ProtoTupleIteratorImplementation proto::ProtoTupleIteratorImplementation::advance</definition>
         <argsstring>(ProtoContext *context) override</argsstring>
         <name>advance</name>
         <qualifiedname>proto::ProtoTupleIteratorImplementation::advance</qualifiedname>
@@ -135,7 +135,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTupleIteratorImplementation_1a3e3539950ed7aafd9e10a4efb81173e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoTupleIteratorImplementation::asObject</definition>
+        <definition>const ProtoObject proto::ProtoTupleIteratorImplementation::asObject</definition>
         <argsstring>(ProtoContext *context) override</argsstring>
         <name>asObject</name>
         <qualifiedname>proto::ProtoTupleIteratorImplementation::asObject</qualifiedname>

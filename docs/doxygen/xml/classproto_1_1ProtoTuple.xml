@@ -21,7 +21,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTuple_1a34779858763e023dce4557173d7c7f31" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>virtual ProtoObject * proto::ProtoTuple::getAt</definition>
+        <definition>virtual const ProtoObject proto::ProtoTuple::getAt</definition>
         <argsstring>(ProtoContext *context, int index)</argsstring>
         <name>getAt</name>
         <qualifiedname>proto::ProtoTuple::getAt</qualifiedname>
@@ -44,7 +44,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTuple_1aa896ec036c66dee9b087af03412be7dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>virtual ProtoObject * proto::ProtoTuple::getFirst</definition>
+        <definition>virtual const ProtoObject proto::ProtoTuple::getFirst</definition>
         <argsstring>(ProtoContext *context)</argsstring>
         <name>getFirst</name>
         <qualifiedname>proto::ProtoTuple::getFirst</qualifiedname>
@@ -62,7 +62,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTuple_1a0b666d98eb1c0e325617fff50a4a7a26" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>virtual ProtoObject * proto::ProtoTuple::getLast</definition>
+        <definition>virtual const ProtoObject proto::ProtoTuple::getLast</definition>
         <argsstring>(ProtoContext *context)</argsstring>
         <name>getLast</name>
         <qualifiedname>proto::ProtoTuple::getLast</qualifiedname>
@@ -80,7 +80,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTuple_1a923d867270d1a28184826373d841183c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoTuple" kindref="compound">ProtoTuple</ref> *</type>
-        <definition>virtual ProtoTuple * proto::ProtoTuple::getSlice</definition>
+        <definition>virtual const ProtoTuple proto::ProtoTuple::getSlice</definition>
         <argsstring>(ProtoContext *context, int from, int to)</argsstring>
         <name>getSlice</name>
         <qualifiedname>proto::ProtoTuple::getSlice</qualifiedname>
@@ -126,7 +126,7 @@
       <memberdef kind="function" id="classproto_1_1ProtoTuple_1abff50a90fb8363b43652f29a9072b650" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="namespaceproto_1ad67d778debd1e00ce3d8a49c3e223f75" kindref="member">BOOLEAN</ref></type>
         <definition>virtual BOOLEAN proto::ProtoTuple::has</definition>
-        <argsstring>(ProtoContext *context, ProtoObject *value)</argsstring>
+        <argsstring>(ProtoContext *context, const ProtoObjectvalue)</argsstring>
         <name>has</name>
         <qualifiedname>proto::ProtoTuple::has</qualifiedname>
         <param>
@@ -147,8 +147,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTuple_1ad43584d544ac797c0d082962e73e03e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoTuple" kindref="compound">ProtoTuple</ref> *</type>
-        <definition>virtual ProtoTuple * proto::ProtoTuple::setAt</definition>
-        <argsstring>(ProtoContext *context, int index, ProtoObject *value)</argsstring>
+        <definition>virtual const ProtoTuple proto::ProtoTuple::setAt</definition>
+        <argsstring>(ProtoContext *context, int index, const ProtoObjectvalue)</argsstring>
         <name>setAt</name>
         <qualifiedname>proto::ProtoTuple::setAt</qualifiedname>
         <reimplementedby refid="classproto_1_1ProtoTupleImplementation_1a958c15827320b368f028a92dc43b141a">setAt</reimplementedby>
@@ -174,8 +174,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTuple_1a37f23a919647dcfd791995ff8bce44c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoTuple" kindref="compound">ProtoTuple</ref> *</type>
-        <definition>virtual ProtoTuple * proto::ProtoTuple::insertAt</definition>
-        <argsstring>(ProtoContext *context, int index, ProtoObject *value)</argsstring>
+        <definition>virtual const ProtoTuple proto::ProtoTuple::insertAt</definition>
+        <argsstring>(ProtoContext *context, int index, const ProtoObjectvalue)</argsstring>
         <name>insertAt</name>
         <qualifiedname>proto::ProtoTuple::insertAt</qualifiedname>
         <param>
@@ -200,8 +200,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTuple_1ac805447a96574542ec982e19b1a8d262" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoTuple" kindref="compound">ProtoTuple</ref> *</type>
-        <definition>virtual ProtoTuple * proto::ProtoTuple::appendFirst</definition>
-        <argsstring>(ProtoContext *context, ProtoTuple *otherTuple)</argsstring>
+        <definition>virtual const ProtoTuple proto::ProtoTuple::appendFirst</definition>
+        <argsstring>(ProtoContext *context, const ProtoTupleotherTuple)</argsstring>
         <name>appendFirst</name>
         <qualifiedname>proto::ProtoTuple::appendFirst</qualifiedname>
         <param>
@@ -222,8 +222,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTuple_1a05632fae12c4daacb9d77c727f490b3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoTuple" kindref="compound">ProtoTuple</ref> *</type>
-        <definition>virtual ProtoTuple * proto::ProtoTuple::appendLast</definition>
-        <argsstring>(ProtoContext *context, ProtoTuple *otherTuple)</argsstring>
+        <definition>virtual const ProtoTuple proto::ProtoTuple::appendLast</definition>
+        <argsstring>(ProtoContext *context, const ProtoTupleotherTuple)</argsstring>
         <name>appendLast</name>
         <qualifiedname>proto::ProtoTuple::appendLast</qualifiedname>
         <param>
@@ -244,7 +244,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTuple_1ad848a65815279a474603de99dec4e6d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoTuple" kindref="compound">ProtoTuple</ref> *</type>
-        <definition>virtual ProtoTuple * proto::ProtoTuple::splitFirst</definition>
+        <definition>virtual const ProtoTuple proto::ProtoTuple::splitFirst</definition>
         <argsstring>(ProtoContext *context, int count)</argsstring>
         <name>splitFirst</name>
         <qualifiedname>proto::ProtoTuple::splitFirst</qualifiedname>
@@ -266,7 +266,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTuple_1a0f97179f7702649975cb26896d37d6b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoTuple" kindref="compound">ProtoTuple</ref> *</type>
-        <definition>virtual ProtoTuple * proto::ProtoTuple::splitLast</definition>
+        <definition>virtual const ProtoTuple proto::ProtoTuple::splitLast</definition>
         <argsstring>(ProtoContext *context, int count)</argsstring>
         <name>splitLast</name>
         <qualifiedname>proto::ProtoTuple::splitLast</qualifiedname>
@@ -288,7 +288,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTuple_1ae6fc6b4e60000126ce4c628c55f08ac2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoTuple" kindref="compound">ProtoTuple</ref> *</type>
-        <definition>virtual ProtoTuple * proto::ProtoTuple::removeFirst</definition>
+        <definition>virtual const ProtoTuple proto::ProtoTuple::removeFirst</definition>
         <argsstring>(ProtoContext *context, int count)</argsstring>
         <name>removeFirst</name>
         <qualifiedname>proto::ProtoTuple::removeFirst</qualifiedname>
@@ -310,7 +310,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTuple_1a8fb2bbb99fd3617134963bee47c811ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoTuple" kindref="compound">ProtoTuple</ref> *</type>
-        <definition>virtual ProtoTuple * proto::ProtoTuple::removeLast</definition>
+        <definition>virtual const ProtoTuple proto::ProtoTuple::removeLast</definition>
         <argsstring>(ProtoContext *context, int count)</argsstring>
         <name>removeLast</name>
         <qualifiedname>proto::ProtoTuple::removeLast</qualifiedname>
@@ -332,7 +332,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTuple_1a29ceb15ad89d4c9b67ca5894e99430ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoTuple" kindref="compound">ProtoTuple</ref> *</type>
-        <definition>virtual ProtoTuple * proto::ProtoTuple::removeAt</definition>
+        <definition>virtual const ProtoTuple proto::ProtoTuple::removeAt</definition>
         <argsstring>(ProtoContext *context, int index)</argsstring>
         <name>removeAt</name>
         <qualifiedname>proto::ProtoTuple::removeAt</qualifiedname>
@@ -354,7 +354,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTuple_1adc82168f590af96a933323749d612039" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoTuple" kindref="compound">ProtoTuple</ref> *</type>
-        <definition>virtual ProtoTuple * proto::ProtoTuple::removeSlice</definition>
+        <definition>virtual const ProtoTuple proto::ProtoTuple::removeSlice</definition>
         <argsstring>(ProtoContext *context, int from, int to)</argsstring>
         <name>removeSlice</name>
         <qualifiedname>proto::ProtoTuple::removeSlice</qualifiedname>
@@ -380,7 +380,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTuple_1a143ed4ec59ebce700050babd2b495f07" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref> *</type>
-        <definition>virtual ProtoList * proto::ProtoTuple::asList</definition>
+        <definition>virtual const ProtoList proto::ProtoTuple::asList</definition>
         <argsstring>(ProtoContext *context)</argsstring>
         <name>asList</name>
         <qualifiedname>proto::ProtoTuple::asList</qualifiedname>
@@ -399,7 +399,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTuple_1a84ce1e096bf13575011582869033918c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>virtual ProtoObject * proto::ProtoTuple::asObject</definition>
+        <definition>virtual const ProtoObject proto::ProtoTuple::asObject</definition>
         <argsstring>(ProtoContext *context)</argsstring>
         <name>asObject</name>
         <qualifiedname>proto::ProtoTuple::asObject</qualifiedname>
@@ -437,7 +437,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoTuple_1ac899f8f03cb243db0511e61bccfcbda4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="classproto_1_1ProtoTupleIterator" kindref="compound">ProtoTupleIterator</ref> *</type>
-        <definition>virtual ProtoTupleIterator * proto::ProtoTuple::getIterator</definition>
+        <definition>virtual const ProtoTupleIterator proto::ProtoTuple::getIterator</definition>
         <argsstring>(ProtoContext *context)</argsstring>
         <name>getIterator</name>
         <qualifiedname>proto::ProtoTuple::getIterator</qualifiedname>

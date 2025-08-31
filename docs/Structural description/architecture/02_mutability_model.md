@@ -43,14 +43,14 @@ The `setAttribute` function in `Proto.cpp` perfectly illustrates the lock-free u
 
 ```cpp
 // Illustrative snippet from Proto.cpp
-void Proto::setAttribute(ProtoObject* target, ProtoObject* key, ProtoObject* value) {
+void Proto::setAttribute(const ProtoObject target, const ProtoObject key, const ProtoObject value) {
     // Loop until the atomic update succeeds
     while (true) {
         // 1. Atomically load the current root
-        ProtoObject* oldRoot = this->space->mutableRoot.load();
+        const ProtoObject oldRoot = this->space->mutableRoot.load();
 
         // 2. Create a modified copy
-        ProtoObject* newRoot = this->space->setAttribute(oldRoot, key, value);
+        const ProtoObject newRoot = this->space->setAttribute(oldRoot, key, value);
 
         // 3. Attempt to swap the root pointer
         if (this->space->mutableRoot.compare_exchange_strong(oldRoot, newRoot)) {

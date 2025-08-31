@@ -6,7 +6,7 @@
     <sectiondef kind="public-func">
       <memberdef kind="function" id="classproto_1_1ProtoObject_1a1b43a96004aeea8e121354e487bfbce1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoObject::clone</definition>
+        <definition>const ProtoObject proto::ProtoObject::clone</definition>
         <argsstring>(ProtoContext *c, bool isMutable=false)</argsstring>
         <name>clone</name>
         <qualifiedname>proto::ProtoObject::clone</qualifiedname>
@@ -29,7 +29,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoObject_1a8406aa46cdc060bba65c8c737b077415" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoObject::newChild</definition>
+        <definition>const ProtoObject proto::ProtoObject::newChild</definition>
         <argsstring>(ProtoContext *c, bool isMutable=false)</argsstring>
         <name>newChild</name>
         <qualifiedname>proto::ProtoObject::newChild</qualifiedname>
@@ -52,8 +52,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoObject_1a86f4a2fbd30aa40be2e11f032784838f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoObject::getAttribute</definition>
-        <argsstring>(ProtoContext *c, ProtoString *name)</argsstring>
+        <definition>const ProtoObject proto::ProtoObject::getAttribute</definition>
+        <argsstring>(ProtoContext *c, const ProtoStringname)</argsstring>
         <name>getAttribute</name>
         <qualifiedname>proto::ProtoObject::getAttribute</qualifiedname>
         <param>
@@ -74,8 +74,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoObject_1a2a7eb747a7fb66def1039ab241a169f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoObject::hasAttribute</definition>
-        <argsstring>(ProtoContext *c, ProtoString *name)</argsstring>
+        <definition>const ProtoObject proto::ProtoObject::hasAttribute</definition>
+        <argsstring>(ProtoContext *c, const ProtoStringname)</argsstring>
         <name>hasAttribute</name>
         <qualifiedname>proto::ProtoObject::hasAttribute</qualifiedname>
         <param>
@@ -96,8 +96,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoObject_1af01fccf97926065728cda940609c9a3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoObject::hasOwnAttribute</definition>
-        <argsstring>(ProtoContext *c, ProtoString *name)</argsstring>
+        <definition>const ProtoObject proto::ProtoObject::hasOwnAttribute</definition>
+        <argsstring>(ProtoContext *c, const ProtoStringname)</argsstring>
         <name>hasOwnAttribute</name>
         <qualifiedname>proto::ProtoObject::hasOwnAttribute</qualifiedname>
         <param>
@@ -118,8 +118,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoObject_1a527389a35d44d22264eec946eb2c759d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoObject::setAttribute</definition>
-        <argsstring>(ProtoContext *c, ProtoString *name, ProtoObject *value)</argsstring>
+        <definition>const ProtoObject proto::ProtoObject::setAttribute</definition>
+        <argsstring>(ProtoContext *c, const ProtoStringname, const ProtoObjectvalue)</argsstring>
         <name>setAttribute</name>
         <qualifiedname>proto::ProtoObject::setAttribute</qualifiedname>
         <param>
@@ -144,7 +144,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoObject_1ac36050c9769bc63a0cc301962f0402a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoSparseList" kindref="compound">ProtoSparseList</ref> *</type>
-        <definition>ProtoSparseList * proto::ProtoObject::getAttributes</definition>
+        <definition>const ProtoSparseList proto::ProtoObject::getAttributes</definition>
         <argsstring>(ProtoContext *c)</argsstring>
         <name>getAttributes</name>
         <qualifiedname>proto::ProtoObject::getAttributes</qualifiedname>
@@ -162,7 +162,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoObject_1ab4fd79f76a4d4fc2cc01d0f634c3e879" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoSparseList" kindref="compound">ProtoSparseList</ref> *</type>
-        <definition>ProtoSparseList * proto::ProtoObject::getOwnAttributes</definition>
+        <definition>const ProtoSparseList proto::ProtoObject::getOwnAttributes</definition>
         <argsstring>(ProtoContext *c)</argsstring>
         <name>getOwnAttributes</name>
         <qualifiedname>proto::ProtoObject::getOwnAttributes</qualifiedname>
@@ -180,7 +180,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoObject_1a64fa35243b090b2eded05f251cf662c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref> *</type>
-        <definition>ProtoList * proto::ProtoObject::getParents</definition>
+        <definition>const ProtoList proto::ProtoObject::getParents</definition>
         <argsstring>(ProtoContext *c)</argsstring>
         <name>getParents</name>
         <qualifiedname>proto::ProtoObject::getParents</qualifiedname>
@@ -198,8 +198,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoObject_1a8878133e303a22c08df20afae9c28a2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoObject::addParent</definition>
-        <argsstring>(ProtoContext *c, ProtoObjectCell *newParent)</argsstring>
+        <definition>const ProtoObject proto::ProtoObject::addParent</definition>
+        <argsstring>(ProtoContext *c, const ProtoObjectCellnewParent)</argsstring>
         <name>addParent</name>
         <qualifiedname>proto::ProtoObject::addParent</qualifiedname>
         <param>
@@ -220,8 +220,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoObject_1a99868a8194bdd1d509a9ac512b75c1c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoObject::isInstanceOf</definition>
-        <argsstring>(ProtoContext *c, ProtoObject *prototype)</argsstring>
+        <definition>const ProtoObject proto::ProtoObject::isInstanceOf</definition>
+        <argsstring>(ProtoContext *c, const ProtoObjectprototype)</argsstring>
         <name>isInstanceOf</name>
         <qualifiedname>proto::ProtoObject::isInstanceOf</qualifiedname>
         <param>
@@ -242,8 +242,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoObject_1aad0cc7f3af53e51a12b9d2d0f70a45d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoObject::call</definition>
-        <argsstring>(ProtoContext *c, ParentLink *nextParent, ProtoString *method, ProtoObject *self, ProtoList *unnamedParametersList=nullptr, ProtoSparseList *keywordParametersDict=nullptr)</argsstring>
+        <definition>const ProtoObject proto::ProtoObject::call</definition>
+        <argsstring>(ProtoContext *c, ParentLink *nextParent, const ProtoStringmethod, const ProtoObjectself, const ProtoListunnamedParametersList=nullptr, const ProtoSparseListkeywordParametersDict=nullptr)</argsstring>
         <name>call</name>
         <qualifiedname>proto::ProtoObject::call</qualifiedname>
         <param>

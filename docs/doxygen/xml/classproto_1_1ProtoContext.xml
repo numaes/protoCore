@@ -20,7 +20,7 @@
       </memberdef>
       <memberdef kind="variable" id="classproto_1_1ProtoContext_1a49f5f830445cbe30c3d871915955c4a6" prot="public" static="no" mutable="no">
         <type><ref refid="classproto_1_1ProtoSpace" kindref="compound">ProtoSpace</ref> *</type>
-        <definition>ProtoSpace* proto::ProtoContext::space</definition>
+        <definition>const ProtoSpace proto::ProtoContext::space</definition>
         <argsstring></argsstring>
         <name>space</name>
         <qualifiedname>proto::ProtoContext::space</qualifiedname>
@@ -34,7 +34,7 @@
       </memberdef>
       <memberdef kind="variable" id="classproto_1_1ProtoContext_1ab30f52b58f8937661d0c0bc2c2f110fe" prot="public" static="no" mutable="no">
         <type><ref refid="classproto_1_1ProtoThread" kindref="compound">ProtoThread</ref> *</type>
-        <definition>ProtoThread* proto::ProtoContext::thread</definition>
+        <definition>const ProtoThread proto::ProtoContext::thread</definition>
         <argsstring></argsstring>
         <name>thread</name>
         <qualifiedname>proto::ProtoContext::thread</qualifiedname>
@@ -48,7 +48,7 @@
       </memberdef>
       <memberdef kind="variable" id="classproto_1_1ProtoContext_1a9efbca66f8df7ad19ba805bd92670965" prot="public" static="no" mutable="no">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> **</type>
-        <definition>ProtoObject** proto::ProtoContext::localsBase</definition>
+        <definition>const ProtoObject* proto::ProtoContext::localsBase</definition>
         <argsstring></argsstring>
         <name>localsBase</name>
         <qualifiedname>proto::ProtoContext::localsBase</qualifiedname>
@@ -104,7 +104,7 @@
       </memberdef>
       <memberdef kind="variable" id="classproto_1_1ProtoContext_1a87b454d509491e281e03054cf5e885a1" prot="public" static="no" mutable="no">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject* proto::ProtoContext::lastReturnValue</definition>
+        <definition>const ProtoObject proto::ProtoContext::lastReturnValue</definition>
         <argsstring></argsstring>
         <name>lastReturnValue</name>
         <qualifiedname>proto::ProtoContext::lastReturnValue</qualifiedname>
@@ -121,7 +121,7 @@
       <memberdef kind="function" id="classproto_1_1ProtoContext_1ae56f302c102dc493f3f7ebb963e62c6d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
         <definition>proto::ProtoContext::ProtoContext</definition>
-        <argsstring>(ProtoContext *previous=nullptr, ProtoObject **localsBase=nullptr, unsigned int localsCount=0, ProtoThread *thread=nullptr, ProtoSpace *space=nullptr)</argsstring>
+        <argsstring>(ProtoContext *previous=nullptr, const ProtoObject*localsBase=nullptr, unsigned int localsCount=0, const ProtoThreadthread=nullptr, const ProtoSpacespace=nullptr)</argsstring>
         <name>ProtoContext</name>
         <qualifiedname>proto::ProtoContext::ProtoContext</qualifiedname>
         <param>
@@ -188,7 +188,7 @@
       <memberdef kind="function" id="classproto_1_1ProtoContext_1a97412b82ff7fe20bf2e5508d3da8d7e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void proto::ProtoContext::setReturnValue</definition>
-        <argsstring>(ProtoContext *context, ProtoObject *returnValue)</argsstring>
+        <argsstring>(ProtoContext *context, const ProtoObjectreturnValue)</argsstring>
         <name>setReturnValue</name>
         <qualifiedname>proto::ProtoContext::setReturnValue</qualifiedname>
         <param>
@@ -227,7 +227,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoContext_1ab262d582419cbef1675924d0fc7bda79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoContext::fromInteger</definition>
+        <definition>const ProtoObject proto::ProtoContext::fromInteger</definition>
         <argsstring>(int value)</argsstring>
         <name>fromInteger</name>
         <qualifiedname>proto::ProtoContext::fromInteger</qualifiedname>
@@ -245,7 +245,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoContext_1a423dbfecad26ac9662e7d8d9788d465f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoContext::fromDouble</definition>
+        <definition>const ProtoObject proto::ProtoContext::fromDouble</definition>
         <argsstring>(double value)</argsstring>
         <name>fromDouble</name>
         <qualifiedname>proto::ProtoContext::fromDouble</qualifiedname>
@@ -263,7 +263,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoContext_1aa0759508c81d2f71239d13eea7f0eb41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoContext::fromUTF8Char</definition>
+        <definition>const ProtoObject proto::ProtoContext::fromUTF8Char</definition>
         <argsstring>(const char *utf8OneCharString)</argsstring>
         <name>fromUTF8Char</name>
         <qualifiedname>proto::ProtoContext::fromUTF8Char</qualifiedname>
@@ -281,7 +281,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoContext_1a01c989bdca0facc3cba657b687fce488" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoString" kindref="compound">ProtoString</ref> *</type>
-        <definition>ProtoString * proto::ProtoContext::fromUTF8String</definition>
+        <definition>const ProtoString proto::ProtoContext::fromUTF8String</definition>
         <argsstring>(const char *zeroTerminatedUtf8String)</argsstring>
         <name>fromUTF8String</name>
         <qualifiedname>proto::ProtoContext::fromUTF8String</qualifiedname>
@@ -299,8 +299,8 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoContext_1a0f3bbcb972a6540d18b2ef6aa822d9ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoMethodCell" kindref="compound">ProtoMethodCell</ref> *</type>
-        <definition>ProtoMethodCell * proto::ProtoContext::fromMethod</definition>
-        <argsstring>(ProtoObject *self, ProtoMethod method)</argsstring>
+        <definition>const ProtoMethodCell proto::ProtoContext::fromMethod</definition>
+        <argsstring>(const ProtoObjectself, ProtoMethod method)</argsstring>
         <name>fromMethod</name>
         <qualifiedname>proto::ProtoContext::fromMethod</qualifiedname>
         <param>
@@ -321,7 +321,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoContext_1af2cba1e59cf34018c909ccaf41826fd9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoExternalPointer" kindref="compound">ProtoExternalPointer</ref> *</type>
-        <definition>ProtoExternalPointer * proto::ProtoContext::fromExternalPointer</definition>
+        <definition>const ProtoExternalPointer proto::ProtoContext::fromExternalPointer</definition>
         <argsstring>(void *pointer)</argsstring>
         <name>fromExternalPointer</name>
         <qualifiedname>proto::ProtoContext::fromExternalPointer</qualifiedname>
@@ -339,7 +339,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoContext_1a66352242e6b2b7466c7ad01de5765cb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoByteBuffer" kindref="compound">ProtoByteBuffer</ref> *</type>
-        <definition>ProtoByteBuffer * proto::ProtoContext::fromBuffer</definition>
+        <definition>const ProtoByteBuffer proto::ProtoContext::fromBuffer</definition>
         <argsstring>(unsigned long length, char *buffer)</argsstring>
         <name>fromBuffer</name>
         <qualifiedname>proto::ProtoContext::fromBuffer</qualifiedname>
@@ -361,7 +361,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoContext_1a520d82b6e8a35e81e6b13804539438aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoByteBuffer" kindref="compound">ProtoByteBuffer</ref> *</type>
-        <definition>ProtoByteBuffer * proto::ProtoContext::newBuffer</definition>
+        <definition>const ProtoByteBuffer proto::ProtoContext::newBuffer</definition>
         <argsstring>(unsigned long length)</argsstring>
         <name>newBuffer</name>
         <qualifiedname>proto::ProtoContext::newBuffer</qualifiedname>
@@ -379,7 +379,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoContext_1ac35ade5f7c6cecc5b5a6cc6b19f00217" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoContext::fromBoolean</definition>
+        <definition>const ProtoObject proto::ProtoContext::fromBoolean</definition>
         <argsstring>(bool value)</argsstring>
         <name>fromBoolean</name>
         <qualifiedname>proto::ProtoContext::fromBoolean</qualifiedname>
@@ -397,7 +397,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoContext_1af9518231b873ae724ec25d94d71010cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoContext::fromByte</definition>
+        <definition>const ProtoObject proto::ProtoContext::fromByte</definition>
         <argsstring>(char c)</argsstring>
         <name>fromByte</name>
         <qualifiedname>proto::ProtoContext::fromByte</qualifiedname>
@@ -415,7 +415,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoContext_1affc3b494e1e8ee86aafc18834662bb76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoContext::fromDate</definition>
+        <definition>const ProtoObject proto::ProtoContext::fromDate</definition>
         <argsstring>(unsigned year, unsigned month, unsigned day)</argsstring>
         <name>fromDate</name>
         <qualifiedname>proto::ProtoContext::fromDate</qualifiedname>
@@ -441,7 +441,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoContext_1a69f302c2964df2e1bbfafd0af9775f8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoContext::fromTimestamp</definition>
+        <definition>const ProtoObject proto::ProtoContext::fromTimestamp</definition>
         <argsstring>(unsigned long timestamp)</argsstring>
         <name>fromTimestamp</name>
         <qualifiedname>proto::ProtoContext::fromTimestamp</qualifiedname>
@@ -459,7 +459,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoContext_1ac01a08a7130ff65e37d7729b74434875" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoObject" kindref="compound">ProtoObject</ref> *</type>
-        <definition>ProtoObject * proto::ProtoContext::fromTimeDelta</definition>
+        <definition>const ProtoObject proto::ProtoContext::fromTimeDelta</definition>
         <argsstring>(long timedelta)</argsstring>
         <name>fromTimeDelta</name>
         <qualifiedname>proto::ProtoContext::fromTimeDelta</qualifiedname>
@@ -477,7 +477,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoContext_1a8040a981d5830e593cfa815d3b90324e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoList" kindref="compound">ProtoList</ref> *</type>
-        <definition>ProtoList * proto::ProtoContext::newList</definition>
+        <definition>const ProtoList proto::ProtoContext::newList</definition>
         <argsstring>()</argsstring>
         <name>newList</name>
         <qualifiedname>proto::ProtoContext::newList</qualifiedname>
@@ -491,7 +491,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoContext_1ad4b159acecee66e5c5925fc7f4a83c07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoTuple" kindref="compound">ProtoTuple</ref> *</type>
-        <definition>ProtoTuple * proto::ProtoContext::newTuple</definition>
+        <definition>const ProtoTuple proto::ProtoContext::newTuple</definition>
         <argsstring>()</argsstring>
         <name>newTuple</name>
         <qualifiedname>proto::ProtoContext::newTuple</qualifiedname>
@@ -505,7 +505,7 @@
       </memberdef>
       <memberdef kind="function" id="classproto_1_1ProtoContext_1a5684caa09a3eff7aa54ed5f544574976" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="classproto_1_1ProtoSparseList" kindref="compound">ProtoSparseList</ref> *</type>
-        <definition>ProtoSparseList * proto::ProtoContext::newSparseList</definition>
+        <definition>const ProtoSparseList proto::ProtoContext::newSparseList</definition>
         <argsstring>()</argsstring>
         <name>newSparseList</name>
         <qualifiedname>proto::ProtoContext::newSparseList</qualifiedname>

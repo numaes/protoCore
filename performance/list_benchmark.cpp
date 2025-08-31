@@ -8,7 +8,7 @@
 #include "../headers/proto.h"
 
 const int NUM_OPERATIONS = 100000;
-proto::ProtoObject *benchmarks(proto::ProtoContext *c, proto::ProtoObject* self, proto::ParentLink* parentLink, proto::ProtoList* args, proto::ProtoSparseList* kwargs) {
+proto::const ProtoObjectbenchmarks(proto::ProtoContext *c, proto::const ProtoObject self, proto::ParentLink* parentLink, proto::const ProtoList args, proto::const ProtoSparseList kwargs) {
 
 // --- STD::VECTOR BENCHMARKS ---
     std::cout << "--- Benchmarking std::vector ---" << std::endl;
