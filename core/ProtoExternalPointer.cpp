@@ -11,16 +11,13 @@ namespace proto
 {
     // --- Constructor and Destructor ---
 
-    // The member initialization list is used, which is more efficient and idiomatic in C++.
     ProtoExternalPointerImplementation::ProtoExternalPointerImplementation(
         ProtoContext* context,
         void* pointer
     ) : Cell(context), pointer(pointer)
     {
-        // The constructor body can now be empty.
     }
 
-    // For empty destructors, using '= default' is the recommended practice.
     ProtoExternalPointerImplementation::~ProtoExternalPointerImplementation() = default;
 
 
@@ -41,34 +38,31 @@ namespace proto
 
     // --- Garbage Collector (GC) Methods ---
 
+    // Corrected signature for const-correctness.
     void ProtoExternalPointerImplementation::processReferences(
         ProtoContext* context,
         void* self,
         void (*method)(
             ProtoContext* context,
             void* self,
-            Cell* cell
+            const Cell* cell
         )
     ) const override
     {
         // This method is intentionally left empty.
         // A ProtoExternalPointer contains an opaque pointer (void*) that is not
-        // managed by the Proto garbage collector. Therefore, there are no
-        // references to other 'Cells' that need to be processed.
+        // managed by the Proto garbage collector.
     }
 
-    // An empty finalizer can also be declared as 'default'.
     void ProtoExternalPointerImplementation::finalize(ProtoContext* context) const override
     {
+        // This method is intentionally left empty.
     };
 
     unsigned long ProtoExternalPointerImplementation::getHash(ProtoContext* context) const override
     {
-        // The hash of a Cell is derived directly from its memory address.
-        // This provides a fast and unique identifier for the object.
         ProtoObjectPointer p{};
         p.externalPointerImplementation = this;
-
         return p.asHash.hash;
     }
 

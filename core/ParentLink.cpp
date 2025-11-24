@@ -9,55 +9,47 @@
 
 namespace proto
 {
-    // Using a member initialization list is more idiomatic and efficient in C++.
     ParentLinkImplementation::ParentLinkImplementation(
         ProtoContext* context,
         const ParentLinkImplementation* parent,
         const ProtoObject* object
     ) : Cell(context), parent(parent), object(object)
     {
-        // The constructor body can now be empty.
     };
 
-    // The destructor does not need to perform any action.
     ParentLinkImplementation::~ParentLinkImplementation() = default;
 
+    // Corrected signature for const-correctness.
     void ParentLinkImplementation::processReferences(
         ProtoContext* context,
         void* self,
         void (*method)(
             ProtoContext* context,
             void* self,
-            Cell* cell
+            const Cell* cell
         )
     ) const override
     {
         // For the garbage collector, it is crucial to process all references to other Cells.
 
-        // 1. Process the link to the previousNode parent in the chain.
+        // 1. Process the link to the previous parent in the chain.
         if (this->parent)
         {
-            this->parent->processReferences(context, self, method);
+            // 'parent' is already a 'const ParentLinkImplementation*', which is a const Cell*.
+            method(context, self, this->parent);
         }
 
-        // 2. CRITICAL FIX: Process the object (ProtoObjectCell) that this link represents.
-        // The previousNode version did not process this reference, which would cause the object
-        // to be incorrectly collected by the GC.
-        if (this->object)
+        // 2. Process the object (ProtoObjectCell) that this link represents.
+        if (this->object && this->object->isCell(context))
         {
-            this->object->asCell(context)->processReferences(context, self, method);
+            // 'object' is a 'const ProtoObject*'. Its asCell() method returns a 'const Cell*'.
+            method(context, self, this->object->asCell(context));
         }
-
-        // NOTE: The call to 'method(context, self, this)' was removed.
-        // The garbage collector is already processing 'this' when it calls this method.
-        // Passing it to itself again would cause an infinite loop during collection.
     }
 
-    // The finalize method must be implemented as it is pure virtual in the base class.
     void ParentLinkImplementation::finalize(ProtoContext* context) const override
     {
-        // This method is intentionally left empty because ParentLinkImplementation
-        // does not acquire resources that require explicit cleanup.
+        // This method is intentionally left empty.
     }
 
     const ProtoObject* ParentLinkImplementation::getObject(ProtoContext* context) const
@@ -69,6 +61,4 @@ namespace proto
     {
         return this->parent;
     };
-
-
 };

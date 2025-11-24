@@ -32,7 +32,7 @@ namespace proto
         std::free(this->attributeCache);
     }
 
-    void ProtoThreadExtension::finalize(ProtoContext* context) const
+    void ProtoThreadExtension::finalize(ProtoContext* context) const override
     {
         if (this->osThread && this->osThread->joinable()) {
             this->osThread->detach();
@@ -42,11 +42,10 @@ namespace proto
     void ProtoThreadExtension::processReferences(
         ProtoContext* context,
         void* self,
-        void (*callBackMethod)(ProtoContext*, void*, Cell*)
-    ) const
+        void (*callBackMethod)(ProtoContext*, void*, const Cell* cell)
+    ) const override
     {
-        // The extension cell needs to report its own chain of free cells
-        Cell* currentFree = this->freeCells;
+        const Cell* currentFree = this->freeCells;
         while (currentFree)
         {
             callBackMethod(context, self, currentFree);
@@ -69,11 +68,10 @@ namespace proto
         currentContext(nullptr),
         state(THREAD_STATE_MANAGED),
         unmanagedCount(0),
-        name(name)
+        name(name),
+        extension(nullptr)
     {
-        // Create and link the extension cell
         this->extension = new(context) ProtoThreadExtension(context);
-
         this->space->allocThread(context, (ProtoThread*)this->asThread(context));
 
         if (method)
@@ -81,45 +79,38 @@ namespace proto
             this->extension->osThread = std::make_unique<std::thread>(
                 [=](ProtoThreadImplementation* self)
                 {
-                    ProtoContext baseContext(nullptr, nullptr, 0,
-                                             (ProtoThread*)self->asThread(context), self->space);
+                    ProtoContext baseContext(self->space);
+                    baseContext.thread = (ProtoThread*)self->asThread(&baseContext);
+                    
                     method(
                         &baseContext,
                         self->implAsObject(&baseContext),
                         nullptr,
-                        (ProtoList*)unnamedArgList,
-                        (ProtoSparseList*)kwargs
+                        const_cast<ProtoList*>(unnamedArgList),
+                        const_cast<ProtoSparseList*>(kwargs)
                     );
-                    self->space->deallocThread(&baseContext, (ProtoThread*)self->asThread(context));
+                    self->space->deallocThread(&baseContext, (ProtoThread*)self->asThread(&baseContext));
                 },
                 this
             );
-        }
-        else
-        {
-            // Main thread case
-            // space->mainThreadId = std::this_thread::get_id(); // Needs facade
         }
     }
 
     ProtoThreadImplementation::~ProtoThreadImplementation()
     {
-        // The unique_ptr in the extension will handle the thread automatically.
     }
 
     void ProtoThreadImplementation::processReferences(
         ProtoContext* context,
         void* self,
-        void (*callBackMethod)(ProtoContext*, void*, Cell*)
+        void (*callBackMethod)(ProtoContext*, void*, const Cell* cell)
     ) const
     {
-        // CRITICAL: Report the extension cell to the GC
         if (this->extension) {
             callBackMethod(context, self, this->extension);
         }
 
-        // Report the context chain (call stack)
-        ProtoContext* ctx = this->currentContext;
+        const ProtoContext* ctx = this->currentContext;
         while (ctx)
         {
             if (ctx->localsBase)
@@ -128,27 +119,19 @@ namespace proto
                 {
                     if (ctx->localsBase[i] && ctx->localsBase[i]->isCell(context))
                     {
-                        callBackMethod(context, self, (Cell*)ctx->localsBase[i]->asCell(context));
+                        callBackMethod(context, self, ctx->localsBase[i]->asCell(context));
                     }
                 }
             }
             ctx = ctx->previous;
         }
 
-        // Report the attribute cache
         if (this->extension && this->extension->attributeCache) {
             for (unsigned int i = 0; i < THREAD_CACHE_DEPTH; ++i) {
                 const AttributeCacheEntry& entry = this->extension->attributeCache[i];
-                if (entry.object && entry.object->isCell(context)) {
-                    callBackMethod(context, self, (Cell*)entry.object->asCell(context));
-                }
-                // ProtoString is also an object that needs to be reported
-                if (entry.attributeName && entry.attributeName->isCell(context)) {
-                    callBackMethod(context, self, (Cell*)entry.attributeName->asCell(context));
-                }
-                if (entry.value && entry.value->isCell(context)) {
-                    callBackMethod(context, self, (Cell*)entry.value->asCell(context));
-                }
+                if (entry.object && entry.object->isCell(context)) callBackMethod(context, self, entry.object->asCell(context));
+                if (entry.attributeName && entry.attributeName->isCell(context)) callBackMethod(context, self, entry.attributeName->asCell(context));
+                if (entry.value && entry.value->isCell(context)) callBackMethod(context, self, entry.value->asCell(context));
             }
         }
     }
@@ -167,17 +150,34 @@ namespace proto
             this->extension->freeCells = newCell->next;
             newCell->next = nullptr;
         }
-
         return newCell;
     }
 
-    // ... (other methods need to be updated to use this->extension->...)
-
     void ProtoThreadImplementation::implSynchToGC()
     {
-        // This logic needs to be updated to use the new facade from ProtoSpace
-        // For now, it's a placeholder.
-    }
+        if (this->state == THREAD_STATE_MANAGED && this->space->state != SPACE_STATE_RUNNING)
+        {
+            if (this->space->state == SPACE_STATE_STOPPING_WORLD)
+            {
+                this->state = THREAD_STATE_STOPPING;
+                this->space->stopTheWorldCV.notify_one();
 
+                std::unique_lock lk(ProtoSpace::globalMutex);
+                this->space->restartTheWorldCV.wait(lk, [this] {
+                    return this->space->state == SPACE_STATE_WORLD_TO_STOP;
+                });
+
+                this->state = THREAD_STATE_STOPPED;
+                this->space->stopTheWorldCV.notify_one();
+
+                this->space->restartTheWorldCV.wait(lk, [this] {
+                    return this->space->state == SPACE_STATE_RUNNING;
+                });
+
+                this->state = THREAD_STATE_MANAGED;
+            }
+        }
+    }
+    
     // ... (rest of the implementation)
 }

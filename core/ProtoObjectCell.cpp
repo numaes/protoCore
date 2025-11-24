@@ -11,8 +11,6 @@ namespace proto
 {
     // --- Constructor and Destructor ---
 
-    // Modernized constructor with member initialization list.
-    // ADJUSTED: The template type from 'ProtoSparseListImplementation' was removed.
     ProtoObjectCell::ProtoObjectCell(
         ProtoContext* context,
         const ParentLinkImplementation* parent,
@@ -21,10 +19,8 @@ namespace proto
     ) : Cell(context), parent(parent), mutable_ref(mutable_ref),
         attributes(attributes ? attributes : new(context) ProtoSparseListImplementation(context))
     {
-        // The constructor body can now be empty.
     }
 
-    // For empty destructors, using '= default' is the recommended practice.
     ProtoObjectCell::~ProtoObjectCell() = default;
 
 
@@ -33,20 +29,17 @@ namespace proto
     const ProtoObjectCell* ProtoObjectCell::addParent(
         ProtoContext* context, const ProtoObject* newParentToAdd) const
     {
-        // Creates a new link in the inheritance chain.
         const auto* newParentLink = new(context) ParentLinkImplementation(
             context,
-            this->parent, // The parent of the new link is our current parent.
-            newParentToAdd // The object of the new link is the new parent.
+            this->parent,
+            newParentToAdd
         );
 
-        // Returns a new ProtoObjectCell that is a copy of the current one,
-        // but with the extended inheritance chain.
         return new(context) ProtoObjectCell(
             context,
             newParentLink,
             this->attributes,
-            this->mutable_ref // The other properties are preserved.
+            this->mutable_ref
         );
     }
 
@@ -54,39 +47,38 @@ namespace proto
     {
         ProtoObjectPointer p{};
         p.objectCellImplementation = this;
-        p.op.pointer_tag = POINTER_TAG_OBJECT; // Ensure correct tagging
+        p.op.pointer_tag = POINTER_TAG_OBJECT;
         return p.oid.oid;
     }
 
 
     // --- Garbage Collector (GC) Methods ---
 
-    // An empty finalizer can also be declared as 'default'.
     void ProtoObjectCell::finalize(ProtoContext* context) const override
     {
     };
 
-    // Informs the GC about all internal references so they can be tracked.
+    // Corrected signature and implementation for const-correctness and proper GC interaction.
     void ProtoObjectCell::processReferences(
         ProtoContext* context,
         void* self,
         void (*method)(
             ProtoContext* context,
             void* self,
-            Cell* cell
+            const Cell* cell
         )
     ) const override
     {
-        // 1. Process the reference to the parent chain.
+        // 1. Report the direct reference to the parent link chain.
         if (this->parent)
         {
-            this->parent->processReferences(context, self, method);
+            method(context, self, this->parent);
         }
 
-        // 2. Process the reference to the attributes list.
+        // 2. Report the direct reference to the attributes list.
         if (this->attributes)
         {
-            this->attributes->processReferences(context, self, method);
+            method(context, self, this->attributes);
         }
     }
 

@@ -10,14 +10,18 @@ It is designed for developers who need to script complex application behavior, c
 
 ---
 
+## Project Status: Alpha & Actively Developed
+
+Proto is a feature-complete but experimental runtime. The core architecture is stable and well-tested, making it an ideal moment for new contributors to get involved in performance optimization, API refinement, and the development of the broader ecosystem.
+
 ## Core Features
 
 *   **Dynamic Typing in C++**: Create and manipulate integers, floats, booleans, strings, and complex objects without compile-time type constraints.
-*   **Prototypal Inheritance**: A flexible and powerful object model based on Lieberman prototypes. Objects inherit directly from other objects, allowing for dynamic structure and behavior sharing without the rigidity of classical inheritance.
+*   **Prototypal Inheritance**: A flexible and powerful object model based on Lieberman prototypes. Objects inherit directly from other objects, allowing for dynamic structure and behavior sharing.
 *   **Immutable-by-Default Data Structures**: Collections like lists, tuples, and dictionaries are immutable. Operations like `append` or `set` return new, modified versions, eliminating a whole class of bugs related to shared state and making concurrent programming safer and easier to reason about.
 *   **Elite Concurrency Model**: By leveraging immutability and a GIL-free architecture, Proto provides a foundation for true multi-core scalability.
 *   **Low-Latency Automatic Memory Management**: A concurrent, stop-the-world garbage collector manages the lifecycle of all objects, freeing you from manual `new` and `delete` with minimal application pauses.
-*   **Clean, Embeddable C++ API**: The entire system is exposed through a clear and minimal public API (`proto.h`), making it easy to integrate into existing C++ applications.
+*   **Clean, `const`-Correct C++ API**: The entire system is exposed through a clear and minimal public API (`proto.h`) that has been refactored for `const`-correctness, improving safety and expressiveness.
 
 ## Architectural Highlights
 
@@ -32,15 +36,11 @@ Proto's performance and safety stem from a set of deeply integrated architectura
 
 3.  **True, GIL-Free Concurrency**: Each `ProtoThread` is a native OS thread. The runtime was designed from the ground up for parallelism and has no Global Interpreter Lock, allowing it to take full advantage of modern multi-core processors.
 
-## Project Status
-
-Proto is currently in an **active, deep development phase (Alpha/Experimental)**. The core runtime is functional and the architecture is well-established, but it is not yet a production-ready product. It serves as a highly promising foundation for building the next generation of high-performance systems.
-
 ---
 
 ## Getting Started & Building the Project
 
-The project now uses **CMake** for a modern, cross-platform build system. This allows you to build Proto easily on Linux, macOS, and Windows with a variety of compilers and IDEs.
+The project now uses **CMake** for a modern, cross-platform build system. This allows you to build Proto easily on Linux, macOS, and Windows with a variety of compilers and IDEs like CLion or Visual Studio Code.
 
 ### Prerequisites
 
@@ -72,7 +72,7 @@ The project now uses **CMake** for a modern, cross-platform build system. This a
 
 ## Testing
 
-The project includes a comprehensive test suite using the **Google Test** framework. The tests are automatically configured by CMake.
+The project includes a comprehensive test suite using the **Google Test** framework, which provides a safety net against regressions and validates the core logic. The tests are automatically configured by CMake.
 
 ### Running the Tests
 
@@ -94,13 +94,16 @@ The test suite provides coverage for the most critical components of the runtime
 *   **Sparse Lists (`ProtoSparseList`):** Use with both integer keys and string hashes (for dictionaries).
 *   **Tuples (`ProtoTuple`):** Creation, access, slicing, and validation of the interning mechanism.
 
+## Contributing
+
+We welcome contributions! This project is at a perfect stage for developers interested in compilers, memory management, and high-performance C++. Please check out the `next_steps.md` file for our roadmap and feel free to open an issue on GitHub to discuss your ideas.
+
 ## Benchmarks
 
-The compiled benchmark executables are located in the `build` directory. You can run them individually:
+The compiled benchmark executables are located in the `build` directory. You can run them individually to see Proto's performance characteristics in action:
 
 ```bash
-./immutable_sharing_benchmark
-./concurrent_append_benchmark
-./string_concat_benchmark
-# ... and so on for the other benchmarks
+./performance/immutable_sharing_benchmark
+./performance/concurrent_append_benchmark
+./performance/string_concat_benchmark
 ```

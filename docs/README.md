@@ -33,20 +33,27 @@ brew install doxygen
 
 ## Building the Documentation
 
-Once the prerequisites are installed, you can build the HTML documentation by running the following command from within this `docs` directory:
+The build process is managed by CMake, which will first run Doxygen and then Sphinx.
 
-```bash
-make html
-```
+1.  **Configure the project** (if you haven't already) from the root directory:
+    ```bash
+    mkdir build
+    cd build
+    cmake ..
+    ```
 
-This command will first run Doxygen to generate XML files from the C++ source code and then run Sphinx to convert the `.rst` source files and the Doxygen output into a polished HTML website.
+2.  **Build the `docs` target** from within the `build` directory:
+    ```bash
+    make docs
+    ```
+    This command will first run Doxygen to generate XML files from the C++ source code and then run Sphinx to convert the `.rst` source files and the Doxygen output into a polished HTML website.
 
 ## Viewing the Documentation
 
-After the build process is complete, the generated HTML files will be located in the `_build/html` directory.
+After the build process is complete, the generated HTML files will be located in the `build/docs/html` directory.
 
 You can open the main page by opening the following file in your web browser:
 
 ```
-_build/html/index.html
+build/docs/html/index.html
 ```

@@ -60,7 +60,7 @@ A ``ProtoSpace`` is a self-contained runtime environment. It manages its own hea
 
 **ProtoThread: True, GIL-Free Concurrency**
 
-Each ``ProtoThread`` is a true, native OS thread. Proto was designed from the ground up for multithreading and has no Global Interpreter Lock (GIL). This allows it to fully leverage modern multi-core processors for CPU-bound workloads.
+Each ``ProtoThread`` is a true, native OS thread. Proto was designed from the ground up for multithreading and has no Global Interpreter Lock (GIL). The internal implementation of a thread (`ProtoThreadImplementation`) is carefully structured to fit within the 64-byte `Cell` size, using an extension cell (`ProtoThreadExtension`) for larger data members, ensuring it integrates perfectly with the memory manager.
 
 **ProtoContext: The Execution State**
 
@@ -70,4 +70,4 @@ The ``ProtoContext`` is an essential object that is passed to nearly every funct
 *   The local variables for the current scope.
 *   A link to the current ``ProtoThread`` and ``ProtoSpace``.
 
-Crucially, the ``ProtoContext`` also acts as the **primary factory for creating objects**. Calling methods like :cpp:func:`proto::ProtoContext::fromInteger` or :cpp:func:`proto::ProtoContext::newObject` ensures that newly created objects are correctly registered with the memory manager and garbage collector.
+Crucially, the ``ProtoContext`` also acts as the **primary factory for creating objects**. Calling methods like :cpp:func:`proto::ProtoContext::fromInteger` or :cpp:func:`proto::ProtoContext::newList` ensures that newly created objects are correctly registered with the memory manager and garbage collector.

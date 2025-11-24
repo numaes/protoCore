@@ -15,8 +15,8 @@ Core Features
 
 *   **Immutable-by-Default Data Structures**: Collections like lists, tuples, and dictionaries are immutable. Operations like ``append`` or ``set`` return new, modified versions, eliminating a whole class of bugs related to shared state and making concurrent programming safer and easier to reason about.
 
-*   **Elite Concurrency Model**: By leveraging immutability, Proto provides a foundation for true multi-core scalability, free from the limitations of mechanisms like Python's GIL.
+*   **Elite Concurrency Model**: By leveraging immutability and a GIL-free architecture, Proto provides a foundation for true multi-core scalability.
 
 *   **Low-Latency Automatic Memory Management**: A concurrent, stop-the-world garbage collector manages the lifecycle of all objects, freeing you from manual ``new`` and ``delete`` with minimal application pauses.
 
-*   **Clean, Embeddable C++ API**: The entire system is exposed through a clear and minimal public API (`proto.h`), making it easy to integrate into existing C++ applications.
+*   **Clean, `const`-Correct C++ API**: The entire system is exposed through a clear and minimal public API (`proto.h`) that has been refactored for `const`-correctness, improving safety and expressiveness.

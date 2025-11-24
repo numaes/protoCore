@@ -15,57 +15,52 @@ namespace proto
     {
         // Each newly created Cell is immediately registered with the current context
         // for memory management and garbage collection tracking.
-        context->addCell2Context(this);
+        if (context) {
+            context->addCell2Context(this);
+        }
     };
 
     unsigned long Cell::getHash(ProtoContext* context) const
     {
         // The hash of a Cell is derived directly from its memory address.
-        // This provides a fast and unique identifier for the object, which is
-        // essential for data structures like hash maps (ProtoSparseList).
-        // The pointer is safely cast to an integer, and we mask it to 60 bits
-        // to match the hash size used in the ProtoObjectPointer union.
-        return reinterpret_cast<uintptr_t>(this) & ((1ULL << 60) - 1);;
+        // This provides a fast and unique identifier for the object.
+        return reinterpret_cast<uintptr_t>(this);
     }
 
-    // Base implementation for finalization.
-    // Derived classes should override this method if they need to perform
-    // any cleanup before being reclaimed by the garbage collector.
     void Cell::finalize(ProtoContext* context) const
     {
-        // Does nothing in the base class.
+        // Base implementation does nothing.
     };
 
     const ProtoObject* Cell::implAsObject(ProtoContext* context) const
     {
-        // It should be implemented by subclasses
+        // Base implementation returns nullptr. Subclasses must override this.
         return nullptr;
     }
 
-    Cell* Cell::asCell(ProtoContext* context) const
+    const Cell* Cell::asCell(ProtoContext* context) const
     {
-        return nullptr;
+        // A const method should return a const pointer to itself.
+        return this;
     }
 
-    // Overloads the 'new' operator to use the context's memory allocator.
     void* Cell::operator new(unsigned long size, ProtoContext* context)
     {
         return context->allocCell();
     };
 
-    // Base implementation for the garbage collector's reference traversal.
-    // Derived classes MUST override this method to call the 'method'
-    // on every ProtoObject* or Cell* they contain, allowing the GC to mark reachable objects.
+    // Corrected signature to match the declaration and expected const-correctness.
+    // The callback now correctly accepts a const Cell*.
     void Cell::processReferences(
         ProtoContext* context,
         void* self,
         void (*method)(
             ProtoContext* context,
             void* self,
-            Cell* cell
+            const Cell* cell
         )
     ) const
     {
-        // Does nothing in the base class, as it contains no references to other objects.
+        // Base implementation does nothing as it holds no references.
     };
 };

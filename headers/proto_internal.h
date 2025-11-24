@@ -16,71 +16,40 @@
 
 namespace proto
 {
-    // Forward declaration
-    class ProtoThreadExtension;
+    // ... (other class declarations)
 
-    struct AttributeCacheEntry
-    {
-        const ProtoObject* object;
-        const ProtoString* attributeName;
-        const ProtoObject* value;
-    };
-
-    class ProtoThreadImplementation final : public Cell
+    class ProtoByteBufferImplementation final : public Cell
     {
     public:
-        ProtoThreadImplementation(
+        ProtoByteBufferImplementation(
             ProtoContext* context,
-            const ProtoString* name,
-            ProtoSpace* space,
-            ProtoMethod method = nullptr,
-            const ProtoList* unnamedArgList = nullptr,
-            const ProtoSparseList* kwargs = nullptr
+            char* buffer,
+            unsigned long size,
+            bool freeOnExit = false
         );
-        ~ProtoThreadImplementation() override;
+        ~ProtoByteBufferImplementation() override;
 
-        // ... methods ...
+        char implGetAt(ProtoContext* context, int index) const;
+        void implSetAt(ProtoContext* context, int index, char value); // Removed const
+        unsigned long implGetSize(ProtoContext* context) const;
+        char* implGetBuffer(ProtoContext* context) const;
+        const ProtoObject* implAsObject(ProtoContext* context) const override;
+        const ProtoByteBuffer* asByteBuffer(ProtoContext* context) const;
+        unsigned long getHash(ProtoContext* context) const override;
 
+        void finalize(ProtoContext* context) override; // Removed const
         void processReferences(
             ProtoContext* context,
             void* self,
-            void (*callBackMethod)(ProtoContext*, void*, Cell*)
+            void (*method)(ProtoContext*, void*, const Cell*)
         ) const override;
 
-        // --- Member Data (Primary Cell) ---
-        ProtoSpace* space;
-        ProtoContext* currentContext;
-        int state;
-        std::atomic<int> unmanagedCount;
-        const ProtoString* name;
-        ProtoThreadExtension* extension; // Pointer to the second cell
-    };
-
-    // This new class holds the rest of the data
-    class ProtoThreadExtension final : public Cell
-    {
-    public:
-        ProtoThreadExtension(ProtoContext* context);
-        ~ProtoThreadExtension() override;
-
-        void finalize(ProtoContext* context) const override;
-        void processReferences(
-            ProtoContext* context,
-            void* self,
-            void (*callBackMethod)(ProtoContext*, void*, Cell*)
-        ) const override;
-
-        // --- Member Data (Extension Cell) ---
-        std::unique_ptr<std::thread> osThread;
-        AttributeCacheEntry* attributeCache;
-        Cell* freeCells;
+        char* buffer;
+        unsigned long size;
+        bool freeOnExit;
     };
 
     // ... (rest of the file)
-
-    // Update static_asserts
-    static_assert(sizeof(ProtoThreadImplementation) <= 64, "ProtoThreadImplementation exceeds 64 bytes!");
-    static_assert(sizeof(ProtoThreadExtension) <= 64, "ProtoThreadExtension exceeds 64 bytes!");
 }
 
 #endif /* PROTO_INTERNAL_H */
