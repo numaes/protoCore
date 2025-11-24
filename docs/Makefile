@@ -1,22 +1,18 @@
-# Minimalist Makefile for Sphinx documentation
-# This now delegates the build process to the main CMake build system.
+# Makefile for Sphinx documentation
+#
+# You can set these variables from the command line.
+SPHINXOPTS    =
+SPHINXBUILD   = sphinx-build
+SOURCEDIR     = .
+BUILDDIR      = _build
 
-.PHONY: html clean
-
-# The main target to build the HTML documentation.
-html:
-	@echo "Building documentation via CMake..."
-	@$(MAKE) -C ../build docs
-
-# A target to clean the generated documentation.
-# Note: This only cleans the Sphinx output. To clean the entire project,
-# run 'rm -rf build' from the project root.
-clean:
-	@echo "Cleaning documentation..."
-	@rm -rf _build
-
+# Put it first so that "make" without argument is like "make help".
 help:
-	@echo "Please use 'make html' to build the documentation."
-	@echo "The build process is now managed by CMake."
-	@echo "Run 'make -C ../build docs' to build."
-	@echo "Run 'make clean' to remove the generated documentation."
+	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
+.PHONY: help Makefile
+
+# Catch-all target: route all unknown targets to Sphinx using the new
+# "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
+%: Makefile
+	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)

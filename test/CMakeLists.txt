@@ -1,8 +1,9 @@
 # CMake configuration for the Proto test suite
 
+# Set the policy for FetchContent to avoid the timestamp warning
+cmake_policy(SET CMP0135 NEW)
+
 # 1. Fetch Google Test
-# This automatically downloads and configures Google Test. Users don't need to
-# install anything manually.
 include(FetchContent)
 FetchContent_Declare(
   googletest
@@ -25,7 +26,6 @@ target_link_libraries(proto_tests PRIVATE proto gtest_main)
 target_include_directories(proto_tests PRIVATE ${googletest_SOURCE_DIR}/googletest/include)
 
 # 6. Add a test to CTest for easy execution
-# This allows running tests with the 'ctest' command.
 include(GoogleTest)
 gtest_discover_tests(proto_tests)
 
