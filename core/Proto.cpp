@@ -173,7 +173,7 @@ namespace proto
         const unsigned int hash = (reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(method)) &
             (THREAD_CACHE_DEPTH - 1);
 
-        auto& [object, attribute_name, value] = thread->attributeCache[hash];
+        auto& [object, attribute_name, value] = thread->extension->attributeCache[hash];
 
         if (object != this || attribute_name != method) [[unlikely]]
         {
@@ -230,7 +230,7 @@ namespace proto
             (reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(name)) & (THREAD_CACHE_DEPTH - 1);
 
         // Get a direct reference to the cache entry.
-        auto& [object, attribute_name, value] = thread->attributeCache[hash];
+        auto& [object, attribute_name, value] = thread->extension->attributeCache[hash];
 
         // On a cache hit, return the resolved value immediately.
         if (object == this && attribute_name == name) {
@@ -317,7 +317,7 @@ namespace proto
             const unsigned int hash =
                 (reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(name)) & (THREAD_CACHE_DEPTH - 1);
 
-            do
+            do // NOLINT(cppcoreguidelines-avoid-do-while)
             {
                 if (oc->attributes->has(context, hash))
                     return oc->attributes->getAt(context, hash);
@@ -378,8 +378,8 @@ namespace proto
                 do
                 {
                     currentRoot = context->space->mutableRoot.load();
-                    newRoot = (ProtoSparseList*)currentRoot->setAt(
-                        context, inmutableBase->mutable_ref, (const ProtoObject*)newObject);
+                    newRoot = const_cast<ProtoSparseList*>(currentRoot->setAt(
+                        context, inmutableBase->mutable_ref, (const ProtoObject*)newObject));
                 }
                 while (!context->space->mutableRoot.compare_exchange_strong(
                     currentRoot,
@@ -388,7 +388,7 @@ namespace proto
                 return newObject->asObject(context);
             }
             else
-                return (const ProtoObject*)newObject;
+                return newObject->asObject(context);
         }
         return this;
     }
