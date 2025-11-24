@@ -31,13 +31,11 @@ namespace proto
         return id;
     }
 
-    // WARNING: These global variables can cause issues in a multithreaded
-    // environment and make state reasoning difficult. Consider encapsulating them
-    // within the ProtoSpace class.
-    std::atomic<bool> literalMutex(false);
-    BigCell* literalFreeCells = nullptr;
-    unsigned literalFreeCellsIndex = 0;
-    ProtoContext globalContext;
+    // Nota: Se eliminaron variables globales no utilizadas que eran inseguras
+    // en entornos multihilo: `literalMutex`, `literalFreeCells`,
+    // `literalFreeCellsIndex` y `globalContext`.
+    // Si en el futuro se requiere un pool de literales, debe encapsularse
+    // dentro de `ProtoSpace` o gestionarse como estado por‑hilo (`thread_local`).
 
     // --- Constructor and Destructor ---
 
