@@ -11,7 +11,7 @@
 namespace proto
 {
     Cell::Cell(ProtoContext* context, Cell* next)
-        : asCell(next)
+        : next(next)
     {
         // Each newly created Cell is immediately registered with the current context
         // for memory management and garbage collection tracking.
@@ -21,11 +21,11 @@ namespace proto
     unsigned long Cell::getHash(ProtoContext* context) const
     {
         // The hash of a Cell is derived directly from its memory address.
-        // This provides a fast and unique identifier for the object.
-        // The pointer is safely cast to an integer. To preserve the original
-        // behavior of using a 60-bit hash, we apply a bitmask.
-        // This approach avoids undefined behavior from union-based type punning.
-        return reinterpret_cast<uintptr_t>(this) & ((1ULL << 60) - 1);
+        // This provides a fast and unique identifier for the object, which is
+        // essential for data structures like hash maps (ProtoSparseList).
+        // The pointer is safely cast to an integer, and we mask it to 60 bits
+        // to match the hash size used in the ProtoObjectPointer union.
+        return reinterpret_cast<uintptr_t>(this) & ((1ULL << 60) - 1);;
     }
 
     // Base implementation for finalization.
@@ -39,6 +39,11 @@ namespace proto
     const ProtoObject* Cell::implAsObject(ProtoContext* context) const
     {
         // It should be implemented by subclasses
+        return nullptr;
+    }
+
+    Cell* Cell::asCell(ProtoContext* context) const
+    {
         return nullptr;
     }
 

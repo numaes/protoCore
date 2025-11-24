@@ -24,19 +24,19 @@ namespace proto
 
     TupleDictionary::TupleDictionary(
         ProtoContext* context,
-        const ProtoTupleImplementation key,
+        const ProtoTupleImplementation* key,
         TupleDictionary* next,
         TupleDictionary* previous
     ): Cell(context)
     {
         this->key = key;
-        this->next = next;
+        this->next = next; // Right child
         this->previous = previous;
         this->height = (key ? 1 : 0) + std::max((previous ? previous->height : 0), (next ? next->height : 0)),
             this->count = (previous ? previous->count : 0) + (key ? 1 : 0) + (next ? next->count : 0);
     };
 
-    void TupleDictionary::finalize(ProtoContext* context)
+    void TupleDictionary::finalize(ProtoContext* context) const override
     {
     };
 
@@ -48,7 +48,7 @@ namespace proto
             void* self,
             Cell* cell
         )
-    )
+    ) const override
     {
         if (this->next)
             this->next->processReferences(context, self, method);
@@ -66,16 +66,16 @@ namespace proto
         int i;
         for (i = 0; i <= cmpSize; i++)
         {
-            int thisElementHash = this->key->implGetAt(context, i)->getObjectHash(context);
-            int tupleElementHash = list->getAt(context, i)->getHash(context);
+            unsigned long thisElementHash = this->key->implGetAt(context, i)->getHash(context);
+            unsigned long tupleElementHash = list->getAt(context, i)->getHash(context);
             if (thisElementHash > tupleElementHash)
                 return 1;
             else if (thisElementHash < tupleElementHash)
-                return 1;
+                return -1;
         }
-        if (i > thisSize)
+        if (thisSize < listSize)
             return -1;
-        else if (i > listSize)
+        else if (thisSize > listSize)
             return 1;
         return 0;
     };
@@ -94,10 +94,10 @@ namespace proto
             cmp = node->compareList(context, list);
             if (cmp == 0)
                 return true;
-            if (cmp > 0)
-                node = node->next;
-            else
+            if (cmp > 0) // this > list, so we search in the smaller part (previous)
                 node = node->previous;
+            else
+                node = node->next;
         }
         return false;
     };
@@ -116,15 +116,15 @@ namespace proto
             cmp = node->compareTuple(context, tuple);
             if (cmp == 0)
                 return true;
-            if (cmp > 0)
-                node = node->next;
-            else
+            if (cmp > 0) // this > tuple, search in smaller part (previous)
                 node = node->previous;
+            else
+                node = node->next;
         }
         return false;
     };
 
-    ProtoTupleImplementation* TupleDictionary::getAt(ProtoContext* context, ProtoTupleImplementation* tuple)
+    const ProtoTupleImplementation* TupleDictionary::getAt(ProtoContext* context, const ProtoTupleImplementation* tuple)
     {
         TupleDictionary* node = this;
         int cmp;
@@ -138,15 +138,15 @@ namespace proto
             cmp = node->compareTuple(context, tuple);
             if (cmp == 0)
                 return node->key;
-            if (cmp > 0)
-                node = node->next;
-            else
+            if (cmp > 0) // this > tuple, search in smaller part (previous)
                 node = node->previous;
+            else
+                node = node->next;
         }
         return nullptr;
     };
 
-    TupleDictionary* TupleDictionary::set(ProtoContext* context, ProtoTupleImplementation* tuple)
+    TupleDictionary* TupleDictionary::set(ProtoContext* context, const ProtoTupleImplementation* tuple)
     {
         TupleDictionary* newNode;
         int cmp;
@@ -160,7 +160,7 @@ namespace proto
 
         cmp = this->compareTuple(context, tuple);
         if (cmp > 0)
-        {
+        { // this > tuple, so insert in the left subtree (previous)
             if (this->next)
             {
                 newNode = new(context) TupleDictionary(
@@ -184,7 +184,7 @@ namespace proto
             }
         }
         else if (cmp < 0)
-        {
+        { // this < tuple, so insert in the right subtree (next)
             if (this->previous)
             {
                 newNode = new(context) TupleDictionary(
@@ -213,25 +213,25 @@ namespace proto
         return newNode->rebalance(context);
     };
 
-    int TupleDictionary::compareTuple(ProtoContext* context, ProtoTuple* tuple)
+    int TupleDictionary::compareTuple(ProtoContext* context, const ProtoTuple* tuple) const
     {
         int thisSize = this->key->implGetSize(context);
         int tupleSize = tuple->getSize(context);
 
         int cmpSize = (thisSize < tupleSize) ? thisSize : tupleSize;
         int i;
-        for (i = 0; i < cmpSize; i++)
+        for (i = 0; i < cmpSize; ++i)
         {
-            int thisElementHash = this->key->implGetAt(context, i)->getObjectHash(context);
-            int tupleElementHash = tuple->getAt(context, i)->getHash(context);
+            unsigned long thisElementHash = this->key->implGetAt(context, i)->getHash(context);
+            unsigned long tupleElementHash = tuple->getAt(context, i)->getHash(context);
             if (thisElementHash > tupleElementHash)
                 return 1;
             else if (thisElementHash < tupleElementHash)
                 return -1;
         }
-        if (i > thisSize)
+        if (thisSize < tupleSize)
             return -1;
-        else if (i > tupleSize)
+        else if (thisSize > tupleSize)
             return 1;
         return 0;
     }
@@ -360,7 +360,7 @@ namespace proto
 
     ProtoTupleIteratorImplementation::ProtoTupleIteratorImplementation(
         ProtoContext* context,
-        ProtoTupleImplementation* base,
+        const ProtoTupleImplementation* base,
         unsigned long currentIndex
     ) : Cell(context)
     {
@@ -373,7 +373,7 @@ namespace proto
     };
 
     int ProtoTupleIteratorImplementation::implHasNext(ProtoContext* context)
-    {
+    {   
         if (this->currentIndex >= this->base->getSize(context))
             return false;
         else
@@ -381,17 +381,17 @@ namespace proto
     };
 
     ProtoObject* ProtoTupleIteratorImplementation::implNext(ProtoContext* context)
-    {
+    {   
         return this->base->getAt(context, this->currentIndex);
     };
 
     ProtoTupleIteratorImplementation* ProtoTupleIteratorImplementation::implAdvance(ProtoContext* context)
     {
-        return new(context) ProtoTupleIteratorImplementation(context, this->base, this->currentIndex);
+        return new(context) ProtoTupleIteratorImplementation(context, this->base, this->currentIndex + 1);
     };
 
     ProtoObject* ProtoTupleIteratorImplementation::implAsObject(ProtoContext* context)
-    {
+    {   
         ProtoObjectPointer p;
         p.oid.oid = (ProtoObject*)this;
         p.op.pointer_tag = POINTER_TAG_LIST_ITERATOR;
@@ -399,7 +399,7 @@ namespace proto
         return p.oid.oid;
     };
 
-    void ProtoTupleIteratorImplementation::finalize(ProtoContext* context)
+    void ProtoTupleIteratorImplementation::finalize(ProtoContext* context) const override
     {
     };
 
@@ -416,9 +416,11 @@ namespace proto
             void* self,
             Cell* cell
         )
-    )
-    {
-        // TODO
+    ) const override
+    {   
+        if (this->base) {
+            method(context, self, const_cast<ProtoTupleImplementation*>(this->base));
+        }
     };
 
     ProtoTupleImplementation::ProtoTupleImplementation(
@@ -430,8 +432,12 @@ namespace proto
     {
         this->elementCount = elementCount;
         this->height = height;
-        for (int i = 0; i < TUPLE_SIZE; i++)
-            this->pointers.data[i] = data[i];
+        for (int i = 0; i < TUPLE_SIZE; i++) {
+            if (data && i < (int)elementCount)
+                this->pointers.data[i] = data[i];
+            else
+                this->pointers.data[i] = nullptr;
+        }
     };
 
     ProtoTupleImplementation::ProtoTupleImplementation(
@@ -443,8 +449,12 @@ namespace proto
     {
         this->elementCount = elementCount;
         this->height = height;
-        for (int i = 0; i < TUPLE_SIZE; i++)
-            this->pointers.indirect[i] = indirect[i];
+        for (int i = 0; i < TUPLE_SIZE; i++) {
+            if (indirect && i < TUPLE_SIZE) // Indirect nodes are always full or padded
+                this->pointers.indirect[i] = indirect[i];
+            else
+                this->pointers.indirect[i] = nullptr;
+        }
     };
 
     ProtoTupleImplementation::~ProtoTupleImplementation()
@@ -452,130 +462,94 @@ namespace proto
     };
 
     ProtoTupleImplementation* ProtoTupleImplementation::tupleFromList(ProtoContext* context, ProtoList* list)
-    {
+    {   
         unsigned long size = list->getSize(context);
-        ProtoTupleImplementation* newTuple = nullptr;
-        ProtoListImplementation *nextLevel, *lastLevel = nullptr;
-        ProtoTupleImplementation* indirectData[TUPLE_SIZE];
-        ProtoObject* data[TUPLE_SIZE];
+        if (size == 0) {
+            return new(context) ProtoTupleImplementation(context, 0, 0, (ProtoObject**)nullptr);
+        }
 
-        ProtoListImplementation* indirectPointers = new(context) ProtoListImplementation(context);
-        unsigned long i, j;
-        for (i = 0, j = 0; i < size; i++)
-        {
-            data[j++] = list->getAt(context, i);
-
-            if (j == TUPLE_SIZE)
-            {
-                newTuple = new(context) ProtoTupleImplementation(
-                    context,
-                    TUPLE_SIZE,
-                    0,
-                    data
-                );
-                indirectPointers = indirectPointers->implAppendLast(context, (ProtoObject*)newTuple);
-                j = 0;
+        // Level 0: data nodes
+        std::vector<ProtoTupleImplementation*> currentLevel;
+        for (unsigned long i = 0; i < size; ) {
+            ProtoObject* data[TUPLE_SIZE] = {nullptr};
+            unsigned long chunkSize = 0;
+            for (int j = 0; j < TUPLE_SIZE && i < size; ++j, ++i, ++chunkSize) {
+                data[j] = const_cast<ProtoObject*>(list->getAt(context, i));
             }
+            currentLevel.push_back(new(context) ProtoTupleImplementation(context, chunkSize, 0, data));
         }
 
-        if (j != 0)
-        {
-            unsigned long lastSize = j;
-            for (; j < TUPLE_SIZE; j++)
-                data[j] = nullptr;
-            newTuple = new(context) ProtoTupleImplementation(
-                context,
-                lastSize,
-                0,
-                data
-            );
-            indirectPointers = indirectPointers->implAppendLast(context, (ProtoObject*)newTuple);
-        }
-
-        if (size > TUPLE_SIZE)
-        {
-            int indirectSize = 0;
-            int levelCount = 0;
-            do
-            {
-                nextLevel = new(context) ProtoListImplementation(context);
-                levelCount++;
-                indirectSize = 0;
-                for (i = 0, j = 0; i < indirectPointers->getSize(context); i++)
-                {
-                    indirectData[j] = (ProtoTupleImplementation*)indirectPointers->getAt(context, i);
-                    indirectSize += indirectData[j]->elementCount;
-                    j++;
-                    if (j == TUPLE_SIZE)
-                    {
-                        newTuple = new(context) ProtoTupleImplementation(
-                            context,
-                            indirectSize,
-                            levelCount,
-                            indirectData
-                        );
-                        indirectSize = 0;
-                        j = 0;
-                        nextLevel = nextLevel->implAppendLast(context, (ProtoObject*)newTuple);
-                    }
+        // Build tree upwards
+        int height = 0;
+        while (currentLevel.size() > 1) {
+            height++;
+            std::vector<ProtoTupleImplementation*> nextLevel;
+            for (size_t i = 0; i < currentLevel.size(); ) {
+                ProtoTupleImplementation* indirect[TUPLE_SIZE] = {nullptr};
+                unsigned long chunkElementCount = 0;
+                for (int j = 0; j < TUPLE_SIZE && i < currentLevel.size(); ++j, ++i) {
+                    indirect[j] = currentLevel[i];
+                    chunkElementCount += indirect[j]->elementCount;
                 }
-                if (j != 0)
-                {
-                    for (; j < TUPLE_SIZE; j++)
-                        indirectData[j] = nullptr;
-                    newTuple = new(context) ProtoTupleImplementation(
-                        context,
-                        indirectSize,
-                        levelCount,
-                        indirectData
-                    );
-                    nextLevel = nextLevel->implAppendLast(context, (ProtoObject*)newTuple);
-                }
-
-                lastLevel = indirectPointers;
-                indirectPointers = nextLevel;
+                nextLevel.push_back(new(context) ProtoTupleImplementation(context, chunkElementCount, height, indirect));
             }
-            while (nextLevel->getSize(context) > 1);
+            currentLevel = std::move(nextLevel);
         }
 
+        ProtoTupleImplementation* finalTuple = currentLevel[0];
+        // The final tuple must have the total element count.
+        if (finalTuple->elementCount != size) {
+             if (height > 0) {
+                 finalTuple = new(context) ProtoTupleImplementation(context, size, height, finalTuple->pointers.indirect);
+             } else {
+                 finalTuple = new(context) ProtoTupleImplementation(context, size, height, finalTuple->pointers.data);
+             }
+        }
+
+        // Intern the tuple
         TupleDictionary *currentRoot, *newRoot;
         currentRoot = context->space->tupleRoot.load();
         do
         {
-            if (currentRoot->has(context, newTuple))
+            const ProtoTupleImplementation* found = currentRoot->getAt(context, finalTuple);
+            if (found)
             {
-                newTuple = currentRoot->getAt(context, newTuple);
+                finalTuple = const_cast<ProtoTupleImplementation*>(found);
                 break;
             }
             else
-                newRoot = currentRoot->set(context, newTuple);
+                newRoot = currentRoot->set(context, finalTuple);
         }
         while (context->space->tupleRoot.compare_exchange_strong(
             currentRoot,
             newRoot
         ));
 
-        return newTuple;
+        return finalTuple;
     }
 
 
     ProtoObject* ProtoTupleImplementation::implGetAt(ProtoContext* context, int index)
     {
         if (index < 0)
-            index = ((int)this->elementCount) + index;
+            index += this->elementCount;
 
-        if (index < 0)
-            index = 0;
+        if (index < 0 || (unsigned long)index >= this->elementCount)
+            return PROTO_NONE;
 
-        int rest = index % TUPLE_SIZE;
         ProtoTupleImplementation* node = this;
-        for (int i = this->height; i > 0; i--)
+        for (int h = this->height; h > 0; --h)
         {
-            index = index / TUPLE_SIZE;
+            unsigned long span = 1;
+            for(int p = 0; p < h; ++p) span *= TUPLE_SIZE;
+
+            int chunk_index = index / span;
+            index %= span;
             node = node->pointers.indirect[index];
+            if (!node) return PROTO_NONE; // Should not happen in a well-formed tuple
         }
 
-        return node->pointers.data[rest];
+        return node->pointers.data[index % TUPLE_SIZE];
     };
 
     ProtoObject* ProtoTupleImplementation::implGetFirst(ProtoContext* context)
@@ -653,7 +627,7 @@ namespace proto
 
         ProtoList* sourceList = context->newList();
         for (int i = 0; i < index; i++)
-            if (i < thisSize)
+            if (i < thisSize) // Redundant check, but safe
                 sourceList = sourceList->appendLast(context, this->getAt(context, i));
 
         sourceList = sourceList->appendLast(context, value);
@@ -712,11 +686,11 @@ namespace proto
 
         ProtoList* sourceList = context->newList();
         int otherSize = otherTuple->getSize(context);
-        for (int i = 0; i < otherSize; i++)
-            sourceList = sourceList->appendLast(context, this->getAt(context, i));
+        for (int i = 0; i < otherSize; i++) // Corrected: iterate over otherTuple
+            sourceList = sourceList->appendLast(context, otherTuple->getAt(context, i));
 
         for (int i = 0; i < thisSize; i++)
-            if (i < thisSize)
+            if (i < thisSize) // Redundant check
                 sourceList = sourceList->appendLast(context, this->getAt(context, i));
 
         return ProtoTupleImplementation::tupleFromList(context, sourceList);
@@ -733,12 +707,12 @@ namespace proto
 
         ProtoList* sourceList = context->newList();
         for (int i = 0; i < thisSize; i++)
-            if (i < thisSize)
+            if (i < thisSize) // Redundant check
                 sourceList = sourceList->appendLast(context, this->getAt(context, i));
 
         int otherSize = otherTuple->getSize(context);
         for (int i = 0; i < otherSize; i++)
-            sourceList = sourceList->appendLast(context, this->getAt(context, i));
+            sourceList = sourceList->appendLast(context, otherTuple->getAt(context, i));
 
         return ProtoTupleImplementation::tupleFromList(context, sourceList);
     };
@@ -859,7 +833,7 @@ namespace proto
         return sourceList;
     };
 
-    void ProtoTupleImplementation::finalize(ProtoContext* context)
+    void ProtoTupleImplementation::finalize(ProtoContext* context) const override
     {
     };
 
@@ -871,7 +845,7 @@ namespace proto
             void* self,
             Cell* cell
         )
-    )
+    ) const override
     {
         int size = (this->elementCount > TUPLE_SIZE) ? TUPLE_SIZE : this->elementCount;
         for (int i = 0; i < size; i++)
@@ -893,7 +867,7 @@ namespace proto
         return p.oid.oid;
     };
 
-    unsigned long ProtoTupleImplementation::getHash(ProtoContext* context)
+    unsigned long ProtoTupleImplementation::getHash(ProtoContext* context) const override
     {
         ProtoObjectPointer p;
         p.oid.oid = (ProtoObject*)this;

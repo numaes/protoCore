@@ -29,52 +29,46 @@ namespace proto
 #define GB                              1024 * MB
 #define MAX_HEAP_SIZE                   512 * MB
 
+    // This mutex is for condition variables, a necessary exception for STW coordination.
     std::mutex ProtoSpace::globalMutex;
 
-    void gcCollectCells(ProtoContext* context, void* self, Cell* value)
+    // Helper function for the GC's mark phase.
+    // Recursively finds all reachable objects and adds them to the live set.
+    void gcMarkReachable(ProtoContext* context, void* self, Cell* value)
     {
-        ProtoObjectPointer p;
-        p.oid.oid = (ProtoObject*)value;
+        // self is a pointer to the live set (ProtoSparseListImplementation**)
+        auto** liveSetPtr = static_cast<ProtoSparseListImplementation**>(self);
+        auto* liveSet = *liveSetPtr;
 
-        ProtoSparseListImplementation* cellSet = new(context) ProtoSparseListImplementation(context);
+        ProtoObjectPointer p{};
+        p.cell.cell = value;
 
-        // Go further in the scanning only if it is a cell and the cell belongs to current context!
-        if (p.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE)
+        // If it's not a cell (e.g., embedded value) or already marked, stop.
+        if (!value || !value->isCell(context) || liveSet->implHas(context, p.asHash.hash))
         {
-            // It is an object pointer with references
-            if (!cellSet->implHas(context, p.asHash.hash))
-            {
-                cellSet = cellSet->implSetAt(context, p.asHash.hash, PROTO_NONE);
-                p.cell.cell->processReferences(context, (void*)cellSet, gcCollectCells);
-            }
+            return;
         }
+
+        // Mark the object as live by adding it to the set.
+        *liveSetPtr = liveSet->implSetAt(context, p.asHash.hash, PROTO_NONE);
+
+        // Recursively process all references held by this object.
+        value->processReferences(context, self, gcMarkReachable);
     }
 
-    void gcCollectObjects(ProtoContext* context, void* self, ProtoObject* value)
+    void gcMarkObject(ProtoContext* context, void* self, const ProtoObject* value)
     {
-        ProtoObjectPointer p;
-        p.oid.oid = (ProtoObject*)value;
-
-        ProtoSparseListImplementation* cellSet = new(context) ProtoSparseListImplementation(context);
-
-        // Go further in the scanning only if it is a cell and the cell belongs to current context!
-        if (p.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE)
+        if (value && value->isCell(context))
         {
-            // It is an object pointer with references
-            if (!cellSet->implHas(context, p.asHash.hash))
-            {
-                cellSet = cellSet->implSetAt(context, p.asHash.hash, PROTO_NONE);
-                p.cell.cell->processReferences(context, (void*)cellSet, gcCollectCells);
-            }
+            gcMarkReachable(context, self, value->asCell(context));
         }
     }
 
     void gcScan(ProtoContext* context, ProtoSpace* space)
     {
-        DirtySegment* toAnalize;
+        DirtySegment* toAnalize{};
 
         // Acquire space lock and take all dirty segments to analyze
-
         bool oldValue = false;
         while (space->gcLock.compare_exchange_strong(
             oldValue,
@@ -87,157 +81,83 @@ namespace proto
 
         space->gcLock.store(false);
 
-        ProtoContext gcContext(context);
-
-        // Stop the world
-        // Wait till all managed threads join the stopped state
-        // After stopping the world, no managed thread is changing its state
-
+        // --- Fase 1: Pausa Sincronizada (Stop-The-World) ---
+        // El objetivo es pausar todos los hilos de usuario el tiempo mínimo
+        // indispensable para recolectar las raíces de manera segura.
         space->state = SPACE_STATE_STOPPING_WORLD;
-        while (space->state == SPACE_STATE_STOPPING_WORLD)
         {
-            std::unique_lock<std::mutex> lk(ProtoSpace::globalMutex);
-            space->stopTheWorldCV.wait(lk);
-
-            int allStoping = true;
-            unsigned long threadsCount = space->threads->getSize(context);
-            for (unsigned n = 0; n < threadsCount; n++)
+            std::unique_lock lk(ProtoSpace::globalMutex);
+            // Esperar hasta que todos los hilos activos hayan notificado que están en pausa.
+            // Cada hilo, al pausarse en implSynchToGC, decrementa el contador runningThreads.
+            space->stopTheWorldCV.wait(lk, [&]
             {
-                ProtoThreadImplementation* t = (ProtoThreadImplementation*)space->threads->getAt(&gcContext, n);
-
-                // Be sure no thread is still in managed state
-                if (t->state == THREAD_STATE_MANAGED)
-                {
-                    allStoping = false;
-                    break;
-                }
-            }
-            if (allStoping)
-                space->state = SPACE_STATE_WORLD_TO_STOP;
+                return space->runningThreads.load() == 0;
+            });
         }
+        space->state = SPACE_STATE_WORLD_STOPPED;
 
-        space->restartTheWorldCV.notify_all();
+        // --- Fase 2: Recolección de Raíces (AÚN DENTRO DE STW) ---
+        // Se crea el conjunto de objetos vivos inicial. Este es el único trabajo
+        // que se realiza con el mundo detenido.
+        auto* liveSet = new(context) ProtoSparseListImplementation(context);
 
-        while (space->state == SPACE_STATE_WORLD_TO_STOP)
-        {
-            std::unique_lock<std::mutex> lk(ProtoSpace::globalMutex);
-            space->stopTheWorldCV.wait(lk);
-
-            int allStopped = true;
-            unsigned long threadsCount = space->threads->getSize(context);
-            for (unsigned n = 0; n < threadsCount; n++)
-            {
-                ProtoThreadImplementation* t = (ProtoThreadImplementation*)space->threads->getAt(&gcContext, n);
-
-                if (t->state != THREAD_STATE_STOPPED)
-                {
-                    allStopped = false;
-                    break;
-                }
-            }
-            if (allStopped)
-                space->state = SPACE_STATE_WORLD_STOPPED;
-
-            space->restartTheWorldCV.notify_all();
-        }
-
-        // cellSet: a set of all referenced Cells
-
-        ProtoSparseListImplementation* cellSet = new(context) ProtoSparseListImplementation(context);
-
-        // Add all mutables to cellSet
-        ((ProtoSparseList*)space->mutableRoot.load())->processValues(
-            &gcContext,
-            &cellSet,
-            gcCollectObjects
+        // Raíz 1: El `mutableRoot` del espacio.
+        toImpl<const ProtoSparseListImplementation>(space->mutableRoot.load())->processValues(
+            context,
+            &liveSet,
+            gcMarkObject
         );
 
-        // Collect all roots from thread stacks
-
-        unsigned long threadsCount = space->threads->getSize(context);
-        while (threadsCount--)
+        // Raíz 2: Las pilas y contextos de todos los hilos.
+        const ProtoList* threads = space->getThreads(context);
+        const unsigned long threadsCount = threads->getSize(context);
+        for (unsigned long i = 0; i < threadsCount; ++i)
         {
-            ProtoThreadImplementation* thread = (ProtoThreadImplementation*)space->threads->getAt(
-                &gcContext, threadsCount);
+            const auto* thread = threads->getAt(context, i)->asThread(context);
+            const auto* threadImpl = toImpl<const ProtoThreadImplementation>(thread);
+            // processReferences recorrerá la pila de contextos y el cache de atributos del hilo.
+            threadImpl->processReferences(context, &liveSet, gcMarkReachable);
+        }
 
-            // Collect allocated objects
-            ProtoContext* currentContext = thread->currentContext;
-            while (currentContext)
-            {
-                Cell* currentCell = currentContext->lastAllocatedCell;
-                while (currentCell)
-                {
-                    if (!cellSet->implHas(context, currentCell->getHash(context)))
-                    {
-                        cellSet = cellSet->implSetAt(
-                            context,
-                            currentCell->getHash(context),
-                            currentCell->asObject(context)
-                        );
-                    }
-
-                    currentCell = currentCell->nextCell;
-                }
-
-                if (currentContext->localsBase)
-                {
-                    ProtoObjectPointer p;
-                    p.oid.oid = *currentContext->localsBase;
-                    for (int n = currentContext->localsCount;
-                         n > 0;
-                         n--)
-                    {
-                        if (p.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE)
-                        {
-                            cellSet = cellSet->implSetAt(
-                                context,
-                                p.asHash.hash,
-                                p.cell.cell->asObject(context)
-                            );
-                        }
-                    }
-                }
-
-                currentContext = currentContext->previous;
-            }
-        };
-
-        // Free the world. Let them run
+        // --- Fin de STW: Reanudación Inmediata del Mundo ---
         space->state = SPACE_STATE_RUNNING;
         space->restartTheWorldCV.notify_all();
 
-        // Deep Scan all indirect roots. Deep traversal of cellSet
-        cellSet->implProcessValues(context, cellSet, gcCollectObjects);
+        // --- Fase 3: Marcado Concurrente ---
+        // Con los hilos de usuario ya en ejecución, el GC ahora explora el grafo
+        // de objetos completo partiendo de las raíces que recolectó.
+        // La inmutabilidad garantiza que este grafo no cambiará mientras lo leemos.
+        liveSet->processValues(context, &liveSet, gcMarkObject);
 
-        // Scan all blocks to analyze and if they are not referenced, free them
-
+        // --- Fase 4: Barrido Concurrente ---
+        // Scan all segments and free any cell not in the live set.
         Cell* freeBlocks = nullptr;
-        Cell* firstBlock = nullptr;
+        Cell* lastFreeBlock = nullptr;
         int freeCount = 0;
         while (toAnalize)
         {
-            Cell* block = toAnalize->cellChain;
-
-            while (block)
+            Cell* currentCell = toAnalize->cellChain;
+            while (currentCell)
             {
-                Cell* nextCell = block->nextCell;
+                Cell* nextCell = currentCell->next;
 
-                if (!cellSet->implHas(&gcContext, block->getHash(context)))
+                if (!liveSet->implHas(context, currentCell->getHash(context)))
                 {
-                    block->~Cell();
+                    // Finalize and add to the free list.
+                    currentCell->finalize(context);
 
-                    void** p = (void**)block;
-                    for (unsigned i = 0; i < sizeof(BigCell) / sizeof(void*); i++)
-                        *p++ = nullptr;
-
-                    if (!firstBlock)
-                        firstBlock = block;
-
-                    block->nextCell = freeBlocks;
-                    freeBlocks = block;
+                    if (!freeBlocks)
+                    {
+                        freeBlocks = currentCell;
+                    }
+                    if (lastFreeBlock)
+                    {
+                        lastFreeBlock->next = currentCell;
+                    }
+                    lastFreeBlock = currentCell;
                     freeCount++;
                 }
-                block = nextCell;
+                currentCell = nextCell;
             }
 
             DirtySegment* segmentToFree = toAnalize;
@@ -245,7 +165,7 @@ namespace proto
             delete segmentToFree;
         }
 
-        // Update space freeCells
+        // Add the newly freed blocks to the global free list.
         oldValue = false;
         while (space->gcLock.compare_exchange_strong(
             oldValue,
@@ -253,8 +173,10 @@ namespace proto
         ))
             std::this_thread::yield();
 
-        if (firstBlock)
-            firstBlock->nextCell = space->freeCells;
+        if (lastFreeBlock)
+        {
+            lastFreeBlock->next = space->freeCells;
+        }
 
         space->freeCells = freeBlocks;
         space->freeCellsCount += freeCount;
@@ -264,67 +186,39 @@ namespace proto
 
     void gcThreadLoop(ProtoSpace* space)
     {
-        ProtoContext gcContext;
+      ProtoContext gcContext(space);
 
-        space->gcStarted = true;
-        space->gcCV.notify_one();
+      space->gcStarted = true;
+      space->gcCV.notify_one();
 
-        while (space->state != SPACE_STATE_RUNNING)
-        {
-            std::unique_lock<std::mutex> lk(ProtoSpace::globalMutex);
+      // The GC thread must run as long as the space is not shutting down.
+      while (space->state != SPACE_STATE_ENDING)
+      {
+          std::unique_lock<std::mutex> lk(ProtoSpace::globalMutex);
 
-            space->gcCV.wait_for(lk, std::chrono::milliseconds(space->gcSleepMilliseconds));
+          space->gcCV.wait_for(lk, std::chrono::milliseconds(space->gcSleepMilliseconds));
 
-            if (space->dirtySegments)
-            {
-                gcScan(&gcContext, space);
-            }
-        }
+          if (space->dirtySegments)
+          {
+              gcScan(&gcContext, space);
+          }
+      }
     };
 
-    ProtoSpace::ProtoSpace(
-        ProtoMethod mainFunction,
-        int argc,
-        char** argv
-    )
+    ProtoSpace::ProtoSpace()
     {
         this->state = SPACE_STATE_RUNNING;
 
-        ProtoContext* creationContext = new ProtoContext(
-            nullptr,
-            nullptr,
-            0,
-            nullptr,
-            this
-        );
+        auto* creationContext = new ProtoContext(this); // This context will be managed by the main thread stack
         this->threads = creationContext->newSparseList();
-        this->tupleRoot = new(creationContext) TupleDictionary(creationContext, nullptr, nullptr, nullptr);
-
-        ProtoList* mainParameters = creationContext->newList();
-        mainParameters = (ProtoList*)mainParameters->appendLast(
-            creationContext,
-            creationContext->fromInteger(argc)
-        );
-        ProtoList* argvList = creationContext->newList();
-        if (argc && argv)
-        {
-            for (int i = 0; i < argc; i++)
-                argvList = (ProtoList*)argvList->appendLast(
-                    creationContext,
-                    creationContext->fromUTF8String(argv[i])->asObject(creationContext)
-                );
-        }
-        mainParameters = (ProtoList*)mainParameters->appendLast(
-            creationContext, argvList->asObject(creationContext)
-        );
 
         this->mainThreadId = std::this_thread::get_id();
-
         this->mutableLock.store(false);
         this->threadsLock.store(false);
         this->gcLock.store(false);
         this->mutableRoot.store(new(creationContext) ProtoSparseListImplementation(creationContext));
 
+        this->runningThreads.store(0);
         this->maxAllocatedCellsPerContext = MAX_ALLOCATED_CELLS_PER_CONTEXT;
         this->blocksPerAllocation = BLOCKS_PER_ALLOCATION;
         this->heapSize = 0;
@@ -336,7 +230,7 @@ namespace proto
         this->freeCells = nullptr;
 
         // Pre-allocate the emergency buffer for OOM handling.
-        const size_t EMERGENCY_BUFFER_SIZE = 100 * 1024; // 100KB
+        constexpr size_t EMERGENCY_BUFFER_SIZE = 100 * 1024; // 100KB
         this->emergency_buffer = new(std::nothrow) char[EMERGENCY_BUFFER_SIZE];
         if (!this->emergency_buffer) {
             // If we can't even allocate the emergency buffer, it's a fatal, unrecoverable error.
@@ -346,7 +240,6 @@ namespace proto
         this->emergency_ptr = this->emergency_buffer;
         this->emergency_end = this->emergency_buffer + EMERGENCY_BUFFER_SIZE;
         this->emergency_allocator_active.store(false);
-
 
         // Create GC thread and ensure it is working
         this->gcThread = new std::thread(
@@ -362,42 +255,30 @@ namespace proto
 
         ProtoThread* mainThread = new(creationContext) ProtoThreadImplementation(
             creationContext,
-            creationContext->fromUTF8String("Main thread"),
-            this,
-            mainFunction,
-            mainParameters,
-            nullptr
+            ProtoString::fromUTF8String(creationContext, "Main thread"),
+            this
         );
+        this->allocThread(creationContext, const_cast<ProtoThread*>(mainThread));
+        this->rootContext = creationContext;
 
-        // Wait till the main thread and gcThread end
-
-        mainThread->join(creationContext);
-        this->gcThread->join();
     };
-
-    void scanThreads(ProtoContext* context, void* self, ProtoObject* value)
-    {
-        ProtoList** threadList = (ProtoList**)self;
-
-        *threadList = (ProtoList*)(*threadList)->appendLast(context, value);
-    }
 
     ProtoSpace::~ProtoSpace()
     {
         ProtoContext finalContext(nullptr);
 
-        int threadCount = this->threads->getSize(&finalContext);
+        const unsigned long threadCount = this->threads->getSize(&finalContext);
 
         this->state = SPACE_STATE_ENDING;
 
         // Wait till all threads are ended
         for (int i = 0; i < threadCount; i++)
         {
-            ProtoThread* t = (ProtoThread*)this->threads->getAt(
-                &finalContext,
+            auto t = this->threads->getAt(
+                (ProtoContext*)this->rootContext,
                 i
-            );
-            t->join(&finalContext);
+            )->asThread(this->rootContext);
+            t->join(this->rootContext);
         }
 
         this->triggerGC();
@@ -408,7 +289,7 @@ namespace proto
         delete[] this->emergency_buffer;
     };
 
-    void ProtoSpace::triggerGC()
+    void ProtoSpace::triggerGC() const
     {
         this->gcCV.notify_all();
     }
@@ -423,13 +304,330 @@ namespace proto
             std::this_thread::yield();
 
         if (this->threads)
-            this->threads = (ProtoSparseList*)this->threads->setAt(
+            this->threads = this->threads->setAt(
                 context,
                 thread->getName(context)->getHash(context),
                 thread->asObject(context)
             );
 
         this->threadsLock.store(false);
+        this->runningThreads.fetch_add(1);
+    };
+
+    /*
+ * ProtoSpace.cpp
+ *
+ *  Created on: Jun 20, 2016
+ *      Author: gamarino
+ */
+
+#include "../headers/proto_internal.h"
+
+#include <malloc.h>
+#include <stdio.h>
+#include <thread>
+#include <chrono>
+#include <functional>
+#include <condition_variable>
+
+using namespace std;
+using namespace std::literals::chrono_literals;
+
+namespace proto
+{
+#define GC_SLEEP_MILLISECONDS           1000
+#define BLOCKS_PER_ALLOCATION           1024
+#define BLOCKS_PER_MALLOC_REQUEST       8 * BLOCKS_PER_ALLOCATION
+#define MAX_ALLOCATED_CELLS_PER_CONTEXT 1024
+
+#define KB                              1024
+#define MB                              1024 * KB
+#define GB                              1024 * MB
+#define MAX_HEAP_SIZE                   512 * MB
+
+    // This mutex is for condition variables, a necessary exception for STW coordination.
+    std::mutex ProtoSpace::globalMutex;
+
+    // Helper function for the GC's mark phase.
+    // Recursively finds all reachable objects and adds them to the live set.
+    void gcMarkReachable(ProtoContext* context, void* self, Cell* value)
+    {
+        // self is a pointer to the live set (ProtoSparseListImplementation**)
+        auto** liveSetPtr = static_cast<ProtoSparseListImplementation**>(self);
+        auto* liveSet = *liveSetPtr;
+
+        ProtoObjectPointer p{};
+        p.cell.cell = value;
+
+        // If it's not a cell (e.g., embedded value) or already marked, stop.
+        if (!value || !value->isCell(context) || liveSet->implHas(context, p.asHash.hash))
+        {
+            return;
+        }
+
+        // Mark the object as live by adding it to the set.
+        *liveSetPtr = liveSet->implSetAt(context, p.asHash.hash, PROTO_NONE);
+
+        // Recursively process all references held by this object.
+        value->processReferences(context, self, gcMarkReachable);
+    }
+
+    void gcMarkObject(ProtoContext* context, void* self, const ProtoObject* value)
+    {
+        if (value && value->isCell(context))
+        {
+            gcMarkReachable(context, self, value->asCell(context));
+        }
+    }
+
+    void gcScan(ProtoContext* context, ProtoSpace* space)
+    {
+        DirtySegment* toAnalize{};
+
+        // Acquire space lock and take all dirty segments to analyze
+        bool oldValue = false;
+        while (space->gcLock.compare_exchange_strong(
+            oldValue,
+            true
+        ))
+            std::this_thread::yield();
+
+        toAnalize = space->dirtySegments;
+        space->dirtySegments = nullptr;
+
+        space->gcLock.store(false);
+
+        // --- Fase 1: Pausa Sincronizada (Stop-The-World) ---
+        // El objetivo es pausar todos los hilos de usuario el tiempo mínimo
+        // indispensable para recolectar las raíces de manera segura.
+        space->state = SPACE_STATE_STOPPING_WORLD;
+        {
+            std::unique_lock lk(ProtoSpace::globalMutex);
+            // Esperar hasta que todos los hilos activos hayan notificado que están en pausa.
+            // Cada hilo, al pausarse en implSynchToGC, decrementa el contador runningThreads.
+            space->stopTheWorldCV.wait(lk, [&]
+            {
+                return space->runningThreads.load() == 0;
+            });
+        }
+        space->state = SPACE_STATE_WORLD_STOPPED;
+
+        // --- Fase 2: Recolección de Raíces (AÚN DENTRO DE STW) ---
+        // Se crea el conjunto de objetos vivos inicial. Este es el único trabajo
+        // que se realiza con el mundo detenido.
+        auto* liveSet = new(context) ProtoSparseListImplementation(context);
+
+        // Raíz 1: El `mutableRoot` del espacio.
+        toImpl<const ProtoSparseListImplementation>(space->mutableRoot.load())->processValues(
+            context,
+            &liveSet,
+            gcMarkObject
+        );
+
+        // Raíz 2: Las pilas y contextos de todos los hilos.
+        const ProtoList* threads = space->getThreads(context);
+        const unsigned long threadsCount = threads->getSize(context);
+        for (unsigned long i = 0; i < threadsCount; ++i)
+        {
+            const auto* thread = threads->getAt(context, i)->asThread(context);
+            const auto* threadImpl = toImpl<const ProtoThreadImplementation>(thread);
+            // processReferences recorrerá la pila de contextos y el cache de atributos del hilo.
+            threadImpl->processReferences(context, &liveSet, gcMarkReachable);
+        }
+
+        // --- Fin de STW: Reanudación Inmediata del Mundo ---
+        space->state = SPACE_STATE_RUNNING;
+        space->restartTheWorldCV.notify_all();
+
+        // --- Fase 3: Marcado Concurrente ---
+        // Con los hilos de usuario ya en ejecución, el GC ahora explora el grafo
+        // de objetos completo partiendo de las raíces que recolectó.
+        // La inmutabilidad garantiza que este grafo no cambiará mientras lo leemos.
+        liveSet->processValues(context, &liveSet, gcMarkObject);
+
+        // --- Fase 4: Barrido Concurrente ---
+        // Scan all segments and free any cell not in the live set.
+        Cell* freeBlocks = nullptr;
+        Cell* lastFreeBlock = nullptr;
+        int freeCount = 0;
+        while (toAnalize)
+        {
+            Cell* currentCell = toAnalize->cellChain;
+            while (currentCell)
+            {
+                Cell* nextCell = currentCell->next;
+
+                if (!liveSet->implHas(context, currentCell->getHash(context)))
+                {
+                    // Finalize and add to the free list.
+                    currentCell->finalize(context);
+
+                    if (!freeBlocks)
+                    {
+                        freeBlocks = currentCell;
+                    }
+                    if (lastFreeBlock)
+                    {
+                        lastFreeBlock->next = currentCell;
+                    }
+                    lastFreeBlock = currentCell;
+                    freeCount++;
+                }
+                currentCell = nextCell;
+            }
+
+            DirtySegment* segmentToFree = toAnalize;
+            toAnalize = toAnalize->nextSegment;
+            delete segmentToFree;
+        }
+
+        // Add the newly freed blocks to the global free list.
+        oldValue = false;
+        while (space->gcLock.compare_exchange_strong(
+            oldValue,
+            true
+        ))
+            std::this_thread::yield();
+
+        if (lastFreeBlock)
+        {
+            lastFreeBlock->next = space->freeCells;
+        }
+
+        space->freeCells = freeBlocks;
+        space->freeCellsCount += freeCount;
+
+        space->gcLock.store(false);
+    };
+
+    void gcThreadLoop(ProtoSpace* space)
+    {
+      ProtoContext gcContext(space);
+
+      space->gcStarted = true;
+      space->gcCV.notify_one();
+
+      // The GC thread must run as long as the space is not shutting down.
+      while (space->state != SPACE_STATE_ENDING)
+      {
+          std::unique_lock<std::mutex> lk(ProtoSpace::globalMutex);
+
+          space->gcCV.wait_for(lk, std::chrono::milliseconds(space->gcSleepMilliseconds));
+
+          if (space->dirtySegments)
+          {
+              gcScan(&gcContext, space);
+          }
+      }
+    };
+
+    ProtoSpace::ProtoSpace()
+    {
+        this->state = SPACE_STATE_RUNNING;
+
+        auto* creationContext = new ProtoContext(this); // This context will be managed by the main thread stack
+        this->threads = creationContext->newSparseList();
+
+        this->mainThreadId = std::this_thread::get_id();
+        this->mutableLock.store(false);
+        this->threadsLock.store(false);
+        this->gcLock.store(false);
+        this->mutableRoot.store(new(creationContext) ProtoSparseListImplementation(creationContext));
+
+        this->runningThreads.store(0);
+        this->maxAllocatedCellsPerContext = MAX_ALLOCATED_CELLS_PER_CONTEXT;
+        this->blocksPerAllocation = BLOCKS_PER_ALLOCATION;
+        this->heapSize = 0;
+        this->freeCellsCount = 0;
+        this->gcSleepMilliseconds = GC_SLEEP_MILLISECONDS;
+        this->maxHeapSize = MAX_HEAP_SIZE;
+        this->blockOnNoMemory = false;
+        this->gcStarted = false;
+        this->freeCells = nullptr;
+
+        // Pre-allocate the emergency buffer for OOM handling.
+        constexpr size_t EMERGENCY_BUFFER_SIZE = 100 * 1024; // 100KB
+        this->emergency_buffer = new(std::nothrow) char[EMERGENCY_BUFFER_SIZE];
+        if (!this->emergency_buffer) {
+            // If we can't even allocate the emergency buffer, it's a fatal, unrecoverable error.
+            fprintf(stderr, "FATAL: Could not allocate the initial emergency memory buffer.\n");
+            std::exit(1);
+        }
+        this->emergency_ptr = this->emergency_buffer;
+        this->emergency_end = this->emergency_buffer + EMERGENCY_BUFFER_SIZE;
+        this->emergency_allocator_active.store(false);
+
+        // Create GC thread and ensure it is working
+        this->gcThread = new std::thread(
+            (void (*)(ProtoSpace*))(&gcThreadLoop),
+            this
+        );
+
+        while (!this->gcStarted)
+        {
+            std::unique_lock<std::mutex> lk(globalMutex);
+            this->gcCV.wait_for(lk, 100ms);
+        }
+
+        ProtoThread* mainThread = new(creationContext) ProtoThreadImplementation(
+            creationContext,
+            ProtoString::fromUTF8String(creationContext, "Main thread"),
+            this
+        );
+        this->allocThread(creationContext, const_cast<ProtoThread*>(mainThread));
+        this->rootContext = creationContext;
+
+    };
+
+    ProtoSpace::~ProtoSpace()
+    {
+        ProtoContext finalContext(nullptr);
+
+        const unsigned long threadCount = this->threads->getSize(&finalContext);
+
+        this->state = SPACE_STATE_ENDING;
+
+        // Wait till all threads are ended
+        for (int i = 0; i < threadCount; i++)
+        {
+            auto t = this->threads->getAt(
+                (ProtoContext*)this->rootContext,
+                i
+            )->asThread(this->rootContext);
+            t->join(this->rootContext);
+        }
+
+        this->triggerGC();
+
+        this->gcThread->join();
+
+        // Free the emergency buffer
+        delete[] this->emergency_buffer;
+    };
+
+    void ProtoSpace::triggerGC() const
+    {
+        this->gcCV.notify_all();
+    }
+
+    void ProtoSpace::allocThread(ProtoContext* context, ProtoThread* thread)
+    {
+        bool oldValue = false;
+        while (this->threadsLock.compare_exchange_strong(
+            oldValue,
+            true
+        ))
+            std::this_thread::yield();
+
+        if (this->threads)
+            this->threads = this->threads->setAt(
+                context,
+                thread->getName(context)->getHash(context),
+                thread->asObject(context)
+            );
+
+        this->threadsLock.store(false);
+        this->runningThreads.fetch_add(1);
     };
 
     void ProtoSpace::deallocThread(ProtoContext* context, ProtoThread* thread)
@@ -441,21 +639,41 @@ namespace proto
         ))
             std::this_thread::yield();
 
-        int threadCount = this->threads->getSize(context);
+        unsigned long threadCount = this->threads->getSize(context);
         while (threadCount--)
         {
-            ProtoThread* t = (ProtoThread*)this->threads->getAt(context, threadCount);
+            const ProtoThread* t = this->threads->getAt(context, threadCount)->asThread(context);
             if (t == thread)
             {
-                this->threads = (ProtoSparseList*)this->threads->removeAt(context, threadCount);
+                this->threads = this->threads->removeAt(context, threadCount);
                 break;
             }
         }
 
         this->threadsLock.store(false);
+        this->runningThreads.fetch_sub(1);
     };
 
-    Cell* ProtoSpace::getFreeCells(ProtoThread* currentThread)
+    void ProtoSpace::deallocMutable(unsigned long mutable_ref)
+    {
+        ProtoSparseList* currentRoot;
+        ProtoSparseList* newRoot;
+
+        do
+        {
+            currentRoot = this->mutableRoot.load();
+            // Create a new root with the reference removed.
+            newRoot = const_cast<ProtoSparseList*>(currentRoot->removeAt(nullptr, mutable_ref));
+        }
+        // Atomically update the root pointer.
+        while (!this->mutableRoot.compare_exchange_strong(
+            currentRoot,
+            newRoot
+        ));
+    }
+
+
+    Cell* ProtoSpace::getFreeCells(const ProtoThread* currentThread)
     {
         Cell* newBlock = nullptr;
         Cell* previousBlock = nullptr;
@@ -491,7 +709,186 @@ namespace proto
                     {
                         this->gcLock.store(false);
 
-                        currentThread->synchToGC();
+                        const_cast<ProtoThread*>(currentThread)->synchToGC();
+
+                        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+
+                        while (this->gcLock.compare_exchange_strong(
+                            oldValue,
+                            true
+                        ))
+                            std::this_thread::yield();
+                    }
+                }
+                else
+                {
+                    // printf(
+                    //    "\nmalloc of %d bytes, from current %d already allocated\n",
+                    //    toAllocBytes,
+                    //    this->heapSize
+                    // );
+
+                    BigCell* newBlocks = static_cast<BigCell*>(malloc(toAllocBytes));
+
+
+                    if (!newBlocks) {
+                        if (this->emergency_allocator_active.load()) {
+                            // We've already entered emergency mode. A failure to get a large
+                            // block of memory now is truly fatal and unrecoverable.
+                            fprintf(stderr, "FATAL: Out of memory while trying to replenish cell pool, even after entering emergency mode.\n");
+                            std::exit(1);
+                        }
+
+                        // This is the first OOM failure. Activate emergency mode and notify the application.
+                        this->emergency_allocator_active.store(true);
+                        throw std::bad_alloc();
+                    }
+
+                    BigCell* currentBlock = newBlocks;
+                    Cell* lastBlock = this->freeCells;
+                    int allocatedBlocks = toAllocBytes / sizeof(BigCell);
+                    for (int n = 0; n < allocatedBlocks; n++)
+                    {
+                        // Clear new allocated block
+                        void** p = (void**)currentBlock;
+                        for (unsigned long count = 0;
+                             count < sizeof(BigCell) / sizeof(void*);
+                             count++)
+                            *p++ = nullptr;
+
+                        // Chain new blocks as a list.
+                        ((Cell*)currentBlock)->next = lastBlock;
+                        lastBlock = currentBlock++;
+                    }
+
+                    this->freeCells = (Cell*)lastBlock;
+
+                    this->heapSize += toAllocBytes;
+                    this->freeCellsCount += allocatedBlocks;
+                }
+            }
+
+            if (this->freeCells)
+            {
+                newBlock = this->freeCells;
+                this->freeCells = newBlock->next;
+
+                this->freeCellsCount -= 1;
+                newBlock->next = previousBlock;
+                previousBlock = newBlock;
+            }
+        }
+
+        this->gcLock.store(false);
+
+        return newBlock;
+    };
+
+    void ProtoSpace::analyzeUsedCells(Cell* cellsChain)
+    {
+        DirtySegment* newChain;
+
+        bool oldValue = false;
+        while (this->gcLock.compare_exchange_strong(
+            oldValue,
+            true
+        ))
+            std::this_thread::yield();
+
+        newChain = new DirtySegment();
+        newChain->cellChain = (BigCell*)cellsChain;
+        newChain->nextSegment = this->dirtySegments;
+        this->dirtySegments = newChain;
+
+        this->gcLock.store(false);
+    };
+
+    const ProtoList* ProtoSpace::getThreads(ProtoContext *c)
+    {
+        return (const ProtoList*)this->threads;
+    }
+
+    const ProtoThread* ProtoSpace::newThread(
+        ProtoContext *c,
+        const ProtoString* name,
+        ProtoMethod mainFunction,
+        const ProtoList* args,
+        const ProtoSparseList* kwargs)
+    {
+        auto* newThreadImpl = new(c) ProtoThreadImplementation(
+            c,
+            name,
+            this,
+            mainFunction,
+            args,
+            kwargs
+        );
+        const auto* newThread = newThreadImpl->asThread(c);
+        this->allocThread(c, const_cast<ProtoThread*>(newThread));
+        return newThread;
+    }
+
+    void ProtoSpace::deallocThread(ProtoContext* context, ProtoThread* thread)
+    {
+        bool oldValue = false;
+        while (this->threadsLock.compare_exchange_strong(
+            oldValue,
+            true
+        ))
+            std::this_thread::yield();
+
+        unsigned long threadCount = this->threads->getSize(context);
+        while (threadCount--)
+        {
+            const ProtoThread* t = this->threads->getAt(context, threadCount)->asThread(context);
+            if (t == thread)
+            {
+                this->threads = this->threads->removeAt(context, threadCount);
+                break;
+            }
+        }
+
+        this->threadsLock.store(false);
+        this->runningThreads.fetch_sub(1);
+    };
+
+    Cell* ProtoSpace::getFreeCells(const ProtoThread* currentThread)
+    {
+        Cell* newBlock = nullptr;
+        Cell* previousBlock = nullptr;
+
+        bool oldValue = false;
+        while (this->gcLock.compare_exchange_strong(
+            oldValue,
+            true
+        ))
+            std::this_thread::yield();
+
+        for (int i = 0; i < BLOCKS_PER_ALLOCATION; i++)
+        {
+            if (!this->freeCells)
+            {
+                // Alloc from OS
+
+                int toAllocBytes = sizeof(BigCell) * BLOCKS_PER_MALLOC_REQUEST;
+                if (this->maxHeapSize != 0 && !this->blockOnNoMemory &&
+                    this->heapSize + toAllocBytes >= this->maxHeapSize)
+                {
+                    printf(
+                        "\nPANIC ERROR: HEAP size will be bigger than configured maximun (%d is over %d bytes)! Exiting ...\n",
+                        this->heapSize + toAllocBytes, this->maxHeapSize
+                    );
+                    std::exit(1);
+                }
+
+                if (this->maxHeapSize != 0 && this->blockOnNoMemory &&
+                    this->heapSize + toAllocBytes >= this->maxHeapSize)
+                {
+                    while (!this->freeCells)
+                    {
+                        this->gcLock.store(false);
+
+                        const_cast<ProtoThread*>(currentThread)->synchToGC();
 
                         std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
@@ -538,12 +935,12 @@ namespace proto
                              count++)
                             *p++ = nullptr;
 
-                        // Chain new blocks as a list
-                        currentBlock->nextCell = lastBlock;
+                        // Chain new blocks as a list.
+                        ((Cell*)currentBlock)->next = lastBlock;
                         lastBlock = currentBlock++;
                     }
 
-                    this->freeCells = lastBlock;
+                    this->freeCells = (Cell*)lastBlock;
 
                     this->heapSize += toAllocBytes;
                     this->freeCellsCount += allocatedBlocks;
@@ -553,10 +950,10 @@ namespace proto
             if (this->freeCells)
             {
                 newBlock = this->freeCells;
-                this->freeCells = newBlock->nextCell;
+                this->freeCells = newBlock->next;
 
                 this->freeCellsCount -= 1;
-                newBlock->nextCell = previousBlock;
+                newBlock->next = previousBlock;
                 previousBlock = newBlock;
             }
         }
@@ -585,19 +982,19 @@ namespace proto
         this->gcLock.store(false);
     };
 
-    ProtoObject* ProtoSpace::getThreads(ProtoContext *c)
+    const ProtoList* ProtoSpace::getThreads(ProtoContext *c)
     {
-        return this->threads->asObject(c);
+        return (const ProtoList*)this->threads;
     }
 
-    ProtoThread* ProtoSpace::newThread(
+    const ProtoThread* ProtoSpace::newThread(
         ProtoContext *c,
-        ProtoString * name,
+        const ProtoString* name,
         ProtoMethod mainFunction,
-        ProtoList *args,
-        ProtoSparseList *kwargs)
+        const ProtoList* args,
+        const ProtoSparseList* kwargs)
     {
-        const auto newThread = new(c) ProtoThreadImplementation(
+        auto* newThreadImpl = new(c) ProtoThreadImplementation(
             c,
             name,
             this,
@@ -605,8 +1002,8 @@ namespace proto
             args,
             kwargs
         );
-
-        this->allocThread(c, newThread);
+        const auto* newThread = newThreadImpl->asThread(c);
+        this->allocThread(c, const_cast<ProtoThread*>(newThread));
         return newThread;
     }
 

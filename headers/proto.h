@@ -206,7 +206,7 @@ namespace proto
     class ProtoString
     {
     public:
-        static const ProtoString* fromUTF8String(const char* zeroTerminatedUtf8String);
+        static const ProtoString* fromUTF8String(ProtoContext* context, const char* zeroTerminatedUtf8String);
 
         int cmp_to_string(ProtoContext* context, const ProtoString* otherString) const;
 
@@ -314,10 +314,10 @@ namespace proto
     {
     public:
         explicit ProtoContext(
+            ProtoSpace* space = nullptr,
             ProtoContext* previous = nullptr,
             ProtoObject** localsBase = nullptr,
-            unsigned int localsCount = 0,
-            ProtoSpace* space = nullptr
+            unsigned int localsCount = 0
         );
         ~ProtoContext();
 
@@ -370,36 +370,36 @@ namespace proto
     class ProtoSpace
     {
     public:
-        explicit ProtoSpace(ProtoMethod mainFunction, int argc, char** argv = nullptr);
+        explicit ProtoSpace();
         ~ProtoSpace();
 
         //- Core Prototypes
-        const ProtoObject* objectPrototype;
-        const ProtoObject* smallIntegerPrototype;
-        const ProtoObject* floatPrototype;
-        const ProtoObject* unicodeCharPrototype;
-        const ProtoObject* bytePrototype;
-        const ProtoObject* nonePrototype;
-        const ProtoObject* methodPrototype;
-        const ProtoObject* bufferPrototype;
-        const ProtoObject* pointerPrototype;
-        const ProtoObject* booleanPrototype;
-        const ProtoObject* doublePrototype;
-        const ProtoObject* datePrototype;
-        const ProtoObject* timestampPrototype;
-        const ProtoObject* timedeltaPrototype;
-        const ProtoObject* threadPrototype;
-        const ProtoObject* rootObject;
+        const ProtoObject* objectPrototype{};
+        const ProtoObject* smallIntegerPrototype{};
+        const ProtoObject* floatPrototype{};
+        const ProtoObject* unicodeCharPrototype{};
+        const ProtoObject* bytePrototype{};
+        const ProtoObject* nonePrototype{};
+        const ProtoObject* methodPrototype{};
+        const ProtoObject* bufferPrototype{};
+        const ProtoObject* pointerPrototype{};
+        const ProtoObject* booleanPrototype{};
+        const ProtoObject* doublePrototype{};
+        const ProtoObject* datePrototype{};
+        const ProtoObject* timestampPrototype{};
+        const ProtoObject* timedeltaPrototype{};
+        const ProtoObject* threadPrototype{};
+        const ProtoObject* rootObject{};
 
         //- Collection Prototypes
-        const ProtoObject* listPrototype;
-        const ProtoObject* listIteratorPrototype;
-        const ProtoObject* tuplePrototype;
-        const ProtoObject* tupleIteratorPrototype;
-        const ProtoObject* stringPrototype;
-        const ProtoObject* stringIteratorPrototype;
-        const ProtoObject* sparseListPrototype;
-        const ProtoObject* sparseListIteratorPrototype;
+        const ProtoObject* listPrototype{};
+        const ProtoObject* listIteratorPrototype{};
+        const ProtoObject* tuplePrototype{};
+        const ProtoObject* tupleIteratorPrototype{};
+        const ProtoObject* stringPrototype{};
+        const ProtoObject* stringIteratorPrototype{};
+        const ProtoObject* sparseListPrototype{};
+        const ProtoObject* sparseListIteratorPrototype{};
 
         //- Callbacks
         const ProtoObject* (*nonMethodCallback)(
@@ -408,18 +408,18 @@ namespace proto
             const ProtoString* method,
             const ProtoObject* self,
             const ProtoList* unnamedParametersList,
-            const ProtoSparseList* keywordParametersDict);
+            const ProtoSparseList* keywordParametersDict){};
 
         const ProtoObject* (*attributeNotFoundGetCallback)(
             ProtoContext* context,
             const ProtoObject* self,
-            const ProtoString* attributeName);
+            const ProtoString* attributeName){};
 
 
         //- Memory Management & GC
         Cell* getFreeCells(const ProtoThread* currentThread);
         void analyzeUsedCells(Cell* cellsChain);
-        void triggerGC();
+        void triggerGC() const;
 
         //- Thread Management
         void allocThread(ProtoContext* context, const ProtoThread* thread);
@@ -446,7 +446,9 @@ namespace proto
             const ProtoSparseList* kwargs
         );
 
-        const ProtoSpaceImplementation* impl;
+        const ProtoSpaceImplementation* impl{};
+        int state;
+        ProtoContext* rootContext;
     private:
         const ProtoSparseList* threads;
     };

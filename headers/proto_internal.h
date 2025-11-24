@@ -9,6 +9,7 @@
 #define PROTO_INTERNAL_H
 
 #include "../headers/proto.h"
+#include <thread>
 
 // Method cache per thread. It should be a power of 2
 #define THREAD_CACHE_DEPTH 1024
@@ -252,7 +253,7 @@ namespace proto
         ) const;
         // ...
         virtual unsigned long getHash(ProtoContext* context) const;
-        virtual const ProtoObject* implAsObject(ProtoContext* context) const;
+        virtual const ProtoObject* implAsObject(ProtoContext* context) const; // Already declared
         static void* operator new(unsigned long size, ProtoContext* context);
         virtual Cell* asCell(ProtoContext* context) const;
         // ...
@@ -267,7 +268,7 @@ namespace proto
         const ProtoObject* getObject(ProtoContext* context) const;
         const ParentLinkImplementation* getParent(ProtoContext* context) const;
 
-        virtual void finalize(ProtoContext* context) const override;
+        void finalize(ProtoContext* context) const override;
         virtual void processReferences(
             ProtoContext* context,
             void* self,
@@ -279,7 +280,7 @@ namespace proto
         const ProtoObject* object;
     };
 
-    class ProtoObjectCell final : public Cell, public ProtoObject
+    class ProtoObjectCell final : public Cell
     {
     public:
         ProtoObjectCell(
@@ -308,7 +309,7 @@ namespace proto
         const ProtoSparseListImplementation* attributes;
     };
 
-    class ProtoListIteratorImplementation final : public Cell, public ProtoListIterator
+    class ProtoListIteratorImplementation final : public Cell
     {
     public:
         ProtoListIteratorImplementation(
@@ -322,7 +323,7 @@ namespace proto
         const ProtoObject* implNext(ProtoContext* context) const;
         const ProtoListIteratorImplementation* implAdvance(ProtoContext* context) const;
         const ProtoObject* implAsObject(ProtoContext* context) const;
-        const ProtoListIterator* asProtoListIterator(ProtoContext* context);
+        const ProtoListIterator* asProtoListIterator(ProtoContext* context) const;
         unsigned long getHash(ProtoContext* context) const override;
 
         void finalize(ProtoContext* context) const override;
@@ -337,7 +338,7 @@ namespace proto
         unsigned long currentIndex;
     };
 
-    class ProtoListImplementation final : public Cell, public ProtoList
+    class ProtoListImplementation final : public Cell
     {
     public:
         explicit ProtoListImplementation(
@@ -388,7 +389,7 @@ namespace proto
         bool isEmpty:1;
     };
 
-    class ProtoSparseListIteratorImplementation final : public Cell, public ProtoSparseListIterator
+    class ProtoSparseListIteratorImplementation final : public Cell
     {
     public:
         // ...
@@ -404,7 +405,7 @@ namespace proto
         const ProtoObject* implNextValue(ProtoContext* context) const;
         const ProtoSparseListIteratorImplementation* implAdvance(ProtoContext* context);
         const ProtoObject* implAsObject(ProtoContext* context) const;
-        const ProtoSparseListIterator* asProtoSparseListIterator(ProtoContext* context);
+        const ProtoSparseListIterator* asProtoSparseListIterator(ProtoContext* context) const;
         // ...
         void finalize(ProtoContext* context) const override;
         void processReferences(
@@ -416,7 +417,7 @@ namespace proto
 
     };
 
-    class ProtoSparseListImplementation final : public Cell, public ProtoSparseList
+    class ProtoSparseListImplementation final : public Cell
     {
     public:
         // ...
@@ -451,7 +452,7 @@ namespace proto
         ) const;
         // ...
 
-        unsigned long implGetHash(ProtoContext* context) const;
+        unsigned long getHash(ProtoContext* context) const override;
         void finalize(ProtoContext* context) const override;
         void processReferences(
             ProtoContext* context,
@@ -465,7 +466,7 @@ namespace proto
         const ProtoSparseListImplementation* next;
     };
 
-    class ProtoTupleIteratorImplementation final : public Cell, public ProtoTupleIterator
+    class ProtoTupleIteratorImplementation final : public Cell
     {
     public:
         ProtoTupleIteratorImplementation(
@@ -475,10 +476,10 @@ namespace proto
         ~ProtoTupleIteratorImplementation() override;
         // ...
         int implHasNext(ProtoContext* context) const;
-        ProtoObject* implNext(ProtoContext* context);
-        ProtoTupleIteratorImplementation* implAdvance(ProtoContext* context);
-        ProtoObject* implAsObject(ProtoContext* context) const;
-        ProtoTupleIterator* asProtoTupleIterator(ProtoContext* context);
+        const ProtoObject* implNext(ProtoContext* context) const;
+        const ProtoTupleIteratorImplementation* implAdvance(ProtoContext* context);
+        const ProtoObject* implAsObject(ProtoContext* context) const;
+        const ProtoTupleIterator* asProtoTupleIterator(ProtoContext* context) const;
         // ...
         void finalize(ProtoContext* context) const override;
         void processReferences(
@@ -491,7 +492,7 @@ namespace proto
         unsigned long currentIndex;
     };
 
-    class ProtoTupleImplementation final : public Cell, public ProtoTuple
+    class ProtoTupleImplementation final : public Cell
     {
     public:
         ProtoTupleImplementation(
@@ -503,31 +504,31 @@ namespace proto
         ~ProtoTupleImplementation() override;
 
         // ...
-        ProtoObject* implGetAt(ProtoContext* context, int index) const;
-        ProtoObject* implGetFirst(ProtoContext* context) const;
-        ProtoObject* implGetLast(ProtoContext* context) const;
-        ProtoTupleImplementation* implGetSlice(ProtoContext* context, int from, int to) const;
+        const ProtoObject* implGetAt(ProtoContext* context, int index) const;
+        const ProtoObject* implGetFirst(ProtoContext* context) const;
+        const ProtoObject* implGetLast(ProtoContext* context) const;
+        const ProtoTupleImplementation* implGetSlice(ProtoContext* context, int from, int to) const;
         unsigned long implGetSize(ProtoContext* context) const;
-        ProtoList* implAsList(ProtoContext* context) const;
-        static ProtoTupleImplementation* tupleFromList(ProtoContext* context, const ProtoList* list);
-        ProtoTupleIteratorImplementation* implGetIterator(ProtoContext* context) const;
-        ProtoTupleImplementation* implSetAt(ProtoContext* context, int index, ProtoObject* value) const;
-        bool implHas(ProtoContext* context, ProtoObject* value) const;
-        ProtoTupleImplementation* implInsertAt(ProtoContext* context, int index, ProtoObject* value) const;
-        ProtoTupleImplementation* implAppendFirst(ProtoContext* context, const ProtoTuple* otherTuple) const;
-        ProtoTupleImplementation* implAppendLast(ProtoContext* context, const ProtoTuple* otherTuple) const;
-        ProtoTupleImplementation* implSplitFirst(ProtoContext* context, int count) const;
-        ProtoTupleImplementation* implSplitLast(ProtoContext* context, int count) const;
-        ProtoTupleImplementation* implRemoveFirst(ProtoContext* context, int count) const;
-        ProtoTupleImplementation* implRemoveLast(ProtoContext* context, int count) const;
-        ProtoTupleImplementation* implRemoveAt(ProtoContext* context, int index) const;
-        ProtoTupleImplementation* implRemoveSlice(ProtoContext* context, int from, int to) const;
-        ProtoObject* implAsObject(ProtoContext* context) const;
-        ProtoTuple* asProtoTuple(ProtoContext* context) const;
+        const ProtoList* implAsList(ProtoContext* context) const;
+        static const ProtoTupleImplementation* tupleFromList(ProtoContext* context, const ProtoList* list);
+        const ProtoTupleIteratorImplementation* implGetIterator(ProtoContext* context) const;
+        const ProtoTupleImplementation* implSetAt(ProtoContext* context, int index, const ProtoObject* value) const;
+        bool implHas(ProtoContext* context, const ProtoObject* value) const;
+        const ProtoTupleImplementation* implInsertAt(ProtoContext* context, int index, const ProtoObject* value) const;
+        const ProtoTupleImplementation* implAppendFirst(ProtoContext* context, const ProtoTuple* otherTuple) const;
+        const ProtoTupleImplementation* implAppendLast(ProtoContext* context, const ProtoTuple* otherTuple) const;
+        const ProtoTupleImplementation* implSplitFirst(ProtoContext* context, int count) const;
+        const ProtoTupleImplementation* implSplitLast(ProtoContext* context, int count) const;
+        const ProtoTupleImplementation* implRemoveFirst(ProtoContext* context, int count) const;
+        const ProtoTupleImplementation* implRemoveLast(ProtoContext* context, int count) const;
+        const ProtoTupleImplementation* implRemoveAt(ProtoContext* context, int index) const;
+        const ProtoTupleImplementation* implRemoveSlice(ProtoContext* context, int from, int to) const;
+        const ProtoObject* implAsObject(ProtoContext* context) const;
+        const ProtoTuple* asProtoTuple(ProtoContext* context) const;
         // ...
 
         // ...
-        unsigned long implGetHash(ProtoContext* context) const;
+        unsigned long getHash(ProtoContext* context) const override;
         void finalize(ProtoContext* context) const override;
         void processReferences(
             ProtoContext* context,
@@ -544,7 +545,7 @@ namespace proto
         } pointers;
     };
 
-    class ProtoStringIteratorImplementation final : public Cell, public ProtoStringIterator
+    class ProtoStringIteratorImplementation final : public Cell
     {
     public:
         ProtoStringIteratorImplementation(
@@ -557,10 +558,10 @@ namespace proto
 
         // ...
         int implHasNext(ProtoContext* context) const;
-        ProtoObject* implNext(ProtoContext* context);
-        ProtoStringIteratorImplementation* implAdvance(ProtoContext* context);
-        ProtoObject* implAsObject(ProtoContext* context) const;
-        ProtoStringIterator* asProtoStringIterator(ProtoContext* context);
+        const ProtoObject* implNext(ProtoContext* context) const;
+        const ProtoStringIteratorImplementation* implAdvance(ProtoContext* context);
+        const ProtoObject* implAsObject(ProtoContext* context) const;
+        const ProtoStringIterator* asProtoStringIterator(ProtoContext* context) const;
         // ...
 
         // ...
@@ -575,7 +576,7 @@ namespace proto
         unsigned long currentIndex;
     };
 
-    class ProtoStringImplementation final : public Cell, public ProtoString
+    class ProtoStringImplementation final : public Cell
     {
     public:
         ProtoStringImplementation(
@@ -584,25 +585,25 @@ namespace proto
         ~ProtoStringImplementation() override;
         // ...
         int implCmpToString(ProtoContext* context, const ProtoString* otherString) const;
-        ProtoObject* implGetAt(ProtoContext* context, int index) const;
+        const ProtoObject* implGetAt(ProtoContext* context, int index) const;
         unsigned long implGetSize(ProtoContext* context) const;
-        ProtoStringImplementation* implGetSlice(ProtoContext* context, int from, int to) const;
-        ProtoStringImplementation* implSetAt(ProtoContext* context, int index, ProtoObject* value) const;
-        ProtoStringImplementation* implInsertAt(ProtoContext* context, int index, ProtoObject* value) const;
-        ProtoStringImplementation* implAppendLast(ProtoContext* context, const ProtoString* otherString) const;
-        ProtoStringImplementation* implAppendFirst(ProtoContext* context, const ProtoString* otherString) const;
-        ProtoStringImplementation* implRemoveSlice(ProtoContext* context, int from, int to) const;
-        ProtoListImplementation* implAsList(ProtoContext* context) const;
-        ProtoStringIteratorImplementation* implGetIterator(ProtoContext* context) const;
-        ProtoStringImplementation* implSetAtString(ProtoContext* context, int index, const ProtoString* otherString) const;
-        ProtoStringImplementation* implInsertAtString(ProtoContext* context, int index, const ProtoString* otherString) const;
-        ProtoStringImplementation* implSplitFirst(ProtoContext* context, int count) const;
-        ProtoStringImplementation* implSplitLast(ProtoContext* context, int count) const;
-        ProtoStringImplementation* implRemoveFirst(ProtoContext* context, int count) const;
-        ProtoStringImplementation* implRemoveLast(ProtoContext* context, int count) const;
-        ProtoStringImplementation* implRemoveAt(ProtoContext* context, int index) const;
-        ProtoObject* implAsObject(ProtoContext* context) const;
-        ProtoString* asProtoString(ProtoContext* context) const;
+        const ProtoStringImplementation* implGetSlice(ProtoContext* context, int from, int to) const;
+        const ProtoStringImplementation* implSetAt(ProtoContext* context, int index, const ProtoObject* value) const;
+        const ProtoStringImplementation* implInsertAt(ProtoContext* context, int index, const ProtoObject* value) const;
+        const ProtoStringImplementation* implAppendLast(ProtoContext* context, const ProtoString* otherString) const;
+        const ProtoStringImplementation* implAppendFirst(ProtoContext* context, const ProtoString* otherString) const;
+        const ProtoStringImplementation* implRemoveSlice(ProtoContext* context, int from, int to) const;
+        const ProtoList* implAsList(ProtoContext* context) const;
+        const ProtoStringIteratorImplementation* implGetIterator(ProtoContext* context) const;
+        const ProtoStringImplementation* implSetAtString(ProtoContext* context, int index, const ProtoString* otherString) const;
+        const ProtoStringImplementation* implInsertAtString(ProtoContext* context, int index, const ProtoString* otherString) const;
+        const ProtoStringImplementation* implSplitFirst(ProtoContext* context, int count) const;
+        const ProtoStringImplementation* implSplitLast(ProtoContext* context, int count) const;
+        const ProtoStringImplementation* implRemoveFirst(ProtoContext* context, int count) const;
+        const ProtoStringImplementation* implRemoveLast(ProtoContext* context, int count) const;
+        const ProtoStringImplementation* implRemoveAt(ProtoContext* context, int index) const;
+        const ProtoObject* implAsObject(ProtoContext* context) const;
+        const ProtoString* asProtoString(ProtoContext* context) const;
 
         void finalize(ProtoContext* context) const override;
         void processReferences(
@@ -616,7 +617,7 @@ namespace proto
         ProtoTupleImplementation* base;
     };
 
-    class ProtoByteBufferImplementation final : public Cell, public ProtoByteBuffer
+    class ProtoByteBufferImplementation final : public Cell
     {
     public:
         ProtoByteBufferImplementation(
@@ -628,12 +629,12 @@ namespace proto
         ~ProtoByteBufferImplementation() override;
         // ...
         char implGetAt(ProtoContext* context, int index) const;
-        void implSetAt(ProtoContext* context, int index, char value) const;
+        void implSetAt(ProtoContext* context, int index, char value);
         unsigned long implGetSize(ProtoContext* context) const;
         char* implGetBuffer(ProtoContext* context) const;
         const ProtoObject* implAsObject(ProtoContext* context) const override;
         const ProtoByteBuffer* asByteBuffer(ProtoContext* context) const;
-        unsigned long getImplHash(ProtoContext* context) const;
+        unsigned long getHash(ProtoContext* context) const override;
 
         void finalize(ProtoContext* context) const override;
         void processReferences(
@@ -649,7 +650,7 @@ namespace proto
         bool freeOnExit;
     };
 
-    class ProtoMethodCell final : public Cell
+    class ProtoMethodCell final : public Cell, public ProtoMethod
     {
     public:
         ProtoMethodCell(
@@ -677,7 +678,7 @@ namespace proto
         ProtoMethod method;
     };
 
-    class ProtoExternalPointerImplementation final : public Cell, public ProtoExternalPointer
+    class ProtoExternalPointerImplementation final : public Cell
     {
     public:
         ProtoExternalPointerImplementation(
@@ -687,8 +688,8 @@ namespace proto
         ~ProtoExternalPointerImplementation() override;
         // ...
         void* implGetPointer(ProtoContext* context) const;
-        unsigned long implGetHash(ProtoContext* context) const;
-        const ProtoObject* implAsObject(ProtoContext* context) const;
+        unsigned long getHash(ProtoContext* context) const override;
+        const ProtoObject* implAsObject(ProtoContext* context) const override;
 
         void finalize(ProtoContext* context) const override;
         void processReferences(
@@ -701,27 +702,38 @@ namespace proto
         void* pointer;
     };
 
-    class ProtoThreadImplementation final : public Cell, public ProtoThread
+    struct AttributeCacheEntry
+    {
+        const ProtoObject* object;
+        const ProtoString* attributeName;
+        const ProtoObject* value;
+    };
+
+    class ProtoThreadImplementation final : public Cell
     {
     public:
         ProtoThreadImplementation(
             ProtoContext* context,
+            const ProtoString* name,
             ProtoSpace* space,
-            ProtoMethod method,
-            ProtoListImplementation* unnamedArgList,
-            ProtoSparseListImplementation* kwargs
+            ProtoMethod method = nullptr,
+            const ProtoList* unnamedArgList = nullptr,
+            const ProtoSparseList* kwargs = nullptr
         );
         ~ProtoThreadImplementation() override;
-        // ...
-        void implFinalize(ProtoContext* context);
+        void implSetUnmanaged();
+        void implSetManaged();
         // ...
         void implDetach(ProtoContext* context) const;
         void implJoin(ProtoContext* context) const;
-        [[nodiscard]] ProtoContext* implGetCurrentContext() const;
-        ProtoObject* implAsObject(ProtoContext* context) const;
-        ProtoThread* asProtoThread(ProtoContext* context);
-        static ProtoThread* implGetCurrentThread(const ProtoContext* context);
-        unsigned long implGetHash(ProtoContext* context) const;
+        void implFinalize(ProtoContext* context) const;
+        void implSynchToGC();
+        ProtoContext* implGetCurrentContext() const;
+        const ProtoObject* implAsObject(ProtoContext* context) const override;
+        void implSetCurrentContext(ProtoContext* context);
+        const ProtoThread* asThread(ProtoContext* context) const;
+        static ProtoThreadImplementation* implGetCurrentThread();
+        unsigned long getHash(ProtoContext* context) const override;
 
         Cell* implAllocCell();
 
@@ -729,58 +741,67 @@ namespace proto
         void processReferences(
             ProtoContext* context,
             void* self,
-            void (*method)(ProtoContext*, void*, Cell*)
+            void (*callBackMethod)(ProtoContext*, void*, Cell*)
         ) const override;
 
         // ...
         ProtoSpace* space;
         std::thread thread;
-        ProtoContext* context;
-        Cell* firstFreeCell;
+        Cell* firstFreeCell{};
 
-        struct AttributeCacheItem
+        struct AttributeCacheEntry
         {
             const ProtoObject* object;
             const ProtoString* attributeName;
             const ProtoObject* value;
         }* attributeCache;
+
+    private:
+        int state;
+        const ProtoString* name;
+        ProtoMethod method;
+        const ProtoList* unnamedArgList;
+        const ProtoSparseList* kwargs;
+        std::thread* osThread; // Managed by finalize(), not RAII
+        ProtoContext* currentContext;
+        std::atomic<int> unmanagedCount;
+        Cell* freeCells;
     };
 
     class ProtoSpaceImplementation final: public ProtoSpace
     {
     public:
         //- GC & Memory Internals
-        Cell* freeCells;
-        DirtySegment* dirtySegments;
-        int state;
-        unsigned int maxAllocatedCellsPerContext;
-        int blocksPerAllocation;
-        int heapSize;
-        int maxHeapSize;
-        int freeCellsCount;
-        unsigned int gcSleepMilliseconds;
-        int blockOnNoMemory;
+        mutable Cell* freeCells;
+        mutable DirtySegment* dirtySegments;
+        mutable int state;
+        mutable unsigned int maxAllocatedCellsPerContext;
+        mutable int blocksPerAllocation;
+        mutable int heapSize;
+        mutable int maxHeapSize;
+        mutable int freeCellsCount;
+        mutable unsigned int gcSleepMilliseconds;
+        mutable int blockOnNoMemory;
 
         //- Concurrency Control
-        std::atomic<TupleDictionary*> tupleRoot;
-        std::atomic<ProtoSparseList*> mutableRoot;
-        std::atomic<bool> mutableLock;
-        std::atomic<bool> threadsLock;
-        std::atomic<bool> gcLock;
-        std::thread::id mainThreadId;
-        std::thread* gcThread;
-        std::condition_variable stopTheWorldCV;
-        std::condition_variable restartTheWorldCV;
-        std::condition_variable gcCV;
-        int gcStarted;
+        mutable std::atomic<TupleDictionary*> tupleRoot;
+        mutable std::atomic<ProtoSparseList*> mutableRoot;
+        mutable std::atomic<bool> mutableLock;
+        mutable std::atomic<bool> threadsLock;
+        mutable std::atomic<bool> gcLock;
+        mutable std::thread::id mainThreadId;
+        mutable std::atomic<int> runningThreads;
+        mutable std::thread* gcThread;
+        mutable std::condition_variable stopTheWorldCV;
+        mutable std::condition_variable restartTheWorldCV;
+        mutable std::condition_variable gcCV;
+        mutable int gcStarted;
 
         //- Emergency Memory Management for OOM conditions
-        char* emergency_buffer;
-        char* emergency_ptr;
-        char* emergency_end;
-        std::atomic<bool> emergency_allocator_active;
-
-        static std::mutex globalMutex;
+        mutable char* emergency_buffer;
+        mutable char* emergency_ptr;
+        mutable char* emergency_end;
+        mutable std::atomic<bool> emergency_allocator_active;
     };
 
     class BigCell final

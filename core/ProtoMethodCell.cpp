@@ -67,7 +67,7 @@ namespace proto
      * @param context The current execution context.
      * @return The hash value as an unsigned long.
      */
-    unsigned long ProtoMethodCell::getHash(ProtoContext* context) const
+    unsigned long ProtoMethodCell::getHash(ProtoContext* context) const override
     {
         return Cell::getHash(context);
     }
@@ -81,7 +81,7 @@ namespace proto
      *
      * @param context The current execution context.
      */
-    void ProtoMethodCell::finalize(ProtoContext* context) const
+    void ProtoMethodCell::finalize(ProtoContext* context) const override
     {
         // No finalization action is required.
     }
@@ -101,17 +101,24 @@ namespace proto
     void ProtoMethodCell::processReferences(
         ProtoContext* context,
         void* target,
-        void (*auxMethod)(ProtoContext* context, void* self, Cell* cell)
-    ) const
+        void (*method)(ProtoContext* context, void* self, Cell* cell)
+    ) const override
     {
-        // This cell contains no references to other cells, so the body is empty.
+        // CRITICAL FIX: The GC must be aware of the 'self' object
+        // to prevent it from being collected prematurely.
+        if (this->self && this->self->isCell(context))
+        {
+            method(context, target, this->self->asCell(context));
+        }
     };
 
-    const ProtoObject* ProtoMethodCell::implGetSelf(ProtoContext* context) const {
+    const ProtoObject* ProtoMethodCell::implGetSelf(ProtoContext* context) const
+    {
         return this->self;
     }
 
-    ProtoMethod ProtoMethodCell::implGetMethod(ProtoContext* context) const {
+    ProtoMethod ProtoMethodCell::implGetMethod(ProtoContext* context) const
+    {
         return this->method;
     }
 

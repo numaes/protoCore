@@ -54,7 +54,7 @@ namespace proto
     {
         ProtoObjectPointer p{};
         p.objectCellImplementation = this;
-        p.op.pointer_tag = POINTER_TAG_OBJECT;
+        p.op.pointer_tag = POINTER_TAG_OBJECT; // Ensure correct tagging
         return p.oid.oid;
     }
 
@@ -62,7 +62,7 @@ namespace proto
     // --- Garbage Collector (GC) Methods ---
 
     // An empty finalizer can also be declared as 'default'.
-    void ProtoObjectCell::finalize(ProtoContext* context) const
+    void ProtoObjectCell::finalize(ProtoContext* context) const override
     {
     };
 
@@ -75,18 +75,18 @@ namespace proto
             void* self,
             Cell* cell
         )
-    ) const
+    ) const override
     {
         // 1. Process the reference to the parent chain.
         if (this->parent)
         {
-            method(context, self, this->parent->asCell(context));
+            this->parent->processReferences(context, self, method);
         }
 
         // 2. Process the reference to the attributes list.
         if (this->attributes)
         {
-            method(context, self, this->attributes->asCell(context));
+            this->attributes->processReferences(context, self, method);
         }
     }
 

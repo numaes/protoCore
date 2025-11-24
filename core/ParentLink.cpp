@@ -30,14 +30,14 @@ namespace proto
             void* self,
             Cell* cell
         )
-    )
+    ) const override
     {
         // For the garbage collector, it is crucial to process all references to other Cells.
 
         // 1. Process the link to the previousNode parent in the chain.
         if (this->parent)
         {
-            method(context, self, this->parent->asCell(context));
+            this->parent->processReferences(context, self, method);
         }
 
         // 2. CRITICAL FIX: Process the object (ProtoObjectCell) that this link represents.
@@ -45,7 +45,7 @@ namespace proto
         // to be incorrectly collected by the GC.
         if (this->object)
         {
-            method(context, self, this->object->asCell(context));
+            this->object->asCell(context)->processReferences(context, self, method);
         }
 
         // NOTE: The call to 'method(context, self, this)' was removed.
@@ -54,7 +54,7 @@ namespace proto
     }
 
     // The finalize method must be implemented as it is pure virtual in the base class.
-    void ParentLinkImplementation::finalize(ProtoContext* context)
+    void ParentLinkImplementation::finalize(ProtoContext* context) const override
     {
         // This method is intentionally left empty because ParentLinkImplementation
         // does not acquire resources that require explicit cleanup.

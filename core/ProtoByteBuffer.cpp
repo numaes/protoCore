@@ -37,22 +37,13 @@ namespace proto
 
     // --- Destructor ---
     ProtoByteBufferImplementation::~ProtoByteBufferImplementation()
-    {
-        // We free the memory only if we own it.
-        // 'delete[]' is used because the memory was allocated with 'new[]'.
-        if (this->buffer && this->freeOnExit)
-        {
-            delete[] this->buffer;
-        }
-        // Using nullptr is modern C++ practice.
-        this->buffer = nullptr;
-    }
+    = default;
 
     // --- Access Methods ---
 
     // Private helper function to normalize the index.
     // This avoids code duplication and improves readability.
-    bool normalizeIndex(const ProtoByteBufferImplementation* self, int& index)
+    static bool normalizeIndex(const ProtoByteBufferImplementation* self, int& index)
     {
         if (self->size == 0)
         {
@@ -86,7 +77,7 @@ namespace proto
         return 0;
     }
 
-    void ProtoByteBufferImplementation::implSetAt(ProtoContext* context, int index, const char value) const
+    void ProtoByteBufferImplementation::implSetAt(ProtoContext* context, int index, char value) const
     {
         // We only write if the index is valid.
         if (normalizeIndex(this, index))
@@ -105,21 +96,27 @@ namespace proto
             void* self,
             Cell* cell
         )
-    )
+    ) const override
     {
-
+        // This method is intentionally left empty.
+        // A ProtoByteBufferImplementation manages a raw C++ buffer, which does not
+        // contain any references to other Proto 'Cells' that the GC needs to track.
     };
 
-    void ProtoByteBufferImplementation::finalize(ProtoContext* context)
+    void ProtoByteBufferImplementation::finalize(ProtoContext* context) const override
     {
-        if (this->freeOnExit)
+        // This is the effective destructor called by the GC.
+        // We free the memory only if we own it.
+        if (this->buffer && this->freeOnExit) {
             delete[] this->buffer;
+            const_cast<ProtoByteBufferImplementation*>(this)->buffer = nullptr;
+        }
     };
 
 
     // --- Interface Methods ---
 
-    const ProtoObject* ProtoByteBufferImplementation::implAsObject(ProtoContext* context) const
+    const ProtoObject* ProtoByteBufferImplementation::implAsObject(ProtoContext* context) const override
     {
         ProtoObjectPointer p{};
         p.byteBufferImplementation = this;
@@ -135,7 +132,7 @@ namespace proto
         return p.byteBuffer;
     }
 
-    unsigned long ProtoByteBufferImplementation::getImplHash(ProtoContext* context) const
+    unsigned long ProtoByteBufferImplementation::getHash(ProtoContext* context) const override
     {
         // The hash of a Cell is derived directly from its memory address.
         // This provides a fast and unique identifier for the object.

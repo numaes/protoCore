@@ -31,7 +31,7 @@ namespace proto
         return this->pointer;
     }
 
-    const ProtoObject* ProtoExternalPointerImplementation::implAsObject(ProtoContext* context) const
+    const ProtoObject* ProtoExternalPointerImplementation::implAsObject(ProtoContext* context) const override
     {
         ProtoObjectPointer p{};
         p.externalPointerImplementation = this;
@@ -49,7 +49,7 @@ namespace proto
             void* self,
             Cell* cell
         )
-    )
+    ) const override
     {
         // This method is intentionally left empty.
         // A ProtoExternalPointer contains an opaque pointer (void*) that is not
@@ -58,11 +58,11 @@ namespace proto
     }
 
     // An empty finalizer can also be declared as 'default'.
-    void ProtoExternalPointerImplementation::finalize(ProtoContext* context)
+    void ProtoExternalPointerImplementation::finalize(ProtoContext* context) const override
     {
     };
 
-    unsigned long ProtoExternalPointerImplementation::implGetHash(ProtoContext* context) const
+    unsigned long ProtoExternalPointerImplementation::getHash(ProtoContext* context) const override
     {
         // The hash of a Cell is derived directly from its memory address.
         // This provides a fast and unique identifier for the object.

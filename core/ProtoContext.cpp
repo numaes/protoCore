@@ -42,10 +42,10 @@ namespace proto
     // --- Constructor and Destructor ---
 
     ProtoContext::ProtoContext(
+        ProtoSpace* space,
         ProtoContext* previous,
         ProtoObject** localsBase,
-        unsigned int localsCount,
-        ProtoSpace* space
+        unsigned int localsCount
     ) : previous(previous)
     {
         this->lastAllocatedCell = nullptr;
@@ -73,7 +73,7 @@ namespace proto
             this->space = space;
             this->thread = nullptr; // ensure initialization of a thread
 
-            this->thread = ProtoThreadImplementation::implGetCurrentThread(this);
+            this->thread = ProtoThreadImplementation::implGetCurrentThread();
         }
 
         // Update the thread's current context through a public method.
@@ -82,56 +82,46 @@ namespace proto
     }
 
 
-    ProtoContext::~ProtoContext()
+    ProtoContext::~ProtoContext() override
     {
-        if (this->lastAllocatedCell)
+        // --- Transferencia del Valor de Retorno ---
+        // Si este contexto tiene un valor de retorno y un contexto anterior al que pasarlo.
+        if (this->previous && this->returnValue && this->returnValue->isCell(this))
         {
-            // When a context is destroyed, the space is informed about the cells
-            // allocated in it so the GC can analyze them.
-            this->space->analyzeUsedCells(this->lastAllocatedCell);
-        }
-
-        if (this->previous && this->returnValue)
-        {
-            // Unlink returnValue from context a link of created cells if it belongs to it
-            auto cell = this->lastAllocatedCell;
+            Cell* returnCell = this->returnValue->asCell(this);
+            Cell* current = this->lastAllocatedCell;
             Cell* previousCell = nullptr;
-            auto returnCell = this->returnValue->asCell(this);
-            while (cell)
+
+            // 1. Buscar y desvincular el `returnCell` de la lista de este contexto.
+            while (current)
             {
-                if (cell == returnCell)
+                if (current == returnCell)
                 {
+                    // Se encontró. Se saca de la lista.
                     if (previousCell)
-                        previousCell->next = cell;
+                        previousCell->next = current->next; // El anterior apunta al siguiente.
                     else
-                        this->lastAllocatedCell = cell;
+                        this->lastAllocatedCell = current->next; // Era la cabeza, la cabeza ahora es el siguiente.
+
+                    // 2. Vincular el `returnCell` a la cabeza de la lista del contexto anterior.
+                    returnCell->next = this->previous->lastAllocatedCell;
+                    this->previous->lastAllocatedCell = returnCell;
+
                     break;
                 }
 
-                previousCell = cell;
-                cell = cell->next;
-
-            }
-
-            // Link returnValue to previousNode context
-
-            if (this->previous)
-            {
-                ProtoObjectPointer pa{};
-                pa.oid.oid = this->returnValue;
-                if (pa.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE)
-                {
-                    Cell* rv = this->returnValue->asCell(this);
-                    rv->next = this->previous->lastAllocatedCell;
-                }
+                previousCell = current;
+                current = current->next;
             }
         }
 
-        if (this->previous->lastAllocatedCell)
-            // When a context is destroyed, the space is informed about the cells
-            // allocated in it so the GC can analyze them.
+        // --- Limpieza de Celdas Locales ---
+        // Todos los objetos restantes que fueron creados en este contexto
+        // (y no fueron el valor de retorno) se marcan ahora para ser analizados por el GC.
+        if (this->lastAllocatedCell)
+        {
             this->space->analyzeUsedCells(this->lastAllocatedCell);
-
+        }
     }
 
     Cell* ProtoContext::allocCell()

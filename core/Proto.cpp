@@ -57,7 +57,7 @@ namespace proto
         case POINTER_TAG_STRING:
             return context->space->stringPrototype;
         case POINTER_TAG_LIST_ITERATOR:
-            return context->space->stringIteratorPrototype;
+            return context->space->listIteratorPrototype;
         case POINTER_TAG_TUPLE_ITERATOR:
             return context->space->tupleIteratorPrototype;
         case POINTER_TAG_SPARSE_LIST_ITERATOR:
@@ -92,14 +92,14 @@ namespace proto
                 unsigned long randomId = 0;
                 do
                 {
-                    currentRoot = context->space->impl->mutableRoot.load();
+                    currentRoot = (ProtoSparseList*)context->space->mutableRoot.load();
 
                     randomId = generate_mutable_ref();
 
                     if (currentRoot->has(context, randomId))
                         continue;
                 }
-                while (!context->space->impl->mutableRoot.compare_exchange_strong(
+                while (!context->space->mutableRoot.compare_exchange_strong(
                     currentRoot,
                     currentRoot->setAt(
                         context,
@@ -140,7 +140,7 @@ namespace proto
                 unsigned long randomId = 0;
                 do
                 {
-                    currentRoot = context->space->mutableRoot.load();
+                    currentRoot = (ProtoSparseList*)context->space->mutableRoot.load();
 
                     randomId = generate_mutable_ref();
 
@@ -170,7 +170,8 @@ namespace proto
     {
         const auto* thread = toImpl<ProtoThreadImplementation>(context->thread);
 
-        const unsigned int hash = (reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(method)) & (THREAD_CACHE_DEPTH - 1);
+        const unsigned int hash = (reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(method)) &
+            (THREAD_CACHE_DEPTH - 1);
 
         auto& [object, attribute_name, value] = thread->attributeCache[hash];
 
@@ -226,7 +227,7 @@ namespace proto
 
         // Calculate the cache slot index.
         const unsigned int hash =
-            ((reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(name)) >> 4) & (THREAD_CACHE_DEPTH - 1);
+            (reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(name)) & (THREAD_CACHE_DEPTH - 1);
 
         // Get a direct reference to the cache entry.
         auto& [object, attribute_name, value] = thread->attributeCache[hash];
@@ -266,21 +267,21 @@ namespace proto
                     while (pl)
                     {
                         pa.oid.oid = pl->object;
-                        if (pa.op.pointer_tag == POINTER_TAG_OBJECT)
-                        {
-                            oc = toImpl<const ProtoObjectCell>(pa.oid.oid);
-                            break;
-                        }
-                        else
-                            pl = pl->parent;
+                        oc = toImpl<const ProtoObjectCell>(pa.oid.oid);
+                        break; // Found the next object in the chain to check
+                    }
+                    if (!pl) { // End of the parent chain
+                        oc = nullptr;
                     }
                 }
                 else
-                    break;
+                {
+                    oc = nullptr; // No more parents
+                }
             }
             while (oc);
         }
-        else
+        else if (context->space->attributeNotFoundGetCallback)
         {
             if (context->space->attributeNotFoundGetCallback)
                 result = (*context->space->attributeNotFoundGetCallback)(
@@ -314,7 +315,7 @@ namespace proto
             }
             // Calculate the cache slot index.
             const unsigned int hash =
-                ((reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(name)) >> 4) & (THREAD_CACHE_DEPTH - 1);
+                (reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(name)) & (THREAD_CACHE_DEPTH - 1);
 
             do
             {
@@ -326,17 +327,15 @@ namespace proto
                     while (pl)
                     {
                         pa.oid.oid = pl->object;
-                        if (pa.op.pointer_tag == POINTER_TAG_OBJECT)
-                        {
-                            oc = toImpl<const ProtoObjectCell>(pa.oid.oid);
-                            break;
-                        }
-                        else
-                            pl = pl->parent;
+                        oc = toImpl<const ProtoObjectCell>(pa.oid.oid);
+                        break;
+                    }
+                    if (!pl) {
+                        oc = nullptr;
                     }
                 }
                 else
-                    break;
+                    oc = nullptr;
             }
             while (oc);
         }
@@ -364,7 +363,7 @@ namespace proto
 
             // Calculate the cache slot index.
             const unsigned int hash =
-                ((reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(name)) >> 4) & (THREAD_CACHE_DEPTH - 1);
+                (reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(name)) & (THREAD_CACHE_DEPTH - 1);
 
             auto* newObject = new(context) ProtoObjectCell(
                 context,
@@ -386,7 +385,7 @@ namespace proto
                     currentRoot,
                     newRoot
                 ));
-                return this;
+                return newObject->asObject(context);
             }
             else
                 return (const ProtoObject*)newObject;
@@ -412,7 +411,7 @@ namespace proto
 
             // Calculate the cache slot index.
             const unsigned int hash =
-                ((reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(name)) >> 4) & (THREAD_CACHE_DEPTH - 1);
+                (reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(name)) & (THREAD_CACHE_DEPTH - 1);
 
             return oc->attributes->has(context, hash) ? PROTO_TRUE : PROTO_FALSE;
         }
@@ -457,14 +456,10 @@ namespace proto
                     while (pl)
                     {
                         pa.oid.oid = pl->object;
-                        if (pa.op.pointer_tag == POINTER_TAG_OBJECT)
-                        {
-                            oc = toImpl<const ProtoObjectCell>(pa.oid.oid);
-                            break;
-                        }
-                        else
-                            pl = pl->parent;
+                        oc = toImpl<const ProtoObjectCell>(pa.oid.oid);
+                        break;
                     }
+                    if (!pl) oc = nullptr;
 
                     if (oc->mutable_ref) {
                         auto currentRoot = context->space->mutableRoot.load();
@@ -474,7 +469,7 @@ namespace proto
                 }
                 else
                 {
-                    break;
+                    oc = nullptr;
                 }
             }
 
