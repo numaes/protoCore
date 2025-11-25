@@ -2,7 +2,7 @@
 
 [![Language](https://img.shields.io/badge/Language-C%2B%2B20-blue.svg)](https://isocpp.org/)
 [![Build System](https://img.shields.io/badge/Build-CMake-green.svg)](https://cmake.org/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **Proto is a powerful, embeddable runtime written in modern C++ that brings the flexibility of dynamic, protoCoretype-based object systems (like those in JavaScript or Python) into the world of high-performance, compiled applications.**
 
@@ -124,6 +124,12 @@ The project documentation is generated using **Doxygen**, **Sphinx**, and **Brea
 
 3.  **View the results:**
     Open `docs/_build/html/index.html` in your web browser.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+Copyright (c) 2024
 
 ## Contributing
 
