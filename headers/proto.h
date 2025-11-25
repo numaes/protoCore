@@ -115,8 +115,8 @@ namespace proto
     {
     public:
         int hasNext(ProtoContext* context) const;
-        const ProtoObject* next(ProtoContext* context);
-        const ProtoListIterator* advance(ProtoContext* context);
+        const ProtoObject* next(ProtoContext* context) const;
+        const ProtoListIterator* advance(ProtoContext* context) const;
         const ProtoObject* asObject(ProtoContext* context) const;
     };
 
