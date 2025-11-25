@@ -320,5 +320,20 @@ namespace proto
         toImpl<ProtoThreadImplementation>(this)->implSetCurrentContext(context);
     }
 
+    // --- Añadir a core/Proto.cpp ---
 
+    // REEMPLAZA la función asMethod completa en core/Proto.cpp con esto:
+
+    // REEMPLAZA la función asMethod completa en core/Proto.cpp con esto:
+
+    ProtoMethod ProtoObject::asMethod(ProtoContext* context) const {
+        ProtoObjectPointer pa{};
+        pa.oid.oid = this;
+        if (pa.op.pointer_tag == POINTER_TAG_METHOD) {
+            // Correcto: simplemente devuelve el miembro 'method',
+            // que ya es del tipo correcto (un puntero a función).
+            return toImpl<const ProtoMethodCell>(this)->method;
+        }
+        return nullptr; // Devolver nullptr es válido para un tipo puntero a función
+    }
 }

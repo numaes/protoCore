@@ -276,4 +276,8 @@ namespace proto
     unsigned long ProtoSparseListImplementation::getHash(ProtoContext* context) const { return this->hash; }
 
     void ProtoSparseListImplementation::finalize(ProtoContext* context) const {}
+
+    const ProtoSparseList* ProtoSparseListImplementation::asSparseList(ProtoContext* context) const {
+        return (const ProtoSparseList*)this->implAsObject(context);
+    }
 }

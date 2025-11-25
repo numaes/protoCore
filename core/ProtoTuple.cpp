@@ -148,15 +148,21 @@ namespace proto
         return Cell::getHash(context); // O una implementación más específica
     }
 
-    const ProtoObject* ProtoTupleImplementation::implAsObject(ProtoContext* context) const {
-        ProtoObjectPointer p;
-        p.tupleImplementation = this;
-        p.op.pointer_tag = POINTER_TAG_TUPLE;
-        return p.oid.oid;
-    }
-
     const ProtoTuple* ProtoTupleImplementation::asProtoTuple(ProtoContext* context) const {
         return (const ProtoTuple*)this->implAsObject(context);
     }
-    // ... (Rest of ProtoTupleImplementation methods)
+
+    // --- Añadir a core/ProtoTuple.cpp ---
+
+    unsigned long ProtoTupleImplementation::implGetSize(ProtoContext* context) const {
+        return this->count;
+    }
+
+    const ProtoList* ProtoTupleImplementation::implAsList(ProtoContext* context) const {
+        ProtoList* list = const_cast<ProtoList*>(context->newList());
+        for (unsigned long i = 0; i < this->count; ++i) {
+            list = const_cast<ProtoList*>(list->appendLast(context, this->implGetAt(context, i)));
+        }
+        return list;
+    }
 }
