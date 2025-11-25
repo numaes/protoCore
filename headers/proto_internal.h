@@ -570,9 +570,11 @@ namespace proto
         // ...
         int implHasNext(ProtoContext* context) const;
         const ProtoObject* implNext(ProtoContext* context) const;
-        const ProtoStringIteratorImplementation* implAdvance(ProtoContext* context);
+        const ProtoStringIteratorImplementation* implAdvance(ProtoContext* context) const;
         const ProtoObject* implAsObject(ProtoContext* context) const;
         const ProtoStringIterator* asProtoStringIterator(ProtoContext* context) const;
+        // ...
+        unsigned long getHash(ProtoContext* context) const override;
         // ...
 
         // ...
@@ -583,7 +585,7 @@ namespace proto
             void (*method)(ProtoContext* context, void* self, const Cell* cell)
         ) const override;
 
-        ProtoString* base;
+        const ProtoString* base;
         unsigned long currentIndex;
     };
 
@@ -615,6 +617,7 @@ namespace proto
         const ProtoStringImplementation* implRemoveAt(ProtoContext* context, int index) const;
         const ProtoObject* implAsObject(ProtoContext* context) const;
         const ProtoString* asProtoString(ProtoContext* context) const;
+        unsigned long getHash(ProtoContext* context) const override;
 
         void finalize(ProtoContext* context) const override;
         void processReferences(

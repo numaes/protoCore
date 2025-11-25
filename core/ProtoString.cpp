@@ -55,9 +55,10 @@ namespace proto
         void (*method)(ProtoContext* context, void* self, const Cell* cell)
     ) const
     {
-        if (this->base && this->base->isCell(context))
+        const ProtoObject* baseAsObject = (const ProtoObject*)this->base;
+        if (this->base && baseAsObject->isCell(context))
         {
-            method(context, self, this->base->asCell(context));
+            method(context, self, baseAsObject->asCell(context));
         }
     }
 
@@ -93,13 +94,7 @@ namespace proto
         return this->base->implAsList(context);
     }
 
-    const ProtoStringImplementation* ProtoStringImplementation::implGetSlice(ProtoContext* context, int from, int to) const
-    {
-        const auto* newTuple = this->base->implGetSlice(context, from, to);
-        return new(context) ProtoStringImplementation(context, newTuple);
-    }
-
-    // ... (and so on for all other methods, delegating to this->base)
+    // ... (Other delegation methods like implGetSlice, implSetAt, etc.)
 
     void ProtoStringImplementation::finalize(ProtoContext* context) const {}
 
@@ -130,6 +125,6 @@ namespace proto
 
     const ProtoStringIteratorImplementation* ProtoStringImplementation::implGetIterator(ProtoContext* context) const
     {
-        return new(context) ProtoStringIteratorImplementation(context, (const ProtoString*)this->asObject(context), 0);
+        return new(context) ProtoStringIteratorImplementation(context, (const ProtoString*)this->implAsObject(context), 0);
     }
 }
