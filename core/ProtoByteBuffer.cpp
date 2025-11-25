@@ -9,38 +9,33 @@
 
 namespace proto
 {
-    // --- Constructor ---
+    // --- Constructor and Destructor ---
     ProtoByteBufferImplementation::ProtoByteBufferImplementation(
         ProtoContext* context,
         char* buffer,
         const unsigned long size,
         const bool freeOnExit
-    ) : Cell(context), buffer(buffer), size(size), freeOnExit(false)
+    ) : Cell(context), buffer(buffer), size(size), freeOnExit(freeOnExit)
     {
-        if (buffer)
-        {
-            this->buffer = buffer;
-            this->freeOnExit = freeOnExit;
-        }
-        else
+        if (!buffer)
         {
             this->buffer = new char[size];
             this->freeOnExit = true;
         }
     }
 
-    // --- Destructor ---
     ProtoByteBufferImplementation::~ProtoByteBufferImplementation() = default;
 
-    // --- Access Methods ---
-
+    // --- Helper Function ---
     static bool normalizeIndex(const ProtoByteBufferImplementation* self, int& index)
     {
         if (self->size == 0) return false;
         if (index < 0) index += static_cast<int>(self->size);
-        if (index < 0 || index >= self->size) return false;
+        if (index < 0 || static_cast<unsigned long>(index) >= self->size) return false;
         return true;
     }
+
+    // --- Method Implementations ---
 
     char ProtoByteBufferImplementation::implGetAt(ProtoContext* context, int index) const
     {
@@ -51,7 +46,6 @@ namespace proto
         return 0;
     }
 
-    // Corrected: Removed 'const' as this method modifies the object's state.
     void ProtoByteBufferImplementation::implSetAt(ProtoContext* context, int index, char value)
     {
         if (normalizeIndex(this, index))
@@ -60,9 +54,6 @@ namespace proto
         }
     }
 
-    // --- Garbage Collector (GC) Methods ---
-
-    // Corrected: Signature updated to match the base class.
     void ProtoByteBufferImplementation::processReferences(
         ProtoContext* context,
         void* self,
@@ -71,24 +62,23 @@ namespace proto
             void* self,
             const Cell* cell
         )
-    ) const override
+    ) const
     {
-        // Intentionally empty. A byte buffer does not hold references to other Proto Cells.
-    };
+        // A byte buffer does not hold references to other Proto Cells.
+    }
 
-    // Corrected: Removed 'const' as this method modifies the object's state (deletes buffer).
-    void ProtoByteBufferImplementation::finalize(ProtoContext* context) override
+    void ProtoByteBufferImplementation::finalize(ProtoContext* context) const
     {
         if (this->buffer && this->freeOnExit) {
             delete[] this->buffer;
-            this->buffer = nullptr; // No const_cast needed anymore.
+            // It's good practice to nullify pointers after deletion,
+            // but since this is const, we need a const_cast.
+            // This is an acceptable use of const_cast as it's in a "destructor-like" method.
+            const_cast<ProtoByteBufferImplementation*>(this)->buffer = nullptr;
         }
-    };
+    }
 
-
-    // --- Interface Methods ---
-
-    const ProtoObject* ProtoByteBufferImplementation::implAsObject(ProtoContext* context) const override
+    const ProtoObject* ProtoByteBufferImplementation::implAsObject(ProtoContext* context) const
     {
         ProtoObjectPointer p{};
         p.byteBufferImplementation = this;
@@ -104,7 +94,7 @@ namespace proto
         return p.byteBuffer;
     }
 
-    unsigned long ProtoByteBufferImplementation::getHash(ProtoContext* context) const override
+    unsigned long ProtoByteBufferImplementation::getHash(ProtoContext* context) const
     {
         ProtoObjectPointer p{};
         p.byteBufferImplementation = this;

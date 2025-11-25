@@ -80,7 +80,7 @@ namespace proto
                                 const ProtoString* method,
                                 const ProtoObject* self,
                                 const ProtoList* positionalParameters,
-                                const ProtoSparseList* keywordParametersDict = nullptr);
+                                const ProtoSparseList* keywordParametersDict = nullptr) const;
 
         //- Internals & Type Checking
         unsigned long getHash(ProtoContext* context) const;

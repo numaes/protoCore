@@ -587,7 +587,7 @@ namespace proto
     public:
         ProtoStringImplementation(
             ProtoContext* context,
-            ProtoTupleImplementation* base);
+            const ProtoTupleImplementation* base);
         ~ProtoStringImplementation() override;
         // ...
         int implCmpToString(ProtoContext* context, const ProtoString* otherString) const;
