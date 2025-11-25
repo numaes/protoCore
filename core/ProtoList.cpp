@@ -178,10 +178,10 @@ namespace proto
         ProtoContext* context,
         const ProtoListImplementation* other
     ) const {
-        // Esta es una implementación simple para satisfacer al enlazador.
-        // Itera sobre la otra lista y añade cada elemento a la actual.
         const ProtoList* result = this->asProtoList(context);
-        const ProtoListIterator* iter = other->implGetIterator(context);
+
+        // CORRECCIÓN: Convertir el iterador de implementación a iterador de API pública
+        const ProtoListIterator* iter = other->implGetIterator(context)->asProtoListIterator(context);
 
         while (iter->hasNext(context)) {
             result = result->appendLast(context, iter->next(context));
@@ -190,4 +190,5 @@ namespace proto
 
         return toImpl<const ProtoListImplementation>(result);
     }
+
 }
