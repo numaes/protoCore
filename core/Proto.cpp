@@ -7,7 +7,7 @@
  *  This file implements the public-facing API of the Proto library.
  *
  *  It serves as the "bridge" between the public API classes (e.g., `ProtoObject`,
- *  `ProtoList`), which are defined in `proto.h`, and their internal implementation
+ *  `ProtoList`), which are defined in `protoCore.h`, and their internal implementation
  *  classes (e.g., `ProtoObjectCell`, `ProtoListImplementation`), which are
  *  defined in `proto_internal.h`.
  *

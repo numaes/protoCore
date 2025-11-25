@@ -4,7 +4,7 @@
 [![Build System](https://img.shields.io/badge/Build-CMake-green.svg)](https://cmake.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
 
-**Proto is a powerful, embeddable runtime written in modern C++ that brings the flexibility of dynamic, prototype-based object systems (like those in JavaScript or Python) into the world of high-performance, compiled applications.**
+**Proto is a powerful, embeddable runtime written in modern C++ that brings the flexibility of dynamic, protoCoretype-based object systems (like those in JavaScript or Python) into the world of high-performance, compiled applications.**
 
 It is designed for developers who need to script complex application behavior, configure systems dynamically, or build domain-specific languages without sacrificing the speed and control of C++. With Proto, you get an elegant API, automatic memory management, and a robust, immutable data model designed for elite concurrency.
 
@@ -16,7 +16,7 @@ See how easy it is to get started. This minimal example creates a list, appends 
 
 ```cpp
 #include <iostream>
-#include "headers/proto.h"
+#include "headers/protoCore.h"
 
 int main() {
     // 1. Create the runtime space.
@@ -44,7 +44,7 @@ int main() {
 *   **Immutable-by-Default Data Structures**: Collections like lists, tuples, and dictionaries are immutable. Operations like `append` or `set` return new, modified versions, eliminating a whole class of bugs related to shared state and making concurrent programming safer and easier to reason about.
 *   **True, GIL-Free Concurrency**: Each `ProtoThread` is a native OS thread. The runtime was designed from the ground up for parallelism and has no Global Interpreter Lock, allowing it to take full advantage of modern multi-core processors.
 *   **Low-Latency Automatic Memory Management**: A concurrent, stop-the-world garbage collector manages the lifecycle of all objects, freeing you from manual `new` and `delete` with minimal application pauses.
-*   **Clean, `const`-Correct C++ API**: The entire system is exposed through a clear and minimal public API (`proto.h`) that has been refactored for `const`-correctness, improving safety and expressiveness.
+*   **Clean, `const`-Correct C++ API**: The entire system is exposed through a clear and minimal public API (`protoCore.h`) that has been refactored for `const`-correctness, improving safety and expressiveness.
 
 ## Architectural Highlights
 
@@ -73,7 +73,7 @@ The project uses **CMake** for a modern, cross-platform build system.
 1.  **Clone the repository:**
     ```bash
     git clone <repository_url>
-    cd protoCore
+    cd protoCoreCore
     ```
 
 2.  **Configure and Build:**
@@ -85,7 +85,7 @@ The project uses **CMake** for a modern, cross-platform build system.
     make
     ```
 
-This will produce the `libproto.a` static library, along with all test and benchmark executables inside the `build` directory.
+This will produce the `libprotoCore.a` static library, along with all test and benchmark executables inside the `build` directory.
 
 ## Running Tests and Benchmarks
 
