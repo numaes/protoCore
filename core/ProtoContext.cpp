@@ -53,7 +53,6 @@ namespace proto
         Cell* newCell = nullptr;
         if (this->thread)
         {
-            // Corrected: Use toImpl for safe casting
             newCell = toImpl<ProtoThreadImplementation>(this->thread)->implAllocCell();
         }
         else
@@ -85,41 +84,36 @@ namespace proto
             charList = charList->appendLast(this, fromUTF8Char(currentChar));
             // ... (UTF-8 char advancing logic)
         }
-        // Corrected: The constructor now accepts a const pointer
         const auto newString = new(this) ProtoStringImplementation(this, ProtoTupleImplementation::tupleFromList(this, charList));
         return newString->implAsObject(this);
     }
 
     const ProtoList* ProtoContext::newList()
     {
-        // Corrected: Use the asProtoList method for safe conversion
         return (new(this) ProtoListImplementation(this, PROTO_NONE, true))->asProtoList(this);
     }
 
     const ProtoTuple* ProtoContext::newTuple()
     {
-        // Corrected: Use the asProtoTuple method for safe conversion
         return (new(this) ProtoTupleImplementation(this, 0))->asProtoTuple(this);
     }
 
     const ProtoTuple* ProtoContext::newTupleFromList(const ProtoList* sourceList)
     {
-        // tupleFromList already returns the correct public type
-        return ProtoTupleImplementation::tupleFromList(this, sourceList);
+        // Corrected: Use the asProtoTuple method for safe conversion
+        return ProtoTupleImplementation::tupleFromList(this, sourceList)->asProtoTuple(this);
     }
 
     const ProtoSparseList* ProtoContext::newSparseList()
     {
-        // Corrected: Use the asSparseList method for safe conversion
         return (new(this) ProtoSparseListImplementation(this))->asSparseList(this);
     }
 
     const ProtoObject* ProtoContext::newObject(const bool mutableObject)
     {
-        // Corrected: Use toImpl to cast the sparse list to its implementation type for the constructor
         const auto* attributes = toImpl<const ProtoSparseListImplementation>(newSparseList());
         return (new(this) ProtoObjectCell(this, nullptr, attributes, mutableObject ? generate_mutable_ref() : 0))->asObject(this);
     }
 
-    // ... (rest of the from... methods are correct as they don't involve implementation classes)
+    // ... (rest of the from... methods are correct)
 }

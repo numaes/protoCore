@@ -28,7 +28,8 @@ namespace proto
         return this->pointer;
     }
 
-    const ProtoObject* ProtoExternalPointerImplementation::implAsObject(ProtoContext* context) const override
+    // Corrected: Removed 'override'
+    const ProtoObject* ProtoExternalPointerImplementation::implAsObject(ProtoContext* context) const
     {
         ProtoObjectPointer p{};
         p.externalPointerImplementation = this;
@@ -38,7 +39,7 @@ namespace proto
 
     // --- Garbage Collector (GC) Methods ---
 
-    // Corrected signature for const-correctness.
+    // Corrected: Removed 'override'
     void ProtoExternalPointerImplementation::processReferences(
         ProtoContext* context,
         void* self,
@@ -47,19 +48,19 @@ namespace proto
             void* self,
             const Cell* cell
         )
-    ) const override
+    ) const
     {
-        // This method is intentionally left empty.
-        // A ProtoExternalPointer contains an opaque pointer (void*) that is not
-        // managed by the Proto garbage collector.
+        // Intentionally empty.
     }
 
-    void ProtoExternalPointerImplementation::finalize(ProtoContext* context) const override
+    // Corrected: Removed 'override'
+    void ProtoExternalPointerImplementation::finalize(ProtoContext* context) const
     {
-        // This method is intentionally left empty.
-    };
+        // Intentionally empty.
+    }
 
-    unsigned long ProtoExternalPointerImplementation::getHash(ProtoContext* context) const override
+    // Corrected: Removed 'override'
+    unsigned long ProtoExternalPointerImplementation::getHash(ProtoContext* context) const
     {
         ProtoObjectPointer p{};
         p.externalPointerImplementation = this;
