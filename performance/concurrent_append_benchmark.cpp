@@ -34,7 +34,7 @@ void proto_list_append_worker(ProtoContext* c) {
     }
 }
 
-ProtoObject* benchmarks(
+const ProtoObject* benchmarks(
     ProtoContext* c,
     const ProtoObject* self,
     const ParentLink* parentLink,

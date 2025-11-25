@@ -80,7 +80,7 @@ namespace proto
         //- Internals & Type Checking
         unsigned long getHash(ProtoContext* context) const;
         int isCell(ProtoContext* context) const;
-        Cell* asCell(ProtoContext* context) const;
+        const Cell* asCell(ProtoContext* context) const;
 
         bool isBoolean(ProtoContext* context) const;
         bool isInteger(ProtoContext* context) const;

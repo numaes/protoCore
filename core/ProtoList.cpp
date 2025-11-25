@@ -150,4 +150,8 @@ namespace proto
             method(context, self, this->value->asCell(context));
         }
     }
+
+    const ProtoList* ProtoListImplementation::asProtoList(ProtoContext* context) const {
+        return (const ProtoList*)this->implAsObject(context);
+    }
 }

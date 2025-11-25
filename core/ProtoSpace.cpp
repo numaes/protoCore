@@ -15,6 +15,8 @@
 
 namespace proto
 {
+    std::mutex ProtoSpace::globalMutex;
+
     // ... (GC helper functions and thread loop)
 
     void gcThreadLoop(ProtoSpace* space) {

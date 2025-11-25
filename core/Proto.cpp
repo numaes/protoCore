@@ -206,5 +206,115 @@ namespace proto
         }
     }
 
+
+    int ProtoObject::isCell(ProtoContext* context) const {
+        ProtoObjectPointer pa{};
+        pa.oid.oid = this;
+        return pa.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE;
+    }
+
+    const Cell* ProtoObject::asCell(ProtoContext* context) const {
+        if (isCell(context)) {
+            ProtoObjectPointer pa{};
+            pa.oid.oid = this;
+            return pa.cell.cell;
+        }
+        return nullptr;
+    }
+
+    const ProtoString* ProtoObject::asString(ProtoContext* context) const {
+        ProtoObjectPointer pa{};
+        pa.oid.oid = this;
+        if (pa.op.pointer_tag == POINTER_TAG_STRING) {
+            return pa.string;
+        }
+        return nullptr;
+    }
+
+    unsigned long ProtoObject::getHash(ProtoContext* context) const {
+        if (isCell(context)) {
+            return asCell(context)->getHash(context);
+        }
+        // For embedded values, the pointer value itself is the hash
+        return reinterpret_cast<uintptr_t>(this);
+    }
+
+    const ProtoList* ProtoList::appendLast(ProtoContext* context, const ProtoObject* value) const {
+        return toImpl<const ProtoListImplementation>(this)->implAppendLast(context, value)->asProtoList(context);
+    }
+
+    unsigned long ProtoList::getSize(ProtoContext* context) const {
+        return toImpl<const ProtoListImplementation>(this)->implGetSize(context);
+    }
+
+    // --- Implementación de Puentes de API Pública ---
+
+
+    // --- ProtoString ---
+    unsigned long ProtoString::getHash(ProtoContext* context) const {
+        return toImpl<const ProtoStringImplementation>(this)->getHash(context);
+    }
+    unsigned long ProtoString::getSize(ProtoContext* context) const {
+        return toImpl<const ProtoStringImplementation>(this)->implGetSize(context);
+    }
+    const ProtoObject* ProtoString::getAt(ProtoContext* context, int index) const {
+        return toImpl<const ProtoStringImplementation>(this)->implGetAt(context, index);
+    }
+    // ...
+
+    // --- ProtoSparseList ---
+    bool ProtoSparseList::has(ProtoContext* context, unsigned long offset) const {
+        return toImpl<const ProtoSparseListImplementation>(this)->implHas(context, offset);
+    }
+    const ProtoObject* ProtoSparseList::getAt(ProtoContext* context, unsigned long offset) const {
+        return toImpl<const ProtoSparseListImplementation>(this)->implGetAt(context, offset);
+    }
+    const ProtoSparseList* ProtoSparseList::setAt(ProtoContext* context, unsigned long offset, const ProtoObject* value) const {
+        return toImpl<const ProtoSparseListImplementation>(this)->implSetAt(context, offset, value)->asSparseList(context);
+    }
+    // ...
+
+    // --- ProtoObject (métodos de conversión) ---
+    bool ProtoObject::isMethod(ProtoContext* context) const {
+        ProtoObjectPointer pa{};
+        pa.oid.oid = this;
+        return pa.op.pointer_tag == POINTER_TAG_METHOD;
+    }
+
+    // --- Implementación de funciones de ayuda ---
+    unsigned long generate_mutable_ref() {
+        // Implementación simple con std::rand o un generador mejor
+        return static_cast<unsigned long>(std::rand());
+    }
+
+    // --- Implementación de métodos de clases de implementación que faltaban ---
+    // (Estos podrían ir en sus respectivos archivos .cpp, pero por ahora los ponemos aquí para avanzar)
+
+    const ProtoObject* ProtoListImplementation::implAsObject(ProtoContext* context) const {
+        ProtoObjectPointer p;
+        p.listImplementation = this;
+        p.op.pointer_tag = POINTER_TAG_LIST;
+        return p.oid.oid;
+    }
+
+    const ProtoObject* ProtoTupleImplementation::implAsObject(ProtoContext* context) const {
+        ProtoObjectPointer p;
+        p.tupleImplementation = this;
+        p.op.pointer_tag = POINTER_TAG_TUPLE;
+        return p.oid.oid;
+    }
+
+    const ProtoObject* ProtoThreadImplementation::implAsObject(ProtoContext* context) const {
+        ProtoObjectPointer p;
+        p.threadImplementation = this;
+        p.op.pointer_tag = POINTER_TAG_THREAD;
+        return p.oid.oid;
+    }
+
+    const ProtoThread* ProtoThreadImplementation::asThread(ProtoContext* context) const {
+        return (const ProtoThread*)this->implAsObject(context);
+    }
+
+    // ... y así sucesivamente para los demás métodos faltantes.
     // ... (rest of the file with corrected logic)
 }

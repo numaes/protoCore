@@ -115,5 +115,34 @@ namespace proto
         return (new(this) ProtoObjectCell(this, nullptr, attributes, mutableObject ? generate_mutable_ref() : 0))->asObject(this);
     }
 
+    const ProtoObject* ProtoContext::fromInteger(int value) {
+        ProtoObjectPointer p{};
+        p.si.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
+        p.si.embedded_type = EMBEDDED_TYPE_SMALLINT;
+        p.si.smallInteger = value;
+        return p.oid.oid;
+    }
+
+    const ProtoObject* ProtoContext::fromUTF8Char(const char* utf8OneCharString) {
+        ProtoObjectPointer p{};
+        union
+        {
+            char asBytes[4];
+            unsigned long asUnicodeChar;
+        } build_buffer;
+
+        p.si.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
+        p.si.embedded_type = EMBEDDED_TYPE_UNICODE_CHAR;
+        const char *c = utf8OneCharString;
+        int i = 0;
+        while (*c++)
+        {
+            build_buffer.asBytes[i++] = *c;
+            if (i >= 4) break;
+        }
+        p.unicodeChar.unicodeValue = build_buffer.asUnicodeChar;
+        return p.oid.oid;
+    }
+
     // ... (rest of the from... methods are correct)
 }

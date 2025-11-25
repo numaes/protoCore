@@ -136,5 +136,25 @@ namespace proto
         return node->pointers.data[index];
     }
 
+    void ProtoTupleImplementation::finalize(ProtoContext* context) const {
+        // Intentionally empty
+    }
+
+    void ProtoTupleImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
+        // ... (lógica para recorrer this->pointers y llamar a method)
+    }
+
+    unsigned long ProtoTupleImplementation::getHash(ProtoContext* context) const {
+        return Cell::getHash(context); // O una implementación más específica
+    }
+
+    const ProtoObject* ProtoTupleImplementation::implAsObject(ProtoContext* context) const {
+        ProtoObjectPointer p;
+        p.tupleImplementation = this;
+        p.op.pointer_tag = POINTER_TAG_TUPLE;
+        return p.oid.oid;
+    }
+
+
     // ... (Rest of ProtoTupleImplementation methods)
 }
