@@ -15,7 +15,6 @@ namespace proto
         const ProtoSparseList* kwargs
     ) const
     {
-        // The main logic is to simply call the stored function pointer.
         return this->method(context, const_cast<ProtoObject*>(this->self), static_cast<ParentLink*>(nullptr), const_cast<ProtoList*>(args), const_cast<ProtoSparseList*>(kwargs));
     }
 
@@ -27,24 +26,22 @@ namespace proto
         return p.oid.oid;
     }
 
-    unsigned long ProtoMethodCell::getHash(ProtoContext* context) const override
+    unsigned long ProtoMethodCell::getHash(ProtoContext* context) const
     {
         return Cell::getHash(context);
     }
 
-    void ProtoMethodCell::finalize(ProtoContext* context) const override
+    void ProtoMethodCell::finalize(ProtoContext* context) const
     {
         // No finalization action is required.
     }
 
-    // Corrected signature for const-correctness.
     void ProtoMethodCell::processReferences(
         ProtoContext* context,
         void* target,
         void (*method)(ProtoContext* context, void* self, const Cell* cell)
-    ) const override
+    ) const
     {
-        // The GC must be aware of the 'self' object to prevent it from being collected prematurely.
         if (this->self && this->self->isCell(context))
         {
             method(context, target, this->self->asCell(context));

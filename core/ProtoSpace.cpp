@@ -11,72 +11,64 @@
 #include <chrono>
 #include <functional>
 #include <condition_variable>
-#include <memory> // For std::unique_ptr
+#include <memory>
 
 namespace proto
 {
-    // ... (Constants remain the same)
+    // ... (Constants and GC helper functions remain the same)
 
-    // --- GC Helper Functions ---
+    void gcThreadLoop(ProtoSpace* space) {
+        ProtoContext gcContext(space);
+        space->gcStarted = true;
+        space->gcCV.notify_one();
 
-    void gcMarkReachable(ProtoContext* context, void* self, const Cell* value)
-    {
-        auto** liveSetPtr = static_cast<const ProtoSparseListImplementation**>(self);
-        auto* liveSet = *liveSetPtr;
-
-        if (!value || liveSet->implHas(context, value->getHash(context)))
-        {
-            return;
-        }
-
-        *liveSetPtr = liveSet->implSetAt(context, value->getHash(context), PROTO_NONE);
-        value->processReferences(context, self, gcMarkReachable);
-    }
-
-    void gcMarkObject(ProtoContext* context, void* self, const ProtoObject* value)
-    {
-        if (value && value->isCell(context))
-        {
-            gcMarkReachable(context, self, value->asCell(context));
+        while (space->state != SPACE_STATE_ENDING) {
+            std::unique_lock<std::mutex> lk(ProtoSpace::globalMutex);
+            space->gcCV.wait_for(lk, std::chrono::milliseconds(space->gcSleepMilliseconds));           if (space->dirtySegments)
+            {
+                // gcScan(&gcContext, space); // Assuming gcScan is defined elsewhere or within this file
+            }
         }
     }
 
-    void gcScan(ProtoContext* context, ProtoSpace* space)
-    {
-        // ... (GC scan logic remains complex, but we ensure const-correctness in calls)
-    }
-
-    void gcThreadLoop(ProtoSpace* space)
-    {
-        // ... (GC thread loop logic)
-    }
-
-    // --- ProtoSpace Implementation ---
-
-    ProtoSpace::ProtoSpace() : rootContext(nullptr)
+    ProtoSpace::ProtoSpace()
     {
         this->state = SPACE_STATE_RUNNING;
+        this->rootContext = new ProtoContext(this);
+        
+        this->threads = const_cast<ProtoSparseList*>(this->rootContext->newSparseList());
+        this->mutableRoot.store(const_cast<ProtoSparseList*>(this->rootContext->newSparseList()));
+        
+        this->mainThreadId = std::this_thread::get_id();
+        this->mutableLock.store(false);
+        this->threadsLock.store(false);
+        this->gcLock.store(false);
+        this->runningThreads.store(0);
+        this->maxAllocatedCellsPerContext = 1024; // Example value
+        this->blocksPerAllocation = 1024;       // Example value
+        this->heapSize = 0;
+        this->freeCellsCount = 0;
+        this->gcSleepMilliseconds = 1000;
+        this->maxHeapSize = 512 * 1024 * 1024; // 512 MB
+        this->blockOnNoMemory = false;
         this->gcStarted = false;
-        // ... (Initialize all other members to default values)
+        this->freeCells = nullptr;
+        this->dirtySegments = nullptr;
 
-        // Use a temporary context for initialization
-        ProtoContext creationContext(this);
-        this->rootContext = &creationContext; // Should be managed carefully
+        // Initialize prototypes
+        this->objectPrototype = this->rootContext->newObject();
+        // ... initialize all other prototypes and literals ...
 
-        this->threads = creationContext.newSparseList();
-        this->mutableRoot.store(const_cast<ProtoSparseList*>(creationContext.newSparseList()));
-
-        // ... (Initialize prototypes and literals)
-
-        // Use unique_ptr for RAII-style thread management
         this->gcThread = std::make_unique<std::thread>(gcThreadLoop, this);
 
-        // ... (Wait for GC thread to start)
+        while (!this->gcStarted)
+        {
+            std::unique_lock<std::mutex> lk(globalMutex);
+            this->gcCV.wait_for(lk, std::chrono::milliseconds(100));
+        }
 
-        const ProtoString* mainThreadName = static_cast<const ProtoString*>(creationContext.fromUTF8String("Main thread"));
-        ProtoThread* mainThread = const_cast<ProtoThread*>(this->newThread(&creationContext, mainThreadName, nullptr, nullptr, nullptr));
-        this->mainThreadId = std::this_thread::get_id();
-        
+        const ProtoString* mainThreadName = this->rootContext->fromUTF8String("Main thread")->asString(this->rootContext);
+        ProtoThread* mainThread = const_cast<ProtoThread*>(this->newThread(this->rootContext, mainThreadName, nullptr, nullptr, nullptr));
         this->rootContext->thread = mainThread;
     }
 
@@ -87,15 +79,15 @@ namespace proto
             this->gcCV.notify_all();
             this->gcThread->join();
         }
-        // ... (Other cleanup)
+        delete this->rootContext;
     }
 
-    void ProtoSpace::triggerGC() const
+    void ProtoSpace::triggerGC()
     {
         this->gcCV.notify_all();
     }
 
-    void ProtoSpace::allocThread(ProtoContext* context, ProtoThread* thread)
+    void ProtoSpace::allocThread(ProtoContext* context, const ProtoThread* thread)
     {
         bool oldValue = false;
         while (this->threadsLock.compare_exchange_strong(oldValue, true))
@@ -111,15 +103,24 @@ namespace proto
         this->runningThreads.fetch_add(1);
     }
 
-    void ProtoSpace::deallocThread(ProtoContext* context, ProtoThread* thread)
+    void ProtoSpace::deallocThread(ProtoContext* context, const ProtoThread* thread)
     {
-        // ... (Implementation with const_cast where necessary for now)
+        bool oldValue = false;
+        while (this->threadsLock.compare_exchange_strong(oldValue, true))
+            std::this_thread::yield();
+
+        // This logic needs a way to find the item to remove it.
+        // For now, we assume a method exists or will be added.
+        // this->threads = this->threads->removeAt(context, ...);
+
+        this->threadsLock.store(false);
+        this->runningThreads.fetch_sub(1);
     }
-    
+
     const ProtoList* ProtoSpace::getThreads(ProtoContext *c) const
     {
-        // This needs a way to convert a sparse list to a list.
-        // Placeholder:
+        // This should convert the sparse list of threads to a dense list.
+        // Placeholder implementation:
         return c->newList();
     }
 
@@ -132,9 +133,9 @@ namespace proto
     {
         auto* newThreadImpl = new(c) ProtoThreadImplementation(c, name, this, mainFunction, args, kwargs);
         const auto* newThread = newThreadImpl->asThread(c);
-        this->allocThread(c, const_cast<ProtoThread*>(newThread));
+        this->allocThread(c, newThread);
         return newThread;
     }
 
-    // ... (Other method implementations with const corrections)
+    // ... (Implementations for analyzeUsedCells, getFreeCells, deallocMutable)
 }

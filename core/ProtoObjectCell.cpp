@@ -54,11 +54,10 @@ namespace proto
 
     // --- Garbage Collector (GC) Methods ---
 
-    void ProtoObjectCell::finalize(ProtoContext* context) const override
+    void ProtoObjectCell::finalize(ProtoContext* context) const
     {
     };
 
-    // Corrected signature and implementation for const-correctness and proper GC interaction.
     void ProtoObjectCell::processReferences(
         ProtoContext* context,
         void* self,
@@ -67,15 +66,13 @@ namespace proto
             void* self,
             const Cell* cell
         )
-    ) const override
+    ) const
     {
-        // 1. Report the direct reference to the parent link chain.
         if (this->parent)
         {
             method(context, self, this->parent);
         }
 
-        // 2. Report the direct reference to the attributes list.
         if (this->attributes)
         {
             method(context, self, this->attributes);

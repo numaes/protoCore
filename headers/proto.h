@@ -374,35 +374,36 @@ namespace proto
         ~ProtoSpace();
 
         //- Core Prototypes
-        const ProtoObject* objectPrototype{};
-        const ProtoObject* smallIntegerPrototype{};
-        const ProtoObject* floatPrototype{};
-        const ProtoObject* unicodeCharPrototype{};
-        const ProtoObject* bytePrototype{};
-        const ProtoObject* nonePrototype{};
-        const ProtoObject* methodPrototype{};
-        const ProtoObject* bufferPrototype{};
-        const ProtoObject* pointerPrototype{};
-        const ProtoObject* booleanPrototype{};
-        const ProtoObject* doublePrototype{};
-        const ProtoObject* datePrototype{};
-        const ProtoObject* timestampPrototype{};
-        const ProtoObject* timedeltaPrototype{};
-        const ProtoObject* threadPrototype{};
-        const ProtoObject* rootObject{};
+        ProtoObject* objectPrototype{};
+        ProtoObject* smallIntegerPrototype{};
+        ProtoObject* floatPrototype{};
+        ProtoObject* unicodeCharPrototype{};
+        ProtoObject* bytePrototype{};
+        ProtoObject* nonePrototype{};
+        ProtoObject* methodPrototype{};
+        ProtoObject* bufferPrototype{};
+        ProtoObject* pointerPrototype{};
+        ProtoObject* booleanPrototype{};
+        ProtoObject* doublePrototype{};
+        ProtoObject* datePrototype{};
+        ProtoObject* timestampPrototype{};
+        ProtoObject* timedeltaPrototype{};
+        ProtoObject* threadPrototype{};
+        ProtoObject* rootObject{};
+        ProtoObject* literalCallMethod{};
 
         //- Collection Prototypes
-        const ProtoObject* listPrototype{};
-        const ProtoObject* listIteratorPrototype{};
-        const ProtoObject* tuplePrototype{};
-        const ProtoObject* tupleIteratorPrototype{};
-        const ProtoObject* stringPrototype{};
-        const ProtoObject* stringIteratorPrototype{};
-        const ProtoObject* sparseListPrototype{};
-        const ProtoObject* sparseListIteratorPrototype{};
+        ProtoObject* listPrototype{};
+        ProtoObject* listIteratorPrototype{};
+        ProtoObject* tuplePrototype{};
+        ProtoObject* tupleIteratorPrototype{};
+        ProtoObject* stringPrototype{};
+        ProtoObject* stringIteratorPrototype{};
+        ProtoObject* sparseListPrototype{};
+        ProtoObject* sparseListIteratorPrototype{};
 
         //- Callbacks
-        const ProtoObject* (*nonMethodCallback)(
+        ProtoObject* (*nonMethodCallback)(
             ProtoContext* context,
             const ParentLink* nextParent,
             const ProtoString* method,
@@ -410,16 +411,26 @@ namespace proto
             const ProtoList* unnamedParametersList,
             const ProtoSparseList* keywordParametersDict){};
 
-        const ProtoObject* (*attributeNotFoundGetCallback)(
+        ProtoObject* (*attributeNotFoundGetCallback)(
             ProtoContext* context,
             const ProtoObject* self,
             const ProtoString* attributeName){};
 
+        // ---- Métodos públicos ---
+        void analyzeUsedCells(const Cell* cellsChain);
+        void deallocMutable(unsigned long mutable_ref);
+        const ProtoList* getThreads(ProtoContext* context) const;
+        const ProtoThread* newThread(
+            ProtoContext *c,
+            const ProtoString* name,
+            ProtoMethod mainFunction,
+            const ProtoList* args,
+            const ProtoSparseList* kwargs);
 
         //- Memory Management & GC
         Cell* getFreeCells(const ProtoThread* currentThread);
         void analyzeUsedCells(Cell* cellsChain);
-        void triggerGC() const;
+        void triggerGC();
 
         //- Thread Management
         void allocThread(ProtoContext* context, const ProtoThread* thread);
@@ -438,20 +449,36 @@ namespace proto
          * @return A pointer to the newly created ProtoThread object.
          */
 
-        const ProtoThread* newThread(
-            ProtoContext* context,
-            const ProtoString* threadName,
-            ProtoMethod target,
-            const ProtoList* args,
-            const ProtoSparseList* kwargs
-        );
-
         const ProtoSpaceImplementation* impl{};
         int state;
         ProtoContext* rootContext;
         std::atomic<ProtoSparseList*> mutableRoot;
-    private:
-        const ProtoSparseList* threads;
+
+        // --- Maquinaria Interna (Público por ahora) ---
+
+        ProtoSparseList* threads;
+        Cell* freeCells;
+        DirtySegment* dirtySegments;
+        unsigned int maxAllocatedCellsPerContext;
+        int blocksPerAllocation;
+        int heapSize;
+        int maxHeapSize;
+        int freeCellsCount;
+        unsigned int gcSleepMilliseconds;
+        int blockOnNoMemory;
+        std::atomic<TupleDictionary*> tupleRoot;
+        std::atomic<bool> mutableLock;
+        std::atomic<bool> threadsLock;
+        std::atomic<bool> gcLock;
+        std::thread::id mainThreadId;
+        std::unique_ptr<std::thread> gcThread; // Usando unique_ptr
+        std::condition_variable stopTheWorldCV;
+        std::condition_variable restartTheWorldCV;
+        std::condition_variable gcCV;
+        bool gcStarted;
+        std::atomic<int> runningThreads;
+
+        static std::mutex globalMutex;
     };
 }
 
