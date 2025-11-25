@@ -83,22 +83,23 @@ namespace proto
         return p.oid.oid;
     }
 
-    void ProtoSparseListIteratorImplementation::finalize(ProtoContext* context) const override {}
+    void ProtoSparseListIteratorImplementation::finalize(ProtoContext* context) const {}
 
     void ProtoSparseListIteratorImplementation::processReferences(
         ProtoContext* context,
         void* self,
         void (*method)(ProtoContext* context, void* self, const Cell* cell)
-    ) const override
+    ) const
     {
         if (this->current) method(context, self, this->current);
         if (this->queue) method(context, self, this->queue);
     }
 
-    unsigned long ProtoSparseListIteratorImplementation::getHash(ProtoContext* context) const override
+    unsigned long ProtoSparseListIteratorImplementation::getHash(ProtoContext* context) const
     {
         return Cell::getHash(context);
     }
+
 
     // --- ProtoSparseListImplementation ---
 
@@ -120,7 +121,6 @@ namespace proto
     ProtoSparseListImplementation::~ProtoSparseListImplementation() = default;
 
     namespace {
-        // AVL Tree helper functions
         int getHeight(const ProtoSparseListImplementation* node) { return node ? node->height : 0; }
         int getBalance(const ProtoSparseListImplementation* node) {
             if (!node) return 0;
@@ -218,7 +218,7 @@ namespace proto
 
             const ProtoSparseListImplementation* successor = this->next;
             while (successor->previous) successor = successor->previous;
-
+            
             auto* new_next = this->next->implRemoveAt(context, successor->key);
             newNode = new(context) ProtoSparseListImplementation(context, successor->key, successor->value, this->previous, new_next);
         }
@@ -244,13 +244,13 @@ namespace proto
         if (this->next) this->next->implProcessElements(context, self, method);
     }
 
-    void ProtoSparseListImplementation::implProcessValues(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const ProtoObject*)) const {
+    void ProtoSparseListImplementation::implProcessValues(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const ProtoObject*, const Cell*)) const {
         if (this->previous) this->previous->implProcessValues(context, self, method);
-        if (this->value != PROTO_NONE) method(context, self, this->value);
+        if (this->value != PROTO_NONE) method(context, self, this->value, this);
         if (this->next) this->next->implProcessValues(context, self, method);
     }
 
-    void ProtoSparseListImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const override {
+    void ProtoSparseListImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
         if (this->previous) method(context, self, this->previous);
         if (this->next) method(context, self, this->next);
         if (this->value && this->value->isCell(context)) method(context, self, this->value->asCell(context));
@@ -273,7 +273,7 @@ namespace proto
         return new(context) ProtoSparseListIteratorImplementation(context, ITERATOR_NEXT_THIS, node, queue);
     }
 
-    unsigned long ProtoSparseListImplementation::getHash(ProtoContext* context) const override { return this->hash; }
+    unsigned long ProtoSparseListImplementation::getHash(ProtoContext* context) const { return this->hash; }
 
-    void ProtoSparseListImplementation::finalize(ProtoContext* context) const override {}
+    void ProtoSparseListImplementation::finalize(ProtoContext* context) const {}
 }

@@ -391,6 +391,39 @@ namespace proto
         bool isEmpty:1;
     };
 
+    // --- ProtoSparseListIteratorImplementation ---
+    class ProtoSparseListIteratorImplementation final : public Cell
+        {
+        public:
+            ProtoSparseListIteratorImplementation(
+                ProtoContext* context,
+                int state, // <-- Añadir state
+                const ProtoSparseListImplementation* current, // <-- Añadir current
+                const ProtoSparseListIteratorImplementation* queue = nullptr // <-- Añadir queue
+            );
+            ~ProtoSparseListIteratorImplementation() override;
+
+            int implHasNext(ProtoContext* context) const;
+            unsigned long implNextKey(ProtoContext* context) const;
+            const ProtoObject* implNextValue(ProtoContext* context) const;
+            const ProtoSparseListIteratorImplementation* implAdvance(ProtoContext* context) const; // <-- Añadir const
+            const ProtoObject* implAsObject(ProtoContext* context) const;
+            unsigned long getHash(ProtoContext* context) const override;
+            void finalize(ProtoContext* context) const override;
+            void processReferences(
+                ProtoContext* context,
+                void* self,
+                void (*method)(ProtoContext* context, void* self, const Cell* cell)
+            ) const override;
+
+            // ...
+
+        private: // <-- Hacer los miembros privados
+            int state;
+            const ProtoSparseListImplementation* current;
+            const ProtoSparseListIteratorImplementation* queue;
+        };
+
     class ProtoSparseListImplementation final : public Cell
     {
     public:
@@ -423,7 +456,7 @@ namespace proto
         void implProcessValues(
             ProtoContext* context,
             void* self,
-            void (*method)(ProtoContext*, void*, const ProtoObject*)
+            void (*method)(ProtoContext*, void*, const ProtoObject*, const Cell *)
         ) const;
         // ...
 
@@ -440,8 +473,8 @@ namespace proto
         const ProtoSparseListImplementation* previous;
         const ProtoSparseListImplementation* next;
         unsigned long hash;
-        unsigned long count;
-        unsigned long height;
+        unsigned long count : 56;
+        unsigned long height : 8;
     };
 
     class ProtoTupleIteratorImplementation final : public Cell
@@ -528,8 +561,8 @@ namespace proto
     public:
         ProtoStringIteratorImplementation(
             ProtoContext* context,
-            ProtoString* base,
-            int currentIndex = 0
+            const ProtoString* base,
+            unsigned long currentIndex = 0
         );
 
         ~ProtoStringIteratorImplementation() override;
@@ -592,7 +625,7 @@ namespace proto
 
         // ...
         // ...
-        ProtoTupleImplementation* base;
+        const ProtoTupleImplementation* base;
     };
 
     class ProtoByteBufferImplementation final : public Cell
