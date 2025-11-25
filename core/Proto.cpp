@@ -180,7 +180,7 @@ namespace proto
         return this->getAttribute(context, name) != PROTO_NONE ? PROTO_TRUE : PROTO_FALSE;
     }
 
-    const ProtoObject* ProtoObject::setAttribute(ProtoContext* context, ProtoString* name, const ProtoObject* value)
+    const ProtoObject* ProtoObject::setAttribute(ProtoContext* context, ProtoString* name, const ProtoObject* value) const
     {
         ProtoObjectPointer pa{};
         pa.oid.oid = this;

@@ -60,7 +60,7 @@ namespace proto
         const ProtoObject* getAttribute(ProtoContext* context, ProtoString* name) const;
         const ProtoObject* hasAttribute(ProtoContext* context, ProtoString* name) const;
         const ProtoObject* hasOwnAttribute(ProtoContext* context, ProtoString* name) const;
-        const ProtoObject* setAttribute(ProtoContext* context, ProtoString* name, const ProtoObject* value);
+        const ProtoObject* setAttribute(ProtoContext* context, ProtoString* name, const ProtoObject* value) const;
         const ProtoSparseList* getAttributes(ProtoContext* context) const;
         const ProtoSparseList* getOwnAttributes(ProtoContext* context) const;
 
