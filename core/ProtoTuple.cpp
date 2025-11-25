@@ -24,10 +24,11 @@ namespace proto
         const ProtoTupleImplementation* key,
         TupleDictionary* next,
         TupleDictionary* previous
-    ): Cell(context), key(key), next(next), previous(previous) {
+    ): Cell(context), key(key), previous(previous), next(next) {
         this->height = 1 + std::max(previous ? previous->height : 0, next ? next->height : 0);
         this->count = (key ? 1 : 0) + (previous ? previous->count : 0) + (next ? next->count : 0);
     }
+
 
     void TupleDictionary::finalize(ProtoContext* context) const {}
 
@@ -48,7 +49,7 @@ namespace proto
     ProtoTupleIteratorImplementation::ProtoTupleIteratorImplementation(
         ProtoContext* context,
         const ProtoTupleImplementation* base,
-        unsigned long currentIndex
+        int currentIndex
     ) : Cell(context), base(base), currentIndex(currentIndex) {}
 
     ProtoTupleIteratorImplementation::~ProtoTupleIteratorImplementation() = default;
@@ -99,7 +100,7 @@ namespace proto
         this->height = height;
         if (height == 0) {
             for (int i = 0; i < TUPLE_SIZE; i++) {
-                this->pointers.data[i] = (data && i < (int)elementCount) ? data[i] : nullptr;
+                this->pointers.data[i] = data && i < (int)elementCount ? data[i] : nullptr;
             }
         } else {
             for (int i = 0; i < TUPLE_SIZE; i++) {
@@ -107,6 +108,7 @@ namespace proto
             }
         }
     }
+
 
     ProtoTupleImplementation::~ProtoTupleImplementation() = default;
 

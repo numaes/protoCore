@@ -478,6 +478,32 @@ namespace proto
         unsigned long height : 8;
     };
 
+
+    // --- Tuple Interning Dictionary ---
+    class TupleDictionary final : public Cell {
+    public:
+        TupleDictionary(ProtoContext *context,
+                        const ProtoTupleImplementation *key = nullptr,
+                        TupleDictionary *next = nullptr,
+                        TupleDictionary *previous = nullptr);
+        int compareTuple(ProtoContext *context,
+                         const ProtoTupleImplementation *tuple) const;
+        const ProtoTupleImplementation *
+        getAt(ProtoContext *context, const ProtoTupleImplementation *tuple) const;
+        TupleDictionary *set(ProtoContext *context,
+                             const ProtoTupleImplementation *tuple);
+        void finalize(ProtoContext* context) const override;
+        void processReferences(ProtoContext *context, void *self,
+                               void (*method)(ProtoContext *, void *,
+                                              const Cell *)) const override;
+
+        const ProtoTupleImplementation *key;
+        TupleDictionary *previous;
+        TupleDictionary *next;
+        unsigned long height;
+        unsigned long count;
+    };
+
     class ProtoTupleIteratorImplementation final : public Cell
     {
     public:
@@ -489,7 +515,7 @@ namespace proto
         // ...
         int implHasNext(ProtoContext* context) const;
         const ProtoObject* implNext(ProtoContext* context) const;
-        const ProtoTupleIteratorImplementation* implAdvance(ProtoContext* context);
+        const ProtoTupleIteratorImplementation* implAdvance(ProtoContext* context) const;
         const ProtoObject* implAsObject(ProtoContext* context) const;
         const ProtoTupleIterator* asProtoTupleIterator(ProtoContext* context) const;
         // ...
@@ -499,8 +525,10 @@ namespace proto
             void* self,
             void (*method)(ProtoContext* context, void* self, const Cell* cell)
         ) const override;
+        unsigned long getHash(ProtoContext *context) const override;
 
-        ProtoTupleImplementation* base;
+    private:
+        const ProtoTupleImplementation* base;
         unsigned long currentIndex;
     };
 
@@ -510,8 +538,9 @@ namespace proto
         ProtoTupleImplementation(
             ProtoContext* context,
             unsigned long count = 0,
-            ProtoObject** data = nullptr,
-            ProtoTupleImplementation** indirect = nullptr
+            unsigned long height = 0,
+            const ProtoObject** data = nullptr,
+            const ProtoTupleImplementation** indirect = nullptr
         );
         ~ProtoTupleImplementation() override;
 
@@ -553,8 +582,8 @@ namespace proto
         unsigned long height : 8;
         union
         {
-            ProtoObject* data[TUPLE_SIZE];
-            ProtoTupleImplementation* indirect[TUPLE_SIZE];
+            const ProtoObject* data[TUPLE_SIZE];
+            const ProtoTupleImplementation* indirect[TUPLE_SIZE];
         } pointers;
     };
 
