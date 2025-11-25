@@ -173,4 +173,21 @@ namespace proto
     const ProtoListIterator* ProtoListIteratorImplementation::asProtoListIterator(ProtoContext* context) const {
         return (const ProtoListIterator*)this->implAsObject(context);
     }
+
+    const ProtoListImplementation* ProtoListImplementation::implExtend(
+        ProtoContext* context,
+        const ProtoListImplementation* other
+    ) const {
+        // Esta es una implementación simple para satisfacer al enlazador.
+        // Itera sobre la otra lista y añade cada elemento a la actual.
+        const ProtoList* result = this->asProtoList(context);
+        const ProtoListIterator* iter = other->implGetIterator(context);
+
+        while (iter->hasNext(context)) {
+            result = result->appendLast(context, iter->next(context));
+            iter = iter->advance(context);
+        }
+
+        return toImpl<const ProtoListImplementation>(result);
+    }
 }

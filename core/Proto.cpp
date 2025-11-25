@@ -373,4 +373,13 @@ namespace proto
         const auto* impl = toImpl<const ProtoStringImplementation>(this)->implAppendLast(context, otherString);
         return impl->asProtoString(context);
     }
+
+    // --- Añadir a core/Proto.cpp ---
+
+    const ProtoList* ProtoList::extend(ProtoContext* context, const ProtoList* otherList) const {
+        const auto* impl = toImpl<const ProtoListImplementation>(this);
+        const auto* otherImpl = toImpl<const ProtoListImplementation>(otherList);
+        const auto* resultImpl = impl->implExtend(context, otherImpl);
+        return resultImpl->asProtoList(context);
+    }
 }

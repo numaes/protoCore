@@ -646,7 +646,7 @@ namespace proto
         const ProtoStringImplementation* implRemoveFirst(ProtoContext* context, int count) const;
         const ProtoStringImplementation* implRemoveLast(ProtoContext* context, int count) const;
         const ProtoStringImplementation* implRemoveAt(ProtoContext* context, int index) const;
-        const ProtoObject* implAsObject(ProtoContext* context) const;
+        const ProtoListImplementation* implExtend(ProtoContext* context, const ProtoListImplementation* other) const;        const ProtoObject* implAsObject(ProtoContext* context) const;
         const ProtoString* asProtoString(ProtoContext* context) const;
         unsigned long getHash(ProtoContext* context) const override;
 
