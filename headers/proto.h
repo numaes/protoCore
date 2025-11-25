@@ -57,10 +57,10 @@ namespace proto
         const ProtoObject* newChild(ProtoContext* context, bool isMutable = false) const;
 
         //- Attributes
-        const ProtoObject* getAttribute(ProtoContext* context, ProtoString* name) const;
-        const ProtoObject* hasAttribute(ProtoContext* context, ProtoString* name) const;
-        const ProtoObject* hasOwnAttribute(ProtoContext* context, ProtoString* name) const;
-        const ProtoObject* setAttribute(ProtoContext* context, ProtoString* name, const ProtoObject* value) const;
+        const ProtoObject* getAttribute(ProtoContext* context, const ProtoString* name) const;
+        const ProtoObject* hasAttribute(ProtoContext* context, const ProtoString* name) const;
+        const ProtoObject* hasOwnAttribute(ProtoContext* context, const ProtoString* name) const;
+        const ProtoObject* setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const;
         const ProtoSparseList* getAttributes(ProtoContext* context) const;
         const ProtoSparseList* getOwnAttributes(ProtoContext* context) const;
 
@@ -109,6 +109,9 @@ namespace proto
         const ProtoSparseListIterator* asSparseListIterator(ProtoContext* context) const;
         const ProtoThread* asThread(ProtoContext* context) const;
         ProtoMethod asMethod(ProtoContext* context) const;
+        bool isNone(ProtoContext* context) const;
+        bool isString(ProtoContext* context) const;
+
     };
 
     class ProtoListIterator

@@ -1,61 +1,63 @@
 #include <gtest/gtest.h>
 #include "../headers/proto.h"
 
-// Test fixture for primitive type tests
+using namespace proto;
+
 class PrimitivesTest : public ::testing::Test {
 protected:
-    proto::const ProtoSpace space;
+    proto::ProtoSpace* space;
     proto::ProtoContext* context;
 
     void SetUp() override {
-        // The main function for the space is not relevant for these tests
-        space = new proto::ProtoSpace(nullptr, 0, nullptr);
-        context = new proto::ProtoContext(nullptr, nullptr, 0, nullptr, space);
+        space = new proto::ProtoSpace();
+        context = space->rootContext;
     }
 
     void TearDown() override {
-        delete context;
         delete space;
     }
 };
 
 TEST_F(PrimitivesTest, IntegerHandling) {
-    proto::ProtoObject* i = context->fromInteger(42);
+    const proto::ProtoObject* i = context->fromInteger(42);
     ASSERT_TRUE(i->isInteger(context));
     ASSERT_EQ(i->asInteger(context), 42);
 
-    proto::ProtoObject* neg_i = context->fromInteger(-100);
+    const proto::ProtoObject* neg_i = context->fromInteger(-100);
     ASSERT_TRUE(neg_i->isInteger(context));
     ASSERT_EQ(neg_i->asInteger(context), -100);
 }
 
 TEST_F(PrimitivesTest, BooleanHandling) {
-    proto::ProtoObject* t = context->fromBoolean(true);
+    const proto::ProtoObject* t = context->fromBoolean(true);
     ASSERT_TRUE(t->isBoolean(context));
-    ASSERT_EQ(t->asBoolean(context), true);
-    ASSERT_EQ(t, PROTO_TRUE);
+    ASSERT_TRUE(t->asBoolean(context));
+    ASSERT_EQ(t->asInteger(context), 1);
 
-    proto::ProtoObject* f = context->fromBoolean(false);
+    const proto::ProtoObject* f = context->fromBoolean(false);
     ASSERT_TRUE(f->isBoolean(context));
-    ASSERT_EQ(f->asBoolean(context), false);
-    ASSERT_EQ(f, PROTO_FALSE);
+    ASSERT_FALSE(f->asBoolean(context));
+    ASSERT_EQ(f->asInteger(context), 0);
 }
 
 TEST_F(PrimitivesTest, NoneHandling) {
-    proto::ProtoObject* n = PROTO_NONE;
-    // Note: There isn't an isNone() method, as checks are usually done by pointer comparison
-    ASSERT_EQ(n, nullptr);
+    const proto::ProtoObject* n = PROTO_NONE;
+    ASSERT_TRUE(n->isNone(context));
+    ASSERT_FALSE(n->isInteger(context));
 }
 
 TEST_F(PrimitivesTest, StringHandling) {
-    const char* test_str = "hello, world!";
-    proto::ProtoString* s = context->fromUTF8String(test_str);
+    const char* test_str = "hello";
+    const proto::ProtoObject* s_obj = context->fromUTF8String(test_str);
     
-    ASSERT_FALSE(s->isInteger(context));
-    ASSERT_TRUE(s->asString(context) != nullptr);
-    ASSERT_EQ(s->getSize(context), strlen(test_str));
+    ASSERT_TRUE(s_obj->isString(context));
+    ASSERT_FALSE(s_obj->isInteger(context));
+    
+    const proto::ProtoString* s = s_obj->asString(context);
+    ASSERT_TRUE(s != nullptr);
+    ASSERT_EQ(s->getSize(context), 5);
 
-    // Test that two identical strings are the same object (interning)
-    proto::ProtoString* s2 = context->fromUTF8String(test_str);
-    ASSERT_EQ(s, s2);
+    const proto::ProtoObject* s2_obj = context->fromUTF8String(test_str);
+    const proto::ProtoString* s2 = s2_obj->asString(context);
+    ASSERT_EQ(s, s2); // Should be the same due to interning
 }

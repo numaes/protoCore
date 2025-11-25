@@ -133,7 +133,7 @@ namespace proto
         return PROTO_FALSE;
     }
 
-    const ProtoObject* ProtoObject::getAttribute(ProtoContext* context, ProtoString* name) const
+    const ProtoObject* ProtoObject::getAttribute(ProtoContext* context, const ProtoString* name) const
     {
         const auto* thread = toImpl<const ProtoThreadImplementation>(context->thread);
         const unsigned int hash = (reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(name)) & (THREAD_CACHE_DEPTH - 1);
@@ -175,12 +175,12 @@ namespace proto
         return PROTO_NONE;
     }
 
-    const ProtoObject* ProtoObject::hasAttribute(ProtoContext* context, ProtoString* name) const
+    const ProtoObject* ProtoObject::hasAttribute(ProtoContext* context, const ProtoString* name) const
     {
         return this->getAttribute(context, name) != PROTO_NONE ? PROTO_TRUE : PROTO_FALSE;
     }
 
-    const ProtoObject* ProtoObject::setAttribute(ProtoContext* context, ProtoString* name, const ProtoObject* value) const
+    const ProtoObject* ProtoObject::setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const
     {
         ProtoObjectPointer pa{};
         pa.oid.oid = this;
@@ -382,4 +382,17 @@ namespace proto
         const auto* resultImpl = impl->implExtend(context, otherImpl);
         return resultImpl->asProtoList(context);
     }
+
+    // --- Añadir a core/Proto.cpp ---
+
+    bool ProtoObject::isNone(ProtoContext* context) const {
+        return this == PROTO_NONE;
+    }
+
+    bool ProtoObject::isString(ProtoContext* context) const {
+        ProtoObjectPointer pa{};
+        pa.oid.oid = this;
+        return pa.op.pointer_tag == POINTER_TAG_STRING;
+    }
+
 }
