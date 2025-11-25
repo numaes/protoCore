@@ -79,7 +79,7 @@ namespace proto
                                 const ParentLink* nextParent,
                                 const ProtoString* method,
                                 const ProtoObject* self,
-                                const ProtoList* unnamedParametersList = nullptr,
+                                const ProtoList* positionalParameters,
                                 const ProtoSparseList* keywordParametersDict = nullptr);
 
         //- Internals & Type Checking
@@ -449,6 +449,7 @@ namespace proto
         const ProtoSpaceImplementation* impl{};
         int state;
         ProtoContext* rootContext;
+        std::atomic<ProtoSparseList*> mutableRoot;
     private:
         const ProtoSparseList* threads;
     };

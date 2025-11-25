@@ -19,7 +19,7 @@ namespace proto
 
     ParentLinkImplementation::~ParentLinkImplementation() = default;
 
-    // Corrected signature for const-correctness.
+    // Corrected: Removed 'override' from the definition.
     void ParentLinkImplementation::processReferences(
         ProtoContext* context,
         void* self,
@@ -28,26 +28,21 @@ namespace proto
             void* self,
             const Cell* cell
         )
-    ) const override
+    ) const
     {
-        // For the garbage collector, it is crucial to process all references to other Cells.
-
-        // 1. Process the link to the previous parent in the chain.
         if (this->parent)
         {
-            // 'parent' is already a 'const ParentLinkImplementation*', which is a const Cell*.
             method(context, self, this->parent);
         }
 
-        // 2. Process the object (ProtoObjectCell) that this link represents.
         if (this->object && this->object->isCell(context))
         {
-            // 'object' is a 'const ProtoObject*'. Its asCell() method returns a 'const Cell*'.
             method(context, self, this->object->asCell(context));
         }
     }
 
-    void ParentLinkImplementation::finalize(ProtoContext* context) const override
+    // Corrected: Removed 'override' from the definition.
+    void ParentLinkImplementation::finalize(ProtoContext* context) const
     {
         // This method is intentionally left empty.
     }

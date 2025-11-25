@@ -251,13 +251,13 @@ namespace proto
         virtual void processReferences(
             ProtoContext* context,
             void* self,
-            void (*method)(ProtoContext* context, void* self, Cell* cell)
+            void (*method)(ProtoContext* context, void* self, const Cell* cell)
         ) const;
         // ...
         virtual unsigned long getHash(ProtoContext* context) const;
         virtual const ProtoObject* implAsObject(ProtoContext* context) const; // Already declared
         static void* operator new(unsigned long size, ProtoContext* context);
-        virtual Cell* asCell(ProtoContext* context) const;
+        virtual const Cell* asCell(ProtoContext* context) const;
         // ...
         Cell* next;
     };
@@ -274,7 +274,7 @@ namespace proto
         virtual void processReferences(
             ProtoContext* context,
             void* self,
-            void (*method)(ProtoContext* context, void* self, Cell* cell)
+            void (*method)(ProtoContext* context, void* self, const Cell* cell)
         ) const override;
         // ...
 
@@ -302,7 +302,7 @@ namespace proto
         void processReferences(
             ProtoContext* context,
             void* self,
-            void (*method)(ProtoContext* context, void* self, Cell* cell)
+            void (*method)(ProtoContext* context, void* self, const Cell* cell)
         ) const override;
         const ProtoObject* asObject(ProtoContext* context) const;
 
@@ -332,7 +332,7 @@ namespace proto
         void processReferences(
             ProtoContext* context,
             void* self,
-            void (*method)(ProtoContext*, void*, Cell*)
+            void (*method)(ProtoContext* context, void* self, const Cell* cell)
         ) const override;
 
     private:
@@ -378,7 +378,7 @@ namespace proto
         void processReferences(
             ProtoContext* context,
             void* self,
-            void (*method)(ProtoContext*, void*, Cell*)
+            void (*method)(ProtoContext* context, void* self, const Cell* cell)
         ) const override;
 
         // ...
@@ -402,6 +402,10 @@ namespace proto
         );
         ~ProtoSparseListIteratorImplementation() override;
         // ...
+        bool implHas(ProtoContext* context, unsigned long offset) const;
+        const ProtoObject* implGetAt(ProtoContext* context, unsigned long offset) const;
+        const ProtoSparseListImplementation* implSetAt(ProtoContext* context, unsigned long offset, const ProtoObject* newValue) const;
+
         int implHasNext(ProtoContext* context) const;
         unsigned long implNextKey(ProtoContext* context) const;
         const ProtoObject* implNextValue(ProtoContext* context) const;
@@ -413,7 +417,7 @@ namespace proto
         void processReferences(
             ProtoContext* context,
             void* self,
-            void (*method)(ProtoContext*, void*, Cell*)
+            void (*method)(ProtoContext* context, void* self, const Cell* cell)
         ) const override;
 
 
@@ -459,7 +463,7 @@ namespace proto
         void processReferences(
             ProtoContext* context,
             void* self,
-            void (*method)(ProtoContext*, void*, Cell*)
+            void (*method)(ProtoContext* context, void* self, const Cell* cell)
         ) const override;
 
         unsigned long key;
@@ -487,7 +491,7 @@ namespace proto
         void processReferences(
             ProtoContext* context,
             void* self,
-            void (*method)(ProtoContext*, void*, Cell*)
+            void (*method)(ProtoContext* context, void* self, const Cell* cell)
         ) const override;
 
         ProtoTupleImplementation* base;
@@ -535,7 +539,7 @@ namespace proto
         void processReferences(
             ProtoContext* context,
             void* self,
-            void (*method)(ProtoContext*, void*, Cell*)
+            void (*method)(ProtoContext* context, void* self, const Cell* cell)
         ) const override;
 
         // ...
@@ -571,7 +575,7 @@ namespace proto
         void processReferences(
             ProtoContext* context,
             void* self,
-            void (*method)(ProtoContext*, void*, Cell*)
+            void (*method)(ProtoContext* context, void* self, const Cell* cell)
         ) const override;
 
         ProtoString* base;
@@ -611,7 +615,7 @@ namespace proto
         void processReferences(
             ProtoContext* context,
             void* self,
-            void (*method)(ProtoContext*, void*, Cell*)
+            void (*method)(ProtoContext* context, void* self, const Cell* cell)
         ) const override;
 
         // ...
@@ -642,7 +646,7 @@ namespace proto
         void processReferences(
             ProtoContext* context,
             void* self,
-            void (*method)(ProtoContext*, void*, Cell*)
+            void (*method)(ProtoContext* context, void* self, const Cell* cell)
         ) const override;
 
         // ...
@@ -672,7 +676,7 @@ namespace proto
         void processReferences(
             ProtoContext* context,
             void* target,
-            void (*auxMethod)(ProtoContext*, void*, Cell*)
+            void (*auxMethod)(ProtoContext* context, void* self, const Cell* cell)
         ) const override;
 
         // ...
@@ -697,7 +701,7 @@ namespace proto
         void processReferences(
             ProtoContext* context,
             void* self,
-            void (*method)(ProtoContext*, void*, Cell*)
+            void (*method)(ProtoContext* context, void* self, const Cell* cell)
         ) const override;
 
         // ...
@@ -742,7 +746,7 @@ namespace proto
         void processReferences(
             ProtoContext* context,
             void* self,
-            void (*callBackMethod)(ProtoContext*, void*, Cell*)
+            void (*callBackMethod)(ProtoContext* context, void* self, const Cell* cell)
         ) const override;
 
         // --- Members kept in the main cell ---
@@ -751,7 +755,7 @@ namespace proto
         int state;
         std::atomic<int> unmanagedCount;
         const ProtoString* name;
-        ProtoThreadExtension* extension; // Pointer to the extension
+        mutable ProtoThreadExtension* extension; // Pointer to the extension
     };
 
     // The new extension class to hold large members
@@ -765,12 +769,12 @@ namespace proto
         void processReferences(
             ProtoContext* context,
             void* self,
-            void (*callBackMethod)(ProtoContext*, void*, Cell*)
+            void (*callBackMethod)(ProtoContext* context, void* self, const Cell* cell)
         ) const override;
 
         // --- Large members moved here ---
         std::unique_ptr<std::thread> osThread;
-        AttributeCacheEntry* attributeCache;
+        mutable AttributeCacheEntry* attributeCache;
         Cell* freeCells;
     };
 
@@ -815,3 +819,4 @@ namespace proto
 } // namespace proto
 
 #endif /* PROTO_INTERNAL_H */
+
