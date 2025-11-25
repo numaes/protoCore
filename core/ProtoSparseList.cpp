@@ -218,7 +218,7 @@ namespace proto
 
             const ProtoSparseListImplementation* successor = this->next;
             while (successor->previous) successor = successor->previous;
-            
+
             auto* new_next = this->next->implRemoveAt(context, successor->key);
             newNode = new(context) ProtoSparseListImplementation(context, successor->key, successor->value, this->previous, new_next);
         }

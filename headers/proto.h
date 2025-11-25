@@ -390,7 +390,6 @@ namespace proto
         ProtoObject* timedeltaPrototype{};
         ProtoObject* threadPrototype{};
         ProtoObject* rootObject{};
-        ProtoObject* literalCallMethod{};
 
         //- Collection Prototypes
         ProtoObject* listPrototype{};
@@ -401,6 +400,11 @@ namespace proto
         ProtoObject* stringIteratorPrototype{};
         ProtoObject* sparseListPrototype{};
         ProtoObject* sparseListIteratorPrototype{};
+
+        // --- Cached Literals ---
+        ProtoString* literalGetAttribute;
+        ProtoString* literalSetAttribute;
+        ProtoString* literalCallMethod;
 
         //- Callbacks
         ProtoObject* (*nonMethodCallback)(

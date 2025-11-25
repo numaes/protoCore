@@ -391,38 +391,6 @@ namespace proto
         bool isEmpty:1;
     };
 
-    class ProtoSparseListIteratorImplementation final : public Cell
-    {
-    public:
-        // ...
-        ProtoSparseListIteratorImplementation(
-            ProtoContext* context,
-            const ProtoSparseListImplementation* base,
-            int currentIndex = 0
-        );
-        ~ProtoSparseListIteratorImplementation() override;
-        // ...
-        bool implHas(ProtoContext* context, unsigned long offset) const;
-        const ProtoObject* implGetAt(ProtoContext* context, unsigned long offset) const;
-        const ProtoSparseListImplementation* implSetAt(ProtoContext* context, unsigned long offset, const ProtoObject* newValue) const;
-
-        int implHasNext(ProtoContext* context) const;
-        unsigned long implNextKey(ProtoContext* context) const;
-        const ProtoObject* implNextValue(ProtoContext* context) const;
-        const ProtoSparseListIteratorImplementation* implAdvance(ProtoContext* context);
-        const ProtoObject* implAsObject(ProtoContext* context) const;
-        const ProtoSparseListIterator* asProtoSparseListIterator(ProtoContext* context) const;
-        // ...
-        void finalize(ProtoContext* context) const override;
-        void processReferences(
-            ProtoContext* context,
-            void* self,
-            void (*method)(ProtoContext* context, void* self, const Cell* cell)
-        ) const override;
-
-
-    };
-
     class ProtoSparseListImplementation final : public Cell
     {
     public:
@@ -444,6 +412,7 @@ namespace proto
         bool implIsEqual(ProtoContext* context, const ProtoSparseListImplementation* otherDict) const;
         unsigned long implGetSize(ProtoContext* context) const;
         const ProtoObject* implAsObject(ProtoContext* context) const;
+
         const ProtoSparseList* asSparseList(ProtoContext* context) const;
         const ProtoSparseListIteratorImplementation* implGetIterator(ProtoContext* context) const;
         void implProcessElements(
@@ -470,6 +439,9 @@ namespace proto
         const ProtoObject* value;
         const ProtoSparseListImplementation* previous;
         const ProtoSparseListImplementation* next;
+        unsigned long hash;
+        unsigned long count;
+        unsigned long height;
     };
 
     class ProtoTupleIteratorImplementation final : public Cell
