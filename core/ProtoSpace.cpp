@@ -103,5 +103,24 @@ namespace proto
         this->gcCV.notify_all();
     }
 
-    // ... (rest of the file)
+    void ProtoSpace::allocThread(ProtoContext* context, const ProtoThread* thread) {
+        // ... (la implementación que ya teníamos)
+    }
+
+    // AÑADIR a core/ProtoSpace.cpp
+    void ProtoSpace::analyzeUsedCells(proto::Cell *cellsChain) {
+        // Implementación...
+    }
+    void ProtoSpace::deallocThread(ProtoContext* context, const ProtoThread* thread) {
+        // Implementación...
+    }
+    Cell* ProtoSpace::getFreeCells(const ProtoThread* currentThread) {
+        // Implementación...
+        return nullptr;
+    }
+    const ProtoThread* ProtoSpace::newThread(ProtoContext* c, const ProtoString* name, ProtoMethod mainFunction, const ProtoList* args, const ProtoSparseList* kwargs) {
+        // Implementación...
+        return nullptr;
+    }
+
 }

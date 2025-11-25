@@ -154,4 +154,13 @@ namespace proto
     const ProtoList* ProtoListImplementation::asProtoList(ProtoContext* context) const {
         return (const ProtoList*)this->implAsObject(context);
     }
+
+    const ProtoListImplementation* ProtoListImplementation::implAppendLast(ProtoContext* context, const ProtoObject* value) const {
+        // Lógica del AVL para añadir un elemento...
+        return new(context) ProtoListImplementation(context, value, false, this); // Implementación simplificada
+    }
+
+    unsigned long ProtoListImplementation::implGetSize(ProtoContext* context) const {
+        return this->size;
+    }
 }

@@ -155,6 +155,8 @@ namespace proto
         return p.oid.oid;
     }
 
-
+    const ProtoTuple* ProtoTupleImplementation::asProtoTuple(ProtoContext* context) const {
+        return (const ProtoTuple*)this->implAsObject(context);
+    }
     // ... (Rest of ProtoTupleImplementation methods)
 }

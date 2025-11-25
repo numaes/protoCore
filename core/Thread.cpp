@@ -189,6 +189,20 @@ namespace proto
             }
         }
     }
+
+    void ProtoThreadImplementation::finalize(ProtoContext* context) const {
+        // Intentionally empty
+    }
+
+    unsigned long ProtoThreadImplementation::getHash(ProtoContext* context) const {
+        return Cell::getHash(context);
+    }
+
+    // AÑADIR a core/Thread.cpp
+    void ProtoThreadImplementation::implSetCurrentContext(ProtoContext* context) {
+        this->currentContext = context;
+    }
+
     
     // ... (rest of the implementation)
 }

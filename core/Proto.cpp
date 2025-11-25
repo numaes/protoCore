@@ -315,6 +315,10 @@ namespace proto
         return (const ProtoThread*)this->implAsObject(context);
     }
 
-    // ... y así sucesivamente para los demás métodos faltantes.
-    // ... (rest of the file with corrected logic)
+    // --- ProtoThread ---
+    void ProtoThread::setCurrentContext(ProtoContext* context) {
+        toImpl<ProtoThreadImplementation>(this)->implSetCurrentContext(context);
+    }
+
+
 }
