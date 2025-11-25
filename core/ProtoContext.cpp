@@ -53,7 +53,7 @@ namespace proto
         Cell* newCell = nullptr;
         if (this->thread)
         {
-            newCell = toImpl<ProtoThreadImplementation>(this->thread)->implAllocCell();
+            newCell = toImpl<ProtoThreadImplementation>(this->thread)->implAllocCell(this);
         }
         else
         {

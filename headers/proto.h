@@ -14,6 +14,7 @@
 #include "proto_internal.h"
 #include "proto_internal.h"
 #include "proto_internal.h"
+#include "proto_internal.h"
 
 
 namespace proto
@@ -234,6 +235,8 @@ namespace proto
         const ProtoList* asList(ProtoContext* context) const;
         const ProtoStringIterator* getIterator(ProtoContext* context) const;
         unsigned long getHash(ProtoContext* context) const;
+        const ProtoString* isCell(ProtoContext* context) const;
+        const Cell* asCell(ProtoContext* context) const;
     };
 
     class ProtoSparseListIterator

@@ -779,7 +779,7 @@ namespace proto
         void implSetCurrentContext(ProtoContext* context);
         const ProtoThread* asThread(ProtoContext* context) const;
         static ProtoThreadImplementation* implGetCurrentThread();
-        Cell* implAllocCell();
+        Cell* implAllocCell(ProtoContext* context);
         unsigned long getHash(ProtoContext* context) const override;
         void finalize(ProtoContext* context) const override;
         void processReferences(

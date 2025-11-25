@@ -32,7 +32,7 @@ namespace proto
         std::free(this->attributeCache);
     }
 
-    void ProtoThreadExtension::finalize(ProtoContext* context) const override
+    void ProtoThreadExtension::finalize(ProtoContext* context) const
     {
         if (this->osThread && this->osThread->joinable()) {
             this->osThread->detach();
@@ -43,7 +43,7 @@ namespace proto
         ProtoContext* context,
         void* self,
         void (*callBackMethod)(ProtoContext*, void*, const Cell* cell)
-    ) const override
+    ) const
     {
         const Cell* currentFree = this->freeCells;
         while (currentFree)
@@ -126,22 +126,33 @@ namespace proto
             ctx = ctx->previous;
         }
 
+        // Dentro de processReferences de ProtoThreadImplementation
         if (this->extension && this->extension->attributeCache) {
             for (unsigned int i = 0; i < THREAD_CACHE_DEPTH; ++i) {
                 const AttributeCacheEntry& entry = this->extension->attributeCache[i];
-                if (entry.object && entry.object->isCell(context)) callBackMethod(context, self, entry.object->asCell(context));
-                if (entry.attributeName && entry.attributeName->isCell(context)) callBackMethod(context, self, entry.attributeName->asCell(context));
-                if (entry.value && entry.value->isCell(context)) callBackMethod(context, self, entry.value->asCell(context));
+                const ProtoObject* obj = entry.object;
+                const ProtoObject* attrName = (const ProtoObject*)entry.attributeName;
+                const ProtoObject* val = entry.value;
+
+                if (obj && obj->isCell(context)) {
+                    callBackMethod(context, self, obj->asCell(context));
+                }
+                if (attrName && attrName->isCell(context)) {
+                    callBackMethod(context, self, attrName->asCell(context));
+                }
+                if (val && val->isCell(context)) {
+                    callBackMethod(context, self, val->asCell(context));
+                }
             }
         }
     }
 
-    Cell* ProtoThreadImplementation::implAllocCell()
+    Cell* ProtoThreadImplementation::implAllocCell(ProtoContext* context)
     {
         if (!this->extension->freeCells)
         {
             this->implSynchToGC();
-            this->extension->freeCells = this->space->getFreeCells((ProtoThread*)this->asThread(context));
+            this->extension->freeCells = this->space->getFreeCells((ProtoThread*)this->asThread(this->currentContext));
         }
 
         Cell* newCell = this->extension->freeCells;
