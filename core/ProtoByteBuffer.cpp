@@ -111,4 +111,4 @@ namespace proto
         return this->buffer;
     }
 
-} // namespace proto
+} // namespace protoCore

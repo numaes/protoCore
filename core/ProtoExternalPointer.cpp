@@ -67,4 +67,4 @@ namespace proto
         return p.asHash.hash;
     }
 
-} // namespace proto
+} // namespace protoCore

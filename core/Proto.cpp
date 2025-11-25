@@ -3,6 +3,16 @@
  *
  *  Created on: 2020-5-1
  *      Author: gamarino
+ *
+ *  This file implements the public-facing API of the Proto library.
+ *
+ *  It serves as the "bridge" between the public API classes (e.g., `ProtoObject`,
+ *  `ProtoList`), which are defined in `proto.h`, and their internal implementation
+ *  classes (e.g., `ProtoObjectCell`, `ProtoListImplementation`), which are
+ *  defined in `proto_internal.h`.
+ *
+ *  The methods here typically forward the call to the corresponding `impl...`
+ *  method on the internal implementation object.
  */
 
 #include "../headers/proto_internal.h"
@@ -10,8 +20,20 @@
 
 namespace proto
 {
-    // --- ProtoObject Implementation ---
+    // A simple random number generator for mutable object IDs.
+    // In a production system, this might use a more robust UUID library.
+    unsigned long generate_mutable_ref() {
+        return static_cast<unsigned long>(std::rand());
+    }
 
+    //=========================================================================
+    // ProtoObject API Implementation
+    //=========================================================================
+
+    /**
+     * @brief Retrieves the base prototype for any given object.
+     * The prototype is determined by the object's type tag.
+     */
     const ProtoObject* ProtoObject::getPrototype(ProtoContext* context) const
     {
         ProtoObjectPointer pa{};
@@ -47,6 +69,10 @@ namespace proto
         }
     }
 
+    /**
+     * @brief Creates a new object with the same prototype chain and attributes.
+     * This is a shallow copy. The underlying attribute list is shared.
+     */
     const ProtoObject* ProtoObject::clone(ProtoContext* context, bool isMutable) const
     {
         ProtoObjectPointer pa{};
@@ -69,6 +95,10 @@ namespace proto
         return newObject;
     }
 
+    /**
+     * @brief Creates a new object that inherits from `this` object.
+     * The new object's prototype chain will point to `this`.
+     */
     const ProtoObject* ProtoObject::newChild(ProtoContext* context, bool isMutable) const
     {
         if (!this->isCell(context)) return PROTO_NONE;
@@ -89,11 +119,18 @@ namespace proto
         return newObject->asObject(context);
     }
 
+    /**
+     * @brief The core method invocation logic.
+     * It performs an optimized attribute lookup using a thread-local cache.
+     * If the attribute is a method, it is invoked.
+     */
     const ProtoObject* ProtoObject::call(ProtoContext* context, const ParentLink* nextParent, const ProtoString* method, const ProtoObject* self, const ProtoList* positionalParameters, const ProtoSparseList* keywordParametersDict) const
     {
         const auto* thread = toImpl<const ProtoThreadImplementation>(context->thread);
         const unsigned int hash = (reinterpret_cast<uintptr_t>(this) ^ reinterpret_cast<uintptr_t>(method)) & (THREAD_CACHE_DEPTH - 1);
         
+        // The attributeCache is mutable, allowing for this performance optimization
+        // within a const method.
         auto& cache_entry = thread->extension->attributeCache[hash];
 
         if (cache_entry.object != this || cache_entry.attributeName != method) {
@@ -113,6 +150,10 @@ namespace proto
         return PROTO_NONE;
     }
 
+    /**
+     * @brief Checks if this object is an instance of a given prototype.
+     * Traverses the prototype chain looking for a match.
+     */
     const ProtoObject* ProtoObject::isInstanceOf(ProtoContext* context, const ProtoObject* prototype) const
     {
         const ProtoObject* current = this;
@@ -133,6 +174,12 @@ namespace proto
         return PROTO_FALSE;
     }
 
+    /**
+     * @brief Retrieves an attribute by name, traversing the prototype chain.
+     * This method implements the core inheritance logic. It first checks for the
+     * attribute on the object itself. If not found, it recursively checks each
+     * object in the prototype chain.
+     */
     const ProtoObject* ProtoObject::getAttribute(ProtoContext* context, const ProtoString* name) const
     {
         const auto* thread = toImpl<const ProtoThreadImplementation>(context->thread);
@@ -150,17 +197,21 @@ namespace proto
         while (currentObject) {
             auto oc = toImpl<const ProtoObjectCell>(currentObject);
             
+            // If the object is mutable, we must look at its most recent version
+            // in the global mutable root.
             if (oc->mutable_ref) {
                 oc = toImpl<const ProtoObjectCell>(context->space->mutableRoot.load()->getAt(context, oc->mutable_ref));
                 if (!oc) break;
             }
 
+            // Check own attributes.
             if (oc->attributes->implHas(context, attr_hash)) {
                 const ProtoObject* result = oc->attributes->implGetAt(context, attr_hash);
                 cache_entry = {this, name, result};
                 return result;
             }
 
+            // If not found, move to the next parent in the chain.
             if (oc->parent) {
                 currentObject = oc->parent->getObject(context);
             } else {
@@ -175,11 +226,12 @@ namespace proto
         return PROTO_NONE;
     }
 
-    const ProtoObject* ProtoObject::hasAttribute(ProtoContext* context, const ProtoString* name) const
-    {
-        return this->getAttribute(context, name) != PROTO_NONE ? PROTO_TRUE : PROTO_FALSE;
-    }
-
+    /**
+     * @brief Sets an attribute on an object.
+     * If the object is immutable (default), this returns a new object with the
+     * modified attribute. If the object is mutable, it updates the object
+     * in-place via an atomic operation on the global mutable root.
+     */
     const ProtoObject* ProtoObject::setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const
     {
         ProtoObjectPointer pa{};
@@ -190,6 +242,7 @@ namespace proto
         auto* oc = toImpl<ProtoObjectCell>(this);
         
         if (oc->mutable_ref) {
+            // It's a mutable object, update the central repository atomically.
             ProtoSparseList* currentRoot;
             ProtoSparseList* newRoot;
             do {
@@ -199,13 +252,20 @@ namespace proto
                 const auto* newVersion = new(context) ProtoObjectCell(context, currentVersion->parent, newAttributes, oc->mutable_ref);
                 newRoot = const_cast<ProtoSparseList*>(currentRoot->setAt(context, oc->mutable_ref, newVersion->asObject(context)));
             } while (!context->space->mutableRoot.compare_exchange_strong(currentRoot, newRoot));
-            return this;
+            return this; // Return the original mutable reference
         } else {
+            // It's an immutable object, return a new one.
             const auto* newAttributes = oc->attributes->implSetAt(context, name->getHash(context), value);
             return (new(context) ProtoObjectCell(context, oc->parent, newAttributes, 0))->asObject(context);
         }
     }
 
+    const ProtoObject* ProtoObject::hasAttribute(ProtoContext* context, const ProtoString* name) const
+    {
+        return this->getAttribute(context, name) != PROTO_NONE ? PROTO_TRUE : PROTO_FALSE;
+    }
+
+    // --- Type Checking and Conversion ---
 
     int ProtoObject::isCell(ProtoContext* context) const {
         ProtoObjectPointer pa{};
@@ -231,6 +291,31 @@ namespace proto
         return nullptr;
     }
 
+    ProtoMethod ProtoObject::asMethod(ProtoContext* context) const {
+        ProtoObjectPointer pa{};
+        pa.oid.oid = this;
+        if (pa.op.pointer_tag == POINTER_TAG_METHOD) {
+            return toImpl<const ProtoMethodCell>(this)->method;
+        }
+        return nullptr;
+    }
+
+    bool ProtoObject::isNone(ProtoContext* context) const {
+        return this == PROTO_NONE;
+    }
+
+    bool ProtoObject::isString(ProtoContext* context) const {
+        ProtoObjectPointer pa{};
+        pa.oid.oid = this;
+        return pa.op.pointer_tag == POINTER_TAG_STRING;
+    }
+
+    bool ProtoObject::isMethod(ProtoContext* context) const {
+        ProtoObjectPointer pa{};
+        pa.oid.oid = this;
+        return pa.op.pointer_tag == POINTER_TAG_METHOD;
+    }
+
     unsigned long ProtoObject::getHash(ProtoContext* context) const {
         if (isCell(context)) {
             return asCell(context)->getHash(context);
@@ -238,6 +323,10 @@ namespace proto
         // For embedded values, the pointer value itself is the hash
         return reinterpret_cast<uintptr_t>(this);
     }
+
+    //=========================================================================
+    // ProtoList API Implementation
+    //=========================================================================
 
     const ProtoList* ProtoList::appendLast(ProtoContext* context, const ProtoObject* value) const {
         return toImpl<const ProtoListImplementation>(this)->implAppendLast(context, value)->asProtoList(context);
@@ -247,104 +336,21 @@ namespace proto
         return toImpl<const ProtoListImplementation>(this)->implGetSize(context);
     }
 
-    // --- Implementación de Puentes de API Pública ---
-
-
-    // --- ProtoString ---
-    unsigned long ProtoString::getHash(ProtoContext* context) const {
-        return toImpl<const ProtoStringImplementation>(this)->getHash(context);
-    }
-    unsigned long ProtoString::getSize(ProtoContext* context) const {
-        return toImpl<const ProtoStringImplementation>(this)->implGetSize(context);
-    }
-    const ProtoObject* ProtoString::getAt(ProtoContext* context, int index) const {
-        return toImpl<const ProtoStringImplementation>(this)->implGetAt(context, index);
-    }
-    // ...
-
-    // --- ProtoSparseList ---
-    bool ProtoSparseList::has(ProtoContext* context, unsigned long offset) const {
-        return toImpl<const ProtoSparseListImplementation>(this)->implHas(context, offset);
-    }
-    const ProtoObject* ProtoSparseList::getAt(ProtoContext* context, unsigned long offset) const {
-        return toImpl<const ProtoSparseListImplementation>(this)->implGetAt(context, offset);
-    }
-    const ProtoSparseList* ProtoSparseList::setAt(ProtoContext* context, unsigned long offset, const ProtoObject* value) const {
-        return toImpl<const ProtoSparseListImplementation>(this)->implSetAt(context, offset, value)->asSparseList(context);
-    }
-    // ...
-
-    // --- ProtoObject (métodos de conversión) ---
-    bool ProtoObject::isMethod(ProtoContext* context) const {
-        ProtoObjectPointer pa{};
-        pa.oid.oid = this;
-        return pa.op.pointer_tag == POINTER_TAG_METHOD;
-    }
-
-    // --- Implementación de funciones de ayuda ---
-    unsigned long generate_mutable_ref() {
-        // Implementación simple con std::rand o un generador mejor
-        return static_cast<unsigned long>(std::rand());
-    }
-
-    // --- Implementación de métodos de clases de implementación que faltaban ---
-    // (Estos podrían ir en sus respectivos archivos .cpp, pero por ahora los ponemos aquí para avanzar)
-
-    const ProtoObject* ProtoListImplementation::implAsObject(ProtoContext* context) const {
-        ProtoObjectPointer p;
-        p.listImplementation = this;
-        p.op.pointer_tag = POINTER_TAG_LIST;
-        return p.oid.oid;
-    }
-
-    const ProtoObject* ProtoTupleImplementation::implAsObject(ProtoContext* context) const {
-        ProtoObjectPointer p;
-        p.tupleImplementation = this;
-        p.op.pointer_tag = POINTER_TAG_TUPLE;
-        return p.oid.oid;
-    }
-
-    const ProtoObject* ProtoThreadImplementation::implAsObject(ProtoContext* context) const {
-        ProtoObjectPointer p;
-        p.threadImplementation = this;
-        p.op.pointer_tag = POINTER_TAG_THREAD;
-        return p.oid.oid;
-    }
-
-    const ProtoThread* ProtoThreadImplementation::asThread(ProtoContext* context) const {
-        return (const ProtoThread*)this->implAsObject(context);
-    }
-
-    // --- ProtoThread ---
-    void ProtoThread::setCurrentContext(ProtoContext* context) {
-        toImpl<ProtoThreadImplementation>(this)->implSetCurrentContext(context);
-    }
-
-    // --- Añadir a core/Proto.cpp ---
-
-    // REEMPLAZA la función asMethod completa en core/Proto.cpp con esto:
-
-    // REEMPLAZA la función asMethod completa en core/Proto.cpp con esto:
-
-    ProtoMethod ProtoObject::asMethod(ProtoContext* context) const {
-        ProtoObjectPointer pa{};
-        pa.oid.oid = this;
-        if (pa.op.pointer_tag == POINTER_TAG_METHOD) {
-            // Correcto: simplemente devuelve el miembro 'method',
-            // que ya es del tipo correcto (un puntero a función).
-            return toImpl<const ProtoMethodCell>(this)->method;
-        }
-        return nullptr; // Devolver nullptr es válido para un tipo puntero a función
-    }
-
-    // --- Añadir a core/Proto.cpp ---
-
-    // --- ProtoList ---
     const ProtoListIterator* ProtoList::getIterator(ProtoContext* context) const {
         return toImpl<const ProtoListImplementation>(this)->implGetIterator(context)->asProtoListIterator(context);
     }
 
-    // --- ProtoListIterator ---
+    const ProtoList* ProtoList::extend(ProtoContext* context, const ProtoList* otherList) const {
+        const auto* impl = toImpl<const ProtoListImplementation>(this);
+        const auto* otherImpl = toImpl<const ProtoListImplementation>(otherList);
+        const auto* resultImpl = impl->implExtend(context, otherImpl);
+        return resultImpl->asProtoList(context);
+    }
+
+    //=========================================================================
+    // ProtoListIterator API Implementation
+    //=========================================================================
+
     int ProtoListIterator::hasNext(ProtoContext* context) const {
         return toImpl<const ProtoListIteratorImplementation>(this)->implHasNext(context);
     }
@@ -358,41 +364,44 @@ namespace proto
         return impl ? impl->asProtoListIterator(context) : nullptr;
     }
 
-    // --- ProtoObject ---
-    int ProtoObject::asInteger(ProtoContext* context) const {
-        ProtoObjectPointer pa{};
-        pa.oid.oid = this;
-        if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_SMALLINT) {
-            return pa.si.smallInteger;
-        }
-        // Deberíamos manejar otros tipos de enteros aquí si existen
-        return 0;
-    }
+    //=========================================================================
+    // ProtoString API Implementation
+    //=========================================================================
 
+    unsigned long ProtoString::getHash(ProtoContext* context) const {
+        return toImpl<const ProtoStringImplementation>(this)->getHash(context);
+    }
+    unsigned long ProtoString::getSize(ProtoContext* context) const {
+        return toImpl<const ProtoStringImplementation>(this)->implGetSize(context);
+    }
+    const ProtoObject* ProtoString::getAt(ProtoContext* context, int index) const {
+        return toImpl<const ProtoStringImplementation>(this)->implGetAt(context, index);
+    }
     const ProtoString* ProtoString::appendLast(ProtoContext* context, const ProtoString* otherString) const {
         const auto* impl = toImpl<const ProtoStringImplementation>(this)->implAppendLast(context, otherString);
         return impl->asProtoString(context);
     }
 
-    // --- Añadir a core/Proto.cpp ---
+    //=========================================================================
+    // ProtoSparseList API Implementation
+    //=========================================================================
 
-    const ProtoList* ProtoList::extend(ProtoContext* context, const ProtoList* otherList) const {
-        const auto* impl = toImpl<const ProtoListImplementation>(this);
-        const auto* otherImpl = toImpl<const ProtoListImplementation>(otherList);
-        const auto* resultImpl = impl->implExtend(context, otherImpl);
-        return resultImpl->asProtoList(context);
+    bool ProtoSparseList::has(ProtoContext* context, unsigned long offset) const {
+        return toImpl<const ProtoSparseListImplementation>(this)->implHas(context, offset);
+    }
+    const ProtoObject* ProtoSparseList::getAt(ProtoContext* context, unsigned long offset) const {
+        return toImpl<const ProtoSparseListImplementation>(this)->implGetAt(context, offset);
+    }
+    const ProtoSparseList* ProtoSparseList::setAt(ProtoContext* context, unsigned long offset, const ProtoObject* value) const {
+        return toImpl<const ProtoSparseListImplementation>(this)->implSetAt(context, offset, value)->asSparseList(context);
     }
 
-    // --- Añadir a core/Proto.cpp ---
+    //=========================================================================
+    // ProtoThread API Implementation
+    //=========================================================================
 
-    bool ProtoObject::isNone(ProtoContext* context) const {
-        return this == PROTO_NONE;
+    void ProtoThread::setCurrentContext(ProtoContext* context) {
+        toImpl<ProtoThreadImplementation>(this)->implSetCurrentContext(context);
     }
 
-    bool ProtoObject::isString(ProtoContext* context) const {
-        ProtoObjectPointer pa{};
-        pa.oid.oid = this;
-        return pa.op.pointer_tag == POINTER_TAG_STRING;
-    }
-
-}
+} // namespace proto

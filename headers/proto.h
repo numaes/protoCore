@@ -1,5 +1,5 @@
 /*
- * proto
+ * protoCore
  *
  *  Created on: November, 2017 - Redesign January, 2024
  *      Author: Gustavo Adrian Marino <gamarino@numaes.com>

@@ -158,7 +158,7 @@ void test_sparse_list_operations(ProtoContext& c) {
     const unsigned long key1_hash = key1->getHash(&c);
     const unsigned long key2_hash = key2->getHash(&c);
 
-    const proto::ProtoSparseList* dict1 = dict->setAt(&c, key1_hash, c.fromUTF8String("proto"));
+    const proto::ProtoSparseList* dict1 = dict->setAt(&c, key1_hash, c.fromUTF8String("protoCore"));
     const proto::ProtoSparseList* dict2 = dict1->setAt(&c, key2_hash, c.fromInteger(7));
 
     ASSERT_EQ(dict2->getSize(&c), 2);

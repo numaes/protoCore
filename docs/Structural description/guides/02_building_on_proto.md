@@ -61,7 +61,7 @@ To build this, you would use a simple `CMakeLists.txt` file.
 cproject(MyProtoApp CXX)
 
 # Find the Proto library (assuming it was installed or is in a known path)
-find_library(PROTO_LIBRARY NAMES proto PATHS /path/to/proto/build)
+find_library(PROTO_LIBRARY NAMES protoCore PATHS /path/to/protoCore/build)
 
 add_executable(my_app main.cpp)
 

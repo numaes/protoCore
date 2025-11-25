@@ -58,4 +58,4 @@ namespace proto
         return this->method;
     }
 
-} // namespace proto
+} // namespace protoCore

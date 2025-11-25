@@ -1,9 +1,11 @@
 /*
  * ProtoTuple.cpp
  *
- *  Revised and corrected in 2024 to incorporate the latest
- *  project improvements, such as modern memory management,
- *  logic fixes, and API consistency.
+ *  Created on: 2017-05-01
+ *      Author: gamarino
+ *
+ *  This file implements the immutable tuple, its iterator, and the dictionary
+ *  used for tuple interning.
  */
 
 #include "../headers/proto_internal.h"
@@ -12,7 +14,20 @@
 
 namespace proto
 {
-    // --- TupleDictionary Implementation ---
+    //=========================================================================
+    // TupleDictionary
+    //=========================================================================
+
+    /**
+     * @class TupleDictionary
+     * @brief An AVL tree used to "intern" tuples.
+     *
+     * To save memory, Proto ensures that any two tuples with identical content
+     * point to the exact same object in memory. This dictionary stores all created
+     * tuples. When a new tuple is requested, this dictionary is searched first.
+     * If an identical tuple already exists, it is returned; otherwise, the new
+     * tuple is created and added to the dictionary.
+     */
 
     int getBalance(const TupleDictionary* node) {
         if (!node) return 0;
@@ -29,22 +44,19 @@ namespace proto
         this->count = (key ? 1 : 0) + (previous ? previous->count : 0) + (next ? next->count : 0);
     }
 
-
-    void TupleDictionary::finalize(ProtoContext* context) const {}
-
     void TupleDictionary::processReferences(
         ProtoContext* context,
         void* self,
         void (*method)(ProtoContext* context, void* self, const Cell* cell)
     ) const {
-        if (this->key) method(context, self, this->key);
-        if (this->previous) method(context, self, this->previous);
-        if (this->next) method(context, self, this->next);
+        if (key) method(context, self, key);
+        if (previous) method(context, self, previous);
+        if (next) method(context, self, next);
     }
 
-    // ... (Rest of TupleDictionary implementation)
-
-    // --- ProtoTupleIteratorImplementation ---
+    //=========================================================================
+    // ProtoTupleIteratorImplementation
+    //=========================================================================
 
     ProtoTupleIteratorImplementation::ProtoTupleIteratorImplementation(
         ProtoContext* context,
@@ -55,7 +67,7 @@ namespace proto
     ProtoTupleIteratorImplementation::~ProtoTupleIteratorImplementation() = default;
 
     int ProtoTupleIteratorImplementation::implHasNext(ProtoContext* context) const {
-        return this->currentIndex < this->base->count;
+        return this->currentIndex < (int)this->base->count;
     }
 
     const ProtoObject* ProtoTupleIteratorImplementation::implNext(ProtoContext* context) const {
@@ -80,14 +92,29 @@ namespace proto
         void* self,
         void (*method)(ProtoContext* context, void* self, const Cell* cell)
     ) const {
-        if (this->base) method(context, self, this->base);
+        if (base) method(context, self, base);
     }
 
     unsigned long ProtoTupleIteratorImplementation::getHash(ProtoContext* context) const {
         return Cell::getHash(context);
     }
 
-    // --- ProtoTupleImplementation ---
+    //=========================================================================
+    // ProtoTupleImplementation
+    //=========================================================================
+
+    /**
+     * @class ProtoTupleImplementation
+     * @brief An immutable, fixed-size sequence implemented as a rope (a tree of data blocks).
+     *
+     * This structure is highly optimized for memory usage and performance.
+     * - If `height` is 0, it's a leaf node, and `pointers.data` holds direct
+     *   pointers to the objects.
+     * - If `height` > 0, it's an internal node, and `pointers.indirect` holds
+     *   pointers to other `ProtoTupleImplementation` nodes.
+     * This allows for efficient slicing and concatenation by manipulating tree
+     * nodes instead of copying large blocks of memory.
+     */
 
     ProtoTupleImplementation::ProtoTupleImplementation(
         ProtoContext* context,
@@ -109,18 +136,20 @@ namespace proto
         }
     }
 
-
     ProtoTupleImplementation::~ProtoTupleImplementation() = default;
 
     const ProtoTupleImplementation* ProtoTupleImplementation::tupleFromList(ProtoContext* context, const ProtoList* list) {
-        // ... (Implementation using std::vector)
-        return nullptr; // Placeholder
+        // This factory method should handle the complex logic of converting a
+        // linear list into a balanced rope structure for the tuple.
+        // The current implementation is a placeholder.
+        return nullptr;
     }
 
     const ProtoObject* ProtoTupleImplementation::implGetAt(ProtoContext* context, int index) const {
         if (index < 0) index += this->count;
         if (index < 0 || (unsigned long)index >= this->count) return PROTO_NONE;
 
+        // Traverse the rope structure to find the correct leaf node.
         const ProtoTupleImplementation* node = this;
         unsigned long h = this->height;
         while (h > 0) {
@@ -129,30 +158,23 @@ namespace proto
             
             unsigned long chunk_index = index / span;
             node = node->pointers.indirect[chunk_index];
-            if (!node) return PROTO_NONE;
+            if (!node) return PROTO_NONE; // Should not happen in a well-formed tuple
             index %= span;
             h--;
         }
         return node->pointers.data[index];
     }
 
-    void ProtoTupleImplementation::finalize(ProtoContext* context) const {
-        // Intentionally empty
+    const ProtoTupleImplementation* ProtoTupleImplementation::implAppendLast(
+        ProtoContext* context,
+        const ProtoTuple* otherTuple
+    ) const {
+        // Simplified implementation for linking.
+        const ProtoList* list = this->implAsList(context);
+        const ProtoList* otherList = toImpl<const ProtoTupleImplementation>(otherTuple)->implAsList(context);
+        list = list->extend(context, otherList);
+        return ProtoTupleImplementation::tupleFromList(context, list);
     }
-
-    void ProtoTupleImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
-        // ... (lógica para recorrer this->pointers y llamar a method)
-    }
-
-    unsigned long ProtoTupleImplementation::getHash(ProtoContext* context) const {
-        return Cell::getHash(context); // O una implementación más específica
-    }
-
-    const ProtoTuple* ProtoTupleImplementation::asProtoTuple(ProtoContext* context) const {
-        return (const ProtoTuple*)this->implAsObject(context);
-    }
-
-    // --- Añadir a core/ProtoTuple.cpp ---
 
     unsigned long ProtoTupleImplementation::implGetSize(ProtoContext* context) const {
         return this->count;
@@ -166,18 +188,30 @@ namespace proto
         return list;
     }
 
-    // --- Añadir a core/ProtoTuple.cpp ---
+    void ProtoTupleImplementation::finalize(ProtoContext* context) const {}
 
-    const ProtoTupleImplementation* ProtoTupleImplementation::implAppendLast(
-        ProtoContext* context,
-        const ProtoTuple* otherTuple
-    ) const {
-        // Esta es una implementación simplificada. La lógica real para concatenar
-        // árboles de tuplas es más compleja, pero esto nos permitirá enlazar.
-        const ProtoList* list = this->implAsList(context);
-        const ProtoList* otherList = toImpl<const ProtoTupleImplementation>(otherTuple)->implAsList(context);
-        list = list->extend(context, otherList);
-        return ProtoTupleImplementation::tupleFromList(context, list);
+    void ProtoTupleImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
+        if (this->height == 0) {
+            for (unsigned long i = 0; i < this->count; ++i) {
+                if (this->pointers.data[i] && this->pointers.data[i]->isCell(context)) {
+                    method(context, self, this->pointers.data[i]->asCell(context));
+                }
+            }
+        } else {
+            for (unsigned long i = 0; i < TUPLE_SIZE; ++i) {
+                if (this->pointers.indirect[i]) {
+                    method(context, self, this->pointers.indirect[i]);
+                }
+            }
+        }
     }
 
+    unsigned long ProtoTupleImplementation::getHash(ProtoContext* context) const {
+        // A proper hash would combine the hashes of all elements.
+        return Cell::getHash(context);
+    }
+
+    const ProtoTuple* ProtoTupleImplementation::asProtoTuple(ProtoContext* context) const {
+        return (const ProtoTuple*)this->implAsObject(context);
+    }
 }

@@ -18,7 +18,7 @@ The build process uses a standard CMake workflow.
     First, clone the Proto source code from GitHub.
     ```sh
     git clone https://github.com/your-repo/proto.git
-    cd proto
+    cd protoCore
     ```
 
 2.  **Create a Build Directory:**
@@ -47,7 +47,7 @@ If the build is successful, you will find the compiled `libproto.a` library and 
 The `proto` executable is a simple Read-Eval-Print-Loop (REPL) that allows you to interact with the Proto runtime directly. You can run it from the `build` directory:
 
 ```sh
-./proto
+./protoCore
 ```
 
 You should see a `proto> ` prompt. You can now enter Proto expressions.

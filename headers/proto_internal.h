@@ -855,7 +855,7 @@ namespace proto
     static_assert(sizeof(ProtoThreadImplementation) <= 64, "ProtoThreadImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoThreadExtension) <= 64, "ProtoThreadExtension exceeds 64 bytes!");
 
-} // namespace proto
+} // namespace protoCore
 
 #endif /* PROTO_INTERNAL_H */
 

@@ -3,14 +3,28 @@
  *
  *  Created on: Aug 6, 2017
  *      Author: gamarino
+ *
+ *  This file implements the immutable string and its iterator. The string is
+ *  implemented as a wrapper around a `ProtoTuple` of characters, leveraging
+ *  the tuple's underlying rope implementation for highly efficient operations.
  */
 
 #include "../headers/proto_internal.h"
-#include <algorithm> // For std::max and std::min
+#include <algorithm>
 
 namespace proto
 {
-    // --- ProtoStringIteratorImplementation ---
+    //=========================================================================
+    // ProtoStringIteratorImplementation
+    //=========================================================================
+
+    /**
+     * @class ProtoStringIteratorImplementation
+     * @brief An iterator for traversing a `ProtoString`.
+     *
+     * This iterator simply wraps the underlying string's `getAt` method,
+     * advancing an index on each call to `implAdvance`.
+     */
 
     ProtoStringIteratorImplementation::ProtoStringIteratorImplementation(
         ProtoContext* context,
@@ -68,7 +82,19 @@ namespace proto
     }
 
 
-    // --- ProtoStringImplementation ---
+    //=========================================================================
+    // ProtoStringImplementation
+    //=========================================================================
+
+    /**
+     * @class ProtoStringImplementation
+     * @brief An immutable string implemented as a facade over a `ProtoTuple`.
+     *
+     * This class demonstrates composition. It holds a `ProtoTupleImplementation`
+     * (which is a rope) and delegates all of its operations (slicing, concatenation,
+     * access) to the underlying tuple. This provides powerful string manipulation
+     * capabilities with high performance and memory efficiency.
+     */
 
     ProtoStringImplementation::ProtoStringImplementation(
         ProtoContext* context,
@@ -94,7 +120,15 @@ namespace proto
         return this->base->implAsList(context);
     }
 
-    // ... (Other delegation methods like implGetSlice, implSetAt, etc.)
+    const ProtoStringImplementation* ProtoStringImplementation::implAppendLast(ProtoContext* context, const ProtoString* otherString) const {
+        const auto* otherTuple = toImpl<const ProtoStringImplementation>(otherString)->base;
+        const auto* newTuple = this->base->implAppendLast(context, otherTuple->asProtoTuple(context));
+        return new(context) ProtoStringImplementation(context, newTuple);
+    }
+
+    const ProtoString* ProtoStringImplementation::asProtoString(ProtoContext* context) const {
+        return (const ProtoString*)this->implAsObject(context);
+    }
 
     void ProtoStringImplementation::finalize(ProtoContext* context) const {}
 
@@ -104,6 +138,7 @@ namespace proto
         void (*method)(ProtoContext* context, void* self, const Cell* cell)
     ) const
     {
+        // Report the underlying tuple to the GC.
         if (this->base)
         {
             method(context, self, this->base);
@@ -120,6 +155,7 @@ namespace proto
 
     unsigned long ProtoStringImplementation::getHash(ProtoContext* context) const
     {
+        // The string's hash is the hash of its underlying tuple.
         return this->base ? this->base->getHash(context) : 0;
     }
 
@@ -127,17 +163,4 @@ namespace proto
     {
         return new(context) ProtoStringIteratorImplementation(context, (const ProtoString*)this->implAsObject(context), 0);
     }
-
-    const ProtoStringImplementation* ProtoStringImplementation::implAppendLast(ProtoContext* context, const ProtoString* otherString) const {
-        const auto* otherTuple = toImpl<const ProtoStringImplementation>(otherString)->base;
-        const auto* newTuple = this->base->implAppendLast(context, toImpl<const ProtoStringImplementation>(otherString)->base->asProtoTuple(context));
-        return new(context) ProtoStringImplementation(context, newTuple);
-    }
-
-    // --- Añadir a core/ProtoString.cpp ---
-
-    const ProtoString* ProtoStringImplementation::asProtoString(ProtoContext* context) const {
-        return (const ProtoString*)this->implAsObject(context);
-    }
-
 }

@@ -29,8 +29,8 @@ extensions = [
     'breathe',
 ]
 
-breathe_projects = { "proto": "doxygen/xml/" }
-breathe_default_project = "proto"
+breathe_projects = { "protoCore": "doxygen/xml/" }
+breathe_default_project = "protoCore"
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
