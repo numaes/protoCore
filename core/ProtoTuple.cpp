@@ -165,4 +165,19 @@ namespace proto
         }
         return list;
     }
+
+    // --- Añadir a core/ProtoTuple.cpp ---
+
+    const ProtoTupleImplementation* ProtoTupleImplementation::implAppendLast(
+        ProtoContext* context,
+        const ProtoTuple* otherTuple
+    ) const {
+        // Esta es una implementación simplificada. La lógica real para concatenar
+        // árboles de tuplas es más compleja, pero esto nos permitirá enlazar.
+        const ProtoList* list = this->implAsList(context);
+        const ProtoList* otherList = toImpl<const ProtoTupleImplementation>(otherTuple)->implAsList(context);
+        list = list->extend(context, otherList);
+        return ProtoTupleImplementation::tupleFromList(context, list);
+    }
+
 }

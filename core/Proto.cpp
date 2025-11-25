@@ -368,4 +368,9 @@ namespace proto
         // Deberíamos manejar otros tipos de enteros aquí si existen
         return 0;
     }
+
+    const ProtoString* ProtoString::appendLast(ProtoContext* context, const ProtoString* otherString) const {
+        const auto* impl = toImpl<const ProtoStringImplementation>(this)->implAppendLast(context, otherString);
+        return impl->asProtoString(context);
+    }
 }

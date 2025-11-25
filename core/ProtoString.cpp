@@ -127,4 +127,17 @@ namespace proto
     {
         return new(context) ProtoStringIteratorImplementation(context, (const ProtoString*)this->implAsObject(context), 0);
     }
+
+    const ProtoStringImplementation* ProtoStringImplementation::implAppendLast(ProtoContext* context, const ProtoString* otherString) const {
+        const auto* otherTuple = toImpl<const ProtoStringImplementation>(otherString)->base;
+        const auto* newTuple = this->base->implAppendLast(context, toImpl<const ProtoStringImplementation>(otherString)->base->asProtoTuple(context));
+        return new(context) ProtoStringImplementation(context, newTuple);
+    }
+
+    // --- Añadir a core/ProtoString.cpp ---
+
+    const ProtoString* ProtoStringImplementation::asProtoString(ProtoContext* context) const {
+        return (const ProtoString*)this->implAsObject(context);
+    }
+
 }
