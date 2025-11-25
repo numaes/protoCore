@@ -28,6 +28,7 @@ namespace proto
     class ProtoListIteratorImplementation;
     class ProtoSparseListImplementation;
     class ProtoSparseListIteratorImplementation;
+    class TupleDictionary;
     class ProtoTupleImplementation;
     class ProtoTupleIteratorImplementation;
     class ProtoStringImplementation;
@@ -548,7 +549,8 @@ namespace proto
         ) const override;
 
         // ...
-        unsigned long count;
+        unsigned long count : 56;
+        unsigned long height : 8;
         union
         {
             ProtoObject* data[TUPLE_SIZE];
