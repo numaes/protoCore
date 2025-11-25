@@ -163,4 +163,14 @@ namespace proto
     unsigned long ProtoListImplementation::implGetSize(ProtoContext* context) const {
         return this->size;
     }
+
+    // --- Añadir a core/ProtoList.cpp ---
+
+    const ProtoListIteratorImplementation* ProtoListImplementation::implGetIterator(ProtoContext* context) const {
+        return new(context) ProtoListIteratorImplementation(context, this, 0);
+    }
+
+    const ProtoListIterator* ProtoListIteratorImplementation::asProtoListIterator(ProtoContext* context) const {
+        return (const ProtoListIterator*)this->implAsObject(context);
+    }
 }

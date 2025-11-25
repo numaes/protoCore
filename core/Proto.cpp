@@ -336,4 +336,36 @@ namespace proto
         }
         return nullptr; // Devolver nullptr es válido para un tipo puntero a función
     }
+
+    // --- Añadir a core/Proto.cpp ---
+
+    // --- ProtoList ---
+    const ProtoListIterator* ProtoList::getIterator(ProtoContext* context) const {
+        return toImpl<const ProtoListImplementation>(this)->implGetIterator(context)->asProtoListIterator(context);
+    }
+
+    // --- ProtoListIterator ---
+    int ProtoListIterator::hasNext(ProtoContext* context) const {
+        return toImpl<const ProtoListIteratorImplementation>(this)->implHasNext(context);
+    }
+
+    const ProtoObject* ProtoListIterator::next(ProtoContext* context) const {
+        return toImpl<const ProtoListIteratorImplementation>(this)->implNext(context);
+    }
+
+    const ProtoListIterator* ProtoListIterator::advance(ProtoContext* context) const {
+        const auto* impl = toImpl<const ProtoListIteratorImplementation>(this)->implAdvance(context);
+        return impl ? impl->asProtoListIterator(context) : nullptr;
+    }
+
+    // --- ProtoObject ---
+    int ProtoObject::asInteger(ProtoContext* context) const {
+        ProtoObjectPointer pa{};
+        pa.oid.oid = this;
+        if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_SMALLINT) {
+            return pa.si.smallInteger;
+        }
+        // Deberíamos manejar otros tipos de enteros aquí si existen
+        return 0;
+    }
 }
