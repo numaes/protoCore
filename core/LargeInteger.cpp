@@ -321,8 +321,21 @@ namespace proto
     const ProtoObject* Integer::bitwiseXor(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
         if (!isInteger(left) || !isInteger(right)) return PROTO_NONE;
-        // Similar logic to OR
-        return PROTO_NONE;
+        TempBignum l = toTempBignum(left);
+        TempBignum r = toTempBignum(right);
+
+        if (l.is_negative || r.is_negative) return PROTO_NONE; // Placeholder for negative numbers
+
+        TempBignum result;
+        result.is_negative = false;
+        size_t max_size = std::max(l.magnitude.size(), r.magnitude.size());
+        result.magnitude.resize(max_size);
+        for(size_t i = 0; i < max_size; ++i) {
+            unsigned long l_digit = (i < l.magnitude.size()) ? l.magnitude[i] : 0;
+            unsigned long r_digit = (i < r.magnitude.size()) ? r.magnitude[i] : 0;
+            result.magnitude[i] = l_digit ^ r_digit;
+        }
+        return fromTempBignum(context, result);
     }
 
     const ProtoObject* Integer::shiftLeft(ProtoContext* context, const ProtoObject* object, int amount)
