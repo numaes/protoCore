@@ -90,11 +90,14 @@ namespace proto
         bool isTimestamp(ProtoContext* context) const;
         bool isTimeDelta(ProtoContext* context) const;
         bool isMethod(ProtoContext* context) const;
+        bool isNone(ProtoContext* context) const;
+        bool isString(ProtoContext* context) const;
+        bool isDouble(ProtoContext* context) const;
 
         //- Type Coercion
         bool asBoolean(ProtoContext* context) const;
-        int asInteger(ProtoContext* context) const;
-        float asFloat(ProtoContext* context) const;
+        long long asLong(ProtoContext* context) const;
+        double asDouble(ProtoContext* context) const;
         char asByte(ProtoContext* context) const;
         void asDate(ProtoContext* context, unsigned int& year, unsigned& month, unsigned& day) const;
         unsigned long asTimestamp(ProtoContext* context) const;
@@ -109,9 +112,28 @@ namespace proto
         const ProtoSparseListIterator* asSparseListIterator(ProtoContext* context) const;
         const ProtoThread* asThread(ProtoContext* context) const;
         ProtoMethod asMethod(ProtoContext* context) const;
-        bool isNone(ProtoContext* context) const;
-        bool isString(ProtoContext* context) const;
 
+        //- Comparison
+        int compare(ProtoContext* context, const ProtoObject* other) const;
+
+        //- Unary Operations
+        const ProtoObject* negate(ProtoContext* context) const;
+        const ProtoObject* abs(ProtoContext* context) const;
+
+        //- Arithmetic Operations
+        const ProtoObject* add(ProtoContext* context, const ProtoObject* other) const;
+        const ProtoObject* subtract(ProtoContext* context, const ProtoObject* other) const;
+        const ProtoObject* multiply(ProtoContext* context, const ProtoObject* other) const;
+        const ProtoObject* divide(ProtoContext* context, const ProtoObject* other) const;
+        const ProtoObject* modulo(ProtoContext* context, const ProtoObject* other) const;
+
+        //- Bitwise Operations
+        const ProtoObject* bitwiseAnd(ProtoContext* context, const ProtoObject* other) const;
+        const ProtoObject* bitwiseOr(ProtoContext* context, const ProtoObject* other) const;
+        const ProtoObject* bitwiseXor(ProtoContext* context, const ProtoObject* other) const;
+        const ProtoObject* bitwiseNot(ProtoContext* context) const;
+        const ProtoObject* shiftLeft(ProtoContext* context, int amount) const;
+        const ProtoObject* shiftRight(ProtoContext* context, int amount) const;
     };
 
     class ProtoListIterator
@@ -333,6 +355,8 @@ namespace proto
 
         //- Factory methods for primitive types.
         const ProtoObject* fromInteger(int value);
+        const ProtoObject* fromLong(long long value);
+        const ProtoObject* fromString(const char* str, int base = 10);
         const ProtoObject* fromFloat(float value);
         const ProtoObject* fromUTF8Char(const char* utf8OneCharString);
         const ProtoObject* fromUTF8String(const char* zeroTerminatedUtf8String);
@@ -376,6 +400,7 @@ namespace proto
         //- Core Prototypes
         ProtoObject* objectPrototype{};
         ProtoObject* smallIntegerPrototype{};
+        ProtoObject* largeIntegerPrototype{};
         ProtoObject* floatPrototype{};
         ProtoObject* unicodeCharPrototype{};
         ProtoObject* bytePrototype{};

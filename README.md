@@ -4,7 +4,7 @@
 [![Build System](https://img.shields.io/badge/Build-CMake-green.svg)](https://cmake.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**Proto is a powerful, embeddable runtime written in modern C++ that brings the flexibility of dynamic, protoCoretype-based object systems (like those in JavaScript or Python) into the world of high-performance, compiled applications.**
+**Proto is a powerful, embeddable runtime written in modern C++ that brings the flexibility of dynamic, prototype-based object systems (like those in JavaScript or Python) into the world of high-performance, compiled applications.**
 
 It is designed for developers who need to script complex application behavior, configure systems dynamically, or build domain-specific languages without sacrificing the speed and control of C++. With Proto, you get an elegant API, automatic memory management, and a robust, immutable data model designed for elite concurrency.
 
@@ -27,11 +27,13 @@ int main() {
     // The API is const-correct and immutable by default.
     const proto::ProtoList* list = context->newList();
     list = list->appendLast(context, context->fromUTF8String("Hello"));
-    list = list->appendLast(context, context->fromInteger(42));
+    list = list->appendLast(context, context->fromLong(12345)); // SmallInteger
+    list = list->appendLast(context, context->fromFloat(987.65)); // Double
+    list = list->appendLast(context, context->fromLong(1LL << 60)); // LargeInteger
 
     // 3. Use the objects.
     std::cout << "List size: " << list->getSize(context) << std::endl;
-    // Expected output: List size: 2
+    // Expected output: List size: 4
     
     return 0;
 }
@@ -39,7 +41,7 @@ int main() {
 
 ## Core Features
 
-*   **Dynamic Typing in C++**: Create and manipulate integers, floats, booleans, strings, and complex objects without compile-time type constraints.
+*   **Rich Dynamic Typing in C++**: Create and manipulate a rich set of types, including booleans, strings, and a powerful numeric hierarchy with arbitrary-precision integers (`LargeInteger`) and 64-bit floating-point numbers (`Double`).
 *   **Prototypal Inheritance**: A flexible and powerful object model based on Lieberman prototypes. Objects inherit directly from other objects, allowing for dynamic structure and behavior sharing.
 *   **Immutable-by-Default Data Structures**: Collections like lists, tuples, and dictionaries are immutable. Operations like `append` or `set` return new, modified versions, eliminating a whole class of bugs related to shared state and making concurrent programming safer and easier to reason about.
 *   **True, GIL-Free Concurrency**: Each `ProtoThread` is a native OS thread. The runtime was designed from the ground up for parallelism and has no Global Interpreter Lock, allowing it to take full advantage of modern multi-core processors.
@@ -53,7 +55,9 @@ Proto's performance and safety stem from a set of deeply integrated architectura
 1.  **Immutable-First Object Model**: At its core, Proto is built around immutable data structures. Operations that "modify" collections like tuples or strings actually produce new versions, efficiently sharing the unchanged parts of the original (structural sharing). This design is the foundation of Proto's concurrency story, making parallel programming fundamentally safer.
 
 2.  **Hardware-Aware Memory Model**: Proto's memory architecture is meticulously designed to leverage the features of modern multi-core CPUs, resulting in elite performance:
-    *   **Tagged Pointers**: Simple values like integers and booleans are stored directly inside the 64-bit pointer. This provides extreme cache locality and avoids heap allocation entirely for primitive types, dramatically reducing GC pressure.
+    *   **Hybrid Numeric System**: Proto features a sophisticated numeric system that maximizes efficiency.
+        *   **Tagged Pointers**: Integers that fit within 56 bits (`SmallInteger`) are stored directly inside the 64-bit pointer. This provides extreme cache locality and avoids heap allocation entirely for the most common numeric values.
+        *   **Heap-Allocated Objects**: For numbers that exceed this range, Proto automatically and transparently promotes them to heap-allocated objects: `LargeInteger` for arbitrary-precision integers and `Double` for 64-bit floating-point numbers. This hybrid approach provides the best of both worlds: extreme speed for common cases and unlimited precision when needed.
     *   **Eliminating False Sharing**: All heap objects reside in 64-byte `Cell`s, perfectly aligning with the 64-byte cache lines of modern CPUs. This ensures that when different cores access different objects, they are guaranteed not to contend for the same cache line—a common and severe performance bottleneck in multithreaded applications.
     *   **Concurrent Garbage Collector**: A dedicated GC thread works in parallel with the application, with extremely short "stop-the-world" pauses, making Proto suitable for interactive and soft real-time applications.
 

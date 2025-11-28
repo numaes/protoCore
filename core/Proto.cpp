@@ -52,6 +52,7 @@ namespace proto
             case EMBEDDED_TYPE_TIMEDELTA: return context->space->timedeltaPrototype;
             case EMBEDDED_TYPE_SMALLINT: return context->space->smallIntegerPrototype;
             case EMBEDDED_TYPE_FLOAT: return context->space->floatPrototype;
+            case EMBEDDED_TYPE_LARGE_INTEGER: return context->space->largeIntegerPrototype;
             default: return nullptr;
             }
         case POINTER_TAG_LIST: return context->space->listPrototype;
@@ -65,6 +66,7 @@ namespace proto
         case POINTER_TAG_TUPLE_ITERATOR: return context->space->tupleIteratorPrototype;
         case POINTER_TAG_SPARSE_LIST_ITERATOR: return context->space->sparseListIteratorPrototype;
         case POINTER_TAG_STRING_ITERATOR: return context->space->stringIteratorPrototype;
+        case POINTER_TAG_LARGE_INTEGER: return context->space->largeIntegerPrototype;
         default: return nullptr;
         }
     }
@@ -323,6 +325,96 @@ namespace proto
         // For embedded values, the pointer value itself is the hash
         return reinterpret_cast<uintptr_t>(this);
     }
+
+    //=========================================================================
+    // ProtoObject Double Implementation
+    //=========================================================================
+
+    double ProtoObject::asDouble(ProtoContext* context) const {
+        ProtoObjectPointer pa{};
+        pa.oid.oid = this;
+        if (pa.op.pointer_tag == POINTER_TAG_DOUBLE) {
+            return toImpl<const DoubleImplementation>(this)->doubleValue;
+        }
+        return 0.0;
+    }
+
+    bool ProtoObject::isDouble(ProtoContext* context) const {
+        ProtoObjectPointer pa{};
+        pa.oid.oid = this;
+        return pa.op.pointer_tag == POINTER_TAG_DOUBLE;
+    }
+
+    //=========================================================================
+    // ProtoObject (Integer API) Implementation
+    //=========================================================================
+
+    long long ProtoObject::asLong(ProtoContext* context) const {
+        return Integer::asLong(context, this);
+    }
+
+    double ProtoObject::asDouble(ProtoContext* context) const {
+        // This will require a new helper in the Integer class.
+        // For now, we can cast from asLong.
+        return static_cast<double>(Integer::asLong(context, this));
+    }
+
+    int ProtoObject::compare(ProtoContext* context, const ProtoObject* other) const {
+        return Integer::compare(context, this, other);
+    }
+
+    const ProtoObject* ProtoObject::negate(ProtoContext* context) const {
+        return Integer::negate(context, this);
+    }
+
+    const ProtoObject* ProtoObject::abs(ProtoContext* context) const {
+        return Integer::abs(context, this);
+    }
+
+    const ProtoObject* ProtoObject::add(ProtoContext* context, const ProtoObject* other) const {
+        return Integer::add(context, this, other);
+    }
+
+    const ProtoObject* ProtoObject::subtract(ProtoContext* context, const ProtoObject* other) const {
+        return Integer::subtract(context, this, other);
+    }
+
+    const ProtoObject* ProtoObject::multiply(ProtoContext* context, const ProtoObject* other) const {
+        return Integer::multiply(context, this, other);
+    }
+
+    const ProtoObject* ProtoObject::divide(ProtoContext* context, const ProtoObject* other) const {
+        return Integer::divide(context, this, other);
+    }
+
+    const ProtoObject* ProtoObject::modulo(ProtoContext* context, const ProtoObject* other) const {
+        return Integer::modulo(context, this, other);
+    }
+
+    const ProtoObject* ProtoObject::bitwiseAnd(ProtoContext* context, const ProtoObject* other) const {
+        return Integer::bitwiseAnd(context, this, other);
+    }
+
+    const ProtoObject* ProtoObject::bitwiseOr(ProtoContext* context, const ProtoObject* other) const {
+        return Integer::bitwiseOr(context, this, other);
+    }
+
+    const ProtoObject* ProtoObject::bitwiseXor(ProtoContext* context, const ProtoObject* other) const {
+        return Integer::bitwiseXor(context, this, other);
+    }
+
+    const ProtoObject* ProtoObject::bitwiseNot(ProtoContext* context) const {
+        return Integer::bitwiseNot(context, this);
+    }
+
+    const ProtoObject* ProtoObject::shiftLeft(ProtoContext* context, int amount) const {
+        return Integer::shiftLeft(context, this, amount);
+    }
+
+    const ProtoObject* ProtoObject::shiftRight(ProtoContext* context, int amount) const {
+        return Integer::shiftRight(context, this, amount);
+    }
+
 
     //=========================================================================
     // ProtoList API Implementation

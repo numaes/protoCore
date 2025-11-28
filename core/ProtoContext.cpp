@@ -167,6 +167,18 @@ namespace proto
         return p.oid.oid;
     }
 
+    const ProtoObject* ProtoContext::fromLong(long long value) {
+        return Integer::fromLong(this, value);
+    }
+
+    const ProtoObject* ProtoContext::fromString(const char* str, int base) {
+        return Integer::fromString(this, str, base);
+    }
+
+    const ProtoObject* ProtoContext::fromDouble(double value) {
+        return (new(this) DoubleImplementation(this, value))->asObject(this);
+    }
+
     const ProtoObject* ProtoContext::fromUTF8Char(const char* utf8OneCharString) {
         ProtoObjectPointer p{};
         union

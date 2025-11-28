@@ -52,6 +52,7 @@ Table of Contents
    :caption: Core Concepts
 
    conceptual_introduction
+   numerics
    DESIGN_link
 
 .. toctree::
