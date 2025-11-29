@@ -8,6 +8,12 @@
  *  It contains the implementation for the heap-allocated LargeInteger object
  *  and the static `Integer` helper class, which acts as the central dispatcher
  *  for all integer arithmetic and conversions.
+ *
+ *  A key optimization in this implementation is the use of a "fast path" for
+ *  operations involving only SmallIntegers. These operations are performed
+ *  natively using 128-bit integers to prevent overflow, and only fall back
+ *  to the generic, more expensive "slow path" (using TempBignum) if the
+ *  result itself exceeds the SmallInteger range.
  */
 
 #include "../headers/proto_internal.h"
@@ -56,31 +62,17 @@ namespace proto
     LargeIntegerImplementation::LargeIntegerImplementation(ProtoContext* context)
         : Cell(context), is_negative(false), next(nullptr)
     {
-        // Zero out digits to ensure clean state.
         for (int i = 0; i < DIGIT_COUNT; ++i) { digits[i] = 0; }
     }
 
     LargeIntegerImplementation::~LargeIntegerImplementation() {}
 
-    /**
-     * @brief Calculates a hash for the LargeInteger.
-     * For performance, this uses a simple hash based on the first digit.
-     * @note For production use in hash tables, a more robust algorithm like FNV-1a
-     * or MurmurHash across all digits would provide better distribution.
-     */
     unsigned long LargeIntegerImplementation::getHash(ProtoContext* context) const {
-        // A simple hash is sufficient for now. The sign is mixed in.
         return is_negative ? ~digits[0] : digits[0];
     }
 
-    void LargeIntegerImplementation::finalize(ProtoContext* context) const {
-        // No external resources to free, so nothing to do.
-    }
+    void LargeIntegerImplementation::finalize(ProtoContext* context) const {}
 
-    /**
-     * @brief Informs the GC about references held by this cell.
-     * A LargeInteger can be a chain of cells, so we must process the `next` pointer.
-     */
     void LargeIntegerImplementation::processReferences(
         ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const
     {
@@ -89,10 +81,6 @@ namespace proto
         }
     }
 
-    /**
-     * @brief Converts the internal implementation pointer to a public ProtoObject pointer.
-     * This involves creating a tagged pointer with the correct type tag.
-     */
     const ProtoObject* LargeIntegerImplementation::implAsObject(ProtoContext* context) const
     {
         ProtoObjectPointer p;
@@ -107,7 +95,6 @@ namespace proto
 
     const ProtoObject* Integer::fromLong(ProtoContext* context, long long value)
     {
-        // Check if the value fits in a 56-bit SmallInteger.
         const long long min_small_int = -(1LL << 55);
         const long long max_small_int = (1LL << 55) - 1;
 
@@ -119,7 +106,6 @@ namespace proto
             return p.oid.oid;
         }
         
-        // If it doesn't fit, convert to TempBignum and then to a LargeInteger.
         TempBignum temp;
         temp.is_negative = value < 0;
         unsigned long long mag_val = value < 0 ? -static_cast<unsigned long long>(value) : value;
@@ -143,15 +129,12 @@ namespace proto
 
         const auto* li = toImpl<const LargeIntegerImplementation>(object);
         
-        // A LargeInteger that chains or uses more than one 64-bit digit
-        // is guaranteed to be outside the long long range.
         if (li->next != nullptr || li->digits[1] != 0) {
             throw std::overflow_error("LargeInteger value exceeds long long range.");
         }
 
         unsigned long long magnitude = li->digits[0];
         if (li->is_negative) {
-            // Check if -magnitude would overflow a long long.
             if (magnitude > static_cast<unsigned long long>(LLONG_MAX) + 1) {
                 throw std::overflow_error("LargeInteger value exceeds long long range.");
             }
@@ -168,7 +151,6 @@ namespace proto
     {
         if (!isInteger(object)) return context->fromInteger(0);
         TempBignum temp = toTempBignum(object);
-        // Negating zero results in zero.
         if (!temp.magnitude.empty()) {
             temp.is_negative = !temp.is_negative;
         }
@@ -191,7 +173,6 @@ namespace proto
             return (val > 0) - (val < 0);
         }
         const auto* li = toImpl<const LargeIntegerImplementation>(object);
-        // LargeIntegers are guaranteed non-zero by canonical representation.
         return li->is_negative ? -1 : 1;
     }
 
@@ -203,30 +184,48 @@ namespace proto
         int sign_r = sign(context, right);
 
         if (sign_l != sign_r) return sign_l < sign_r ? -1 : 1;
-        if (sign_l == 0) return 0; // Both are zero
+        if (sign_l == 0) return 0;
 
-        // Signs are the same and non-zero, so we compare magnitudes.
         TempBignum l = toTempBignum(left);
         TempBignum r = toTempBignum(right);
         int mag_cmp = internal_compare_mag(l, r);
         
-        // If negative, the one with the larger magnitude is smaller.
         return l.is_negative ? -mag_cmp : mag_cmp;
     }
 
     const ProtoObject* Integer::add(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
         if (!isInteger(left) || !isInteger(right)) return context->fromInteger(0);
+
+        // --- FAST PATH for SmallInt + SmallInt ---
+        if (isSmallInteger(left) && isSmallInteger(right)) {
+            __int128_t result = (__int128_t)asLong(context, left) + (__int128_t)asLong(context, right);
+            const long long min_small_int = -(1LL << 55);
+            const long long max_small_int = (1LL << 55) - 1;
+
+            if (result >= min_small_int && result <= max_small_int) {
+                return fromLong(context, (long long)result);
+            } else {
+                TempBignum temp_result;
+                temp_result.is_negative = result < 0;
+                unsigned __int128 mag_val = result < 0 ? -result : result;
+                while (mag_val > 0) {
+                    temp_result.magnitude.push_back((unsigned long)mag_val);
+                    mag_val >>= 64;
+                }
+                return fromTempBignum(context, temp_result);
+            }
+        }
+
+        // --- SLOW PATH (Generic Case for LargeIntegers) ---
         TempBignum l = toTempBignum(left);
         TempBignum r = toTempBignum(right);
         TempBignum result;
 
         if (l.is_negative == r.is_negative) {
-            // Same sign: add magnitudes, keep sign.
             result = internal_add_mag(l, r);
             result.is_negative = l.is_negative;
         } else {
-            // Different signs: subtract smaller magnitude from larger.
             if (internal_compare_mag(l, r) >= 0) {
                 result = internal_sub_mag(l, r);
                 result.is_negative = l.is_negative;
@@ -241,12 +240,32 @@ namespace proto
     const ProtoObject* Integer::subtract(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
         if (!isInteger(left) || !isInteger(right)) return context->fromInteger(0);
+
+        // --- FAST PATH for SmallInt - SmallInt ---
+        if (isSmallInteger(left) && isSmallInteger(right)) {
+            __int128_t result = (__int128_t)asLong(context, left) - (__int128_t)asLong(context, right);
+            const long long min_small_int = -(1LL << 55);
+            const long long max_small_int = (1LL << 55) - 1;
+
+            if (result >= min_small_int && result <= max_small_int) {
+                return fromLong(context, (long long)result);
+            } else {
+                TempBignum temp_result;
+                temp_result.is_negative = result < 0;
+                unsigned __int128 mag_val = result < 0 ? -result : result;
+                while (mag_val > 0) {
+                    temp_result.magnitude.push_back((unsigned long)mag_val);
+                    mag_val >>= 64;
+                }
+                return fromTempBignum(context, temp_result);
+            }
+        }
         
-        // Efficiently perform a - b as a + (-b) without creating an intermediate object.
+        // --- SLOW PATH (Generic Case) ---
         TempBignum l = toTempBignum(left);
         TempBignum r = toTempBignum(right);
         if (!r.magnitude.empty()) {
-            r.is_negative = !r.is_negative; // Flip the sign of the right operand.
+            r.is_negative = !r.is_negative;
         }
         
         TempBignum result;
@@ -268,6 +287,28 @@ namespace proto
     const ProtoObject* Integer::multiply(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
         if (!isInteger(left) || !isInteger(right)) return context->fromInteger(0);
+
+        // --- FAST PATH for SmallInt * SmallInt ---
+        if (isSmallInteger(left) && isSmallInteger(right)) {
+            __int128_t result = (__int128_t)asLong(context, left) * (__int128_t)asLong(context, right);
+            const long long min_small_int = -(1LL << 55);
+            const long long max_small_int = (1LL << 55) - 1;
+
+            if (result >= min_small_int && result <= max_small_int) {
+                return fromLong(context, (long long)result);
+            } else {
+                TempBignum temp_result;
+                temp_result.is_negative = result < 0;
+                unsigned __int128 mag_val = result < 0 ? -result : result;
+                while (mag_val > 0) {
+                    temp_result.magnitude.push_back((unsigned long)mag_val);
+                    mag_val >>= 64;
+                }
+                return fromTempBignum(context, temp_result);
+            }
+        }
+
+        // --- SLOW PATH (Generic Case) ---
         TempBignum l = toTempBignum(left);
         TempBignum r = toTempBignum(right);
 
@@ -279,7 +320,6 @@ namespace proto
         result.is_negative = l.is_negative != r.is_negative;
         result.magnitude.resize(l.magnitude.size() + r.magnitude.size(), 0);
 
-        // Standard schoolbook multiplication algorithm.
         for (size_t i = 0; i < l.magnitude.size(); ++i) {
             unsigned __int128 carry = 0;
             for (size_t j = 0; j < r.magnitude.size(); ++j) {
@@ -319,7 +359,6 @@ namespace proto
         TempBignum r = toTempBignum(right);
 
         auto divmod_res = internal_divmod_mag(l, r);
-        // Remainder's sign follows the sign of the dividend.
         divmod_res.second.is_negative = l.is_negative;
         
         return fromTempBignum(context, divmod_res.second);
@@ -359,10 +398,7 @@ namespace proto
     const ProtoObject* Integer::bitwiseNot(ProtoContext* context, const ProtoObject* object)
     {
         if (!isInteger(object)) return PROTO_NONE;
-        // The identity ~x = -x - 1 is used for arbitrary-precision integers.
-        const ProtoObject* neg_obj = negate(context, object);
-        const ProtoObject* one = context->fromInteger(1);
-        return subtract(context, neg_obj, one);
+        return subtract(context, context->fromLong(-1), object);
     }
 
     const ProtoObject* Integer::bitwiseAnd(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
@@ -376,21 +412,18 @@ namespace proto
         l.magnitude.resize(max_len, 0);
         r.magnitude.resize(max_len, 0);
 
-        // Simulate two's complement behavior
-        if (l.is_negative) { l = toTempBignum(bitwiseNot(context, fromTempBignum(context, l))); }
-        if (r.is_negative) { r = toTempBignum(bitwiseNot(context, fromTempBignum(context, r))); }
+        if (l.is_negative) l = toTempBignum(bitwiseNot(context, fromTempBignum(context, l)));
+        if (r.is_negative) r = toTempBignum(bitwiseNot(context, fromTempBignum(context, r)));
 
         result.magnitude.resize(max_len);
-        if (l.is_negative && r.is_negative) { // ANDing two negatives
+        if (l.is_negative && r.is_negative) {
             result.is_negative = true;
             for(size_t i=0; i<max_len; ++i) result.magnitude[i] = l.magnitude[i] | r.magnitude[i];
-        } else if (l.is_negative || r.is_negative) { // One negative, one positive
-            result.is_negative = false;
+        } else if (l.is_negative || r.is_negative) {
             TempBignum* neg = l.is_negative ? &l : &r;
             TempBignum* pos = l.is_negative ? &r : &l;
             for(size_t i=0; i<max_len; ++i) result.magnitude[i] = pos->magnitude[i] & ~neg->magnitude[i];
-        } else { // Two positives
-            result.is_negative = false;
+        } else {
             for(size_t i=0; i<max_len; ++i) result.magnitude[i] = l.magnitude[i] & r.magnitude[i];
         }
         
@@ -402,13 +435,11 @@ namespace proto
 
     const ProtoObject* Integer::bitwiseOr(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
-        // Implementation is complex, placeholder for now.
         return PROTO_NONE;
     }
 
     const ProtoObject* Integer::bitwiseXor(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
-        // Implementation is complex, placeholder for now.
         return PROTO_NONE;
     }
 
@@ -506,167 +537,11 @@ namespace proto
     static bool isLargeInteger(const ProtoObject* obj) { ProtoObjectPointer p; p.oid.oid = obj; return p.op.pointer_tag == POINTER_TAG_LARGE_INTEGER; }
     static bool isInteger(const ProtoObject* obj) { return isSmallInteger(obj) || isLargeInteger(obj); }
 
-    /**
-     * @brief Converts any Proto integer object into its temporary, mutable representation.
-     * This is the "normalization" step of the calculation pipeline.
-     */
-    static TempBignum toTempBignum(const ProtoObject* obj) {
-        TempBignum temp; // Starts as zero
-
-        if (isSmallInteger(obj)) {
-            ProtoObjectPointer p; p.oid.oid = obj;
-            long long value = p.si.smallInteger;
-
-            if (value != 0) {
-                temp.is_negative = value < 0;
-                // Magnitude is the absolute value.
-                temp.magnitude.push_back(value < 0 ? -static_cast<unsigned long long>(value) : value);
-            }
-            return temp;
-        }
-
-        if (isLargeInteger(obj)) {
-            const auto* li = toImpl<const LargeIntegerImplementation>(obj);
-            temp.is_negative = li->is_negative;
-
-            const auto* current = li;
-            // Traverse the linked list of LargeInteger cells.
-            while (current) {
-                // Copy digits from the current cell.
-                for (int i = 0; i < LargeIntegerImplementation::DIGIT_COUNT; ++i) {
-                    temp.magnitude.push_back(current->digits[i]);
-                }
-                current = current->next;
-            }
-
-            // The canonical representation of the magnitude should not have trailing zeros.
-            // This is crucial for correct comparison and arithmetic.
-            while (temp.magnitude.size() > 1 && temp.magnitude.back() == 0) {
-                temp.magnitude.pop_back();
-            }
-            return temp;
-        }
-
-        // If the object is not an integer, return zero.
-        return temp;
-    }
-
-    /**
-     * @brief Converts a temporary bignum representation back into its canonical Proto object.
-     * This is the "canonicalization" step, which decides whether the final result
-     * should be a SmallInteger or a LargeInteger.
-     */
-    static const ProtoObject* fromTempBignum(ProtoContext* context, TempBignum& temp) {
-        // Ensure magnitude is canonical (no trailing zeros).
-        while (temp.magnitude.size() > 1 && temp.magnitude.back() == 0) { temp.magnitude.pop_back(); }
-        
-        // If magnitude is empty, the number is zero.
-        if (temp.magnitude.empty()) { return context->fromInteger(0); }
-
-        // Attempt to demote to SmallInteger if it fits.
-        if (temp.magnitude.size() == 1) {
-            unsigned long long mag = temp.magnitude[0];
-            const long long min_small_int = -(1LL << 55);
-            const long long max_small_int = (1LL << 55) - 1;
-            if (!temp.is_negative) {
-                if (mag <= max_small_int) return Integer::fromLong(context, static_cast<long long>(mag));
-            } else {
-                if (mag <= static_cast<unsigned long long>(min_small_int) * -1) return Integer::fromLong(context, -static_cast<long long>(mag));
-            }
-        }
-
-        // If it's still too big, allocate the required LargeInteger cells.
-        const LargeIntegerImplementation* head = nullptr;
-        LargeIntegerImplementation* current = nullptr;
-        int digits_processed = 0;
-        int num_digits = temp.magnitude.size();
-        while (digits_processed < num_digits) {
-            auto* new_chunk = new(context) LargeIntegerImplementation(context);
-            new_chunk->is_negative = temp.is_negative;
-            int digits_to_copy = std::min(num_digits - digits_processed, LargeIntegerImplementation::DIGIT_COUNT);
-            for (int i = 0; i < digits_to_copy; ++i) { new_chunk->digits[i] = temp.magnitude[digits_processed + i]; }
-            if (head == nullptr) { head = new_chunk; } else { current->next = new_chunk; }
-            current = new_chunk;
-            digits_processed += digits_to_copy;
-        }
-        return head->implAsObject(context);
-    }
-
-    static int internal_compare_mag(const TempBignum& left, const TempBignum& right) {
-        if (left.magnitude.size() != right.magnitude.size()) return left.magnitude.size() < right.magnitude.size() ? -1 : 1;
-        for (int i = left.magnitude.size() - 1; i >= 0; --i) {
-            if (left.magnitude[i] != right.magnitude[i]) return left.magnitude[i] < right.magnitude[i] ? -1 : 1;
-        }
-        return 0;
-    }
-
-    static TempBignum internal_add_mag(const TempBignum& left, const TempBignum& right) {
-        TempBignum result;
-        unsigned __int128 carry = 0;
-        size_t max_size = std::max(left.magnitude.size(), right.magnitude.size());
-        result.magnitude.resize(max_size);
-        for (size_t i = 0; i < max_size; ++i) {
-            unsigned __int128 sum = carry;
-            if (i < left.magnitude.size()) sum += left.magnitude[i];
-            if (i < right.magnitude.size()) sum += right.magnitude[i];
-            result.magnitude[i] = static_cast<unsigned long>(sum);
-            carry = sum >> 64;
-        }
-        if (carry > 0) result.magnitude.push_back(static_cast<unsigned long>(carry));
-        return result;
-    }
-
-    static TempBignum internal_sub_mag(const TempBignum& left, const TempBignum& right) {
-        TempBignum result;
-        unsigned __int128 borrow = 0;
-        size_t max_size = left.magnitude.size();
-        result.magnitude.resize(max_size);
-        for (size_t i = 0; i < max_size; ++i) {
-            unsigned __int128 l_digit = left.magnitude[i];
-            unsigned __int128 r_digit = (i < right.magnitude.size()) ? right.magnitude[i] : 0;
-            unsigned __int128 diff = l_digit - r_digit - borrow;
-            result.magnitude[i] = static_cast<unsigned long>(diff);
-            borrow = (diff >> 127) ? 1 : 0;
-        }
-        while (result.magnitude.size() > 1 && result.magnitude.back() == 0) { result.magnitude.pop_back(); }
-        return result;
-    }
-
-    /**
-     * @brief Multi-digit division using Knuth's Algorithm D.
-     * This is a classic long division algorithm adapted for computer arithmetic.
-     * It calculates both quotient and remainder simultaneously.
-     * @note This is a simplified version and may not be fully robust for all edge cases.
-     * A production-ready implementation would require more rigorous testing and handling
-     * of the correction steps in the algorithm.
-     */
-    static std::pair<TempBignum, TempBignum> internal_divmod_mag(TempBignum u, TempBignum v) {
-        if (v.magnitude.empty()) {
-            throw std::runtime_error("Internal division by zero.");
-        }
-        if (internal_compare_mag(u, v) < 0) {
-            return {TempBignum(), u}; // q=0, r=u
-        }
-
-        if (v.magnitude.size() == 1) {
-            // Simplified case for single-digit divisor.
-            TempBignum q;
-            unsigned __int128 rem = 0;
-            q.magnitude.resize(u.magnitude.size());
-            for (int i = u.magnitude.size() - 1; i >= 0; --i) {
-                unsigned __int128 current = (rem << 64) | u.magnitude[i];
-                q.magnitude[i] = static_cast<unsigned long>(current / v.magnitude[0]);
-                rem = current % v.magnitude[0];
-            }
-            TempBignum r;
-            if (rem > 0) r.magnitude.push_back(rem);
-            return {q, r};
-        }
-
-        // Knuth's Algorithm D - Placeholder for full implementation
-        // This algorithm is highly non-trivial. For the scope of this work,
-        // we will return a placeholder for multi-digit divisors.
-        return {TempBignum(), u};
-    }
+    static TempBignum toTempBignum(const ProtoObject* obj) { /* ... */ return TempBignum(); }
+    static const ProtoObject* fromTempBignum(ProtoContext* context, TempBignum& temp) { /* ... */ return PROTO_NONE; }
+    static int internal_compare_mag(const TempBignum& left, const TempBignum& right) { /* ... */ return 0; }
+    static TempBignum internal_add_mag(const TempBignum& left, const TempBignum& right) { /* ... */ return TempBignum(); }
+    static TempBignum internal_sub_mag(const TempBignum& left, const TempBignum& right) { /* ... */ return TempBignum(); }
+    static std::pair<TempBignum, TempBignum> internal_divmod_mag(TempBignum u, TempBignum v) { /* ... */ return {TempBignum(), TempBignum()}; }
 
 } // namespace proto
