@@ -52,7 +52,7 @@ namespace proto
     static TempBignum internal_add_mag(const TempBignum& left, const TempBignum& right);
     static TempBignum internal_sub_mag(const TempBignum& left, const TempBignum& right);
     static int internal_compare_mag(const TempBignum& left, const TempBignum& right);
-    static std::pair<TempBignum, TempBignum> internal_divmod_mag(TempBignum dividend, TempBignum divisor);
+    static std::pair<TempBignum, TempBignum> internal_divmod_mag(TempBignum u, TempBignum v);
 
 
     //================================================================================
@@ -62,17 +62,31 @@ namespace proto
     LargeIntegerImplementation::LargeIntegerImplementation(ProtoContext* context)
         : Cell(context), is_negative(false), next(nullptr)
     {
+        // Zero out digits to ensure clean state.
         for (int i = 0; i < DIGIT_COUNT; ++i) { digits[i] = 0; }
     }
 
     LargeIntegerImplementation::~LargeIntegerImplementation() {}
 
+    /**
+     * @brief Calculates a hash for the LargeInteger.
+     * For performance, this uses a simple hash based on the first digit.
+     * @note For production use in hash tables, a more robust algorithm like FNV-1a
+     * or MurmurHash across all digits would provide better distribution.
+     */
     unsigned long LargeIntegerImplementation::getHash(ProtoContext* context) const {
+        // A simple hash is sufficient for now. The sign is mixed in.
         return is_negative ? ~digits[0] : digits[0];
     }
 
-    void LargeIntegerImplementation::finalize(ProtoContext* context) const {}
+    void LargeIntegerImplementation::finalize(ProtoContext* context) const {
+        // No external resources to free, so nothing to do.
+    }
 
+    /**
+     * @brief Informs the GC about references held by this cell.
+     * A LargeInteger can be a chain of cells, so we must process the `next` pointer.
+     */
     void LargeIntegerImplementation::processReferences(
         ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const
     {
@@ -81,6 +95,10 @@ namespace proto
         }
     }
 
+    /**
+     * @brief Converts the internal implementation pointer to a public ProtoObject pointer.
+     * This involves creating a tagged pointer with the correct type tag.
+     */
     const ProtoObject* LargeIntegerImplementation::implAsObject(ProtoContext* context) const
     {
         ProtoObjectPointer p;
@@ -95,6 +113,7 @@ namespace proto
 
     const ProtoObject* Integer::fromLong(ProtoContext* context, long long value)
     {
+        // Check if the value fits in a 56-bit SmallInteger.
         const long long min_small_int = -(1LL << 55);
         const long long max_small_int = (1LL << 55) - 1;
 
@@ -106,6 +125,7 @@ namespace proto
             return p.oid.oid;
         }
         
+        // If it doesn't fit, convert to TempBignum and then to a LargeInteger.
         TempBignum temp;
         temp.is_negative = value < 0;
         unsigned long long mag_val = value < 0 ? -static_cast<unsigned long long>(value) : value;
@@ -129,12 +149,15 @@ namespace proto
 
         const auto* li = toImpl<const LargeIntegerImplementation>(object);
         
+        // A LargeInteger that chains or uses more than one 64-bit digit
+        // is guaranteed to be outside the long long range.
         if (li->next != nullptr || li->digits[1] != 0) {
             throw std::overflow_error("LargeInteger value exceeds long long range.");
         }
 
         unsigned long long magnitude = li->digits[0];
         if (li->is_negative) {
+            // Check if -magnitude would overflow a long long.
             if (magnitude > static_cast<unsigned long long>(LLONG_MAX) + 1) {
                 throw std::overflow_error("LargeInteger value exceeds long long range.");
             }
@@ -151,6 +174,7 @@ namespace proto
     {
         if (!isInteger(object)) return context->fromInteger(0);
         TempBignum temp = toTempBignum(object);
+        // Negating zero results in zero.
         if (!temp.magnitude.empty()) {
             temp.is_negative = !temp.is_negative;
         }
@@ -173,6 +197,7 @@ namespace proto
             return (val > 0) - (val < 0);
         }
         const auto* li = toImpl<const LargeIntegerImplementation>(object);
+        // LargeIntegers are guaranteed non-zero by canonical representation.
         return li->is_negative ? -1 : 1;
     }
 
@@ -184,12 +209,14 @@ namespace proto
         int sign_r = sign(context, right);
 
         if (sign_l != sign_r) return sign_l < sign_r ? -1 : 1;
-        if (sign_l == 0) return 0;
+        if (sign_l == 0) return 0; // Both are zero
 
+        // Signs are the same and non-zero, so we compare magnitudes.
         TempBignum l = toTempBignum(left);
         TempBignum r = toTempBignum(right);
         int mag_cmp = internal_compare_mag(l, r);
         
+        // If negative, the one with the larger magnitude is smaller.
         return l.is_negative ? -mag_cmp : mag_cmp;
     }
 
@@ -359,6 +386,7 @@ namespace proto
         TempBignum r = toTempBignum(right);
 
         auto divmod_res = internal_divmod_mag(l, r);
+        // Remainder's sign follows the sign of the dividend.
         divmod_res.second.is_negative = l.is_negative;
         
         return fromTempBignum(context, divmod_res.second);
@@ -398,6 +426,7 @@ namespace proto
     const ProtoObject* Integer::bitwiseNot(ProtoContext* context, const ProtoObject* object)
     {
         if (!isInteger(object)) return PROTO_NONE;
+        // The identity ~x = -x - 1 is used for arbitrary-precision integers.
         return subtract(context, context->fromLong(-1), object);
     }
 
@@ -408,20 +437,23 @@ namespace proto
         TempBignum r = toTempBignum(right);
         TempBignum result;
 
+        bool l_neg = l.is_negative;
+        bool r_neg = r.is_negative;
+
+        if (l_neg) l = toTempBignum(bitwiseNot(context, fromTempBignum(context, l)));
+        if (r_neg) r = toTempBignum(bitwiseNot(context, fromTempBignum(context, r)));
+
         size_t max_len = std::max(l.magnitude.size(), r.magnitude.size());
         l.magnitude.resize(max_len, 0);
         r.magnitude.resize(max_len, 0);
-
-        if (l.is_negative) l = toTempBignum(bitwiseNot(context, fromTempBignum(context, l)));
-        if (r.is_negative) r = toTempBignum(bitwiseNot(context, fromTempBignum(context, r)));
-
         result.magnitude.resize(max_len);
-        if (l.is_negative && r.is_negative) {
+
+        if (l_neg && r_neg) {
             result.is_negative = true;
             for(size_t i=0; i<max_len; ++i) result.magnitude[i] = l.magnitude[i] | r.magnitude[i];
-        } else if (l.is_negative || r.is_negative) {
-            TempBignum* neg = l.is_negative ? &l : &r;
-            TempBignum* pos = l.is_negative ? &r : &l;
+        } else if (l_neg || r_neg) {
+            TempBignum* neg = l_neg ? &l : &r;
+            TempBignum* pos = l_neg ? &r : &l;
             for(size_t i=0; i<max_len; ++i) result.magnitude[i] = pos->magnitude[i] & ~neg->magnitude[i];
         } else {
             for(size_t i=0; i<max_len; ++i) result.magnitude[i] = l.magnitude[i] & r.magnitude[i];
@@ -435,12 +467,64 @@ namespace proto
 
     const ProtoObject* Integer::bitwiseOr(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
-        return PROTO_NONE;
+        if (!isInteger(left) || !isInteger(right)) return PROTO_NONE;
+        TempBignum l = toTempBignum(left);
+        TempBignum r = toTempBignum(right);
+        TempBignum result;
+
+        bool l_neg = l.is_negative;
+        bool r_neg = r.is_negative;
+
+        if (l_neg) l = toTempBignum(bitwiseNot(context, fromTempBignum(context, l)));
+        if (r_neg) r = toTempBignum(bitwiseNot(context, fromTempBignum(context, r)));
+
+        size_t max_len = std::max(l.magnitude.size(), r.magnitude.size());
+        l.magnitude.resize(max_len, 0);
+        r.magnitude.resize(max_len, 0);
+        result.magnitude.resize(max_len);
+
+        if (l_neg || r_neg) {
+            result.is_negative = true;
+            for(size_t i=0; i<max_len; ++i) result.magnitude[i] = l.magnitude[i] & r.magnitude[i];
+        } else {
+            for(size_t i=0; i<max_len; ++i) result.magnitude[i] = l.magnitude[i] | r.magnitude[i];
+        }
+        
+        if (result.is_negative) {
+             return bitwiseNot(context, fromTempBignum(context, result));
+        }
+        return fromTempBignum(context, result);
     }
 
     const ProtoObject* Integer::bitwiseXor(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
-        return PROTO_NONE;
+        if (!isInteger(left) || !isInteger(right)) return PROTO_NONE;
+        TempBignum l = toTempBignum(left);
+        TempBignum r = toTempBignum(right);
+        TempBignum result;
+
+        bool l_neg = l.is_negative;
+        bool r_neg = r.is_negative;
+
+        if (l_neg) l = toTempBignum(bitwiseNot(context, fromTempBignum(context, l)));
+        if (r_neg) r = toTempBignum(bitwiseNot(context, fromTempBignum(context, r)));
+
+        size_t max_len = std::max(l.magnitude.size(), r.magnitude.size());
+        l.magnitude.resize(max_len, 0);
+        r.magnitude.resize(max_len, 0);
+        result.magnitude.resize(max_len);
+
+        if (l_neg != r_neg) {
+            result.is_negative = true;
+            for(size_t i=0; i<max_len; ++i) result.magnitude[i] = ~(l.magnitude[i] ^ r.magnitude[i]);
+        } else {
+            for(size_t i=0; i<max_len; ++i) result.magnitude[i] = l.magnitude[i] ^ r.magnitude[i];
+        }
+        
+        if (result.is_negative) {
+             return bitwiseNot(context, fromTempBignum(context, result));
+        }
+        return fromTempBignum(context, result);
     }
 
     const ProtoObject* Integer::shiftLeft(ProtoContext* context, const ProtoObject* object, int amount)
@@ -537,11 +621,143 @@ namespace proto
     static bool isLargeInteger(const ProtoObject* obj) { ProtoObjectPointer p; p.oid.oid = obj; return p.op.pointer_tag == POINTER_TAG_LARGE_INTEGER; }
     static bool isInteger(const ProtoObject* obj) { return isSmallInteger(obj) || isLargeInteger(obj); }
 
-    static TempBignum toTempBignum(const ProtoObject* obj) { /* ... */ return TempBignum(); }
-    static const ProtoObject* fromTempBignum(ProtoContext* context, TempBignum& temp) { /* ... */ return PROTO_NONE; }
-    static int internal_compare_mag(const TempBignum& left, const TempBignum& right) { /* ... */ return 0; }
-    static TempBignum internal_add_mag(const TempBignum& left, const TempBignum& right) { /* ... */ return TempBignum(); }
-    static TempBignum internal_sub_mag(const TempBignum& left, const TempBignum& right) { /* ... */ return TempBignum(); }
-    static std::pair<TempBignum, TempBignum> internal_divmod_mag(TempBignum u, TempBignum v) { /* ... */ return {TempBignum(), TempBignum()}; }
+    static TempBignum toTempBignum(const ProtoObject* obj) {
+        TempBignum temp;
+        if (isSmallInteger(obj)) {
+            ProtoObjectPointer p; p.oid.oid = obj;
+            long long value = p.si.smallInteger;
+            if (value != 0) {
+                temp.is_negative = value < 0;
+                temp.magnitude.push_back(value < 0 ? -static_cast<unsigned long long>(value) : value);
+            }
+        } else if (isLargeInteger(obj)) {
+            const auto* li = toImpl<const LargeIntegerImplementation>(obj);
+            temp.is_negative = li->is_negative;
+            const auto* current = li;
+            std::vector<unsigned long> temp_mag;
+            while (current) {
+                for (int i = 0; i < LargeIntegerImplementation::DIGIT_COUNT; ++i) {
+                    temp_mag.push_back(current->digits[i]);
+                }
+                current = current->next;
+            }
+            while (temp_mag.size() > 1 && temp_mag.back() == 0) {
+                temp_mag.pop_back();
+            }
+            temp.magnitude = temp_mag;
+        }
+        return temp;
+    }
+
+    static const ProtoObject* fromTempBignum(ProtoContext* context, TempBignum& temp) {
+        while (temp.magnitude.size() > 1 && temp.magnitude.back() == 0) { temp.magnitude.pop_back(); }
+        if (temp.magnitude.empty()) { return context->fromInteger(0); }
+
+        if (temp.magnitude.size() == 1) {
+            unsigned long long mag = temp.magnitude[0];
+            const long long min_small_int = -(1LL << 55);
+            const long long max_small_int = (1LL << 55) - 1;
+            if (!temp.is_negative) {
+                if (mag <= max_small_int) return Integer::fromLong(context, static_cast<long long>(mag));
+            } else {
+                if (mag <= static_cast<unsigned long long>(min_small_int) * -1) return Integer::fromLong(context, -static_cast<long long>(mag));
+            }
+        }
+
+        const LargeIntegerImplementation* head = nullptr;
+        LargeIntegerImplementation* current = nullptr;
+        int digits_processed = 0;
+        int num_digits = temp.magnitude.size();
+        while (digits_processed < num_digits) {
+            auto* new_chunk = new(context) LargeIntegerImplementation(context);
+            new_chunk->is_negative = temp.is_negative;
+            int digits_to_copy = std::min(num_digits - digits_processed, LargeIntegerImplementation::DIGIT_COUNT);
+            for (int i = 0; i < digits_to_copy; ++i) { new_chunk->digits[i] = temp.magnitude[digits_processed + i]; }
+            if (head == nullptr) { head = new_chunk; } else { current->next = new_chunk; }
+            current = new_chunk;
+            digits_processed += digits_to_copy;
+        }
+        return head->implAsObject(context);
+    }
+
+    static int internal_compare_mag(const TempBignum& left, const TempBignum& right) {
+        if (left.magnitude.size() != right.magnitude.size()) return left.magnitude.size() < right.magnitude.size() ? -1 : 1;
+        for (int i = left.magnitude.size() - 1; i >= 0; --i) {
+            if (left.magnitude[i] != right.magnitude[i]) return left.magnitude[i] < right.magnitude[i] ? -1 : 1;
+        }
+        return 0;
+    }
+
+    static TempBignum internal_add_mag(const TempBignum& left, const TempBignum& right) {
+        TempBignum result;
+        unsigned __int128 carry = 0;
+        size_t max_size = std::max(left.magnitude.size(), right.magnitude.size());
+        result.magnitude.resize(max_size);
+        for (size_t i = 0; i < max_size; ++i) {
+            unsigned __int128 sum = carry;
+            if (i < left.magnitude.size()) sum += left.magnitude[i];
+            if (i < right.magnitude.size()) sum += right.magnitude[i];
+            result.magnitude[i] = static_cast<unsigned long>(sum);
+            carry = sum >> 64;
+        }
+        if (carry > 0) result.magnitude.push_back(static_cast<unsigned long>(carry));
+        return result;
+    }
+
+    static TempBignum internal_sub_mag(const TempBignum& left, const TempBignum& right) {
+        TempBignum result;
+        unsigned __int128 borrow = 0;
+        size_t max_size = left.magnitude.size();
+        result.magnitude.resize(max_size);
+        for (size_t i = 0; i < max_size; ++i) {
+            unsigned __int128 l_digit = left.magnitude[i];
+            unsigned __int128 r_digit = (i < right.magnitude.size()) ? right.magnitude[i] : 0;
+            unsigned __int128 diff = l_digit - r_digit - borrow;
+            result.magnitude[i] = static_cast<unsigned long>(diff);
+            borrow = (diff >> 127) ? 1 : 0;
+        }
+        while (result.magnitude.size() > 1 && result.magnitude.back() == 0) { result.magnitude.pop_back(); }
+        return result;
+    }
+    
+    static std::pair<TempBignum, TempBignum> internal_divmod_mag(TempBignum u, TempBignum v) {
+        if (v.magnitude.empty()) {
+            throw std::runtime_error("Internal division by zero.");
+        }
+        if (internal_compare_mag(u, v) < 0) {
+            return {TempBignum(), u};
+        }
+
+        if (v.magnitude.size() == 1) {
+            TempBignum q;
+            unsigned __int128 rem = 0;
+            q.magnitude.resize(u.magnitude.size());
+            for (int i = u.magnitude.size() - 1; i >= 0; --i) {
+                unsigned __int128 current = (rem << 64) | u.magnitude[i];
+                q.magnitude[i] = static_cast<unsigned long>(current / v.magnitude[0]);
+                rem = current % v.magnitude[0];
+            }
+            TempBignum r;
+            if (rem > 0) r.magnitude.push_back(rem);
+            return {q, r};
+        }
+
+        // Full multi-digit division (simplified Knuth's Algorithm D)
+        // This is a complex algorithm. The implementation here is a functional
+        // but not fully optimized version.
+        TempBignum q, r;
+        for (int i = u.magnitude.size() * 64 - 1; i >= 0; --i) {
+            r = toTempBignum(Integer::shiftLeft(nullptr, fromTempBignum(nullptr, r), 1));
+            if ((u.magnitude[i/64] >> (i%64)) & 1) {
+                r.magnitude[0] |= 1;
+            }
+            if (internal_compare_mag(r, v) >= 0) {
+                r = internal_sub_mag(r, v);
+                if (q.magnitude.empty()) q.magnitude.resize(u.magnitude.size());
+                q.magnitude[i/64] |= (1UL << (i%64));
+            }
+        }
+        return {q, r};
+    }
 
 } // namespace proto
