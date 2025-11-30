@@ -14,6 +14,35 @@
 
 namespace proto
 {
+
+    class ReturnReference : public Cell {
+    public:
+        Cell* returnValue;
+
+        ReturnReference(ProtoContext* context, Cell* returnValue) : Cell(context), returnValue(returnValue)
+        : Cell(context), returnValue(returnValue) {}
+
+        ~ReturnReference() override {}
+
+        void processReferences(
+            ProtoContext* context,
+            void* self,
+            void (*method)(ProtoContext* context, void* self, const Cell* cell)
+        ) const override
+        {
+            if (this->returnValue)
+            {
+                method(context, self, this->returnValue);
+            }
+
+
+        }
+        const ProtoObject* implAsObject(ProtoContext* context) const override;
+    };
+
+
+    }
+
     /**
      * @class ProtoContext
      * @brief Represents the execution state of a thread, including the call stack
@@ -73,6 +102,12 @@ namespace proto
         if (this->space && this->lastAllocatedCell)
         {
             this->space->analyzeUsedCells(this->lastAllocatedCell);
+        }
+
+        if (this->returnValue && this->previous)
+        {
+            auto returnReference = new(this->previous) ProtoReturnReference(this->previous, this->returnValue);
+            this->previous->addCell2Context(returnReference);
         }
     }
 
