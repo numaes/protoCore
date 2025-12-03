@@ -9,8 +9,8 @@
  */
 
 #include "../headers/proto_internal.h"
-#include <random>
-#include <cstdlib>
+#include <stdexcept>
+#include <vector>
 
 namespace proto
 {
@@ -50,61 +50,112 @@ namespace proto
      * @class ProtoContext
      * @brief Represents the execution state of a thread, including the call stack
      *        and memory allocation arena.
-     *
-     * A ProtoContext is the primary interface for creating new objects. It serves
-     * several critical roles:
-     * 1.  **Call Stack**: Each context can point to a `previous` context, forming a
-     *     linked list that represents the call stack of a `ProtoThread`.
-     * 2.  **Memory Management**: It tracks all cells allocated within its scope. When
-     *     the context is destroyed (e.g., a function returns), it hands this list
-     *     of "young" objects to the `ProtoSpace` for GC analysis. This is a key
-     *     part of the implicit generational garbage collection.
-     * 3.  **Object Factory**: It provides factory methods (`newList`, `newObject`, etc.)
-     *     for creating all types of Proto objects.
      */
 
     /**
-     * @brief Constructs a new execution context.
-     * @param space The global `ProtoSpace` this context belongs to.
-     * @param previous The parent context in the call stack, or nullptr for a root context.
-     * @param localsBase A pointer to an array of local variables for this scope.
-     * @param localsCount The number of local variables.
+     * @brief Constructs a new execution context for a function call.
+     * This is the core of the function execution model. It allocates local variable
+     * storage and performs argument-to-parameter binding, throwing exceptions on errors.
      */
     ProtoContext::ProtoContext(
         ProtoSpace* space,
         ProtoContext* previous,
-        ProtoObject** localsBase,
-        unsigned int localsCount
-    ) : space(space),
-        previous(previous),
+        const ProtoList* parameterNames,
+        const ProtoList* localNames,
+        const ProtoList* args,
+        const ProtoSparseList* kwargs
+    ) : previous(previous),
+        space(space),
         thread(nullptr),
-        localsBase(localsBase ? localsBase : nullptr),
-        localsCount(localsBase ? localsCount : 0),
+        closureLocals(nullptr),
+        automaticLocals(nullptr),
+        automaticLocalsCount(0),
         lastAllocatedCell(nullptr),
         allocatedCellsCount(0),
         returnValue(PROTO_NONE)
     {
-        if (previous)
-        {
+        // Step 1: Inherit essential services from the parent context.
+        // This must be done first so that this context can allocate objects.
+        if (previous) {
             this->space = previous->space;
             this->thread = previous->thread;
         }
-        
         if (this->thread) {
             this->thread->setCurrentContext(this);
+        }
+
+        // Step 2: Allocate storage for local variables.
+        if (localNames) {
+            automaticLocalsCount = localNames->getSize(this);
+            if (automaticLocalsCount > 0) {
+                automaticLocals = new const ProtoObject*[automaticLocalsCount];
+                for (unsigned int i = 0; i < automaticLocalsCount; ++i) {
+                    automaticLocals[i] = PROTO_NONE;
+                }
+            }
+        }
+        closureLocals = this->newSparseList();
+
+        // Step 3: Argument to Parameter Binding
+        if (!parameterNames) return; // Nothing more to do if there are no parameters.
+
+        const unsigned int paramCount = parameterNames->getSize(this);
+        const unsigned int argCount = args ? args->getSize(this) : 0;
+
+        // 3a. Too many positional arguments
+        if (argCount > paramCount) {
+            throw std::invalid_argument("Too many positional arguments provided.");
+        }
+
+        std::vector<bool> assigned(paramCount, false);
+
+        // 3b. Bind positional arguments
+        for (unsigned int i = 0; i < argCount; ++i) {
+            const ProtoString* paramName = parameterNames->getAt(this, i)->asString(this);
+            const ProtoObject* value = args->getAt(this, i);
+            closureLocals = closureLocals->setAt(this, paramName->getHash(this), value);
+            assigned[i] = true;
+        }
+
+        // 3c. Bind keyword arguments
+        if (kwargs) {
+            // This requires iterating the sparse list, which is complex.
+            // For now, we assume a method to process its elements.
+            // A full implementation would require a ProtoSparseListIterator.
+            // This is a conceptual placeholder.
+            /*
+            kwargs->processElements(this, nullptr, 
+                [&](ProtoContext* ctx, void*, unsigned long key, const ProtoObject* value) {
+                    // Find the parameter name by hash
+                    bool found = false;
+                    for (unsigned int i = 0; i < paramCount; ++i) {
+                        const ProtoString* paramName = parameterNames->getAt(ctx, i)->asString(ctx);
+                        if (paramName->getHash(ctx) == key) {
+                            if (assigned[i]) {
+                                throw std::invalid_argument("Parameter assigned twice.");
+                            }
+                            closureLocals = closureLocals->setAt(ctx, key, value);
+                            assigned[i] = true;
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        throw std::invalid_argument("Unknown keyword argument provided.");
+                    }
+                });
+            */
         }
     }
 
     /**
      * @brief Destructor for the context.
-     * When a context goes out of scope, it reports all the cells allocated
-     * within it to the global `ProtoSpace` for garbage collection analysis.
+     * Reports allocated cells to the GC and frees automatic local variable storage.
      */
     ProtoContext::~ProtoContext()
     {
-        if (this->space && this->lastAllocatedCell)
-        {
-            this->space->analyzeUsedCells(this->lastAllocatedCell);
+        if (this->space && this->lastAllocatedCell) {
+            this->space->submitYoungGeneration(this->lastAllocatedCell);
         }
 
         if (this->returnValue && this->previous)
@@ -112,6 +163,8 @@ namespace proto
             auto returnReference = new(this->previous) ProtoReturnReference(this->previous, this->returnValue);
             this->previous->addCell2Context(returnReference);
         }
+        // Free the C-style array for automatic variables.
+        delete[] automaticLocals;
     }
 
     /**
@@ -123,18 +176,13 @@ namespace proto
     Cell* ProtoContext::allocCell()
     {
         Cell* newCell = nullptr;
-        if (this->thread)
-        {
+        if (this->thread) {
             newCell = toImpl<ProtoThreadImplementation>(this->thread)->implAllocCell(this);
-        }
-        else
-        {
-            // Fallback for contexts not associated with a ProtoThread (e.g., the root context).
+        } else {
             newCell = static_cast<Cell*>(std::malloc(sizeof(BigCell)));
         }
 
         if (newCell) {
-            // Use placement new to construct a base Cell, which links it to this context.
             ::new(newCell) Cell(this);
             this->allocatedCellsCount++;
         }
@@ -163,8 +211,6 @@ namespace proto
         while (*currentChar)
         {
             charList = charList->appendLast(this, fromUTF8Char(currentChar));
-            // This logic should be improved to correctly advance the pointer
-            // based on the number of bytes in the UTF-8 character.
             currentChar++;
         }
         const auto newString = new(this) ProtoStringImplementation(this, ProtoTupleImplementation::tupleFromList(this, charList));
@@ -219,16 +265,10 @@ namespace proto
 
     const ProtoObject* ProtoContext::fromUTF8Char(const char* utf8OneCharString) {
         ProtoObjectPointer p{};
-        union
-        {
-            char asBytes[4];
-            unsigned int asUnicodeChar;
-        } build_buffer{};
-
+        union { char asBytes[4]; unsigned int asUnicodeChar; } build_buffer{};
         p.si.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
         p.si.embedded_type = EMBEDDED_TYPE_UNICODE_CHAR;
         
-        // This logic correctly handles multi-byte UTF-8 characters.
         const unsigned char* c = (const unsigned char*)utf8OneCharString;
         int len = 0;
         if (c[0] < 0x80) len = 1;

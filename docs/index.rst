@@ -53,6 +53,7 @@ Table of Contents
 
    conceptual_introduction
    numerics
+   execution_model
    DESIGN_link
 
 .. toctree::

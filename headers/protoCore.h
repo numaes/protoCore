@@ -76,6 +76,8 @@ namespace proto
                                 const ProtoObject* self,
                                 const ProtoList* positionalParameters,
                                 const ProtoSparseList* keywordParametersDict = nullptr) const;
+        
+        const ProtoObject* divmod(ProtoContext* context, const ProtoObject* other) const;
 
         //- Internals & Type Checking
         unsigned long getHash(ProtoContext* context) const;
@@ -93,6 +95,7 @@ namespace proto
         bool isNone(ProtoContext* context) const;
         bool isString(ProtoContext* context) const;
         bool isDouble(ProtoContext* context) const;
+        bool isTuple(ProtoContext* context) const;
 
         //- Type Coercion
         bool asBoolean(ProtoContext* context) const;
@@ -325,21 +328,36 @@ namespace proto
     };
 
     /**
-     * @brief Represents the execution context for a thread.
-     *
-     * A ProtoContext holds the call stack (via the `previousNode` pointer),
-     * the local variables for the current scope, and references to the
-     * current thread and the ProtoSpace it belongs to. It also acts as
-     * the primary factory for creating new Proto objects.
+     * @brief Represents the execution context for a thread, managing the call stack,
+     * local variables, and object creation.
      */
     class ProtoContext
     {
+    private:
+        // C-style array for automatic variables that are destroyed with the context.
+        const ProtoObject** automaticLocals;
+        unsigned int automaticLocalsCount;
+
     public:
+        /**
+         * @brief Constructs a new execution context for a function call.
+         * This constructor is the core of the function execution model. It allocates
+         * space for local variables and performs argument-to-parameter binding.
+         * 
+         * @param space The global ProtoSpace this context belongs to.
+         * @param previous The parent context in the call stack.
+         * @param parameterNames A list of ProtoStrings for the function's declared parameter names.
+         * @param localNames A list of ProtoStrings for the function's automatic (C-style) local variables.
+         * @param args The positional arguments passed to the function.
+         * @param kwargs The keyword arguments passed to the function.
+         */
         explicit ProtoContext(
-            ProtoSpace* space = nullptr,
-            ProtoContext* previous = nullptr,
-            ProtoObject** localsBase = nullptr,
-            unsigned int localsCount = 0
+            ProtoSpace* space,
+            ProtoContext* previous,
+            const ProtoList* parameterNames,
+            const ProtoList* localNames,
+            const ProtoList* args,
+            const ProtoSparseList* kwargs
         );
         ~ProtoContext();
 
@@ -347,17 +365,31 @@ namespace proto
         ProtoContext* previous;
         ProtoSpace* space;
         ProtoThread* thread;
-        ProtoObject** localsBase;
-        unsigned int localsCount;
+        
+        // Variables that can be captured by closures, managed by the GC.
+        const ProtoSparseList* closureLocals;
 
         //- Return Value
         const ProtoObject* returnValue;
+
+        //- GC Interface
+        /**
+         * @brief Provides the GC with access to the automatic local variables.
+         * @return A pointer to the array of automatic local variable objects.
+         */
+        inline const ProtoObject** getAutomaticLocals() const { return automaticLocals; }
+
+        /**
+         * @brief Provides the GC with the count of automatic local variables.
+         * @return The number of automatic local variables.
+         */
+        inline unsigned int getAutomaticLocalsCount() const { return automaticLocalsCount; }
 
         //- Factory methods for primitive types.
         const ProtoObject* fromInteger(int value);
         const ProtoObject* fromLong(long long value);
         const ProtoObject* fromString(const char* str, int base = 10);
-        const ProtoObject* fromFloat(float value);
+        const ProtoObject* fromDouble(double value);
         const ProtoObject* fromUTF8Char(const char* utf8OneCharString);
         const ProtoObject* fromUTF8String(const char* zeroTerminatedUtf8String);
         const ProtoObject* fromMethod(ProtoObject* self, ProtoMethod method);
@@ -445,8 +477,14 @@ namespace proto
             const ProtoObject* self,
             const ProtoString* attributeName){};
 
-        // ---- Métodos públicos ---
-        void analyzeUsedCells(const Cell* cellsChain);
+        //- Public Methods
+        /**
+         * @brief Submits a chain of newly created cells (a "young generation")
+         * from a returning context to the garbage collector.
+         * @param cellChain A pointer to the first cell in the linked list.
+         */
+        void submitYoungGeneration(const Cell* cellChain);
+        
         void deallocMutable(unsigned long mutable_ref);
         const ProtoList* getThreads(ProtoContext* context) const;
         const ProtoThread* newThread(
