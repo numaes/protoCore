@@ -20,7 +20,7 @@ namespace proto
         Cell* returnValue;
 
         ReturnReference(ProtoContext* context, Cell* returnValue) : Cell(context), returnValue(returnValue)
-        : Cell(context), returnValue(returnValue) {}
+        {}
 
         ~ReturnReference() override {}
 
@@ -33,18 +33,14 @@ namespace proto
             if (this->returnValue)
             {
 				ProtoObjectPointer pa{};
-        		pa.oid.oid = this->returnValue;
+        		pa.oid.oid = (const ProtoObject*)this->returnValue;
         		if (pa.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE)
                 	method(context, self, this->returnValue);
             }
-
-
         }
         const ProtoObject* implAsObject(ProtoContext* context) const override;
     };
 
-
-    }
 
     /**
      * @class ProtoContext
@@ -119,32 +115,35 @@ namespace proto
 
         // 3c. Bind keyword arguments
         if (kwargs) {
-            // This requires iterating the sparse list, which is complex.
-            // For now, we assume a method to process its elements.
-            // A full implementation would require a ProtoSparseListIterator.
-            // This is a conceptual placeholder.
-            /*
-            kwargs->processElements(this, nullptr, 
-                [&](ProtoContext* ctx, void*, unsigned long key, const ProtoObject* value) {
-                    // Find the parameter name by hash
-                    bool found = false;
-                    for (unsigned int i = 0; i < paramCount; ++i) {
-                        const ProtoString* paramName = parameterNames->getAt(ctx, i)->asString(ctx);
-                        if (paramName->getHash(ctx) == key) {
-                            if (assigned[i]) {
-                                throw std::invalid_argument("Parameter assigned twice.");
-                            }
-                            closureLocals = closureLocals->setAt(ctx, key, value);
-                            assigned[i] = true;
-                            found = true;
-                            break;
+            const ProtoSparseListIterator* iterator = kwargs->getIterator(this);
+            while (iterator->hasNext(this)) {
+                unsigned long key = iterator->nextKey(this);
+                const ProtoObject* value = iterator->nextValue(this);
+
+                bool found = false;
+                for (unsigned int i = 0; i < paramCount; ++i) {
+                    const ProtoString* paramName = parameterNames->getAt(this, i)->asString(this);
+                    if (paramName->getHash(this) == key) {
+                        if (assigned[i]) {
+                            std::string error_msg = "Parameter '";
+                            error_msg += paramName->asUTF8(this);
+                            error_msg += "' assigned twice.";
+                            throw std::invalid_argument(error_msg);
                         }
+                        closureLocals = closureLocals->setAt(this, key, value);
+                        assigned[i] = true;
+                        found = true;
+                        break;
                     }
-                    if (!found) {
-                        throw std::invalid_argument("Unknown keyword argument provided.");
-                    }
-                });
-            */
+                }
+
+                if (!found) {
+                    // To get the name for the error message, we would need a reverse mapping
+                    // from hash to string, which is complex. We'll give a generic error.
+                    throw std::invalid_argument("Unknown keyword argument provided.");
+                }
+                iterator = iterator->advance(this);
+            }
         }
     }
 
@@ -160,7 +159,7 @@ namespace proto
 
         if (this->returnValue && this->previous)
         {
-            auto returnReference = new(this->previous) ProtoReturnReference(this->previous, this->returnValue);
+            auto returnReference = new(this->previous) ReturnReference(this->previous, (Cell*)this->returnValue);
             this->previous->addCell2Context(returnReference);
         }
         // Free the C-style array for automatic variables.
@@ -169,9 +168,6 @@ namespace proto
 
     /**
      * @brief The core memory allocation function.
-     * It attempts to get a new `Cell` from the current thread's local arena.
-     * This is a fast, lock-free operation for the common case.
-     * @return A pointer to a newly allocated, uninitialized `Cell`.
      */
     Cell* ProtoContext::allocCell()
     {
@@ -191,8 +187,6 @@ namespace proto
 
     /**
      * @brief Adds a newly constructed cell to this context's tracking list.
-     * This is called automatically by the `Cell` constructor.
-     * @param cell The cell to add.
      */
     void ProtoContext::addCell2Context(Cell* cell)
     {
@@ -259,7 +253,7 @@ namespace proto
         return Integer::fromString(this, str, base);
     }
 
-    const ProtoObject* ProtoContext::fromDouble(double value) {
+    const ProtoObject* ProtoContext::fromFloat(double value) {
         return (new(this) DoubleImplementation(this, value))->asObject(this);
     }
 
