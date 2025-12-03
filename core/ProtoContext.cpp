@@ -32,7 +32,10 @@ namespace proto
         {
             if (this->returnValue)
             {
-                method(context, self, this->returnValue);
+				ProtoObjectPointer pa{};
+        		pa.oid.oid = this->returnValue;
+        		if (pa.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE)
+                	method(context, self, this->returnValue);
             }
 
 
