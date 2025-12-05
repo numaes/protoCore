@@ -277,7 +277,7 @@ namespace proto
     class LargeIntegerImplementation final : public Cell
     {
     public:
-        static const int DIGIT_COUNT = 5;
+        static const int DIGIT_COUNT = 4;
 
         bool is_negative;
         const LargeIntegerImplementation* next;
@@ -312,6 +312,8 @@ namespace proto
             void (*method)(ProtoContext* context, void* self, const Cell* cell)
         ) const override;
         const ProtoObject* implAsObject(ProtoContext* context) const override;
+
+		double doubleValue;
     };
 
 
@@ -561,7 +563,7 @@ namespace proto
         const ProtoSparseListImplementation* previous;
         const ProtoSparseListImplementation* next;
         unsigned long hash;
-        unsigned long count : 56;
+        unsigned long size : 56;
         unsigned long height : 8;
     };
 
@@ -579,10 +581,14 @@ namespace proto
         getAt(ProtoContext *context, const ProtoTupleImplementation *tuple) const;
         TupleDictionary *set(ProtoContext *context,
                              const ProtoTupleImplementation *tuple);
-        void finalize(ProtoContext* context) const override;
-        void processReferences(ProtoContext *context, void *self,
-                               void (*method)(ProtoContext *, void *,
-                                              const Cell *)) const override;
+        void finalize(ProtoContext* context) const override {
+            // No specific finalization needed
+        }
+        void processReferences(ProtoContext *context, void *self, void (*method)(ProtoContext *, void *, const Cell *)) const override {
+            if (key) method(context, self, key);
+            if (previous) method(context, self, previous);
+            if (next) method(context, self, next);
+        }
 
         const ProtoTupleImplementation *key;
         TupleDictionary *previous;

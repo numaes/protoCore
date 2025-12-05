@@ -9,7 +9,7 @@
 #include <chrono>
 #include <vector>
 #include <random>
-#include "../headers/proto.h"
+#include "../headers/protoCore.h"
 
 using namespace proto;
 

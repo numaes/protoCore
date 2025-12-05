@@ -125,10 +125,9 @@ namespace proto
                     const ProtoString* paramName = parameterNames->getAt(this, i)->asString(this);
                     if (paramName->getHash(this) == key) {
                         if (assigned[i]) {
-                            std::string error_msg = "Parameter '";
-                            error_msg += paramName->asUTF8(this);
-                            error_msg += "' assigned twice.";
-                            throw std::invalid_argument(error_msg);
+							if (this->space->parameterTwiceAssignedCallback)
+								this->space->parameterTwiceAssignedCallback(this, nullptr, paramName);
+							continue;
                         }
                         closureLocals = closureLocals->setAt(this, key, value);
                         assigned[i] = true;
@@ -140,9 +139,10 @@ namespace proto
                 if (!found) {
                     // To get the name for the error message, we would need a reverse mapping
                     // from hash to string, which is complex. We'll give a generic error.
-                    throw std::invalid_argument("Unknown keyword argument provided.");
+					if (this->space->parameterNotFoundCallback)
+						this->space->parameterNotFoundCallback(this, nullptr, nullptr);
                 }
-                iterator = iterator->advance(this);
+                iterator = const_cast<ProtoSparseListIterator*>(iterator)->advance(this);
             }
         }
     }
@@ -253,8 +253,8 @@ namespace proto
         return Integer::fromString(this, str, base);
     }
 
-    const ProtoObject* ProtoContext::fromFloat(double value) {
-        return (new(this) DoubleImplementation(this, value))->asObject(this);
+    const ProtoObject* ProtoContext::fromDouble(double value) {
+        return (new(this) DoubleImplementation(this, value))->implAsObject(this);
     }
 
     const ProtoObject* ProtoContext::fromUTF8Char(const char* utf8OneCharString) {
@@ -276,6 +276,12 @@ namespace proto
         
         p.unicodeChar.unicodeValue = build_buffer.asUnicodeChar;
         return p.oid.oid;
+    }
+
+    const ProtoObject* ReturnReference::implAsObject(ProtoContext* context) const
+    {
+        // A ReturnReference should not be exposed as a user-facing object.
+        return PROTO_NONE;
     }
 
 } // namespace proto

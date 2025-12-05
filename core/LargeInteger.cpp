@@ -131,9 +131,17 @@ namespace proto
         unsigned long long mag_val = value < 0 ? -static_cast<unsigned long long>(value) : value;
         while(mag_val > 0){
             temp.magnitude.push_back(static_cast<unsigned long>(mag_val));
-            mag_val >>= 64;
+            // A 64-bit value will only ever occupy one 64-bit digit.
+            mag_val = 0;
         }
         return fromTempBignum(context, temp);
+    }
+
+    const ProtoObject* Integer::fromString(ProtoContext* context, const char* str, int base)
+    {
+        // Placeholder implementation.
+        long long val = std::stoll(str, nullptr, base);
+        return fromLong(context, val);
     }
 
     long long Integer::asLong(ProtoContext* context, const ProtoObject* object)

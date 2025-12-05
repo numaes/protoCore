@@ -159,13 +159,14 @@ namespace proto
         while (ctx)
         {
             // Report all local variables in the current context.
-            if (ctx->localsBase)
+            if (ctx->getAutomaticLocals())
             {
-                for (unsigned int i = 0; i < ctx->localsCount; ++i)
+                for (unsigned int i = 0; i < ctx->getAutomaticLocalsCount(); ++i)
                 {
-                    if (ctx->localsBase[i] && ctx->localsBase[i]->isCell(context))
+                    const ProtoObject* local = ctx->getAutomaticLocals()[i];
+                    if (local && local->isCell(context))
                     {
-                        callBackMethod(context, self, ctx->localsBase[i]->asCell(context));
+                        callBackMethod(context, self, local->asCell(context));
                     }
                 }
             }

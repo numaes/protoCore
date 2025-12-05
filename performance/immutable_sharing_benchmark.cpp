@@ -8,7 +8,7 @@
 #include <iostream>
 #include <vector>
 #include <chrono>
-#include "../headers/proto.h"
+#include "../headers/protoCore.h"
 
 using namespace proto;
 

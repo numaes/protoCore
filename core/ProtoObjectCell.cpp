@@ -91,7 +91,7 @@ namespace proto
      * attribute list. Both must be reported to the GC to prevent them from
      * being prematurely collected.
      */
-    void ProtoOffice_object.cppbjectCell::processReferences(
+    void ProtoObjectCell::processReferences(
         ProtoContext* context,
         void* self,
         void (*method)(

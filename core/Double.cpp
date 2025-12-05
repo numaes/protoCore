@@ -34,19 +34,12 @@ namespace proto
     {
     }
 
-    const ProtoObject* LargeIntegerImplementation::implAsObject(ProtoContext* context) const
+    const ProtoObject* DoubleImplementation::implAsObject(ProtoContext* context) const
     {
         ProtoObjectPointer p;
-        p.largeIntegerImplementation = this;
+        p.doubleImplementation = this;
         p.op.pointer_tag = POINTER_TAG_DOUBLE;
         return p.oid.oid;
-    }
-
-
-    const ProtoObject* Integer::fromString(ProtoContext* context, const char* str, int base)
-    {
-        // To be implemented
-        return PROTO_NONE;
     }
 
 } // namespace proto

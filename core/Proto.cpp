@@ -52,7 +52,6 @@ namespace proto
             case EMBEDDED_TYPE_TIMEDELTA: return context->space->timedeltaPrototype;
             case EMBEDDED_TYPE_SMALLINT: return context->space->smallIntegerPrototype;
             case EMBEDDED_TYPE_FLOAT: return context->space->floatPrototype;
-            case EMBEDDED_TYPE_LARGE_INTEGER: return context->space->largeIntegerPrototype;
             default: return nullptr;
             }
         case POINTER_TAG_LIST: return context->space->listPrototype;
@@ -351,12 +350,6 @@ namespace proto
 
     long long ProtoObject::asLong(ProtoContext* context) const {
         return Integer::asLong(context, this);
-    }
-
-    double ProtoObject::asDouble(ProtoContext* context) const {
-        // This will require a new helper in the Integer class.
-        // For now, we can cast from asLong.
-        return static_cast<double>(Integer::asLong(context, this));
     }
 
     int ProtoObject::compare(ProtoContext* context, const ProtoObject* other) const {
