@@ -21,7 +21,7 @@ long long checksum_proto_list(proto::ProtoContext* c, const proto::ProtoList* li
     // Corrected: Iterator is a const pointer
     const proto::ProtoListIterator* iter = list->getIterator(c);
     while (iter->hasNext(c)) {
-        checksum += iter->next(c)->asInteger(c);
+        checksum += iter->next(c)->asLong(c);
         iter = iter->advance(c);
     }
     return checksum;

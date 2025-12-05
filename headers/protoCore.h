@@ -66,7 +66,7 @@ namespace proto
 
         //- Inheritance
         const ProtoList* getParents(ProtoContext* context) const;
-        const ProtoObject* addParent(ProtoContext* context, const ProtoObject* newParent);
+        const ProtoObject* addParent(ProtoContext* context, const ProtoObject* newParent) const;
         const ProtoObject* isInstanceOf(ProtoContext* context, const ProtoObject* prototype) const;
 
         //- Execution
@@ -151,13 +151,13 @@ namespace proto
     class ProtoList
     {
     public:
-        //- Accessors (implementations are now inline)
-        inline const ProtoObject* getAt(ProtoContext* context, int index) const;
-        inline const ProtoObject* getFirst(ProtoContext* context) const;
-        inline const ProtoObject* getLast(ProtoContext* context) const;
-        inline const ProtoList* getSlice(ProtoContext* context, int from, int to) const;
-        inline unsigned long getSize(ProtoContext* context) const;
-        inline bool has(ProtoContext* context, const ProtoObject* value) const;
+        //- Accessors
+        const ProtoObject* getAt(ProtoContext* context, int index) const;
+        const ProtoObject* getFirst(ProtoContext* context) const;
+        const ProtoObject* getLast(ProtoContext* context) const;
+        const ProtoList* getSlice(ProtoContext* context, int from, int to) const;
+        unsigned long getSize(ProtoContext* context) const;
+        bool has(ProtoContext* context, const ProtoObject* value) const;
 
         //- Modifiers that return a new list
         const ProtoList* setAt(ProtoContext* context, int index, const ProtoObject* value) const;
@@ -173,9 +173,9 @@ namespace proto
         const ProtoList* removeSlice(ProtoContext* context, int from, int to) const;
 
         //- Conversion
-        inline const ProtoObject* asObject(ProtoContext* context) const;
-        inline const ProtoListIterator* getIterator(ProtoContext* context) const;
-        inline unsigned long getHash(ProtoContext* context) const;
+        const ProtoObject* asObject(ProtoContext* context) const;
+        const ProtoListIterator* getIterator(ProtoContext* context) const;
+        unsigned long getHash(ProtoContext* context) const;
     };
 
     class ProtoTupleIterator
@@ -264,11 +264,11 @@ namespace proto
     class ProtoSparseListIterator
     {
     public:
-        inline int hasNext(ProtoContext* context) const;
-        inline unsigned long nextKey(ProtoContext* context) const;
-        inline const ProtoObject* nextValue(ProtoContext* context) const;
-        inline const ProtoSparseListIterator* advance(ProtoContext* context);
-        inline const ProtoObject* asObject(ProtoContext* context) const;
+        int hasNext(ProtoContext* context) const;
+        unsigned long nextKey(ProtoContext* context) const;
+        const ProtoObject* nextValue(ProtoContext* context) const;
+        const ProtoSparseListIterator* advance(ProtoContext* context);
+        const ProtoObject* asObject(ProtoContext* context) const;
     };
 
     class ProtoSparseList
@@ -281,9 +281,9 @@ namespace proto
         bool isEqual(ProtoContext* context, const ProtoSparseList* otherDict) const;
         unsigned long getSize(ProtoContext* context) const;
 
-        inline const ProtoObject* asObject(ProtoContext* context) const;
-        inline const ProtoSparseListIterator* getIterator(ProtoContext* context) const;
-        inline unsigned long getHash(ProtoContext* context) const;
+        const ProtoObject* asObject(ProtoContext* context) const;
+        const ProtoSparseListIterator* getIterator(ProtoContext* context) const;
+        unsigned long getHash(ProtoContext* context) const;
 
         void processElements(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, unsigned long, const ProtoObject*)) const;
         void processValues(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const ProtoObject*)) const;
@@ -317,9 +317,9 @@ namespace proto
         void join(ProtoContext* context);
         void exit(ProtoContext* context);
 
-        inline const ProtoObject* getName(ProtoContext* context) const;
-        inline const ProtoObject* asObject(ProtoContext* context) const;
-        inline unsigned long getHash(ProtoContext* context) const;
+        const ProtoObject* getName(ProtoContext* context) const;
+        const ProtoObject* asObject(ProtoContext* context) const;
+        unsigned long getHash(ProtoContext* context) const;
 
         void setCurrentContext(ProtoContext* context);
         void setManaged();
@@ -493,7 +493,7 @@ namespace proto
          * from a returning context to the garbage collector.
          * @param cellChain A pointer to the first cell in the linked list.
          */
-        inline void submitYoungGeneration(const Cell* cellChain);
+        void submitYoungGeneration(const Cell* cellChain);
         
         void deallocMutable(unsigned long mutable_ref);
         const ProtoList* getThreads(ProtoContext* context) const;

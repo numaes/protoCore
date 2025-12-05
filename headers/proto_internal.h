@@ -274,6 +274,31 @@ namespace proto
         Cell* next;
     };
 
+    class ReturnReference : public Cell {
+    public:
+        Cell* returnValue;
+
+        ReturnReference(ProtoContext* context, Cell* returnValue) : Cell(context), returnValue(returnValue)
+        {}
+
+        ~ReturnReference() override {}
+
+        
+        void processReferences(
+            ProtoContext* context,
+            void* self,
+            void (*method)(ProtoContext* context, void* self, const Cell* cell)
+        ) const override
+        {
+            if (this->returnValue)
+            {
+                method(context, self, this->returnValue);
+            }
+        }
+        const ProtoObject* implAsObject(ProtoContext* context) const override;
+    };
+
+
     class LargeIntegerImplementation final : public Cell
     {
     public:
@@ -567,36 +592,6 @@ namespace proto
         unsigned long height : 8;
     };
 
-
-    // --- Tuple Interning Dictionary ---
-    class TupleDictionary final : public Cell {
-    public:
-        TupleDictionary(ProtoContext *context,
-                        const ProtoTupleImplementation *key = nullptr,
-                        TupleDictionary *next = nullptr,
-                        TupleDictionary *previous = nullptr);
-        int compareTuple(ProtoContext *context,
-                         const ProtoTupleImplementation *tuple) const;
-        const ProtoTupleImplementation *
-        getAt(ProtoContext *context, const ProtoTupleImplementation *tuple) const;
-        TupleDictionary *set(ProtoContext *context,
-                             const ProtoTupleImplementation *tuple);
-        void finalize(ProtoContext* context) const override {
-            // No specific finalization needed
-        }
-        void processReferences(ProtoContext *context, void *self, void (*method)(ProtoContext *, void *, const Cell *)) const override {
-            if (key) method(context, self, key);
-            if (previous) method(context, self, previous);
-            if (next) method(context, self, next);
-        }
-
-        const ProtoTupleImplementation *key;
-        TupleDictionary *previous;
-        TupleDictionary *next;
-        unsigned long height;
-        unsigned long count;
-    };
-
     class ProtoTupleIteratorImplementation final : public Cell
     {
     public:
@@ -680,6 +675,29 @@ namespace proto
         } pointers;
     };
 
+    // --- Tuple Interning Dictionary ---
+    class TupleDictionary final : public Cell {
+    public:
+        TupleDictionary(ProtoContext *context,
+                        const ProtoTupleImplementation *key = nullptr,
+                        TupleDictionary *next = nullptr,
+                        TupleDictionary *previous = nullptr);
+        int compareTuple(ProtoContext *context,
+                         const ProtoTupleImplementation *tuple) const;
+        const ProtoTupleImplementation *
+        getAt(ProtoContext *context, const ProtoTupleImplementation *tuple) const;
+        TupleDictionary *set(ProtoContext *context,
+                             const ProtoTupleImplementation *tuple);
+        void finalize(ProtoContext* context) const;
+        void processReferences(ProtoContext *context, void *self, void (*method)(ProtoContext *, void *, const Cell *)) const;
+
+        const ProtoTupleImplementation *key;
+        TupleDictionary *previous;
+        TupleDictionary *next;
+        unsigned long height;
+        unsigned long count;
+    };
+
     class ProtoStringIteratorImplementation final : public Cell
     {
     public:
@@ -721,6 +739,7 @@ namespace proto
             const ProtoTupleImplementation* base);
         ~ProtoStringImplementation() override;
         // ...
+        int implCompare(ProtoContext* context, const ProtoString* other) const;
         int implCmpToString(ProtoContext* context, const ProtoString* otherString) const;
         const ProtoObject* implGetAt(ProtoContext* context, int index) const;
         unsigned long implGetSize(ProtoContext* context) const;

@@ -54,7 +54,7 @@ const ProtoObject* benchmarks(
     for (int i = 0; i < num_iterations; ++i) {
         const ProtoObject* val = proto_list->getAt(c, keys[i]);
         if (val != PROTO_NONE) {
-            checksum += val->asInteger(c);
+            checksum += val->asLong(c);
         }
     }
     auto end_access = std::chrono::high_resolution_clock::now();

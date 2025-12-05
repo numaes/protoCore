@@ -15,33 +15,6 @@
 namespace proto
 {
 
-    class ReturnReference : public Cell {
-    public:
-        Cell* returnValue;
-
-        ReturnReference(ProtoContext* context, Cell* returnValue) : Cell(context), returnValue(returnValue)
-        {}
-
-        ~ReturnReference() override {}
-
-        void processReferences(
-            ProtoContext* context,
-            void* self,
-            void (*method)(ProtoContext* context, void* self, const Cell* cell)
-        ) const override
-        {
-            if (this->returnValue)
-            {
-				ProtoObjectPointer pa{};
-        		pa.oid.oid = (const ProtoObject*)this->returnValue;
-        		if (pa.op.pointer_tag != POINTER_TAG_EMBEDDED_VALUE)
-                	method(context, self, this->returnValue);
-            }
-        }
-        const ProtoObject* implAsObject(ProtoContext* context) const override;
-    };
-
-
     /**
      * @class ProtoContext
      * @brief Represents the execution state of a thread, including the call stack
@@ -235,6 +208,14 @@ namespace proto
     {
         const auto* attributes = toImpl<const ProtoSparseListImplementation>(newSparseList());
         return (new(this) ProtoObjectCell(this, nullptr, attributes, mutableObject ? generate_mutable_ref() : 0))->asObject(this);
+    }
+
+    const ProtoObject* ProtoContext::fromBoolean(bool value) {
+        return value ? PROTO_TRUE : PROTO_FALSE;
+    }
+
+    const ProtoObject* ProtoContext::fromByte(char c) {
+        return fromInteger(c);
     }
 
     const ProtoObject* ProtoContext::fromInteger(int value) {

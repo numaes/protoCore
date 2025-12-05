@@ -29,6 +29,10 @@ namespace proto
      * tuple is created and added to the dictionary.
      */
 
+    void TupleDictionary::finalize(ProtoContext* context) const {
+        // No specific finalization needed
+    }
+
     int getBalance(const TupleDictionary* node) {
         if (!node) return 0;
         return (node->next ? node->height : 0) - (node->previous ? node->height : 0);
@@ -211,7 +215,35 @@ namespace proto
         return Cell::getHash(context);
     }
 
+    const ProtoObject* ProtoTupleImplementation::implAsObject(ProtoContext* context) const
+    {
+        ProtoObjectPointer p;
+        p.tupleImplementation = this;
+        p.op.pointer_tag = POINTER_TAG_TUPLE;
+        return p.oid.oid;
+    }
+
     const ProtoTuple* ProtoTupleImplementation::asProtoTuple(ProtoContext* context) const {
         return (const ProtoTuple*)this->implAsObject(context);
+    }
+
+    // --- Public API Trampolines ---
+
+    unsigned long ProtoTuple::getSize(ProtoContext* context) const {
+        return toImpl<const ProtoTupleImplementation>(this)->implGetSize(context);
+    }
+
+    const ProtoObject* ProtoTuple::getAt(ProtoContext* context, int index) const {
+        return toImpl<const ProtoTupleImplementation>(this)->implGetAt(context, index);
+    }
+
+    const ProtoObject* ProtoTuple::getSlice(ProtoContext* context, int from, int to) const {
+        const ProtoList* list = toImpl<const ProtoTupleImplementation>(this)->implAsList(context);
+        const ProtoList* slice = list->getSlice(context, from, to);
+        return context->newTupleFromList(slice)->asObject(context);
+    }
+
+    const ProtoObject* ProtoTuple::asObject(ProtoContext* context) const {
+        return toImpl<const ProtoTupleImplementation>(this)->implAsObject(context);
     }
 }

@@ -37,7 +37,7 @@ const ProtoObject* benchmarks(
     long long checksum = 0;
     const ProtoListIterator* iter = proto_list->getIterator(c);
     while (iter->hasNext(c)) {
-        checksum += iter->next(c)->asInteger(c);
+        checksum += iter->next(c)->asLong(c);
         iter = iter->advance(c);
     }
     long long expected_checksum = (long long)(num_iterations - 1) * num_iterations / 2;

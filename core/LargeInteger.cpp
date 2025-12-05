@@ -40,9 +40,9 @@ namespace proto
     };
 
     // Type checking helpers
-    static bool isSmallInteger(const ProtoObject* obj);
-    static bool isLargeInteger(const ProtoObject* obj);
-    static bool isInteger(const ProtoObject* obj);
+    bool isSmallInteger(const ProtoObject* obj);
+    bool isLargeInteger(const ProtoObject* obj);
+    bool isInteger(const ProtoObject* obj);
 
     // Conversion helpers
     static TempBignum toTempBignum(const ProtoObject* obj);
@@ -58,6 +58,8 @@ namespace proto
     //================================================================================
     // LargeIntegerImplementation
     //================================================================================
+
+    const int LargeIntegerImplementation::DIGIT_COUNT;
 
     LargeIntegerImplementation::LargeIntegerImplementation(ProtoContext* context)
         : Cell(context), is_negative(false), next(nullptr)
@@ -625,9 +627,9 @@ namespace proto
     // Internal Helper Implementations
     //================================================================================
     
-    static bool isSmallInteger(const ProtoObject* obj) { ProtoObjectPointer p; p.oid.oid = obj; return p.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && p.op.embedded_type == EMBEDDED_TYPE_SMALLINT; }
-    static bool isLargeInteger(const ProtoObject* obj) { ProtoObjectPointer p; p.oid.oid = obj; return p.op.pointer_tag == POINTER_TAG_LARGE_INTEGER; }
-    static bool isInteger(const ProtoObject* obj) { return isSmallInteger(obj) || isLargeInteger(obj); }
+    bool isSmallInteger(const ProtoObject* obj) { ProtoObjectPointer p; p.oid.oid = obj; return p.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && p.op.embedded_type == EMBEDDED_TYPE_SMALLINT; }
+    bool isLargeInteger(const ProtoObject* obj) { ProtoObjectPointer p; p.oid.oid = obj; return p.op.pointer_tag == POINTER_TAG_LARGE_INTEGER; }
+    bool isInteger(const ProtoObject* obj) { return isSmallInteger(obj) || isLargeInteger(obj); }
 
     static TempBignum toTempBignum(const ProtoObject* obj) {
         TempBignum temp;

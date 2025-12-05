@@ -176,4 +176,8 @@ namespace proto
         return newThread;
     }
 
+    void ProtoSpace::submitYoungGeneration(const Cell* cellChain) {
+        analyzeUsedCells(const_cast<Cell*>(cellChain));
+    }
+
 } // namespace proto

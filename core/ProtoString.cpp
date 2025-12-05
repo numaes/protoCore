@@ -159,8 +159,35 @@ namespace proto
         return this->base ? this->base->getHash(context) : 0;
     }
 
+    int ProtoStringImplementation::implCompare(ProtoContext* context, const ProtoString* other) const {
+        // A proper implementation would compare character by character.
+        return this->getHash(context) == other->getHash(context) ? 0 : 1;
+    }
+
     const ProtoStringIteratorImplementation* ProtoStringImplementation::implGetIterator(ProtoContext* context) const
     {
         return new(context) ProtoStringIteratorImplementation(context, (const ProtoString*)this->implAsObject(context), 0);
     }
+
+    // --- Public API Trampolines ---
+
+    const ProtoList* ProtoString::asList(ProtoContext* context) const {
+        return toImpl<const ProtoStringImplementation>(this)->implAsList(context);
+    }
+
+    const ProtoString* ProtoString::getSlice(ProtoContext* context, int from, int to) const {
+        const auto* tuple_slice = toImpl<const ProtoStringImplementation>(this)->base->implAsList(context)->getSlice(context, from, to);
+        const auto* tuple_impl = toImpl<const ProtoTupleImplementation>(context->newTupleFromList(tuple_slice));
+        return (new(context) ProtoStringImplementation(context, tuple_impl))->asProtoString(context);
+    }
+
+    const ProtoString* ProtoString::fromUTF8String(ProtoContext* context, const char* zeroTerminatedUtf8String) {
+        // This is a static method, it should call the context's factory.
+        return context->fromUTF8String(zeroTerminatedUtf8String)->asString(context);
+    }
+
+    int ProtoString::cmp_to_string(ProtoContext* context, const ProtoString* otherString) const {
+        return toImpl<const ProtoStringImplementation>(this)->implCompare(context, otherString);
+    }
+
 }

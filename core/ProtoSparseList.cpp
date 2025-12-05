@@ -315,4 +315,10 @@ namespace proto
     const ProtoSparseList* ProtoSparseListImplementation::asSparseList(ProtoContext* context) const {
         return (const ProtoSparseList*)this->implAsObject(context);
     }
+
+    // --- Public API Trampolines ---
+
+    const ProtoSparseList* ProtoSparseList::removeAt(ProtoContext* context, unsigned long index) const {
+        return toImpl<const ProtoSparseListImplementation>(this)->implRemoveAt(context, index)->asSparseList(context);
+    }
 }

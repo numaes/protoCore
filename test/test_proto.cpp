@@ -11,7 +11,7 @@
 #include <iostream>
 #include <vector>
 #include <gtest/gtest.h>
-#include "../headers/proto.h"
+#include "../headers/protoCore.h"
 
 using namespace proto;
 
@@ -44,18 +44,6 @@ const ProtoObject* main_test_function(
     return PROTO_NONE;
 }
 
-int main(int argc, char** argv) {
-    // Corrected: Use the default constructor
-    proto::ProtoSpace space;
-    // The main function is now called directly for simplicity, or could be set as a root object method.
-    main_test_function(space.rootContext, nullptr, nullptr, nullptr, nullptr);
-    
-    // The gtest main is not strictly needed if we run functions directly,
-    // but it's good practice to have it for potential future gtest-specific features.
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
-
 
 // --- Test Implementations ---
 
@@ -68,7 +56,7 @@ void test_primitives(ProtoContext& c) {
     const proto::ProtoObject* byte = c.fromByte('A');
 
     ASSERT_TRUE(i1->isInteger(&c));
-    ASSERT_EQ(i1->asInteger(&c), 123);
+    ASSERT_EQ(i1->asLong(&c), 123);
     ASSERT_TRUE(b_true->isBoolean(&c));
     ASSERT_TRUE(b_true->asBoolean(&c));
     ASSERT_EQ(byte->asByte(&c), 'A');
@@ -84,33 +72,33 @@ void test_list_operations(ProtoContext& c) {
     const proto::ProtoList* list3 = list2->appendLast(&c, c.fromInteger(30));
 
     ASSERT_EQ(list3->getSize(&c), 3);
-    ASSERT_EQ(list3->getAt(&c, 1)->asInteger(&c), 20);
+    ASSERT_EQ(list3->getAt(&c, 1)->asLong(&c), 20);
 
     const proto::ProtoList* list4 = list3->setAt(&c, 1, c.fromInteger(25));
-    ASSERT_EQ(list4->getAt(&c, 1)->asInteger(&c), 25);
-    ASSERT_EQ(list3->getAt(&c, 1)->asInteger(&c), 20); // Immutability
+    ASSERT_EQ(list4->getAt(&c, 1)->asLong(&c), 25);
+    ASSERT_EQ(list3->getAt(&c, 1)->asLong(&c), 20); // Immutability
 
     const proto::ProtoList* list5 = list4->insertAt(&c, 0, c.fromInteger(5));
-    ASSERT_EQ(list5->getAt(&c, 0)->asInteger(&c), 5);
-    ASSERT_EQ(list5->getAt(&c, 1)->asInteger(&c), 10);
+    ASSERT_EQ(list5->getAt(&c, 0)->asLong(&c), 5);
+    ASSERT_EQ(list5->getAt(&c, 1)->asLong(&c), 10);
 
     const proto::ProtoList* list6 = list5->removeAt(&c, 3);
     ASSERT_EQ(list6->getSize(&c), 4);
 
     const proto::ProtoList* slice = list3->getSlice(&c, 1, 3);
     ASSERT_EQ(slice->getSize(&c), 2);
-    ASSERT_EQ(slice->getAt(&c, 0)->asInteger(&c), 20);
+    ASSERT_EQ(slice->getAt(&c, 0)->asLong(&c), 20);
 
     const proto::ProtoList* emptySlice = list3->getSlice(&c, 1, 1);
     ASSERT_EQ(emptySlice->getSize(&c), 0);
 
     const proto::ProtoListIterator* iter = list3->getIterator(&c);
     ASSERT_TRUE(iter->hasNext(&c));
-    ASSERT_EQ(iter->next(&c)->asInteger(&c), 10);
+    ASSERT_EQ(iter->next(&c)->asLong(&c), 10);
     iter = iter->advance(&c);
-    ASSERT_EQ(iter->next(&c)->asInteger(&c), 20);
+    ASSERT_EQ(iter->next(&c)->asLong(&c), 20);
     iter = iter->advance(&c);
-    ASSERT_EQ(iter->next(&c)->asInteger(&c), 30);
+    ASSERT_EQ(iter->next(&c)->asLong(&c), 30);
     iter = iter->advance(&c);
     ASSERT_FALSE(iter->hasNext(&c));
 }
@@ -120,7 +108,7 @@ void test_tuple_operations(ProtoContext& c) {
     const proto::ProtoList* list1 = c.newList()->appendLast(&c, c.fromInteger(1))->appendLast(&c, c.fromInteger(2));
     const proto::ProtoTuple* tuple1 = c.newTupleFromList(list1);
     ASSERT_EQ(tuple1->getSize(&c), 2);
-    ASSERT_EQ(tuple1->getAt(&c, 1)->asInteger(&c), 2);
+    ASSERT_EQ(tuple1->getAt(&c, 1)->asLong(&c), 2);
 
     const proto::ProtoList* list2 = c.newList()->appendLast(&c, c.fromInteger(1))->appendLast(&c, c.fromInteger(2));
     const proto::ProtoTuple* tuple2 = c.newTupleFromList(list2);
@@ -179,18 +167,18 @@ void test_prototypes_and_inheritance(ProtoContext& c) {
     const proto::ProtoString* name_attr = c.fromUTF8String("name")->asString(&c);
 
     const proto::ProtoObject* proto1 = base_proto->setAttribute(&c, const_cast<ProtoString*>(version_attr), c.fromInteger(1));
-    ASSERT_EQ(proto1->getAttribute(&c, const_cast<ProtoString*>(version_attr))->asInteger(&c), 1);
+    ASSERT_EQ(proto1->getAttribute(&c, const_cast<ProtoString*>(version_attr))->asLong(&c), 1);
 
     const proto::ProtoObject* child1 = proto1->newChild(&c);
     ASSERT_TRUE(child1->isInstanceOf(&c, proto1));
-    ASSERT_EQ(child1->getAttribute(&c, const_cast<ProtoString*>(version_attr))->asInteger(&c), 1);
+    ASSERT_EQ(child1->getAttribute(&c, const_cast<ProtoString*>(version_attr))->asLong(&c), 1);
 
     const proto::ProtoObject* child2 = child1->setAttribute(&c, const_cast<ProtoString*>(version_attr), c.fromInteger(2));
-    ASSERT_EQ(child2->getAttribute(&c, const_cast<ProtoString*>(version_attr))->asInteger(&c), 2);
-    ASSERT_EQ(child1->getAttribute(&c, const_cast<ProtoString*>(version_attr))->asInteger(&c), 1);
+    ASSERT_EQ(child2->getAttribute(&c, const_cast<ProtoString*>(version_attr))->asLong(&c), 2);
+    ASSERT_EQ(child1->getAttribute(&c, const_cast<ProtoString*>(version_attr))->asLong(&c), 1);
 
     const proto::ProtoObject* proto2 = base_proto->setAttribute(&c, const_cast<ProtoString*>(name_attr), c.fromUTF8String("gamarino"));
-    const proto::ProtoObject* child3 = child2->addParent(&c, proto2);
+    const proto::ProtoObject* child3 = const_cast<proto::ProtoObject*>(child2)->addParent(&c, proto2);
     ASSERT_TRUE(child3->getAttribute(&c, const_cast<ProtoString*>(name_attr))->isString(&c));
 }
 
@@ -218,5 +206,5 @@ void test_gc_stress(ProtoContext& c) {
     ASSERT_EQ(first_kept->getSize(&c), 2);
     
     const proto::ProtoList* last_kept = root_list->getAt(&c, (iterations / keep_every) - 1)->asList(&c);
-    ASSERT_EQ(last_kept->getAt(&c, 0)->asInteger(&c), iterations - keep_every);
+    ASSERT_EQ(last_kept->getAt(&c, 0)->asLong(&c), iterations - keep_every);
 }

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../headers/proto.h"
+#include "../headers/protoCore.h"
 
 using namespace proto;
 
@@ -31,7 +31,7 @@ TEST_F(ObjectTest, SetAndGetAttribute) {
     obj->setAttribute(context, const_cast<ProtoString*>(attr_name), attr_value);
 
     const proto::ProtoObject* retrieved_value = obj->getAttribute(context, const_cast<ProtoString*>(attr_name));
-    ASSERT_EQ(retrieved_value->asInteger(context), 123);
+    ASSERT_EQ(retrieved_value->asLong(context), 123);
 }
 
 TEST_F(ObjectTest, GetMissingAttribute) {
@@ -51,7 +51,7 @@ TEST_F(ObjectTest, SimpleInheritance) {
 
     const proto::ProtoObject* retrieved_value = child->getAttribute(context, const_cast<ProtoString*>(parent_attr));
     ASSERT_NE(retrieved_value, PROTO_NONE);
-    ASSERT_EQ(retrieved_value->asInteger(context), 42);
+    ASSERT_EQ(retrieved_value->asLong(context), 42);
 }
 
 TEST_F(ObjectTest, AttributeOverriding) {
@@ -62,8 +62,8 @@ TEST_F(ObjectTest, AttributeOverriding) {
     const proto::ProtoObject* child = parent->newChild(context, true);
     child->setAttribute(context, const_cast<ProtoString*>(attr_name), context->fromInteger(200));
 
-    ASSERT_EQ(parent->getAttribute(context, const_cast<ProtoString*>(attr_name))->asInteger(context), 100);
-    ASSERT_EQ(child->getAttribute(context, const_cast<ProtoString*>(attr_name))->asInteger(context), 200);
+    ASSERT_EQ(parent->getAttribute(context, const_cast<ProtoString*>(attr_name))->asLong(context), 100);
+    ASSERT_EQ(child->getAttribute(context, const_cast<ProtoString*>(attr_name))->asLong(context), 200);
 }
 
 TEST_F(ObjectTest, HasAttribute) {

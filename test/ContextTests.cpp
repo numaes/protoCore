@@ -40,7 +40,8 @@ TEST_F(ContextTest, PositionalArgumentBinding) {
     ASSERT_NE(val_a, PROTO_NONE);
     ASSERT_NE(val_b, PROTO_NONE);
     ASSERT_EQ(val_a->asLong(rootContext), 10);
-    ASSERT_STREQ(val_b->asString(rootContext)->asUTF8(rootContext), "hello");
+    const ProtoString* expected_b = ProtoString::fromUTF8String(rootContext, "hello");
+    ASSERT_EQ(val_b->asString(rootContext)->cmp_to_string(rootContext, expected_b), 0);
 }
 
 // Test 2: Allocation of automatic and closure local variables
@@ -95,11 +96,11 @@ TEST_F(ContextTest, LifecycleAndReturnValuePromotion) {
     const ProtoList* new_list = f_context->newList()->appendLast(f_context, f_context->fromLong(100));
     
     // The new list is the first and only cell allocated in f_context
-    ASSERT_EQ(f_context->lastAllocatedCell, new_list->asCell(f_context));
+    ASSERT_EQ(f_context->lastAllocatedCell, new_list->asObject(f_context)->asCell(f_context));
     ASSERT_EQ(g_context->lastAllocatedCell, nullptr); // Parent is untouched
 
     // 4. Set the return value for f_context
-    f_context->returnValue = new_list;
+    f_context->returnValue = new_list->asObject(f_context);
 
     // 5. Destroy f_context, simulating the function return
     delete f_context;
@@ -116,7 +117,7 @@ TEST_F(ContextTest, LifecycleAndReturnValuePromotion) {
     ASSERT_NE(return_ref, nullptr);
 
     // And the ReturnReference must point to our original list.
-    ASSERT_EQ(return_ref->returnValue, new_list->asCell(g_context));
+    ASSERT_EQ(return_ref->returnValue, new_list->asObject(g_context)->asCell(g_context));
 
     // Cleanup
     delete g_context;

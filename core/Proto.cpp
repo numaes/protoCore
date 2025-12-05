@@ -266,6 +266,24 @@ namespace proto
         return this->getAttribute(context, name) != PROTO_NONE ? PROTO_TRUE : PROTO_FALSE;
     }
 
+    const ProtoList* ProtoObject::getParents(ProtoContext* context) const {
+        if (!isCell(context)) return context->newList();
+        const auto* oc = toImpl<const ProtoObjectCell>(this);
+        const ProtoList* parents = context->newList();
+        const ParentLinkImplementation* p = oc->parent;
+        while (p) {
+            parents = parents->appendLast(context, p->getObject(context));
+            p = p->getParent(context);
+        }
+        return parents;
+    }
+
+    const ProtoObject* ProtoObject::addParent(ProtoContext* context, const ProtoObject* newParent) const {
+        if (!isCell(context) || !newParent->isCell(context)) return this;
+        const auto* oc = toImpl<const ProtoObjectCell>(this);
+        return oc->addParent(context, newParent)->asObject(context);
+    }
+
     // --- Type Checking and Conversion ---
 
     int ProtoObject::isCell(ProtoContext* context) const {
@@ -305,6 +323,20 @@ namespace proto
         return this == PROTO_NONE;
     }
 
+    bool ProtoObject::isBoolean(ProtoContext* context) const {
+        ProtoObjectPointer pa{};
+        pa.oid.oid = this;
+        return pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_BOOLEAN;
+    }
+
+    bool ProtoObject::isInteger(ProtoContext* context) const {
+        ProtoObjectPointer pa{};
+        pa.oid.oid = this;
+        if (pa.op.pointer_tag == POINTER_TAG_LARGE_INTEGER) return true;
+        if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_SMALLINT) return true;
+        return false;
+    }
+
     bool ProtoObject::isString(ProtoContext* context) const {
         ProtoObjectPointer pa{};
         pa.oid.oid = this;
@@ -317,6 +349,12 @@ namespace proto
         return pa.op.pointer_tag == POINTER_TAG_METHOD;
     }
 
+    bool ProtoObject::isTuple(ProtoContext* context) const {
+        ProtoObjectPointer pa{};
+        pa.oid.oid = this;
+        return pa.op.pointer_tag == POINTER_TAG_TUPLE;
+    }
+
     unsigned long ProtoObject::getHash(ProtoContext* context) const {
         if (isCell(context)) {
             return asCell(context)->getHash(context);
@@ -326,6 +364,48 @@ namespace proto
     }
 
     //=========================================================================
+    // ProtoObject Coercion Implementation
+    //=========================================================================
+    const ProtoTuple* ProtoObject::asTuple(ProtoContext* context) const {
+        ProtoObjectPointer pa{};
+        pa.oid.oid = this;
+        if (pa.op.pointer_tag == POINTER_TAG_TUPLE) {
+            return pa.tuple;
+        }
+        return nullptr;
+    }
+
+    bool ProtoObject::asBoolean(ProtoContext* context) const {
+        if (this == PROTO_FALSE || this == PROTO_NONE) return false;
+        if (this == PROTO_TRUE) return true;
+
+        if (isInteger(context)) {
+            return this->asLong(context) != 0;
+        }
+        if (isDouble(context)) {
+            return this->asDouble(context) != 0.0;
+        }
+        // For collections, truthiness is based on size.
+        if (isString(context)) {
+            return this->asString(context)->getSize(context) > 0;
+        }
+        if (isTuple(context)) {
+            return this->asTuple(context)->getSize(context) > 0;
+        }
+
+        // Default for all other objects is true.
+        return true;
+    }
+
+    char ProtoObject::asByte(ProtoContext* context) const {
+        return static_cast<char>(asLong(context));
+    }
+
+    const ProtoList* ProtoObject::asList(ProtoContext* context) const {
+        // This logic should be handled by each specific type's implementation.
+        // For now, we provide a default that prevents compilation errors.
+        return context->newList()->appendLast(context, this);
+    }
     // ProtoObject Double Implementation
     //=========================================================================
 
@@ -408,6 +488,12 @@ namespace proto
         return Integer::shiftRight(context, this, amount);
     }
 
+    const ProtoObject* ProtoObject::divmod(ProtoContext* context, const ProtoObject* other) const {
+        const ProtoObject* quotient = this->divide(context, other);
+        const ProtoObject* remainder = this->modulo(context, other);
+        const ProtoList* resultList = context->newList()->appendLast(context, quotient)->appendLast(context, remainder);
+        return context->newTupleFromList(resultList)->asObject(context);
+    }
 
     //=========================================================================
     // ProtoList API Implementation
@@ -415,14 +501,6 @@ namespace proto
 
     const ProtoList* ProtoList::appendLast(ProtoContext* context, const ProtoObject* value) const {
         return toImpl<const ProtoListImplementation>(this)->implAppendLast(context, value)->asProtoList(context);
-    }
-
-    unsigned long ProtoList::getSize(ProtoContext* context) const {
-        return toImpl<const ProtoListImplementation>(this)->implGetSize(context);
-    }
-
-    const ProtoListIterator* ProtoList::getIterator(ProtoContext* context) const {
-        return toImpl<const ProtoListImplementation>(this)->implGetIterator(context)->asProtoListIterator(context);
     }
 
     const ProtoList* ProtoList::extend(ProtoContext* context, const ProtoList* otherList) const {
@@ -487,6 +565,88 @@ namespace proto
 
     void ProtoThread::setCurrentContext(ProtoContext* context) {
         toImpl<ProtoThreadImplementation>(this)->implSetCurrentContext(context);
+    }
+
+    const ProtoObject* ProtoList::getAt(ProtoContext* context, int index) const {
+        return toImpl<const ProtoListImplementation>(this)->implGetAt(context, index);
+    }
+
+    const ProtoObject* ProtoList::getFirst(ProtoContext* context) const {
+        return toImpl<const ProtoListImplementation>(this)->implGetFirst(context);
+    }
+
+    const ProtoObject* ProtoList::getLast(ProtoContext* context) const {
+        return toImpl<const ProtoListImplementation>(this)->implGetLast(context);
+    }
+
+    const ProtoList* ProtoList::getSlice(ProtoContext* context, int from, int to) const {
+        return toImpl<const ProtoListImplementation>(this)->implGetSlice(context, from, to)->asProtoList(context);
+    }
+
+    unsigned long ProtoList::getSize(ProtoContext* context) const {
+        return toImpl<const ProtoListImplementation>(this)->implGetSize(context);
+    }
+
+    bool ProtoList::has(ProtoContext* context, const ProtoObject* value) const {
+        return toImpl<const ProtoListImplementation>(this)->implHas(context, value);
+    }
+
+    const ProtoObject* ProtoList::asObject(ProtoContext* context) const {
+        return toImpl<const ProtoListImplementation>(this)->implAsObject(context);
+    }
+
+    const ProtoListIterator* ProtoList::getIterator(ProtoContext* context) const {
+        return toImpl<const ProtoListImplementation>(this)->implGetIterator(context)->asProtoListIterator(context);
+    }
+
+    unsigned long ProtoList::getHash(ProtoContext* context) const {
+        return toImpl<const ProtoListImplementation>(this)->getHash(context);
+    }
+
+    //=========================================================================
+    // ProtoSparseListIterator API Implementation
+    //=========================================================================
+
+    int ProtoSparseListIterator::hasNext(ProtoContext* context) const {
+        return toImpl<const ProtoSparseListIteratorImplementation>(this)->implHasNext(context);
+    }
+
+    unsigned long ProtoSparseListIterator::nextKey(ProtoContext* context) const {
+        return toImpl<const ProtoSparseListIteratorImplementation>(this)->implNextKey(context);
+    }
+
+    const ProtoObject* ProtoSparseListIterator::nextValue(ProtoContext* context) const {
+        return toImpl<const ProtoSparseListIteratorImplementation>(this)->implNextValue(context);
+    }
+
+    const ProtoSparseListIterator* ProtoSparseListIterator::advance(ProtoContext* context) {
+        const auto* impl = toImpl<const ProtoSparseListIteratorImplementation>(this)->implAdvance(context);
+        return impl ? (const ProtoSparseListIterator*)impl->implAsObject(context) : nullptr;
+    }
+
+    const ProtoObject* ProtoSparseListIterator::asObject(ProtoContext* context) const {
+        return toImpl<const ProtoSparseListIteratorImplementation>(this)->implAsObject(context);
+    }
+
+    //=========================================================================
+    // ProtoSparseList API Implementation (continued)
+    //=========================================================================
+
+    const ProtoObject* ProtoSparseList::asObject(ProtoContext* context) const {
+        return toImpl<const ProtoSparseListImplementation>(this)->implAsObject(context);
+    }
+
+    const ProtoSparseListIterator* ProtoSparseList::getIterator(ProtoContext* context) const {
+        const auto* impl = toImpl<const ProtoSparseListImplementation>(this)->implGetIterator(context);
+        return impl ? (const ProtoSparseListIterator*)impl->implAsObject(context) : nullptr;
+    }
+
+    unsigned long ProtoSparseList::getHash(ProtoContext* context) const {
+        return toImpl<const ProtoSparseListImplementation>(this)->getHash(context);
+    }
+
+    unsigned long ProtoSparseList::getSize(ProtoContext* context) const {
+        return toImpl<const ProtoSparseListImplementation>(this)->implGetSize(context);
     }
 
 } // namespace proto

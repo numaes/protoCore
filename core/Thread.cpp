@@ -77,6 +77,18 @@ namespace proto
     //=========================================================================
 
     /**
+     * @brief Converts the internal implementation pointer to a public ProtoObject pointer.
+     */
+    const ProtoObject* ProtoThreadImplementation::implAsObject(ProtoContext* context) const
+    {
+        ProtoObjectPointer p;
+        p.threadImplementation = this;
+        p.op.pointer_tag = POINTER_TAG_THREAD;
+        return p.oid.oid;
+    }
+
+
+    /**
      * @class ProtoThreadImplementation
      * @brief The core implementation of a ProtoThread.
      *
@@ -84,6 +96,11 @@ namespace proto
      * with the Proto runtime. It manages the thread's state, its call stack
      * (via `ProtoContext`), and its local memory arena for lock-free allocation.
      */
+    const ProtoThread* ProtoThreadImplementation::asThread(ProtoContext* context) const
+    {
+        return (const ProtoThread*)this->implAsObject(context);
+    }
+
 
     ProtoThreadImplementation::ProtoThreadImplementation(
         ProtoContext* context,
@@ -255,4 +272,16 @@ namespace proto
         return Cell::getHash(context);
     }
     
+    const ProtoObject* ProtoThread::getName(ProtoContext* context) const {
+        return (const ProtoObject*)toImpl<const ProtoThreadImplementation>(this)->name;
+    }
+
+    const ProtoObject* ProtoThread::asObject(ProtoContext* context) const {
+        return toImpl<const ProtoThreadImplementation>(this)->implAsObject(context);
+    }
+
+    unsigned long ProtoThread::getHash(ProtoContext* context) const {
+        return toImpl<const ProtoThreadImplementation>(this)->getHash(context);
+    }
+
 } // namespace proto

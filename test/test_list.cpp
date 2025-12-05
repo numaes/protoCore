@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../headers/proto.h"
+#include "../headers/protoCore.h"
 
 using namespace proto;
 
@@ -34,11 +34,11 @@ TEST_F(ListTest, AppendAndGet) {
 
     list = list->appendLast(context, val1);
     ASSERT_EQ(list->getSize(context), 1);
-    ASSERT_EQ(list->getAt(context, 0)->asInteger(context), 10);
+    ASSERT_EQ(list->getAt(context, 0)->asLong(context), 10);
 
     list = list->appendLast(context, val2);
     ASSERT_EQ(list->getSize(context), 2);
-    ASSERT_EQ(list->getAt(context, 1)->asInteger(context), 20);
+    ASSERT_EQ(list->getAt(context, 1)->asLong(context), 20);
 }
 
 TEST_F(ListTest, ImmutabilityOnAppend) {
@@ -62,8 +62,8 @@ TEST_F(ListTest, RemoveAt) {
     const proto::ProtoList* modified_list = list->removeAt(context, 1);
 
     ASSERT_EQ(modified_list->getSize(context), 2);
-    ASSERT_EQ(modified_list->getAt(context, 0)->asInteger(context), 10);
-    ASSERT_EQ(modified_list->getAt(context, 1)->asInteger(context), 30);
+    ASSERT_EQ(modified_list->getAt(context, 0)->asLong(context), 10);
+    ASSERT_EQ(modified_list->getAt(context, 1)->asLong(context), 30);
     ASSERT_EQ(list->getSize(context), 3); // Original list is unchanged
 }
 
@@ -76,7 +76,7 @@ TEST_F(ListTest, GetSlice) {
 
     const proto::ProtoList* slice = list->getSlice(context, 2, 5);
     ASSERT_EQ(slice->getSize(context), 3);
-    ASSERT_EQ(slice->getAt(context, 0)->asInteger(context), 2);
-    ASSERT_EQ(slice->getAt(context, 1)->asInteger(context), 3);
-    ASSERT_EQ(slice->getAt(context, 2)->asInteger(context), 4);
+    ASSERT_EQ(slice->getAt(context, 0)->asLong(context), 2);
+    ASSERT_EQ(slice->getAt(context, 1)->asLong(context), 3);
+    ASSERT_EQ(slice->getAt(context, 2)->asLong(context), 4);
 }

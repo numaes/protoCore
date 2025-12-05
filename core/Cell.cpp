@@ -103,5 +103,5 @@ namespace proto
     ) const
     {
         // Base implementation holds no references to other cells.
-    };
+    }
 };

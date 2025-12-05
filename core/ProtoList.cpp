@@ -185,6 +185,14 @@ namespace proto
         return this->size;
     }
 
+    const ProtoObject* ProtoListImplementation::implAsObject(ProtoContext* context) const
+    {
+        ProtoObjectPointer p{};
+        p.listImplementation = this;
+        p.op.pointer_tag = POINTER_TAG_LIST;
+        return p.oid.oid;
+    }
+
     const ProtoListIteratorImplementation* ProtoListImplementation::implGetIterator(ProtoContext* context) const {
         return new(context) ProtoListIteratorImplementation(context, this, 0);
     }
@@ -196,6 +204,37 @@ namespace proto
     unsigned long ProtoListImplementation::getHash(ProtoContext* context) const
     {
         return this->hash;
+    }
+
+    const ProtoObject* ProtoListImplementation::implGetFirst(ProtoContext* context) const
+    {
+        return implGetAt(context, 0);
+    }
+
+    const ProtoObject* ProtoListImplementation::implGetLast(ProtoContext* context) const
+    {
+        if (this->isEmpty) return PROTO_NONE;
+        return implGetAt(context, this->size - 1);
+    }
+
+    const ProtoListImplementation* ProtoListImplementation::implGetSlice(ProtoContext* context, int from, int to) const
+    {
+        if (this->isEmpty) return this;
+        // Placeholder for a more efficient rope-based slice
+        const ProtoList* newList = context->newList();
+        for (int i = from; i < to; ++i) {
+            newList = newList->appendLast(context, this->implGetAt(context, i));
+        }
+        return toImpl<const ProtoListImplementation>(newList);
+    }
+
+    bool ProtoListImplementation::implHas(ProtoContext* context, const ProtoObject* targetValue) const
+    {
+        // Placeholder for a more efficient search
+        for (unsigned long i = 0; i < this->size; ++i) {
+            if (this->implGetAt(context, i) == targetValue) return true;
+        }
+        return false;
     }
 
     void ProtoListImplementation::finalize(ProtoContext* context) const {}
@@ -212,5 +251,26 @@ namespace proto
         if (this->value && this->value->isCell(context)) {
             method(context, self, this->value->asCell(context));
         }
+    }
+
+    // --- Public API Trampolines ---
+
+    const ProtoList* ProtoList::setAt(ProtoContext* context, int index, const ProtoObject* value) const {
+        // Placeholder implementation
+        return this;
+    }
+
+    const ProtoList* ProtoList::insertAt(ProtoContext* context, int index, const ProtoObject* value) const {
+        // Placeholder implementation
+        return this;
+    }
+
+    const ProtoList* ProtoList::removeAt(ProtoContext* context, int index) const {
+        // Placeholder for a more efficient rope-based remove
+        const ProtoList* newList = context->newList();
+        for (unsigned long i = 0; i < getSize(context); ++i) {
+            if ((int)i != index) newList = newList->appendLast(context, getAt(context, i));
+        }
+        return newList;
     }
 }

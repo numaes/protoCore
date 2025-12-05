@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../headers/proto.h"
+#include "../headers/protoCore.h"
 
 using namespace proto;
 
@@ -21,23 +21,23 @@ protected:
 TEST_F(PrimitivesTest, IntegerHandling) {
     const proto::ProtoObject* i = context->fromInteger(42);
     ASSERT_TRUE(i->isInteger(context));
-    ASSERT_EQ(i->asInteger(context), 42);
+    ASSERT_EQ(i->asLong(context), 42);
 
     const proto::ProtoObject* neg_i = context->fromInteger(-100);
     ASSERT_TRUE(neg_i->isInteger(context));
-    ASSERT_EQ(neg_i->asInteger(context), -100);
+    ASSERT_EQ(neg_i->asLong(context), -100);
 }
 
 TEST_F(PrimitivesTest, BooleanHandling) {
     const proto::ProtoObject* t = context->fromBoolean(true);
     ASSERT_TRUE(t->isBoolean(context));
     ASSERT_TRUE(t->asBoolean(context));
-    ASSERT_EQ(t->asInteger(context), 1);
+    ASSERT_EQ(t->asLong(context), 1);
 
     const proto::ProtoObject* f = context->fromBoolean(false);
     ASSERT_TRUE(f->isBoolean(context));
     ASSERT_FALSE(f->asBoolean(context));
-    ASSERT_EQ(f->asInteger(context), 0);
+    ASSERT_EQ(f->asLong(context), 0);
 }
 
 TEST_F(PrimitivesTest, NoneHandling) {

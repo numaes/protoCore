@@ -38,7 +38,7 @@ const ProtoObject* benchmarks(
     long long checksum = 0;
     for (int i = 0; i < num_objects; ++i) {
         for (int j = 0; j < num_accesses; ++j) {
-            checksum += objects[i]->getAttribute(c, const_cast<ProtoString*>(attr_name))->asInteger(c);
+            checksum += objects[i]->getAttribute(c, const_cast<ProtoString*>(attr_name))->asLong(c);
         }
     }
     auto end_access = std::chrono::high_resolution_clock::now();
