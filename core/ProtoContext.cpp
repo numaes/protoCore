@@ -48,6 +48,9 @@ namespace proto
         if (previous) {
             this->space = previous->space;
             this->thread = previous->thread;
+        } else {
+            // This is the root context, it doesn't have a parent thread yet.
+            this->thread = nullptr;
         }
         if (this->thread) {
             this->thread->setCurrentContext(this);
