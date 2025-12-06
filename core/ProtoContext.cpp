@@ -250,7 +250,7 @@ namespace proto
         return fromInteger(c);
     }
 
-    const ProtoObject* ProtoContext::fromInteger(int value) {
+    const ProtoObject* ProtoContext::fromInteger(long long value) {
         ProtoObjectPointer p{};
         p.si.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
         p.si.embedded_type = EMBEDDED_TYPE_SMALLINT;
@@ -272,8 +272,8 @@ namespace proto
 
     const ProtoObject* ProtoContext::fromUnicodeChar(unsigned int unicodeChar) {
         ProtoObjectPointer p{};
-        p.si.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
-        p.si.embedded_type = EMBEDDED_TYPE_UNICODE_CHAR;
+        p.unicodeChar.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
+        p.unicodeChar.embedded_type = EMBEDDED_TYPE_UNICODE_CHAR;
         p.unicodeChar.unicodeValue = unicodeChar;
         return p.oid;
     }

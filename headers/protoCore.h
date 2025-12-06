@@ -491,7 +491,7 @@ namespace proto
         inline unsigned int getAutomaticLocalsCount() const { return automaticLocalsCount; }
 
         //- Factory methods for primitive types.
-        const ProtoObject* fromInteger(int value);
+        const ProtoObject* fromInteger(long long value);
         const ProtoObject* fromLong(long long value);
         const ProtoObject* fromString(const char* str, int base = 10);
         const ProtoObject* fromDouble(double value);
