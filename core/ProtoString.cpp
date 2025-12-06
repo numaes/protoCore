@@ -160,8 +160,21 @@ namespace proto
     }
 
     int ProtoStringImplementation::implCompare(ProtoContext* context, const ProtoString* other) const {
-        // A proper implementation would compare character by character.
-        return this->getHash(context) == other->getHash(context) ? 0 : 1;
+        const unsigned long my_size = this->implGetSize(context);
+        const unsigned long other_size = other->getSize(context);
+        if (my_size != other_size) {
+            return my_size < other_size ? -1 : 1;
+        }
+        for (unsigned long i = 0; i < my_size; ++i) {
+            const ProtoObject* my_char = this->implGetAt(context, i);
+            const ProtoObject* other_char = other->getAt(context, i);
+            if (my_char != other_char) {
+                // This assumes characters are embedded and can be compared directly.
+                // A more robust implementation would handle non-embedded characters.
+                return my_char < other_char ? -1 : 1;
+            }
+        }
+        return 0;
     }
 
     const ProtoStringIteratorImplementation* ProtoStringImplementation::implGetIterator(ProtoContext* context) const
@@ -176,9 +189,11 @@ namespace proto
     }
 
     const ProtoString* ProtoString::getSlice(ProtoContext* context, int from, int to) const {
-        const auto* tuple_slice = toImpl<const ProtoStringImplementation>(this)->base->implAsList(context)->getSlice(context, from, to);
-        const auto* tuple_impl = toImpl<const ProtoTupleImplementation>(context->newTupleFromList(tuple_slice));
-        return (new(context) ProtoStringImplementation(context, tuple_impl))->asProtoString(context);
+        const auto* tuple_impl = toImpl<const ProtoStringImplementation>(this)->base;
+        const auto* list = tuple_impl->implAsList(context); // Still inefficient
+        const auto* sliced_list = list->getSlice(context, from, to);
+        const auto* new_tuple = ProtoTupleImplementation::tupleFromList(context, sliced_list);
+        return (new(context) ProtoStringImplementation(context, new_tuple))->asProtoString(context);
     }
 
     const ProtoString* ProtoString::fromUTF8String(ProtoContext* context, const char* zeroTerminatedUtf8String) {
