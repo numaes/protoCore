@@ -138,7 +138,9 @@ namespace proto
         if (isCell(context)) {
             ProtoObjectPointer pa{};
             pa.oid = this;
-            return (const Cell*)pa.voidPointer;
+            // Clear the tag bits (lowest 6 bits) to get the raw pointer to the Cell
+            uintptr_t raw_ptr_value = reinterpret_cast<uintptr_t>(pa.oid) & ~0x3FUL;
+            return reinterpret_cast<const Cell*>(raw_ptr_value);
         }
         return nullptr;
     }

@@ -177,27 +177,20 @@ namespace proto {
 
         if (actual_size <= TUPLE_SIZE) { // This is a leaf node
             return slot[index];
-        } else
-        {
-            // This is an internal node
+        } else { // This is an internal node, its slots should only contain child tuples
             unsigned long current_child_start_index = 0;
             for (int i = 0; i < TUPLE_SIZE; ++i) {
-                if (slot[i] != PROTO_NONE && slot[i]->isTuple(context)) {
+                if (slot[i] != PROTO_NONE) { // All non-null slots in an internal node must be tuples
+                    // Assert that slot[i] is indeed a tuple, otherwise it's a construction error
+                    if (!slot[i]->isTuple(context)) {
+                        std::cerr << "Error: Non-tuple object found in internal tuple node slot." << std::endl;
+                        std::abort();
+                    }
                     const ProtoTupleImplementation* child_tuple = toImpl<const ProtoTupleImplementation>(slot[i]);
-                    // Check if the index falls within this child's range
                     if ((unsigned long)index < current_child_start_index + child_tuple->actual_size) {
-                        // Recursively get the element from the child tuple
                         return child_tuple->implGetAt(context, index - current_child_start_index);
                     }
                     current_child_start_index += child_tuple->actual_size;
-                } else if (slot[i] != PROTO_NONE) {
-                    // This slot contains a non-tuple object, which means it's a mixed node or an error in construction.
-                    // For a pure rope, internal nodes should only contain other tuples.
-                    // For now, we'll treat it as a direct element if it's within the index range.
-                    if ((unsigned long)index == current_child_start_index) {
-                        return slot[i];
-                    }
-                    current_child_start_index++;
                 }
             }
             // Should not be reached if actual_size is correct and all slots are properly filled/handled
@@ -221,25 +214,38 @@ namespace proto {
     void ProtoTupleImplementation::finalize(ProtoContext* context) const {}
 
     void ProtoTupleImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
+        // Process references for all elements in the slot array
         for (int i = 0; i < TUPLE_SIZE; ++i) {
-            if (this->slot[i] && this->slot[i]->isCell(context)) {
-                method(context, self, this->slot[i]->asCell(context));
+            if (slot[i] && slot[i]->isCell(context)) {
+                method(context, self, slot[i]->asCell(context));
             }
         }
+        // If this is an internal node, the 'slot' elements are themselves tuples,
+        // and their references will be processed when their 'processReferences' is called.
+        // If this is a leaf node, the 'slot' elements are direct values.
+        // The current logic correctly processes direct cells.
+        // No further recursive calls needed here, as the GC will trace through the child tuples.
     }
 
     unsigned long ProtoTupleImplementation::getHash(ProtoContext* context) const {
-        // Simple hash for now
-        unsigned long hash = 0;
+        unsigned long current_hash = 0;
+        // Combine hashes of all elements in the slot
         for (int i = 0; i < TUPLE_SIZE; ++i) {
-            if (this->slot[i]) {
-                hash ^= this->slot[i]->getHash(context);
+            if (slot[i]) {
+                current_hash ^= slot[i]->getHash(context);
             }
         }
-        if (this->next) {
-            hash ^= this->next->getHash(context);
-        }
-        return hash;
+        // For interning, the hash must also depend on the structure and size.
+        // We can combine the current_hash with the actual_size.
+        // A simple way is to shift and XOR, or use a prime multiplier.
+        // Let's use a simple combination for now.
+        current_hash = (current_hash << 1) ^ actual_size;
+
+        // If this is an internal node, the hash of its children (which are also tuples)
+        // is already incorporated into the slot[i]->getHash(context) call.
+        // So, the current logic is fine for a rope structure.
+
+        return current_hash;
     }
 
     const ProtoObject* ProtoTupleImplementation::implAsObject(ProtoContext* context) const {
@@ -269,12 +275,22 @@ namespace proto {
         return toImpl<const ProtoTupleImplementation>(this)->implGetAt(context, index);
     }
 
+    const ProtoObject* ProtoTuple::asObject(ProtoContext* context) const {
+        return toImpl<const ProtoTupleImplementation>(this)->implAsObject(context);
+    }
+
     const ProtoObject* ProtoTuple::getSlice(ProtoContext* context, int start, int end) const {
         const ProtoList* list = toImpl<const ProtoTupleImplementation>(this)->implAsList(context);
-        const ProtoList* sublist = context->newList();
-        for(int i = start; i < end; ++i) {
-            sublist = sublist->appendLast(context, list->getAt(context, i));
+        // Ensure start and end are within bounds and make sense
+        start = std::max(0, start);
+        end = std::min((int)list->getSize(context), end);
+
+        if (start >= end) {
+            return context->newTuple()->asObject(context); // Return an empty tuple if slice is empty
         }
-        return (new (context) ProtoTupleImplementation(context, nullptr, 0UL))->implAsObject(context);
+
+        // Create a new tuple from the sub-list
+        const ProtoList* sublist = list->getSlice(context, start, end);
+        return context->newTupleFromList(sublist)->asObject(context);
     }
 }
