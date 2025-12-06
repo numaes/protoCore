@@ -19,8 +19,9 @@ namespace proto
 
     ProtoSetImplementation::ProtoSetImplementation(
         ProtoContext* context,
-        const ProtoSparseList* base
-    ) : Cell(context), base(base)
+        const ProtoSparseList* base,
+        unsigned long totalSize
+    ) : Cell(context), base(base), totalSize(totalSize)
     {
     }
 
@@ -37,12 +38,12 @@ namespace proto
             }
             const ProtoList* newBucket = bucket->appendLast(context, value);
             const ProtoSparseList* newBase = this->base->setAt(context, hash, newBucket->asObject(context));
-            return new(context) ProtoSetImplementation(context, newBase);
+            return new(context) ProtoSetImplementation(context, newBase, this->totalSize + 1);
         }
 
         const ProtoList* newBucket = context->newList()->appendLast(context, value);
         const ProtoSparseList* newBase = this->base->setAt(context, hash, newBucket->asObject(context));
-        return new(context) ProtoSetImplementation(context, newBase);
+        return new(context) ProtoSetImplementation(context, newBase, this->totalSize + 1);
     }
 
     const ProtoObject* ProtoSetImplementation::implHas(ProtoContext* context, const ProtoObject* value) const
@@ -79,14 +80,12 @@ namespace proto
         } else {
             newBase = this->base->setAt(context, hash, newBucket->asObject(context));
         }
-        return new(context) ProtoSetImplementation(context, newBase);
+        return new(context) ProtoSetImplementation(context, newBase, this->totalSize - 1);
     }
 
     unsigned long ProtoSetImplementation::implGetSize(ProtoContext* context) const
     {
-        // This is not perfectly accurate as it doesn't sum the sizes of the buckets.
-        // A full implementation would iterate the sparse list.
-        return this->base->getSize(context);
+        return this->totalSize;
     }
 
     void ProtoSetImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const

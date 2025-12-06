@@ -176,48 +176,40 @@ namespace proto
 
     const ProtoObject* ProtoContext::fromUTF8String(const char* zeroTerminatedUtf8String)
     {
+        const ProtoList* charList = this->newList();
         const unsigned char* s = (const unsigned char*)zeroTerminatedUtf8String;
-
-        // First pass: count the number of Unicode characters to determine final size.
-        int char_count = 0;
-        const unsigned char* s_len_check = s;
-        while (*s_len_check) {
-            if ((*s_len_check & 0xC0) != 0x80) { // Start of a new character.
-                char_count++;
-            }
-            s_len_check++;
-        }
-
-        // Pre-allocate a tuple of the correct size. This is the backing store for the string.
-        const ProtoTuple* tuple = (new(this) ProtoTupleImplementation(this, char_count, char_count))->asProtoTuple(this);
-        auto* tuple_impl = toImpl<ProtoTupleImplementation>(tuple);
-
-        // Second pass: decode and populate the tuple.
-        int current_char_index = 0;
-        while (*s && current_char_index < char_count) {
+        while (*s) {
             unsigned int unicodeChar;
             int len;
             if (*s < 0x80) {
                 unicodeChar = *s;
                 len = 1;
             } else if ((*s & 0xE0) == 0xC0) {
-                unicodeChar = *s & 0x1F; len = 2;
+                unicodeChar = *s & 0x1F;
+                len = 2;
             } else if ((*s & 0xF0) == 0xE0) {
-                unicodeChar = *s & 0x0F; len = 3;
-            } else if ((*s & 0xF8) == 0xF0) {
-                unicodeChar = *s & 0x07; len = 4;
-            } else { // Invalid start byte, treat as a single byte to be robust.
-                unicodeChar = *s; len = 1;
+                unicodeChar = *s & 0x0F;
+                len = 3;
+            } else { // Assuming 4-byte character
+                unicodeChar = *s & 0x07;
+                len = 4;
             }
 
             for (int i = 1; i < len; ++i) {
-                if (s[i] == '\0' || (s[i] & 0xC0) != 0x80) { break; /* Malformed sequence */ }
+                if (s[i] == '\0' || (s[i] & 0xC0) != 0x80) {
+                    // Invalid UTF-8 sequence, handle error appropriately
+                    // For now, let's treat it as a single byte character
+                    unicodeChar = *s;
+                    len = 1;
+                    break;
+                }
                 unicodeChar = (unicodeChar << 6) | (s[i] & 0x3F);
             }
-            tuple_impl->rawSet(current_char_index++, fromUnicodeChar(unicodeChar));
+            charList = charList->appendLast(this, fromUnicodeChar(unicodeChar));
             s += len;
         }
-        return (new(this) ProtoStringImplementation(this, tuple))->implAsObject(this);
+        const auto newString = new(this) ProtoStringImplementation(this, ProtoTupleImplementation::tupleFromList(this, charList));
+        return newString->implAsObject(this);
     }
 
     const ProtoList* ProtoContext::newList()
@@ -242,7 +234,7 @@ namespace proto
 
     const ProtoSet* ProtoContext::newSet()
     {
-        return (new(this) ProtoSetImplementation(this, newSparseList()))->asProtoSet(this);
+        return (new(this) ProtoSetImplementation(this, newSparseList(), 0))->asProtoSet(this);
     }
 
     const ProtoMultiset* ProtoContext::newMultiset()

@@ -606,7 +606,8 @@ namespace proto
     public:
         ProtoSetImplementation(
             ProtoContext* context,
-            const ProtoSparseList* base
+            const ProtoSparseList* base,
+            unsigned long totalSize
         );
         ~ProtoSetImplementation() override;
 
@@ -625,6 +626,7 @@ namespace proto
 
     private:
         const ProtoSparseList* base;
+        unsigned long totalSize;
     };
 
     class ProtoMultisetImplementation final : public Cell
