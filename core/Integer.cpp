@@ -10,16 +10,6 @@ namespace proto
     // Forward Declarations & Internal Type Helpers
     //================================================================================
 
-    // Helper to sign-extend a 54-bit integer to 64-bit.
-    // Must be defined before any functions that use it.
-    inline long long signExtend54(unsigned long value)
-    {
-        if (value & (1ULL << 53)) { // If the 54th bit is set, it's a negative number
-            return (long long)(value | (0xFFFFC00000000000ULL)); // Sign extend
-        }
-        return (long long)value; // Positive or zero
-    }
-
     /**
      * @struct TempBignum
      * @brief A temporary, mutable, sign-and-magnitude representation for integers.
@@ -120,7 +110,7 @@ namespace proto
 
         if (isSmallInteger(object)) {
             ProtoObjectPointer p; p.oid = object;
-            return signExtend54(p.si.smallInteger); // Use signExtend54 for correct interpretation
+            return p.si.smallInteger; // The bitfield should handle sign extension automatically
         }
 
         const auto* li = toImpl<const LargeIntegerImplementation>(object);
@@ -191,7 +181,13 @@ namespace proto
 
     const ProtoObject* Integer::add(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
-        if (!isInteger(left) || !isInteger(right)) throw std::runtime_error("Objects are not integer types for addition.");
+        if (left->isDouble(context) || right->isDouble(context)) {
+            // If either operand is a double, convert both to double and perform double addition
+            return context->fromDouble(left->asDouble(context) + right->asDouble(context));
+        }
+        if (!isInteger(left) || !isInteger(right)) {
+            throw std::runtime_error("Objects are not integer types for addition.");
+        }
 
         // --- FAST PATH for SmallInt + SmallInt ---
         if (isSmallInteger(left) && isSmallInteger(right)) {
@@ -228,7 +224,13 @@ namespace proto
 
     const ProtoObject* Integer::subtract(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
-        if (!isInteger(left) || !isInteger(right)) throw std::runtime_error("Objects are not integer types for subtraction.");
+        if (left->isDouble(context) || right->isDouble(context)) {
+            // If either operand is a double, convert both to double and perform double subtraction
+            return context->fromDouble(left->asDouble(context) - right->asDouble(context));
+        }
+        if (!isInteger(left) || !isInteger(right)) {
+            throw std::runtime_error("Objects are not integer types for subtraction.");
+        }
 
         // --- FAST PATH for SmallInt - SmallInt ---
         if (isSmallInteger(left) && isSmallInteger(right)) {
@@ -270,7 +272,13 @@ namespace proto
 
     const ProtoObject* Integer::multiply(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
-        if (!isInteger(left) || !isInteger(right)) throw std::runtime_error("Objects are not integer types for multiplication.");
+        if (left->isDouble(context) || right->isDouble(context)) {
+            // If either operand is a double, convert both to double and perform double multiplication
+            return context->fromDouble(left->asDouble(context) * right->asDouble(context));
+        }
+        if (!isInteger(left) || !isInteger(right)) {
+            throw std::runtime_error("Objects are not integer types for multiplication.");
+        }
 
         // --- FAST PATH for SmallInt * SmallInt ---
         if (isSmallInteger(left) && isSmallInteger(right)) {
@@ -310,7 +318,13 @@ namespace proto
 
     const ProtoObject* Integer::divide(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
-        if (!isInteger(left) || !isInteger(right)) throw std::runtime_error("Objects are not integer types for division.");
+        if (left->isDouble(context) || right->isDouble(context)) {
+            // If either operand is a double, convert both to double and perform double division
+            return context->fromDouble(left->asDouble(context) / right->asDouble(context));
+        }
+        if (!isInteger(left) || !isInteger(right)) {
+            throw std::runtime_error("Objects are not integer types for division.");
+        }
         if (sign(context, right) == 0) {
             throw std::runtime_error("Division by zero.");
         }
@@ -327,7 +341,14 @@ namespace proto
 
     const ProtoObject* Integer::modulo(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
-        if (!isInteger(left) || !isInteger(right)) throw std::runtime_error("Objects are not integer types for modulo.");
+        if (left->isDouble(context) || right->isDouble(context)) {
+            // Modulo is typically not defined for doubles in the same way as integers.
+            // For now, we'll throw an error if mixed types are passed to modulo.
+            throw std::runtime_error("Modulo operation not defined for mixed integer/double types.");
+        }
+        if (!isInteger(left) || !isInteger(right)) {
+            throw std::runtime_error("Objects are not integer types for modulo.");
+        }
         if (sign(context, right) == 0) {
             throw std::runtime_error("Division by zero.");
         }
@@ -345,7 +366,7 @@ namespace proto
 
     const ProtoString* Integer::toString(ProtoContext* context, const ProtoObject* object, int base)
     {
-        if (!isInteger(object)) throw std::runtime_error("Object is not an integer type for toString.");
+        if (!isInteger(object)) throw std::runtime_error("Object is not an integer type.");
         if (base < 2 || base > 36) {
             throw std::invalid_argument("Invalid base for toString (must be 2-36).");
         }
@@ -472,7 +493,7 @@ namespace proto
         TempBignum temp;
         if (isSmallInteger(obj)) {
             ProtoObjectPointer p; p.oid = obj;
-            long long value = signExtend54(p.si.smallInteger); // Correctly sign-extend
+            long long value = p.si.smallInteger; // Correctly sign-extend
             if (value != 0) {
                 temp.is_negative = value < 0;
                 temp.magnitude.push_back(value < 0 ? -static_cast<unsigned long long>(value) : value);
