@@ -17,7 +17,6 @@
 #include <vector>
 #include <functional>
 
-
 #define THREAD_CACHE_DEPTH 1024
 #define TUPLE_SIZE 5
 
@@ -135,10 +134,10 @@ namespace proto
     class Cell {
     public:
         Cell* next;
-        explicit Cell(ProtoContext* context, Cell* n = nullptr) : next(n) {}
+        explicit Cell(ProtoContext* context, Cell* n = nullptr);
         virtual ~Cell() = default;
-        virtual void processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {}
-        virtual unsigned long getHash(ProtoContext* context) const { return reinterpret_cast<uintptr_t>(this); }
+        virtual void processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const;
+        virtual unsigned long getHash(ProtoContext* context) const;
         virtual const ProtoObject* implAsObject(ProtoContext* context) const = 0;
         static void* operator new(size_t size, ProtoContext* context);
     };
@@ -146,9 +145,9 @@ namespace proto
     class ReturnReference : public Cell {
     public:
         Cell* returnValue;
-        ReturnReference(ProtoContext* context, Cell* rv) : Cell(context), returnValue(rv) {}
-        void processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const override { if (returnValue) method(context, self, returnValue); }
-        const ProtoObject* implAsObject(ProtoContext* context) const override { return PROTO_NONE; }
+        ReturnReference(ProtoContext* context, Cell* rv);
+        void processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const override;
+        const ProtoObject* implAsObject(ProtoContext* context) const override;
     };
 
     class ProtoListImplementation final : public Cell {
@@ -161,13 +160,7 @@ namespace proto
         const unsigned char height;
         const bool isEmpty;
 
-        explicit ProtoListImplementation(ProtoContext* context, const ProtoObject* v, bool empty, const ProtoListImplementation* prev, const ProtoListImplementation* next)
-            : Cell(context), value(v), previousNode(prev), nextNode(next),
-              hash(empty ? 0 : (v ? v->getHash(context) : 0) ^ (prev ? prev->hash : 0) ^ (next ? next->hash : 0)),
-              size(empty ? 0 : 1 + (prev ? prev->size : 0) + (next ? next->size : 0)),
-              height(empty ? 0 : 1 + std::max(prev ? prev->height : 0, next ? next->height : 0)),
-              isEmpty(empty) {}
-
+        explicit ProtoListImplementation(ProtoContext* context, const ProtoObject* v, bool empty, const ProtoListImplementation* prev, const ProtoListImplementation* next);
         const ProtoObject* implGetAt(ProtoContext* context, int index) const;
         bool implHas(ProtoContext* context, const ProtoObject* targetValue) const;
         const ProtoListImplementation* implSetAt(ProtoContext* context, int index, const ProtoObject* newValue) const;
@@ -203,7 +196,7 @@ namespace proto
         const unsigned char height;
         const bool isEmpty;
 
-        ProtoSparseListImplementation(ProtoContext* context, unsigned long k = 0, const ProtoObject* v = PROTO_NONE, const ProtoSparseListImplementation* p = nullptr, const ProtoSparseListImplementation* n = nullptr, bool empty = true);
+        ProtoSparseListImplementation(ProtoContext* context, unsigned long k, const ProtoObject* v, const ProtoSparseListImplementation* p, const ProtoSparseListImplementation* n, bool empty);
         bool implHas(ProtoContext* context, unsigned long offset) const;
         const ProtoObject* implGetAt(ProtoContext* context, unsigned long offset) const;
         const ProtoSparseListImplementation* implSetAt(ProtoContext* context, unsigned long offset, const ProtoObject* newValue) const;
@@ -220,7 +213,7 @@ namespace proto
         const ProtoSparseListImplementation* current;
         const ProtoSparseListIteratorImplementation* queue;
     public:
-        ProtoSparseListIteratorImplementation(ProtoContext* context, int s, const ProtoSparseListImplementation* c, const ProtoSparseListIteratorImplementation* q = nullptr);
+        ProtoSparseListIteratorImplementation(ProtoContext* context, int s, const ProtoSparseListImplementation* c, const ProtoSparseListIteratorImplementation* q);
         int implHasNext() const;
         unsigned long implNextKey() const;
         const ProtoObject* implNextValue() const;
@@ -232,24 +225,8 @@ namespace proto
     class Integer {
     public:
         static const ProtoObject* fromLong(ProtoContext* context, long long value);
-        static const ProtoObject* fromString(ProtoContext* context, const char* str, int base = 10);
+        static const ProtoObject* fromString(ProtoContext* context, const char* str, int base);
         static long long asLong(ProtoContext* context, const ProtoObject* object);
-        static const ProtoString* toString(ProtoContext* context, const ProtoObject* object, int base = 10);
-        static int sign(ProtoContext* context, const ProtoObject* object);
-        static const ProtoObject* negate(ProtoContext* context, const ProtoObject* object);
-        static const ProtoObject* abs(ProtoContext* context, const ProtoObject* object);
-        static const ProtoObject* add(ProtoContext* context, const ProtoObject* left, const ProtoObject* right);
-        static const ProtoObject* subtract(ProtoContext* context, const ProtoObject* left, const ProtoObject* right);
-        static const ProtoObject* multiply(ProtoContext* context, const ProtoObject* left, const ProtoObject* right);
-        static const ProtoObject* divide(ProtoContext* context, const ProtoObject* left, const ProtoObject* right);
-        static const ProtoObject* modulo(ProtoContext* context, const ProtoObject* left, const ProtoObject* right);
-        static int compare(ProtoContext* context, const ProtoObject* left, const ProtoObject* right);
-        static const ProtoObject* bitwiseAnd(ProtoContext* context, const ProtoObject* left, const ProtoObject* right);
-        static const ProtoObject* bitwiseOr(ProtoContext* context, const ProtoObject* left, const ProtoObject* right);
-        static const ProtoObject* bitwiseXor(ProtoContext* context, const ProtoObject* left, const ProtoObject* right);
-        static const ProtoObject* bitwiseNot(ProtoContext* context, const ProtoObject* object);
-        static const ProtoObject* shiftLeft(ProtoContext* context, const ProtoObject* object, int amount);
-        static const ProtoObject* shiftRight(ProtoContext* context, const ProtoObject* object, int amount);
     };
 }
 

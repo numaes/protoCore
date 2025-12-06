@@ -128,13 +128,13 @@ namespace proto
     }
 
     const ProtoListImplementation* ProtoListImplementation::implInsertAt(ProtoContext* context, int index, const ProtoObject* newValue) const {
-        if (isEmpty) return new (context) ProtoListImplementation(context, newValue, false);
+        if (isEmpty) return new (context) ProtoListImplementation(context, newValue, false, nullptr, nullptr);
         unsigned long left_size = previousNode ? previousNode->size : 0;
         const ProtoListImplementation* newNode;
         if ((unsigned)index <= left_size) {
-            newNode = new (context) ProtoListImplementation(context, value, false, previousNode ? previousNode->implInsertAt(context, index, newValue) : new (context) ProtoListImplementation(context, newValue, false), nextNode);
+            newNode = new (context) ProtoListImplementation(context, value, false, previousNode ? previousNode->implInsertAt(context, index, newValue) : new (context) ProtoListImplementation(context, newValue, false, nullptr, nullptr), nextNode);
         } else {
-            newNode = new (context) ProtoListImplementation(context, value, false, previousNode, nextNode ? nextNode->implInsertAt(context, index - (left_size + 1), newValue) : new (context) ProtoListImplementation(context, newValue, false));
+            newNode = new (context) ProtoListImplementation(context, value, false, previousNode, nextNode ? nextNode->implInsertAt(context, index - (left_size + 1), newValue) : new (context) ProtoListImplementation(context, newValue, false, nullptr, nullptr));
         }
         return rebalance(context, newNode);
     }
