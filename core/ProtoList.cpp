@@ -48,10 +48,10 @@ namespace proto {
         bool empty,
         const ProtoListImplementation* prev,
         const ProtoListImplementation* next
-    ) : Cell(context), value(v), previousNode(prev), nextNode(next),
+    ) : Cell(context), value(empty ? nullptr : v), previousNode(empty ? nullptr : prev), nextNode(empty ? nullptr : next),
         hash(0),
         size(empty ? 0 : get_node_size(prev) + get_node_size(next) + 1),
-        height(1 + std::max(get_node_height(prev), get_node_height(next))),
+        height(empty ? 0 : 1 + std::max(get_node_height(prev), get_node_height(next))),
         isEmpty(empty)
     {
     }

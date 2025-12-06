@@ -16,6 +16,7 @@ namespace proto
 
     const ProtoObject* ProtoObject::getPrototype(ProtoContext* context) const
     {
+        // TODO: completar todos los embeded, todos los pointer_tags
         ProtoObjectPointer pa{};
         pa.oid = this;
 

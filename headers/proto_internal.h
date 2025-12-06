@@ -14,6 +14,7 @@
 #include <string>
 #include <algorithm>
 #include <climits>
+#include <iostream> // For std::cerr and std::abort
 #include <vector>
 #include <functional>
 
@@ -174,10 +175,167 @@ namespace proto {
 #define ITERATOR_NEXT_THIS 1
 #define ITERATOR_NEXT_NEXT 2
 
+    // Helper to get the name of the type for error messages (compiler-specific, but useful for debugging)
+    template<typename T>
+    std::string getTypeName() {
+        std::string name = __PRETTY_FUNCTION__;
+        size_t start = name.find("T = ") + 4;
+        size_t end = name.find("]", start);
+        return name.substr(start, end - start);
+    }
+
+    // Trait to map implementation types to their expected pointer tags
+    template<typename T>
+    struct ExpectedTag;
+
+    // Specializations for each implementation type
+    template<> struct ExpectedTag<const Cell> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
+    template<> struct ExpectedTag<Cell> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
+
+    template<> struct ExpectedTag<const ParentLinkImplementation> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
+    template<> struct ExpectedTag<ParentLinkImplementation> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
+
+    template<> struct ExpectedTag<const ProtoListImplementation> { static constexpr unsigned long value = POINTER_TAG_LIST; };
+    template<> struct ExpectedTag<ProtoListImplementation> { static constexpr unsigned long value = POINTER_TAG_LIST; };
+
+    template<> struct ExpectedTag<const ProtoSparseListImplementation> { static constexpr unsigned long value = POINTER_TAG_SPARSE_LIST; };
+    template<> struct ExpectedTag<ProtoSparseListImplementation> { static constexpr unsigned long value = POINTER_TAG_SPARSE_LIST; };
+
+    template<> struct ExpectedTag<const ProtoSetImplementation> { static constexpr unsigned long value = POINTER_TAG_SET; };
+    template<> struct ExpectedTag<ProtoSetImplementation> { static constexpr unsigned long value = POINTER_TAG_SET; };
+
+    template<> struct ExpectedTag<const ProtoMultisetImplementation> { static constexpr unsigned long value = POINTER_TAG_MULTISET; };
+    template<> struct ExpectedTag<ProtoMultisetImplementation> { static constexpr unsigned long value = POINTER_TAG_MULTISET; };
+
+    template<> struct ExpectedTag<const ProtoObjectCell> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
+    template<> struct ExpectedTag<ProtoObjectCell> { static constexpr unsigned long value = POINTER_TAG_OBJECT; };
+
+    template<> struct ExpectedTag<const ProtoStringImplementation> { static constexpr unsigned long value = POINTER_TAG_STRING; };
+    template<> struct ExpectedTag<ProtoStringImplementation> { static constexpr unsigned long value = POINTER_TAG_STRING; };
+
+    template<> struct ExpectedTag<const ProtoTupleImplementation> { static constexpr unsigned long value = POINTER_TAG_TUPLE; };
+    template<> struct ExpectedTag<ProtoTupleImplementation> { static constexpr unsigned long value = POINTER_TAG_TUPLE; };
+
+    template<> struct ExpectedTag<const ProtoMethodCell> { static constexpr unsigned long value = POINTER_TAG_METHOD; };
+    template<> struct ExpectedTag<ProtoMethodCell> { static constexpr unsigned long value = POINTER_TAG_METHOD; };
+
+    template<> struct ExpectedTag<const ProtoThreadImplementation> { static constexpr unsigned long value = POINTER_TAG_THREAD; };
+    template<> struct ExpectedTag<ProtoThreadImplementation> { static constexpr unsigned long value = POINTER_TAG_THREAD; };
+
+    template<> struct ExpectedTag<const DoubleImplementation> { static constexpr unsigned long value = POINTER_TAG_DOUBLE; };
+    template<> struct ExpectedTag<DoubleImplementation> { static constexpr unsigned long value = POINTER_TAG_DOUBLE; };
+
+    template<> struct ExpectedTag<const LargeIntegerImplementation> { static constexpr unsigned long value = POINTER_TAG_LARGE_INTEGER; };
+    template<> struct ExpectedTag<LargeIntegerImplementation> { static constexpr unsigned long value = POINTER_TAG_LARGE_INTEGER; };
+
+    template<> struct ExpectedTag<const ProtoByteBufferImplementation> { static constexpr unsigned long value = POINTER_TAG_BYTE_BUFFER; };
+    template<> struct ExpectedTag<ProtoByteBufferImplementation> { static constexpr unsigned long value = POINTER_TAG_BYTE_BUFFER; };
+
+    template<> struct ExpectedTag<const ProtoExternalPointerImplementation> { static constexpr unsigned long value = POINTER_TAG_EXTERNAL_POINTER; };
+    template<> struct ExpectedTag<ProtoExternalPointerImplementation> { static constexpr unsigned long value = POINTER_TAG_EXTERNAL_POINTER; };
+
+    template<> struct ExpectedTag<const ProtoListIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_LIST_ITERATOR; };
+    template<> struct ExpectedTag<ProtoListIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_LIST_ITERATOR; };
+
+    template<> struct ExpectedTag<const ProtoSparseListIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_SPARSE_LIST_ITERATOR; };
+    template<> struct ExpectedTag<ProtoSparseListIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_SPARSE_LIST_ITERATOR; };
+
+    template<> struct ExpectedTag<const ProtoSetIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_SET_ITERATOR; };
+    template<> struct ExpectedTag<ProtoSetIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_SET_ITERATOR; };
+
+    template<> struct ExpectedTag<const ProtoMultisetIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_MULTISET_ITERATOR; };
+    template<> struct ExpectedTag<ProtoMultisetIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_MULTISET_ITERATOR; };
+
+    template<> struct ExpectedTag<const ProtoTupleIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_TUPLE_ITERATOR; };
+    template<> struct ExpectedTag<ProtoTupleIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_TUPLE_ITERATOR; };
+
+    template<> struct ExpectedTag<const ProtoStringIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_STRING_ITERATOR; };
+    template<> struct ExpectedTag<ProtoStringIteratorImplementation> { static constexpr unsigned long value = POINTER_TAG_STRING_ITERATOR; };
+
+
+    // The new, safe toImpl implementation (non-const)
     template<typename Impl, typename Api>
-    inline const Impl *toImpl(const Api *ptr) { return reinterpret_cast<const Impl *>(ptr); }
+    inline Impl *toImpl(Api *ptr) {
+        if (reinterpret_cast<const ProtoObject*>(ptr) == PROTO_NONE) {
+            return nullptr;
+        }
+
+        ProtoObjectPointer p{};
+        p.oid = reinterpret_cast<const ProtoObject*>(ptr); // Cast to const ProtoObject* for union access
+
+        unsigned long actual_tag = p.op.pointer_tag;
+        unsigned long expected_tag = ExpectedTag<Impl>::value;
+
+        // Check for embedded values first, as they are not Cell-derived objects
+        if (actual_tag == POINTER_TAG_EMBEDDED_VALUE) {
+            std::cerr << "Error: Attempted to convert an embedded value (e.g., small int, boolean) to a Cell-derived type ("
+                      << getTypeName<Impl>() << "). Embedded values are not Cell objects." << std::endl;
+            std::abort();
+        }
+
+        // Check if the actual tag matches the expected tag
+        if (actual_tag != expected_tag) {
+            std::cerr << "Error: Type mismatch in toImpl conversion. Expected tag " << expected_tag
+                      << " for type " << getTypeName<Impl>() << ", but found tag " << actual_tag
+                      << " for ProtoObject* " << p.oid << "." << std::endl;
+            std::abort();
+        }
+
+        // Clear the tag bits (lower 6 bits) to get the raw pointer to the Cell
+        uintptr_t raw_ptr_value = reinterpret_cast<uintptr_t>(p.oid) & ~0x3FUL;
+
+        // Check for 64-byte alignment (lowest 6 bits should be 0)
+        if ((raw_ptr_value & 0x3FUL) != 0) {
+            std::cerr << "Error: toImpl conversion resulted in an unaligned pointer for type "
+                      << getTypeName<Impl>() << ". Raw pointer value: 0x" << std::hex << raw_ptr_value << std::dec
+                      << ". Expected 64-byte alignment." << std::endl;
+            std::abort();
+        }
+
+        return reinterpret_cast<Impl *>(raw_ptr_value);
+    }
+
+    // Overload for const pointers
     template<typename Impl, typename Api>
-    inline Impl *toImpl(Api *ptr) { return reinterpret_cast<Impl *>(ptr); }
+    inline const Impl *toImpl(const Api *ptr) {
+        if (reinterpret_cast<const ProtoObject*>(ptr) == PROTO_NONE) {
+            return nullptr;
+        }
+
+        ProtoObjectPointer p{};
+        p.oid = reinterpret_cast<const ProtoObject*>(ptr);
+
+        unsigned long actual_tag = p.op.pointer_tag;
+        unsigned long expected_tag = ExpectedTag<const Impl>::value; // Use const Impl for expected tag
+
+        // Check for embedded values first, as they are not Cell-derived objects
+        if (actual_tag == POINTER_TAG_EMBEDDED_VALUE) {
+            std::cerr << "Error: Attempted to convert an embedded value (e.g., small int, boolean) to a Cell-derived type ("
+                      << getTypeName<const Impl>() << "). Embedded values are not Cell objects." << std::endl;
+            std::abort();
+        }
+
+        // Check if the actual tag matches the expected tag
+        if (actual_tag != expected_tag) {
+            std::cerr << "Error: Type mismatch in toImpl conversion. Expected tag " << expected_tag
+                      << " for type " << getTypeName<const Impl>() << ", but found tag " << actual_tag
+                      << " for ProtoObject* " << p.oid << "." << std::endl;
+            std::abort();
+        }
+
+        // Clear the tag bits (lower 6 bits) to get the raw pointer to the Cell
+        uintptr_t raw_ptr_value = reinterpret_cast<uintptr_t>(p.oid) & ~0x3FUL;
+
+        // Check for 64-byte alignment (lowest 6 bits should be 0)
+        if ((raw_ptr_value & 0x3FUL) != 0) {
+            std::cerr << "Error: toImpl conversion resulted in an unaligned pointer for type "
+                      << getTypeName<const Impl>() << ". Raw pointer value: 0x" << std::hex << raw_ptr_value << std::dec
+                      << ". Expected 64-byte alignment." << std::endl;
+            std::abort();
+        }
+
+        return reinterpret_cast<const Impl *>(raw_ptr_value);
+    }
 
     unsigned long generate_mutable_ref();
     bool isInteger(const ProtoObject* obj);
