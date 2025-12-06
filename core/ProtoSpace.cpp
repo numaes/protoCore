@@ -42,10 +42,36 @@ namespace proto {
         this->unicodeCharPrototype = const_cast<ProtoObject*>(root_context->newObject(false));
         this->listPrototype = const_cast<ProtoObject*>(root_context->newObject(false));
         this->sparseListPrototype = const_cast<ProtoObject*>(root_context->newObject(false));
+        this->objectPrototype = const_cast<ProtoObject*>(root_context->newObject(false));
         this->tuplePrototype = const_cast<ProtoObject*>(root_context->newObject(false));
         this->stringPrototype = const_cast<ProtoObject*>(root_context->newObject(false));
         this->setPrototype = const_cast<ProtoObject*>(root_context->newObject(false));
         this->multisetPrototype = const_cast<ProtoObject*>(root_context->newObject(false));
+
+        // Initialize all other prototypes to a basic object for now
+        // This prevents null dereferences if getPrototype is called on an uninitialized type
+        this->smallIntegerPrototype = this->objectPrototype;
+        this->largeIntegerPrototype = this->objectPrototype;
+        this->floatPrototype = this->objectPrototype; // Assuming float is not yet implemented as distinct from double
+        this->bytePrototype = this->objectPrototype;
+        this->nonePrototype = this->objectPrototype; // PROTO_NONE is a special constant, but its prototype can be objectPrototype
+        this->methodPrototype = this->objectPrototype;
+        this->bufferPrototype = this->objectPrototype;
+        this->pointerPrototype = this->objectPrototype;
+        this->doublePrototype = this->objectPrototype;
+        this->datePrototype = this->objectPrototype;
+        this->timestampPrototype = this->objectPrototype;
+        this->timedeltaPrototype = this->objectPrototype;
+        this->threadPrototype = this->objectPrototype;
+        this->rootObject = this->objectPrototype; // Root object can be the base object prototype
+
+        this->listIteratorPrototype = this->objectPrototype;
+        this->tupleIteratorPrototype = this->objectPrototype;
+        this->stringIteratorPrototype = this->objectPrototype;
+        this->sparseListIteratorPrototype = this->objectPrototype;
+        this->setIteratorPrototype = this->objectPrototype;
+        this->multisetIteratorPrototype = this->objectPrototype;
+
         delete root_context;
     }
 

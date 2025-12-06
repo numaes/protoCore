@@ -16,26 +16,39 @@ namespace proto
 
     const ProtoObject* ProtoObject::getPrototype(ProtoContext* context) const
     {
-        // TODO: completar todos los embeded, todos los pointer_tags
         ProtoObjectPointer pa{};
         pa.oid = this;
 
         switch (pa.op.pointer_tag)
         {
+        case POINTER_TAG_OBJECT: return context->space->objectPrototype;
         case POINTER_TAG_EMBEDDED_VALUE:
             switch (pa.op.embedded_type)
             {
+            case EMBEDDED_TYPE_SMALLINT: return context->space->smallIntegerPrototype;
             case EMBEDDED_TYPE_BOOLEAN: return context->space->booleanPrototype;
             case EMBEDDED_TYPE_UNICODE_CHAR: return context->space->unicodeCharPrototype;
-            default: return nullptr;
+            default: return context->space->objectPrototype; // Fallback for unknown embedded types
             }
         case POINTER_TAG_LIST: return context->space->listPrototype;
+        case POINTER_TAG_LIST_ITERATOR: return context->space->listIteratorPrototype;
         case POINTER_TAG_SPARSE_LIST: return context->space->sparseListPrototype;
+        case POINTER_TAG_SPARSE_LIST_ITERATOR: return context->space->sparseListIteratorPrototype;
         case POINTER_TAG_TUPLE: return context->space->tuplePrototype;
+        case POINTER_TAG_TUPLE_ITERATOR: return context->space->tupleIteratorPrototype;
         case POINTER_TAG_STRING: return context->space->stringPrototype;
+        case POINTER_TAG_STRING_ITERATOR: return context->space->stringIteratorPrototype;
         case POINTER_TAG_SET: return context->space->setPrototype;
+        case POINTER_TAG_SET_ITERATOR: return context->space->setIteratorPrototype;
         case POINTER_TAG_MULTISET: return context->space->multisetPrototype;
-        default: return nullptr;
+        case POINTER_TAG_MULTISET_ITERATOR: return context->space->multisetIteratorPrototype;
+        case POINTER_TAG_BYTE_BUFFER: return context->space->bufferPrototype;
+        case POINTER_TAG_EXTERNAL_POINTER: return context->space->pointerPrototype;
+        case POINTER_TAG_METHOD: return context->space->methodPrototype;
+        case POINTER_TAG_THREAD: return context->space->threadPrototype;
+        case POINTER_TAG_LARGE_INTEGER: return context->space->largeIntegerPrototype;
+        case POINTER_TAG_DOUBLE: return context->space->doublePrototype;
+        default: return context->space->objectPrototype; // Default for unknown tags
         }
     }
 

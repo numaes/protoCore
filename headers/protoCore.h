@@ -598,6 +598,7 @@ namespace proto
             const ProtoObject* self,
             const ProtoString* attributeName){};
 
+
         ProtoObject* (*outOfMemoryCallback)(
             ProtoContext* context){};
 
