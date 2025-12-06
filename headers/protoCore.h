@@ -598,6 +598,9 @@ namespace proto
             const ProtoObject* self,
             const ProtoString* attributeName){};
 
+        ProtoObject* (*outOfMemoryCallback)(
+            ProtoContext* context){};
+
         //- Public Methods
         /**
          * @brief Submits a chain of newly created cells (a "young generation")

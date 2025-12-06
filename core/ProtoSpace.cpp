@@ -7,6 +7,8 @@
 
 #include "../headers/proto_internal.h"
 #include <iostream>
+#include <cstdlib>
+#include <iostream>
 
 namespace proto {
 
@@ -67,9 +69,26 @@ namespace proto {
     }
 
     Cell* ProtoSpace::getFreeCells(const ProtoThread* thread) {
-        // This is a placeholder for a real implementation.
-        // A real implementation would need to manage memory pools.
-        return static_cast<Cell*>(std::malloc(sizeof(BigCell)));
+        // Temporary implementation. Just get 1024 cells
+        // TODO: interact with the garbage collector
+        Cell* newCell = nullptr;
+        // Intentar asignar memoria alineada a 64 bytes
+        int result = posix_memalign(reinterpret_cast<void**>(&newCell), 64, 1024 * sizeof(BigCell));
+        if (result != 0) {
+            // posix_memalign devuelve un código de error si falla (por ejemplo, ENOMEM si no hay memoria)
+            if (this->outOfMemoryCallback)
+                (this->outOfMemoryCallback(nullptr));
+            std::cerr << "NO MORE MEMORY!!: " << result << std::endl;
+            exit(-1);
+        }
+
+        Cell* previous = nullptr;
+        for (int i = 0; i < 1024; ++i, newCell++)
+        {
+            newCell->next = previous;
+            previous = newCell;
+        }
+        return newCell;
     }
 
     void ProtoSpace::submitYoungGeneration(const Cell* cell) {

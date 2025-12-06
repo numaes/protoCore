@@ -6,8 +6,37 @@
  */
 
 #include "../headers/proto_internal.h"
+#include <algorithm> // For std::max
 
 namespace proto {
+
+    namespace { // Anonymous namespace for file-local helpers
+
+        /**
+         * @brief Safely gets the size of a node.
+         * Checks for null and 64-byte alignment before dereferencing.
+         * A tagged handle passed by mistake will be unaligned and treated as size 0.
+         */
+        inline unsigned long get_node_size(const ProtoListImplementation* node) {
+            if (!node || (reinterpret_cast<uintptr_t>(node) & 0x3F) != 0) {
+                return 0;
+            }
+            return node->size;
+        }
+
+        /**
+         * @brief Safely gets the height of a node.
+         * Checks for null and 64-byte alignment before dereferencing.
+         * A tagged handle passed by mistake will be unaligned and treated as height 0.
+         */
+        inline int get_node_height(const ProtoListImplementation* node) {
+            if (!node || (reinterpret_cast<uintptr_t>(node) & 0x3F) != 0) {
+                return 0;
+            }
+            return node->height;
+        }
+
+    } // end anonymous namespace
 
     //=========================================================================
     // ProtoListImplementation
@@ -20,8 +49,9 @@ namespace proto {
         const ProtoListImplementation* prev,
         const ProtoListImplementation* next
     ) : Cell(context), value(v), previousNode(prev), nextNode(next),
-        hash(0), size(empty ? 0 : (prev ? prev->size : 0) + (next ? next->size : 0) + 1),
-        height(1 + std::max(prev ? prev->height : 0, next ? next->height : 0)),
+        hash(0),
+        size(empty ? 0 : get_node_size(prev) + get_node_size(next) + 1),
+        height(1 + std::max(get_node_height(prev), get_node_height(next))),
         isEmpty(empty)
     {
     }
@@ -47,25 +77,44 @@ namespace proto {
     }
 
     const ProtoListImplementation* ProtoListImplementation::implSetAt(ProtoContext* context, int index, const ProtoObject* newValue) const {
-        if (isEmpty) return this;
+        if (isEmpty || index < 0 || index >= size) {
+            return this;
+        }
+
         const unsigned long left_size = previousNode ? previousNode->size : 0;
+
         if (index < left_size) {
-            return new (context) ProtoListImplementation(context, value, false, previousNode->implSetAt(context, index, newValue), nextNode);
+            const ProtoListImplementation* new_prev = previousNode->implSetAt(context, index, newValue);
+            return new (context) ProtoListImplementation(context, value, false, new_prev, nextNode);
         }
         if (index == left_size) {
             return new (context) ProtoListImplementation(context, newValue, false, previousNode, nextNode);
         }
-        return new (context) ProtoListImplementation(context, value, false, previousNode, nextNode->implSetAt(context, index - left_size - 1, newValue));
+
+        const ProtoListImplementation* new_next = nextNode->implSetAt(context, index - left_size - 1, newValue);
+        return new (context) ProtoListImplementation(context, value, false, previousNode, new_next);
     }
 
     const ProtoListImplementation* ProtoListImplementation::implInsertAt(ProtoContext* context, int index, const ProtoObject* newValue) const {
-        if (isEmpty) return new (context) ProtoListImplementation(context, newValue, false, nullptr, nullptr);
-        const unsigned long left_size = previousNode ? previousNode->size : 0;
-        if (index <= left_size) {
-            return new (context) ProtoListImplementation(context, value, false, previousNode->implInsertAt(context, index, newValue), nextNode);
+        if (isEmpty) {
+            return new (context) ProtoListImplementation(context, newValue, false, nullptr, nullptr);
         }
-        return new (context) ProtoListImplementation(context, value, false, previousNode, nextNode->implInsertAt(context, index - left_size - 1, newValue));
+
+        const unsigned long left_size = previousNode ? previousNode->size : 0;
+
+        if (index <= left_size) {
+            const ProtoListImplementation* new_prev = previousNode
+                ? previousNode->implInsertAt(context, index, newValue)
+                : new (context) ProtoListImplementation(context, newValue, false, nullptr, nullptr);
+            return new (context) ProtoListImplementation(context, value, false, new_prev, nextNode);
+        } else {
+            const ProtoListImplementation* new_next = nextNode
+                ? nextNode->implInsertAt(context, index - left_size - 1, newValue)
+                : new (context) ProtoListImplementation(context, newValue, false, nullptr, nullptr);
+            return new (context) ProtoListImplementation(context, value, false, previousNode, new_next);
+        }
     }
+
 
     const ProtoListImplementation* ProtoListImplementation::implAppendLast(ProtoContext* context, const ProtoObject* newValue) const {
         return implInsertAt(context, size, newValue);

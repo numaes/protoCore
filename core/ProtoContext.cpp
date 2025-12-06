@@ -8,6 +8,8 @@
 #include "../headers/proto_internal.h"
 #include <stdexcept>
 #include <vector>
+#include <cstdlib>
+#include <iostream>
 
 namespace proto
 {
@@ -145,16 +147,24 @@ namespace proto
     Cell* ProtoContext::allocCell()
     {
         Cell* newCell = nullptr;
-        if (this->thread) {
+        if (this && this->thread) {
             newCell = toImpl<ProtoThreadImplementation>(this->thread)->implAllocCell(this);
         } else {
-            newCell = static_cast<Cell*>(std::malloc(sizeof(BigCell)));
+            int result = posix_memalign(reinterpret_cast<void**>(&newCell), 64, sizeof(BigCell));
         }
 
         if (newCell) {
-            this->allocatedCellsCount++;
+            if (this)
+                this->allocatedCellsCount++;
+            return newCell;
         }
-        return newCell;
+        else
+        {
+            if (this && this->space->outOfMemoryCallback)
+                (this->space->outOfMemoryCallback(this));
+            std::cerr << "NO MORE MEMORY!!: " << std::endl;
+            exit(-1);
+        }
     }
 
     /**
