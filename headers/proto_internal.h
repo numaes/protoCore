@@ -35,6 +35,7 @@ namespace proto
     class ProtoSparseListImplementation;
     class ProtoSparseListIteratorImplementation;
     class ProtoSetImplementation;
+    class ProtoMultisetImplementation;
     class TupleDictionary;
     class ProtoTupleImplementation;
     class ProtoTupleIteratorImplementation;
@@ -75,6 +76,7 @@ namespace proto
         const ProtoExternalPointer* externalPointer;
         const ProtoThread* thread;
         const ProtoSet* set;
+        const ProtoMultiset* multiset;
         const LargeIntegerImplementation* largeInteger;
         const DoubleImplementation* protoDouble;
 
@@ -92,6 +94,7 @@ namespace proto
         const ProtoExternalPointerImplementation* externalPointerImplementation;
         const ProtoThreadImplementation* threadImplementation;
         const ProtoSetImplementation* setImplementation;
+        const ProtoMultisetImplementation* multisetImplementation;
         const LargeIntegerImplementation* largeIntegerImplementation;
         const DoubleImplementation* doubleImplementation;
 
@@ -208,6 +211,7 @@ namespace proto
 #define POINTER_TAG_LARGE_INTEGER           14
 #define POINTER_TAG_DOUBLE                  15
 #define POINTER_TAG_SET                     16
+#define POINTER_TAG_MULTISET                17
 
 
     // Embedded types
@@ -623,6 +627,34 @@ namespace proto
         const ProtoSparseList* base;
     };
 
+    class ProtoMultisetImplementation final : public Cell
+    {
+    public:
+        ProtoMultisetImplementation(
+            ProtoContext* context,
+            const ProtoSparseList* base,
+            unsigned long totalSize
+        );
+        ~ProtoMultisetImplementation() override;
+
+        const ProtoMultisetImplementation* implAdd(ProtoContext* context, const ProtoObject* value) const;
+        const ProtoObject* implCount(ProtoContext* context, const ProtoObject* value) const;
+        const ProtoMultisetImplementation* implRemove(ProtoContext* context, const ProtoObject* value) const;
+        unsigned long implGetSize(ProtoContext* context) const;
+        const ProtoObject* implAsObject(ProtoContext* context) const;
+        const ProtoMultiset* asProtoMultiset(ProtoContext* context) const;
+
+        void processReferences(
+            ProtoContext* context,
+            void* self,
+            void (*method)(ProtoContext* context, void* self, const Cell* cell)
+        ) const override;
+
+    private:
+        const ProtoSparseList* base;
+        unsigned long totalSize;
+    };
+
 
     class ProtoTupleIteratorImplementation final : public Cell
     {
@@ -985,6 +1017,7 @@ namespace proto
             LargeIntegerImplementation largeIntegerCell;
             DoubleImplementation doubleCell;
             ProtoSetImplementation setCell;
+            ProtoMultisetImplementation multisetCell;
         };
     };
 
@@ -1006,6 +1039,7 @@ namespace proto
     static_assert(sizeof(LargeIntegerImplementation) <= 64, "LargeIntegerImplementation exceeds 64 bytes!");
     static_assert(sizeof(DoubleImplementation) <= 64, "DoubleImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoSetImplementation) <= 64, "ProtoSetImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoMultisetImplementation) <= 64, "ProtoMultisetImplementation exceeds 64 bytes!");
 
 } // namespace proto
 

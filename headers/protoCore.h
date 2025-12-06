@@ -31,6 +31,7 @@ namespace proto
     class ProtoSparseList;
     class ProtoSparseListIterator;
     class ProtoSet;
+    class ProtoMultiset;
     class ProtoObjectCell;
     class ProtoThread;
     class ProtoSpaceImplementation;
@@ -98,6 +99,7 @@ namespace proto
         bool isDouble(ProtoContext* context) const;
         bool isTuple(ProtoContext* context) const;
         bool isSet(ProtoContext* context) const;
+        bool isMultiset(ProtoContext* context) const;
 
         //- Type Coercion
         bool asBoolean(ProtoContext* context) const;
@@ -116,6 +118,7 @@ namespace proto
         const ProtoSparseList* asSparseList(ProtoContext* context) const;
         const ProtoSparseListIterator* asSparseListIterator(ProtoContext* context) const;
         const ProtoSet* asSet(ProtoContext* context) const;
+        const ProtoMultiset* asMultiset(ProtoContext* context) const;
         const ProtoThread* asThread(ProtoContext* context) const;
         ProtoMethod asMethod(ProtoContext* context) const;
 
@@ -302,6 +305,16 @@ namespace proto
         const ProtoObject* asObject(ProtoContext* context) const;
     };
 
+    class ProtoMultiset
+    {
+    public:
+        const ProtoMultiset* add(ProtoContext* context, const ProtoObject* value) const;
+        const ProtoObject* count(ProtoContext* context, const ProtoObject* value) const;
+        const ProtoMultiset* remove(ProtoContext* context, const ProtoObject* value) const;
+        unsigned long getSize(ProtoContext* context) const;
+        const ProtoObject* asObject(ProtoContext* context) const;
+    };
+
     class ProtoByteBuffer
     {
     public:
@@ -421,6 +434,7 @@ namespace proto
         const ProtoTuple* newTupleFromList(const ProtoList* sourceList);
         const ProtoSparseList* newSparseList();
         const ProtoSet* newSet();
+        const ProtoMultiset* newMultiset();
         const ProtoObject* newObject(bool mutableObject = false);
 
         //- Memory Management
@@ -472,6 +486,7 @@ namespace proto
         ProtoObject* sparseListPrototype{};
         ProtoObject* sparseListIteratorPrototype{};
         ProtoObject* setPrototype{};
+        ProtoObject* multisetPrototype{};
 
         // --- Cached Literals ---
         ProtoString* literalGetAttribute;
