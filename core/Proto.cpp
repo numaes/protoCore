@@ -137,7 +137,6 @@ namespace proto
         if (isCell(context)) {
             ProtoObjectPointer pa{};
             pa.oid = this;
-            pa.op.pointer_tag = 0;
             return (const Cell*)pa.voidPointer;
         }
         return nullptr;
