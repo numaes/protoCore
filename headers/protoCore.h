@@ -390,7 +390,7 @@ namespace proto
         const ProtoObject* fromLong(long long value);
         const ProtoObject* fromString(const char* str, int base = 10);
         const ProtoObject* fromDouble(double value);
-        const ProtoObject* fromUTF8Char(const char* utf8OneCharString);
+        const ProtoObject* fromUnicodeChar(unsigned int unicodeChar);
         const ProtoObject* fromUTF8String(const char* zeroTerminatedUtf8String);
         const ProtoObject* fromMethod(ProtoObject* self, ProtoMethod method);
         const ProtoObject* fromExternalPointer(void* pointer);

@@ -177,11 +177,36 @@ namespace proto
     const ProtoObject* ProtoContext::fromUTF8String(const char* zeroTerminatedUtf8String)
     {
         const ProtoList* charList = this->newList();
-        const char* currentChar = zeroTerminatedUtf8String;
-        while (*currentChar)
-        {
-            charList = charList->appendLast(this, fromUTF8Char(currentChar));
-            currentChar++;
+        const unsigned char* s = (const unsigned char*)zeroTerminatedUtf8String;
+        while (*s) {
+            unsigned int unicodeChar;
+            int len;
+            if (*s < 0x80) {
+                unicodeChar = *s;
+                len = 1;
+            } else if ((*s & 0xE0) == 0xC0) {
+                unicodeChar = *s & 0x1F;
+                len = 2;
+            } else if ((*s & 0xF0) == 0xE0) {
+                unicodeChar = *s & 0x0F;
+                len = 3;
+            } else { // Assuming 4-byte character
+                unicodeChar = *s & 0x07;
+                len = 4;
+            }
+
+            for (int i = 1; i < len; ++i) {
+                if (s[i] == '\0' || (s[i] & 0xC0) != 0x80) {
+                    // Invalid UTF-8 sequence, handle error appropriately
+                    // For now, let's treat it as a single byte character
+                    unicodeChar = *s;
+                    len = 1;
+                    break;
+                }
+                unicodeChar = (unicodeChar << 6) | (s[i] & 0x3F);
+            }
+            charList = charList->appendLast(this, fromUnicodeChar(unicodeChar));
+            s += len;
         }
         const auto newString = new(this) ProtoStringImplementation(this, ProtoTupleImplementation::tupleFromList(this, charList));
         return newString->implAsObject(this);
@@ -241,24 +266,11 @@ namespace proto
         return (new(this) DoubleImplementation(this, value))->implAsObject(this);
     }
 
-    const ProtoObject* ProtoContext::fromUTF8Char(const char* utf8OneCharString) {
+    const ProtoObject* ProtoContext::fromUnicodeChar(unsigned int unicodeChar) {
         ProtoObjectPointer p{};
-        union { char asBytes[4]; unsigned int asUnicodeChar; } build_buffer{};
         p.si.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
         p.si.embedded_type = EMBEDDED_TYPE_UNICODE_CHAR;
-        
-        const unsigned char* c = (const unsigned char*)utf8OneCharString;
-        int len = 0;
-        if (c[0] < 0x80) len = 1;
-        else if ((c[0] & 0xE0) == 0xC0) len = 2;
-        else if ((c[0] & 0xF0) == 0xE0) len = 3;
-        else if ((c[0] & 0xF8) == 0xF0) len = 4;
-
-        for (int i = 0; i < len && i < 4; ++i) {
-            build_buffer.asBytes[i] = c[i];
-        }
-        
-        p.unicodeChar.unicodeValue = build_buffer.asUnicodeChar;
+        p.unicodeChar.unicodeValue = unicodeChar;
         return p.oid.oid;
     }
 

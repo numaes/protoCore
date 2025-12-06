@@ -147,7 +147,7 @@ namespace proto
         const ProtoTupleImplementation* fromListRecursive(ProtoContext* context, const ProtoList* list, unsigned long start, unsigned long end) {
             const unsigned long count = end - start;
             if (count == 0) {
-                return nullptr;
+                return new(context) ProtoTupleImplementation(context, 0, 0, nullptr, nullptr);
             }
 
             if (count <= TUPLE_SIZE) {
@@ -163,15 +163,19 @@ namespace proto
             const ProtoTupleImplementation* indirect[TUPLE_SIZE] = {nullptr};
             unsigned long remaining = count;
             unsigned long current_pos = start;
-            unsigned long span = (count + TUPLE_SIZE - 1) / TUPLE_SIZE; // Divide y redondea hacia arriba.
+            unsigned long child_height = 0;
+
+            // This is a simplified balancing, a real rope would have a more complex algorithm
+            unsigned long span = (count + TUPLE_SIZE - 1) / TUPLE_SIZE;
 
             for (int i = 0; i < TUPLE_SIZE && remaining > 0; ++i) {
                 unsigned long chunk_size = std::min(span, remaining);
                 indirect[i] = fromListRecursive(context, list, current_pos, current_pos + chunk_size);
+                if(indirect[i]) child_height = std::max(child_height, indirect[i]->height);
                 current_pos += chunk_size;
                 remaining -= chunk_size;
             }
-            return new(context) ProtoTupleImplementation(context, count, 1, nullptr, indirect); // La altura es simplificada, una implementación completa la calcularía.
+            return new(context) ProtoTupleImplementation(context, count, child_height + 1, nullptr, indirect);
         }
     }
 
@@ -186,7 +190,6 @@ namespace proto
         if (index < 0) index += this->count;
         if (index < 0 || (unsigned long)index >= this->count) return PROTO_NONE;
 
-        // Traverse the rope structure to find the correct leaf node.
         const ProtoTupleImplementation* node = this;
         unsigned long h = this->height;
         while (h > 0) {
@@ -195,7 +198,7 @@ namespace proto
             
             unsigned long chunk_index = index / span;
             node = node->pointers.indirect[chunk_index];
-            if (!node) return PROTO_NONE; // Should not happen in a well-formed tuple
+            if (!node) return PROTO_NONE;
             index %= span;
             h--;
         }
@@ -206,11 +209,15 @@ namespace proto
         ProtoContext* context,
         const ProtoTuple* otherTuple
     ) const {
-        // Simplified implementation for linking.
-        const ProtoList* list = this->implAsList(context);
-        const ProtoList* otherList = toImpl<const ProtoTupleImplementation>(otherTuple)->implAsList(context);
-        list = list->extend(context, otherList);
-        return ProtoTupleImplementation::tupleFromList(context, list);
+        const ProtoTupleImplementation* other = toImpl<const ProtoTupleImplementation>(otherTuple);
+        if (this->count == 0) return other;
+        if (other->count == 0) return this;
+
+        const unsigned long new_count = this->count + other->count;
+        // Create a new internal node
+        const ProtoTupleImplementation* indirect[TUPLE_SIZE] = {this, other};
+        unsigned long new_height = std::max(this->height, other->height) + 1;
+        return new(context) ProtoTupleImplementation(context, new_count, new_height, nullptr, indirect);
     }
 
     unsigned long ProtoTupleImplementation::implGetSize(ProtoContext* context) const {
@@ -244,8 +251,14 @@ namespace proto
     }
 
     unsigned long ProtoTupleImplementation::getHash(ProtoContext* context) const {
-        // A proper hash would combine the hashes of all elements.
-        return Cell::getHash(context);
+        unsigned long hash = 0;
+        for (unsigned long i = 0; i < this->count; ++i) {
+            const ProtoObject* obj = this->implGetAt(context, i);
+            if (obj) {
+                hash ^= obj->getHash(context);
+            }
+        }
+        return hash;
     }
 
     const ProtoObject* ProtoTupleImplementation::implAsObject(ProtoContext* context) const
