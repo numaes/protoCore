@@ -3,11 +3,6 @@
  *
  *  Created on: 2017-05-01
  *      Author: gamarino
- *
- *  This file implements the immutable sparse list (dictionary) and its iterator.
- *  The structure is implemented as a persistent, self-balancing AVL tree, where
- *  the `key` is used for ordering. This guarantees that all operations
- *  (set, get, remove) have a time complexity of O(log n).
  */
 
 #include "../headers/proto_internal.h"
@@ -18,99 +13,62 @@ namespace proto
     //=========================================================================
     // ProtoSparseListIteratorImplementation
     //=========================================================================
+    ProtoSparseListIteratorImplementation::ProtoSparseListIteratorImplementation(ProtoContext* context, int s, const ProtoSparseListImplementation* c, const ProtoSparseListIteratorImplementation* q)
+        : Cell(context), state(s), current(c), queue(q) {}
 
-    /**
-     * @class ProtoSparseListIteratorImplementation
-     * @brief An iterator for traversing a `ProtoSparseList`.
-     *
-     * This iterator performs an in-order traversal of the underlying AVL tree.
-     */
-    ProtoSparseListIteratorImplementation::ProtoSparseListIteratorImplementation(
-        ProtoContext* context,
-        const ProtoSparseListImplementation* current,
-        const ProtoSparseListIteratorImplementation* queue
-    ) : Cell(context), current(current), queue(queue) {}
-
-
-    ProtoSparseListIteratorImplementation::~ProtoSparseListIteratorImplementation() = default;
-
-    int ProtoSparseListIteratorImplementation::implHasNext(ProtoContext* context) const
-    {
-        return this->current != nullptr;
+    int ProtoSparseListIteratorImplementation::implHasNext() const {
+        if (state == ITERATOR_NEXT_PREVIOUS && current && current->previous) return true;
+        if (state == ITERATOR_NEXT_THIS && current && !current->isEmpty) return true;
+        if (state == ITERATOR_NEXT_NEXT && current && current->next) return true;
+        if (queue) return queue->implHasNext();
+        return false;
     }
 
-    unsigned long ProtoSparseListIteratorImplementation::implNextKey(ProtoContext* context) const
-    {
-        return this->current ? this->current->key : 0;
+    unsigned long ProtoSparseListIteratorImplementation::implNextKey() const {
+        return (state == ITERATOR_NEXT_THIS && current) ? current->key : 0;
     }
 
-    const ProtoObject* ProtoSparseListIteratorImplementation::implNextValue(ProtoContext* context) const
-    {
-        return this->current ? this->current->value : PROTO_NONE;
+    const ProtoObject* ProtoSparseListIteratorImplementation::implNextValue() const {
+        return (state == ITERATOR_NEXT_THIS && current) ? current->value : PROTO_NONE;
     }
 
-    const ProtoSparseListIteratorImplementation* ProtoSparseListIteratorImplementation::implAdvance(ProtoContext* context) const
-    {
-        return this->queue;
+    const ProtoSparseListIteratorImplementation* ProtoSparseListIteratorImplementation::implAdvance(ProtoContext* context) const {
+        if (state == ITERATOR_NEXT_PREVIOUS) {
+            return new(context) ProtoSparseListIteratorImplementation(context, ITERATOR_NEXT_THIS, current, queue);
+        }
+        if (state == ITERATOR_NEXT_THIS) {
+            if (current && current->next) return current->next->implGetIterator(context);
+            if (queue) return queue->implAdvance(context);
+            return nullptr;
+        }
+        if (state == ITERATOR_NEXT_NEXT && queue) {
+            return queue->implAdvance(context);
+        }
+        return nullptr;
     }
 
-    const ProtoObject* ProtoSparseListIteratorImplementation::implAsObject(ProtoContext* context) const
-    {
-        ProtoObjectPointer p{};
-        p.sparseListIteratorImplementation = this;
+    const ProtoObject* ProtoSparseListIteratorImplementation::implAsObject(ProtoContext* context) const {
+        ProtoObjectPointer p;
+        p.voidPointer = const_cast<ProtoSparseListIteratorImplementation*>(this);
         p.op.pointer_tag = POINTER_TAG_SPARSE_LIST_ITERATOR;
-        return p.oid.oid;
+        return p.oid;
     }
 
-    void ProtoSparseListIteratorImplementation::finalize(ProtoContext* context) const {}
-
-    void ProtoSparseListIteratorImplementation::processReferences(
-        ProtoContext* context,
-        void* self,
-        void (*method)(ProtoContext* context, void* self, const Cell* cell)
-    ) const
-    {
-        if (this->current) method(context, self, this->current);
-        if (this->queue) method(context, self, this->queue);
+    void ProtoSparseListIteratorImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
+        if (current) method(context, self, current);
+        if (queue) method(context, self, queue);
     }
-
-    unsigned long ProtoSparseListIteratorImplementation::getHash(ProtoContext* context) const
-    {
-        return Cell::getHash(context);
-    }
-
 
     //=========================================================================
     // ProtoSparseListImplementation
     //=========================================================================
+    ProtoSparseListImplementation::ProtoSparseListImplementation(ProtoContext* context, unsigned long k, const ProtoObject* v, const ProtoSparseListImplementation* p, const ProtoSparseListImplementation* n, bool empty)
+        : Cell(context), key(k), value(v), previous(p), next(n),
+          hash(empty ? 0 : k ^ (v ? v->getHash(context) : 0) ^ (p ? p->hash : 0) ^ (n ? n->hash : 0)),
+          size(empty ? 0 : (v != PROTO_NONE) + (p ? p->size : 0) + (n ? n->size : 0)),
+          height(empty ? 0 : 1 + std::max(p ? p->height : 0, n ? n->height : 0)),
+          isEmpty(empty) {}
 
-    /**
-     * @class ProtoSparseListImplementation
-     * @brief An immutable, persistent dictionary (key-value map) implemented as an AVL tree.
-     */
-
-    ProtoSparseListImplementation::ProtoSparseListImplementation(
-        ProtoContext* context,
-        unsigned long key,
-        const ProtoObject* value,
-        const ProtoSparseListImplementation* previous,
-        const ProtoSparseListImplementation* next,
-        bool isEmpty
-    ) : Cell(context),
-        key(key),
-        value(value),
-        previous(previous),
-        next(next),
-        hash(isEmpty ? 0 : key ^ (value ? value->getHash(context) : 0) ^ (previous ? previous->hash : 0) ^ (next ? next->hash : 0)),
-        size(isEmpty ? 0 : 1 + (previous ? previous->size : 0) + (next ? next->size : 0)),
-        height(isEmpty ? 0 : 1 + std::max(previous ? previous->height : 0, next ? next->height : 0)),
-        isEmpty(isEmpty)
-    {
-    }
-
-    ProtoSparseListImplementation::~ProtoSparseListImplementation() = default;
-
-    // --- Anonymous Namespace for AVL Tree Helpers ---
     namespace {
         int getHeight(const ProtoSparseListImplementation* node) { return node ? node->height : 0; }
         int getBalance(const ProtoSparseListImplementation* node) {
@@ -121,170 +79,109 @@ namespace proto
         const ProtoSparseListImplementation* rightRotate(ProtoContext* context, const ProtoSparseListImplementation* y) {
             const ProtoSparseListImplementation* x = y->previous;
             const ProtoSparseListImplementation* T2 = x->next;
-            auto* new_y = new(context) ProtoSparseListImplementation(context, y->key, y->value, T2, y->next);
-            return new(context) ProtoSparseListImplementation(context, x->key, x->value, x->previous, new_y);
+            auto* new_y = new(context) ProtoSparseListImplementation(context, y->key, y->value, T2, y->next, false);
+            return new(context) ProtoSparseListImplementation(context, x->key, x->value, x->previous, new_y, false);
         }
 
         const ProtoSparseListImplementation* leftRotate(ProtoContext* context, const ProtoSparseListImplementation* x) {
             const ProtoSparseListImplementation* y = x->next;
             const ProtoSparseListImplementation* T2 = y->previous;
-            auto* new_x = new(context) ProtoSparseListImplementation(context, x->key, x->value, x->previous, T2);
-            return new(context) ProtoSparseListImplementation(context, y->key, y->value, new_x, y->next);
+            auto* new_x = new(context) ProtoSparseListImplementation(context, x->key, x->value, x->previous, T2, false);
+            return new(context) ProtoSparseListImplementation(context, y->key, y->value, new_x, y->next, false);
         }
 
         const ProtoSparseListImplementation* rebalance(ProtoContext* context, const ProtoSparseListImplementation* node) {
-            const int balance = getBalance(node);
-            if (balance > 1) { // Left heavy
-                if (getBalance(node->previous) < 0) { // Left-Right Case
-                    const ProtoSparseListImplementation* new_prev = leftRotate(context, node->previous);
-                    const auto* new_node = new(context) ProtoSparseListImplementation(context, node->key, node->value, new_prev, node->next);
-                    return rightRotate(context, new_node);
+            int balance = getBalance(node);
+            if (balance > 1) {
+                if (getBalance(node->previous) < 0) {
+                    return rightRotate(context, new(context) ProtoSparseListImplementation(context, node->key, node->value, leftRotate(context, node->previous), node->next, false));
                 }
-                return rightRotate(context, node); // Left-Left Case
+                return rightRotate(context, node);
             }
-            if (balance < -1) { // Right heavy
-                if (getBalance(node->next) > 0) { // Right-Left Case
-                    const ProtoSparseListImplementation* new_next = rightRotate(context, node->next);
-                    const auto* new_node = new(context) ProtoSparseListImplementation(context, node->key, node->value, node->previous, new_next);
-                    return leftRotate(context, new_node);
+            if (balance < -1) {
+                if (getBalance(node->next) > 0) {
+                    return leftRotate(context, new(context) ProtoSparseListImplementation(context, node->key, node->value, node->previous, rightRotate(context, node->next), false));
                 }
-                return leftRotate(context, node); // Right-Right Case
+                return leftRotate(context, node);
             }
-            return node; // Already balanced
+            return node;
         }
     }
 
-    bool ProtoSparseListImplementation::implHas(ProtoContext* context, const unsigned long offset) const {
+    bool ProtoSparseListImplementation::implHas(ProtoContext* context, unsigned long offset) const {
         return implGetAt(context, offset) != PROTO_NONE;
     }
 
-    const ProtoObject* ProtoSparseListImplementation::implGetAt(ProtoContext* context, const unsigned long offset) const {
+    const ProtoObject* ProtoSparseListImplementation::implGetAt(ProtoContext* context, unsigned long offset) const {
         const auto* node = this;
         while (node && !node->isEmpty) {
-            if (offset < node->key) {
-                node = node->previous;
-            } else if (offset > node->key) {
-                node = node->next;
-            } else {
-                return node->value;
-            }
+            if (offset < node->key) node = node->previous;
+            else if (offset > node->key) node = node->next;
+            else return node->value;
         }
         return PROTO_NONE;
     }
 
-    const ProtoSparseListImplementation* ProtoSparseListImplementation::implSetAt(ProtoContext* context, const unsigned long offset, const ProtoObject* newValue) const {
-        if (this->isEmpty) {
+    const ProtoSparseListImplementation* ProtoSparseListImplementation::implSetAt(ProtoContext* context, unsigned long offset, const ProtoObject* newValue) const {
+        if (isEmpty) {
             return new(context) ProtoSparseListImplementation(context, offset, newValue, nullptr, nullptr, false);
         }
-
         const ProtoSparseListImplementation* newNode;
-        if (offset < this->key) {
-            const ProtoSparseListImplementation* new_prev = this->previous ? this->previous->implSetAt(context, offset, newValue) : new(context) ProtoSparseListImplementation(context, offset, newValue, nullptr, nullptr, false);
-            newNode = new(context) ProtoSparseListImplementation(context, this->key, this->value, new_prev, this->next, false);
-        } else if (offset > this->key) {
-            const ProtoSparseListImplementation* new_next = this->next ? this->next->implSetAt(context, offset, newValue) : new(context) ProtoSparseListImplementation(context, offset, newValue, nullptr, nullptr, false);
-            newNode = new(context) ProtoSparseListImplementation(context, this->key, this->value, this->previous, new_next, false);
+        if (offset < key) {
+            const auto* new_prev = previous ? previous->implSetAt(context, offset, newValue) : new(context) ProtoSparseListImplementation(context, offset, newValue, nullptr, nullptr, false);
+            newNode = new(context) ProtoSparseListImplementation(context, key, value, new_prev, next, false);
+        } else if (offset > key) {
+            const auto* new_next = next ? next->implSetAt(context, offset, newValue) : new(context) ProtoSparseListImplementation(context, offset, newValue, nullptr, nullptr, false);
+            newNode = new(context) ProtoSparseListImplementation(context, key, value, previous, new_next, false);
         } else {
-            if (this->value == newValue) return this; // No change
-            newNode = new(context) ProtoSparseListImplementation(context, this->key, newValue, this->previous, this->next, false);
+            if (value == newValue) return this;
+            newNode = new(context) ProtoSparseListImplementation(context, key, newValue, previous, next, false);
         }
         return rebalance(context, newNode);
     }
 
     const ProtoSparseListImplementation* findMin(const ProtoSparseListImplementation* node) {
-        while (node && node->previous && !node->previous->isEmpty) {
-            node = node->previous;
-        }
+        while (node && node->previous && !node->previous->isEmpty) node = node->previous;
         return node;
     }
 
-    const ProtoSparseListImplementation* ProtoSparseListImplementation::implRemoveAt(ProtoContext* context, const unsigned long offset) const {
-        if (this->isEmpty) return this;
-
+    const ProtoSparseListImplementation* ProtoSparseListImplementation::implRemoveAt(ProtoContext* context, unsigned long offset) const {
+        if (isEmpty) return this;
         const ProtoSparseListImplementation* newNode;
-        if (offset < this->key) {
-            if (!this->previous) return this;
-            auto* new_prev = this->previous->implRemoveAt(context, offset);
-            newNode = new(context) ProtoSparseListImplementation(context, this->key, this->value, new_prev, this->next, false);
-        } else if (offset > this->key) {
-            if (!this->next) return this;
-            auto* new_next = this->next->implRemoveAt(context, offset);
-            newNode = new(context) ProtoSparseListImplementation(context, this->key, this->value, this->previous, new_next, false);
+        if (offset < key) {
+            if (!previous) return this;
+            newNode = new(context) ProtoSparseListImplementation(context, key, value, previous->implRemoveAt(context, offset), next, false);
+        } else if (offset > key) {
+            if (!next) return this;
+            newNode = new(context) ProtoSparseListImplementation(context, key, value, previous, next->implRemoveAt(context, offset), false);
         } else {
-            // Node to delete is found
-            if (!this->previous || this->previous->isEmpty) return this->next;
-            if (!this->next || this->next->isEmpty) return this->previous;
-
-            // Node with two children: get the in-order successor (smallest in the right subtree)
-            const ProtoSparseListImplementation* successor = findMin(this->next);
-            auto* new_next = this->next->implRemoveAt(context, successor->key);
-            newNode = new(context) ProtoSparseListImplementation(context, successor->key, successor->value, this->previous, new_next, false);
+            if (!previous || previous->isEmpty) return next;
+            if (!next || next->isEmpty) return previous;
+            const ProtoSparseListImplementation* successor = findMin(next);
+            newNode = new(context) ProtoSparseListImplementation(context, successor->key, successor->value, previous, next->implRemoveAt(context, successor->key), false);
         }
         return rebalance(context, newNode);
     }
 
-    unsigned long ProtoSparseListImplementation::implGetSize(ProtoContext* context) const { return this->size; }
-
-    bool ProtoSparseListImplementation::implIsEqual(ProtoContext* context, const ProtoSparseListImplementation* otherDict) const {
-        if (this->size != otherDict->size) return false;
-        auto it = this->implGetIterator(context);
-        while (it->implHasNext(context)) {
-            const auto key = it->implNextKey(context);
-            if (otherDict->implGetAt(context, key) != this->implGetAt(context, key)) return false;
-            it = it->implAdvance(context);
+    const ProtoSparseListIteratorImplementation* ProtoSparseListImplementation::implGetIterator(ProtoContext* context) const {
+        const auto* node = this;
+        const ProtoSparseListIteratorImplementation* queue = nullptr;
+        while (node && !node->isEmpty) {
+            queue = new(context) ProtoSparseListIteratorImplementation(context, ITERATOR_NEXT_NEXT, node, queue);
+            node = node->previous;
         }
-        return true;
-    }
-
-    void ProtoSparseListImplementation::implProcessElements(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, unsigned long, const ProtoObject*)) const {
-        if (this->isEmpty) return;
-        if (this->previous) this->previous->implProcessElements(context, self, method);
-        method(context, self, this->key, this->value);
-        if (this->next) this->next->implProcessElements(context, self, method);
-    }
-
-    void ProtoSparseListImplementation::implProcessValues(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const ProtoObject*, const Cell*)) const {
-        if (this->isEmpty) return;
-        if (this->previous) this->previous->implProcessValues(context, self, method);
-        method(context, self, this->value, this);
-        if (this->next) this->next->implProcessValues(context, self, method);
-    }
-
-    void ProtoSparseListImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
-        if (this->isEmpty) return;
-        if (this->previous) method(context, self, this->previous);
-        if (this->next) method(context, self, this->next);
-        if (this->value && this->value->isCell(context)) method(context, self, this->value->asCell(context));
+        if (queue) return new(context) ProtoSparseListIteratorImplementation(context, ITERATOR_NEXT_PREVIOUS, queue->current, queue->queue);
+        return nullptr;
     }
 
     const ProtoObject* ProtoSparseListImplementation::implAsObject(ProtoContext* context) const {
         ProtoObjectPointer p{};
-        p.sparseListImplementation = this;
+        p.voidPointer = const_cast<ProtoSparseListImplementation*>(this);
         p.op.pointer_tag = POINTER_TAG_SPARSE_LIST;
-        return p.oid.oid;
+        return p.oid;
     }
-
-    const ProtoSparseListIteratorImplementation* ProtoSparseListImplementation::implGetIterator(ProtoContext* context) const {
-        const ProtoSparseListImplementation* node = this;
-        const ProtoSparseListIteratorImplementation* stack = nullptr;
-        while (node && !node->isEmpty) {
-            stack = new(context) ProtoSparseListIteratorImplementation(context, node, stack);
-            node = node->previous;
-        }
-        return stack;
-    }
-
-    unsigned long ProtoSparseListImplementation::getHash(ProtoContext* context) const { return this->hash; }
-
-    void ProtoSparseListImplementation::finalize(ProtoContext* context) const {}
 
     const ProtoSparseList* ProtoSparseListImplementation::asSparseList(ProtoContext* context) const {
-        return (const ProtoSparseList*)this->implAsObject(context);
-    }
-
-    // --- Public API Trampolines ---
-
-    const ProtoSparseList* ProtoSparseList::removeAt(ProtoContext* context, unsigned long index) const {
-        return toImpl<const ProtoSparseListImplementation>(this)->implRemoveAt(context, index)->asSparseList(context);
+        return reinterpret_cast<const ProtoSparseList*>(implAsObject(context));
     }
 }

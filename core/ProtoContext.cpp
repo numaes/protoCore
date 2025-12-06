@@ -197,8 +197,6 @@ namespace proto
 
             for (int i = 1; i < len; ++i) {
                 if (s[i] == '\0' || (s[i] & 0xC0) != 0x80) {
-                    // Invalid UTF-8 sequence, handle error appropriately
-                    // For now, let's treat it as a single byte character
                     unicodeChar = *s;
                     len = 1;
                     break;

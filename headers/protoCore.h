@@ -31,7 +31,9 @@ namespace proto
     class ProtoSparseList;
     class ProtoSparseListIterator;
     class ProtoSet;
+    class ProtoSetIterator;
     class ProtoMultiset;
+    class ProtoMultisetIterator;
     class ProtoObjectCell;
     class ProtoThread;
     class ProtoSpaceImplementation;
@@ -118,7 +120,9 @@ namespace proto
         const ProtoSparseList* asSparseList(ProtoContext* context) const;
         const ProtoSparseListIterator* asSparseListIterator(ProtoContext* context) const;
         const ProtoSet* asSet(ProtoContext* context) const;
+        const ProtoSetIterator* asSetIterator(ProtoContext* context) const;
         const ProtoMultiset* asMultiset(ProtoContext* context) const;
+        const ProtoMultisetIterator* asMultisetIterator(ProtoContext* context) const;
         const ProtoThread* asThread(ProtoContext* context) const;
         ProtoMethod asMethod(ProtoContext* context) const;
 
@@ -295,6 +299,15 @@ namespace proto
         void processValues(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const ProtoObject*)) const;
     };
 
+    class ProtoSetIterator
+    {
+    public:
+        int hasNext(ProtoContext* context) const;
+        const ProtoObject* next(ProtoContext* context) const;
+        const ProtoSetIterator* advance(ProtoContext* context) const;
+        const ProtoObject* asObject(ProtoContext* context) const;
+    };
+
     /**
      * @class ProtoSet
      * @brief An immutable collection of unique objects.
@@ -325,6 +338,20 @@ namespace proto
         /**
          * @brief Returns the set as a generic ProtoObject.
          */
+        const ProtoObject* asObject(ProtoContext* context) const;
+
+        /**
+         * @brief Returns an iterator for the set.
+         */
+        const ProtoSetIterator* getIterator(ProtoContext* context) const;
+    };
+
+    class ProtoMultisetIterator
+    {
+    public:
+        int hasNext(ProtoContext* context) const;
+        const ProtoObject* next(ProtoContext* context) const;
+        const ProtoMultisetIterator* advance(ProtoContext* context) const;
         const ProtoObject* asObject(ProtoContext* context) const;
     };
 
@@ -359,6 +386,11 @@ namespace proto
          * @brief Returns the multiset as a generic ProtoObject.
          */
         const ProtoObject* asObject(ProtoContext* context) const;
+
+        /**
+         * @brief Returns an iterator for the multiset.
+         */
+        const ProtoMultisetIterator* getIterator(ProtoContext* context) const;
     };
 
     class ProtoByteBuffer
@@ -532,7 +564,9 @@ namespace proto
         ProtoObject* sparseListPrototype{};
         ProtoObject* sparseListIteratorPrototype{};
         ProtoObject* setPrototype{};
+        ProtoObject* setIteratorPrototype{};
         ProtoObject* multisetPrototype{};
+        ProtoObject* multisetIteratorPrototype{};
 
         // --- Cached Literals ---
         ProtoString* literalGetAttribute;

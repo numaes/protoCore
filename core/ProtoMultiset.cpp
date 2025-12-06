@@ -3,17 +3,83 @@
  *
  *  Created on: 2024-05-23
  *      Author: gamarino
- *
- *  This file implements the immutable multiset. The implementation is based on
- *  a ProtoSparseList where keys are object hashes. Values are ProtoList instances
- *  (buckets) that store ProtoTuple pairs of [object, count] to handle both
- *  hash collisions and element counts.
  */
 
 #include "../headers/proto_internal.h"
 
 namespace proto
 {
+    //=========================================================================
+    // ProtoMultisetIteratorImplementation
+    //=========================================================================
+
+    ProtoMultisetIteratorImplementation::ProtoMultisetIteratorImplementation(
+        ProtoContext* context,
+        const ProtoSparseListIterator* sparseListIterator,
+        const ProtoListIterator* bucketIterator,
+        const ProtoObject* currentObject,
+        long count
+    ) : Cell(context), sparseListIterator(sparseListIterator), bucketIterator(bucketIterator), currentObject(currentObject), count(count)
+    {
+    }
+
+    int ProtoMultisetIteratorImplementation::implHasNext(ProtoContext* context) const
+    {
+        return this->count > 0 || (this->bucketIterator && this->bucketIterator->hasNext(context)) || (this->sparseListIterator && this->sparseListIterator->hasNext(context));
+    }
+
+    const ProtoObject* ProtoMultisetIteratorImplementation::implNext(ProtoContext* context) const
+    {
+        return this->currentObject;
+    }
+
+    const ProtoMultisetIteratorImplementation* ProtoMultisetIteratorImplementation::implAdvance(ProtoContext* context) const
+    {
+        if (this->count > 1) {
+            return new(context) ProtoMultisetIteratorImplementation(context, this->sparseListIterator, this->bucketIterator, this->currentObject, this->count - 1);
+        }
+
+        const ProtoListIterator* nextBucketIterator = this->bucketIterator;
+        if (nextBucketIterator && nextBucketIterator->hasNext(context)) {
+             nextBucketIterator = toImpl<const ProtoListIteratorImplementation>(nextBucketIterator->advance(context))->asProtoListIterator(context);
+        }
+
+        if (nextBucketIterator && nextBucketIterator->hasNext(context)) {
+            const auto* entry = toImpl<const ProtoTuple>(nextBucketIterator->next(context));
+            return new(context) ProtoMultisetIteratorImplementation(context, this->sparseListIterator, nextBucketIterator, entry->getAt(context, 0), entry->getAt(context, 1)->asLong(context));
+        }
+
+        const ProtoSparseListIterator* nextSparseIterator = this->sparseListIterator;
+        while (nextSparseIterator && nextSparseIterator->hasNext(context)) {
+            nextSparseIterator = toImpl<const ProtoSparseListIteratorImplementation>(nextSparseIterator->advance(context))->asSparseListIterator(context);
+            if (nextSparseIterator) {
+                const ProtoList* bucket = toImpl<const ProtoList>(nextSparseIterator->nextValue(context));
+                if (bucket && bucket->getSize(context) > 0) {
+                    const ProtoListIterator* newBucketIterator = bucket->getIterator(context);
+                    const auto* entry = toImpl<const ProtoTuple>(newBucketIterator->next(context));
+                    return new(context) ProtoMultisetIteratorImplementation(context, nextSparseIterator, newBucketIterator, entry->getAt(context, 0), entry->getAt(context, 1)->asLong(context));
+                }
+            }
+        }
+
+        return new(context) ProtoMultisetIteratorImplementation(context, nullptr, nullptr, nullptr, 0);
+    }
+
+    const ProtoObject* ProtoMultisetIteratorImplementation::implAsObject(ProtoContext* context) const
+    {
+        ProtoObjectPointer p;
+        p.multisetIteratorImplementation = this;
+        p.op.pointer_tag = POINTER_TAG_MULTISET_ITERATOR;
+        return p.oid.oid;
+    }
+
+    void ProtoMultisetIteratorImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const
+    {
+        if (this->sparseListIterator) method(context, self, toImpl<const Cell>(this->sparseListIterator));
+        if (this->bucketIterator) method(context, self, toImpl<const Cell>(this->bucketIterator));
+        if (this->currentObject && this->currentObject->isCell(context)) method(context, self, this->currentObject->asCell(context));
+    }
+
     //=========================================================================
     // ProtoMultisetImplementation
     //=========================================================================
@@ -123,9 +189,18 @@ namespace proto
         return new(context) ProtoMultisetImplementation(context, newBase, this->totalSize - 1);
     }
 
-    unsigned long ProtoMultisetImplementation::implGetSize(ProtoContext* context) const
+    const ProtoMultisetIteratorImplementation* ProtoMultisetImplementation::implGetIterator(ProtoContext* context) const
     {
-        return this->totalSize;
+        const ProtoSparseListIterator* sparseIterator = this->base->getIterator(context);
+        if (sparseIterator && sparseIterator->hasNext(context)) {
+            const ProtoList* bucket = toImpl<const ProtoList>(sparseIterator->nextValue(context));
+            if (bucket && bucket->getSize(context) > 0) {
+                const ProtoListIterator* bucketIterator = bucket->getIterator(context);
+                const auto* entry = toImpl<const ProtoTuple>(bucketIterator->next(context));
+                return new(context) ProtoMultisetIteratorImplementation(context, sparseIterator, bucketIterator, entry->getAt(context, 0), entry->getAt(context, 1)->asLong(context));
+            }
+        }
+        return new(context) ProtoMultisetIteratorImplementation(context, sparseIterator, nullptr, nullptr, 0);
     }
 
     void ProtoMultisetImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const
@@ -163,10 +238,15 @@ namespace proto
     }
 
     unsigned long ProtoMultiset::getSize(ProtoContext* context) const {
-        return toImpl<const ProtoMultisetImplementation>(this)->implGetSize(context);
+        return toImpl<const ProtoMultisetImplementation>(this)->implGetSize();
     }
 
     const ProtoObject* ProtoMultiset::asObject(ProtoContext* context) const {
         return toImpl<const ProtoMultisetImplementation>(this)->implAsObject(context);
+    }
+
+    const ProtoMultisetIterator* ProtoMultiset::getIterator(ProtoContext* context) const {
+        const auto* impl = toImpl<const ProtoMultisetImplementation>(this)->implGetIterator(context);
+        return impl ? (const ProtoMultisetIterator*)impl->implAsObject(context) : nullptr;
     }
 }
