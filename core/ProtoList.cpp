@@ -135,4 +135,10 @@ namespace proto {
         p.op.pointer_tag = POINTER_TAG_LIST_ITERATOR;
         return p.oid;
     }
+
+    void ProtoListIteratorImplementation::processReferences(ProtoContext* context, void* callback_data, void (*callback)(ProtoContext*, void*, const Cell*)) const {
+        if (base) {
+            callback(context, callback_data, (const Cell*)base);
+        }
+    }
 }

@@ -30,6 +30,8 @@ add_library(proto STATIC
     core/ProtoTuple.cpp
     core/Thread.cpp
     core/ProtoExternalPointer.cpp
+    core/ProtoSet.cpp
+    core/ProtoMultiset.cpp
 )
 
 # The headers directory is made public so that any consumer linking against
