@@ -295,23 +295,69 @@ namespace proto
         void processValues(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const ProtoObject*)) const;
     };
 
+    /**
+     * @class ProtoSet
+     * @brief An immutable collection of unique objects.
+     */
     class ProtoSet
     {
     public:
+        /**
+         * @brief Returns a new set with the given value added.
+         */
         const ProtoSet* add(ProtoContext* context, const ProtoObject* value) const;
+
+        /**
+         * @brief Returns PROTO_TRUE if the value is in the set, otherwise PROTO_FALSE.
+         */
         const ProtoObject* has(ProtoContext* context, const ProtoObject* value) const;
+
+        /**
+         * @brief Returns a new set with the given value removed.
+         */
         const ProtoSet* remove(ProtoContext* context, const ProtoObject* value) const;
+
+        /**
+         * @brief Returns the number of unique elements in the set.
+         */
         unsigned long getSize(ProtoContext* context) const;
+
+        /**
+         * @brief Returns the set as a generic ProtoObject.
+         */
         const ProtoObject* asObject(ProtoContext* context) const;
     };
 
+    /**
+     * @class ProtoMultiset
+     * @brief An immutable collection that can store multiple occurrences of the same object.
+     */
     class ProtoMultiset
     {
     public:
+        /**
+         * @brief Returns a new multiset with the given value added.
+         */
         const ProtoMultiset* add(ProtoContext* context, const ProtoObject* value) const;
+
+        /**
+         * @brief Returns the number of times the given value appears in the multiset.
+         */
         const ProtoObject* count(ProtoContext* context, const ProtoObject* value) const;
+
+        /**
+         * @brief Returns a new multiset with one occurrence of the given value removed.
+         */
         const ProtoMultiset* remove(ProtoContext* context, const ProtoObject* value) const;
+
+        /**
+         * @brief Returns the total number of elements in the multiset (including duplicates).
+         */
         unsigned long getSize(ProtoContext* context) const;
+
+        /**
+         * @brief Returns the multiset as a generic ProtoObject.
+         */
         const ProtoObject* asObject(ProtoContext* context) const;
     };
 
