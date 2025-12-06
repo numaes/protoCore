@@ -128,4 +128,11 @@ namespace proto {
         p.op.pointer_tag = POINTER_TAG_LIST_ITERATOR;
         return p.listIterator;
     }
+
+    const ProtoObject* ProtoListIteratorImplementation::implAsObject(ProtoContext* context) const {
+        ProtoObjectPointer p;
+        p.listIteratorImplementation = this;
+        p.op.pointer_tag = POINTER_TAG_LIST_ITERATOR;
+        return p.oid;
+    }
 }

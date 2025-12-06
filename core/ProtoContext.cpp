@@ -286,4 +286,11 @@ namespace proto
         return PROTO_NONE;
     }
 
+    void ReturnReference::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const
+    {
+        if (returnValue) {
+            method(context, self, returnValue);
+        }
+    }
+
 } // namespace proto
