@@ -15,6 +15,7 @@
 #include <string>
 #include <algorithm>
 #include <climits>
+#include <functional>
 
 
 // Method cache per thread. It should be a power of 2
@@ -33,6 +34,7 @@ namespace proto
     class ProtoListIteratorImplementation;
     class ProtoSparseListImplementation;
     class ProtoSparseListIteratorImplementation;
+    class ProtoSetImplementation;
     class TupleDictionary;
     class ProtoTupleImplementation;
     class ProtoTupleIteratorImplementation;
@@ -72,6 +74,7 @@ namespace proto
         const ProtoByteBuffer* byteBuffer;
         const ProtoExternalPointer* externalPointer;
         const ProtoThread* thread;
+        const ProtoSet* set;
         const LargeIntegerImplementation* largeInteger;
         const DoubleImplementation* protoDouble;
 
@@ -88,6 +91,7 @@ namespace proto
         const ProtoByteBufferImplementation* byteBufferImplementation;
         const ProtoExternalPointerImplementation* externalPointerImplementation;
         const ProtoThreadImplementation* threadImplementation;
+        const ProtoSetImplementation* setImplementation;
         const LargeIntegerImplementation* largeIntegerImplementation;
         const DoubleImplementation* doubleImplementation;
 
@@ -203,6 +207,7 @@ namespace proto
 #define POINTER_TAG_THREAD                  13
 #define POINTER_TAG_LARGE_INTEGER           14
 #define POINTER_TAG_DOUBLE                  15
+#define POINTER_TAG_SET                     16
 
 
     // Embedded types
@@ -508,51 +513,51 @@ namespace proto
 
     // --- ProtoSparseListIteratorImplementation ---
     class ProtoSparseListIteratorImplementation final : public Cell
-        {
-        public:
-            ProtoSparseListIteratorImplementation(
-                ProtoContext* context,
-                int state, // <-- Añadir state
-                const ProtoSparseListImplementation* current, // <-- Añadir current
-                const ProtoSparseListIteratorImplementation* queue = nullptr // <-- Añadir queue
-            );
-            ~ProtoSparseListIteratorImplementation() override;
+    {
+    public:
+        ProtoSparseListIteratorImplementation(
+            ProtoContext* context,
+            const ProtoSparseListImplementation* root
+        );
+        ~ProtoSparseListIteratorImplementation() override;
 
-            int implHasNext(ProtoContext* context) const;
-            unsigned long implNextKey(ProtoContext* context) const;
-            const ProtoObject* implNextValue(ProtoContext* context) const;
-            const ProtoSparseListIteratorImplementation* implAdvance(ProtoContext* context) const; // <-- Añadir const
-            const ProtoObject* implAsObject(ProtoContext* context) const;
-            unsigned long getHash(ProtoContext* context) const override;
-            void finalize(ProtoContext* context) const override;
-            void processReferences(
-                ProtoContext* context,
-                void* self,
-                void (*method)(ProtoContext* context, void* self, const Cell* cell)
-            ) const override;
+        int implHasNext(ProtoContext* context) const;
+        unsigned long implNextKey(ProtoContext* context) const;
+        const ProtoObject* implNextValue(ProtoContext* context) const;
+        const ProtoSparseListIteratorImplementation* implAdvance(ProtoContext* context) const;
+        const ProtoObject* implAsObject(ProtoContext* context) const;
+        unsigned long getHash(ProtoContext* context) const override;
+        void finalize(ProtoContext* context) const override;
+        void processReferences(
+            ProtoContext* context,
+            void* self,
+            void (*method)(ProtoContext* context, void* self, const Cell* cell)
+        ) const override;
 
-            // ...
+    private:
+        ProtoSparseListIteratorImplementation(
+            ProtoContext* context,
+            const ProtoSparseListImplementation* current,
+            const ProtoSparseListIteratorImplementation* queue
+        );
 
-        private: // <-- Hacer los miembros privados
-            int state;
-            const ProtoSparseListImplementation* current;
-            const ProtoSparseListIteratorImplementation* queue;
-        };
+        const ProtoSparseListImplementation* current;
+        const ProtoSparseListIteratorImplementation* queue;
+    };
 
     class ProtoSparseListImplementation final : public Cell
     {
     public:
-        // ...
         ProtoSparseListImplementation(
             ProtoContext* context,
             unsigned long key = 0,
             const ProtoObject* value = PROTO_NONE,
             const ProtoSparseListImplementation* previous = nullptr,
-            const ProtoSparseListImplementation* next = nullptr
+            const ProtoSparseListImplementation* next = nullptr,
+            bool isEmpty = true
         );
         ~ProtoSparseListImplementation() override;
-        // ...
-        // ...
+
         bool implHas(ProtoContext* context, unsigned long offset) const;
         const ProtoObject* implGetAt(ProtoContext* context, unsigned long offset) const;
         const ProtoSparseListImplementation* implSetAt(ProtoContext* context, unsigned long offset, const ProtoObject* newValue) const;
@@ -573,7 +578,6 @@ namespace proto
             void* self,
             void (*method)(ProtoContext*, void*, const ProtoObject*, const Cell *)
         ) const;
-        // ...
 
         unsigned long getHash(ProtoContext* context) const override;
         void finalize(ProtoContext* context) const override;
@@ -583,14 +587,42 @@ namespace proto
             void (*method)(ProtoContext* context, void* self, const Cell* cell)
         ) const override;
 
-        unsigned long key;
+        const unsigned long key;
         const ProtoObject* value;
         const ProtoSparseListImplementation* previous;
         const ProtoSparseListImplementation* next;
-        unsigned long hash;
-        unsigned long size : 56;
-        unsigned long height : 8;
+        const unsigned long hash;
+        const unsigned long size : 55;
+        const unsigned long height : 8;
+        const bool isEmpty : 1;
     };
+
+    class ProtoSetImplementation final : public Cell
+    {
+    public:
+        ProtoSetImplementation(
+            ProtoContext* context,
+            const ProtoSparseList* base
+        );
+        ~ProtoSetImplementation() override;
+
+        const ProtoSetImplementation* implAdd(ProtoContext* context, const ProtoObject* value) const;
+        const ProtoObject* implHas(ProtoContext* context, const ProtoObject* value) const;
+        const ProtoSetImplementation* implRemove(ProtoContext* context, const ProtoObject* value) const;
+        unsigned long implGetSize(ProtoContext* context) const;
+        const ProtoObject* implAsObject(ProtoContext* context) const;
+        const ProtoSet* asProtoSet(ProtoContext* context) const;
+
+        void processReferences(
+            ProtoContext* context,
+            void* self,
+            void (*method)(ProtoContext* context, void* self, const Cell* cell)
+        ) const override;
+
+    private:
+        const ProtoSparseList* base;
+    };
+
 
     class ProtoTupleIteratorImplementation final : public Cell
     {
@@ -952,6 +984,7 @@ namespace proto
             ProtoThreadExtension threadExtensionCell;
             LargeIntegerImplementation largeIntegerCell;
             DoubleImplementation doubleCell;
+            ProtoSetImplementation setCell;
         };
     };
 
@@ -972,6 +1005,7 @@ namespace proto
     static_assert(sizeof(ProtoThreadExtension) <= 64, "ProtoThreadExtension exceeds 64 bytes!");
     static_assert(sizeof(LargeIntegerImplementation) <= 64, "LargeIntegerImplementation exceeds 64 bytes!");
     static_assert(sizeof(DoubleImplementation) <= 64, "DoubleImplementation exceeds 64 bytes!");
+    static_assert(sizeof(ProtoSetImplementation) <= 64, "ProtoSetImplementation exceeds 64 bytes!");
 
 } // namespace proto
 

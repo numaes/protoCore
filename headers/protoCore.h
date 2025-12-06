@@ -30,6 +30,7 @@ namespace proto
     class ProtoListIterator;
     class ProtoSparseList;
     class ProtoSparseListIterator;
+    class ProtoSet;
     class ProtoObjectCell;
     class ProtoThread;
     class ProtoSpaceImplementation;
@@ -96,6 +97,7 @@ namespace proto
         bool isString(ProtoContext* context) const;
         bool isDouble(ProtoContext* context) const;
         bool isTuple(ProtoContext* context) const;
+        bool isSet(ProtoContext* context) const;
 
         //- Type Coercion
         bool asBoolean(ProtoContext* context) const;
@@ -113,6 +115,7 @@ namespace proto
         const ProtoStringIterator* asStringIterator(ProtoContext* context) const;
         const ProtoSparseList* asSparseList(ProtoContext* context) const;
         const ProtoSparseListIterator* asSparseListIterator(ProtoContext* context) const;
+        const ProtoSet* asSet(ProtoContext* context) const;
         const ProtoThread* asThread(ProtoContext* context) const;
         ProtoMethod asMethod(ProtoContext* context) const;
 
@@ -289,6 +292,16 @@ namespace proto
         void processValues(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const ProtoObject*)) const;
     };
 
+    class ProtoSet
+    {
+    public:
+        const ProtoSet* add(ProtoContext* context, const ProtoObject* value) const;
+        const ProtoObject* has(ProtoContext* context, const ProtoObject* value) const;
+        const ProtoSet* remove(ProtoContext* context, const ProtoObject* value) const;
+        unsigned long getSize(ProtoContext* context) const;
+        const ProtoObject* asObject(ProtoContext* context) const;
+    };
+
     class ProtoByteBuffer
     {
     public:
@@ -407,6 +420,7 @@ namespace proto
         const ProtoTuple* newTuple();
         const ProtoTuple* newTupleFromList(const ProtoList* sourceList);
         const ProtoSparseList* newSparseList();
+        const ProtoSet* newSet();
         const ProtoObject* newObject(bool mutableObject = false);
 
         //- Memory Management
@@ -457,6 +471,7 @@ namespace proto
         ProtoObject* stringIteratorPrototype{};
         ProtoObject* sparseListPrototype{};
         ProtoObject* sparseListIteratorPrototype{};
+        ProtoObject* setPrototype{};
 
         // --- Cached Literals ---
         ProtoString* literalGetAttribute;

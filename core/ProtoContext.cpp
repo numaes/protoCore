@@ -232,6 +232,11 @@ namespace proto
         return (new(this) ProtoSparseListImplementation(this))->asSparseList(this);
     }
 
+    const ProtoSet* ProtoContext::newSet()
+    {
+        return (new(this) ProtoSetImplementation(this, newSparseList()))->asProtoSet(this);
+    }
+
     const ProtoObject* ProtoContext::newObject(const bool mutableObject)
     {
         const auto* attributes = toImpl<const ProtoSparseListImplementation>(newSparseList());
