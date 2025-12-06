@@ -9,7 +9,31 @@ Proto is built on a set of synergistic principles designed to unify performance,
 1.  **Immutability by Default**: Core data structures are immutable to eliminate entire classes of concurrency bugs. Modifications produce new versions via structural sharing (copy-on-write), making parallel code safer and easier to reason about.
 2.  **Performance through a Hardware-Aware Memory Model**: The memory model is designed for extreme speed and low latency, using techniques like tagged pointers, per-thread allocation, and cache-line alignment to work *with* the hardware, not against it.
 3.  **Flexible Prototype-Based Object Model**: Instead of rigid class hierarchies, Proto uses a powerful object model based on Lieberman-style prototypes, allowing for dynamic and flexible object composition and inheritance.
-4.  **Concurrency as a First-Class Citizen**: The entire system is architected for true multi-core parallelism, with no Global Interpreter Lock (GIL). Safety is derived from the immutable data model, not from complex and error-prone locking.
+4.  **Concurrency as a First-Class Citizen**: The entire system is architected for true, GIL-free parallelism. Safety is derived from the immutable data model, not from complex and error-prone locking.
+
+---
+
+## Gemini Implementation Guidelines
+
+To ensure consistent and correct code generation, the following architectural rules must be strictly followed in all sessions:
+
+1.  **Public API vs. Internal Implementation**:
+    *   The public-facing API is defined in `headers/protoCore.h`. These classes (e.g., `ProtoObject`, `ProtoList`) are opaque "handles" for users of the library.
+    *   The internal implementation classes are defined in `headers/proto_internal.h` and always have the `Implementation` suffix (e.g., `ProtoListImplementation`). These classes inherit from `Cell` and contain the actual data and logic.
+    *   Public API methods are **never** virtual and should not be implemented in the header. They are "trampoline" functions that delegate the call to the corresponding internal implementation class.
+
+2.  **Casting and Type Conversion**:
+    *   To get from a public API object to its internal implementation, always use the `toImpl<...>()` template function. For example: `toImpl<const ProtoListImplementation>(myProtoList)`.
+    *   To get from an internal implementation object back to its public API handle, use the `as...()` method (e.g., `myProtoListImpl->asProtoList(context)`).
+
+3.  **Method Naming Convention**:
+    *   Public API methods use standard camelCase (e.g., `myList->getSize(context)`).
+    *   Internal implementation methods that are part of the public API's implementation are prefixed with `impl` (e.g., `myListImpl->implGetSize(context)`).
+
+4.  **File Structure**:
+    *   The implementation for a public class `ProtoFoo` and its internal counterpart `ProtoFooImplementation` should reside in `core/ProtoFoo.cpp`.
+    *   All internal class definitions **must** be in `headers/proto_internal.h`.
+    *   All public API class declarations **must** be in `headers/protoCore.h`.
 
 ---
 
