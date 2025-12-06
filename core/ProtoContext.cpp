@@ -155,7 +155,6 @@ namespace proto
         }
 
         if (newCell) {
-            ::new(newCell) Cell(this);
             this->allocatedCellsCount++;
         }
         return newCell;
@@ -206,28 +205,28 @@ namespace proto
             charList = charList->appendLast(this, fromUnicodeChar(unicodeChar));
             s += len;
         }
-        const auto newString = new(this) ProtoStringImplementation(this, ProtoTupleImplementation::tupleFromList(this, charList));
+        const auto newString = new(this) ProtoStringImplementation(this, toImpl<const ProtoTupleImplementation>(ProtoTupleImplementation::tupleFromList(this, toImpl<const ProtoListImplementation>(charList))));
         return newString->implAsObject(this);
     }
 
     const ProtoList* ProtoContext::newList()
     {
-        return (new(this) ProtoListImplementation(this, PROTO_NONE, true))->asProtoList(this);
+        return (new(this) ProtoListImplementation(this, PROTO_NONE, true, nullptr, nullptr))->asProtoList(this);
     }
 
     const ProtoTuple* ProtoContext::newTuple()
     {
-        return (new(this) ProtoTupleImplementation(this, 0, 0))->asProtoTuple(this);
+        return (new(this) ProtoTupleImplementation(this, nullptr, nullptr))->asProtoTuple(this);
     }
 
     const ProtoTuple* ProtoContext::newTupleFromList(const ProtoList* sourceList)
     {
-        return ProtoTupleImplementation::tupleFromList(this, sourceList)->asProtoTuple(this);
+        return ProtoTupleImplementation::tupleFromList(this, toImpl<const ProtoListImplementation>(sourceList))->asProtoTuple(this);
     }
 
     const ProtoSparseList* ProtoContext::newSparseList()
     {
-        return (new(this) ProtoSparseListImplementation(this))->asSparseList(this);
+        return (new(this) ProtoSparseListImplementation(this, 0, PROTO_NONE, nullptr, nullptr, true))->asSparseList(this);
     }
 
     const ProtoSet* ProtoContext::newSet()
@@ -259,7 +258,7 @@ namespace proto
         p.si.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
         p.si.embedded_type = EMBEDDED_TYPE_SMALLINT;
         p.si.smallInteger = value;
-        return p.oid.oid;
+        return p.oid;
     }
 
     const ProtoObject* ProtoContext::fromLong(long long value) {
@@ -279,7 +278,7 @@ namespace proto
         p.si.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
         p.si.embedded_type = EMBEDDED_TYPE_UNICODE_CHAR;
         p.unicodeChar.unicodeValue = unicodeChar;
-        return p.oid.oid;
+        return p.oid;
     }
 
     const ProtoObject* ReturnReference::implAsObject(ProtoContext* context) const

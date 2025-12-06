@@ -1,4 +1,5 @@
 #include "../headers/proto_internal.h"
+#include <functional>
 
 namespace proto
 {
@@ -7,19 +8,14 @@ namespace proto
     // DoubleImplementation
     //================================================================================
 
-    DoubleImplementation::DoubleImplementation(ProtoContext* context, double doubleValue)
-        : Cell(context), doubleValue(doubleValue)
-    {
-    }
-
-    DoubleImplementation::~DoubleImplementation()
+    DoubleImplementation::DoubleImplementation(ProtoContext* context, double val)
+        : Cell(context), doubleValue(val)
     {
     }
 
     unsigned long DoubleImplementation::getHash(ProtoContext* context) const
     {
-        // Implementation will go here.
-        return 0;
+        return std::hash<double>{}(doubleValue);
     }
 
     void DoubleImplementation::finalize(ProtoContext* context) const
@@ -39,7 +35,7 @@ namespace proto
         ProtoObjectPointer p;
         p.doubleImplementation = this;
         p.op.pointer_tag = POINTER_TAG_DOUBLE;
-        return p.oid.oid;
+        return p.oid;
     }
 
 } // namespace proto

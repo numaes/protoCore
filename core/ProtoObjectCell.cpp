@@ -33,11 +33,9 @@ namespace proto
         const ProtoSparseListImplementation* attributes,
         const unsigned long mutable_ref
     ) : Cell(context), parent(parent), mutable_ref(mutable_ref),
-        attributes(attributes ? attributes : new(context) ProtoSparseListImplementation(context))
+        attributes(attributes ? attributes : new(context) ProtoSparseListImplementation(context, 0, PROTO_NONE, nullptr, nullptr, true))
     {
     }
-
-    ProtoObjectCell::~ProtoObjectCell() = default;
 
     /**
      * @brief Creates a new object that inherits from the current one.
@@ -74,7 +72,7 @@ namespace proto
         ProtoObjectPointer p{};
         p.objectCellImplementation = this;
         p.op.pointer_tag = POINTER_TAG_OBJECT;
-        return p.oid.oid;
+        return p.oid;
     }
 
     /**
@@ -112,6 +110,14 @@ namespace proto
         {
             method(context, self, this->attributes);
         }
+    }
+
+    const ProtoObject* ProtoObjectCell::implAsObject(ProtoContext* context) const
+    {
+        ProtoObjectPointer p{};
+        p.objectCellImplementation = this;
+        p.op.pointer_tag = POINTER_TAG_OBJECT;
+        return p.oid;
     }
 
 } // namespace proto

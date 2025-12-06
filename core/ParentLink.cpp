@@ -37,8 +37,6 @@ namespace proto
     {
     };
 
-    ParentLinkImplementation::~ParentLinkImplementation() = default;
-
     /**
      * @brief Informs the GC about the cells this object holds references to.
      * A ParentLink holds two potential references: the next parent in the chain,
@@ -67,13 +65,10 @@ namespace proto
         }
     }
 
-    /**
-     * @brief Finalizer for the ParentLink.
-     * This object holds no external resources, so the finalizer is empty.
-     */
-    void ParentLinkImplementation::finalize(ProtoContext* context) const
+    const ProtoObject* ParentLinkImplementation::implAsObject(ProtoContext* context) const
     {
-        // Intentionally empty.
+        // A ParentLink is an internal implementation detail and should not be exposed as a public object.
+        return PROTO_NONE;
     }
 
     /**

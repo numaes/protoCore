@@ -83,7 +83,7 @@ namespace proto
         ProtoObjectPointer p{};
         p.byteBufferImplementation = this;
         p.op.pointer_tag = POINTER_TAG_BYTE_BUFFER;
-        return p.oid.oid;
+        return p.oid;
     }
 
     const ProtoByteBuffer* ProtoByteBufferImplementation::asByteBuffer(ProtoContext* context) const
@@ -111,4 +111,4 @@ namespace proto
         return this->buffer;
     }
 
-} // namespace protoCore
+} // namespace proto

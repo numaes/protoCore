@@ -23,7 +23,7 @@ namespace proto
         ProtoObjectPointer p{};
         p.methodCellImplementation = this;
         p.op.pointer_tag = POINTER_TAG_METHOD;
-        return p.oid.oid;
+        return p.oid;
     }
 
     unsigned long ProtoMethodCell::getHash(ProtoContext* context) const
@@ -58,4 +58,4 @@ namespace proto
         return this->method;
     }
 
-} // namespace protoCore
+} // namespace proto

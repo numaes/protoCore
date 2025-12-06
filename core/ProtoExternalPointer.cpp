@@ -7,39 +7,33 @@
 
 #include "../headers/proto_internal.h"
 
-namespace proto
-{
-    // --- Constructor and Destructor ---
+namespace proto {
 
     ProtoExternalPointerImplementation::ProtoExternalPointerImplementation(
         ProtoContext* context,
-        void* pointer
-    ) : Cell(context), pointer(pointer)
+        void* p,
+        void (*f)(void*)
+    ) : Cell(context), pointer(p), finalizer(f)
     {
     }
 
-    ProtoExternalPointerImplementation::~ProtoExternalPointerImplementation() = default;
+    ProtoExternalPointerImplementation::~ProtoExternalPointerImplementation() {
+        if (this->finalizer) {
+            this->finalizer(this->pointer);
+        }
+    }
 
-
-    // --- Interface Methods ---
-
-    void* ProtoExternalPointerImplementation::implGetPointer(ProtoContext* context) const
-    {
+    void* ProtoExternalPointerImplementation::implGetPointer(ProtoContext* context) const {
         return this->pointer;
     }
 
-    // Corrected: Removed 'override'
-    const ProtoObject* ProtoExternalPointerImplementation::implAsObject(ProtoContext* context) const
-    {
+    const ProtoObject* ProtoExternalPointerImplementation::implAsObject(ProtoContext* context) const {
         ProtoObjectPointer p{};
         p.externalPointerImplementation = this;
         p.op.pointer_tag = POINTER_TAG_EXTERNAL_POINTER;
-        return p.oid.oid;
+        return p.oid;
     }
 
-    // --- Garbage Collector (GC) Methods ---
-
-    // Corrected: Removed 'override'
     void ProtoExternalPointerImplementation::processReferences(
         ProtoContext* context,
         void* self,
@@ -47,24 +41,19 @@ namespace proto
             ProtoContext* context,
             void* self,
             const Cell* cell
-        )
-    ) const
-    {
-        // Intentionally empty.
+            )
+    ) const {
+        // No references to other cells
     }
 
-    // Corrected: Removed 'override'
-    void ProtoExternalPointerImplementation::finalize(ProtoContext* context) const
-    {
-        // Intentionally empty.
+    void ProtoExternalPointerImplementation::finalize(ProtoContext* context) const {
+        if (this->finalizer) {
+            this->finalizer(this->pointer);
+        }
     }
 
-    // Corrected: Removed 'override'
-    unsigned long ProtoExternalPointerImplementation::getHash(ProtoContext* context) const
-    {
-        ProtoObjectPointer p{};
-        p.externalPointerImplementation = this;
-        return p.asHash.hash;
+    unsigned long ProtoExternalPointerImplementation::getHash(ProtoContext* context) const {
+        return reinterpret_cast<uintptr_t>(this->pointer);
     }
 
-} // namespace protoCore
+}

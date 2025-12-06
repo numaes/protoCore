@@ -48,35 +48,6 @@ namespace proto
     }
 
     /**
-     * @brief Virtual finalizer called by the GC just before reclaiming the object.
-     * Subclasses should override this to release any external resources (e.g., file
-     * handles, network sockets). The base implementation does nothing.
-     */
-    void Cell::finalize(ProtoContext* context) const
-    {
-        // Default finalizer does nothing.
-    };
-
-    /**
-     * @brief Converts the implementation cell to its public API handle (`ProtoObject*`).
-     * The base implementation returns nullptr, as a raw Cell has no public representation.
-     * This method is a key part of the bridge between the internal and public APIs.
-     */
-    const ProtoObject* Cell::implAsObject(ProtoContext* context) const
-    {
-        return nullptr;
-    }
-
-    /**
-     * @brief Safely casts the object to a Cell pointer.
-     * Since this is the base class, it simply returns a pointer to itself.
-     */
-    const Cell* Cell::asCell(ProtoContext* context) const
-    {
-        return this;
-    }
-
-    /**
      * @brief Overloads the `new` operator to hook into Proto's memory management.
      * Instead of calling the system allocator, it requests a new cell from the
      * current context's memory arena.

@@ -50,7 +50,7 @@ namespace proto
     const ProtoObject* ProtoObject::newChild(ProtoContext* context, bool isMutable) const
     {
         if (!this->isCell(context)) return PROTO_NONE;
-        auto* newObject = new(context) ProtoObjectCell(context, new(context) ParentLinkImplementation(context, toImpl<const ProtoObjectCell>(this)->parent, this), new(context) ProtoSparseListImplementation(context), isMutable ? generate_mutable_ref() : 0);
+        auto* newObject = new(context) ProtoObjectCell(context, new(context) ParentLinkImplementation(context, toImpl<const ProtoObjectCell>(this)->parent, this), toImpl<const ProtoSparseListImplementation>(context->newSparseList()), isMutable ? generate_mutable_ref() : 0);
         return newObject->asObject(context);
     }
 
@@ -157,7 +157,7 @@ namespace proto
 
     bool ProtoObject::isNone(ProtoContext* context) const { return this == PROTO_NONE; }
     bool ProtoObject::isBoolean(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_BOOLEAN; }
-    bool ProtoObject::isInteger(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.op.pointer_tag == POINTER_TAG_LARGE_INTEGER || (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_SMALLINT); }
+    bool ProtoObject::isInteger(ProtoContext* context) const { return proto::isInteger(this); }
     bool ProtoObject::isString(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.op.pointer_tag == POINTER_TAG_STRING; }
     bool ProtoObject::isMethod(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.op.pointer_tag == POINTER_TAG_METHOD; }
     bool ProtoObject::isTuple(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.op.pointer_tag == POINTER_TAG_TUPLE; }
@@ -200,20 +200,52 @@ namespace proto
     //=========================================================================
     // ProtoSet API Implementation
     //=========================================================================
-    const ProtoSet* ProtoSet::add(ProtoContext* context, const ProtoObject* value) const { return toImpl<const ProtoSetImplementation>(this)->implAdd(context, value)->asProtoSet(context); }
-    const ProtoObject* ProtoSet::has(ProtoContext* context, const ProtoObject* value) const { return toImpl<const ProtoSetImplementation>(this)->implHas(context, value); }
-    const ProtoSet* ProtoSet::remove(ProtoContext* context, const ProtoObject* value) const { return toImpl<const ProtoSetImplementation>(this)->implRemove(context, value)->asProtoSet(context); }
-    unsigned long ProtoSet::getSize(ProtoContext* context) const { return toImpl<const ProtoSetImplementation>(this)->implGetSize(); }
+    const ProtoSet* ProtoSet::add(ProtoContext* context, const ProtoObject* value) const {
+        const auto* current_list = toImpl<const ProtoSetImplementation>(this)->list;
+        const auto* new_list = current_list->setAt(context, value->getHash(context), value);
+        return (new (context) ProtoSetImplementation(context, new_list, new_list->getSize(context)))->asProtoSet(context);
+    }
+
+    const ProtoObject* ProtoSet::has(ProtoContext* context, const ProtoObject* value) const {
+        return toImpl<const ProtoSetImplementation>(this)->list->has(context, value->getHash(context)) ? PROTO_TRUE : PROTO_FALSE;
+    }
+
+    const ProtoSet* ProtoSet::remove(ProtoContext* context, const ProtoObject* value) const {
+        const auto* current_list = toImpl<const ProtoSetImplementation>(this)->list;
+        const auto* new_list = toImpl<const ProtoSparseListImplementation>(current_list)->implRemoveAt(context, value->getHash(context));
+        return (new (context) ProtoSetImplementation(context, new_list, (unsigned long)new_list->size))->asProtoSet(context);
+    }
+
+    unsigned long ProtoSet::getSize(ProtoContext* context) const { return toImpl<const ProtoSetImplementation>(this)->size; }
     const ProtoObject* ProtoSet::asObject(ProtoContext* context) const { return toImpl<const ProtoSetImplementation>(this)->implAsObject(context); }
-    const ProtoSetIterator* ProtoSet::getIterator(ProtoContext* context) const { const auto* impl = toImpl<const ProtoSetImplementation>(this)->implGetIterator(context); return impl ? reinterpret_cast<const ProtoSetIterator*>(impl->implAsObject(context)) : nullptr; }
+    const ProtoSetIterator* ProtoSet::getIterator(ProtoContext* context) const {
+        const auto* list_iterator = toImpl<const ProtoSetImplementation>(this)->list->getIterator(context);
+        return (new (context) ProtoSetIteratorImplementation(context, toImpl<const ProtoSparseListIteratorImplementation>(list_iterator)))->asSetIterator(context);
+    }
 
     //=========================================================================
     // ProtoMultiset API Implementation
     //=========================================================================
-    const ProtoMultiset* ProtoMultiset::add(ProtoContext* context, const ProtoObject* value) const { return toImpl<const ProtoMultisetImplementation>(this)->implAdd(context, value)->asProtoMultiset(context); }
-    const ProtoObject* ProtoMultiset::count(ProtoContext* context, const ProtoObject* value) const { return toImpl<const ProtoMultisetImplementation>(this)->implCount(context, value); }
-    const ProtoMultiset* ProtoMultiset::remove(ProtoContext* context, const ProtoObject* value) const { return toImpl<const ProtoMultisetImplementation>(this)->implRemove(context, value)->asProtoMultiset(context); }
-    unsigned long ProtoMultiset::getSize(ProtoContext* context) const { return toImpl<const ProtoMultisetImplementation>(this)->implGetSize(); }
+    const ProtoMultiset* ProtoMultiset::add(ProtoContext* context, const ProtoObject* value) const {
+        const auto* current_list = toImpl<const ProtoMultisetImplementation>(this)->list;
+        const auto* new_list = current_list->setAt(context, value->getHash(context), value);
+        return (new (context) ProtoMultisetImplementation(context, new_list, new_list->getSize(context)))->asProtoMultiset(context);
+    }
+
+    const ProtoObject* ProtoMultiset::count(ProtoContext* context, const ProtoObject* value) const {
+        // This is a simplified implementation. A real implementation would need to handle hash collisions.
+        return toImpl<const ProtoMultisetImplementation>(this)->list->has(context, value->getHash(context)) ? context->fromInteger(1) : context->fromInteger(0);
+    }
+
+    const ProtoMultiset* ProtoMultiset::remove(ProtoContext* context, const ProtoObject* value) const {
+        const auto* current_list = toImpl<const ProtoMultisetImplementation>(this)->list;
+        const auto* new_list = toImpl<const ProtoSparseListImplementation>(current_list)->implRemoveAt(context, value->getHash(context));
+        return (new (context) ProtoMultisetImplementation(context, new_list, (unsigned long)new_list->size))->asProtoMultiset(context);
+    }
+    unsigned long ProtoMultiset::getSize(ProtoContext* context) const { return toImpl<const ProtoMultisetImplementation>(this)->size; }
     const ProtoObject* ProtoMultiset::asObject(ProtoContext* context) const { return toImpl<const ProtoMultisetImplementation>(this)->implAsObject(context); }
-    const ProtoMultisetIterator* ProtoMultiset::getIterator(ProtoContext* context) const { const auto* impl = toImpl<const ProtoMultisetImplementation>(this)->implGetIterator(context); return impl ? reinterpret_cast<const ProtoMultisetIterator*>(impl->implAsObject(context)) : nullptr; }
+    const ProtoMultisetIterator* ProtoMultiset::getIterator(ProtoContext* context) const {
+        const auto* list_iterator = toImpl<const ProtoMultisetImplementation>(this)->list->getIterator(context);
+        return (new (context) ProtoMultisetIteratorImplementation(context, toImpl<const ProtoSparseListIteratorImplementation>(list_iterator)))->asMultisetIterator(context);
+    }
 }

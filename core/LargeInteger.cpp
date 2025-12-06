@@ -42,7 +42,6 @@ namespace proto
     // Type checking helpers
     bool isSmallInteger(const ProtoObject* obj);
     bool isLargeInteger(const ProtoObject* obj);
-    bool isInteger(const ProtoObject* obj);
 
     // Conversion helpers
     static TempBignum toTempBignum(const ProtoObject* obj);
@@ -67,8 +66,6 @@ namespace proto
         // Zero out digits to ensure clean state.
         for (int i = 0; i < DIGIT_COUNT; ++i) { digits[i] = 0; }
     }
-
-    LargeIntegerImplementation::~LargeIntegerImplementation() {}
 
     /**
      * @brief Calculates a hash for the LargeInteger.
@@ -106,7 +103,7 @@ namespace proto
         ProtoObjectPointer p;
         p.largeIntegerImplementation = this;
         p.op.pointer_tag = POINTER_TAG_LARGE_INTEGER;
-        return p.oid.oid;
+        return p.oid;
     }
 
     //================================================================================
@@ -124,7 +121,7 @@ namespace proto
             p.si.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
             p.si.embedded_type = EMBEDDED_TYPE_SMALLINT;
             p.si.smallInteger = value;
-            return p.oid.oid;
+            return p.oid;
         }
         
         // If it doesn't fit, convert to TempBignum and then to a LargeInteger.
@@ -153,7 +150,7 @@ namespace proto
         }
 
         if (isSmallInteger(object)) {
-            ProtoObjectPointer p; p.oid.oid = object;
+            ProtoObjectPointer p; p.oid = object;
             return p.si.smallInteger;
         }
 
@@ -627,14 +624,14 @@ namespace proto
     // Internal Helper Implementations
     //================================================================================
     
-    bool isSmallInteger(const ProtoObject* obj) { ProtoObjectPointer p; p.oid.oid = obj; return p.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && p.op.embedded_type == EMBEDDED_TYPE_SMALLINT; }
-    bool isLargeInteger(const ProtoObject* obj) { ProtoObjectPointer p; p.oid.oid = obj; return p.op.pointer_tag == POINTER_TAG_LARGE_INTEGER; }
+    bool isSmallInteger(const ProtoObject* obj) { ProtoObjectPointer p; p.oid = obj; return p.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && p.op.embedded_type == EMBEDDED_TYPE_SMALLINT; }
+    bool isLargeInteger(const ProtoObject* obj) { ProtoObjectPointer p; p.oid = obj; return p.op.pointer_tag == POINTER_TAG_LARGE_INTEGER; }
     bool isInteger(const ProtoObject* obj) { return isSmallInteger(obj) || isLargeInteger(obj); }
 
     static TempBignum toTempBignum(const ProtoObject* obj) {
         TempBignum temp;
         if (isSmallInteger(obj)) {
-            ProtoObjectPointer p; p.oid.oid = obj;
+            ProtoObjectPointer p; p.oid = obj;
             long long value = p.si.smallInteger;
             if (value != 0) {
                 temp.is_negative = value < 0;
