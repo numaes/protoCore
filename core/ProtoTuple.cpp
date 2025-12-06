@@ -125,7 +125,7 @@ namespace proto {
         ) {
             const unsigned long count = end - start;
             if (count == 0) {
-                return new(context) ProtoTupleImplementation(context, nullptr, nullptr);
+                return new(context) ProtoTupleImplementation(context, nullptr, 0UL);
             }
 
             if (count <= TUPLE_SIZE) {
@@ -133,22 +133,23 @@ namespace proto {
                 for (unsigned long i = 0; i < count; ++i) {
                     data[i] = list->getAt(context, start + i);
                 }
-                return new(context) ProtoTupleImplementation(context, data, nullptr);
+                return new(context) ProtoTupleImplementation(context, data, count);
             }
 
             const unsigned long children_count = (count + TUPLE_SIZE - 1) / TUPLE_SIZE;
             const ProtoTupleImplementation* indirect[TUPLE_SIZE] = {nullptr};
+            const ProtoObject* indirect_handles[TUPLE_SIZE] = {nullptr};
             unsigned long child_height = 0;
 
             for (unsigned long i = 0; i < children_count; ++i) {
                 const unsigned long child_start = start + i * TUPLE_SIZE;
                 const unsigned long child_end = std::min(child_start + TUPLE_SIZE, end);
-                indirect[i] = fromListRecursive(context, list, child_start, child_end);
-                if(indirect[i]) child_height = std::max(child_height, (long unsigned int)indirect[i]->implGetSize(context));
+                const ProtoTupleImplementation* child_impl = fromListRecursive(context, list, child_start, child_end); // Recursive call returns implementation
+                if (child_impl) {
+                    indirect_handles[i] = child_impl->implAsObject(context); // Convert to universal ProtoObject* handle
+                }
             }
-
-            const ProtoObject** indirect_as_objects = (const ProtoObject**)indirect;
-            return new(context) ProtoTupleImplementation(context, indirect_as_objects, nullptr);
+            return new(context) ProtoTupleImplementation(context, indirect_handles, count);
         }
     }
 
@@ -159,8 +160,8 @@ namespace proto {
     ProtoTupleImplementation::ProtoTupleImplementation(
         ProtoContext* context,
         const ProtoObject** slot_values,
-        const ProtoTupleImplementation* next_tuple
-    ) : Cell(context), next(next_tuple) {
+        unsigned long size
+    ) : Cell(context), actual_size(size){
         if (slot_values) {
             std::memcpy(this->slot, slot_values, TUPLE_SIZE * sizeof(ProtoObject*));
         } else {
@@ -168,31 +169,45 @@ namespace proto {
         }
     }
 
-    const ProtoObject* ProtoTupleImplementation::implGetAt(ProtoContext* context, int index) const {
-        const ProtoTupleImplementation* current = this;
-        while(current != nullptr && current->next != nullptr) {
-            int child_index = index / TUPLE_SIZE;
-            index %= TUPLE_SIZE;
-            current = toImpl<const ProtoTupleImplementation>(current->slot[child_index]);
+    const ProtoObject* ProtoTupleImplementation::implGetAt(ProtoContext* context, int index) const
+    {
+        if (index < 0 || (unsigned long)index >= actual_size) {
+            return PROTO_NONE; // Index out of bounds
         }
-        return current->slot[index];
+
+        if (actual_size <= TUPLE_SIZE) { // This is a leaf node
+            return slot[index];
+        } else
+        {
+            // This is an internal node
+            unsigned long current_child_start_index = 0;
+            for (int i = 0; i < TUPLE_SIZE; ++i) {
+                if (slot[i] != PROTO_NONE && slot[i]->isTuple(context)) {
+                    const ProtoTupleImplementation* child_tuple = toImpl<const ProtoTupleImplementation>(slot[i]);
+                    // Check if the index falls within this child's range
+                    if ((unsigned long)index < current_child_start_index + child_tuple->actual_size) {
+                        // Recursively get the element from the child tuple
+                        return child_tuple->implGetAt(context, index - current_child_start_index);
+                    }
+                    current_child_start_index += child_tuple->actual_size;
+                } else if (slot[i] != PROTO_NONE) {
+                    // This slot contains a non-tuple object, which means it's a mixed node or an error in construction.
+                    // For a pure rope, internal nodes should only contain other tuples.
+                    // For now, we'll treat it as a direct element if it's within the index range.
+                    if ((unsigned long)index == current_child_start_index) {
+                        return slot[i];
+                    }
+                    current_child_start_index++;
+                }
+            }
+            // Should not be reached if actual_size is correct and all slots are properly filled/handled
+            return PROTO_NONE;
+        }
     }
 
     unsigned long ProtoTupleImplementation::implGetSize(ProtoContext* context) const {
-        const ProtoTupleImplementation* current = this;
-        unsigned long count = 0;
-        while(current != nullptr && current->next != nullptr) {
-            count += TUPLE_SIZE;
-            current = current->next;
-        }
-        if (current) {
-            for(int i = 0; i < TUPLE_SIZE; ++i) {
-                if (current->slot[i]) {
-                    count++;
-                }
-            }
-        }
-        return count;
+        // This method now simply returns the pre-calculated actual_size.
+        return actual_size;
     }
 
     const ProtoList* ProtoTupleImplementation::implAsList(ProtoContext* context) const {
@@ -210,9 +225,6 @@ namespace proto {
             if (this->slot[i] && this->slot[i]->isCell(context)) {
                 method(context, self, this->slot[i]->asCell(context));
             }
-        }
-        if (this->next) {
-            method(context, self, this->next);
         }
     }
 
@@ -263,6 +275,6 @@ namespace proto {
         for(int i = start; i < end; ++i) {
             sublist = sublist->appendLast(context, list->getAt(context, i));
         }
-        return (new (context) ProtoTupleImplementation(context, nullptr, nullptr))->implAsObject(context);
+        return (new (context) ProtoTupleImplementation(context, nullptr, 0UL))->implAsObject(context);
     }
 }

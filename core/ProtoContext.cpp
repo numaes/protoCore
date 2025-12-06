@@ -223,7 +223,7 @@ namespace proto
 
     const ProtoTuple* ProtoContext::newTuple()
     {
-        return (new(this) ProtoTupleImplementation(this, nullptr, nullptr))->asProtoTuple(this);
+        return (new(this) ProtoTupleImplementation(this, nullptr, 0))->asProtoTuple(this);
     }
 
     const ProtoTuple* ProtoContext::newTupleFromList(const ProtoList* sourceList)

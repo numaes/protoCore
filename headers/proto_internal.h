@@ -19,7 +19,7 @@
 #include <functional>
 
 #define THREAD_CACHE_DEPTH 1024
-#define TUPLE_SIZE 5
+#define TUPLE_SIZE 4
 
 #define SPACE_STATE_RUNNING 0
 #define SPACE_STATE_ENDING 1
@@ -515,10 +515,10 @@ namespace proto {
     class ProtoTupleImplementation : public Cell {
     public:
         const ProtoObject *slot[TUPLE_SIZE];
-        const ProtoTupleImplementation *next;
+        unsigned long actual_size : 63; // The actual number of elements this node (or its children) represents
 
         ProtoTupleImplementation(ProtoContext *context, const ProtoObject **slot_values,
-                                 const ProtoTupleImplementation *next_tuple);
+                                 unsigned long size);
         ~ProtoTupleImplementation() override = default;
         static const ProtoTupleImplementation *
         tupleFromList(ProtoContext *context, const ProtoListImplementation *sourceList);
