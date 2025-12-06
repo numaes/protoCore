@@ -32,8 +32,8 @@ TEST_F(NumericTest, CreationAndConversion) {
     ASSERT_EQ(i->asLong(context), 12345);
 
     // Test exact boundaries of SmallInteger
-    const long long max_small_int = (1LL << 55) - 1;
-    const long long min_small_int = -(1LL << 55);
+    const long long max_small_int = (1LL << 53) - 1; // Corrected to 53 bits for signed 54-bit field
+    const long long min_small_int = -(1LL << 53);    // Corrected to 53 bits for signed 54-bit field
     
     const proto::ProtoObject* max_si = context->fromLong(max_small_int);
     ASSERT_TRUE(max_si->isInteger(context));
@@ -79,7 +79,7 @@ TEST_F(NumericTest, FastPathArithmetic) {
     ASSERT_EQ(result->asLong(context), 300);
 
     // SmallInt + SmallInt -> LargeInt (Overflow)
-    const long long max_small_int = (1LL << 55) - 1;
+    const long long max_small_int = (1LL << 53) - 1; // Corrected to 53 bits for signed 54-bit field
     const proto::ProtoObject* c = context->fromLong(max_small_int);
     const proto::ProtoObject* d = context->fromLong(1);
     const proto::ProtoObject* overflow_result = c->add(context, d);
@@ -166,7 +166,7 @@ TEST_F(NumericTest, BitwiseOperations) {
     ASSERT_EQ(p6->bitwiseAnd(context, n4)->asLong(context), 4); // ...0100
 
     // Negative & Negative
-    ASSERT_EQ(n4->bitwiseAnd(context, n7)->asLong(context), -8); // ...1000
+    ASSERT_EQ(n4->bitwiseAnd(context, n7)->asLong(context), -8);
     
     // OR operations
     ASSERT_EQ(p6->bitwiseOr(context, p10)->asLong(context), 14); // ...1110

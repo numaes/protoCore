@@ -619,8 +619,11 @@ namespace proto {
         const unsigned char height;
         const bool isEmpty;
 
-        explicit ProtoListImplementation(ProtoContext *context, const ProtoObject *v, bool empty,
-                                         const ProtoListImplementation *prev, const ProtoListImplementation *next);
+        explicit ProtoListImplementation(ProtoContext *context,
+                                         const ProtoObject *v = nullptr,
+                                         bool empty = true,
+                                         const ProtoListImplementation *prev = nullptr,
+                                         const ProtoListImplementation *next = nullptr);
 
         const ProtoObject *implGetAt(ProtoContext *context, int index) const;
 

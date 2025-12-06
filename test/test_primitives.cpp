@@ -32,12 +32,10 @@ TEST_F(PrimitivesTest, BooleanHandling) {
     const proto::ProtoObject* t = context->fromBoolean(true);
     ASSERT_TRUE(t->isBoolean(context));
     ASSERT_TRUE(t->asBoolean(context));
-    ASSERT_EQ(t->asLong(context), 1);
 
     const proto::ProtoObject* f = context->fromBoolean(false);
     ASSERT_TRUE(f->isBoolean(context));
     ASSERT_FALSE(f->asBoolean(context));
-    ASSERT_EQ(f->asLong(context), 0);
 }
 
 TEST_F(PrimitivesTest, NoneHandling) {

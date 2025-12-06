@@ -182,7 +182,7 @@ namespace proto
 
     const ProtoObject* ProtoContext::fromUTF8String(const char* zeroTerminatedUtf8String)
     {
-        const ProtoList* charList = this->newList();
+        const ProtoListImplementation* charList = new(this) ProtoListImplementation(this);
         const unsigned char* s = (const unsigned char*)zeroTerminatedUtf8String;
         while (*s) {
             unsigned int unicodeChar;
@@ -209,10 +209,10 @@ namespace proto
                 }
                 unicodeChar = (unicodeChar << 6) | (s[i] & 0x3F);
             }
-            charList = charList->appendLast(this, fromUnicodeChar(unicodeChar));
+            charList = charList->implAppendLast(this, fromUnicodeChar(unicodeChar));
             s += len;
         }
-        const auto newString = new(this) ProtoStringImplementation(this, toImpl<const ProtoTupleImplementation>(ProtoTupleImplementation::tupleFromList(this, toImpl<const ProtoListImplementation>(charList))));
+        const auto newString = new(this) ProtoStringImplementation(this, ProtoTupleImplementation::tupleFromList(this, charList));
         return newString->implAsObject(this);
     }
 
@@ -261,11 +261,17 @@ namespace proto
     }
 
     const ProtoObject* ProtoContext::fromInteger(long long value) {
-        ProtoObjectPointer p{};
-        p.si.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
-        p.si.embedded_type = EMBEDDED_TYPE_SMALLINT;
-        p.si.smallInteger = value;
-        return p.oid;
+        // Check if the value fits within the 54-bit signed integer range
+        if (value >= -9007199254740992LL && value <= 9007199254740991LL) {
+            ProtoObjectPointer p{};
+            p.si.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
+            p.si.embedded_type = EMBEDDED_TYPE_SMALLINT;
+            p.si.smallInteger = value;
+            return p.oid;
+        } else {
+            // Value is too large for a small integer, create a LargeIntegerImplementation
+            return Integer::fromLong(this, value);
+        }
     }
 
     const ProtoObject* ProtoContext::fromLong(long long value) {

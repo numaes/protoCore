@@ -178,10 +178,32 @@ namespace proto
     const ProtoMultisetIterator* ProtoObject::asMultisetIterator(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.op.pointer_tag == POINTER_TAG_MULTISET_ITERATOR ? reinterpret_cast<const ProtoMultisetIterator*>(this) : nullptr; }
 
     long long ProtoObject::asLong(ProtoContext* context) const { return Integer::asLong(context, this); }
-    bool ProtoObject::asBoolean(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.booleanValue.booleanValue; }
+    bool ProtoObject::asBoolean(ProtoContext* context) const {
+        ProtoObjectPointer pa{};
+        pa.oid = this;
+        if (pa.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && pa.op.embedded_type == EMBEDDED_TYPE_BOOLEAN) {
+            return pa.booleanValue.booleanValue;
+        }
+        // If it's not a boolean, perhaps throw an error or return a default.
+        // For now, let's assume it's only called on actual booleans.
+        return false; // Should not be reached if isBoolean() is checked first.
+    }
     char ProtoObject::asByte(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.byteValue.byteData; }
-    double ProtoObject::asDouble(ProtoContext* context) const { return toImpl<const DoubleImplementation>(this)->doubleValue; }
+    double ProtoObject::asDouble(ProtoContext* context) const {
+        ProtoObjectPointer pa{};
+        pa.oid = this;
+        if (pa.op.pointer_tag == POINTER_TAG_DOUBLE) {
+            return toImpl<const DoubleImplementation>(this)->doubleValue;
+        } else if (isInteger(context)) {
+            return static_cast<double>(asLong(context));
+        }
+        // If it's not a double or an integer, throw an error.
+        if (context->space && context->space->invalidConversionCallback)
+            (context->space->invalidConversionCallback)(context);
+        return 0.0;
+    }
     bool ProtoObject::isDouble(ProtoContext* context) const { ProtoObjectPointer pa{}; pa.oid = this; return pa.op.pointer_tag == POINTER_TAG_DOUBLE; }
+
     const ProtoObject* ProtoObject::add(ProtoContext* context, const ProtoObject* other) const { return Integer::add(context, this, other); }
     const ProtoObject* ProtoObject::subtract(ProtoContext* context, const ProtoObject* other) const { return Integer::subtract(context, this, other); }
     const ProtoObject* ProtoObject::multiply(ProtoContext* context, const ProtoObject* other) const { return Integer::multiply(context, this, other); }
