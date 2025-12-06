@@ -32,6 +32,7 @@ add_library(proto STATIC
     core/ProtoExternalPointer.cpp
     core/ProtoSet.cpp
     core/ProtoMultiset.cpp
+    core/Integer.cpp
 )
 
 # The headers directory is made public so that any consumer linking against
