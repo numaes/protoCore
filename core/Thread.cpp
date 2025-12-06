@@ -18,7 +18,7 @@ namespace proto {
             const ProtoSparseList* kwargs
         ) {
             try {
-                method(context, context->thread, nullptr, args, kwargs);
+                method(context, reinterpret_cast<const ProtoObject*>(context->thread), nullptr, args, kwargs);
             } catch (const std::exception& e) {
                 std::cerr << "Uncaught exception in thread: " << e.what() << std::endl;
             }
@@ -104,9 +104,6 @@ namespace proto {
             const Cell* cell
             )
     ) const {
-        if (this->context) {
-            method(context, self, this->context);
-        }
         if (this->extension) {
             method(context, self, this->extension);
         }
@@ -160,7 +157,7 @@ namespace proto {
     // ProtoThread API
     //=========================================================================
 
-    const ProtoString* ProtoThread::getName(ProtoContext* context) const {
-        return toImpl<const ProtoThreadImplementation>(this)->name;
+    const ProtoObject* ProtoThread::getName(ProtoContext* context) const {
+        return reinterpret_cast<const ProtoObject*>(toImpl<const ProtoThreadImplementation>(this)->name);
     }
 }

@@ -3,9 +3,6 @@
  *
  *  Created on: 2020-5-1
  *      Author: gamarino
- *
- *  This file implements the ProtoContext, which represents the execution
- *  state and call stack of a single thread.
  */
 
 #include "../headers/proto_internal.h"
@@ -53,7 +50,7 @@ namespace proto
             this->thread = nullptr;
         }
         if (this->thread) {
-            this->thread->setCurrentContext(this);
+            toImpl<ProtoThreadImplementation>(this->thread)->implSetCurrentContext(this);
         }
 
         // Step 2: Allocate storage for local variables.
@@ -280,6 +277,8 @@ namespace proto
         p.unicodeChar.unicodeValue = unicodeChar;
         return p.oid;
     }
+
+    ReturnReference::ReturnReference(ProtoContext* context, Cell* rv) : Cell(context), returnValue(rv) {}
 
     const ProtoObject* ReturnReference::implAsObject(ProtoContext* context) const
     {

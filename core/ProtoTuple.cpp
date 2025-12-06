@@ -263,6 +263,6 @@ namespace proto {
         for(int i = start; i < end; ++i) {
             sublist = sublist->appendLast(context, list->getAt(context, i));
         }
-        return (new (context) ProtoTupleImplementation(context, nullptr, nullptr))->asProtoTuple(context);
+        return (new (context) ProtoTupleImplementation(context, nullptr, nullptr))->implAsObject(context);
     }
 }

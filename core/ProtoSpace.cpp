@@ -20,7 +20,7 @@ namespace proto {
 
     ProtoSpace::ProtoSpace() :
         state(SPACE_STATE_RUNNING),
-        gcThread(gcThreadLoop, this),
+        gcThread(std::make_unique<std::thread>(gcThreadLoop, this)),
         booleanPrototype(nullptr),
         unicodeCharPrototype(nullptr),
         listPrototype(nullptr),
@@ -30,28 +30,27 @@ namespace proto {
         setPrototype(nullptr),
         multisetPrototype(nullptr),
         attributeNotFoundGetCallback(nullptr),
-        attributeNotFoundSetCallback(nullptr),
         nonMethodCallback(nullptr),
         parameterTwiceAssignedCallback(nullptr),
         parameterNotFoundCallback(nullptr)
     {
         // Initialize prototypes
         auto* root_context = new ProtoContext(this, nullptr, nullptr, nullptr, nullptr, nullptr);
-        this->booleanPrototype = root_context->newObject(false);
-        this->unicodeCharPrototype = root_context->newObject(false);
-        this->listPrototype = root_context->newObject(false);
-        this->sparseListPrototype = root_context->newObject(false);
-        this->tuplePrototype = root_context->newObject(false);
-        this->stringPrototype = root_context->newObject(false);
-        this->setPrototype = root_context->newObject(false);
-        this->multisetPrototype = root_context->newObject(false);
+        this->booleanPrototype = const_cast<ProtoObject*>(root_context->newObject(false));
+        this->unicodeCharPrototype = const_cast<ProtoObject*>(root_context->newObject(false));
+        this->listPrototype = const_cast<ProtoObject*>(root_context->newObject(false));
+        this->sparseListPrototype = const_cast<ProtoObject*>(root_context->newObject(false));
+        this->tuplePrototype = const_cast<ProtoObject*>(root_context->newObject(false));
+        this->stringPrototype = const_cast<ProtoObject*>(root_context->newObject(false));
+        this->setPrototype = const_cast<ProtoObject*>(root_context->newObject(false));
+        this->multisetPrototype = const_cast<ProtoObject*>(root_context->newObject(false));
         delete root_context;
     }
 
     ProtoSpace::~ProtoSpace() {
         this->state = SPACE_STATE_ENDING;
-        if (gcThread.joinable()) {
-            gcThread.join();
+        if (gcThread->joinable()) {
+            gcThread->join();
         }
     }
 
@@ -73,7 +72,11 @@ namespace proto {
         return static_cast<Cell*>(std::malloc(sizeof(BigCell)));
     }
 
-    void ProtoSpace::submitYoungGeneration(Cell* cell) {
+    void ProtoSpace::submitYoungGeneration(const Cell* cell) {
+        // This is a placeholder for a real implementation.
+    }
+
+    void ProtoSpace::triggerGC() {
         // This is a placeholder for a real implementation.
     }
 }
