@@ -109,7 +109,13 @@ All core collection types in Proto are implemented as persistent, immutable data
 
 *   **`ProtoTuple` & `ProtoString`**: These are implemented as **ropes**, a tree structure where leaves are small, fixed-size arrays of data. This makes operations like concatenation, slicing, and insertion extremely efficient, even for very large strings and tuples, as it avoids massive data copies by simply creating new tree nodes that point to existing, shared data.
 *   **`ProtoList` & `ProtoSparseList`**: These are also backed by balanced trees, ensuring that operations at any point in the collection (beginning, middle, or end) have consistent, logarithmic time complexity.
-*   **Interning for Tuples**: To conserve memory, all tuples with identical content are **interned**. This means they are guaranteed to be the *exact same object in memory*. This is managed by a global `TupleDictionary` in the `ProtoSpace` and makes equality checks (which become simple pointer comparisons) incredibly fast.
+*   **Interning for Tuples & Strings**: To conserve memory and speed up equality checks, all **Tuples** and **Strings** are interned. This means distinct objects with identical content share the same memory address.
+    *   **Tuples**: Managed by a global `tupleRoot` dictionary (BST).
+    *   **Strings**: Managed by a global `stringInternMap` (Hash Set). Since Strings are implemented as wrappers around Tuples, checking string equality often reduces to checking pointer equality of the underlying interned tuple.
+
+*   **Sets & Multisets**:
+    *   **`ProtoSet`**: Implemented using a `ProtoSparseList` where keys are the hash of elements and values are the elements themselves.
+    *   **`ProtoMultiset`**: Implemented as a "Bag of Counts". It uses a `ProtoSparseList` where keys are element hashes and values are `SmallInteger` counts, allowing for efficient allocation-free tracking of duplicates.
 
 ---
 

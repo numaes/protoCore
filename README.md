@@ -41,7 +41,7 @@ int main() {
 
 ## Core Features
 
-*   **Rich Dynamic Typing in C++**: Create and manipulate a rich set of types, including booleans, strings, and a powerful numeric hierarchy with arbitrary-precision integers (`LargeInteger`) and 64-bit floating-point numbers (`Double`).
+*   **Rich Dynamic Typing in C++**: Create and manipulate a rich set of types, including booleans, strings, sets, multisets, and a powerful numeric hierarchy with arbitrary-precision integers (`LargeInteger`) and 64-bit floating-point numbers (`Double`).
 *   **Prototypal Inheritance**: A flexible and powerful object model based on Lieberman prototypes. Objects inherit directly from other objects, allowing for dynamic structure and behavior sharing.
 *   **Immutable-by-Default Data Structures**: Collections like lists, tuples, and dictionaries are immutable. Operations like `append` or `set` return new, modified versions, eliminating a whole class of bugs related to shared state and making concurrent programming safer and easier to reason about.
 *   **True, GIL-Free Concurrency**: Each `ProtoThread` is a native OS thread. The runtime was designed from the ground up for parallelism and has no Global Interpreter Lock, allowing it to take full advantage of modern multi-core processors.

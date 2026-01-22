@@ -38,7 +38,8 @@ The library implements persistent data structures to support efficient copy-on-w
 
 *   **Ropes**: Used for `ProtoString` and `ProtoTuple` to enable efficient concatenation and slicing without massive copying.
 *   **Balanced Trees**: Used for `ProtoList` and `ProtoSparseList` to guarantee O(log n) operations.
-*   **Interning**: Tuples are interned explicitly to allow pointer-equality checks.
+*   **Interning**: Tuples and Strings are interned explicitly to allow O(1) identity comparison for unique values.
+*   **Sets & Multisets**: Implemented efficiently over hash-mapped SparseLists (Multisets use value counts).
 
 ## 3. Codebase Structure
 
