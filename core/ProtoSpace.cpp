@@ -72,6 +72,10 @@ namespace proto {
         this->setIteratorPrototype = this->objectPrototype;
         this->multisetIteratorPrototype = this->objectPrototype;
 
+        // Initialize mutableRoot
+        auto* emptyRaw = new(root_context) ProtoSparseListImplementation(root_context, 0, PROTO_NONE, nullptr, nullptr, true);
+        this->mutableRoot = const_cast<ProtoSparseList*>(emptyRaw->asSparseList(root_context));
+
         delete root_context;
     }
 
@@ -109,12 +113,14 @@ namespace proto {
         }
 
         Cell* previous = nullptr;
-        for (int i = 0; i < 1024; ++i, newCell++)
+        BigCell* bigCellPtr = reinterpret_cast<BigCell*>(newCell);
+        for (int i = 0; i < 1024; ++i)
         {
-            newCell->next = previous;
-            previous = newCell;
+            Cell* current = reinterpret_cast<Cell*>(&bigCellPtr[i]);
+            current->next = previous;
+            previous = current;
         }
-        return newCell;
+        return previous;
     }
 
     void ProtoSpace::submitYoungGeneration(const Cell* cell) {

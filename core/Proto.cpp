@@ -101,8 +101,22 @@ namespace proto
         const unsigned long attr_hash = name->getHash(context);
         while (currentObject) {
             auto oc = toImpl<const ProtoObjectCell>(currentObject);
-            if (oc->attributes->implHas(context, attr_hash)) {
-                return oc->attributes->implGetAt(context, attr_hash);
+            const ProtoSparseListImplementation* attributes = oc->attributes;
+
+            // Check if this object is a mutable reference and has an updated state
+            if (oc->mutable_ref > 0) {
+                 ProtoSparseList* root = context->space->mutableRoot.load();
+                 const auto* mutableList = toImpl<const ProtoSparseListImplementation>(root);
+                 const ProtoObject* storedState = mutableList->implGetAt(context, oc->mutable_ref);
+                 if (storedState != PROTO_NONE) {
+                     auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
+                     attributes = storedOc->attributes;
+                     oc = storedOc; 
+                 }
+            }
+
+            if (attributes->implHas(context, attr_hash)) {
+                return attributes->implGetAt(context, attr_hash);
             }
             if (oc->parent) currentObject = oc->parent->getObject(context);
             else currentObject = nullptr;
@@ -119,6 +133,40 @@ namespace proto
         pa.oid = this;
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return this;
         auto* oc = toImpl<ProtoObjectCell>(this);
+
+        // Handle Mutable Objects
+        if (oc->mutable_ref > 0) {
+             // 1. Get current list from mutableRoot
+             auto* currentMutableList = toImpl<const ProtoSparseListImplementation>(context->space->mutableRoot.load());
+
+             // 2. Get current object state
+             const ProtoObject* currentObjState = this; 
+             const ProtoObject* storedState = currentMutableList->implGetAt(context, oc->mutable_ref);
+             if (storedState != PROTO_NONE) {
+                  currentObjState = storedState;
+             }
+
+             // 3. Create new state with updated attribute
+             auto* currentOc = toImpl<const ProtoObjectCell>(currentObjState);
+             const auto* newAttributes = currentOc->attributes->implSetAt(context, name->getHash(context), value);
+             auto* newState = (new(context) ProtoObjectCell(context, currentOc->parent, newAttributes, oc->mutable_ref))->asObject(context);
+
+             // 4. Update mutableRoot (Compare and Swap Loop)
+             while(true) {
+                 ProtoSparseList* oldRoot = context->space->mutableRoot.load();
+                 auto* oldRootImpl = toImpl<const ProtoSparseListImplementation>(oldRoot);
+                 auto* newRootImpl = oldRootImpl->implSetAt(context, oc->mutable_ref, newState);
+                 ProtoSparseList* expected = oldRoot;
+                 // Note: asSparseList returns const ProtoSparseList*, cast to ProtoSparseList* for atomic
+                 if (context->space->mutableRoot.compare_exchange_weak(expected, const_cast<ProtoSparseList*>(newRootImpl->asSparseList(context)))) {
+                     break;
+                 }
+             }
+
+             return this; // Return the same handle!
+        }
+
+        // Handle Immutable Objects (Copy-on-Write)
         const auto* newAttributes = oc->attributes->implSetAt(context, name->getHash(context), value);
         return (new(context) ProtoObjectCell(context, oc->parent, newAttributes, 0))->asObject(context);
     }
