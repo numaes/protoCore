@@ -282,7 +282,7 @@ namespace proto
         const ProtoList* result = context->newList();
         result = result->appendLast(context, divide(context, other));
         result = result->appendLast(context, modulo(context, other));
-        return result->asObject(context);
+        return context->newTupleFromList(result)->asObject(context);
     }
 
 
@@ -364,20 +364,37 @@ namespace proto
     // ProtoMultiset API Implementation
     //=========================================================================
     const ProtoMultiset* ProtoMultiset::add(ProtoContext* context, const ProtoObject* value) const {
-        const auto* current_list = toImpl<const ProtoMultisetImplementation>(this)->list;
-        const auto* new_list = current_list->setAt(context, value->getHash(context), value);
-        return (new (context) ProtoMultisetImplementation(context, new_list, new_list->getSize(context)))->asProtoMultiset(context);
+        const auto* impl = toImpl<const ProtoMultisetImplementation>(this);
+        const auto* current_list = impl->list;
+        unsigned long hash = value->getHash(context);
+        const ProtoObject* existing = current_list->getAt(context, hash);
+        long long count = existing ? existing->asLong(context) : 0;
+        
+        const auto* new_list = current_list->setAt(context, hash, context->fromInteger(count + 1));
+        return (new (context) ProtoMultisetImplementation(context, new_list, impl->size + 1))->asProtoMultiset(context);
     }
 
     const ProtoObject* ProtoMultiset::count(ProtoContext* context, const ProtoObject* value) const {
-        // This is a simplified implementation. A real implementation would need to handle hash collisions.
-        return toImpl<const ProtoMultisetImplementation>(this)->list->has(context, value->getHash(context)) ? context->fromInteger(1) : context->fromInteger(0);
+        const auto* current_list = toImpl<const ProtoMultisetImplementation>(this)->list;
+        const ProtoObject* existing = current_list->getAt(context, value->getHash(context));
+        return existing ? existing : context->fromInteger(0);
     }
 
     const ProtoMultiset* ProtoMultiset::remove(ProtoContext* context, const ProtoObject* value) const {
-        const auto* current_list = toImpl<const ProtoMultisetImplementation>(this)->list;
-        const auto* new_list = toImpl<const ProtoSparseListImplementation>(current_list)->implRemoveAt(context, value->getHash(context));
-        return (new (context) ProtoMultisetImplementation(context, new_list->asSparseList(context), (unsigned long)new_list->size))->asProtoMultiset(context);
+        const auto* impl = toImpl<const ProtoMultisetImplementation>(this);
+        const auto* current_list = impl->list;
+        unsigned long hash = value->getHash(context);
+        const ProtoObject* existing = current_list->getAt(context, hash);
+        if (!existing) return this;
+        
+        long long count = existing->asLong(context);
+        const ProtoSparseList* new_list;
+        if (count > 1) {
+             new_list = current_list->setAt(context, hash, context->fromInteger(count - 1));
+        } else {
+             new_list = current_list->removeAt(context, hash);
+        }
+        return (new (context) ProtoMultisetImplementation(context, new_list, impl->size - 1))->asProtoMultiset(context);
     }
     unsigned long ProtoMultiset::getSize(ProtoContext* context) const { return toImpl<const ProtoMultisetImplementation>(this)->size; }
     const ProtoObject* ProtoMultiset::asObject(ProtoContext* context) const { return toImpl<const ProtoMultisetImplementation>(this)->implAsObject(context); }

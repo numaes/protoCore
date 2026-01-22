@@ -19,6 +19,8 @@ namespace proto {
             }
         }
     }
+    
+    std::mutex ProtoSpace::globalMutex;
 
     ProtoSpace::ProtoSpace() :
         state(SPACE_STATE_RUNNING),
@@ -37,16 +39,17 @@ namespace proto {
         parameterNotFoundCallback(nullptr)
     {
         // Initialize prototypes
-        auto* root_context = new ProtoContext(this, nullptr, nullptr, nullptr, nullptr, nullptr);
-        this->booleanPrototype = const_cast<ProtoObject*>(root_context->newObject(false));
-        this->unicodeCharPrototype = const_cast<ProtoObject*>(root_context->newObject(false));
-        this->listPrototype = const_cast<ProtoObject*>(root_context->newObject(false));
-        this->sparseListPrototype = const_cast<ProtoObject*>(root_context->newObject(false));
-        this->objectPrototype = const_cast<ProtoObject*>(root_context->newObject(false));
-        this->tuplePrototype = const_cast<ProtoObject*>(root_context->newObject(false));
-        this->stringPrototype = const_cast<ProtoObject*>(root_context->newObject(false));
-        this->setPrototype = const_cast<ProtoObject*>(root_context->newObject(false));
-        this->multisetPrototype = const_cast<ProtoObject*>(root_context->newObject(false));
+        // Initialize prototypes
+        this->rootContext = new ProtoContext(this, nullptr, nullptr, nullptr, nullptr, nullptr);
+        this->booleanPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
+        this->unicodeCharPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
+        this->listPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
+        this->sparseListPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
+        this->objectPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
+        this->tuplePrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
+        this->stringPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
+        this->setPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
+        this->multisetPrototype = const_cast<ProtoObject*>(this->rootContext->newObject(false));
 
         // Initialize all other prototypes to a basic object for now
         // This prevents null dereferences if getPrototype is called on an uninitialized type
@@ -73,10 +76,10 @@ namespace proto {
         this->multisetIteratorPrototype = this->objectPrototype;
 
         // Initialize mutableRoot
-        auto* emptyRaw = new(root_context) ProtoSparseListImplementation(root_context, 0, PROTO_NONE, nullptr, nullptr, true);
-        this->mutableRoot = const_cast<ProtoSparseList*>(emptyRaw->asSparseList(root_context));
-
-        delete root_context;
+        auto* emptyRaw = new(this->rootContext) ProtoSparseListImplementation(this->rootContext, 0, PROTO_NONE, nullptr, nullptr, true);
+        this->mutableRoot = const_cast<ProtoSparseList*>(emptyRaw->asSparseList(this->rootContext));
+        
+        initStringInternMap(this);
     }
 
     ProtoSpace::~ProtoSpace() {
@@ -84,6 +87,8 @@ namespace proto {
         if (gcThread->joinable()) {
             gcThread->join();
         }
+        delete this->rootContext;
+        freeStringInternMap(this);
     }
 
     const ProtoThread* ProtoSpace::newThread(

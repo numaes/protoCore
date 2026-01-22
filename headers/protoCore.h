@@ -662,6 +662,7 @@ namespace proto
         unsigned int gcSleepMilliseconds;
         int blockOnNoMemory;
         std::atomic<TupleDictionary*> tupleRoot;
+        void* stringInternMap;
         std::atomic<bool> mutableLock;
         std::atomic<bool> threadsLock;
         std::atomic<bool> gcLock;

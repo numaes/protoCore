@@ -896,6 +896,11 @@ namespace proto {
     static_assert(sizeof(ProtoSetIteratorImplementation) <= 64, "ProtoSetIteratorImplementation exceeds 64 bytes!");
     static_assert(sizeof(ProtoMultisetIteratorImplementation) <= 64, "ProtoMultisetIteratorImplementation exceeds 64 bytes!");
     static_assert(sizeof(TupleDictionary) <= 64, "TupleDictionary exceeds 64 bytes!");
+
+    // String Interning Helpers
+    void initStringInternMap(ProtoSpace* space);
+    void freeStringInternMap(ProtoSpace* space);
+    const ProtoStringImplementation* internString(ProtoContext* context, const ProtoStringImplementation* newString);
 }
 
 #endif //PROTO_INTERNAL_H

@@ -134,8 +134,11 @@ namespace proto
 
         if (this->returnValue && this->previous)
         {
-            auto returnReference = new(this->previous) ReturnReference(this->previous, (Cell*)this->returnValue);
-            this->previous->addCell2Context(returnReference);
+            if (this->returnValue->isCell(this)) {
+                auto* cell = const_cast<Cell*>(this->returnValue->asCell(this));
+                auto returnReference = new(this->previous) ReturnReference(this->previous, cell);
+                this->previous->addCell2Context(returnReference);
+            }
         }
         // Free the C-style array for automatic variables.
         delete[] automaticLocals;
@@ -213,7 +216,7 @@ namespace proto
             s += len;
         }
         const auto newString = new(this) ProtoStringImplementation(this, ProtoTupleImplementation::tupleFromList(this, charList));
-        return newString->implAsObject(this);
+        return internString(this, newString)->implAsObject(this);
     }
 
     const ProtoList* ProtoContext::newList()

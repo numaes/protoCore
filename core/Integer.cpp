@@ -105,7 +105,11 @@ namespace proto
     long long Integer::asLong(ProtoContext* context, const ProtoObject* object)
     {
         if (!isInteger(object)) {
-            throw std::runtime_error("Object is not an integer type.");
+           ProtoObjectPointer p; p.oid = object;
+           if (p.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && p.op.embedded_type == EMBEDDED_TYPE_UNICODE_CHAR) {
+               return p.unicodeChar.unicodeValue;
+           }
+           throw std::runtime_error("Object is not an integer type.");
         }
 
         if (isSmallInteger(object)) {

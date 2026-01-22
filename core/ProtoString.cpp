@@ -180,4 +180,55 @@ namespace proto {
     int ProtoString::cmp_to_string(ProtoContext* context, const ProtoString* otherString) const {
         return toImpl<const ProtoStringImplementation>(this)->implCompare(context, otherString);
     }
+
+    //=========================================================================
+    // String Interning Implementation
+    //=========================================================================
+} // namespace proto
+#include <unordered_set>
+
+namespace proto {
+    struct StringInternHash {
+        std::size_t operator()(const ProtoStringImplementation* s) const {
+            // Context is not easily available here for getHash...
+            // But getHash implementation for String just delegates to tuple->getHash(context).
+            // We need context to compute hash OR assume hash is cached/stable?
+            // Tuple hash is computed from content.
+            // Problem: unordered_set calls hasher without context.
+            // But s->tuple pointer is stable and unique for unique content (because Tuple is interned).
+            // So we can just hash the tuple POINTER!
+            return std::hash<const void*>{}(s->tuple);
+        }
+    };
+
+    struct StringInternEqual {
+        bool operator()(const ProtoStringImplementation* a, const ProtoStringImplementation* b) const {
+            // Since tuples are interned, identical strings MUST share the same tuple pointer.
+            return a->tuple == b->tuple;
+        }
+    };
+
+    using StringInternSet = std::unordered_set<const ProtoStringImplementation*, StringInternHash, StringInternEqual>;
+
+    void initStringInternMap(ProtoSpace* space) {
+        space->stringInternMap = new StringInternSet();
+    }
+
+    void freeStringInternMap(ProtoSpace* space) {
+        delete static_cast<StringInternSet*>(space->stringInternMap);
+        space->stringInternMap = nullptr;
+    }
+
+    const ProtoStringImplementation* internString(ProtoContext* context, const ProtoStringImplementation* newString) {
+        std::lock_guard<std::mutex> lock(ProtoSpace::globalMutex);
+        StringInternSet* map = static_cast<StringInternSet*>(context->space->stringInternMap);
+        if (!map) return newString; // Should not happen if initialized
+
+        auto it = map->find(newString);
+        if (it != map->end()) {
+            return *it;
+        }
+        map->insert(newString);
+        return newString;
+    }
 }

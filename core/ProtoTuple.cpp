@@ -153,8 +153,70 @@ namespace proto {
         }
     }
 
+    namespace {
+        // Compare two tuples for identity equality of their contents
+        int compareTuples(ProtoContext* context, const ProtoTupleImplementation* t1, const ProtoTupleImplementation* t2) {
+            if (t1 == t2) return 0;
+            unsigned long s1 = t1->implGetSize(context);
+            unsigned long s2 = t2->implGetSize(context);
+            if (s1 < s2) return -1;
+            if (s1 > s2) return 1;
+
+            unsigned long h1 = t1->getHash(context);
+            unsigned long h2 = t2->getHash(context);
+            if (h1 < h2) return -1;
+            if (h1 > h2) return 1;
+
+            for (unsigned long i = 0; i < s1; ++i) {
+                const ProtoObject* o1 = t1->implGetAt(context, i);
+                const ProtoObject* o2 = t2->implGetAt(context, i);
+                if (o1 < o2) return -1;
+                if (o1 > o2) return 1;
+            }
+            return 0;
+        }
+
+        const ProtoTupleImplementation* internTuple(ProtoContext* context, const ProtoTupleImplementation* newTuple) {
+            std::lock_guard<std::mutex> lock(ProtoSpace::globalMutex);
+            ProtoSpace* space = context->space;
+            TupleDictionary* current = space->tupleRoot.load();
+            TupleDictionary* parent = nullptr;
+            
+            while (current) {
+                int cmp = compareTuples(context, newTuple, current->key);
+                if (cmp == 0) {
+                    return current->key; // Found existing tuple
+                }
+                parent = current;
+                if (cmp < 0) {
+                    current = current->previous;
+                } else {
+                    current = current->next;
+                }
+            }
+
+            // Not found, insert new node
+            TupleDictionary* newNode = new(context) TupleDictionary(context, newTuple, nullptr, nullptr);
+            if (!parent) {
+                space->tupleRoot.store(newNode);
+            } else {
+                int cmp = compareTuples(context, newTuple, parent->key);
+                if (cmp < 0) {
+                    parent->previous = newNode;
+                } else {
+                    parent->next = newNode;
+                }
+            }
+            return newTuple;
+        }
+    }
+
     const ProtoTupleImplementation* ProtoTupleImplementation::tupleFromList(ProtoContext* context, const ProtoListImplementation* list) {
-        return fromListRecursive(context, list->asProtoList(context), 0, list->size);
+        const ProtoTupleImplementation* rawTuple = fromListRecursive(context, list->asProtoList(context), 0, list->size);
+        const ProtoTupleImplementation* internedTuple = internTuple(context, rawTuple);
+        // If interned came back different, rawTuple is redundant (garbage) but not easily deletable here due to GC.
+        // It will be collected eventually as it's not referenced by anyone.
+        return internedTuple;
     }
 
     ProtoTupleImplementation::ProtoTupleImplementation(

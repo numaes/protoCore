@@ -121,8 +121,38 @@ namespace proto {
     }
 
     const ProtoListImplementation* ProtoListImplementation::implRemoveAt(ProtoContext* context, int index) const {
-        // This is a complex operation in a rope-like structure and is not fully implemented here for brevity.
-        return this;
+        if (isEmpty || index < 0 || index >= size) {
+            return this;
+        }
+
+        const unsigned long left_size = previousNode ? previousNode->size : 0;
+
+        if (index < left_size) {
+            const ProtoListImplementation* new_prev = previousNode->implRemoveAt(context, index);
+            if (new_prev && new_prev->size == 0) new_prev = nullptr;
+            return new (context) ProtoListImplementation(context, value, false, new_prev, nextNode);
+        }
+        else if (index == left_size) {
+            // Remove current value
+            if (!previousNode && !nextNode) {
+                // Became empty
+                return new (context) ProtoListImplementation(context, nullptr, true, nullptr, nullptr);
+            }
+            if (!previousNode) return nextNode;
+            if (!nextNode) return previousNode;
+
+            // Both exist. Promote from left.
+            const ProtoObject* new_val = previousNode->implGetAt(context, previousNode->size - 1);
+            const ProtoListImplementation* new_prev = previousNode->implRemoveAt(context, previousNode->size - 1);
+            if (new_prev && new_prev->size == 0) new_prev = nullptr;
+            return new (context) ProtoListImplementation(context, new_val, false, new_prev, nextNode);
+        }
+        else {
+            // index > left_size
+            const ProtoListImplementation* new_next = nextNode->implRemoveAt(context, index - left_size - 1);
+            if (new_next && new_next->size == 0) new_next = nullptr;
+            return new (context) ProtoListImplementation(context, value, false, previousNode, new_next);
+        }
     }
 
     const ProtoObject* ProtoListImplementation::implAsObject(ProtoContext* context) const {
