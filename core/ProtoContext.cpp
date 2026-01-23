@@ -40,7 +40,8 @@ namespace proto
         automaticLocalsCount(0),
         lastAllocatedCell(nullptr),
         allocatedCellsCount(0),
-        returnValue(PROTO_NONE)
+        returnValue(PROTO_NONE),
+        freeCells(nullptr)
     {
         // Step 1: Inherit essential services from the parent context.
         // This must be done first so that this context can allocate objects.
@@ -53,6 +54,8 @@ namespace proto
         }
         if (this->thread) {
             toImpl<ProtoThreadImplementation>(this->thread)->implSetCurrentContext(this);
+        } else if (this->space) {
+            this->space->mainContext = this;
         }
 
         // Step 2: Allocate storage for local variables.
@@ -128,6 +131,10 @@ namespace proto
      */
     ProtoContext::~ProtoContext()
     {
+        if (this->space && !this->thread) {
+            this->space->mainContext = this->previous;
+        }
+
         if (this->space && this->lastAllocatedCell) {
             this->space->submitYoungGeneration(this->lastAllocatedCell);
         }
@@ -149,11 +156,34 @@ namespace proto
      */
     Cell* ProtoContext::allocCell()
     {
+        if (this && this->space && this->space->stwFlag.load() && std::this_thread::get_id() != this->space->gcThread->get_id()) {
+            this->space->parkedThreads++;
+            {
+                std::unique_lock<std::mutex> lock(ProtoSpace::globalMutex);
+                this->space->gcCV.notify_all();
+                this->space->stopTheWorldCV.wait(lock, [this] { return !this->space->stwFlag.load(); });
+            }
+            this->space->parkedThreads--;
+        }
+
         Cell* newCell = nullptr;
         if (this && this->thread) {
             newCell = toImpl<ProtoThreadImplementation>(this->thread)->implAllocCell(this);
+        } else if (this) {
+            // Local context pool check
+            if (this->freeCells) {
+                newCell = this->freeCells;
+                this->freeCells = newCell->next;
+            } else if (this->space) {
+                newCell = this->space->getFreeCells(nullptr);
+                if (newCell) {
+                    this->freeCells = newCell->next;
+                }
+            }
         } else {
-            int result = posix_memalign(reinterpret_cast<void**>(&newCell), 64, sizeof(BigCell));
+             // Absolute fall back (rare or error)
+             int result = posix_memalign(reinterpret_cast<void**>(&newCell), 64, sizeof(BigCell));
+             if (result != 0) return nullptr;
         }
 
         if (newCell) {

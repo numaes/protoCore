@@ -49,6 +49,14 @@ While the world is stopped, the GC identifies all root objects:
     - If it was marked, it remains in the heap.
 - Cleans up processed `DirtySegments` from the snapshot. New segments added by threads during the Mark phase are ignored and will be processed in the next cycle.
 
+## Future Improvements
+
+Based on recent technical audits, the following improvements are planned:
+- **Attribute Lookup Caching**: Integrate thread-local inline caches to speed up prototype chain traversals.
+- **Marking Optimization**: Replace the current `std::unordered_set` based marking with a more efficient bitset or marking bits in the cell header.
+- **Parallel Marking**: Implement multi-threaded marking to reduce GC cycle duration on large heaps.
+- **Secure Reference Generation**: Move to atomic 64-bit counters or thread-local random generators for `mutable_ref` generation to avoid collisions.
+
 ## Synchronization Mechanisms
 
 - `globalMutex`: Protects access to shared memory structures like `freeCells`, `dirtySegments`, and the thread list.

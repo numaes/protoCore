@@ -17,6 +17,10 @@ namespace proto {
     {
     }
 
+    void ProtoMultisetImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
+        if (list) method(context, self, reinterpret_cast<const ProtoObject*>(list)->asCell(context));
+    }
+
     const ProtoObject* ProtoMultisetImplementation::implAsObject(ProtoContext* context) const {
         ProtoObjectPointer p;
         p.multisetImplementation = this;
@@ -51,5 +55,9 @@ namespace proto {
         p.multisetIteratorImplementation = this;
         p.op.pointer_tag = POINTER_TAG_MULTISET_ITERATOR;
         return p.oid;
+    }
+
+    void ProtoMultisetIteratorImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
+        if (iterator) method(context, self, iterator);
     }
 }
