@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpygments_1_1lexers_1_1shell_1_1ShellSessionBaseLexer" kind="class" language="Python" prot="public">
+    <compoundname>pygments::lexers::shell::ShellSessionBaseLexer</compoundname>
+    <basecompoundref refid="classpygments_1_1lexer_1_1Lexer" prot="public" virt="non-virtual">pygments.lexer.Lexer</basecompoundref>
+    <derivedcompoundref refid="classpygments_1_1lexers_1_1shell_1_1BashSessionLexer" prot="public" virt="non-virtual">pygments.lexers.shell.BashSessionLexer</derivedcompoundref>
+    <derivedcompoundref refid="classpygments_1_1lexers_1_1shell_1_1MSDOSSessionLexer" prot="public" virt="non-virtual">pygments.lexers.shell.MSDOSSessionLexer</derivedcompoundref>
+    <derivedcompoundref refid="classpygments_1_1lexers_1_1shell_1_1PowerShellSessionLexer" prot="public" virt="non-virtual">pygments.lexers.shell.PowerShellSessionLexer</derivedcompoundref>
+    <derivedcompoundref refid="classpygments_1_1lexers_1_1shell_1_1TcshSessionLexer" prot="public" virt="non-virtual">pygments.lexers.shell.TcshSessionLexer</derivedcompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1shell_1_1ShellSessionBaseLexer_1ae3c8a63805d0ff5211ccb66291065b12" prot="protected" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool pygments.lexers.shell.ShellSessionBaseLexer::_bare_continuation</definition>
+        <argsstring></argsstring>
+        <name>_bare_continuation</name>
+        <qualifiedname>pygments.lexers.shell.ShellSessionBaseLexer._bare_continuation</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/shell.py" line="158" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/shell.py" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1shell_1_1ShellSessionBaseLexer_1aeab8b19c7a7ea465c224780d29e0ac42" prot="protected" static="yes" mutable="no">
+        <type></type>
+        <definition>pygments.lexers.shell.ShellSessionBaseLexer::_venv</definition>
+        <argsstring></argsstring>
+        <name>_venv</name>
+        <qualifiedname>pygments.lexers.shell.ShellSessionBaseLexer._venv</qualifiedname>
+        <initializer>=  re.compile(r&apos;^(\([^)]*\))(\s*)&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/shell.py" line="159" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/shell.py" bodystart="159" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1shell_1_1ShellSessionBaseLexer_1ad5b85c969aef2289dc6cb2f00df72265" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pygments.lexers.shell.ShellSessionBaseLexer::_ps2</definition>
+        <argsstring></argsstring>
+        <name>_ps2</name>
+        <qualifiedname>pygments.lexers.shell.ShellSessionBaseLexer._ps2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/shell.py" line="196" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/shell.py" bodystart="196" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpygments_1_1lexers_1_1shell_1_1ShellSessionBaseLexer_1ade1faaff669c088c66a679886f411baf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.lexers.shell.ShellSessionBaseLexer.get_tokens_unprocessed</definition>
+        <argsstring>(self, text)</argsstring>
+        <name>get_tokens_unprocessed</name>
+        <qualifiedname>pygments.lexers.shell.ShellSessionBaseLexer.get_tokens_unprocessed</qualifiedname>
+        <reimplements refid="classpygments_1_1lexer_1_1Lexer_1a01ab45fced48ec5089f0a810040e1ac8">get_tokens_unprocessed</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>text</type>
+          <defname>text</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This method should process the text and return an iterable of
+``(index, tokentype, value)`` tuples where ``index`` is the starting
+position of the token within the input text.
+
+It must be overridden by subclasses. It is recommended to
+implement it as a generator to maximize effectiveness.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/shell.py" line="161" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/shell.py" bodystart="161" bodyend="222"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Base lexer for shell sessions.
+
+.. versionadded:: 2.1
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.lexers.shell.ShellSessionBaseLexer</label>
+        <link refid="classpygments_1_1lexers_1_1shell_1_1ShellSessionBaseLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>pygments.lexers.shell.BashSessionLexer</label>
+        <link refid="classpygments_1_1lexers_1_1shell_1_1BashSessionLexer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>pygments.lexers.shell.MSDOSSessionLexer</label>
+        <link refid="classpygments_1_1lexers_1_1shell_1_1MSDOSSessionLexer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>pygments.lexers.shell.PowerShellSessionLexer</label>
+        <link refid="classpygments_1_1lexers_1_1shell_1_1PowerShellSessionLexer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>pygments.lexers.shell.TcshSessionLexer</label>
+        <link refid="classpygments_1_1lexers_1_1shell_1_1TcshSessionLexer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.lexers.shell.ShellSessionBaseLexer</label>
+        <link refid="classpygments_1_1lexers_1_1shell_1_1ShellSessionBaseLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pygments/lexers/shell.py" line="151" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/shell.py" bodystart="151" bodyend="222"/>
+    <listofallmembers>
+      <member refid="classpygments_1_1lexers_1_1shell_1_1ShellSessionBaseLexer_1ae3c8a63805d0ff5211ccb66291065b12" prot="protected" virt="non-virtual"><scope>pygments::lexers::shell::ShellSessionBaseLexer</scope><name>_bare_continuation</name></member>
+      <member refid="classpygments_1_1lexers_1_1shell_1_1ShellSessionBaseLexer_1ad5b85c969aef2289dc6cb2f00df72265" prot="protected" virt="non-virtual"><scope>pygments::lexers::shell::ShellSessionBaseLexer</scope><name>_ps2</name></member>
+      <member refid="classpygments_1_1lexers_1_1shell_1_1ShellSessionBaseLexer_1aeab8b19c7a7ea465c224780d29e0ac42" prot="protected" virt="non-virtual"><scope>pygments::lexers::shell::ShellSessionBaseLexer</scope><name>_venv</name></member>
+      <member refid="classpygments_1_1lexers_1_1shell_1_1ShellSessionBaseLexer_1ade1faaff669c088c66a679886f411baf" prot="public" virt="non-virtual"><scope>pygments::lexers::shell::ShellSessionBaseLexer</scope><name>get_tokens_unprocessed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

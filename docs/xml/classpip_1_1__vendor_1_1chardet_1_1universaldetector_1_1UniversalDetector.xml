@@ -1,0 +1,511 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::chardet::universaldetector::UniversalDetector</compoundname>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1ab3c91007b98bee242da7d6fce625e7fa" prot="public" static="yes" mutable="no">
+        <type>float</type>
+        <definition>float pip._vendor.chardet.universaldetector.UniversalDetector::MINIMUM_THRESHOLD</definition>
+        <argsstring></argsstring>
+        <name>MINIMUM_THRESHOLD</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector.MINIMUM_THRESHOLD</qualifiedname>
+        <initializer>=  0.20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="73" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1accded4e9f8a1d0af00274890c04e7d4c" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.chardet.universaldetector.UniversalDetector::HIGH_BYTE_DETECTOR</definition>
+        <argsstring></argsstring>
+        <name>HIGH_BYTE_DETECTOR</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector.HIGH_BYTE_DETECTOR</qualifiedname>
+        <initializer>=  re.compile(b&quot;[\x80-\xFF]&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="74" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a28cc5560720b6bf07a7b12f70ac3b0bd" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.chardet.universaldetector.UniversalDetector::ESC_DETECTOR</definition>
+        <argsstring></argsstring>
+        <name>ESC_DETECTOR</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector.ESC_DETECTOR</qualifiedname>
+        <initializer>=  re.compile(b&quot;(\033|~{)&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="75" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a9d29b5cb44a592afb68f4d7f71449318" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.chardet.universaldetector.UniversalDetector::WIN_BYTE_DETECTOR</definition>
+        <argsstring></argsstring>
+        <name>WIN_BYTE_DETECTOR</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector.WIN_BYTE_DETECTOR</qualifiedname>
+        <initializer>=  re.compile(b&quot;[\x80-\x9F]&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="76" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a54a86b89c5b0e04e9f7a6487d21db464" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pip._vendor.chardet.universaldetector.UniversalDetector::ISO_WIN_MAP</definition>
+        <argsstring></argsstring>
+        <name>ISO_WIN_MAP</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector.ISO_WIN_MAP</qualifiedname>
+        <initializer>=  {
+        &quot;iso-8859-1&quot;: &quot;Windows-1252&quot;,
+        &quot;iso-8859-2&quot;: &quot;Windows-1250&quot;,
+        &quot;iso-8859-5&quot;: &quot;Windows-1251&quot;,
+        &quot;iso-8859-6&quot;: &quot;Windows-1256&quot;,
+        &quot;iso-8859-7&quot;: &quot;Windows-1253&quot;,
+        &quot;iso-8859-8&quot;: &quot;Windows-1255&quot;,
+        &quot;iso-8859-9&quot;: &quot;Windows-1254&quot;,
+        &quot;iso-8859-13&quot;: &quot;Windows-1257&quot;,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="77" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a00f0bf8dfebb1fcbc30f181ae8769050" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pip._vendor.chardet.universaldetector.UniversalDetector::LEGACY_MAP</definition>
+        <argsstring></argsstring>
+        <name>LEGACY_MAP</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector.LEGACY_MAP</qualifiedname>
+        <initializer>=  {
+        &quot;ascii&quot;: &quot;Windows-1252&quot;,
+        &quot;iso-8859-1&quot;: &quot;Windows-1252&quot;,
+        &quot;tis-620&quot;: &quot;ISO-8859-11&quot;,
+        &quot;iso-8859-9&quot;: &quot;Windows-1254&quot;,
+        &quot;gb2312&quot;: &quot;GB18030&quot;,
+        &quot;euc-kr&quot;: &quot;CP949&quot;,
+        &quot;utf-16le&quot;: &quot;UTF-16&quot;,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="90" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a5fa51335dedd2ddaf53245847ebcb911" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.chardet.universaldetector.UniversalDetector::done</definition>
+        <argsstring></argsstring>
+        <name>done</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector.done</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="113" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a29caa6ccd4284571e91a8fde58f1da12" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.chardet.universaldetector.UniversalDetector::lang_filter</definition>
+        <argsstring></argsstring>
+        <name>lang_filter</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector.lang_filter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="117" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1adf2fad75beb55d70a1c6f7cac452dda3" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.chardet.universaldetector.UniversalDetector::logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector.logger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="118" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1ab387c7ef465e4faabb5203e0e3e089e1" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.chardet.universaldetector.UniversalDetector::should_rename_legacy</definition>
+        <argsstring></argsstring>
+        <name>should_rename_legacy</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector.should_rename_legacy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="120" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1af8bfeea118b8f5abe90f417c3f00b5e9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.chardet.universaldetector.UniversalDetector::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector.result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="141" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1ab3fdbb1b58714f4121dc29f1a7a88617" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.chardet.universaldetector.UniversalDetector::MINIMUM_THRESHOLD</definition>
+        <argsstring></argsstring>
+        <name>MINIMUM_THRESHOLD</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector.MINIMUM_THRESHOLD</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="317" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="317" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a8ef1f052cacb514b79c0feff2dbe0689" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.chardet.universaldetector.UniversalDetector::_got_data</definition>
+        <argsstring></argsstring>
+        <name>_got_data</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector._got_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="114" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1af8590fb64ef69031e737ca81f4cf6262" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.chardet.universaldetector.UniversalDetector::_input_state</definition>
+        <argsstring></argsstring>
+        <name>_input_state</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector._input_state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="115" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a7fab1080af2a49f44cf65a0b3c83cb04" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.chardet.universaldetector.UniversalDetector::_last_char</definition>
+        <argsstring></argsstring>
+        <name>_last_char</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector._last_char</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="116" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a9b71812f44276f5eae1af6d932fa46ac" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.chardet.universaldetector.UniversalDetector::_has_win_bytes</definition>
+        <argsstring></argsstring>
+        <name>_has_win_bytes</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector._has_win_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="119" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a5bd786a3d6cca8f89eb856c1171e046b" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.chardet.universaldetector.UniversalDetector::_utf1632_prober</definition>
+        <argsstring></argsstring>
+        <name>_utf1632_prober</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector._utf1632_prober</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="233" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a97f7b6e976c77c40389d60e596e39a16" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.chardet.universaldetector.UniversalDetector::_esc_charset_prober</definition>
+        <argsstring></argsstring>
+        <name>_esc_charset_prober</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector._esc_charset_prober</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="251" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1abab46f3d5fe7b7449b9885181efb13c4" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.chardet.universaldetector.UniversalDetector::_charset_probers</definition>
+        <argsstring></argsstring>
+        <name>_charset_probers</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector._charset_probers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="267" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="267" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a83be0ae15b3e0911aee37ff03dc6d88d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.chardet.universaldetector.UniversalDetector.__init__</definition>
+        <argsstring>(self, LanguageFilter lang_filter=LanguageFilter.ALL, bool should_rename_legacy=False)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1chardet_1_1enums_1_1LanguageFilter" kindref="compound">LanguageFilter</ref></type>
+          <declname>lang_filter</declname>
+          <defval><ref refid="classpip_1_1__vendor_1_1chardet_1_1enums_1_1LanguageFilter_1a6456b6e9d75bc7fa2421010a02859c60" kindref="member">LanguageFilter.ALL</ref></defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>should_rename_legacy</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="100" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="104" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1aabaee5d074e6750ad3b7fd7f18e59572" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int pip._vendor.chardet.universaldetector.UniversalDetector.input_state</definition>
+        <argsstring>(self)</argsstring>
+        <name>input_state</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector.input_state</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="124" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="124" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a43cbe20685542fb35ccd8b8bde787682" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.chardet.universaldetector.UniversalDetector.has_win_bytes</definition>
+        <argsstring>(self)</argsstring>
+        <name>has_win_bytes</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector.has_win_bytes</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="128" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="128" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a146ccdf99919273146f0e440b49e6bf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[<ref refid="classpip_1_1__vendor_1_1chardet_1_1charsetprober_1_1CharSetProber" kindref="compound">CharSetProber</ref>]</type>
+        <definition> List[CharSetProber] pip._vendor.chardet.universaldetector.UniversalDetector.charset_probers</definition>
+        <argsstring>(self)</argsstring>
+        <name>charset_probers</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector.charset_probers</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="132" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="132" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1ada00b7057194f197302879f372aea575" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.chardet.universaldetector.UniversalDetector.reset</definition>
+        <argsstring>(self)</argsstring>
+        <name>reset</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector.reset</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Reset the UniversalDetector and all of its probers back to their
+initial states.  This is called by ``__init__``, so you only need to
+call this directly in between analyses of different documents.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="135" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="135" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a296f6150ff0824215e3890ad38d3175d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.chardet.universaldetector.UniversalDetector.feed</definition>
+        <argsstring>(self, Union[bytes, bytearray] byte_str)</argsstring>
+        <name>feed</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector.feed</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Union</type>
+          <declname>byte_str</declname>
+          <array>[bytes, bytearray]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Takes a chunk of a document and feeds it through all of the relevant
+charset probers.
+
+After calling ``feed``, you can check the value of the ``done``
+attribute to see if you need to continue feeding the
+``UniversalDetector`` more data, or if it has made a prediction
+(in the ``result`` attribute).
+
+.. note::
+   You should always call ``close`` when you&apos;re done feeding in your
+   document if ``done`` is not already ``True``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="154" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="154" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a2a729e7ae145e4953628aac35a1478d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1chardet_1_1resultdict_1_1ResultDict" kindref="compound">ResultDict</ref></type>
+        <definition> ResultDict pip._vendor.chardet.universaldetector.UniversalDetector.close</definition>
+        <argsstring>(self)</argsstring>
+        <name>close</name>
+        <qualifiedname>pip._vendor.chardet.universaldetector.UniversalDetector.close</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Stop analyzing the current document and come up with a final
+prediction.
+
+:returns:  The ``result`` attribute, a ``dict`` with the keys
+           `encoding`, `confidence`, and `language`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="285" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="285" bodyend="363"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>The ``UniversalDetector`` class underlies the ``chardet.detect`` function
+and coordinates all of the different charset probers.
+
+To get a ``dict`` containing an encoding and its confidence, you can simply
+run:
+
+.. code::
+
+        u = UniversalDetector()
+        u.feed(some_bytes)
+        u.close()
+        detected = u.result</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" line="56" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/chardet/universaldetector.py" bodystart="56" bodyend="363"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a83be0ae15b3e0911aee37ff03dc6d88d" prot="public" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1abab46f3d5fe7b7449b9885181efb13c4" prot="protected" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>_charset_probers</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a97f7b6e976c77c40389d60e596e39a16" prot="protected" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>_esc_charset_prober</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a8ef1f052cacb514b79c0feff2dbe0689" prot="protected" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>_got_data</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a9b71812f44276f5eae1af6d932fa46ac" prot="protected" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>_has_win_bytes</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1af8590fb64ef69031e737ca81f4cf6262" prot="protected" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>_input_state</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a7fab1080af2a49f44cf65a0b3c83cb04" prot="protected" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>_last_char</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a5bd786a3d6cca8f89eb856c1171e046b" prot="protected" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>_utf1632_prober</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a146ccdf99919273146f0e440b49e6bf9" prot="public" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>charset_probers</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a2a729e7ae145e4953628aac35a1478d1" prot="public" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>close</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a5fa51335dedd2ddaf53245847ebcb911" prot="public" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>done</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a28cc5560720b6bf07a7b12f70ac3b0bd" prot="public" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>ESC_DETECTOR</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a296f6150ff0824215e3890ad38d3175d" prot="public" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>feed</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a43cbe20685542fb35ccd8b8bde787682" prot="public" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>has_win_bytes</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1accded4e9f8a1d0af00274890c04e7d4c" prot="public" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>HIGH_BYTE_DETECTOR</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1aabaee5d074e6750ad3b7fd7f18e59572" prot="public" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>input_state</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a54a86b89c5b0e04e9f7a6487d21db464" prot="public" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>ISO_WIN_MAP</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a29caa6ccd4284571e91a8fde58f1da12" prot="public" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>lang_filter</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a00f0bf8dfebb1fcbc30f181ae8769050" prot="public" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>LEGACY_MAP</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1adf2fad75beb55d70a1c6f7cac452dda3" prot="public" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>logger</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1ab3c91007b98bee242da7d6fce625e7fa" prot="public" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>MINIMUM_THRESHOLD</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1ab3fdbb1b58714f4121dc29f1a7a88617" prot="public" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>MINIMUM_THRESHOLD</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1ada00b7057194f197302879f372aea575" prot="public" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>reset</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1af8bfeea118b8f5abe90f417c3f00b5e9" prot="public" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>result</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1ab387c7ef465e4faabb5203e0e3e089e1" prot="public" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>should_rename_legacy</name></member>
+      <member refid="classpip_1_1__vendor_1_1chardet_1_1universaldetector_1_1UniversalDetector_1a9d29b5cb44a592afb68f4d7f71449318" prot="public" virt="non-virtual"><scope>pip::_vendor::chardet::universaldetector::UniversalDetector</scope><name>WIN_BYTE_DETECTOR</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

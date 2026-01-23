@@ -1,0 +1,339 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpygments_1_1lexers_1_1tcl_1_1TclLexer" kind="class" language="Python" prot="public">
+    <compoundname>pygments::lexers::tcl::TclLexer</compoundname>
+    <basecompoundref refid="classpygments_1_1lexer_1_1RegexLexer" prot="public" virt="non-virtual">pygments.lexer.RegexLexer</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1ad9ff092b6ac1c51f99acab5b0f77afe2" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pygments.lexers.tcl.TclLexer::keyword_cmds_re</definition>
+        <argsstring></argsstring>
+        <name>keyword_cmds_re</name>
+        <qualifiedname>pygments.lexers.tcl.TclLexer.keyword_cmds_re</qualifiedname>
+        <initializer>=  <ref refid="classpygments_1_1lexer_1_1words" kindref="compound">words</ref>((
+        &apos;after&apos;, &apos;apply&apos;, &apos;array&apos;, &apos;break&apos;, &apos;catch&apos;, &apos;continue&apos;, &apos;elseif&apos;,
+        &apos;else&apos;, &apos;error&apos;, &apos;eval&apos;, &apos;expr&apos;, &apos;for&apos;, &apos;foreach&apos;, &apos;global&apos;, &apos;if&apos;,
+        &apos;namespace&apos;, &apos;proc&apos;, &apos;rename&apos;, &apos;return&apos;, &apos;set&apos;, &apos;switch&apos;, &apos;then&apos;,
+        &apos;trace&apos;, &apos;unset&apos;, &apos;update&apos;, &apos;uplevel&apos;, &apos;upvar&apos;, &apos;variable&apos;, &apos;vwait&apos;,
+        &apos;while&apos;), prefix=r&apos;\b&apos;, suffix=r&apos;\b&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" line="24" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1a2c13acb6db0076dd521d7263441e206c" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pygments.lexers.tcl.TclLexer::builtin_cmds_re</definition>
+        <argsstring></argsstring>
+        <name>builtin_cmds_re</name>
+        <qualifiedname>pygments.lexers.tcl.TclLexer.builtin_cmds_re</qualifiedname>
+        <initializer>=  <ref refid="classpygments_1_1lexer_1_1words" kindref="compound">words</ref>((
+        &apos;append&apos;, &apos;bgerror&apos;, &apos;binary&apos;, &apos;cd&apos;, &apos;chan&apos;, &apos;clock&apos;, &apos;close&apos;,
+        &apos;concat&apos;, &apos;dde&apos;, &apos;dict&apos;, &apos;<ref refid="classpygments_1_1lexer_1_1Lexer_1a597ad0c7dbc77b965837157019ed6cc7" kindref="member">encoding</ref>&apos;, &apos;eof&apos;, &apos;exec&apos;, &apos;exit&apos;, &apos;fblocked&apos;,
+        &apos;fconfigure&apos;, &apos;fcopy&apos;, &apos;file&apos;, &apos;fileevent&apos;, &apos;flush&apos;, &apos;<ref refid="namespacepygments_1a2ac77ff8d2ce68f7e1ee8c8933712687" kindref="member">format</ref>&apos;, &apos;gets&apos;,
+        &apos;glob&apos;, &apos;history&apos;, &apos;http&apos;, &apos;incr&apos;, &apos;info&apos;, &apos;interp&apos;, &apos;join&apos;, &apos;lappend&apos;,
+        &apos;lassign&apos;, &apos;lindex&apos;, &apos;linsert&apos;, &apos;list&apos;, &apos;llength&apos;, &apos;load&apos;, &apos;loadTk&apos;,
+        &apos;lrange&apos;, &apos;lrepeat&apos;, &apos;lreplace&apos;, &apos;lreverse&apos;, &apos;lsearch&apos;, &apos;lset&apos;, &apos;lsort&apos;,
+        &apos;mathfunc&apos;, &apos;mathop&apos;, &apos;memory&apos;, &apos;msgcat&apos;, &apos;open&apos;, &apos;package&apos;, &apos;pid&apos;,
+        &apos;pkg::create&apos;, &apos;pkg_mkIndex&apos;, &apos;platform&apos;, &apos;platform::shell&apos;, &apos;puts&apos;,
+        &apos;pwd&apos;, &apos;re_syntax&apos;, &apos;read&apos;, &apos;refchan&apos;, &apos;regexp&apos;, &apos;registry&apos;, &apos;regsub&apos;,
+        &apos;scan&apos;, &apos;seek&apos;, &apos;socket&apos;, &apos;source&apos;, &apos;split&apos;, &apos;string&apos;, &apos;subst&apos;, &apos;tell&apos;,
+        &apos;time&apos;, &apos;tm&apos;, &apos;unknown&apos;, &apos;unload&apos;), prefix=r&apos;\b&apos;, suffix=r&apos;\b&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" line="31" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1ab38e5aab200f67cb93ccec436c715b92" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pygments.lexers.tcl.TclLexer::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>pygments.lexers.tcl.TclLexer.name</qualifiedname>
+        <initializer>=  &apos;Tcl&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" line="44" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1ad9c2c9a47a03af2fb3a48e40ddf7ad45" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pygments.lexers.tcl.TclLexer::url</definition>
+        <argsstring></argsstring>
+        <name>url</name>
+        <qualifiedname>pygments.lexers.tcl.TclLexer.url</qualifiedname>
+        <initializer>=  &apos;https://www.tcl.tk/about/language.html&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" line="45" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1afd604473ffcd53d9c5f1f5288d7647af" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list pygments.lexers.tcl.TclLexer::aliases</definition>
+        <argsstring></argsstring>
+        <name>aliases</name>
+        <qualifiedname>pygments.lexers.tcl.TclLexer.aliases</qualifiedname>
+        <initializer>=  [&apos;tcl&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" line="46" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1a1c0b817ce83b88792d690fb6119eddcf" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list pygments.lexers.tcl.TclLexer::filenames</definition>
+        <argsstring></argsstring>
+        <name>filenames</name>
+        <qualifiedname>pygments.lexers.tcl.TclLexer.filenames</qualifiedname>
+        <initializer>=  [&apos;*.tcl&apos;, &apos;*.rvt&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" line="47" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1a22cf3b32ebd6112e737a64fd49eb9140" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list pygments.lexers.tcl.TclLexer::mimetypes</definition>
+        <argsstring></argsstring>
+        <name>mimetypes</name>
+        <qualifiedname>pygments.lexers.tcl.TclLexer.mimetypes</qualifiedname>
+        <initializer>=  [&apos;text/x-tcl&apos;, &apos;text/x-script.tcl&apos;, &apos;application/x-tcl&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" line="48" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1ac0a55b31d0ddb60a7d22367219c7970b" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pygments.lexers.tcl.TclLexer::version_added</definition>
+        <argsstring></argsstring>
+        <name>version_added</name>
+        <qualifiedname>pygments.lexers.tcl.TclLexer.version_added</qualifiedname>
+        <initializer>=  &apos;0.10&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" line="49" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1ab2de77c02bec6b148292956f5614d6d6" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pygments.lexers.tcl.TclLexer::tokens</definition>
+        <argsstring></argsstring>
+        <name>tokens</name>
+        <qualifiedname>pygments.lexers.tcl.TclLexer.tokens</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" line="59" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1af507962ee576c7cf903300221e595573" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.lexers.tcl.TclLexer._gen_command_rules</definition>
+        <argsstring>(keyword_cmds_re, builtin_cmds_re, context=&quot;&quot;)</argsstring>
+        <name>_gen_command_rules</name>
+        <qualifiedname>pygments.lexers.tcl.TclLexer._gen_command_rules</qualifiedname>
+        <param>
+          <type><ref refid="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1ad9ff092b6ac1c51f99acab5b0f77afe2" kindref="member">keyword_cmds_re</ref></type>
+          <defname>keyword_cmds_re</defname>
+        </param>
+        <param>
+          <type><ref refid="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1a2c13acb6db0076dd521d7263441e206c" kindref="member">builtin_cmds_re</ref></type>
+          <defname>builtin_cmds_re</defname>
+        </param>
+        <param>
+          <type>context</type>
+          <defname>context</defname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" line="51" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" bodystart="51" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1afb4caf59eb7d810fb1dd91bbbf827668" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.lexers.tcl.TclLexer.analyse_text</definition>
+        <argsstring>(text)</argsstring>
+        <name>analyse_text</name>
+        <qualifiedname>pygments.lexers.tcl.TclLexer.analyse_text</qualifiedname>
+        <reimplements refid="classpygments_1_1lexer_1_1Lexer_1acb2d7eefc23ce9b9ae69e1477461533a">analyse_text</reimplements>
+        <param>
+          <type>text</type>
+          <defname>text</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>A static method which is called for lexer guessing.
+
+It should analyse the text and return a float in the range
+from ``0.0`` to ``1.0``.  If it returns ``0.0``, the lexer
+will not be selected as the most probable one, if it returns
+``1.0``, it will be selected immediately.  This is used by
+`guess_lexer`.
+
+The `LexerMeta` metaclass automatically wraps this function so
+that it works like a static method (no ``self`` or ``cls``
+parameter) and the return value is automatically converted to
+`float`. If the return value is an object that is boolean `False`
+it&apos;s the same as if the return values was ``0.0``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" line="147" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" bodystart="147" bodyend="149"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>For Tcl source code.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.lexers.tcl.TclLexer</label>
+        <link refid="classpygments_1_1lexers_1_1tcl_1_1TclLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexer.RegexLexer</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>pygments.lexer.RegexLexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="8">
+        <label>str</label>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.lexers.tcl.TclLexer</label>
+        <link refid="classpygments_1_1lexers_1_1tcl_1_1TclLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>name</edgelabel>
+          <edgelabel>url</edgelabel>
+          <edgelabel>version_added</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexer.RegexLexer</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>pygments.lexer.RegexLexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" line="19" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/tcl.py" bodystart="19" bodyend="149"/>
+    <listofallmembers>
+      <member refid="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1af507962ee576c7cf903300221e595573" prot="protected" virt="non-virtual"><scope>pygments::lexers::tcl::TclLexer</scope><name>_gen_command_rules</name></member>
+      <member refid="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1afd604473ffcd53d9c5f1f5288d7647af" prot="public" virt="non-virtual"><scope>pygments::lexers::tcl::TclLexer</scope><name>aliases</name></member>
+      <member refid="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1afb4caf59eb7d810fb1dd91bbbf827668" prot="public" virt="non-virtual"><scope>pygments::lexers::tcl::TclLexer</scope><name>analyse_text</name></member>
+      <member refid="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1a2c13acb6db0076dd521d7263441e206c" prot="public" virt="non-virtual"><scope>pygments::lexers::tcl::TclLexer</scope><name>builtin_cmds_re</name></member>
+      <member refid="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1a1c0b817ce83b88792d690fb6119eddcf" prot="public" virt="non-virtual"><scope>pygments::lexers::tcl::TclLexer</scope><name>filenames</name></member>
+      <member refid="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1ad9ff092b6ac1c51f99acab5b0f77afe2" prot="public" virt="non-virtual"><scope>pygments::lexers::tcl::TclLexer</scope><name>keyword_cmds_re</name></member>
+      <member refid="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1a22cf3b32ebd6112e737a64fd49eb9140" prot="public" virt="non-virtual"><scope>pygments::lexers::tcl::TclLexer</scope><name>mimetypes</name></member>
+      <member refid="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1ab38e5aab200f67cb93ccec436c715b92" prot="public" virt="non-virtual"><scope>pygments::lexers::tcl::TclLexer</scope><name>name</name></member>
+      <member refid="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1ab2de77c02bec6b148292956f5614d6d6" prot="public" virt="non-virtual"><scope>pygments::lexers::tcl::TclLexer</scope><name>tokens</name></member>
+      <member refid="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1ad9c2c9a47a03af2fb3a48e40ddf7ad45" prot="public" virt="non-virtual"><scope>pygments::lexers::tcl::TclLexer</scope><name>url</name></member>
+      <member refid="classpygments_1_1lexers_1_1tcl_1_1TclLexer_1ac0a55b31d0ddb60a7d22367219c7970b" prot="public" virt="non-virtual"><scope>pygments::lexers::tcl::TclLexer</scope><name>version_added</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

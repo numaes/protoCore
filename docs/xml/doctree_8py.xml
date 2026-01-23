@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="doctree_8py" kind="file" language="Python">
+    <compoundname>doctree.py</compoundname>
+    <innerclass refid="classdocutils_1_1readers_1_1doctree_1_1Reader" prot="public">docutils::readers::doctree::Reader</innerclass>
+    <innernamespace refid="namespacedocutils">docutils</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1readers">docutils::readers</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1readers_1_1doctree">docutils::readers::doctree</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacedocutils_1_1readers_1_1doctree" refkind="compound"><highlight class="comment">#<sp/>$Id:<sp/>doctree.py<sp/>4564<sp/>2006-05-21<sp/>20:44:42Z<sp/>wiemann<sp/>$</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Author:<sp/>Martin<sp/>Blais<sp/>&lt;blais@furius.ca&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Copyright:<sp/>This<sp/>module<sp/>has<sp/>been<sp/>placed<sp/>in<sp/>the<sp/>public<sp/>domain.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;Reader<sp/>for<sp/>existing<sp/>document<sp/>trees.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>docutils<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>readers,<sp/>utils,<sp/>transforms</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10" refid="classdocutils_1_1readers_1_1doctree_1_1Reader" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classdocutils_1_1readers_1_1doctree_1_1Reader" kindref="compound">Reader</ref>(<ref refid="classdocutils_1_1readers_1_1ReReader" kindref="compound">readers.ReReader</ref>):</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Adapt<sp/>the<sp/>Reader<sp/>API<sp/>for<sp/>an<sp/>existing<sp/>document<sp/>tree.</highlight></codeline>
+<codeline lineno="14"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>The<sp/>existing<sp/>document<sp/>tree<sp/>must<sp/>be<sp/>passed<sp/>as<sp/>the<sp/>``source``<sp/>parameter<sp/>to</highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>the<sp/>`docutils.core.Publisher`<sp/>initializer,<sp/>wrapped<sp/>in<sp/>a</highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>`docutils.io.DocTreeInput`<sp/>object::</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pub<sp/>=<sp/>docutils.core.Publisher(</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>...,<sp/>source=docutils.io.DocTreeInput(document),<sp/>...)</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>The<sp/>original<sp/>document<sp/>settings<sp/>are<sp/>overridden;<sp/>if<sp/>you<sp/>want<sp/>to<sp/>use<sp/>the</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>settings<sp/>of<sp/>the<sp/>original<sp/>document,<sp/>pass<sp/>``settings=document.settings``<sp/>to</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>the<sp/>Publisher<sp/>call<sp/>above.</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>supported<sp/>=<sp/>(</highlight><highlight class="stringliteral">&apos;doctree&apos;</highlight><highlight class="normal">,)</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>config_section<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;doctree<sp/>reader&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>config_section_dependencies<sp/>=<sp/>(</highlight><highlight class="stringliteral">&apos;readers&apos;</highlight><highlight class="normal">,)</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">parse(self):</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>No<sp/>parsing<sp/>to<sp/>do;<sp/>refurbish<sp/>the<sp/>document<sp/>tree<sp/>instead.</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Overrides<sp/>the<sp/>inherited<sp/>method.</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classdocutils_1_1readers_1_1Reader_1ac44c6d9a917e35a5300419343c3c4a1f" kindref="member">document</ref><ref refid="classdocutils_1_1readers_1_1doctree_1_1Reader_1af885d554e0bffa1e39734bdac1fdf134" kindref="member">document</ref><sp/>=<sp/>self.<ref refid="classdocutils_1_1readers_1_1Reader_1a18748b04756ba0c279a9259f8a69bdc8" kindref="member">input</ref></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Create<sp/>fresh<sp/>Transformer<sp/>object,<sp/>to<sp/>be<sp/>populated<sp/>from<sp/>Writer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>component.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classdocutils_1_1readers_1_1Reader_1ac44c6d9a917e35a5300419343c3c4a1f" kindref="member">document</ref><ref refid="classdocutils_1_1readers_1_1doctree_1_1Reader_1af885d554e0bffa1e39734bdac1fdf134" kindref="member">document</ref>.transformer<sp/>=<sp/><ref refid="classdocutils_1_1transforms_1_1Transformer" kindref="compound">transforms.Transformer</ref>(self.<ref refid="classdocutils_1_1readers_1_1Reader_1ac44c6d9a917e35a5300419343c3c4a1f" kindref="member">document</ref><ref refid="classdocutils_1_1readers_1_1doctree_1_1Reader_1af885d554e0bffa1e39734bdac1fdf134" kindref="member">document</ref>)</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Replace<sp/>existing<sp/>settings<sp/>object<sp/>with<sp/>new<sp/>one.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classdocutils_1_1readers_1_1Reader_1ac44c6d9a917e35a5300419343c3c4a1f" kindref="member">document</ref><ref refid="classdocutils_1_1readers_1_1doctree_1_1Reader_1af885d554e0bffa1e39734bdac1fdf134" kindref="member">document</ref>.settings<sp/>=<sp/>self.<ref refid="classdocutils_1_1readers_1_1Reader_1a3d59feb51c8c4044a730a2df4cd6ee66" kindref="member">settings</ref></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Create<sp/>fresh<sp/>Reporter<sp/>object<sp/>because<sp/>it<sp/>is<sp/>dependent<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>(new)<sp/>settings.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classdocutils_1_1readers_1_1Reader_1ac44c6d9a917e35a5300419343c3c4a1f" kindref="member">document</ref><ref refid="classdocutils_1_1readers_1_1doctree_1_1Reader_1af885d554e0bffa1e39734bdac1fdf134" kindref="member">document</ref>.reporter<sp/>=<sp/>utils.new_reporter(</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classdocutils_1_1readers_1_1Reader_1ac44c6d9a917e35a5300419343c3c4a1f" kindref="member">document</ref><ref refid="classdocutils_1_1readers_1_1doctree_1_1Reader_1af885d554e0bffa1e39734bdac1fdf134" kindref="member">document</ref>.get(</highlight><highlight class="stringliteral">&apos;source&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal">),<sp/>self.<ref refid="classdocutils_1_1readers_1_1Reader_1ac44c6d9a917e35a5300419343c3c4a1f" kindref="member">document</ref><ref refid="classdocutils_1_1readers_1_1doctree_1_1Reader_1af885d554e0bffa1e39734bdac1fdf134" kindref="member">document</ref>.settings)</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/docutils/readers/doctree.py"/>
+  </compounddef>
+</doxygen>

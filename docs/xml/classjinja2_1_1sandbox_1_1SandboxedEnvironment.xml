@@ -1,0 +1,513 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1sandbox_1_1SandboxedEnvironment" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::sandbox::SandboxedEnvironment</compoundname>
+    <basecompoundref refid="classjinja2_1_1environment_1_1Environment" prot="public" virt="non-virtual">jinja2.environment.Environment</basecompoundref>
+    <derivedcompoundref refid="classjinja2_1_1sandbox_1_1ImmutableSandboxedEnvironment" prot="public" virt="non-virtual">jinja2.sandbox.ImmutableSandboxedEnvironment</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1a131e08dabc6c5136f5d892e67e9e4fd7" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool jinja2.sandbox.SandboxedEnvironment::sandboxed</definition>
+        <argsstring></argsstring>
+        <name>sandboxed</name>
+        <qualifiedname>jinja2.sandbox.SandboxedEnvironment.sandboxed</qualifiedname>
+        <initializer>=  True</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/sandbox.py" line="188" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/sandbox.py" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1aa1b4bae518970f872b17418472585078" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict jinja2.sandbox.SandboxedEnvironment::default_binop_table</definition>
+        <argsstring></argsstring>
+        <name>default_binop_table</name>
+        <qualifiedname>jinja2.sandbox.SandboxedEnvironment.default_binop_table</qualifiedname>
+        <initializer>=  {
+        &quot;+&quot;: operator.add,
+        &quot;-&quot;: operator.sub,
+        &quot;*&quot;: operator.mul,
+        &quot;/&quot;: operator.truediv,
+        &quot;//&quot;: operator.floordiv,
+        &quot;**&quot;: operator.pow,
+        &quot;%&quot;: operator.mod,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/sandbox.py" line="193" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/sandbox.py" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1af551691cfbe6cfc275817a246be2fcac" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict jinja2.sandbox.SandboxedEnvironment::default_unop_table</definition>
+        <argsstring></argsstring>
+        <name>default_unop_table</name>
+        <qualifiedname>jinja2.sandbox.SandboxedEnvironment.default_unop_table</qualifiedname>
+        <initializer>=  {
+        &quot;+&quot;: operator.pos,
+        &quot;-&quot;: operator.neg,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/sandbox.py" line="206" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/sandbox.py" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1a8fed91697e48c57c645013b5b20a5862" prot="public" static="yes" mutable="no">
+        <type>t</type>
+        <definition>t jinja2.sandbox.SandboxedEnvironment::intercepted_binops</definition>
+        <argsstring></argsstring>
+        <name>intercepted_binops</name>
+        <qualifiedname>jinja2.sandbox.SandboxedEnvironment.intercepted_binops</qualifiedname>
+        <initializer>=  frozenset()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/sandbox.py" line="225" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/sandbox.py" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1a7852a519df89fd8a43d79068aa6edd80" prot="public" static="yes" mutable="no">
+        <type>t</type>
+        <definition>t jinja2.sandbox.SandboxedEnvironment::intercepted_unops</definition>
+        <argsstring></argsstring>
+        <name>intercepted_unops</name>
+        <qualifiedname>jinja2.sandbox.SandboxedEnvironment.intercepted_unops</qualifiedname>
+        <initializer>=  frozenset()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/sandbox.py" line="240" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/sandbox.py" bodystart="240" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1a35544e885ad8c937aee47e4c99c461c7" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.sandbox.SandboxedEnvironment::binop_table</definition>
+        <argsstring></argsstring>
+        <name>binop_table</name>
+        <qualifiedname>jinja2.sandbox.SandboxedEnvironment.binop_table</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/sandbox.py" line="245" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/sandbox.py" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1ad1155960a508889c55392d6d5522c045" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.sandbox.SandboxedEnvironment::unop_table</definition>
+        <argsstring></argsstring>
+        <name>unop_table</name>
+        <qualifiedname>jinja2.sandbox.SandboxedEnvironment.unop_table</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/sandbox.py" line="246" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/sandbox.py" bodystart="246" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1a5b7084e92161580b72e9a30cea2d468e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.sandbox.SandboxedEnvironment.__init__</definition>
+        <argsstring>(self, *t.Any args, **t.Any kwargs)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>jinja2.sandbox.SandboxedEnvironment.__init__</qualifiedname>
+        <reimplements refid="classjinja2_1_1environment_1_1Environment_1af758db6473e229538a23236ca94bc5b5">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>*t.Any</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/sandbox.py" line="242" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/sandbox.py" bodystart="242" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1af61c048f4a82d470d97d009b59a56a9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool jinja2.sandbox.SandboxedEnvironment.is_safe_attribute</definition>
+        <argsstring>(self, t.Any obj, str attr, t.Any value)</argsstring>
+        <name>is_safe_attribute</name>
+        <qualifiedname>jinja2.sandbox.SandboxedEnvironment.is_safe_attribute</qualifiedname>
+        <reimplementedby refid="classjinja2_1_1sandbox_1_1ImmutableSandboxedEnvironment_1a5b06f2c1df95c92cf0fc156ec02620ab">is_safe_attribute</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>attr</declname>
+        </param>
+        <param>
+          <type>t.Any</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The sandboxed environment will call this method to check if the
+attribute of an object is safe to access.  Per default all attributes
+starting with an underscore are considered private as well as the
+special attributes of internal python objects as returned by the
+:func:`is_internal_attribute` function.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/sandbox.py" line="248" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/sandbox.py" bodystart="248" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1aa6470d97dcc717385d665ac7f83c11a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool jinja2.sandbox.SandboxedEnvironment.is_safe_callable</definition>
+        <argsstring>(self, t.Any obj)</argsstring>
+        <name>is_safe_callable</name>
+        <qualifiedname>jinja2.sandbox.SandboxedEnvironment.is_safe_callable</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if an object is safely callable. By default callables
+are considered safe unless decorated with :func:`unsafe`.
+
+This also recognizes the Django convention of setting
+``func.alters_data = True``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/sandbox.py" line="257" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/sandbox.py" bodystart="257" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1a95246dcc8f5d3c1319cb925981cf601e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Any</type>
+        <definition> t.Any jinja2.sandbox.SandboxedEnvironment.call_binop</definition>
+        <argsstring>(self, Context context, str operator, t.Any left, t.Any right)</argsstring>
+        <name>call_binop</name>
+        <qualifiedname>jinja2.sandbox.SandboxedEnvironment.call_binop</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1runtime_1_1Context" kindref="compound">Context</ref></type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>operator</declname>
+        </param>
+        <param>
+          <type>t.Any</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>t.Any</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>For intercepted binary operator calls (:meth:`intercepted_binops`)
+this function is executed instead of the builtin operator.  This can
+be used to fine tune the behavior of certain operators.
+
+.. versionadded:: 2.6
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/sandbox.py" line="268" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/sandbox.py" bodystart="270" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1af5cdbe6d5e7fc1548ef20623f35e7a4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Any</type>
+        <definition> t.Any jinja2.sandbox.SandboxedEnvironment.call_unop</definition>
+        <argsstring>(self, Context context, str operator, t.Any arg)</argsstring>
+        <name>call_unop</name>
+        <qualifiedname>jinja2.sandbox.SandboxedEnvironment.call_unop</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1runtime_1_1Context" kindref="compound">Context</ref></type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>operator</declname>
+        </param>
+        <param>
+          <type>t.Any</type>
+          <declname>arg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>For intercepted unary operator calls (:meth:`intercepted_unops`)
+this function is executed instead of the builtin operator.  This can
+be used to fine tune the behavior of certain operators.
+
+.. versionadded:: 2.6
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/sandbox.py" line="279" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/sandbox.py" bodystart="279" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1a49f981155f611c092b19b662553ec41f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Union[t.Any, <ref refid="classjinja2_1_1runtime_1_1Undefined" kindref="compound">Undefined</ref>]</type>
+        <definition> t.Union[t.Any, Undefined] jinja2.sandbox.SandboxedEnvironment.getitem</definition>
+        <argsstring>(self, t.Any obj, t.Union[str, t.Any] argument)</argsstring>
+        <name>getitem</name>
+        <qualifiedname>jinja2.sandbox.SandboxedEnvironment.getitem</qualifiedname>
+        <reimplements refid="classjinja2_1_1environment_1_1Environment_1adaac0af940852c76683f69125182a15c">getitem</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>t.Union</type>
+          <declname>argument</declname>
+          <array>[str, t.Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Subscribe an object from sandboxed code.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/sandbox.py" line="288" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/sandbox.py" bodystart="290" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1aa670244404c96a2201bc9f1c8ab931e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Union[t.Any, <ref refid="classjinja2_1_1runtime_1_1Undefined" kindref="compound">Undefined</ref>]</type>
+        <definition> t.Union[t.Any, Undefined] jinja2.sandbox.SandboxedEnvironment.getattr</definition>
+        <argsstring>(self, t.Any obj, str attribute)</argsstring>
+        <name>getattr</name>
+        <qualifiedname>jinja2.sandbox.SandboxedEnvironment.getattr</qualifiedname>
+        <reimplements refid="classjinja2_1_1environment_1_1Environment_1a7f381581b4a95b1cd53f5fa48e233fe0">getattr</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>attribute</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Subscribe an object from sandboxed code and prefer the
+attribute.  The attribute passed *must* be a bytestring.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/sandbox.py" line="314" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/sandbox.py" bodystart="314" bodyend="333"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1aa4251207a932bc94f930ad71ddac240e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classjinja2_1_1runtime_1_1Undefined" kindref="compound">Undefined</ref></type>
+        <definition> Undefined jinja2.sandbox.SandboxedEnvironment.unsafe_undefined</definition>
+        <argsstring>(self, t.Any obj, str attribute)</argsstring>
+        <name>unsafe_undefined</name>
+        <qualifiedname>jinja2.sandbox.SandboxedEnvironment.unsafe_undefined</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>attribute</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return an undefined object for unsafe attributes.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/sandbox.py" line="334" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/sandbox.py" bodystart="334" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1a42af5283732ee78063eb8b9db88b2545" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Optional[t.Callable[..., str]]</type>
+        <definition> t.Optional[t.Callable[..., str]] jinja2.sandbox.SandboxedEnvironment.wrap_str_format</definition>
+        <argsstring>(self, t.Any value)</argsstring>
+        <name>wrap_str_format</name>
+        <qualifiedname>jinja2.sandbox.SandboxedEnvironment.wrap_str_format</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Any</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>If the given value is a ``str.format`` or ``str.format_map`` method,
+return a new function than handles sandboxing. This is done at access
+rather than in :meth:`call`, so that calls made without ``call`` are
+also sandboxed.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/sandbox.py" line="344" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/sandbox.py" bodystart="344" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1a28164f4f7dc2249384ec2fc52b79a23c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Any</type>
+        <definition> t.Any jinja2.sandbox.SandboxedEnvironment.call</definition>
+        <argsstring>(__self, Context __context, t.Any __obj, *t.Any args, **t.Any kwargs)</argsstring>
+        <name>call</name>
+        <qualifiedname>jinja2.sandbox.SandboxedEnvironment.call</qualifiedname>
+        <param>
+          <type>__self</type>
+          <defname>__self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1runtime_1_1Context" kindref="compound">Context</ref></type>
+          <declname>__context</declname>
+        </param>
+        <param>
+          <type>t.Any</type>
+          <declname>__obj</declname>
+        </param>
+        <param>
+          <type>*t.Any</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Call an object from sandboxed code.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/sandbox.py" line="388" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/sandbox.py" bodystart="394" bodyend="403"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>The sandboxed environment.  It works like the regular environment but
+tells the compiler to generate sandboxed code.  Additionally subclasses of
+this environment may override the methods that tell the runtime what
+attributes or functions are safe to access.
+
+If the template tries to access insecure code a :exc:`SecurityError` is
+raised.  However also other exceptions may occur during the rendering so
+the caller has to ensure that all exceptions are caught.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.sandbox.SandboxedEnvironment</label>
+        <link refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.environment.Environment</label>
+        <link refid="classjinja2_1_1environment_1_1Environment"/>
+      </node>
+      <node id="3">
+        <label>jinja2.sandbox.ImmutableSandboxedEnvironment</label>
+        <link refid="classjinja2_1_1sandbox_1_1ImmutableSandboxedEnvironment"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>jinja2.sandbox.SandboxedEnvironment</label>
+        <link refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.environment.Environment</label>
+        <link refid="classjinja2_1_1environment_1_1Environment"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>concat</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/jinja2/sandbox.py" line="177" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/sandbox.py" bodystart="177" bodyend="403"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1a5b7084e92161580b72e9a30cea2d468e" prot="public" virt="non-virtual"><scope>jinja2::sandbox::SandboxedEnvironment</scope><name>__init__</name></member>
+      <member refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1a35544e885ad8c937aee47e4c99c461c7" prot="public" virt="non-virtual"><scope>jinja2::sandbox::SandboxedEnvironment</scope><name>binop_table</name></member>
+      <member refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1a28164f4f7dc2249384ec2fc52b79a23c" prot="public" virt="non-virtual"><scope>jinja2::sandbox::SandboxedEnvironment</scope><name>call</name></member>
+      <member refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1a95246dcc8f5d3c1319cb925981cf601e" prot="public" virt="non-virtual"><scope>jinja2::sandbox::SandboxedEnvironment</scope><name>call_binop</name></member>
+      <member refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1af5cdbe6d5e7fc1548ef20623f35e7a4f" prot="public" virt="non-virtual"><scope>jinja2::sandbox::SandboxedEnvironment</scope><name>call_unop</name></member>
+      <member refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1aa1b4bae518970f872b17418472585078" prot="public" virt="non-virtual"><scope>jinja2::sandbox::SandboxedEnvironment</scope><name>default_binop_table</name></member>
+      <member refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1af551691cfbe6cfc275817a246be2fcac" prot="public" virt="non-virtual"><scope>jinja2::sandbox::SandboxedEnvironment</scope><name>default_unop_table</name></member>
+      <member refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1aa670244404c96a2201bc9f1c8ab931e7" prot="public" virt="non-virtual"><scope>jinja2::sandbox::SandboxedEnvironment</scope><name>getattr</name></member>
+      <member refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1a49f981155f611c092b19b662553ec41f" prot="public" virt="non-virtual"><scope>jinja2::sandbox::SandboxedEnvironment</scope><name>getitem</name></member>
+      <member refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1a8fed91697e48c57c645013b5b20a5862" prot="public" virt="non-virtual"><scope>jinja2::sandbox::SandboxedEnvironment</scope><name>intercepted_binops</name></member>
+      <member refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1a7852a519df89fd8a43d79068aa6edd80" prot="public" virt="non-virtual"><scope>jinja2::sandbox::SandboxedEnvironment</scope><name>intercepted_unops</name></member>
+      <member refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1af61c048f4a82d470d97d009b59a56a9a" prot="public" virt="non-virtual"><scope>jinja2::sandbox::SandboxedEnvironment</scope><name>is_safe_attribute</name></member>
+      <member refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1aa6470d97dcc717385d665ac7f83c11a5" prot="public" virt="non-virtual"><scope>jinja2::sandbox::SandboxedEnvironment</scope><name>is_safe_callable</name></member>
+      <member refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1a131e08dabc6c5136f5d892e67e9e4fd7" prot="public" virt="non-virtual"><scope>jinja2::sandbox::SandboxedEnvironment</scope><name>sandboxed</name></member>
+      <member refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1ad1155960a508889c55392d6d5522c045" prot="public" virt="non-virtual"><scope>jinja2::sandbox::SandboxedEnvironment</scope><name>unop_table</name></member>
+      <member refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1aa4251207a932bc94f930ad71ddac240e" prot="public" virt="non-virtual"><scope>jinja2::sandbox::SandboxedEnvironment</scope><name>unsafe_undefined</name></member>
+      <member refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1a42af5283732ee78063eb8b9db88b2545" prot="public" virt="non-virtual"><scope>jinja2::sandbox::SandboxedEnvironment</scope><name>wrap_str_format</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1pyproject" kind="namespace" language="Python">
+    <compoundname>pip::_internal::pyproject</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1pyproject_1a274d06001ee00ebc1024f50fe1cc1d05" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::pyproject.BuildSystemDetails</definition>
+        <argsstring></argsstring>
+        <name>BuildSystemDetails</name>
+        <qualifiedname>pip._internal.pyproject.BuildSystemDetails</qualifiedname>
+        <initializer>=  namedtuple(
+    &quot;BuildSystemDetails&quot;, [&quot;requires&quot;, &quot;backend&quot;, &quot;check&quot;, &quot;backend_path&quot;]
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/pyproject.py" line="24" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/pyproject.py" bodystart="24" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1pyproject_1adc0b65156d7725d811796eb659baa2df" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.pyproject._is_list_of_str</definition>
+        <argsstring>(Any obj)</argsstring>
+        <name>_is_list_of_str</name>
+        <qualifiedname>pip._internal.pyproject._is_list_of_str</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/pyproject.py" line="16" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/pyproject.py" bodystart="16" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1pyproject_1a3962d668578ed5e702fca3757c67c974" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.pyproject.make_pyproject_path</definition>
+        <argsstring>(str unpacked_source_directory)</argsstring>
+        <name>make_pyproject_path</name>
+        <qualifiedname>pip._internal.pyproject.make_pyproject_path</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>unpacked_source_directory</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/pyproject.py" line="20" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/pyproject.py" bodystart="20" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1pyproject_1a9d7e5ff214ec04fd9ac912b146e53516" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[<ref refid="namespacepip_1_1__internal_1_1pyproject_1a274d06001ee00ebc1024f50fe1cc1d05" kindref="member">BuildSystemDetails</ref>]</type>
+        <definition> Optional[BuildSystemDetails] pip._internal.pyproject.load_pyproject_toml</definition>
+        <argsstring>(Optional[bool] use_pep517, str pyproject_toml, str setup_py, str req_name)</argsstring>
+        <name>load_pyproject_toml</name>
+        <qualifiedname>pip._internal.pyproject.load_pyproject_toml</qualifiedname>
+        <param>
+          <type>Optional</type>
+          <declname>use_pep517</declname>
+          <array>[bool]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>pyproject_toml</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>setup_py</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>req_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Load the pyproject.toml file.
+
+Parameters:
+    use_pep517 - Has the user requested PEP 517 processing? None
+                 means the user hasn&apos;t explicitly specified.
+    pyproject_toml - Location of the project&apos;s pyproject.toml file
+    setup_py - Location of the project&apos;s setup.py file
+    req_name - The name of the requirement we&apos;re processing (for
+               error reporting)
+
+Returns:
+    None if we should use the legacy code path, otherwise a tuple
+    (
+        requirements from pyproject.toml,
+        name of PEP 517 backend,
+        requirements we should check are installed after setting
+            up the build environment
+        directory paths to import the backend from (backend-path),
+            relative to the project root.
+    )
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/pyproject.py" line="29" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/pyproject.py" bodystart="31" bodyend="180"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/pyproject.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

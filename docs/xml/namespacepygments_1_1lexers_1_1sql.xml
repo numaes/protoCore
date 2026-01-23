@@ -1,0 +1,342 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepygments_1_1lexers_1_1sql" kind="namespace" language="Python">
+    <compoundname>pygments::lexers::sql</compoundname>
+    <innerclass refid="classpygments_1_1lexers_1_1sql_1_1GoogleSqlLexer" prot="public">pygments::lexers::sql::GoogleSqlLexer</innerclass>
+    <innerclass refid="classpygments_1_1lexers_1_1sql_1_1lookahead" prot="public">pygments::lexers::sql::lookahead</innerclass>
+    <innerclass refid="classpygments_1_1lexers_1_1sql_1_1MySqlLexer" prot="public">pygments::lexers::sql::MySqlLexer</innerclass>
+    <innerclass refid="classpygments_1_1lexers_1_1sql_1_1PlPgsqlLexer" prot="public">pygments::lexers::sql::PlPgsqlLexer</innerclass>
+    <innerclass refid="classpygments_1_1lexers_1_1sql_1_1PostgresBase" prot="public">pygments::lexers::sql::PostgresBase</innerclass>
+    <innerclass refid="classpygments_1_1lexers_1_1sql_1_1PostgresConsoleLexer" prot="public">pygments::lexers::sql::PostgresConsoleLexer</innerclass>
+    <innerclass refid="classpygments_1_1lexers_1_1sql_1_1PostgresExplainLexer" prot="public">pygments::lexers::sql::PostgresExplainLexer</innerclass>
+    <innerclass refid="classpygments_1_1lexers_1_1sql_1_1PostgresLexer" prot="public">pygments::lexers::sql::PostgresLexer</innerclass>
+    <innerclass refid="classpygments_1_1lexers_1_1sql_1_1PsqlRegexLexer" prot="public">pygments::lexers::sql::PsqlRegexLexer</innerclass>
+    <innerclass refid="classpygments_1_1lexers_1_1sql_1_1RqlLexer" prot="public">pygments::lexers::sql::RqlLexer</innerclass>
+    <innerclass refid="classpygments_1_1lexers_1_1sql_1_1SqliteConsoleLexer" prot="public">pygments::lexers::sql::SqliteConsoleLexer</innerclass>
+    <innerclass refid="classpygments_1_1lexers_1_1sql_1_1SqlLexer" prot="public">pygments::lexers::sql::SqlLexer</innerclass>
+    <innerclass refid="classpygments_1_1lexers_1_1sql_1_1TransactSqlLexer" prot="public">pygments::lexers::sql::TransactSqlLexer</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1sql_1ac09f392cba9b849c59e1540e559ba154" prot="private" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pygments::lexers::sql.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>pygments.lexers.sql.__all__</qualifiedname>
+        <initializer>=  [&apos;<ref refid="classpygments_1_1lexers_1_1sql_1_1GoogleSqlLexer" kindref="compound">GoogleSqlLexer</ref>&apos;, &apos;<ref refid="classpygments_1_1lexers_1_1sql_1_1PostgresLexer" kindref="compound">PostgresLexer</ref>&apos;, &apos;<ref refid="classpygments_1_1lexers_1_1sql_1_1PlPgsqlLexer" kindref="compound">PlPgsqlLexer</ref>&apos;,
+           &apos;<ref refid="classpygments_1_1lexers_1_1sql_1_1PostgresConsoleLexer" kindref="compound">PostgresConsoleLexer</ref>&apos;, &apos;<ref refid="classpygments_1_1lexers_1_1sql_1_1PostgresExplainLexer" kindref="compound">PostgresExplainLexer</ref>&apos;, &apos;<ref refid="classpygments_1_1lexers_1_1sql_1_1SqlLexer" kindref="compound">SqlLexer</ref>&apos;,
+           &apos;<ref refid="classpygments_1_1lexers_1_1sql_1_1TransactSqlLexer" kindref="compound">TransactSqlLexer</ref>&apos;, &apos;<ref refid="classpygments_1_1lexers_1_1sql_1_1MySqlLexer" kindref="compound">MySqlLexer</ref>&apos;, &apos;<ref refid="classpygments_1_1lexers_1_1sql_1_1SqliteConsoleLexer" kindref="compound">SqliteConsoleLexer</ref>&apos;, &apos;<ref refid="classpygments_1_1lexers_1_1sql_1_1RqlLexer" kindref="compound">RqlLexer</ref>&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="57" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1sql_1a64a694e994408cf517100e2c9ea75f53" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments::lexers::sql.line_re</definition>
+        <argsstring></argsstring>
+        <name>line_re</name>
+        <qualifiedname>pygments.lexers.sql.line_re</qualifiedname>
+        <initializer>=  re.compile(&apos;.*?\n&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="61" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1sql_1a91fd23847d38b72e89b07387fa251ffa" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments::lexers::sql.sqlite_prompt_re</definition>
+        <argsstring></argsstring>
+        <name>sqlite_prompt_re</name>
+        <qualifiedname>pygments.lexers.sql.sqlite_prompt_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;^(?:sqlite|   ...)&gt;(?= )&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="62" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1sql_1a82688da5e7ee93b6426bf8ecc5aee5a4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments::lexers::sql.language_re</definition>
+        <argsstring></argsstring>
+        <name>language_re</name>
+        <qualifiedname>pygments.lexers.sql.language_re</qualifiedname>
+        <initializer>=  re.compile(r&quot;\s+LANGUAGE\s+&apos;?(\w+)&apos;?&quot;, re.IGNORECASE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="64" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1sql_1a6e83029f7bbabf162e5f4511a8fe2215" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments::lexers::sql.do_re</definition>
+        <argsstring></argsstring>
+        <name>do_re</name>
+        <qualifiedname>pygments.lexers.sql.do_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;\bDO\b&apos;, re.IGNORECASE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="66" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1sql_1a58fc76dd8ed6002ab2409c0baa200c34" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments::lexers::sql.name_between_bracket_re</definition>
+        <argsstring></argsstring>
+        <name>name_between_bracket_re</name>
+        <qualifiedname>pygments.lexers.sql.name_between_bracket_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;\[[a-zA-Z_]\w*\]&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="69" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1sql_1a8011dd8b739b670ebb1d99127e41706c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments::lexers::sql.name_between_backtick_re</definition>
+        <argsstring></argsstring>
+        <name>name_between_backtick_re</name>
+        <qualifiedname>pygments.lexers.sql.name_between_backtick_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;`[a-zA-Z_]\w*`&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="70" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1sql_1afe19e105382adc39507dfd34b153ec2a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments::lexers::sql.tsql_go_re</definition>
+        <argsstring></argsstring>
+        <name>tsql_go_re</name>
+        <qualifiedname>pygments.lexers.sql.tsql_go_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;\bgo\b&apos;, re.IGNORECASE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="71" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1sql_1a81ab9696d7f3fc57afc8311be1135730" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments::lexers::sql.tsql_declare_re</definition>
+        <argsstring></argsstring>
+        <name>tsql_declare_re</name>
+        <qualifiedname>pygments.lexers.sql.tsql_declare_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;\bdeclare\s+@&apos;, re.IGNORECASE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="72" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1sql_1a54801eaef814e9faee21142872420120" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments::lexers::sql.tsql_variable_re</definition>
+        <argsstring></argsstring>
+        <name>tsql_variable_re</name>
+        <qualifiedname>pygments.lexers.sql.tsql_variable_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;@[a-zA-Z_]\w*\b&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="73" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1sql_1a49156fdbc0f0175a8028895e55ad7606" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pygments::lexers::sql.googlesql_identifiers</definition>
+        <argsstring></argsstring>
+        <name>googlesql_identifiers</name>
+        <qualifiedname>pygments.lexers.sql.googlesql_identifiers</qualifiedname>
+        <initializer>=  (
+    <ref refid="namespacepygments_1_1lexers_1_1__googlesql__builtins_1a240851766df83a7883a5336e229778e4" kindref="member">_googlesql_builtins.functionnames</ref>
+    + <ref refid="namespacepygments_1_1lexers_1_1__googlesql__builtins_1a96f165034eed1ea987b8e27d840699c5" kindref="member">_googlesql_builtins.keywords</ref>
+    + <ref refid="namespacepygments_1_1lexers_1_1__googlesql__builtins_1a6fb19aec3fccedd5447768283df7dc0e" kindref="member">_googlesql_builtins.types</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="76" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1sql_1a8d2175f1f971af02d10c7db21d7aabea" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments::lexers::sql.re_prompt</definition>
+        <argsstring></argsstring>
+        <name>re_prompt</name>
+        <qualifiedname>pygments.lexers.sql.re_prompt</qualifiedname>
+        <initializer>=  re.compile(r&apos;^(\S.*?)??[=\-\(\$\&apos;\&quot;][#&gt;]&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="274" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1sql_1a56c70ca4ccf013910a84a3940b15981d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments::lexers::sql.re_psql_command</definition>
+        <argsstring></argsstring>
+        <name>re_psql_command</name>
+        <qualifiedname>pygments.lexers.sql.re_psql_command</qualifiedname>
+        <initializer>=  re.compile(r&apos;\s*\\&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="275" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1sql_1ade04a5b4cffaff3d8803192bf0a3d02f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments::lexers::sql.re_end_command</definition>
+        <argsstring></argsstring>
+        <name>re_end_command</name>
+        <qualifiedname>pygments.lexers.sql.re_end_command</qualifiedname>
+        <initializer>=  re.compile(r&apos;;\s*(--.*?)?$&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="276" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1sql_1a21fd2f9a53730bf62a88a52efa35bf37" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments::lexers::sql.re_error</definition>
+        <argsstring></argsstring>
+        <name>re_error</name>
+        <qualifiedname>pygments.lexers.sql.re_error</qualifiedname>
+        <initializer>=  re.compile(r&apos;(ERROR|FATAL):&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="278" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1sql_1a895273a5334151c9c779d9401dd75646" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments::lexers::sql.re_message</definition>
+        <argsstring></argsstring>
+        <name>re_message</name>
+        <qualifiedname>pygments.lexers.sql.re_message</qualifiedname>
+        <initializer>=  re.compile(
+    r&apos;((?:DEBUG|INFO|NOTICE|WARNING|ERROR|&apos;
+    r&apos;FATAL|HINT|DETAIL|CONTEXT|LINE [0-9]+):)(.*?\n)&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="279" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="279" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepygments_1_1lexers_1_1sql_1a30d9db1feab21a6a155ddbdcb1e13175" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.lexers.sql.language_callback</definition>
+        <argsstring>(lexer, match)</argsstring>
+        <name>language_callback</name>
+        <qualifiedname>pygments.lexers.sql.language_callback</qualifiedname>
+        <param>
+          <type>lexer</type>
+          <defname>lexer</defname>
+        </param>
+        <param>
+          <type>match</type>
+          <defname>match</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse the content of a $-string using a lexer
+
+The lexer is chosen looking for a nearby LANGUAGE or assumed as
+plpgsql if inside a DO statement and no LANGUAGE has been found.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="82" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="82" bodyend="117"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>    pygments.lexers.sql
+    ~~~~~~~~~~~~~~~~~~~
+
+    Lexers for various SQL dialects and related interactive sessions.
+
+    Postgres specific lexers:
+
+    `PostgresLexer`
+        A SQL lexer for the PostgreSQL dialect. Differences w.r.t. the SQL
+        lexer are:
+
+        - keywords and data types list parsed from the PG docs (run the
+          `_postgres_builtins` module to update them);
+        - Content of $-strings parsed using a specific lexer, e.g. the content
+          of a PL/Python function is parsed using the Python lexer;
+        - parse PG specific constructs: E-strings, $-strings, U&amp;-strings,
+          different operators and punctuation.
+
+    `PlPgsqlLexer`
+        A lexer for the PL/pgSQL language. Adds a few specific construct on
+        top of the PG SQL lexer (such as &lt;&lt;label&gt;&gt;).
+
+    `PostgresConsoleLexer`
+        A lexer to highlight an interactive psql session:
+
+        - identifies the prompt and does its best to detect the end of command
+          in multiline statement where not all the lines are prefixed by a
+          prompt, telling them apart from the output;
+        - highlights errors in the output and notification levels;
+        - handles psql backslash commands.
+
+    `PostgresExplainLexer`
+        A lexer to highlight Postgres execution plan.
+
+    The ``tests/examplefiles`` contains a few test files with data to be
+    parsed by these lexers.
+
+    :copyright: Copyright 2006-2025 by the Pygments team, see AUTHORS.
+    :license: BSD, see LICENSE for details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

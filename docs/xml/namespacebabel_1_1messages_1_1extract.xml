@@ -1,0 +1,939 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacebabel_1_1messages_1_1extract" kind="namespace" language="Python">
+    <compoundname>babel::messages::extract</compoundname>
+    <innerclass refid="classbabel_1_1messages_1_1extract_1_1__FileObj" prot="protected">babel::messages::extract::_FileObj</innerclass>
+    <innerclass refid="classbabel_1_1messages_1_1extract_1_1__JSOptions" prot="protected">babel::messages::extract::_JSOptions</innerclass>
+    <innerclass refid="classbabel_1_1messages_1_1extract_1_1__PyOptions" prot="protected">babel::messages::extract::_PyOptions</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1extract_1a7c02909de90bf87ee0af9538eb5b0362" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::messages::extract.TypeAlias</definition>
+        <argsstring></argsstring>
+        <name>TypeAlias</name>
+        <qualifiedname>babel.messages.extract.TypeAlias</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="61" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1extract_1a71466c9f8ca8e9201c3246b204679b4a" prot="protected" static="no" mutable="no">
+        <type>TypeAlias</type>
+        <definition>TypeAlias babel::messages::extract._Keyword</definition>
+        <argsstring></argsstring>
+        <name>_Keyword</name>
+        <qualifiedname>babel.messages.extract._Keyword</qualifiedname>
+        <initializer>=  dict[int | None, _SimpleKeyword] | _SimpleKeyword</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="62" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1extract_1a44326f484c7658fc0903b855f7f5c703" prot="protected" static="no" mutable="no">
+        <type>TypeAlias</type>
+        <definition>TypeAlias babel::messages::extract._FileExtractionResult</definition>
+        <argsstring></argsstring>
+        <name>_FileExtractionResult</name>
+        <qualifiedname>babel.messages.extract._FileExtractionResult</qualifiedname>
+        <initializer>=  tuple[str, int, str | tuple[str, ...], list[str], str | None]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="65" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1extract_1aecf7d25dc4cf9f55118e5960282c7e96" prot="protected" static="no" mutable="no">
+        <type>TypeAlias</type>
+        <definition>TypeAlias babel::messages::extract._ExtractionResult</definition>
+        <argsstring></argsstring>
+        <name>_ExtractionResult</name>
+        <qualifiedname>babel.messages.extract._ExtractionResult</qualifiedname>
+        <initializer>=  tuple[int, str | tuple[str, ...], list[str], str | None]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="68" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1extract_1a23dfa5efa4170e98a4667617bb2d8332" prot="protected" static="no" mutable="no">
+        <type>TypeAlias</type>
+        <definition>TypeAlias babel::messages::extract._CallableExtractionMethod</definition>
+        <argsstring></argsstring>
+        <name>_CallableExtractionMethod</name>
+        <qualifiedname>babel.messages.extract._CallableExtractionMethod</qualifiedname>
+        <initializer>=  Callable[
+        [<ref refid="classbabel_1_1messages_1_1extract_1_1__FileObj" kindref="compound">_FileObj</ref> | IO[bytes], Mapping[str, <ref refid="namespacebabel_1_1messages_1_1extract_1a71466c9f8ca8e9201c3246b204679b4a" kindref="member">_Keyword</ref>], Collection[str], Mapping[str, Any]],
+        Iterable[<ref refid="namespacebabel_1_1messages_1_1extract_1aecf7d25dc4cf9f55118e5960282c7e96" kindref="member">_ExtractionResult</ref>],
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="72" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1extract_1ab37c0294362c8d62a26b102af27d6f2c" prot="protected" static="no" mutable="no">
+        <type>TypeAlias</type>
+        <definition>TypeAlias babel::messages::extract._ExtractionMethod</definition>
+        <argsstring></argsstring>
+        <name>_ExtractionMethod</name>
+        <qualifiedname>babel.messages.extract._ExtractionMethod</qualifiedname>
+        <initializer>=  <ref refid="namespacebabel_1_1messages_1_1extract_1a23dfa5efa4170e98a4667617bb2d8332" kindref="member">_CallableExtractionMethod</ref> | str</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="77" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1extract_1ae0abc390c0ec39d3ec9f6aecca022611" prot="public" static="no" mutable="no">
+        <type>Final</type>
+        <definition>Final babel::messages::extract.GROUP_NAME</definition>
+        <argsstring></argsstring>
+        <name>GROUP_NAME</name>
+        <qualifiedname>babel.messages.extract.GROUP_NAME</qualifiedname>
+        <initializer>=  &apos;babel.extractors&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="79" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1extract_1a5bf20270552f066bd842ea108a6753ba" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict babel::messages::extract.DEFAULT_KEYWORDS</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_KEYWORDS</name>
+        <qualifiedname>babel.messages.extract.DEFAULT_KEYWORDS</qualifiedname>
+        <initializer>=  {
+    &apos;_&apos;: None,
+    &apos;gettext&apos;: None,
+    &apos;ngettext&apos;: (1, 2),
+    &apos;ugettext&apos;: None,
+    &apos;ungettext&apos;: (1, 2),
+    &apos;dgettext&apos;: (2,),
+    &apos;dngettext&apos;: (2, 3),
+    &apos;N_&apos;: None,
+    &apos;pgettext&apos;: ((1, &apos;c&apos;), 2),
+    &apos;npgettext&apos;: ((1, &apos;c&apos;), 2, 3),
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="81" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1extract_1a24e57c1363df38f359c0f1c8929025f5" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list babel::messages::extract.DEFAULT_MAPPING</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_MAPPING</name>
+        <qualifiedname>babel.messages.extract.DEFAULT_MAPPING</qualifiedname>
+        <initializer>=  [(&apos;**.py&apos;, &apos;python&apos;)]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="94" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1extract_1aeff081731a59cee38ecc496683c1923e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::messages::extract.FSTRING_START</definition>
+        <argsstring></argsstring>
+        <name>FSTRING_START</name>
+        <qualifiedname>babel.messages.extract.FSTRING_START</qualifiedname>
+        <initializer>=  getattr(tokenize, &quot;FSTRING_START&quot;, None)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="97" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1extract_1aa172418d1c44ef42da99d75382e6ef60" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::messages::extract.FSTRING_MIDDLE</definition>
+        <argsstring></argsstring>
+        <name>FSTRING_MIDDLE</name>
+        <qualifiedname>babel.messages.extract.FSTRING_MIDDLE</qualifiedname>
+        <initializer>=  getattr(tokenize, &quot;FSTRING_MIDDLE&quot;, None)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="98" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1extract_1a1b90844a9ca8d7accb4b2ce3497832d0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::messages::extract.FSTRING_END</definition>
+        <argsstring></argsstring>
+        <name>FSTRING_END</name>
+        <qualifiedname>babel.messages.extract.FSTRING_END</qualifiedname>
+        <initializer>=  getattr(tokenize, &quot;FSTRING_END&quot;, None)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="99" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1extract_1aa5527900af9f38ee8f607f3c904fe15c" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict babel::messages::extract._BUILTIN_EXTRACTORS</definition>
+        <argsstring></argsstring>
+        <name>_BUILTIN_EXTRACTORS</name>
+        <qualifiedname>babel.messages.extract._BUILTIN_EXTRACTORS</qualifiedname>
+        <initializer>=  {
+    &apos;ignore&apos;: <ref refid="namespacebabel_1_1messages_1_1extract_1ae913b45f59516bdfe6d9f381c5ffc99b" kindref="member">extract_nothing</ref>,
+    &apos;python&apos;: <ref refid="namespacebabel_1_1messages_1_1extract_1aabc553cd56d822da3986c00d88ed6796" kindref="member">extract_python</ref>,
+    &apos;javascript&apos;: <ref refid="namespacebabel_1_1messages_1_1extract_1a0c399388161eeed2f6e38730df3b450b" kindref="member">extract_javascript</ref>,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="848" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="848" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1extract_1aed7e3a204b2e7b83645eb164c83ce324" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>babel.messages.extract._strip_comment_tags</definition>
+        <argsstring>(MutableSequence[str] comments, Iterable[str] tags)</argsstring>
+        <name>_strip_comment_tags</name>
+        <qualifiedname>babel.messages.extract._strip_comment_tags</qualifiedname>
+        <param>
+          <type>MutableSequence</type>
+          <declname>comments</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>Iterable</type>
+          <declname>tags</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Helper function for `extract` that strips comment tags from strings
+in a list of comment lines.  This functions operates in-place.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="102" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="102" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1extract_1a7f34bf22e8dafe89b39274819b6ee73a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool babel.messages.extract.default_directory_filter</definition>
+        <argsstring>(str|os.PathLike[str] dirpath)</argsstring>
+        <name>default_directory_filter</name>
+        <qualifiedname>babel.messages.extract.default_directory_filter</qualifiedname>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>dirpath</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="114" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="114" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1extract_1ad058b4dfa640166376e8560b0fcbcb3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Generator[<ref refid="namespacebabel_1_1messages_1_1extract_1a44326f484c7658fc0903b855f7f5c703" kindref="member">_FileExtractionResult</ref>, None, None]</type>
+        <definition> Generator[_FileExtractionResult, None, None] babel.messages.extract.extract_from_dir</definition>
+        <argsstring>(str|os.PathLike[str]|None dirname=None, Iterable[tuple[str, str]] method_map=DEFAULT_MAPPING, SupportsItems[str, dict[str, Any]]|None options_map=None, Mapping[str, _Keyword] keywords=DEFAULT_KEYWORDS, Collection[str] comment_tags=(), Callable[[str, str, dict[str, Any]], object]|None callback=None, bool strip_comment_tags=False, Callable[[str], bool]|None directory_filter=None)</argsstring>
+        <name>extract_from_dir</name>
+        <qualifiedname>babel.messages.extract.extract_from_dir</qualifiedname>
+        <param>
+          <type>str|os.PathLike|None</type>
+          <declname>dirname</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Iterable]</type>
+          <declname>method_map</declname>
+          <array>[tuple[str, str]</array>
+          <defval><ref refid="namespacebabel_1_1messages_1_1extract_1a24e57c1363df38f359c0f1c8929025f5" kindref="member">DEFAULT_MAPPING</ref></defval>
+        </param>
+        <param>
+          <type>SupportsItems]|None</type>
+          <declname>options_map</declname>
+          <array>[str, dict[str, Any]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Mapping</type>
+          <declname>keywords</declname>
+          <array>[str, _Keyword]</array>
+          <defval><ref refid="namespacebabel_1_1messages_1_1extract_1a5bf20270552f066bd842ea108a6753ba" kindref="member">DEFAULT_KEYWORDS</ref></defval>
+        </param>
+        <param>
+          <type>Collection</type>
+          <declname>comment_tags</declname>
+          <array>[str]</array>
+          <defval>()</defval>
+        </param>
+        <param>
+          <type>Callable]</type>
+          <defname>callback</defname>
+          <array>[[str, str, dict[str, Any]</array>
+        </param>
+        <param>
+          <type>object]|None</type>
+          <declname>callback</declname>
+          <defname>strip_comment_tags</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>strip_comment_tags</declname>
+          <defname>directory_filter</defname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Callable</type>
+          <array>[[str]</array>
+        </param>
+        <param>
+          <type>bool]|None</type>
+          <declname>directory_filter</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Extract messages from any source files found in the given directory.
+
+This function generates tuples of the form ``(filename, lineno, message,
+comments, context)``.
+
+Which extraction method is used per file is determined by the `method_map`
+parameter, which maps extended glob patterns to extraction method names.
+For example, the following is the default mapping:
+
+&gt;&gt;&gt; method_map = [
+...     (&apos;**.py&apos;, &apos;python&apos;)
+... ]
+
+This basically says that files with the filename extension &quot;.py&quot; at any
+level inside the directory should be processed by the &quot;python&quot; extraction
+method. Files that don&apos;t match any of the mapping patterns are ignored. See
+the documentation of the `pathmatch` function for details on the pattern
+syntax.
+
+The following extended mapping would also use the &quot;genshi&quot; extraction
+method on any file in &quot;templates&quot; subdirectory:
+
+&gt;&gt;&gt; method_map = [
+...     (&apos;**/templates/**.*&apos;, &apos;genshi&apos;),
+...     (&apos;**.py&apos;, &apos;python&apos;)
+... ]
+
+The dictionary provided by the optional `options_map` parameter augments
+these mappings. It uses extended glob patterns as keys, and the values are
+dictionaries mapping options names to option values (both strings).
+
+The glob patterns of the `options_map` do not necessarily need to be the
+same as those used in the method mapping. For example, while all files in
+the ``templates`` folders in an application may be Genshi applications, the
+options for those files may differ based on extension:
+
+&gt;&gt;&gt; options_map = {
+...     &apos;**/templates/**.txt&apos;: {
+...         &apos;template_class&apos;: &apos;genshi.template:TextTemplate&apos;,
+...         &apos;encoding&apos;: &apos;latin-1&apos;
+...     },
+...     &apos;**/templates/**.html&apos;: {
+...         &apos;include_attrs&apos;: &apos;&apos;
+...     }
+... }
+
+:param dirname: the path to the directory to extract messages from.  If
+                not given the current working directory is used.
+:param method_map: a list of ``(pattern, method)`` tuples that maps of
+                   extraction method names to extended glob patterns
+:param options_map: a dictionary of additional options (optional)
+:param keywords: a dictionary mapping keywords (i.e. names of functions
+                 that should be recognized as translation functions) to
+                 tuples that specify which of their arguments contain
+                 localizable strings
+:param comment_tags: a list of tags of translator comments to search for
+                     and include in the results
+:param callback: a function that is called for every file that message are
+                 extracted from, just before the extraction itself is
+                 performed; the function is passed the filename, the name
+                 of the extraction method and and the options dictionary as
+                 positional arguments, in that order
+:param strip_comment_tags: a flag that if set to `True` causes all comment
+                           tags to be removed from the collected comments.
+:param directory_filter: a callback to determine whether a directory should
+                         be recursed into. Receives the full directory path;
+                         should return True if the directory is valid.
+:see: `pathmatch`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="120" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="129" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1extract_1a34b58e48d2db9b0c09ba8d7144d65f82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Generator[<ref refid="namespacebabel_1_1messages_1_1extract_1a44326f484c7658fc0903b855f7f5c703" kindref="member">_FileExtractionResult</ref>, None, None]</type>
+        <definition> Generator[_FileExtractionResult, None, None] babel.messages.extract.check_and_call_extract_file</definition>
+        <argsstring>(str|os.PathLike[str] filepath, Iterable[tuple[str, str]] method_map, SupportsItems[str, dict[str, Any]] options_map, Callable[[str, str, dict[str, Any]], object]|None callback, Mapping[str, _Keyword] keywords, Collection[str] comment_tags, bool strip_comment_tags, str|os.PathLike[str]|None dirpath=None)</argsstring>
+        <name>check_and_call_extract_file</name>
+        <qualifiedname>babel.messages.extract.check_and_call_extract_file</qualifiedname>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>filepath</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>Iterable]</type>
+          <declname>method_map</declname>
+          <array>[tuple[str, str]</array>
+        </param>
+        <param>
+          <type>SupportsItems]</type>
+          <declname>options_map</declname>
+          <array>[str, dict[str, Any]</array>
+        </param>
+        <param>
+          <type>Callable]</type>
+          <defname>callback</defname>
+          <array>[[str, str, dict[str, Any]</array>
+        </param>
+        <param>
+          <type>object]|None</type>
+          <declname>callback</declname>
+          <defname>keywords</defname>
+        </param>
+        <param>
+          <type>Mapping</type>
+          <declname>keywords</declname>
+          <defname>comment_tags</defname>
+          <array>[str, _Keyword]</array>
+        </param>
+        <param>
+          <type>Collection</type>
+          <declname>comment_tags</declname>
+          <defname>strip_comment_tags</defname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>strip_comment_tags</declname>
+          <defname>dirpath</defname>
+        </param>
+        <param>
+          <type>str|os.PathLike|None</type>
+          <declname>dirpath</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Checks if the given file matches an extraction method mapping, and if so, calls extract_from_file.
+
+Note that the extraction method mappings are based relative to dirpath.
+So, given an absolute path to a file `filepath`, we want to check using
+just the relative path from `dirpath` to `filepath`.
+
+Yields 5-tuples (filename, lineno, messages, comments, context).
+
+:param filepath: An absolute path to a file that exists.
+:param method_map: a list of ``(pattern, method)`` tuples that maps of
+                   extraction method names to extended glob patterns
+:param options_map: a dictionary of additional options (optional)
+:param callback: a function that is called for every file that message are
+                 extracted from, just before the extraction itself is
+                 performed; the function is passed the filename, the name
+                 of the extraction method and and the options dictionary as
+                 positional arguments, in that order
+:param keywords: a dictionary mapping keywords (i.e. names of functions
+                 that should be recognized as translation functions) to
+                 tuples that specify which of their arguments contain
+                 localizable strings
+:param comment_tags: a list of tags of translator comments to search for
+                     and include in the results
+:param strip_comment_tags: a flag that if set to `True` causes all comment
+                           tags to be removed from the collected comments.
+:param dirpath: the path to the directory to extract messages from.
+:return: iterable of 5-tuples (filename, lineno, messages, comments, context)
+:rtype: Iterable[tuple[str, int, str|tuple[str], list[str], str|None]
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="229" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="238" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1extract_1a862f8e2ef602348b174346a22e9fc89e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[<ref refid="namespacebabel_1_1messages_1_1extract_1aecf7d25dc4cf9f55118e5960282c7e96" kindref="member">_ExtractionResult</ref>]</type>
+        <definition> list[_ExtractionResult] babel.messages.extract.extract_from_file</definition>
+        <argsstring>(_ExtractionMethod method, str|os.PathLike[str] filename, Mapping[str, _Keyword] keywords=DEFAULT_KEYWORDS, Collection[str] comment_tags=(), Mapping[str, Any]|None options=None, bool strip_comment_tags=False)</argsstring>
+        <name>extract_from_file</name>
+        <qualifiedname>babel.messages.extract.extract_from_file</qualifiedname>
+        <param>
+          <type><ref refid="namespacebabel_1_1messages_1_1extract_1ab37c0294362c8d62a26b102af27d6f2c" kindref="member">_ExtractionMethod</ref></type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>filename</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>Mapping</type>
+          <declname>keywords</declname>
+          <array>[str, _Keyword]</array>
+          <defval><ref refid="namespacebabel_1_1messages_1_1extract_1a5bf20270552f066bd842ea108a6753ba" kindref="member">DEFAULT_KEYWORDS</ref></defval>
+        </param>
+        <param>
+          <type>Collection</type>
+          <declname>comment_tags</declname>
+          <array>[str]</array>
+          <defval>()</defval>
+        </param>
+        <param>
+          <type>Mapping|None</type>
+          <declname>options</declname>
+          <array>[str, Any]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>strip_comment_tags</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Extract messages from a specific file.
+
+This function returns a list of tuples of the form ``(lineno, message, comments, context)``.
+
+:param filename: the path to the file to extract messages from
+:param method: a string specifying the extraction method (.e.g. &quot;python&quot;)
+:param keywords: a dictionary mapping keywords (i.e. names of functions
+                 that should be recognized as translation functions) to
+                 tuples that specify which of their arguments contain
+                 localizable strings
+:param comment_tags: a list of translator tags to search for and include
+                     in the results
+:param strip_comment_tags: a flag that if set to `True` causes all comment
+                           tags to be removed from the collected comments.
+:param options: a dictionary of additional options (optional)
+:returns: list of tuples of the form ``(lineno, message, comments, context)``
+:rtype: list[tuple[int, str|tuple[str], list[str], str|None]
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="294" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="301" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1extract_1ae4b3ccc006cf228109406e3f3087032c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>babel.messages.extract._match_messages_against_spec</definition>
+        <argsstring>(int lineno, list[str|None] messages, list[str] comments, _FileObj fileobj, tuple[int|tuple[int, str],...] spec)</argsstring>
+        <name>_match_messages_against_spec</name>
+        <qualifiedname>babel.messages.extract._match_messages_against_spec</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>lineno</declname>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>messages</declname>
+          <array>[str|None]</array>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>comments</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1messages_1_1extract_1_1__FileObj" kindref="compound">_FileObj</ref></type>
+          <declname>fileobj</declname>
+        </param>
+        <param>
+          <type>tuple</type>
+          <defname>spec</defname>
+          <array>[int|tuple[int, str]</array>
+        </param>
+        <param>
+          <type>...]</type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="328" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="334" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1extract_1a6a3ef13e5ea3445c85ebc7e5eeeba636" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>babel.messages.extract._find_extractor</definition>
+        <argsstring>(str name)</argsstring>
+        <name>_find_extractor</name>
+        <qualifiedname>babel.messages.extract._find_extractor</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="375" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="375" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1extract_1a99d6546b9dbf4a981f9741622700da9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Generator[<ref refid="namespacebabel_1_1messages_1_1extract_1aecf7d25dc4cf9f55118e5960282c7e96" kindref="member">_ExtractionResult</ref>, None, None]</type>
+        <definition> Generator[_ExtractionResult, None, None] babel.messages.extract.extract</definition>
+        <argsstring>(_ExtractionMethod method, _FileObj fileobj, Mapping[str, _Keyword] keywords=DEFAULT_KEYWORDS, Collection[str] comment_tags=(), Mapping[str, Any]|None options=None, bool strip_comment_tags=False)</argsstring>
+        <name>extract</name>
+        <qualifiedname>babel.messages.extract.extract</qualifiedname>
+        <param>
+          <type><ref refid="namespacebabel_1_1messages_1_1extract_1ab37c0294362c8d62a26b102af27d6f2c" kindref="member">_ExtractionMethod</ref></type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1messages_1_1extract_1_1__FileObj" kindref="compound">_FileObj</ref></type>
+          <declname>fileobj</declname>
+        </param>
+        <param>
+          <type>Mapping</type>
+          <declname>keywords</declname>
+          <array>[str, _Keyword]</array>
+          <defval><ref refid="namespacebabel_1_1messages_1_1extract_1a5bf20270552f066bd842ea108a6753ba" kindref="member">DEFAULT_KEYWORDS</ref></defval>
+        </param>
+        <param>
+          <type>Collection</type>
+          <declname>comment_tags</declname>
+          <array>[str]</array>
+          <defval>()</defval>
+        </param>
+        <param>
+          <type>Mapping|None</type>
+          <declname>options</declname>
+          <array>[str, Any]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>strip_comment_tags</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Extract messages from the given file-like object using the specified
+extraction method.
+
+This function returns tuples of the form ``(lineno, message, comments, context)``.
+
+The implementation dispatches the actual extraction to plugins, based on the
+value of the ``method`` parameter.
+
+&gt;&gt;&gt; source = b&apos;&apos;&apos;# foo module
+... def run(argv):
+...    print(_(&apos;Hello, world!&apos;))
+... &apos;&apos;&apos;
+
+&gt;&gt;&gt; from io import BytesIO
+&gt;&gt;&gt; for message in extract(&apos;python&apos;, BytesIO(source)):
+...     print(message)
+(3, u&apos;Hello, world!&apos;, [], None)
+
+:param method: an extraction method (a callable), or
+               a string specifying the extraction method (.e.g. &quot;python&quot;);
+               if this is a simple name, the extraction function will be
+               looked up by entry point; if it is an explicit reference
+               to a function (of the form ``package.module:funcname`` or
+               ``package.module.funcname``), the corresponding function
+               will be imported and used
+:param fileobj: the file-like object the messages should be extracted from
+:param keywords: a dictionary mapping keywords (i.e. names of functions
+                 that should be recognized as translation functions) to
+                 tuples that specify which of their arguments contain
+                 localizable strings
+:param comment_tags: a list of translator tags to search for and include
+                     in the results
+:param options: a dictionary of additional options (optional)
+:param strip_comment_tags: a flag that if set to `True` causes all comment
+                           tags to be removed from the collected comments.
+:raise ValueError: if the extraction method is not registered
+:returns: iterable of tuples of the form ``(lineno, message, comments, context)``
+:rtype: Iterable[tuple[int, str|tuple[str], list[str], str|None]
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="382" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="389" bodyend="477"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1extract_1ae913b45f59516bdfe6d9f381c5ffc99b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[<ref refid="namespacebabel_1_1messages_1_1extract_1aecf7d25dc4cf9f55118e5960282c7e96" kindref="member">_ExtractionResult</ref>]</type>
+        <definition> list[_ExtractionResult] babel.messages.extract.extract_nothing</definition>
+        <argsstring>(_FileObj fileobj, Mapping[str, _Keyword] keywords, Collection[str] comment_tags, Mapping[str, Any] options)</argsstring>
+        <name>extract_nothing</name>
+        <qualifiedname>babel.messages.extract.extract_nothing</qualifiedname>
+        <param>
+          <type><ref refid="classbabel_1_1messages_1_1extract_1_1__FileObj" kindref="compound">_FileObj</ref></type>
+          <declname>fileobj</declname>
+        </param>
+        <param>
+          <type>Mapping</type>
+          <declname>keywords</declname>
+          <array>[str, _Keyword]</array>
+        </param>
+        <param>
+          <type>Collection</type>
+          <declname>comment_tags</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>Mapping</type>
+          <declname>options</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Pseudo extractor that does not actually extract anything, but simply
+returns an empty list.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="478" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="483" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1extract_1aabc553cd56d822da3986c00d88ed6796" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Generator[<ref refid="namespacebabel_1_1messages_1_1extract_1aecf7d25dc4cf9f55118e5960282c7e96" kindref="member">_ExtractionResult</ref>, None, None]</type>
+        <definition> Generator[_ExtractionResult, None, None] babel.messages.extract.extract_python</definition>
+        <argsstring>(IO[bytes] fileobj, Mapping[str, _Keyword] keywords, Collection[str] comment_tags, _PyOptions options)</argsstring>
+        <name>extract_python</name>
+        <qualifiedname>babel.messages.extract.extract_python</qualifiedname>
+        <param>
+          <type>IO</type>
+          <declname>fileobj</declname>
+          <array>[bytes]</array>
+        </param>
+        <param>
+          <type>Mapping</type>
+          <declname>keywords</declname>
+          <array>[str, _Keyword]</array>
+        </param>
+        <param>
+          <type>Collection</type>
+          <declname>comment_tags</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1messages_1_1extract_1_1__PyOptions" kindref="compound">_PyOptions</ref></type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Extract messages from Python source code.
+
+It returns an iterator yielding tuples in the following form ``(lineno,
+funcname, message, comments)``.
+
+:param fileobj: the seekable, file-like object the messages should be
+                extracted from
+:param keywords: a list of keywords (i.e. function names) that should be
+                 recognized as translation functions
+:param comment_tags: a list of translator tags to search for and include
+                     in the results
+:param options: a dictionary of additional options (optional)
+:rtype: ``iterator``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="490" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="495" bodyend="636"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1extract_1ae48a4816b5b1d6f4e6f8c5ab6504199b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None babel.messages.extract._parse_python_string</definition>
+        <argsstring>(str value, str encoding, int future_flags)</argsstring>
+        <name>_parse_python_string</name>
+        <qualifiedname>babel.messages.extract._parse_python_string</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>encoding</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>future_flags</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="637" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="637" bodyend="656"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1extract_1a0c399388161eeed2f6e38730df3b450b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Generator[<ref refid="namespacebabel_1_1messages_1_1extract_1aecf7d25dc4cf9f55118e5960282c7e96" kindref="member">_ExtractionResult</ref>, None, None]</type>
+        <definition> Generator[_ExtractionResult, None, None] babel.messages.extract.extract_javascript</definition>
+        <argsstring>(_FileObj fileobj, Mapping[str, _Keyword] keywords, Collection[str] comment_tags, _JSOptions options, int lineno=1)</argsstring>
+        <name>extract_javascript</name>
+        <qualifiedname>babel.messages.extract.extract_javascript</qualifiedname>
+        <param>
+          <type><ref refid="classbabel_1_1messages_1_1extract_1_1__FileObj" kindref="compound">_FileObj</ref></type>
+          <declname>fileobj</declname>
+        </param>
+        <param>
+          <type>Mapping</type>
+          <declname>keywords</declname>
+          <array>[str, _Keyword]</array>
+        </param>
+        <param>
+          <type>Collection</type>
+          <declname>comment_tags</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1messages_1_1extract_1_1__JSOptions" kindref="compound">_JSOptions</ref></type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>lineno</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Extract messages from JavaScript source code.
+
+:param fileobj: the seekable, file-like object the messages should be
+                extracted from
+:param keywords: a list of keywords (i.e. function names) that should be
+                 recognized as translation functions
+:param comment_tags: a list of translator tags to search for and include
+                     in the results
+:param options: a dictionary of additional options (optional)
+                Supported options are:
+                * `jsx` -- set to false to disable JSX/E4X support.
+                * `template_string` -- if `True`, supports gettext(`key`)
+                * `parse_template_string` -- if `True` will parse the
+                                             contents of javascript
+                                             template strings.
+:param lineno: line number offset (for parsing embedded fragments)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="657" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="663" bodyend="804"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1extract_1ac39bf4d58c6f97c11e8f1c69ee1c1950" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Generator[<ref refid="namespacebabel_1_1messages_1_1extract_1aecf7d25dc4cf9f55118e5960282c7e96" kindref="member">_ExtractionResult</ref>, None, None]</type>
+        <definition> Generator[_ExtractionResult, None, None] babel.messages.extract.parse_template_string</definition>
+        <argsstring>(str template_string, Mapping[str, _Keyword] keywords, Collection[str] comment_tags, _JSOptions options, int lineno=1)</argsstring>
+        <name>parse_template_string</name>
+        <qualifiedname>babel.messages.extract.parse_template_string</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>template_string</declname>
+        </param>
+        <param>
+          <type>Mapping</type>
+          <declname>keywords</declname>
+          <array>[str, _Keyword]</array>
+        </param>
+        <param>
+          <type>Collection</type>
+          <declname>comment_tags</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1messages_1_1extract_1_1__JSOptions" kindref="compound">_JSOptions</ref></type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>lineno</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse JavaScript template string.
+
+:param template_string: the template string to be parsed
+:param keywords: a list of keywords (i.e. function names) that should be
+                 recognized as translation functions
+:param comment_tags: a list of translator tags to search for and include
+                     in the results
+:param options: a dictionary of additional options (optional)
+:param lineno: starting line number (optional)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="805" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/extract.py" bodystart="811" bodyend="847"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>    babel.messages.extract
+    ~~~~~~~~~~~~~~~~~~~~~~
+
+    Basic infrastructure for extracting localizable messages from source files.
+
+    This module defines an extensible system for collecting localizable message
+    strings from a variety of sources. A native extractor for Python source
+    files is builtin, extractors for other sources can be added using very
+    simple plugins.
+
+    The main entry points into the extraction functionality are the functions
+    `extract_from_dir` and `extract_from_file`.
+
+    :copyright: (c) 2013-2025 by the Babel Team.
+    :license: BSD, see LICENSE for more details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/babel/messages/extract.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="adapters_2asset_8py" kind="file" language="Python">
+    <compoundname>asset.py</compoundname>
+    <innerclass refid="classsphinx_1_1environment_1_1adapters_1_1asset_1_1ImageAdapter" prot="public">sphinx::environment::adapters::asset::ImageAdapter</innerclass>
+    <innernamespace refid="namespacesphinx">sphinx</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1environment">sphinx::environment</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1environment_1_1adapters">sphinx::environment::adapters</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1environment_1_1adapters_1_1asset">sphinx::environment::adapters::asset</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacesphinx_1_1environment_1_1adapters_1_1asset" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;Assets<sp/>adapter<sp/>for<sp/>sphinx.environment.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TYPE_CHECKING</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1util_1_1__pathlib" kindref="compound">sphinx.util._pathlib</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>_StrPath</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1environment" kindref="compound">sphinx.environment</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>BuildEnvironment</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13" refid="classsphinx_1_1environment_1_1adapters_1_1asset_1_1ImageAdapter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1environment_1_1adapters_1_1asset_1_1ImageAdapter" kindref="compound">ImageAdapter</ref>:</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1environment_1_1adapters_1_1asset_1_1ImageAdapter_1a7f6e034b7eb2151e8cb943277c1ea344" kindref="member">__init__</ref>(self,<sp/>env:<sp/>BuildEnvironment)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1environment_1_1adapters_1_1asset_1_1ImageAdapter_1a00a61c005b3e3eee22ff7ab8f2187084" kindref="member">env</ref><sp/>=<sp/>env</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1environment_1_1adapters_1_1asset_1_1ImageAdapter_1ad8425705364e44e3a6fb00513f935dd0" kindref="member">get_original_image_uri</ref>(self,<sp/>name:<sp/>str)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Get<sp/>the<sp/>original<sp/>image<sp/>URI.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/><ref refid="classsphinx_1_1util_1_1__pathlib_1_1__StrPath" kindref="compound">_StrPath</ref>(name)<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>self.<ref refid="classsphinx_1_1environment_1_1adapters_1_1asset_1_1ImageAdapter_1a00a61c005b3e3eee22ff7ab8f2187084" kindref="member">env</ref>.original_image_uri:</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name<sp/>=<sp/>self.<ref refid="classsphinx_1_1environment_1_1adapters_1_1asset_1_1ImageAdapter_1a00a61c005b3e3eee22ff7ab8f2187084" kindref="member">env</ref>.original_image_uri[<ref refid="classsphinx_1_1util_1_1__pathlib_1_1__StrPath" kindref="compound">_StrPath</ref>(name)]</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>name</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/sphinx/environment/adapters/asset.py"/>
+  </compounddef>
+</doxygen>

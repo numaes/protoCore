@@ -41,44 +41,6 @@ namespace proto {
                 if (space->state == SPACE_STATE_ENDING) break;
 
                 // --- PHASE 2: COLLECT ROOTS ---
-                // Before collecting roots, we must "submit" all young generations
-                // so they are considered part of the heap for the mark phase.
-                auto submitContextYoungGens = [&](ProtoContext* currentCtx) {
-                    while (currentCtx) {
-                        if (currentCtx->lastAllocatedCell) {
-                            DirtySegment* seg = new DirtySegment();
-                            seg->cellChain = currentCtx->lastAllocatedCell;
-                            seg->next = space->dirtySegments;
-                            space->dirtySegments = seg;
-                            
-                            currentCtx->lastAllocatedCell = nullptr;
-                            currentCtx->allocatedCellsCount = 0;
-                        }
-                        currentCtx = currentCtx->previous;
-                    }
-                };
-
-                // 1. Submit for all threads
-                if (space->threads) {
-                    std::vector<const ProtoSparseListImplementation*> stack;
-                    const ProtoObject* rootObj = reinterpret_cast<const ProtoObject*>(space->threads);
-                    if (rootObj && rootObj->isCell(space->rootContext)) {
-                        stack.push_back(toImpl<const ProtoSparseListImplementation>(rootObj));
-                    }
-                    while (!stack.empty()) {
-                        const ProtoSparseListImplementation* node = stack.back();
-                        stack.pop_back();
-                        if (!node->isEmpty && node->value && node->value->asThread(space->rootContext)) {
-                            const ProtoThread* thread = node->value->asThread(space->rootContext);
-                            submitContextYoungGens(toImpl<const ProtoThreadImplementation>(thread)->context);
-                        }
-                        if (node->previous) stack.push_back(node->previous);
-                        if (node->next) stack.push_back(node->next);
-                    }
-                }
-                // 2. Submit for main thread
-                submitContextYoungGens(space->mainContext);
-
                 std::vector<const Cell*> workList;
                 auto addRootObj = [&](const ProtoObject* obj) {
                     if (obj && obj->isCell(space->rootContext)) {
@@ -86,22 +48,34 @@ namespace proto {
                     }
                 };
 
-                // 3. Scan Thread Stacks
-                if (space->threads) {
-                    auto scanContexts = [&](ProtoContext* currentCtx) {
-                        while (currentCtx) {
-                            // Roots: Automatic locals
-                            for (unsigned int i = 0; i < currentCtx->getAutomaticLocalsCount(); ++i) {
-                                addRootObj(currentCtx->getAutomaticLocals()[i]);
-                            }
-                            // Roots: Closure locals
-                            if (currentCtx->closureLocals) {
-                                addRootObj(reinterpret_cast<const ProtoObject*>(currentCtx->closureLocals));
-                            }
-                            currentCtx = currentCtx->previous;
+                auto scanContexts = [&](ProtoContext* currentCtx) {
+                    while (currentCtx) {
+                        // Roots: Automatic locals
+                        for (unsigned int i = 0; i < currentCtx->getAutomaticLocalsCount(); ++i) {
+                            addRootObj(currentCtx->getAutomaticLocals()[i]);
                         }
-                    };
+                        // Roots: Closure locals
+                        if (currentCtx->closureLocals) {
+                            addRootObj(reinterpret_cast<const ProtoObject*>(currentCtx->closureLocals));
+                        }
+                        // Roots: Young generation (pinned objects allocated in this context)
+                        // These are safe from collection because they are not in captured segments.
+                        // We scan their references to find pointers to older objects, but we don't
+                        // mark the young objects themselves yet. This allows them to be collected
+                        // in the very first GC cycle after they are promoted to DirtySegments.
+                        Cell* youngCell = currentCtx->lastAllocatedCell;
+                        while (youngCell) {
+                            youngCell->processReferences(space->rootContext, &workList, [](ProtoContext* ctx, void* self, const Cell* ref) {
+                                static_cast<std::vector<const Cell*>*>(self)->push_back(ref);
+                            });
+                            youngCell = youngCell->getNext();
+                        }
+                        currentCtx = currentCtx->previous;
+                    }
+                };
 
+                // 1. Scan Thread Stacks
+                if (space->threads) {
                     std::vector<const ProtoSparseListImplementation*> stack;
                     const ProtoObject* rootObj = reinterpret_cast<const ProtoObject*>(space->threads);
                     if (rootObj && rootObj->isCell(space->rootContext)) {
@@ -118,7 +92,7 @@ namespace proto {
                     }
                 }
                 
-                // 4. Global Roots
+                // 2. Global Roots
                 addRootObj(space->objectPrototype);
                 addRootObj(space->booleanPrototype);
                 addRootObj(space->unicodeCharPrototype);
@@ -152,15 +126,8 @@ namespace proto {
                 if (space->mutableRoot.load()) addRootObj(reinterpret_cast<const ProtoObject*>(space->mutableRoot.load()));
                 if (space->threads) addRootObj(reinterpret_cast<const ProtoObject*>(space->threads));
                 
-                // 5. Scan the Main Thread stack
-                ProtoContext* rootCtx = space->mainContext;
-                while (rootCtx) {
-                    for (unsigned int i = 0; i < rootCtx->getAutomaticLocalsCount(); ++i) {
-                        addRootObj(rootCtx->getAutomaticLocals()[i]);
-                    }
-                    if (rootCtx->closureLocals) addRootObj(reinterpret_cast<const ProtoObject*>(rootCtx->closureLocals));
-                    rootCtx = rootCtx->previous;
-                }
+                // 3. Scan the Main Thread stack
+                scanContexts(space->mainContext);
 
                 // 6. Capture the heap snapshot (segments to process)
                 // This MUST be done during STW to ensure we only sweep what existed at root collection.
@@ -186,24 +153,34 @@ namespace proto {
                 }
                 
                 // --- PHASE 5: SWEEP ---
-                space->gcStarted = false; // Reset here
-
                 DirtySegment* currentSeg = segmentsToProcess;
                 while (currentSeg) {
                     Cell* cell = currentSeg->cellChain;
+                    
+                    Cell* batchHead = nullptr;
+                    Cell* batchTail = nullptr;
+                    int batchCount = 0;
+
                     while (cell) {
                         Cell* nextCell = cell->getNext();
                         if (!cell->isMarked()) {
                             cell->finalize(space->rootContext);
 
-                            std::lock_guard<std::mutex> freeLock(ProtoSpace::globalMutex);
-                            cell->setNext(space->freeCells);
-                            space->freeCells = cell;
-                            space->freeCellsCount++;
+                            cell->internalSetNextRaw(batchHead);
+                            if (!batchTail) batchTail = cell;
+                            batchHead = cell;
+                            batchCount++;
                         } else {
                             cell->unmark();
                         }
                         cell = nextCell;
+                    }
+
+                    if (batchHead) {
+                        std::lock_guard<std::mutex> freeLock(ProtoSpace::globalMutex);
+                        batchTail->internalSetNextRaw(space->freeCells);
+                        space->freeCells = batchHead;
+                        space->freeCellsCount += batchCount;
                     }
 
                     DirtySegment* nextSeg = currentSeg->next;
@@ -212,6 +189,8 @@ namespace proto {
                 }
 
                 lock.lock(); // Re-acquire for next wait
+                space->gcStarted = false;
+                space->gcCV.notify_all();
             }
         }
     }
@@ -321,11 +300,20 @@ namespace proto {
     }
 
     Cell* ProtoSpace::getFreeCells(const ProtoThread* thread) {
+        std::unique_lock<std::mutex> lock(globalMutex);
         if (this->freeCellsCount < this->heapSize * 0.2 && !this->gcStarted) {
             this->gcStarted = true;
             this->gcCV.notify_all();
         }
-        std::lock_guard<std::mutex> lock(globalMutex);
+
+        if (!this->freeCells && this->gcStarted) {
+            // Wait for current GC to finish before asking OS for more.
+            // We must increment parkedThreads to avoid deadlocking the STW phase.
+            this->parkedThreads++;
+            this->gcCV.notify_all(); // Notify GC thread that we are parked
+            this->gcCV.wait(lock, [this] { return !this->gcStarted || this->freeCells; });
+            this->parkedThreads--;
+        }
         
         // If we have free cells in the global list, return a batch
         if (this->freeCells) {
@@ -368,17 +356,17 @@ namespace proto {
 
         // Batch to return
         for (int i = 0; i < this->blocksPerAllocation - 1; ++i) {
-            reinterpret_cast<Cell*>(&bigCellPtr[i])->setNext(reinterpret_cast<Cell*>(&bigCellPtr[i+1]));
+            reinterpret_cast<Cell*>(&bigCellPtr[i])->internalSetNextRaw(reinterpret_cast<Cell*>(&bigCellPtr[i+1]));
         }
-        reinterpret_cast<Cell*>(&bigCellPtr[this->blocksPerAllocation - 1])->setNext(nullptr);
+        reinterpret_cast<Cell*>(&bigCellPtr[this->blocksPerAllocation - 1])->internalSetNextRaw(nullptr);
 
         // Remaining go to global free list
         if (blocksToAllocate > this->blocksPerAllocation) {
             Cell* globalHead = reinterpret_cast<Cell*>(&bigCellPtr[this->blocksPerAllocation]);
             for (int i = this->blocksPerAllocation; i < blocksToAllocate - 1; ++i) {
-                reinterpret_cast<Cell*>(&bigCellPtr[i])->setNext(reinterpret_cast<Cell*>(&bigCellPtr[i+1]));
+                reinterpret_cast<Cell*>(&bigCellPtr[i])->internalSetNextRaw(reinterpret_cast<Cell*>(&bigCellPtr[i+1]));
             }
-            reinterpret_cast<Cell*>(&bigCellPtr[blocksToAllocate - 1])->setNext(this->freeCells);
+            reinterpret_cast<Cell*>(&bigCellPtr[blocksToAllocate - 1])->internalSetNextRaw(this->freeCells);
             this->freeCells = globalHead;
             this->freeCellsCount += (blocksToAllocate - this->blocksPerAllocation);
         }

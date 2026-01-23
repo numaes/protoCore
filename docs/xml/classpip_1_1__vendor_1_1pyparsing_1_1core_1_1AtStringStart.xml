@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1AtStringStart" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::pyparsing::core::AtStringStart</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParseElementEnhance" prot="public" virt="non-virtual">pip._vendor.pyparsing.core.ParseElementEnhance</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1AtStringStart_1a9e7414a240a9a54f3be46ff9fb10cf6f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.pyparsing.core.AtStringStart::callPreparse</definition>
+        <argsstring></argsstring>
+        <name>callPreparse</name>
+        <qualifiedname>pip._vendor.pyparsing.core.AtStringStart.callPreparse</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="4701" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="4701" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1AtStringStart_1a5cf58109f607ac2814a7c43c8ef80206" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.core.AtStringStart.__init__</definition>
+        <argsstring>(self, Union[ParserElement, str] expr)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._vendor.pyparsing.core.AtStringStart.__init__</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParseElementEnhance_1a4aaae2afbb44e9358c82e8a3c19a7bcc">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Union</type>
+          <declname>expr</declname>
+          <array>[ParserElement, str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="4699" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="4699" bodyend="4702"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1AtStringStart_1a0af005c057ad7c5dca823451fab92590" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.core.AtStringStart.parseImpl</definition>
+        <argsstring>(self, instring, loc, doActions=True)</argsstring>
+        <name>parseImpl</name>
+        <qualifiedname>pip._vendor.pyparsing.core.AtStringStart.parseImpl</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParseElementEnhance_1ab5bbc1bfe74ed386dfd5ab31c1d85de8">parseImpl</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>instring</type>
+          <defname>instring</defname>
+        </param>
+        <param>
+          <type>loc</type>
+          <defname>loc</defname>
+        </param>
+        <param>
+          <type>doActions</type>
+          <defname>doActions</defname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="4703" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="4703" bodyend="4708"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Matches if expression matches at the beginning of the parse
+string::
+
+    AtStringStart(Word(nums)).parse_string(&quot;123&quot;)
+    # prints [&quot;123&quot;]
+
+    AtStringStart(Word(nums)).parse_string(&quot;    123&quot;)
+    # raises ParseException
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>ABC</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.pyparsing.core.AtStringStart</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1AtStringStart"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pyparsing.core.ParseElementEnhance</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParseElementEnhance"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.pyparsing.core.ParserElement</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>ABC</label>
+      </node>
+      <node id="5">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.pyparsing.core.AtStringStart</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1AtStringStart"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pyparsing.core.ParseElementEnhance</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParseElementEnhance"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.pyparsing.core.ParserElement</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>DEFAULT_WHITE_CHARS</edgelabel>
+          <edgelabel>defaultName</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>_parse</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Tuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="4688" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="4688" bodyend="4708"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1AtStringStart_1a5cf58109f607ac2814a7c43c8ef80206" prot="public" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::AtStringStart</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1AtStringStart_1a9e7414a240a9a54f3be46ff9fb10cf6f" prot="public" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::AtStringStart</scope><name>callPreparse</name></member>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1AtStringStart_1a0af005c057ad7c5dca823451fab92590" prot="public" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::AtStringStart</scope><name>parseImpl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

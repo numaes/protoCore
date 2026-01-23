@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1locations_1_1__distutils" kind="namespace" language="Python">
+    <compoundname>pip::_internal::locations::_distutils</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1locations_1_1__distutils_1ae32ba9cca99a76e803b4a0370d5dfa26" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::locations::_distutils.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.locations._distutils.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/locations/_distutils.py" line="32" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/locations/_distutils.py" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1locations_1_1__distutils_1ad027dd5a13c832226ba724df2b19180c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Dict[str, str]</type>
+        <definition> Dict[str, str] pip._internal.locations._distutils.distutils_scheme</definition>
+        <argsstring>(str dist_name, bool user=False, Optional[str] home=None, Optional[str] root=None, bool isolated=False, Optional[str] prefix=None, *bool ignore_config_files=False)</argsstring>
+        <name>distutils_scheme</name>
+        <qualifiedname>pip._internal.locations._distutils.distutils_scheme</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>dist_name</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>user</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>home</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>root</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isolated</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>prefix</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*bool</type>
+          <declname>ignore_config_files</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a distutils install scheme
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/locations/_distutils.py" line="35" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/locations/_distutils.py" bodystart="44" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1locations_1_1__distutils_1ae2a1cd59cf56c851b2c67b28e62241d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1models_1_1scheme_1_1Scheme" kindref="compound">Scheme</ref></type>
+        <definition> Scheme pip._internal.locations._distutils.get_scheme</definition>
+        <argsstring>(str dist_name, bool user=False, Optional[str] home=None, Optional[str] root=None, bool isolated=False, Optional[str] prefix=None)</argsstring>
+        <name>get_scheme</name>
+        <qualifiedname>pip._internal.locations._distutils.get_scheme</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>dist_name</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>user</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>home</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>root</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isolated</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>prefix</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the &quot;scheme&quot; corresponding to the input parameters. The distutils
+documentation provides the context for the available schemes:
+https://docs.python.org/3/install/index.html#alternate-installation
+
+:param dist_name: the name of the package to retrieve the scheme for, used
+    in the headers scheme path
+:param user: indicates to use the &quot;user&quot; scheme
+:param home: indicates to use the &quot;home&quot; scheme and provides the base
+    directory for the same
+:param root: root under which other directories are re-based
+:param isolated: equivalent to --no-user-cfg, i.e. do not consider
+    ~/.pydistutils.cfg (posix) or ~/pydistutils.cfg (non-posix) for
+    scheme paths
+:param prefix: indicates to use the &quot;prefix&quot; scheme and provides the
+    base directory for the same
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/locations/_distutils.py" line="115" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/locations/_distutils.py" bodystart="122" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1locations_1_1__distutils_1aee017a4d8d4f5a00df705591e4da4525" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.locations._distutils.get_bin_prefix</definition>
+        <argsstring>()</argsstring>
+        <name>get_bin_prefix</name>
+        <qualifiedname>pip._internal.locations._distutils.get_bin_prefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/locations/_distutils.py" line="150" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/locations/_distutils.py" bodystart="150" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1locations_1_1__distutils_1a7d2bf9dfa7c735614abbaf7d468245ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.locations._distutils.get_purelib</definition>
+        <argsstring>()</argsstring>
+        <name>get_purelib</name>
+        <qualifiedname>pip._internal.locations._distutils.get_purelib</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/locations/_distutils.py" line="167" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/locations/_distutils.py" bodystart="167" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1locations_1_1__distutils_1a6f1fff0bca5f21541f9e8c981d89bd85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.locations._distutils.get_platlib</definition>
+        <argsstring>()</argsstring>
+        <name>get_platlib</name>
+        <qualifiedname>pip._internal.locations._distutils.get_platlib</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/locations/_distutils.py" line="171" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/locations/_distutils.py" bodystart="171" bodyend="173"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Locations where we look for configs, install stuff, etc</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/locations/_distutils.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

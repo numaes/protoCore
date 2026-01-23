@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="http__date_8py" kind="file" language="Python">
+    <compoundname>http_date.py</compoundname>
+    <innernamespace refid="namespacesphinx">sphinx</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1util">sphinx::util</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1util_1_1http__date">sphinx::util::http_date</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacesphinx_1_1util_1_1http__date" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;Convert<sp/>times<sp/>to<sp/>and<sp/>from<sp/>HTTP-date<sp/>serialisations.</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral">Reference:<sp/>https://www.rfc-editor.org/rfc/rfc7231#section-7.1.1.1</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>time</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>warnings</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>email.utils<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>parsedate_tz</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1deprecation" kindref="compound">sphinx.deprecation</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>RemovedInSphinx90Warning</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal">_WEEKDAY_NAME<sp/>=<sp/>(</highlight><highlight class="stringliteral">&apos;Mon&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;Tue&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;Wed&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;Thu&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;Fri&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;Sat&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;Sun&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="15"><highlight class="normal">_MONTH_NAME<sp/>=<sp/>(</highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">#<sp/>Placeholder<sp/>for<sp/>indexing<sp/>purposes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;Jan&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;Feb&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;Mar&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;Apr&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;May&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;Jun&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;Jul&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;Aug&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;Sep&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;Oct&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;Nov&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;Dec&apos;</highlight><highlight class="normal">)<sp/><sp/></highlight><highlight class="comment">#<sp/>fmt:<sp/>skip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal">_GMT_OFFSET<sp/>=<sp/>float(time.localtime().tm_gmtoff)</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">epoch_to_rfc1123(epoch:<sp/>float)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>HTTP-date<sp/>string<sp/>from<sp/>epoch<sp/>offset.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>yr,<sp/>mn,<sp/>dd,<sp/>hh,<sp/>mm,<sp/>ss,<sp/>wd,<sp/>_yd,<sp/>_tz<sp/>=<sp/>time.gmtime(epoch)</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>weekday_name<sp/>=<sp/>_WEEKDAY_NAME[wd]</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>month<sp/>=<sp/>_MONTH_NAME[mn]</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>f</highlight><highlight class="stringliteral">&apos;{weekday_name},<sp/>{dd:02}<sp/>{month}<sp/>{yr:04}<sp/>{hh:02}:{mm:02}:{ss:02}<sp/>GMT&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">rfc1123_to_epoch(rfc1123:<sp/>str)<sp/>-&gt;<sp/>float:</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>epoch<sp/>offset<sp/>from<sp/>HTTP-date<sp/>string.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>t<sp/>=<sp/>parsedate_tz(rfc1123)</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>t<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>ValueError</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>rfc1123.endswith(</highlight><highlight class="stringliteral">&apos;<sp/>GMT&apos;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>warnings.warn(</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;HTTP-date<sp/>string<sp/>does<sp/>not<sp/>meet<sp/>RFC<sp/>7231<sp/>requirements<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f</highlight><highlight class="stringliteral">&quot;(must<sp/>end<sp/>with<sp/>&apos;GMT&apos;):<sp/>{rfc1123!r}&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RemovedInSphinx90Warning,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stacklevel=3,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>epoch_secs<sp/>=<sp/>time.mktime(time.struct_time(t[:9]))<sp/>+<sp/>_GMT_OFFSET</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(gmt_offset<sp/>:=<sp/>t[9])<sp/>!=<sp/>0:</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>warnings.warn(</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;HTTP-date<sp/>string<sp/>does<sp/>not<sp/>meet<sp/>RFC<sp/>7231<sp/>requirements<sp/>&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f</highlight><highlight class="stringliteral">&apos;(must<sp/>be<sp/>GMT<sp/>time):<sp/>{rfc1123!r}&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RemovedInSphinx90Warning,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stacklevel=3,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>epoch_secs<sp/>-<sp/>(gmt_offset<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>0)</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>epoch_secs</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/sphinx/util/http_date.py"/>
+  </compounddef>
+</doxygen>

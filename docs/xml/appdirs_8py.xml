@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="appdirs_8py" kind="file" language="Python">
+    <compoundname>appdirs.py</compoundname>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal">pip::_internal</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1utils">pip::_internal::utils</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1utils_1_1appdirs">pip::_internal::utils::appdirs</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__internal_1_1utils_1_1appdirs" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral">This<sp/>code<sp/>wraps<sp/>the<sp/>vendored<sp/>appdirs<sp/>module<sp/>to<sp/>so<sp/>the<sp/>return<sp/>values<sp/>are</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral">compatible<sp/>for<sp/>the<sp/>current<sp/>pip<sp/>code<sp/>base.</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral">The<sp/>intention<sp/>is<sp/>to<sp/>rewrite<sp/>current<sp/>usages<sp/>gradually,<sp/>keeping<sp/>the<sp/>tests<sp/>pass,</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral">and<sp/>eventually<sp/>drop<sp/>this<sp/>after<sp/>all<sp/>usages<sp/>are<sp/>changed.</highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>os</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>List</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor" kindref="compound">pip._vendor</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>platformdirs<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>_appdirs</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1utils_1_1appdirs_1ab1ea0a07f29d08b3dd588fcb10be5535" kindref="member">user_cache_dir</ref>(appname:<sp/>str)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>_appdirs.user_cache_dir(appname,<sp/>appauthor=</highlight><highlight class="keyword">False</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1utils_1_1appdirs_1a37199a0d5c8616f9eac288b839d5227e" kindref="member">_macos_user_config_dir</ref>(appname:<sp/>str,<sp/>roaming:<sp/>bool<sp/>=<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Use<sp/>~/Application<sp/>Support/pip,<sp/>if<sp/>the<sp/>directory<sp/>exists.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>path<sp/>=<sp/>_appdirs.user_data_dir(appname,<sp/>appauthor=</highlight><highlight class="keyword">False</highlight><highlight class="normal">,<sp/>roaming=roaming)</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>os.path.isdir(path):</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>path</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Use<sp/>a<sp/>Linux-like<sp/>~/.config/pip,<sp/>by<sp/>default.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>linux_like_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;~/.config/&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>appname:</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>linux_like_path<sp/>=<sp/>os.path.join(linux_like_path,<sp/>appname)</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>os.path.expanduser(linux_like_path)</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1utils_1_1appdirs_1a64596a0a067dfcc53fed38ae2d3bf259" kindref="member">user_config_dir</ref>(appname:<sp/>str,<sp/>roaming:<sp/>bool<sp/>=<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>sys.platform<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;darwin&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1utils_1_1appdirs_1a37199a0d5c8616f9eac288b839d5227e" kindref="member">_macos_user_config_dir</ref>(appname,<sp/>roaming)</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>_appdirs.user_config_dir(appname,<sp/>appauthor=</highlight><highlight class="keyword">False</highlight><highlight class="normal">,<sp/>roaming=roaming)</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">#<sp/>for<sp/>the<sp/>discussion<sp/>regarding<sp/>site_config_dir<sp/>locations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">#<sp/>see<sp/>&lt;https://github.com/pypa/pip/issues/1733&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1utils_1_1appdirs_1af2feb5ed95ce2384307ce49c2234f2c4" kindref="member">site_config_dirs</ref>(appname:<sp/>str)<sp/>-&gt;<sp/>List[str]:</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>sys.platform<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;darwin&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>[_appdirs.site_data_dir(appname,<sp/>appauthor=</highlight><highlight class="keyword">False</highlight><highlight class="normal">,<sp/>multipath=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)]</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>dirval<sp/>=<sp/>_appdirs.site_config_dir(appname,<sp/>appauthor=</highlight><highlight class="keyword">False</highlight><highlight class="normal">,<sp/>multipath=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>sys.platform<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;win32&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>[dirval]</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Unix-y<sp/>system.<sp/>Look<sp/>in<sp/>/etc<sp/>as<sp/>well.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dirval.split(os.pathsep)<sp/>+<sp/>[</highlight><highlight class="stringliteral">&quot;/etc&quot;</highlight><highlight class="normal">]</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/appdirs.py"/>
+  </compounddef>
+</doxygen>

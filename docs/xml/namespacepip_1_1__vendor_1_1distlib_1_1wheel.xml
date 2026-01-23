@@ -1,0 +1,392 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1distlib_1_1wheel" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::distlib::wheel</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1wheel_1_1Mounter" prot="public">pip::_vendor::distlib::wheel::Mounter</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1wheel_1_1Wheel" prot="public">pip::_vendor::distlib::wheel::Wheel</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1a7ad22b151a9cfd5f51f879e788460167" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::wheel.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._vendor.distlib.wheel.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="33" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1a204fa74804a14f7f4345f222e742c966" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::wheel.cache</definition>
+        <argsstring></argsstring>
+        <name>cache</name>
+        <qualifiedname>pip._vendor.distlib.wheel.cache</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="35" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1ab9b208f93114fed84bd89859ced23c9e" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_vendor::distlib::wheel::IMP_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>IMP_PREFIX</name>
+        <qualifiedname>pip._vendor.distlib.wheel.IMP_PREFIX</qualifiedname>
+        <initializer>=  &apos;pp&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="38" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1ad4150ab65da410a4c5aa4033f5c459ed" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>str pip::_vendor::distlib::wheel::VER_SUFFIX</definition>
+        <argsstring></argsstring>
+        <name>VER_SUFFIX</name>
+        <qualifiedname>pip._vendor.distlib.wheel.VER_SUFFIX</qualifiedname>
+        <initializer>=  sysconfig.get_config_var(&apos;py_version_nodot&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="46" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1a5cef373b6fc5ff33b23198bf0e025397" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_vendor::distlib::wheel.PYVER</definition>
+        <argsstring></argsstring>
+        <name>PYVER</name>
+        <qualifiedname>pip._vendor.distlib.wheel.PYVER</qualifiedname>
+        <initializer>=  &apos;py&apos; + <ref refid="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1ad4150ab65da410a4c5aa4033f5c459ed" kindref="member">VER_SUFFIX</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="49" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1aed7969766cd4a636115ad6e65f5fe102" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_vendor::distlib::wheel.IMPVER</definition>
+        <argsstring></argsstring>
+        <name>IMPVER</name>
+        <qualifiedname>pip._vendor.distlib.wheel.IMPVER</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1ab9b208f93114fed84bd89859ced23c9e" kindref="member">IMP_PREFIX</ref> + <ref refid="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1ad4150ab65da410a4c5aa4033f5c459ed" kindref="member">VER_SUFFIX</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="50" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1aa7cd2e9574c483b6e672501a5e4bac71" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::wheel.ARCH</definition>
+        <argsstring></argsstring>
+        <name>ARCH</name>
+        <qualifiedname>pip._vendor.distlib.wheel.ARCH</qualifiedname>
+        <initializer>=  get_platform().replace(&apos;-&apos;, &apos;_&apos;).replace(&apos;.&apos;, &apos;_&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="52" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1a27038ba5fe0a4614086ac7b7c3fb96fa" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::wheel.ABI</definition>
+        <argsstring></argsstring>
+        <name>ABI</name>
+        <qualifiedname>pip._vendor.distlib.wheel.ABI</qualifiedname>
+        <initializer>=  sysconfig.get_config_var(&apos;SOABI&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="54" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1a1f9bbff12f1c553d5692450e00779e5c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::wheel.FILENAME_RE</definition>
+        <argsstring></argsstring>
+        <name>FILENAME_RE</name>
+        <qualifiedname>pip._vendor.distlib.wheel.FILENAME_RE</qualifiedname>
+        <initializer>=  re.compile(
+    , re.IGNORECASE | re.VERBOSE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="80" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1a4130d157f020fb1d874d2d4fe7f90145" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::wheel.NAME_VERSION_RE</definition>
+        <argsstring></argsstring>
+        <name>NAME_VERSION_RE</name>
+        <qualifiedname>pip._vendor.distlib.wheel.NAME_VERSION_RE</qualifiedname>
+        <initializer>=  re.compile(
+    , re.IGNORECASE | re.VERBOSE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="91" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1a3b17a6d59fb8e184a1a9ce9f0cbde4ad" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::wheel.SHEBANG_RE</definition>
+        <argsstring></argsstring>
+        <name>SHEBANG_RE</name>
+        <qualifiedname>pip._vendor.distlib.wheel.SHEBANG_RE</qualifiedname>
+        <initializer>=  re.compile(br&apos;\s*#![^\r\n]*&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="98" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1a395280bb0ac57ef7d81f73c9f038f714" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::wheel.SHEBANG_DETAIL_RE</definition>
+        <argsstring></argsstring>
+        <name>SHEBANG_DETAIL_RE</name>
+        <qualifiedname>pip._vendor.distlib.wheel.SHEBANG_DETAIL_RE</qualifiedname>
+        <initializer>=  re.compile(br&apos;^(\s*#!(&quot;[^&quot;]+&quot;|\S+))\s+(.*)$&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="99" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1a9d0aa8ac09402a2385a4552d4ab58b9e" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_vendor::distlib::wheel.SHEBANG_PYTHON</definition>
+        <argsstring></argsstring>
+        <name>SHEBANG_PYTHON</name>
+        <qualifiedname>pip._vendor.distlib.wheel.SHEBANG_PYTHON</qualifiedname>
+        <initializer>=  b&apos;#!python&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="100" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1ae65c6ba8bc8d594533373dfa648ac8fb" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_vendor::distlib::wheel.SHEBANG_PYTHONW</definition>
+        <argsstring></argsstring>
+        <name>SHEBANG_PYTHONW</name>
+        <qualifiedname>pip._vendor.distlib.wheel.SHEBANG_PYTHONW</qualifiedname>
+        <initializer>=  b&apos;#!pythonw&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="101" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1a50f3e1dff9e0b8a79bd2db5433535a5c" prot="public" static="no" mutable="no">
+        <type>o</type>
+        <definition>o pip::_vendor::distlib::wheel::to_posix</definition>
+        <argsstring></argsstring>
+        <name>to_posix</name>
+        <qualifiedname>pip._vendor.distlib.wheel.to_posix</qualifiedname>
+        <initializer>=  lambda o</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="104" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1a9035dd2a8dec60721db098f5a3c015ee" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::wheel.imp</definition>
+        <argsstring></argsstring>
+        <name>imp</name>
+        <qualifiedname>pip._vendor.distlib.wheel.imp</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="111" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1adee6c6f02927a35d10817ea6f3f1cf51" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::wheel._hook</definition>
+        <argsstring></argsstring>
+        <name>_hook</name>
+        <qualifiedname>pip._vendor.distlib.wheel._hook</qualifiedname>
+        <initializer>=  <ref refid="classpip_1_1__vendor_1_1distlib_1_1wheel_1_1Mounter" kindref="compound">Mounter</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="172" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1a6315b17a70ce9bac693101eb0c6a0289" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::wheel.COMPATIBLE_TAGS</definition>
+        <argsstring></argsstring>
+        <name>COMPATIBLE_TAGS</name>
+        <qualifiedname>pip._vendor.distlib.wheel.COMPATIBLE_TAGS</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1a4d0a7d616ecae769204dcedad7ab036e" kindref="member">compatible_tags</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="1084" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="1084" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1a967aec99fc8b5d0613cdc8df4b83d502" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.wheel._derive_abi</definition>
+        <argsstring>()</argsstring>
+        <name>_derive_abi</name>
+        <qualifiedname>pip._vendor.distlib.wheel._derive_abi</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="59" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="59" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1ae687f2c87a0ec20012ff501927569b7c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.wheel._get_suffixes</definition>
+        <argsstring>()</argsstring>
+        <name>_get_suffixes</name>
+        <qualifiedname>pip._vendor.distlib.wheel._get_suffixes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="116" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="116" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1a85f62f909d42bd685306cd47e4af77ac" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.wheel._load_dynamic</definition>
+        <argsstring>(name, path)</argsstring>
+        <name>_load_dynamic</name>
+        <qualifiedname>pip._vendor.distlib.wheel._load_dynamic</qualifiedname>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <param>
+          <type>path</type>
+          <defname>path</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="123" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="123" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1a5c68d006d7c14c6a7759f2f33fa637d2" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.wheel._get_glibc_version</definition>
+        <argsstring>()</argsstring>
+        <name>_get_glibc_version</name>
+        <qualifiedname>pip._vendor.distlib.wheel._get_glibc_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="993" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="993" bodyend="1003"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1a4d0a7d616ecae769204dcedad7ab036e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.wheel.compatible_tags</definition>
+        <argsstring>()</argsstring>
+        <name>compatible_tags</name>
+        <qualifiedname>pip._vendor.distlib.wheel.compatible_tags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return (pyver, abi, arch) tuples compatible with this Python.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="1004" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="1004" bodyend="1083"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distlib_1_1wheel_1ae89cb7f3fbd43d0db4945063983e8aaf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.wheel.is_compatible</definition>
+        <argsstring>(wheel, tags=None)</argsstring>
+        <name>is_compatible</name>
+        <qualifiedname>pip._vendor.distlib.wheel.is_compatible</qualifiedname>
+        <param>
+          <type>wheel</type>
+          <defname>wheel</defname>
+        </param>
+        <param>
+          <type>tags</type>
+          <defname>tags</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="1089" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" bodystart="1089" bodyend="1100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/wheel.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

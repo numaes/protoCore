@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1transforms_1_1compact__bullet__list_1_1RefOnlyListChecker" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::transforms::compact_bullet_list::RefOnlyListChecker</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">nodes.GenericNodeVisitor</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1transforms_1_1compact__bullet__list_1_1RefOnlyListChecker_1ab9bfe7a60e3c1d6a6af431bc075bc457" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.transforms.compact_bullet_list.RefOnlyListChecker.default_visit</definition>
+        <argsstring>(self, Node node)</argsstring>
+        <name>default_visit</name>
+        <qualifiedname>sphinx.transforms.compact_bullet_list.RefOnlyListChecker.default_visit</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/transforms/compact_bullet_list.py" line="28" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/transforms/compact_bullet_list.py" bodystart="28" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1transforms_1_1compact__bullet__list_1_1RefOnlyListChecker_1a4f7a797fd3c17bacaaa8b0cc0431f4f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.transforms.compact_bullet_list.RefOnlyListChecker.visit_bullet_list</definition>
+        <argsstring>(self, nodes.bullet_list node)</argsstring>
+        <name>visit_bullet_list</name>
+        <qualifiedname>sphinx.transforms.compact_bullet_list.RefOnlyListChecker.visit_bullet_list</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>nodes.bullet_list</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/transforms/compact_bullet_list.py" line="31" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/transforms/compact_bullet_list.py" bodystart="31" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1transforms_1_1compact__bullet__list_1_1RefOnlyListChecker_1a066c16461ee9e94c647b42e1d82e0dd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.transforms.compact_bullet_list.RefOnlyListChecker.visit_list_item</definition>
+        <argsstring>(self, nodes.list_item node)</argsstring>
+        <name>visit_list_item</name>
+        <qualifiedname>sphinx.transforms.compact_bullet_list.RefOnlyListChecker.visit_list_item</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>nodes.list_item</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/transforms/compact_bullet_list.py" line="34" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/transforms/compact_bullet_list.py" bodystart="34" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1transforms_1_1compact__bullet__list_1_1RefOnlyListChecker_1a2ba8607405dd710c08dad3be70ffc251" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.transforms.compact_bullet_list.RefOnlyListChecker.invisible_visit</definition>
+        <argsstring>(self, Node node)</argsstring>
+        <name>invisible_visit</name>
+        <qualifiedname>sphinx.transforms.compact_bullet_list.RefOnlyListChecker.invisible_visit</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Invisible nodes should be ignored.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/transforms/compact_bullet_list.py" line="49" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/transforms/compact_bullet_list.py" bodystart="49" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Raise `nodes.NodeFound` if non-simple list item is encountered.
+
+Here &apos;simple&apos; means a list item containing only a paragraph with a
+single reference in it.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>nodes::GenericNodeVisitor</label>
+      </node>
+      <node id="1">
+        <label>sphinx.transforms.compact_bullet_list.RefOnlyListChecker</label>
+        <link refid="classsphinx_1_1transforms_1_1compact__bullet__list_1_1RefOnlyListChecker"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>nodes::GenericNodeVisitor</label>
+      </node>
+      <node id="1">
+        <label>sphinx.transforms.compact_bullet_list.RefOnlyListChecker</label>
+        <link refid="classsphinx_1_1transforms_1_1compact__bullet__list_1_1RefOnlyListChecker"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/transforms/compact_bullet_list.py" line="21" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/transforms/compact_bullet_list.py" bodystart="21" bodyend="53"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1transforms_1_1compact__bullet__list_1_1RefOnlyListChecker_1ab9bfe7a60e3c1d6a6af431bc075bc457" prot="public" virt="non-virtual"><scope>sphinx::transforms::compact_bullet_list::RefOnlyListChecker</scope><name>default_visit</name></member>
+      <member refid="classsphinx_1_1transforms_1_1compact__bullet__list_1_1RefOnlyListChecker_1a2ba8607405dd710c08dad3be70ffc251" prot="public" virt="non-virtual"><scope>sphinx::transforms::compact_bullet_list::RefOnlyListChecker</scope><name>invisible_visit</name></member>
+      <member refid="classsphinx_1_1transforms_1_1compact__bullet__list_1_1RefOnlyListChecker_1a4f7a797fd3c17bacaaa8b0cc0431f4f2" prot="public" virt="non-virtual"><scope>sphinx::transforms::compact_bullet_list::RefOnlyListChecker</scope><name>visit_bullet_list</name></member>
+      <member refid="classsphinx_1_1transforms_1_1compact__bullet__list_1_1RefOnlyListChecker_1a066c16461ee9e94c647b42e1d82e0dd1" prot="public" virt="non-virtual"><scope>sphinx::transforms::compact_bullet_list::RefOnlyListChecker</scope><name>visit_list_item</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1builders_1_1latex_1_1transforms_1_1MathReferenceTransform" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::builders::latex::transforms::MathReferenceTransform</compoundname>
+    <basecompoundref refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform" prot="public" virt="non-virtual">sphinx.transforms.post_transforms.SphinxPostTransform</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1latex_1_1transforms_1_1MathReferenceTransform_1a2aa06af039a420dcfe90f45e1664ad0d" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int sphinx.builders.latex.transforms.MathReferenceTransform::default_priority</definition>
+        <argsstring></argsstring>
+        <name>default_priority</name>
+        <qualifiedname>sphinx.builders.latex.transforms.MathReferenceTransform.default_priority</qualifiedname>
+        <initializer>=  5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" line="565" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" bodystart="565" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1latex_1_1transforms_1_1MathReferenceTransform_1a8f490e74510e439a0314b309ac852afb" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx.builders.latex.transforms.MathReferenceTransform::formats</definition>
+        <argsstring></argsstring>
+        <name>formats</name>
+        <qualifiedname>sphinx.builders.latex.transforms.MathReferenceTransform.formats</qualifiedname>
+        <initializer>=  (&apos;latex&apos;,)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" line="566" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" bodystart="566" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1transforms_1_1MathReferenceTransform_1ab41c9919efb30aadf52cdf686fc60a33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.latex.transforms.MathReferenceTransform.run</definition>
+        <argsstring>(self, **Any kwargs)</argsstring>
+        <name>run</name>
+        <qualifiedname>sphinx.builders.latex.transforms.MathReferenceTransform.run</qualifiedname>
+        <reimplements refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform_1abc3400574a7c87e684a8033535e8d4e2">run</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>**Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Main method of post transforms.
+
+Subclasses should override this method instead of ``apply()``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" line="568" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" bodystart="568" bodyend="579"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Replace pending_xref nodes for math by math_reference.
+
+To handle math reference easily on LaTeX writer, this converts pending_xref
+nodes to math_reference.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+      <node id="1">
+        <label>sphinx.builders.latex.transforms.MathReferenceTransform</label>
+        <link refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1MathReferenceTransform"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.transforms.SphinxTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1SphinxTransform"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.transforms.post_transforms.SphinxPostTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+      <node id="1">
+        <label>sphinx.builders.latex.transforms.MathReferenceTransform</label>
+        <link refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1MathReferenceTransform"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.transforms.SphinxTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1SphinxTransform"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.transforms.post_transforms.SphinxPostTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" line="558" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" bodystart="558" bodyend="579"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1MathReferenceTransform_1a2aa06af039a420dcfe90f45e1664ad0d" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::transforms::MathReferenceTransform</scope><name>default_priority</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1MathReferenceTransform_1a8f490e74510e439a0314b309ac852afb" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::transforms::MathReferenceTransform</scope><name>formats</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1MathReferenceTransform_1ab41c9919efb30aadf52cdf686fc60a33" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::transforms::MathReferenceTransform</scope><name>run</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

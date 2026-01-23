@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1transforms_1_1references_1_1AnonymousHyperlinks" kind="class" language="Python" prot="public">
+    <compoundname>docutils::transforms::references::AnonymousHyperlinks</compoundname>
+    <basecompoundref refid="classdocutils_1_1transforms_1_1Transform" prot="public" virt="non-virtual">docutils.transforms.Transform</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1transforms_1_1references_1_1AnonymousHyperlinks_1a5d09548897e286285a6dcf796d0e5492" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int docutils.transforms.references.AnonymousHyperlinks::default_priority</definition>
+        <argsstring></argsstring>
+        <name>default_priority</name>
+        <qualifiedname>docutils.transforms.references.AnonymousHyperlinks.default_priority</qualifiedname>
+        <initializer>=  440</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/references.py" line="113" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/references.py" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1references_1_1AnonymousHyperlinks_1aa827579c09f6be7248b848b9879854b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.references.AnonymousHyperlinks.apply</definition>
+        <argsstring>(self)</argsstring>
+        <name>apply</name>
+        <qualifiedname>docutils.transforms.references.AnonymousHyperlinks.apply</qualifiedname>
+        <reimplements refid="classdocutils_1_1transforms_1_1Transform_1a0a9e91ca01b2b5377cb61a18d8914f34">apply</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Override to apply the transform to the document tree.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/references.py" line="115" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/references.py" bodystart="115" bodyend="153"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Link anonymous references to targets.  Given::
+
+    &lt;paragraph&gt;
+        &lt;reference anonymous=&quot;1&quot;&gt;
+            internal
+        &lt;reference anonymous=&quot;1&quot;&gt;
+            external
+    &lt;target anonymous=&quot;1&quot; ids=&quot;id1&quot;&gt;
+    &lt;target anonymous=&quot;1&quot; ids=&quot;id2&quot; refuri=&quot;http://external&quot;&gt;
+
+Corresponding references are linked via &quot;refid&quot; or resolved via &quot;refuri&quot;::
+
+    &lt;paragraph&gt;
+        &lt;reference anonymous=&quot;1&quot; refid=&quot;id1&quot;&gt;
+            text
+        &lt;reference anonymous=&quot;1&quot; refuri=&quot;http://external&quot;&gt;
+            external
+    &lt;target anonymous=&quot;1&quot; ids=&quot;id1&quot;&gt;
+    &lt;target anonymous=&quot;1&quot; ids=&quot;id2&quot; refuri=&quot;http://external&quot;&gt;
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.transforms.references.AnonymousHyperlinks</label>
+        <link refid="classdocutils_1_1transforms_1_1references_1_1AnonymousHyperlinks"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>docutils.transforms.references.AnonymousHyperlinks</label>
+        <link refid="classdocutils_1_1transforms_1_1references_1_1AnonymousHyperlinks"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/docutils/transforms/references.py" line="89" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/references.py" bodystart="89" bodyend="153"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1transforms_1_1references_1_1AnonymousHyperlinks_1aa827579c09f6be7248b848b9879854b5" prot="public" virt="non-virtual"><scope>docutils::transforms::references::AnonymousHyperlinks</scope><name>apply</name></member>
+      <member refid="classdocutils_1_1transforms_1_1references_1_1AnonymousHyperlinks_1a5d09548897e286285a6dcf796d0e5492" prot="public" virt="non-virtual"><scope>docutils::transforms::references::AnonymousHyperlinks</scope><name>default_priority</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

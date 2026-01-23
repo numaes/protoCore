@@ -29,7 +29,7 @@ namespace proto
      * @param next A pointer to form a linked list of cells, used by the context.
      */
     Cell::Cell(ProtoContext* context, Cell* next)
-        : next_and_flags(reinterpret_cast<uintptr_t>(next))
+        : next_and_flags(reinterpret_cast<uintptr_t>(next) & ~0x3FUL)
     {
         // Each newly created Cell is immediately registered with the current context
         // for memory management and garbage collection tracking.

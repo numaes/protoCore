@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1versioning" kind="namespace" language="Python">
+    <compoundname>sphinx::versioning</compoundname>
+    <innerclass refid="classsphinx_1_1versioning_1_1UIDTransform" prot="public">sphinx::versioning::UIDTransform</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1versioning_1ae3918e9782505e765557f9e52db36216" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool sphinx::versioning::IS_SPEEDUP</definition>
+        <argsstring></argsstring>
+        <name>IS_SPEEDUP</name>
+        <qualifiedname>sphinx.versioning.IS_SPEEDUP</qualifiedname>
+        <initializer>=  True</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/versioning.py" line="25" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/versioning.py" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1versioning_1accb42e046ebebc074520469054e1990f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int sphinx::versioning.VERSIONING_RATIO</definition>
+        <argsstring></argsstring>
+        <name>VERSIONING_RATIO</name>
+        <qualifiedname>sphinx.versioning.VERSIONING_RATIO</qualifiedname>
+        <initializer>=  65</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/versioning.py" line="30" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/versioning.py" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1versioning_1a26984cfe985a3e61b8b72d08e194a72e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[<ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref>]</type>
+        <definition> Iterator[Node] sphinx.versioning.add_uids</definition>
+        <argsstring>(Node doctree, Callable[[Node], bool] condition)</argsstring>
+        <name>add_uids</name>
+        <qualifiedname>sphinx.versioning.add_uids</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>doctree</declname>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>condition</defname>
+          <array>[[Node]</array>
+        </param>
+        <param>
+          <type>bool]</type>
+          <declname>condition</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Add a unique id to every node in the `doctree` which matches the
+condition and yield the nodes.
+
+:param doctree:
+    A :class:`docutils.nodes.document` instance.
+
+:param condition:
+    A callable which returns either ``True`` or ``False`` for a given node.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/versioning.py" line="33" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/versioning.py" bodystart="33" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1versioning_1ab4b2cb6e84bdcf8268792e12171eda85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[<ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref>]</type>
+        <definition> Iterator[Node] sphinx.versioning.merge_doctrees</definition>
+        <argsstring>(Node old, Node new, Callable[[Node], bool] condition)</argsstring>
+        <name>merge_doctrees</name>
+        <qualifiedname>sphinx.versioning.merge_doctrees</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>old</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>new</declname>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>condition</defname>
+          <array>[[Node]</array>
+        </param>
+        <param>
+          <type>bool]</type>
+          <declname>condition</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Merge the `old` doctree with the `new` one while looking at nodes
+matching the `condition`.
+
+Each node which replaces another one or has been added to the `new` doctree
+will be yielded.
+
+:param condition:
+    A callable which returns either ``True`` or ``False`` for a given node.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/versioning.py" line="48" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/versioning.py" bodystart="50" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1versioning_1a3763a57c63bcb50dd1cbe9971855ef81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition> float sphinx.versioning.get_ratio</definition>
+        <argsstring>(str old, str new)</argsstring>
+        <name>get_ratio</name>
+        <qualifiedname>sphinx.versioning.get_ratio</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>old</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>new</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a &quot;similarity ratio&quot; (in percent) representing the similarity
+between the two strings where 0 is equal and anything above less than equal.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/versioning.py" line="116" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/versioning.py" bodystart="116" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1versioning_1a135e91c061add2f6deb2bab96b06a433" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.versioning.levenshtein_distance</definition>
+        <argsstring>(str a, str b)</argsstring>
+        <name>levenshtein_distance</name>
+        <qualifiedname>sphinx.versioning.levenshtein_distance</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the Levenshtein edit distance between two strings *a* and *b*.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/versioning.py" line="129" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/versioning.py" bodystart="129" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1versioning_1a653359909e50b21088d48dbfb5bf71b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1ExtensionMetadata" kindref="compound">ExtensionMetadata</ref></type>
+        <definition> ExtensionMetadata sphinx.versioning.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.versioning.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/versioning.py" line="177" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/versioning.py" bodystart="177" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Implements the low-level algorithms Sphinx uses for versioning doctrees.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/versioning.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

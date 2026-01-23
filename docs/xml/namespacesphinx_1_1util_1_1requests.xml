@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1util_1_1requests" kind="namespace" language="Python">
+    <compoundname>sphinx::util::requests</compoundname>
+    <innerclass refid="classsphinx_1_1util_1_1requests_1_1__IgnoredRedirection" prot="protected">sphinx::util::requests::_IgnoredRedirection</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1requests_1_1__Session" prot="protected">sphinx::util::requests::_Session</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1requests_1a12d1e68b17af825514070f9fe4a76741" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx::util::requests._USER_AGENT</definition>
+        <argsstring></argsstring>
+        <name>_USER_AGENT</name>
+        <qualifiedname>sphinx.util.requests._USER_AGENT</qualifiedname>
+        <initializer>=  (
+    f&apos;Mozilla/5.0 (X11; Linux x86_64; rv:100.0) Gecko/20100101 Firefox/100.0 &apos;
+    f&apos;Sphinx/{sphinx.__version__}&apos;
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/requests.py" line="20" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/requests.py" bodystart="20" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1requests_1aeaf66c57b9219d3624b66706631e3247" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|bool</type>
+        <definition> str | bool sphinx.util.requests._get_tls_cacert</definition>
+        <argsstring>(str url, str|dict[str, str]|None certs)</argsstring>
+        <name>_get_tls_cacert</name>
+        <qualifiedname>sphinx.util.requests._get_tls_cacert</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>str|dict|None</type>
+          <declname>certs</declname>
+          <array>[str, str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get additional CA cert for a specific URL.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/requests.py" line="34" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/requests.py" bodystart="34" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1requests_1a037bf566cd19d71ba8d034593dee251a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrequests_1_1models_1_1Response" kindref="compound">requests.Response</ref></type>
+        <definition> requests.Response sphinx.util.requests.get</definition>
+        <argsstring>(str url, **Any kwargs)</argsstring>
+        <name>get</name>
+        <qualifiedname>sphinx.util.requests.get</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>**Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Sends a GET request like ``requests.get()``.
+
+This sets up User-Agent header and TLS verification automatically.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/requests.py" line="48" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/requests.py" bodystart="48" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1requests_1a8b9afcfb4885de3d16fb9be5535fd74c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classrequests_1_1models_1_1Response" kindref="compound">requests.Response</ref></type>
+        <definition> requests.Response sphinx.util.requests.head</definition>
+        <argsstring>(str url, **Any kwargs)</argsstring>
+        <name>head</name>
+        <qualifiedname>sphinx.util.requests.head</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>**Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Sends a HEAD request like ``requests.head()``.
+
+This sets up User-Agent header and TLS verification automatically.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/requests.py" line="57" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/requests.py" bodystart="57" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Simple requests package loader</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/util/requests.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

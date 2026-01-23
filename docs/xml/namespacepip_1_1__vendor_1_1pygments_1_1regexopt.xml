@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1pygments_1_1regexopt" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::pygments::regexopt</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pygments_1_1regexopt_1aa7212e1679c465406a1bd05a45409618" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::pygments::regexopt.CS_ESCAPE</definition>
+        <argsstring></argsstring>
+        <name>CS_ESCAPE</name>
+        <qualifiedname>pip._vendor.pygments.regexopt.CS_ESCAPE</qualifiedname>
+        <initializer>=  re.compile(r&apos;[\[\^\\\-\]]&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pygments/regexopt.py" line="18" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pygments/regexopt.py" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pygments_1_1regexopt_1a25310df44e3b5f248a0d5d9f3a052908" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::pygments::regexopt.FIRST_ELEMENT</definition>
+        <argsstring></argsstring>
+        <name>FIRST_ELEMENT</name>
+        <qualifiedname>pip._vendor.pygments.regexopt.FIRST_ELEMENT</qualifiedname>
+        <initializer>=  itemgetter(0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pygments/regexopt.py" line="19" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pygments/regexopt.py" bodystart="19" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pygments_1_1regexopt_1a8bf11b1fe1e383a98292b37dddfd1275" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pygments.regexopt.make_charset</definition>
+        <argsstring>(letters)</argsstring>
+        <name>make_charset</name>
+        <qualifiedname>pip._vendor.pygments.regexopt.make_charset</qualifiedname>
+        <param>
+          <type>letters</type>
+          <defname>letters</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pygments/regexopt.py" line="22" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pygments/regexopt.py" bodystart="22" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pygments_1_1regexopt_1abf63d423d29a35dddaba6d5aeb3e32c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pygments.regexopt.regex_opt_inner</definition>
+        <argsstring>(strings, open_paren)</argsstring>
+        <name>regex_opt_inner</name>
+        <qualifiedname>pip._vendor.pygments.regexopt.regex_opt_inner</qualifiedname>
+        <param>
+          <type>strings</type>
+          <defname>strings</defname>
+        </param>
+        <param>
+          <type>open_paren</type>
+          <defname>open_paren</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a regex that matches any string in the sorted list of strings.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pygments/regexopt.py" line="26" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pygments/regexopt.py" bodystart="26" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pygments_1_1regexopt_1a6728ae0541b88c3f1489dfbf0a8cbc89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pygments.regexopt.regex_opt</definition>
+        <argsstring>(strings, prefix=&apos;&apos;, suffix=&apos;&apos;)</argsstring>
+        <name>regex_opt</name>
+        <qualifiedname>pip._vendor.pygments.regexopt.regex_opt</qualifiedname>
+        <param>
+          <type>strings</type>
+          <defname>strings</defname>
+        </param>
+        <param>
+          <type>prefix</type>
+          <defname>prefix</defname>
+          <defval>&apos;&apos;</defval>
+        </param>
+        <param>
+          <type>suffix</type>
+          <defname>suffix</defname>
+          <defval>&apos;&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a compiled regex that matches any string in the given list.
+
+The strings to match must be literal strings, not regexes.  They will be
+regex-escaped.
+
+*prefix* and *suffix* are pre- and appended to the final regex.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pygments/regexopt.py" line="82" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pygments/regexopt.py" bodystart="82" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>    pygments.regexopt
+    ~~~~~~~~~~~~~~~~~
+
+    An algorithm that generates optimized regexes for matching long lists of
+    literal strings.
+
+    :copyright: Copyright 2006-2023 by the Pygments team, see AUTHORS.
+    :license: BSD, see LICENSE for details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/pygments/regexopt.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

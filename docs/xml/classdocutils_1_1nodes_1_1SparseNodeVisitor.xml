@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1nodes_1_1SparseNodeVisitor" kind="class" language="Python" prot="public">
+    <compoundname>docutils::nodes::SparseNodeVisitor</compoundname>
+    <basecompoundref refid="classdocutils_1_1nodes_1_1NodeVisitor" prot="public" virt="non-virtual">docutils.nodes.NodeVisitor</basecompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1peps_1_1PEPZeroSpecial" prot="public" virt="non-virtual">docutils.transforms.peps.PEPZeroSpecial</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1references_1_1DanglingReferencesVisitor" prot="public" virt="non-virtual">docutils.transforms.references.DanglingReferencesVisitor</derivedcompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Base class for sparse traversals, where only certain node types are of
+interest.  When ``visit_...`` &amp; ``depart_...`` methods should be
+implemented for *all* node types (such as for `docutils.writers.Writer`
+subclasses), subclass `NodeVisitor` instead.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.nodes.SparseNodeVisitor</label>
+        <link refid="classdocutils_1_1nodes_1_1SparseNodeVisitor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.nodes.NodeVisitor</label>
+        <link refid="classdocutils_1_1nodes_1_1NodeVisitor"/>
+      </node>
+      <node id="3">
+        <label>docutils.transforms.peps.PEPZeroSpecial</label>
+        <link refid="classdocutils_1_1transforms_1_1peps_1_1PEPZeroSpecial"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.transforms.references.DanglingReferencesVisitor</label>
+        <link refid="classdocutils_1_1transforms_1_1references_1_1DanglingReferencesVisitor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>docutils.nodes.SparseNodeVisitor</label>
+        <link refid="classdocutils_1_1nodes_1_1SparseNodeVisitor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.nodes.NodeVisitor</label>
+        <link refid="classdocutils_1_1nodes_1_1NodeVisitor"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/docutils/nodes.py" line="2032" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/nodes.py" bodystart="2032" bodyend="2041"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1utils_1_1compat" kind="namespace" language="Python">
+    <compoundname>pip::_internal::utils::compat</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1compat_1a41abd516c5e4ef543045fd03e3873f4d" prot="private" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_internal::utils::compat.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>pip._internal.utils.compat.__all__</qualifiedname>
+        <initializer>=  [&quot;get_path_uid&quot;, &quot;stdlib_pkgs&quot;, &quot;WINDOWS&quot;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/compat.py" line="8" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/compat.py" bodystart="8" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1compat_1a65e053f583b83de19eee10b715b84aab" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::utils::compat.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.utils.compat.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/compat.py" line="11" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/compat.py" bodystart="11" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1compat_1a91c56c36ec95dd8debf2841f3b317363" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict pip::_internal::utils::compat.stdlib_pkgs</definition>
+        <argsstring></argsstring>
+        <name>stdlib_pkgs</name>
+        <qualifiedname>pip._internal.utils.compat.stdlib_pkgs</qualifiedname>
+        <initializer>=  {&quot;python&quot;, &quot;wsgiref&quot;, &quot;argparse&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/compat.py" line="59" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/compat.py" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1compat_1a9e3348f56c06506309c9a4013e5ae394" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::utils::compat.WINDOWS</definition>
+        <argsstring></argsstring>
+        <name>WINDOWS</name>
+        <qualifiedname>pip._internal.utils.compat.WINDOWS</qualifiedname>
+        <initializer>=  sys.platform.startswith(&quot;win&quot;) or (sys.platform == &quot;cli&quot; and os.name == &quot;nt&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/compat.py" line="63" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/compat.py" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1compat_1a261dadb1f32465df29a04b9227cdc191" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.utils.compat.has_tls</definition>
+        <argsstring>()</argsstring>
+        <name>has_tls</name>
+        <qualifiedname>pip._internal.utils.compat.has_tls</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/compat.py" line="14" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/compat.py" bodystart="14" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1compat_1a567f1f687b4b89c6922a01e5ce4ea8ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int pip._internal.utils.compat.get_path_uid</definition>
+        <argsstring>(str path)</argsstring>
+        <name>get_path_uid</name>
+        <qualifiedname>pip._internal.utils.compat.get_path_uid</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return path&apos;s uid.
+
+Does not follow symlinks:
+    https://github.com/pypa/pip/pull/935#discussion_r5307003
+
+Placed this function in compat due to differences on AIX and
+Jython, that should eventually go away.
+
+:raises OSError: When path is a symlink or can&apos;t be read.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/compat.py" line="27" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/compat.py" bodystart="27" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Stuff that differs in different Python versions and platform
+distributions.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/compat.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

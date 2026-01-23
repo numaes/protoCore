@@ -1,0 +1,3123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacejinja2_1_1filters" kind="namespace" language="Python">
+    <compoundname>jinja2::filters</compoundname>
+    <innerclass refid="classjinja2_1_1filters_1_1__GroupTuple" prot="protected">jinja2::filters::_GroupTuple</innerclass>
+    <innerclass refid="classjinja2_1_1filters_1_1HasHTML" prot="public">jinja2::filters::HasHTML</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacejinja2_1_1filters_1a29ae90f520e37a3164908b02c292da1b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::filters.F</definition>
+        <argsstring></argsstring>
+        <name>F</name>
+        <qualifiedname>jinja2.filters.F</qualifiedname>
+        <initializer>=  t.TypeVar(&quot;F&quot;, bound=t.Callable[..., t.Any])</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="44" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1filters_1acd52ea1f1257d63ca983182dd470fa2d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::filters.K</definition>
+        <argsstring></argsstring>
+        <name>K</name>
+        <qualifiedname>jinja2.filters.K</qualifiedname>
+        <initializer>=  t.TypeVar(&quot;K&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="45" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::filters.V</definition>
+        <argsstring></argsstring>
+        <name>V</name>
+        <qualifiedname>jinja2.filters.V</qualifiedname>
+        <initializer>=  t.TypeVar(&quot;V&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="46" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1filters_1a38d5a469b43106c17c3b0a09f8a877e7" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::filters._attr_key_re</definition>
+        <argsstring></argsstring>
+        <name>_attr_key_re</name>
+        <qualifiedname>jinja2.filters._attr_key_re</qualifiedname>
+        <initializer>=  re.compile(r&quot;[\s/&gt;=]&quot;, flags=re.ASCII)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="256" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1filters_1a592e242c69de6863ea986b8fe910206b" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::filters._word_beginning_split_re</definition>
+        <argsstring></argsstring>
+        <name>_word_beginning_split_re</name>
+        <qualifiedname>jinja2.filters._word_beginning_split_re</qualifiedname>
+        <initializer>=  re.compile(r&quot;([-\s({\[&lt;]+)&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="328" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="328" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1filters_1a2e427b544990d6eb7b28affdf8c0dac7" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::filters._uri_scheme_re</definition>
+        <argsstring></argsstring>
+        <name>_uri_scheme_re</name>
+        <qualifiedname>jinja2.filters._uri_scheme_re</qualifiedname>
+        <initializer>=  re.compile(r&quot;^([\w.+-]{2,}:(/){0,2})$&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="742" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="742" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1filters_1a6e07c0b5af4d2d1f65c7970a546a0de9" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::filters._word_re</definition>
+        <argsstring></argsstring>
+        <name>_word_re</name>
+        <qualifiedname>jinja2.filters._word_re</qualifiedname>
+        <initializer>=  re.compile(r&quot;\w+&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="977" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="977" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1filters_1ad07b9e740596064037d80a9cedb7e010" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict jinja2::filters.FILTERS</definition>
+        <argsstring></argsstring>
+        <name>FILTERS</name>
+        <qualifiedname>jinja2.filters.FILTERS</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1818" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1818" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a335691edb21f8377c853f250fec0f92e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref></type>
+        <definition> V jinja2.filters.ignore_case</definition>
+        <argsstring>(V value)</argsstring>
+        <name>ignore_case</name>
+        <qualifiedname>jinja2.filters.ignore_case</qualifiedname>
+        <param>
+          <type><ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref></type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>For use as a postprocessor for :func:`make_attrgetter`. Converts strings
+to lowercase and returns other types as-is.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="49" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="49" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a75b74d40c93aa580d6d96f1b55c56abe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Callable[[t.Any], t.Any]</type>
+        <definition> t.Callable[[t.Any], t.Any] jinja2.filters.make_attrgetter</definition>
+        <argsstring>(&quot;Environment&quot; environment, t.Optional[t.Union[str, int]] attribute, t.Optional[t.Callable[[t.Any], t.Any]] postprocess=None, t.Optional[t.Any] default=None)</argsstring>
+        <name>make_attrgetter</name>
+        <qualifiedname>jinja2.filters.make_attrgetter</qualifiedname>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>attribute</declname>
+          <array>[t.Union[str, int]</array>
+        </param>
+        <param>
+          <type>t.</type>
+          <declname>Optional</declname>
+          <defname>postprocess</defname>
+          <array>[t.Callable[[t.Any]</array>
+        </param>
+        <param>
+          <type>t.Any]]</type>
+          <declname>postprocess</declname>
+          <defname>default</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>default</declname>
+          <array>[t.Any]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a callable that looks up the given attribute from a
+passed object with the rules of the environment.  Dots are allowed
+to access attributes of attributes.  Integer parts in paths are
+looked up as integers.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="58" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="63" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a361f6be6706e0a3833dd92aebe63825a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Callable[[t.Any], t.List[t.Any]]</type>
+        <definition> t.Callable[[t.Any], t.List[t.Any]] jinja2.filters.make_multi_attrgetter</definition>
+        <argsstring>(&quot;Environment&quot; environment, t.Optional[t.Union[str, int]] attribute, t.Optional[t.Callable[[t.Any], t.Any]] postprocess=None)</argsstring>
+        <name>make_multi_attrgetter</name>
+        <qualifiedname>jinja2.filters.make_multi_attrgetter</qualifiedname>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>attribute</declname>
+          <array>[t.Union[str, int]</array>
+        </param>
+        <param>
+          <type>t.</type>
+          <declname>Optional</declname>
+          <defname>postprocess</defname>
+          <array>[t.Callable[[t.Any]</array>
+        </param>
+        <param>
+          <type>t.Any]]</type>
+          <declname>postprocess</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a callable that looks up the given comma separated
+attributes from a passed object with the rules of the environment.
+Dots are allowed to access attributes of each attribute.  Integer
+parts in paths are looked up as integers.
+
+The value returned by the returned callable is a list of extracted
+attribute values.
+
+Examples of attribute: &quot;attr1,attr2&quot;, &quot;attr1.inner1.0,attr2.inner2.0&quot;, etc.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="86" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="90" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a46c95bed6dfcf8dde92d6039ed0be443" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.List[t.Union[str, int]]</type>
+        <definition> t.List[t.Union[str, int]] jinja2.filters._prepare_attribute_parts</definition>
+        <argsstring>(t.Optional[t.Union[str, int]] attr)</argsstring>
+        <name>_prepare_attribute_parts</name>
+        <qualifiedname>jinja2.filters._prepare_attribute_parts</qualifiedname>
+        <param>
+          <type>t.Optional]</type>
+          <declname>attr</declname>
+          <array>[t.Union[str, int]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="127" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="129" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1afb7b70c02141e1c4f94eea6878506b1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classmarkupsafe_1_1Markup" kindref="compound">Markup</ref></type>
+        <definition> Markup jinja2.filters.do_forceescape</definition>
+        <argsstring>(&quot;t.Union[str, HasHTML]&quot; value)</argsstring>
+        <name>do_forceescape</name>
+        <qualifiedname>jinja2.filters.do_forceescape</qualifiedname>
+        <param>
+          <type>&quot;t.Union&quot;</type>
+          <declname>value</declname>
+          <array>[str, HasHTML]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Enforce HTML escaping.  This will probably double escape variables.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="139" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="139" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1ae1792a53277c71d0d2ea9317437e97de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.filters.do_urlencode</definition>
+        <argsstring>(t.Union[str, t.Mapping[str, t.Any], t.Iterable[t.Tuple[str, t.Any]]] value)</argsstring>
+        <name>do_urlencode</name>
+        <qualifiedname>jinja2.filters.do_urlencode</qualifiedname>
+        <param>
+          <type>t.</type>
+          <declname>Union</declname>
+          <defname>value</defname>
+          <array>[str, t.Mapping[str, t.Any]</array>
+        </param>
+        <param>
+          <type>t.Iterable]]</type>
+          <declname>value</declname>
+          <array>[t.Tuple[str, t.Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Quote data for use in a URL path or query using UTF-8.
+
+Basic wrapper around :func:`urllib.parse.quote` when given a
+string, or :func:`urllib.parse.urlencode` for a dict or iterable.
+
+:param value: Data to quote. A string will be quoted directly. A
+    dict or iterable of ``(key, value)`` pairs will be joined as a
+    query string.
+
+When given a string, &quot;/&quot; is not quoted. HTTP servers treat &quot;/&quot; and
+&quot;%2F&quot; equivalently in paths. If you need quoted slashes, use the
+``|replace(&quot;/&quot;, &quot;%2F&quot;)`` filter.
+
+.. versionadded:: 2.7
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="147" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="149" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1af3c9aaba821bc9ca4711a6dd1239cc68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.filters.do_replace</definition>
+        <argsstring>(&quot;EvalContext&quot; eval_ctx, str s, str old, str new, t.Optional[int] count=None)</argsstring>
+        <name>do_replace</name>
+        <qualifiedname>jinja2.filters.do_replace</qualifiedname>
+        <param>
+          <type>&quot;EvalContext&quot;</type>
+          <declname>eval_ctx</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>old</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>new</declname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>count</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a copy of the value with all occurrences of a substring
+replaced with a new one. The first argument is the substring
+that should be replaced, the second is the replacement string.
+If the optional third argument ``count`` is given, only the first
+``count`` occurrences are replaced:
+
+.. sourcecode:: jinja
+
+    {{ &quot;Hello World&quot;|replace(&quot;Hello&quot;, &quot;Goodbye&quot;) }}
+        -&gt; Goodbye World
+
+    {{ &quot;aaaaargh&quot;|replace(&quot;a&quot;, &quot;d&apos;oh, &quot;, 2) }}
+        -&gt; d&apos;oh, d&apos;oh, aaargh
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="179" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="181" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a483fa4dc81533ef63877e60b41b6986b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.filters.do_upper</definition>
+        <argsstring>(str s)</argsstring>
+        <name>do_upper</name>
+        <qualifiedname>jinja2.filters.do_upper</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert a value to uppercase.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="214" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="214" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a03a5c04c03292e138b457d9e7148b5b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.filters.do_lower</definition>
+        <argsstring>(str s)</argsstring>
+        <name>do_lower</name>
+        <qualifiedname>jinja2.filters.do_lower</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert a value to lowercase.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="219" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="219" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1ac9ff1541d68e0edd7ef3268ce0e7960e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Iterator[t.Tuple[<ref refid="namespacejinja2_1_1filters_1acd52ea1f1257d63ca983182dd470fa2d" kindref="member">K</ref>, <ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>]]</type>
+        <definition> t.Iterator[t.Tuple[K, V]] jinja2.filters.do_items</definition>
+        <argsstring>(t.Union[t.Mapping[K, V], Undefined] value)</argsstring>
+        <name>do_items</name>
+        <qualifiedname>jinja2.filters.do_items</qualifiedname>
+        <param>
+          <type>t.</type>
+          <declname>Union</declname>
+          <defname>value</defname>
+          <array>[t.Mapping[K, V]</array>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1runtime_1_1Undefined" kindref="compound">Undefined</ref>]</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return an iterator over the ``(key, value)`` items of a mapping.
+
+``x|items`` is the same as ``x.items()``, except if ``x`` is
+undefined an empty iterator is returned.
+
+This filter is useful if you expect the template to be rendered with
+an implementation of Jinja in another programming language that does
+not have a ``.items()`` method on its mapping type.
+
+.. code-block:: html+jinja
+
+    &lt;dl&gt;
+    {% for key, value in my_dict|items %}
+        &lt;dt&gt;{{ key }}
+        &lt;dd&gt;{{ value }}
+    {% endfor %}
+    &lt;/dl&gt;
+
+.. versionadded:: 3.1
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="224" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="224" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1ac678ee06a82a59168a978f1af392b3f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.filters.do_xmlattr</definition>
+        <argsstring>(&quot;EvalContext&quot; eval_ctx, t.Mapping[str, t.Any] d, bool autospace=True)</argsstring>
+        <name>do_xmlattr</name>
+        <qualifiedname>jinja2.filters.do_xmlattr</qualifiedname>
+        <param>
+          <type>&quot;EvalContext&quot;</type>
+          <declname>eval_ctx</declname>
+        </param>
+        <param>
+          <type>t.Mapping</type>
+          <declname>d</declname>
+          <array>[str, t.Any]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>autospace</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create an SGML/XML attribute string based on the items in a dict.
+
+**Values** that are neither ``none`` nor ``undefined`` are automatically
+escaped, safely allowing untrusted user input.
+
+User input should not be used as **keys** to this filter. If any key
+contains a space, ``/`` solidus, ``&gt;`` greater-than sign, or ``=`` equals
+sign, this fails with a ``ValueError``. Regardless of this, user input
+should never be used as keys to this filter, or must be separately validated
+first.
+
+.. sourcecode:: html+jinja
+
+    &lt;ul{{ {&apos;class&apos;: &apos;my_list&apos;, &apos;missing&apos;: none,
+            &apos;id&apos;: &apos;list-%d&apos;|format(variable)}|xmlattr }}&gt;
+    ...
+    &lt;/ul&gt;
+
+Results in something like this:
+
+.. sourcecode:: html
+
+    &lt;ul class=&quot;my_list&quot; id=&quot;list-42&quot;&gt;
+    ...
+    &lt;/ul&gt;
+
+As you can see it automatically prepends a space in front of the item
+if the filter returned something unless the second parameter is false.
+
+.. versionchanged:: 3.1.4
+    Keys with ``/`` solidus, ``&gt;`` greater-than sign, or ``=`` equals sign
+    are not allowed.
+
+.. versionchanged:: 3.1.3
+    Keys with spaces are not allowed.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="260" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="262" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a6a53657a6b1023cab4f7b9bfb5be7dd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.filters.do_capitalize</definition>
+        <argsstring>(str s)</argsstring>
+        <name>do_capitalize</name>
+        <qualifiedname>jinja2.filters.do_capitalize</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Capitalize a value. The first character will be uppercase, all others
+lowercase.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="321" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="321" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a046d44215c72a11a83036d58192642bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.filters.do_title</definition>
+        <argsstring>(str s)</argsstring>
+        <name>do_title</name>
+        <qualifiedname>jinja2.filters.do_title</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a titlecased version of the value. I.e. words will start with
+uppercase letters, all remaining characters are lowercase.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="331" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="331" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1ac5ac82cac409096dcd703b9990f4d07f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.List[t.Tuple[<ref refid="namespacejinja2_1_1filters_1acd52ea1f1257d63ca983182dd470fa2d" kindref="member">K</ref>, <ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>]]</type>
+        <definition> t.List[t.Tuple[K, V]] jinja2.filters.do_dictsort</definition>
+        <argsstring>(t.Mapping[K, V] value, bool case_sensitive=False, &apos;te.Literal[&quot;key&quot;, &quot;value&quot;]&apos; by=&quot;key&quot;, bool reverse=False)</argsstring>
+        <name>do_dictsort</name>
+        <qualifiedname>jinja2.filters.do_dictsort</qualifiedname>
+        <param>
+          <type>t.Mapping</type>
+          <declname>value</declname>
+          <array>[K, V]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>case_sensitive</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>&apos;te.Literal&apos;</type>
+          <declname>by</declname>
+          <array>[&quot;key&quot;, &quot;value&quot;]</array>
+          <defval>&quot;key&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>reverse</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Sort a dict and yield (key, value) pairs. Python dicts may not
+be in the order you want to display them in, so sort them first.
+
+.. sourcecode:: jinja
+
+    {% for key, value in mydict|dictsort %}
+        sort the dict by key, case insensitive
+
+    {% for key, value in mydict|dictsort(reverse=true) %}
+        sort the dict by key, case insensitive, reverse order
+
+    {% for key, value in mydict|dictsort(true) %}
+        sort the dict by key, case sensitive
+
+    {% for key, value in mydict|dictsort(false, &apos;value&apos;) %}
+        sort the dict by value, case insensitive
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="344" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="349" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1ad106355b272982ffad9b1f11f02d195d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.List[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>]&quot;</type>
+        <definition> &quot;t.List[V]&quot; jinja2.filters.do_sort</definition>
+        <argsstring>(&quot;Environment&quot; environment, &quot;t.Iterable[V]&quot; value, bool reverse=False, bool case_sensitive=False, t.Optional[t.Union[str, int]] attribute=None)</argsstring>
+        <name>do_sort</name>
+        <qualifiedname>jinja2.filters.do_sort</qualifiedname>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>&quot;t.Iterable&quot;</type>
+          <declname>value</declname>
+          <array>[V]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>reverse</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>case_sensitive</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>attribute</declname>
+          <array>[t.Union[str, int]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Sort an iterable using Python&apos;s :func:`sorted`.
+
+.. sourcecode:: jinja
+
+    {% for city in cities|sort %}
+        ...
+    {% endfor %}
+
+:param reverse: Sort descending instead of ascending.
+:param case_sensitive: When sorting strings, sort upper and lower
+    case separately.
+:param attribute: When sorting objects or dicts, an attribute or
+    key to sort by. Can use dot notation like ``&quot;address.city&quot;``.
+    Can be a list of attributes like ``&quot;age,name&quot;``.
+
+The sort is stable, it does not change the relative order of
+elements that compare equal. This makes it is possible to chain
+sorts on different attributes and ordering.
+
+.. sourcecode:: jinja
+
+    {% for user in users|sort(attribute=&quot;name&quot;)
+        |sort(reverse=true, attribute=&quot;age&quot;) %}
+        ...
+    {% endfor %}
+
+As a shortcut to chaining when the direction is the same for all
+attributes, pass a comma separate list of attributes.
+
+.. sourcecode:: jinja
+
+    {% for user in users|sort(attribute=&quot;age,name&quot;) %}
+        ...
+    {% endfor %}
+
+.. versionchanged:: 2.11.0
+    The ``attribute`` parameter can be a comma separated list of
+    attributes, e.g. ``&quot;age,name&quot;``.
+
+.. versionchanged:: 2.6
+   The ``attribute`` parameter was added.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="386" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="392" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a48b1e5edad6f745f1aa69a9328016c72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.Iterator[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>]&quot;</type>
+        <definition> &quot;t.Iterator[V]&quot; jinja2.filters.sync_do_unique</definition>
+        <argsstring>(&quot;Environment&quot; environment, &quot;t.Iterable[V]&quot; value, bool case_sensitive=False, t.Optional[t.Union[str, int]] attribute=None)</argsstring>
+        <name>sync_do_unique</name>
+        <qualifiedname>jinja2.filters.sync_do_unique</qualifiedname>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>&quot;t.Iterable&quot;</type>
+          <declname>value</declname>
+          <array>[V]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>case_sensitive</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>attribute</declname>
+          <array>[t.Union[str, int]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a list of unique items from the given iterable.
+
+.. sourcecode:: jinja
+
+    {{ [&apos;foo&apos;, &apos;bar&apos;, &apos;foobar&apos;, &apos;FooBar&apos;]|unique|list }}
+        -&gt; [&apos;foo&apos;, &apos;bar&apos;, &apos;foobar&apos;]
+
+The unique items are yielded in the same order as their first occurrence in
+the iterable passed to the filter.
+
+:param case_sensitive: Treat upper and lower case strings as distinct.
+:param attribute: Filter objects with unique values for this attribute.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="442" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="447" bodyend="474"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a8e029cc927eac342c679f40edcf678bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.Iterator[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>]&quot;</type>
+        <definition> &quot;t.Iterator[V]&quot; jinja2.filters.do_unique</definition>
+        <argsstring>(&quot;Environment&quot; environment, &quot;t.Union[t.AsyncIterable[V], t.Iterable[V]]&quot; value, bool case_sensitive=False, t.Optional[t.Union[str, int]] attribute=None)</argsstring>
+        <name>do_unique</name>
+        <qualifiedname>jinja2.filters.do_unique</qualifiedname>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>&quot;t.</type>
+          <declname>Union</declname>
+          <defname>value</defname>
+          <array>[t.AsyncIterable[V]</array>
+        </param>
+        <param>
+          <type>t.Iterable]&quot;</type>
+          <declname>value</declname>
+          <defname>case_sensitive</defname>
+          <array>[V]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>case_sensitive</declname>
+          <defname>attribute</defname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>attribute</declname>
+          <array>[t.Union[str, int]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="475" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="480" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1af16559181607b777830a1d3026f1fadd" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.Union[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>, <ref refid="classjinja2_1_1runtime_1_1Undefined" kindref="compound">Undefined</ref>]&quot;</type>
+        <definition> &quot;t.Union[V, Undefined]&quot; jinja2.filters._min_or_max</definition>
+        <argsstring>(&quot;Environment&quot; environment, &quot;t.Iterable[V]&quot; value, &quot;t.Callable[..., V]&quot; func, bool case_sensitive, t.Optional[t.Union[str, int]] attribute)</argsstring>
+        <name>_min_or_max</name>
+        <qualifiedname>jinja2.filters._min_or_max</qualifiedname>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>&quot;t.Iterable&quot;</type>
+          <declname>value</declname>
+          <array>[V]</array>
+        </param>
+        <param>
+          <type>&quot;t.Callable&quot;</type>
+          <declname>func</declname>
+          <array>[..., V]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>case_sensitive</declname>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>attribute</declname>
+          <array>[t.Union[str, int]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="486" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="492" bodyend="506"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1acb9d28791c2d1b1e89b2f2be10d773db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.Union[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>, <ref refid="classjinja2_1_1runtime_1_1Undefined" kindref="compound">Undefined</ref>]&quot;</type>
+        <definition> &quot;t.Union[V, Undefined]&quot; jinja2.filters.do_min</definition>
+        <argsstring>(&quot;Environment&quot; environment, &quot;t.Iterable[V]&quot; value, bool case_sensitive=False, t.Optional[t.Union[str, int]] attribute=None)</argsstring>
+        <name>do_min</name>
+        <qualifiedname>jinja2.filters.do_min</qualifiedname>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>&quot;t.Iterable&quot;</type>
+          <declname>value</declname>
+          <array>[V]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>case_sensitive</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>attribute</declname>
+          <array>[t.Union[str, int]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the smallest item from the sequence.
+
+.. sourcecode:: jinja
+
+    {{ [1, 2, 3]|min }}
+        -&gt; 1
+
+:param case_sensitive: Treat upper and lower case strings as distinct.
+:param attribute: Get the object with the min value of this attribute.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="507" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="512" bodyend="526"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a3d5fa4155abc7d0834d8c81f0bac6491" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.Union[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>, <ref refid="classjinja2_1_1runtime_1_1Undefined" kindref="compound">Undefined</ref>]&quot;</type>
+        <definition> &quot;t.Union[V, Undefined]&quot; jinja2.filters.do_max</definition>
+        <argsstring>(&quot;Environment&quot; environment, &quot;t.Iterable[V]&quot; value, bool case_sensitive=False, t.Optional[t.Union[str, int]] attribute=None)</argsstring>
+        <name>do_max</name>
+        <qualifiedname>jinja2.filters.do_max</qualifiedname>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>&quot;t.Iterable&quot;</type>
+          <declname>value</declname>
+          <array>[V]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>case_sensitive</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>attribute</declname>
+          <array>[t.Union[str, int]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the largest item from the sequence.
+
+.. sourcecode:: jinja
+
+    {{ [1, 2, 3]|max }}
+        -&gt; 3
+
+:param case_sensitive: Treat upper and lower case strings as distinct.
+:param attribute: Get the object with the max value of this attribute.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="527" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="532" bodyend="545"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1abb5cb9da6f5d6532cb9f07160bd8b264" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref></type>
+        <definition> V jinja2.filters.do_default</definition>
+        <argsstring>(V value, V default_value=&quot;&quot;, bool boolean=False)</argsstring>
+        <name>do_default</name>
+        <qualifiedname>jinja2.filters.do_default</qualifiedname>
+        <param>
+          <type><ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref></type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref></type>
+          <declname>default_value</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>boolean</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>If the value is undefined it will return the passed default value,
+otherwise the value of the variable:
+
+.. sourcecode:: jinja
+
+    {{ my_variable|default(&apos;my_variable is not defined&apos;) }}
+
+This will output the value of ``my_variable`` if the variable was
+defined, otherwise ``&apos;my_variable is not defined&apos;``. If you want
+to use default with variables that evaluate to false you have to
+set the second parameter to `true`:
+
+.. sourcecode:: jinja
+
+    {{ &apos;&apos;|default(&apos;the string was empty&apos;, true) }}
+
+.. versionchanged:: 2.11
+   It&apos;s now possible to configure the :class:`~jinja2.Environment` with
+   :class:`~jinja2.ChainableUndefined` to make the `default` filter work
+   on nested elements and attributes that may contain undefined values
+   in the chain without getting an :exc:`~jinja2.UndefinedError`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="546" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="550" bodyend="579"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a01a147b0b13e0729345368fe810192e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.filters.sync_do_join</definition>
+        <argsstring>(&quot;EvalContext&quot; eval_ctx, t.Iterable[t.Any] value, str d=&quot;&quot;, t.Optional[t.Union[str, int]] attribute=None)</argsstring>
+        <name>sync_do_join</name>
+        <qualifiedname>jinja2.filters.sync_do_join</qualifiedname>
+        <param>
+          <type>&quot;EvalContext&quot;</type>
+          <declname>eval_ctx</declname>
+        </param>
+        <param>
+          <type>t.Iterable</type>
+          <declname>value</declname>
+          <array>[t.Any]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>d</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>attribute</declname>
+          <array>[t.Union[str, int]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a string which is the concatenation of the strings in the
+sequence. The separator between elements is an empty string per
+default, you can define it with the optional parameter:
+
+.. sourcecode:: jinja
+
+    {{ [1, 2, 3]|join(&apos;|&apos;) }}
+        -&gt; 1|2|3
+
+    {{ [1, 2, 3]|join }}
+        -&gt; 123
+
+It is also possible to join certain attributes of an object:
+
+.. sourcecode:: jinja
+
+    {{ users|join(&apos;, &apos;, attribute=&apos;username&apos;) }}
+
+.. versionadded:: 2.6
+   The `attribute` parameter was added.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="580" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="585" bodyend="637"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a9c8a05fee16d9e5f4c233d0dad95ff96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.filters.do_join</definition>
+        <argsstring>(&quot;EvalContext&quot; eval_ctx, t.Union[t.AsyncIterable[t.Any], t.Iterable[t.Any]] value, str d=&quot;&quot;, t.Optional[t.Union[str, int]] attribute=None)</argsstring>
+        <name>do_join</name>
+        <qualifiedname>jinja2.filters.do_join</qualifiedname>
+        <param>
+          <type>&quot;EvalContext&quot;</type>
+          <declname>eval_ctx</declname>
+        </param>
+        <param>
+          <type>t.</type>
+          <declname>Union</declname>
+          <defname>value</defname>
+          <array>[t.AsyncIterable[t.Any]</array>
+        </param>
+        <param>
+          <type>t.Iterable]</type>
+          <declname>value</declname>
+          <defname>d</defname>
+          <array>[t.Any]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>d</declname>
+          <defname>attribute</defname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>attribute</declname>
+          <array>[t.Union[str, int]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="638" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="643" bodyend="646"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a9bb55a374ae60b49f0331398150c2973" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.filters.do_center</definition>
+        <argsstring>(str value, int width=80)</argsstring>
+        <name>do_center</name>
+        <qualifiedname>jinja2.filters.do_center</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>width</declname>
+          <defval>80</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Centers the value in a field of a given width.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="647" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="647" bodyend="652"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a3d18ffa14713debff184e14039926fe1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.Union[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>, <ref refid="classjinja2_1_1runtime_1_1Undefined" kindref="compound">Undefined</ref>]&quot;</type>
+        <definition> &quot;t.Union[V, Undefined]&quot; jinja2.filters.sync_do_first</definition>
+        <argsstring>(&quot;Environment&quot; environment, &quot;t.Iterable[V]&quot; seq)</argsstring>
+        <name>sync_do_first</name>
+        <qualifiedname>jinja2.filters.sync_do_first</qualifiedname>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>&quot;t.Iterable&quot;</type>
+          <declname>seq</declname>
+          <array>[V]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the first item of a sequence.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="653" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="655" bodyend="663"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a60aebe3085691400dccc36c3911d4710" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.Union[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>, <ref refid="classjinja2_1_1runtime_1_1Undefined" kindref="compound">Undefined</ref>]&quot;</type>
+        <definition> &quot;t.Union[V, Undefined]&quot; jinja2.filters.do_first</definition>
+        <argsstring>(&quot;Environment&quot; environment, &quot;t.Union[t.AsyncIterable[V], t.Iterable[V]]&quot; seq)</argsstring>
+        <name>do_first</name>
+        <qualifiedname>jinja2.filters.do_first</qualifiedname>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>&quot;t.</type>
+          <declname>Union</declname>
+          <defname>seq</defname>
+          <array>[t.AsyncIterable[V]</array>
+        </param>
+        <param>
+          <type>t.Iterable]&quot;</type>
+          <declname>seq</declname>
+          <array>[V]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="664" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="666" bodyend="673"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a1c7fdd0c242d185de4dcd4bf7e398d45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.Union[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>, <ref refid="classjinja2_1_1runtime_1_1Undefined" kindref="compound">Undefined</ref>]&quot;</type>
+        <definition> &quot;t.Union[V, Undefined]&quot; jinja2.filters.do_last</definition>
+        <argsstring>(&quot;Environment&quot; environment, &quot;t.Reversible[V]&quot; seq)</argsstring>
+        <name>do_last</name>
+        <qualifiedname>jinja2.filters.do_last</qualifiedname>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>&quot;t.Reversible&quot;</type>
+          <declname>seq</declname>
+          <array>[V]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the last item of a sequence.
+
+Note: Does not work with generators. You may want to explicitly
+convert it to a list:
+
+.. sourcecode:: jinja
+
+    {{ data | selectattr(&apos;name&apos;, &apos;==&apos;, &apos;Jinja&apos;) | list | last }}
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="674" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="676" bodyend="695"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1ac7ba89b82d1aa2869e8a19209f0d9ef5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.Union[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>, <ref refid="classjinja2_1_1runtime_1_1Undefined" kindref="compound">Undefined</ref>]&quot;</type>
+        <definition> &quot;t.Union[V, Undefined]&quot; jinja2.filters.do_random</definition>
+        <argsstring>(&quot;Context&quot; context, &quot;t.Sequence[V]&quot; seq)</argsstring>
+        <name>do_random</name>
+        <qualifiedname>jinja2.filters.do_random</qualifiedname>
+        <param>
+          <type>&quot;Context&quot;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>&quot;t.Sequence&quot;</type>
+          <declname>seq</declname>
+          <array>[V]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a random item from the sequence.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="696" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="696" bodyend="703"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a1f50bfc7db0035d08ab4fc82c33154ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.filters.do_filesizeformat</definition>
+        <argsstring>(t.Union[str, float, int] value, bool binary=False)</argsstring>
+        <name>do_filesizeformat</name>
+        <qualifiedname>jinja2.filters.do_filesizeformat</qualifiedname>
+        <param>
+          <type>t.Union</type>
+          <declname>value</declname>
+          <array>[str, float, int]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>binary</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Format the value like a &apos;human-readable&apos; file size (i.e. 13 kB,
+4.1 MB, 102 Bytes, etc).  Per default decimal prefixes are used (Mega,
+Giga, etc.), if the second parameter is set to `True` the binary
+prefixes are used (Mebi, Gibi).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="704" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="704" bodyend="736"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a19b9ce530c3cca6a91342113a17ec156" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.filters.do_pprint</definition>
+        <argsstring>(t.Any value)</argsstring>
+        <name>do_pprint</name>
+        <qualifiedname>jinja2.filters.do_pprint</qualifiedname>
+        <param>
+          <type>t.Any</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Pretty print a variable. Useful for debugging.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="737" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="737" bodyend="741"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1ada0c1d559369b4b46462be9d96514c6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.filters.do_urlize</definition>
+        <argsstring>(&quot;EvalContext&quot; eval_ctx, str value, t.Optional[int] trim_url_limit=None, bool nofollow=False, t.Optional[str] target=None, t.Optional[str] rel=None, t.Optional[t.Iterable[str]] extra_schemes=None)</argsstring>
+        <name>do_urlize</name>
+        <qualifiedname>jinja2.filters.do_urlize</qualifiedname>
+        <param>
+          <type>&quot;EvalContext&quot;</type>
+          <declname>eval_ctx</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>trim_url_limit</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>nofollow</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>target</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>rel</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>extra_schemes</declname>
+          <array>[t.Iterable[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert URLs in text into clickable links.
+
+This may not recognize links in some situations. Usually, a more
+comprehensive formatter, such as a Markdown library, is a better
+choice.
+
+Works on ``http://``, ``https://``, ``www.``, ``mailto:``, and email
+addresses. Links with trailing punctuation (periods, commas, closing
+parentheses) and leading punctuation (opening parentheses) are
+recognized excluding the punctuation. Email addresses that include
+header fields are not recognized (for example,
+``mailto:address@example.com?cc=copy@example.com``).
+
+:param value: Original text containing URLs to link.
+:param trim_url_limit: Shorten displayed URL values to this length.
+:param nofollow: Add the ``rel=nofollow`` attribute to links.
+:param target: Add the ``target`` attribute to links.
+:param rel: Add the ``rel`` attribute to links.
+:param extra_schemes: Recognize URLs that start with these schemes
+    in addition to the default behavior. Defaults to
+    ``env.policies[&quot;urlize.extra_schemes&quot;]``, which defaults to no
+    extra schemes.
+
+.. versionchanged:: 3.0
+    The ``extra_schemes`` parameter was added.
+
+.. versionchanged:: 3.0
+    Generate ``https://`` links for URLs without a scheme.
+
+.. versionchanged:: 3.0
+    The parsing rules were updated. Recognize email addresses with
+    or without the ``mailto:`` scheme. Validate IP addresses. Ignore
+    parentheses and brackets in more cases.
+
+.. versionchanged:: 2.8
+   The ``target`` parameter was added.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="746" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="754" bodyend="824"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a22f1e9a1a05accc6961346d1d2f105e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.filters.do_indent</definition>
+        <argsstring>(str s, t.Union[int, str] width=4, bool first=False, bool blank=False)</argsstring>
+        <name>do_indent</name>
+        <qualifiedname>jinja2.filters.do_indent</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>t.Union</type>
+          <declname>width</declname>
+          <array>[int, str]</array>
+          <defval>4</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>first</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>blank</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a copy of the string with each line indented by 4 spaces. The
+first line and blank lines are not indented by default.
+
+:param width: Number of spaces, or a string, to indent by.
+:param first: Don&apos;t skip indenting the first line.
+:param blank: Don&apos;t skip indenting empty lines.
+
+.. versionchanged:: 3.0
+    ``width`` can be a string.
+
+.. versionchanged:: 2.10
+    Blank lines are not indented by default.
+
+    Rename the ``indentfirst`` argument to ``first``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="825" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="827" bodyend="873"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1ac7ac1f3cb3e477dd14ca421301b4269f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.filters.do_truncate</definition>
+        <argsstring>(&quot;Environment&quot; env, str s, int length=255, bool killwords=False, str end=&quot;...&quot;, t.Optional[int] leeway=None)</argsstring>
+        <name>do_truncate</name>
+        <qualifiedname>jinja2.filters.do_truncate</qualifiedname>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>length</declname>
+          <defval>255</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>killwords</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>end</declname>
+          <defval>&quot;...&quot;</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>leeway</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a truncated copy of the string. The length is specified
+with the first parameter which defaults to ``255``. If the second
+parameter is ``true`` the filter will cut the text at length. Otherwise
+it will discard the last word. If the text was in fact
+truncated it will append an ellipsis sign (``&quot;...&quot;``). If you want a
+different ellipsis sign than ``&quot;...&quot;`` you can specify it using the
+third parameter. Strings that only exceed the length by the tolerance
+margin given in the fourth parameter will not be truncated.
+
+.. sourcecode:: jinja
+
+    {{ &quot;foo bar baz qux&quot;|truncate(9) }}
+        -&gt; &quot;foo...&quot;
+    {{ &quot;foo bar baz qux&quot;|truncate(9, True) }}
+        -&gt; &quot;foo ba...&quot;
+    {{ &quot;foo bar baz qux&quot;|truncate(11) }}
+        -&gt; &quot;foo bar baz qux&quot;
+    {{ &quot;foo bar baz qux&quot;|truncate(11, False, &apos;...&apos;, 0) }}
+        -&gt; &quot;foo bar...&quot;
+
+The default leeway on newer Jinja versions is 5 and was 0 before but
+can be reconfigured globally.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="874" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="881" bodyend="921"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a6bb8f0a8c949f9a0d5467817362f1584" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.filters.do_wordwrap</definition>
+        <argsstring>(&quot;Environment&quot; environment, str s, int width=79, bool break_long_words=True, t.Optional[str] wrapstring=None, bool break_on_hyphens=True)</argsstring>
+        <name>do_wordwrap</name>
+        <qualifiedname>jinja2.filters.do_wordwrap</qualifiedname>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>width</declname>
+          <defval>79</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>break_long_words</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>wrapstring</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>break_on_hyphens</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Wrap a string to the given width. Existing newlines are treated
+as paragraphs to be wrapped separately.
+
+:param s: Original text to wrap.
+:param width: Maximum length of wrapped lines.
+:param break_long_words: If a word is longer than ``width``, break
+    it across lines.
+:param break_on_hyphens: If a word contains hyphens, it may be split
+    across lines.
+:param wrapstring: String to join each wrapped line. Defaults to
+    :attr:`Environment.newline_sequence`.
+
+.. versionchanged:: 2.11
+    Existing newlines are treated as paragraphs wrapped separately.
+
+.. versionchanged:: 2.11
+    Added the ``break_on_hyphens`` parameter.
+
+.. versionchanged:: 2.7
+    Added the ``wrapstring`` parameter.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="922" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="929" bodyend="976"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a79846b80c06f9809fde5608cd7cfda4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int jinja2.filters.do_wordcount</definition>
+        <argsstring>(str s)</argsstring>
+        <name>do_wordcount</name>
+        <qualifiedname>jinja2.filters.do_wordcount</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Count the words in that string.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="980" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="980" bodyend="984"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a8e4c73fdb10f5e4825589a6698a98322" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int jinja2.filters.do_int</definition>
+        <argsstring>(t.Any value, int default=0, int base=10)</argsstring>
+        <name>do_int</name>
+        <qualifiedname>jinja2.filters.do_int</qualifiedname>
+        <param>
+          <type>t.Any</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>default</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>base</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert the value into an integer. If the
+conversion doesn&apos;t work it will return ``0``. You can
+override this default using the first parameter. You
+can also override the default base (10) in the second
+parameter, which handles input with prefixes such as
+0b, 0o and 0x for bases 2, 8 and 16 respectively.
+The base is ignored for decimal numbers and non-string values.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="985" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="985" bodyend="1006"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a87719df866b25b691d642f44a562f93a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition> float jinja2.filters.do_float</definition>
+        <argsstring>(t.Any value, float default=0.0)</argsstring>
+        <name>do_float</name>
+        <qualifiedname>jinja2.filters.do_float</qualifiedname>
+        <param>
+          <type>t.Any</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>default</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert the value into a floating point number. If the
+conversion doesn&apos;t work it will return ``0.0``. You can
+override this default using the first parameter.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1007" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1007" bodyend="1017"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a6b4eee6f11c94226d47ebab60774136e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.filters.do_format</definition>
+        <argsstring>(str value, *t.Any args, **t.Any kwargs)</argsstring>
+        <name>do_format</name>
+        <qualifiedname>jinja2.filters.do_format</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>*t.Any</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Apply the given values to a `printf-style`_ format string, like
+``string % values``.
+
+.. sourcecode:: jinja
+
+    {{ &quot;%s, %s!&quot;|format(greeting, name) }}
+    Hello, World!
+
+In most cases it should be more convenient and efficient to use the
+``%`` operator or :meth:`str.format`.
+
+.. code-block:: text
+
+    {{ &quot;%s, %s!&quot; % (greeting, name) }}
+    {{ &quot;{}, {}!&quot;.format(greeting, name) }}
+
+.. _printf-style: https://docs.python.org/library/stdtypes.html
+    #printf-style-string-formatting
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1018" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1018" bodyend="1045"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1abf81b50a4f41393fa914a44e5b80832f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.filters.do_trim</definition>
+        <argsstring>(str value, t.Optional[str] chars=None)</argsstring>
+        <name>do_trim</name>
+        <qualifiedname>jinja2.filters.do_trim</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>chars</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Strip leading and trailing characters, by default whitespace.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1046" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1046" bodyend="1050"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a7eb4783d3a9af07d2da5dec444d60dba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.filters.do_striptags</definition>
+        <argsstring>(&quot;t.Union[str, HasHTML]&quot; value)</argsstring>
+        <name>do_striptags</name>
+        <qualifiedname>jinja2.filters.do_striptags</qualifiedname>
+        <param>
+          <type>&quot;t.Union&quot;</type>
+          <declname>value</declname>
+          <array>[str, HasHTML]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Strip SGML/XML tags and replace adjacent whitespace by one space.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1051" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1051" bodyend="1058"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a66127b8a02bd59e7ba5140b3a07a75e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.Iterator[t.List[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>]]&quot;</type>
+        <definition> &quot;t.Iterator[t.List[V]]&quot; jinja2.filters.sync_do_slice</definition>
+        <argsstring>(&quot;t.Collection[V]&quot; value, int slices, &quot;t.Optional[V]&quot; fill_with=None)</argsstring>
+        <name>sync_do_slice</name>
+        <qualifiedname>jinja2.filters.sync_do_slice</qualifiedname>
+        <param>
+          <type>&quot;t.Collection&quot;</type>
+          <declname>value</declname>
+          <array>[V]</array>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>slices</declname>
+        </param>
+        <param>
+          <type>&quot;t.Optional&quot;</type>
+          <declname>fill_with</declname>
+          <array>[V]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Slice an iterator and return a list of lists containing
+those items. Useful if you want to create a div containing
+three ul tags that represent columns:
+
+.. sourcecode:: html+jinja
+
+    &lt;div class=&quot;columnwrapper&quot;&gt;
+      {%- for column in items|slice(3) %}
+        &lt;ul class=&quot;column-{{ loop.index }}&quot;&gt;
+        {%- for item in column %}
+          &lt;li&gt;{{ item }}&lt;/li&gt;
+        {%- endfor %}
+        &lt;/ul&gt;
+      {%- endfor %}
+    &lt;/div&gt;
+
+If you pass it a second argument it&apos;s used to fill missing
+values on the last iteration.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1059" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1061" bodyend="1102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a34b52be252d048062a433ab23e237d8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.Iterator[t.List[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>]]&quot;</type>
+        <definition> &quot;t.Iterator[t.List[V]]&quot; jinja2.filters.do_slice</definition>
+        <argsstring>(&quot;t.Union[t.AsyncIterable[V], t.Iterable[V]]&quot; value, int slices, t.Optional[t.Any] fill_with=None)</argsstring>
+        <name>do_slice</name>
+        <qualifiedname>jinja2.filters.do_slice</qualifiedname>
+        <param>
+          <type>&quot;t.</type>
+          <declname>Union</declname>
+          <defname>value</defname>
+          <array>[t.AsyncIterable[V]</array>
+        </param>
+        <param>
+          <type>t.Iterable]&quot;</type>
+          <declname>value</declname>
+          <defname>slices</defname>
+          <array>[V]</array>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>slices</declname>
+          <defname>fill_with</defname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>fill_with</declname>
+          <array>[t.Any]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1103" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1107" bodyend="1110"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a81ac9ff959e318e1791dd475dd669c6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.Iterator[t.List[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>]]&quot;</type>
+        <definition> &quot;t.Iterator[t.List[V]]&quot; jinja2.filters.do_batch</definition>
+        <argsstring>(&quot;t.Iterable[V]&quot; value, int linecount, &quot;t.Optional[V]&quot; fill_with=None)</argsstring>
+        <name>do_batch</name>
+        <qualifiedname>jinja2.filters.do_batch</qualifiedname>
+        <param>
+          <type>&quot;t.Iterable&quot;</type>
+          <declname>value</declname>
+          <array>[V]</array>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>linecount</declname>
+        </param>
+        <param>
+          <type>&quot;t.Optional&quot;</type>
+          <declname>fill_with</declname>
+          <array>[V]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>A filter that batches items. It works pretty much like `slice`
+just the other way round. It returns a list of lists with the
+given number of items. If you provide a second parameter this
+is used to fill up missing items. See this example:
+
+.. sourcecode:: html+jinja
+
+    &lt;table&gt;
+    {%- for row in items|batch(3, &apos;&amp;nbsp;&apos;) %}
+      &lt;tr&gt;
+      {%- for column in row %}
+        &lt;td&gt;{{ column }}&lt;/td&gt;
+      {%- endfor %}
+      &lt;/tr&gt;
+    {%- endfor %}
+    &lt;/table&gt;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1111" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1113" bodyend="1147"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1ab3db501427c8119d294619379240f6f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition> float jinja2.filters.do_round</definition>
+        <argsstring>(float value, int precision=0, &apos;te.Literal[&quot;common&quot;, &quot;ceil&quot;, &quot;floor&quot;]&apos; method=&quot;common&quot;)</argsstring>
+        <name>do_round</name>
+        <qualifiedname>jinja2.filters.do_round</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>precision</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>&apos;te.Literal&apos;</type>
+          <declname>method</declname>
+          <array>[&quot;common&quot;, &quot;ceil&quot;, &quot;floor&quot;]</array>
+          <defval>&quot;common&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Round the number to a given precision. The first
+parameter specifies the precision (default is ``0``), the
+second the rounding method:
+
+- ``&apos;common&apos;`` rounds either up or down
+- ``&apos;ceil&apos;`` always rounds up
+- ``&apos;floor&apos;`` always rounds down
+
+If you don&apos;t specify a method ``&apos;common&apos;`` is used.
+
+.. sourcecode:: jinja
+
+    {{ 42.55|round }}
+        -&gt; 43.0
+    {{ 42.55|round(1, &apos;floor&apos;) }}
+        -&gt; 42.5
+
+Note that even if rounded to 0 precision, a float is returned.  If
+you need a real integer, pipe it through `int`:
+
+.. sourcecode:: jinja
+
+    {{ 42.55|round|int }}
+        -&gt; 43
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1148" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1152" bodyend="1187"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a719b20b58700954530cef236d47fd404" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.List[<ref refid="classjinja2_1_1filters_1_1__GroupTuple" kindref="compound">_GroupTuple</ref>]&quot;</type>
+        <definition> &quot;t.List[_GroupTuple]&quot; jinja2.filters.sync_do_groupby</definition>
+        <argsstring>(&quot;Environment&quot; environment, &quot;t.Iterable[V]&quot; value, t.Union[str, int] attribute, t.Optional[t.Any] default=None, bool case_sensitive=False)</argsstring>
+        <name>sync_do_groupby</name>
+        <qualifiedname>jinja2.filters.sync_do_groupby</qualifiedname>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>&quot;t.Iterable&quot;</type>
+          <declname>value</declname>
+          <array>[V]</array>
+        </param>
+        <param>
+          <type>t.Union</type>
+          <declname>attribute</declname>
+          <array>[str, int]</array>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>default</declname>
+          <array>[t.Any]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>case_sensitive</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Group a sequence of objects by an attribute using Python&apos;s
+:func:`itertools.groupby`. The attribute can use dot notation for
+nested access, like ``&quot;address.city&quot;``. Unlike Python&apos;s ``groupby``,
+the values are sorted first so only one group is returned for each
+unique value.
+
+For example, a list of ``User`` objects with a ``city`` attribute
+can be rendered in groups. In this example, ``grouper`` refers to
+the ``city`` value of the group.
+
+.. sourcecode:: html+jinja
+
+    &lt;ul&gt;{% for city, items in users|groupby(&quot;city&quot;) %}
+      &lt;li&gt;{{ city }}
+        &lt;ul&gt;{% for user in items %}
+          &lt;li&gt;{{ user.name }}
+        {% endfor %}&lt;/ul&gt;
+      &lt;/li&gt;
+    {% endfor %}&lt;/ul&gt;
+
+``groupby`` yields namedtuples of ``(grouper, list)``, which
+can be used instead of the tuple unpacking above. ``grouper`` is the
+value of the attribute, and ``list`` is the items with that value.
+
+.. sourcecode:: html+jinja
+
+    &lt;ul&gt;{% for group in users|groupby(&quot;city&quot;) %}
+      &lt;li&gt;{{ group.grouper }}: {{ group.list|join(&quot;, &quot;) }}
+    {% endfor %}&lt;/ul&gt;
+
+You can specify a ``default`` value to use if an object in the list
+does not have the given attribute.
+
+.. sourcecode:: jinja
+
+    &lt;ul&gt;{% for city, items in users|groupby(&quot;city&quot;, default=&quot;NY&quot;) %}
+      &lt;li&gt;{{ city }}: {{ items|map(attribute=&quot;name&quot;)|join(&quot;, &quot;) }}&lt;/li&gt;
+    {% endfor %}&lt;/ul&gt;
+
+Like the :func:`~jinja-filters.sort` filter, sorting and grouping is
+case-insensitive by default. The ``key`` for each group will have
+the case of the first item in that group of values. For example, if
+a list of users has cities ``[&quot;CA&quot;, &quot;NY&quot;, &quot;ca&quot;]``, the &quot;CA&quot; group
+will have two values. This can be disabled by passing
+``case_sensitive=True``.
+
+.. versionchanged:: 3.1
+    Added the ``case_sensitive`` parameter. Sorting and grouping is
+    case-insensitive by default, matching other filters that do
+    comparisons.
+
+.. versionchanged:: 3.0
+    Added the ``default`` parameter.
+
+.. versionchanged:: 2.6
+    The attribute supports dot notation for nested access.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1202" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1208" bodyend="1285"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1ae0215b35ccd8039fbd7ee776e74291c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.List[<ref refid="classjinja2_1_1filters_1_1__GroupTuple" kindref="compound">_GroupTuple</ref>]&quot;</type>
+        <definition> &quot;t.List[_GroupTuple]&quot; jinja2.filters.do_groupby</definition>
+        <argsstring>(&quot;Environment&quot; environment, &quot;t.Union[t.AsyncIterable[V], t.Iterable[V]]&quot; value, t.Union[str, int] attribute, t.Optional[t.Any] default=None, bool case_sensitive=False)</argsstring>
+        <name>do_groupby</name>
+        <qualifiedname>jinja2.filters.do_groupby</qualifiedname>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>&quot;t.</type>
+          <declname>Union</declname>
+          <defname>value</defname>
+          <array>[t.AsyncIterable[V]</array>
+        </param>
+        <param>
+          <type>t.Iterable]&quot;</type>
+          <declname>value</declname>
+          <defname>attribute</defname>
+          <array>[V]</array>
+        </param>
+        <param>
+          <type>t.Union</type>
+          <declname>attribute</declname>
+          <defname>default</defname>
+          <array>[str, int]</array>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>default</declname>
+          <defname>case_sensitive</defname>
+          <array>[t.Any]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>case_sensitive</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1286" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1292" bodyend="1312"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a4d82bf0c41a4dbeee17ccc4c899ee1c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref></type>
+        <definition> V jinja2.filters.sync_do_sum</definition>
+        <argsstring>(&quot;Environment&quot; environment, &quot;t.Iterable[V]&quot; iterable, t.Optional[t.Union[str, int]] attribute=None, V start=0)</argsstring>
+        <name>sync_do_sum</name>
+        <qualifiedname>jinja2.filters.sync_do_sum</qualifiedname>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>&quot;t.Iterable&quot;</type>
+          <declname>iterable</declname>
+          <array>[V]</array>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>attribute</declname>
+          <array>[t.Union[str, int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref></type>
+          <declname>start</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns the sum of a sequence of numbers plus the value of parameter
+&apos;start&apos; (which defaults to 0).  When the sequence is empty it returns
+start.
+
+It is also possible to sum up only certain attributes:
+
+.. sourcecode:: jinja
+
+    Total: {{ items|sum(attribute=&apos;price&apos;) }}
+
+.. versionchanged:: 2.6
+   The ``attribute`` parameter was added to allow summing up over
+   attributes.  Also the ``start`` parameter was moved on to the right.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1313" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1318" bodyend="1339"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a1df8c1b5f7dc3fac57a589ade56ee00f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref></type>
+        <definition> V jinja2.filters.do_sum</definition>
+        <argsstring>(&quot;Environment&quot; environment, &quot;t.Union[t.AsyncIterable[V], t.Iterable[V]]&quot; iterable, t.Optional[t.Union[str, int]] attribute=None, V start=0)</argsstring>
+        <name>do_sum</name>
+        <qualifiedname>jinja2.filters.do_sum</qualifiedname>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>&quot;t.</type>
+          <declname>Union</declname>
+          <defname>iterable</defname>
+          <array>[t.AsyncIterable[V]</array>
+        </param>
+        <param>
+          <type>t.Iterable]&quot;</type>
+          <declname>iterable</declname>
+          <defname>attribute</defname>
+          <array>[V]</array>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>attribute</declname>
+          <defname>start</defname>
+          <array>[t.Union[str, int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref></type>
+          <declname>start</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1340" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1345" bodyend="1360"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a5b59bd6947f131081bd6657b5fe45f51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.List[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>]&quot;</type>
+        <definition> &quot;t.List[V]&quot; jinja2.filters.sync_do_list</definition>
+        <argsstring>(&quot;t.Iterable[V]&quot; value)</argsstring>
+        <name>sync_do_list</name>
+        <qualifiedname>jinja2.filters.sync_do_list</qualifiedname>
+        <param>
+          <type>&quot;t.Iterable&quot;</type>
+          <declname>value</declname>
+          <array>[V]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert the value into a list.  If it was a string the returned list
+will be a list of characters.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1361" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1361" bodyend="1368"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1aca40159f441be3c66c4080246a401bf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.List[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>]&quot;</type>
+        <definition> &quot;t.List[V]&quot; jinja2.filters.do_list</definition>
+        <argsstring>(&quot;t.Union[t.AsyncIterable[V], t.Iterable[V]]&quot; value)</argsstring>
+        <name>do_list</name>
+        <qualifiedname>jinja2.filters.do_list</qualifiedname>
+        <param>
+          <type>&quot;t.</type>
+          <declname>Union</declname>
+          <defname>value</defname>
+          <array>[t.AsyncIterable[V]</array>
+        </param>
+        <param>
+          <type>t.Iterable]&quot;</type>
+          <declname>value</declname>
+          <array>[V]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1369" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1369" bodyend="1372"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1aa682b7606eb3e8d0dcff6daec4546271" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classmarkupsafe_1_1Markup" kindref="compound">Markup</ref></type>
+        <definition> Markup jinja2.filters.do_mark_safe</definition>
+        <argsstring>(str value)</argsstring>
+        <name>do_mark_safe</name>
+        <qualifiedname>jinja2.filters.do_mark_safe</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Mark the value as safe which means that in an environment with automatic
+escaping enabled this variable will not be escaped.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1373" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1373" bodyend="1379"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a104a09836d52396f33d645bef3690bf3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.filters.do_mark_unsafe</definition>
+        <argsstring>(str value)</argsstring>
+        <name>do_mark_unsafe</name>
+        <qualifiedname>jinja2.filters.do_mark_unsafe</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Mark a value as unsafe.  This is the reverse operation for :func:`safe`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1380" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1380" bodyend="1385"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1af60bad7605b8358977046d520832f38d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.filters.do_reverse</definition>
+        <argsstring>(str value)</argsstring>
+        <name>do_reverse</name>
+        <qualifiedname>jinja2.filters.do_reverse</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1386" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1386" bodyend="1389"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1ac0067f26b63c151901f40afbca0fa02a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.Iterable[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>]&quot;</type>
+        <definition> &quot;t.Iterable[V]&quot; jinja2.filters.do_reverse</definition>
+        <argsstring>(&quot;t.Iterable[V]&quot; value)</argsstring>
+        <name>do_reverse</name>
+        <qualifiedname>jinja2.filters.do_reverse</qualifiedname>
+        <param>
+          <type>&quot;t.Iterable&quot;</type>
+          <declname>value</declname>
+          <array>[V]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1390" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1390" bodyend="1392"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a4440c95750268e06845477c999897144" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Union[str, t.Iterable[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>]]</type>
+        <definition> t.Union[str, t.Iterable[V]] jinja2.filters.do_reverse</definition>
+        <argsstring>(t.Union[str, t.Iterable[V]] value)</argsstring>
+        <name>do_reverse</name>
+        <qualifiedname>jinja2.filters.do_reverse</qualifiedname>
+        <param>
+          <type>t.Union]</type>
+          <declname>value</declname>
+          <array>[str, t.Iterable[V]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Reverse the object or return an iterator that iterates over it the other
+way round.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1393" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1393" bodyend="1411"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a7702ef3259f9f88cf3627dfc0d760a4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Union[<ref refid="classjinja2_1_1runtime_1_1Undefined" kindref="compound">Undefined</ref>, t.Any]</type>
+        <definition> t.Union[Undefined, t.Any] jinja2.filters.do_attr</definition>
+        <argsstring>(&quot;Environment&quot; environment, t.Any obj, str name)</argsstring>
+        <name>do_attr</name>
+        <qualifiedname>jinja2.filters.do_attr</qualifiedname>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>t.Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get an attribute of an object. ``foo|attr(&quot;bar&quot;)`` works like
+``foo.bar``, but returns undefined instead of falling back to ``foo[&quot;bar&quot;]``
+if the attribute doesn&apos;t exist.
+
+See :ref:`Notes on subscriptions &lt;notes-on-subscriptions&gt;` for more details.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1412" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1414" bodyend="1436"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a08d7a0ca72f8dd090e09a330f681138f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Iterable[t.Any]</type>
+        <definition> t.Iterable[t.Any] jinja2.filters.sync_do_map</definition>
+        <argsstring>(&quot;Context&quot; context, t.Iterable[t.Any] value, str name, *t.Any args, **t.Any kwargs)</argsstring>
+        <name>sync_do_map</name>
+        <qualifiedname>jinja2.filters.sync_do_map</qualifiedname>
+        <param>
+          <type>&quot;Context&quot;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>t.Iterable</type>
+          <declname>value</declname>
+          <array>[t.Any]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>*t.Any</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1437" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1443" bodyend="1446"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a68ace3e9ffb4669b0f66e71b81827506" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Iterable[t.Any]</type>
+        <definition> t.Iterable[t.Any] jinja2.filters.sync_do_map</definition>
+        <argsstring>(&quot;Context&quot; context, t.Iterable[t.Any] value, *str attribute=..., t.Optional[t.Any] default=None)</argsstring>
+        <name>sync_do_map</name>
+        <qualifiedname>jinja2.filters.sync_do_map</qualifiedname>
+        <param>
+          <type>&quot;Context&quot;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>t.Iterable</type>
+          <declname>value</declname>
+          <array>[t.Any]</array>
+        </param>
+        <param>
+          <type>*str</type>
+          <declname>attribute</declname>
+          <defval>...</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>default</declname>
+          <array>[t.Any]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1447" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1453" bodyend="1456"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a91df698098839b6d9980cc1c233879e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Iterable[t.Any]</type>
+        <definition> t.Iterable[t.Any] jinja2.filters.sync_do_map</definition>
+        <argsstring>(&quot;Context&quot; context, t.Iterable[t.Any] value, *t.Any args, **t.Any kwargs)</argsstring>
+        <name>sync_do_map</name>
+        <qualifiedname>jinja2.filters.sync_do_map</qualifiedname>
+        <param>
+          <type>&quot;Context&quot;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>t.Iterable</type>
+          <declname>value</declname>
+          <array>[t.Any]</array>
+        </param>
+        <param>
+          <type>*t.Any</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Applies a filter on a sequence of objects or looks up an attribute.
+This is useful when dealing with lists of objects but you are really
+only interested in a certain value of it.
+
+The basic usage is mapping on an attribute.  Imagine you have a list
+of users but you are only interested in a list of usernames:
+
+.. sourcecode:: jinja
+
+    Users on this page: {{ users|map(attribute=&apos;username&apos;)|join(&apos;, &apos;) }}
+
+You can specify a ``default`` value to use if an object in the list
+does not have the given attribute.
+
+.. sourcecode:: jinja
+
+    {{ users|map(attribute=&quot;username&quot;, default=&quot;Anonymous&quot;)|join(&quot;, &quot;) }}
+
+Alternatively you can let it invoke a filter by passing the name of the
+filter and the arguments afterwards.  A good example would be applying a
+text conversion filter on a sequence:
+
+.. sourcecode:: jinja
+
+    Users on this page: {{ titles|map(&apos;lower&apos;)|join(&apos;, &apos;) }}
+
+Similar to a generator comprehension such as:
+
+.. code-block:: python
+
+    (u.username for u in users)
+    (getattr(u, &quot;username&quot;, &quot;Anonymous&quot;) for u in users)
+    (do_lower(x) for x in titles)
+
+.. versionchanged:: 2.11.0
+    Added the ``default`` parameter.
+
+.. versionadded:: 2.7
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1457" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1459" bodyend="1506"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a586d66b32d4e91dd96ea800118b21e22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Iterable[t.Any]</type>
+        <definition> t.Iterable[t.Any] jinja2.filters.do_map</definition>
+        <argsstring>(&quot;Context&quot; context, t.Union[t.AsyncIterable[t.Any], t.Iterable[t.Any]] value, str name, *t.Any args, **t.Any kwargs)</argsstring>
+        <name>do_map</name>
+        <qualifiedname>jinja2.filters.do_map</qualifiedname>
+        <param>
+          <type>&quot;Context&quot;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>t.</type>
+          <declname>Union</declname>
+          <defname>value</defname>
+          <array>[t.AsyncIterable[t.Any]</array>
+        </param>
+        <param>
+          <type>t.Iterable]</type>
+          <declname>value</declname>
+          <defname>name</defname>
+          <array>[t.Any]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+          <defname>args</defname>
+        </param>
+        <param>
+          <type>*t.Any</type>
+          <declname>args</declname>
+          <defname>kwargs</defname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1507" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1513" bodyend="1516"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a0a4f323c6f49ddfd03888b829fd8615f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Iterable[t.Any]</type>
+        <definition> t.Iterable[t.Any] jinja2.filters.do_map</definition>
+        <argsstring>(&quot;Context&quot; context, t.Union[t.AsyncIterable[t.Any], t.Iterable[t.Any]] value, *str attribute=..., t.Optional[t.Any] default=None)</argsstring>
+        <name>do_map</name>
+        <qualifiedname>jinja2.filters.do_map</qualifiedname>
+        <param>
+          <type>&quot;Context&quot;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>t.</type>
+          <declname>Union</declname>
+          <defname>value</defname>
+          <array>[t.AsyncIterable[t.Any]</array>
+        </param>
+        <param>
+          <type>t.Iterable]</type>
+          <declname>value</declname>
+          <defname>attribute</defname>
+          <array>[t.Any]</array>
+        </param>
+        <param>
+          <type>*str</type>
+          <declname>attribute</declname>
+          <defname>default</defname>
+          <defval>...</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>default</declname>
+          <array>[t.Any]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1517" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1523" bodyend="1526"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a6091c71fe5af05086683a3e72653ed11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.AsyncIterable[t.Any]</type>
+        <definition> t.AsyncIterable[t.Any] jinja2.filters.do_map</definition>
+        <argsstring>(&quot;Context&quot; context, t.Union[t.AsyncIterable[t.Any], t.Iterable[t.Any]] value, *t.Any args, **t.Any kwargs)</argsstring>
+        <name>do_map</name>
+        <qualifiedname>jinja2.filters.do_map</qualifiedname>
+        <param>
+          <type>&quot;Context&quot;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>t.</type>
+          <declname>Union</declname>
+          <defname>value</defname>
+          <array>[t.AsyncIterable[t.Any]</array>
+        </param>
+        <param>
+          <type>t.Iterable]</type>
+          <declname>value</declname>
+          <defname>args</defname>
+          <array>[t.Any]</array>
+        </param>
+        <param>
+          <type>*t.Any</type>
+          <declname>args</declname>
+          <defname>kwargs</defname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1527" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1532" bodyend="1540"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1aebba4f20428264d6901708cd7074f982" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.Iterator[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>]&quot;</type>
+        <definition> &quot;t.Iterator[V]&quot; jinja2.filters.sync_do_select</definition>
+        <argsstring>(&quot;Context&quot; context, &quot;t.Iterable[V]&quot; value, *t.Any args, **t.Any kwargs)</argsstring>
+        <name>sync_do_select</name>
+        <qualifiedname>jinja2.filters.sync_do_select</qualifiedname>
+        <param>
+          <type>&quot;Context&quot;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>&quot;t.Iterable&quot;</type>
+          <declname>value</declname>
+          <array>[V]</array>
+        </param>
+        <param>
+          <type>*t.Any</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Filters a sequence of objects by applying a test to each object,
+and only selecting the objects with the test succeeding.
+
+If no test is specified, each object will be evaluated as a boolean.
+
+Example usage:
+
+.. sourcecode:: jinja
+
+    {{ numbers|select(&quot;odd&quot;) }}
+    {{ numbers|select(&quot;odd&quot;) }}
+    {{ numbers|select(&quot;divisibleby&quot;, 3) }}
+    {{ numbers|select(&quot;lessthan&quot;, 42) }}
+    {{ strings|select(&quot;equalto&quot;, &quot;mystring&quot;) }}
+
+Similar to a generator comprehension such as:
+
+.. code-block:: python
+
+    (n for n in numbers if test_odd(n))
+    (n for n in numbers if test_divisibleby(n, 3))
+
+.. versionadded:: 2.7
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1541" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1543" bodyend="1571"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a085710594751e82e30fa16ffd6229c67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.AsyncIterator[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>]&quot;</type>
+        <definition> &quot;t.AsyncIterator[V]&quot; jinja2.filters.do_select</definition>
+        <argsstring>(&quot;Context&quot; context, &quot;t.Union[t.AsyncIterable[V], t.Iterable[V]]&quot; value, *t.Any args, **t.Any kwargs)</argsstring>
+        <name>do_select</name>
+        <qualifiedname>jinja2.filters.do_select</qualifiedname>
+        <param>
+          <type>&quot;Context&quot;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>&quot;t.</type>
+          <declname>Union</declname>
+          <defname>value</defname>
+          <array>[t.AsyncIterable[V]</array>
+        </param>
+        <param>
+          <type>t.Iterable]&quot;</type>
+          <declname>value</declname>
+          <defname>args</defname>
+          <array>[V]</array>
+        </param>
+        <param>
+          <type>*t.Any</type>
+          <declname>args</declname>
+          <defname>kwargs</defname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1572" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1577" bodyend="1581"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a15ce4a4aefd9dc3d68d6f730d13c1584" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.Iterator[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>]&quot;</type>
+        <definition> &quot;t.Iterator[V]&quot; jinja2.filters.sync_do_reject</definition>
+        <argsstring>(&quot;Context&quot; context, &quot;t.Iterable[V]&quot; value, *t.Any args, **t.Any kwargs)</argsstring>
+        <name>sync_do_reject</name>
+        <qualifiedname>jinja2.filters.sync_do_reject</qualifiedname>
+        <param>
+          <type>&quot;Context&quot;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>&quot;t.Iterable&quot;</type>
+          <declname>value</declname>
+          <array>[V]</array>
+        </param>
+        <param>
+          <type>*t.Any</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Filters a sequence of objects by applying a test to each object,
+and rejecting the objects with the test succeeding.
+
+If no test is specified, each object will be evaluated as a boolean.
+
+Example usage:
+
+.. sourcecode:: jinja
+
+    {{ numbers|reject(&quot;odd&quot;) }}
+
+Similar to a generator comprehension such as:
+
+.. code-block:: python
+
+    (n for n in numbers if not test_odd(n))
+
+.. versionadded:: 2.7
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1582" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1584" bodyend="1607"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a2ee5741d198e2beeba1fd078ea54f4cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.AsyncIterator[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>]&quot;</type>
+        <definition> &quot;t.AsyncIterator[V]&quot; jinja2.filters.do_reject</definition>
+        <argsstring>(&quot;Context&quot; context, &quot;t.Union[t.AsyncIterable[V], t.Iterable[V]]&quot; value, *t.Any args, **t.Any kwargs)</argsstring>
+        <name>do_reject</name>
+        <qualifiedname>jinja2.filters.do_reject</qualifiedname>
+        <param>
+          <type>&quot;Context&quot;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>&quot;t.</type>
+          <declname>Union</declname>
+          <defname>value</defname>
+          <array>[t.AsyncIterable[V]</array>
+        </param>
+        <param>
+          <type>t.Iterable]&quot;</type>
+          <declname>value</declname>
+          <defname>args</defname>
+          <array>[V]</array>
+        </param>
+        <param>
+          <type>*t.Any</type>
+          <declname>args</declname>
+          <defname>kwargs</defname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1608" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1613" bodyend="1617"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1aba67510a9b8d38a57e24c3c9d6c4d082" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.Iterator[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>]&quot;</type>
+        <definition> &quot;t.Iterator[V]&quot; jinja2.filters.sync_do_selectattr</definition>
+        <argsstring>(&quot;Context&quot; context, &quot;t.Iterable[V]&quot; value, *t.Any args, **t.Any kwargs)</argsstring>
+        <name>sync_do_selectattr</name>
+        <qualifiedname>jinja2.filters.sync_do_selectattr</qualifiedname>
+        <param>
+          <type>&quot;Context&quot;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>&quot;t.Iterable&quot;</type>
+          <declname>value</declname>
+          <array>[V]</array>
+        </param>
+        <param>
+          <type>*t.Any</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Filters a sequence of objects by applying a test to the specified
+attribute of each object, and only selecting the objects with the
+test succeeding.
+
+If no test is specified, the attribute&apos;s value will be evaluated as
+a boolean.
+
+Example usage:
+
+.. sourcecode:: jinja
+
+    {{ users|selectattr(&quot;is_active&quot;) }}
+    {{ users|selectattr(&quot;email&quot;, &quot;none&quot;) }}
+
+Similar to a generator comprehension such as:
+
+.. code-block:: python
+
+    (user for user in users if user.is_active)
+    (user for user in users if test_none(user.email))
+
+.. versionadded:: 2.7
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1618" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1620" bodyend="1647"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a6576fc7cbaa6f68545eda1342ae44b2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.AsyncIterator[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>]&quot;</type>
+        <definition> &quot;t.AsyncIterator[V]&quot; jinja2.filters.do_selectattr</definition>
+        <argsstring>(&quot;Context&quot; context, &quot;t.Union[t.AsyncIterable[V], t.Iterable[V]]&quot; value, *t.Any args, **t.Any kwargs)</argsstring>
+        <name>do_selectattr</name>
+        <qualifiedname>jinja2.filters.do_selectattr</qualifiedname>
+        <param>
+          <type>&quot;Context&quot;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>&quot;t.</type>
+          <declname>Union</declname>
+          <defname>value</defname>
+          <array>[t.AsyncIterable[V]</array>
+        </param>
+        <param>
+          <type>t.Iterable]&quot;</type>
+          <declname>value</declname>
+          <defname>args</defname>
+          <array>[V]</array>
+        </param>
+        <param>
+          <type>*t.Any</type>
+          <declname>args</declname>
+          <defname>kwargs</defname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1648" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1653" bodyend="1657"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a800c234b54190d6fe359e244baf0c47c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.Iterator[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>]&quot;</type>
+        <definition> &quot;t.Iterator[V]&quot; jinja2.filters.sync_do_rejectattr</definition>
+        <argsstring>(&quot;Context&quot; context, &quot;t.Iterable[V]&quot; value, *t.Any args, **t.Any kwargs)</argsstring>
+        <name>sync_do_rejectattr</name>
+        <qualifiedname>jinja2.filters.sync_do_rejectattr</qualifiedname>
+        <param>
+          <type>&quot;Context&quot;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>&quot;t.Iterable&quot;</type>
+          <declname>value</declname>
+          <array>[V]</array>
+        </param>
+        <param>
+          <type>*t.Any</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Filters a sequence of objects by applying a test to the specified
+attribute of each object, and rejecting the objects with the test
+succeeding.
+
+If no test is specified, the attribute&apos;s value will be evaluated as
+a boolean.
+
+.. sourcecode:: jinja
+
+    {{ users|rejectattr(&quot;is_active&quot;) }}
+    {{ users|rejectattr(&quot;email&quot;, &quot;none&quot;) }}
+
+Similar to a generator comprehension such as:
+
+.. code-block:: python
+
+    (user for user in users if not user.is_active)
+    (user for user in users if not test_none(user.email))
+
+.. versionadded:: 2.7
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1658" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1660" bodyend="1685"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1ac9aac852464be67248696ba6e33a48b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.AsyncIterator[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>]&quot;</type>
+        <definition> &quot;t.AsyncIterator[V]&quot; jinja2.filters.do_rejectattr</definition>
+        <argsstring>(&quot;Context&quot; context, &quot;t.Union[t.AsyncIterable[V], t.Iterable[V]]&quot; value, *t.Any args, **t.Any kwargs)</argsstring>
+        <name>do_rejectattr</name>
+        <qualifiedname>jinja2.filters.do_rejectattr</qualifiedname>
+        <param>
+          <type>&quot;Context&quot;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>&quot;t.</type>
+          <declname>Union</declname>
+          <defname>value</defname>
+          <array>[t.AsyncIterable[V]</array>
+        </param>
+        <param>
+          <type>t.Iterable]&quot;</type>
+          <declname>value</declname>
+          <defname>args</defname>
+          <array>[V]</array>
+        </param>
+        <param>
+          <type>*t.Any</type>
+          <declname>args</declname>
+          <defname>kwargs</defname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1686" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1691" bodyend="1695"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a4c78715f3934749465f1cb2115965ad1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classmarkupsafe_1_1Markup" kindref="compound">Markup</ref></type>
+        <definition> Markup jinja2.filters.do_tojson</definition>
+        <argsstring>(&quot;EvalContext&quot; eval_ctx, t.Any value, t.Optional[int] indent=None)</argsstring>
+        <name>do_tojson</name>
+        <qualifiedname>jinja2.filters.do_tojson</qualifiedname>
+        <param>
+          <type>&quot;EvalContext&quot;</type>
+          <declname>eval_ctx</declname>
+        </param>
+        <param>
+          <type>t.Any</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>indent</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Serialize an object to a string of JSON, and mark it safe to
+render in HTML. This filter is only for use in HTML documents.
+
+The returned string is safe to render in HTML documents and
+``&lt;script&gt;`` tags. The exception is in HTML attributes that are
+double quoted; either use single quotes or the ``|forceescape``
+filter.
+
+:param value: The object to serialize to JSON.
+:param indent: The ``indent`` parameter passed to ``dumps``, for
+    pretty-printing the value.
+
+.. versionadded:: 2.9
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1696" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1698" bodyend="1723"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1aee33e80ca180aafcf2c08e30749c9a96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Callable[[t.Any], t.Any]</type>
+        <definition> t.Callable[[t.Any], t.Any] jinja2.filters.prepare_map</definition>
+        <argsstring>(&quot;Context&quot; context, t.Tuple[t.Any,...] args, t.Dict[str, t.Any] kwargs)</argsstring>
+        <name>prepare_map</name>
+        <qualifiedname>jinja2.filters.prepare_map</qualifiedname>
+        <param>
+          <type>&quot;Context&quot;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>t.Tuple</type>
+          <declname>args</declname>
+          <array>[t.Any,...]</array>
+        </param>
+        <param>
+          <type>t.Dict</type>
+          <declname>kwargs</declname>
+          <array>[str, t.Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1724" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1726" bodyend="1751"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a522434e08a99a97da585a04df23e2d3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Callable[[t.Any], t.Any]</type>
+        <definition> t.Callable[[t.Any], t.Any] jinja2.filters.prepare_select_or_reject</definition>
+        <argsstring>(&quot;Context&quot; context, t.Tuple[t.Any,...] args, t.Dict[str, t.Any] kwargs, t.Callable[[t.Any], t.Any] modfunc, bool lookup_attr)</argsstring>
+        <name>prepare_select_or_reject</name>
+        <qualifiedname>jinja2.filters.prepare_select_or_reject</qualifiedname>
+        <param>
+          <type>&quot;Context&quot;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>t.Tuple</type>
+          <declname>args</declname>
+          <array>[t.Any,...]</array>
+        </param>
+        <param>
+          <type>t.Dict</type>
+          <declname>kwargs</declname>
+          <array>[str, t.Any]</array>
+        </param>
+        <param>
+          <type>t.</type>
+          <declname>Callable</declname>
+          <defname>modfunc</defname>
+          <array>[[t.Any]</array>
+        </param>
+        <param>
+          <type>t.Any]</type>
+          <declname>modfunc</declname>
+          <defname>lookup_attr</defname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>lookup_attr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1752" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1758" bodyend="1785"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1a7fc965e519ef5f3d77ac7ddae66f6140" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.Iterator[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>]&quot;</type>
+        <definition> &quot;t.Iterator[V]&quot; jinja2.filters.select_or_reject</definition>
+        <argsstring>(&quot;Context&quot; context, &quot;t.Iterable[V]&quot; value, t.Tuple[t.Any,...] args, t.Dict[str, t.Any] kwargs, t.Callable[[t.Any], t.Any] modfunc, bool lookup_attr)</argsstring>
+        <name>select_or_reject</name>
+        <qualifiedname>jinja2.filters.select_or_reject</qualifiedname>
+        <param>
+          <type>&quot;Context&quot;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>&quot;t.Iterable&quot;</type>
+          <declname>value</declname>
+          <array>[V]</array>
+        </param>
+        <param>
+          <type>t.Tuple</type>
+          <declname>args</declname>
+          <array>[t.Any,...]</array>
+        </param>
+        <param>
+          <type>t.Dict</type>
+          <declname>kwargs</declname>
+          <array>[str, t.Any]</array>
+        </param>
+        <param>
+          <type>t.</type>
+          <declname>Callable</declname>
+          <defname>modfunc</defname>
+          <array>[[t.Any]</array>
+        </param>
+        <param>
+          <type>t.Any]</type>
+          <declname>modfunc</declname>
+          <defname>lookup_attr</defname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>lookup_attr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1786" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1793" bodyend="1801"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1filters_1ad205c4b10f1e19d1618bfe9a587fe104" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;t.AsyncIterator[<ref refid="namespacejinja2_1_1filters_1aeb275139e7b5b96b41fad9106588aad5" kindref="member">V</ref>]&quot;</type>
+        <definition> &quot;t.AsyncIterator[V]&quot; jinja2.filters.async_select_or_reject</definition>
+        <argsstring>(&quot;Context&quot; context, &quot;t.Union[t.AsyncIterable[V], t.Iterable[V]]&quot; value, t.Tuple[t.Any,...] args, t.Dict[str, t.Any] kwargs, t.Callable[[t.Any], t.Any] modfunc, bool lookup_attr)</argsstring>
+        <name>async_select_or_reject</name>
+        <qualifiedname>jinja2.filters.async_select_or_reject</qualifiedname>
+        <param>
+          <type>&quot;Context&quot;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>&quot;t.</type>
+          <declname>Union</declname>
+          <defname>value</defname>
+          <array>[t.AsyncIterable[V]</array>
+        </param>
+        <param>
+          <type>t.Iterable]&quot;</type>
+          <declname>value</declname>
+          <defname>args</defname>
+          <array>[V]</array>
+        </param>
+        <param>
+          <type>t.Tuple</type>
+          <declname>args</declname>
+          <defname>kwargs</defname>
+          <array>[t.Any,...]</array>
+        </param>
+        <param>
+          <type>t.Dict</type>
+          <declname>kwargs</declname>
+          <defname>modfunc</defname>
+          <array>[str, t.Any]</array>
+        </param>
+        <param>
+          <type>t.</type>
+          <declname>Callable</declname>
+          <defname>lookup_attr</defname>
+          <array>[[t.Any]</array>
+        </param>
+        <param>
+          <type>t.Any]</type>
+          <declname>modfunc</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>lookup_attr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1802" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/filters.py" bodystart="1809" bodyend="1817"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Built-in template filters used with the ``|`` operator.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/jinja2/filters.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

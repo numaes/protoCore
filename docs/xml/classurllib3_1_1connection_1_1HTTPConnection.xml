@@ -1,0 +1,1145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classurllib3_1_1connection_1_1HTTPConnection" kind="class" language="Python" prot="public">
+    <compoundname>urllib3::connection::HTTPConnection</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">_HTTPConnection</basecompoundref>
+    <derivedcompoundref refid="classurllib3_1_1connection_1_1HTTPSConnection" prot="public" virt="non-virtual">urllib3.connection.HTTPSConnection</derivedcompoundref>
+    <derivedcompoundref refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSConnection" prot="public" virt="non-virtual">urllib3.contrib.socks.SOCKSConnection</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1afcc2a54dfedb1a36015224fa29863ba9" prot="public" static="yes" mutable="no">
+        <type>typing</type>
+        <definition>typing urllib3.connection.HTTPConnection::default_port</definition>
+        <argsstring></argsstring>
+        <name>default_port</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.default_port</qualifiedname>
+        <initializer>=  <ref refid="namespaceurllib3_1_1connection_1ac7c58106547bc5721e67be84e8d88a5b" kindref="member">port_by_scheme</ref>[&quot;http&quot;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="107" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1aa896bac6778f24b7a73226638ab8f97c" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list urllib3.connection.HTTPConnection::default_socket_options</definition>
+        <argsstring></argsstring>
+        <name>default_socket_options</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.default_socket_options</qualifiedname>
+        <initializer>=  [
+        (socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="111" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1ab2024bc528bed4d7ad133e14942968e7" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool urllib3.connection.HTTPConnection::is_verified</definition>
+        <argsstring></argsstring>
+        <name>is_verified</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.is_verified</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="116" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1ad67213dfc08ca8483cf0ca6c553f673c" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool urllib3.connection.HTTPConnection::proxy_is_verified</definition>
+        <argsstring></argsstring>
+        <name>proxy_is_verified</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.proxy_is_verified</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="120" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1af2ef0664033c3ea102d01ac95a6a3929" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int urllib3.connection.HTTPConnection::blocksize</definition>
+        <argsstring></argsstring>
+        <name>blocksize</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.blocksize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="122" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1a33d5752e3a0c43884cd55119c3e86319" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple urllib3.connection.HTTPConnection::source_address</definition>
+        <argsstring></argsstring>
+        <name>source_address</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.source_address</qualifiedname>
+        <initializer>[str, int] | None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="123" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1a069610759fc064f1c752d6db69505bf9" prot="public" static="yes" mutable="no">
+        <type>connection</type>
+        <definition>connection urllib3.connection.HTTPConnection::socket_options</definition>
+        <argsstring></argsstring>
+        <name>socket_options</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.socket_options</qualifiedname>
+        <initializer>._TYPE_SOCKET_OPTIONS | None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="124" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1a3577c782aacf3b5ec02fe3a3e33be7cf" prot="protected" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool urllib3.connection.HTTPConnection::_has_connected_to_proxy</definition>
+        <argsstring></argsstring>
+        <name>_has_connected_to_proxy</name>
+        <qualifiedname>urllib3.connection.HTTPConnection._has_connected_to_proxy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="126" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1a32ff1302772ff6496fad96dfdeb9b2e2" prot="protected" static="yes" mutable="no">
+        <type><ref refid="classurllib3_1_1__base__connection_1_1__ResponseOptions" kindref="compound">_ResponseOptions</ref></type>
+        <definition>_ResponseOptions urllib3.connection.HTTPConnection::_response_options</definition>
+        <argsstring></argsstring>
+        <name>_response_options</name>
+        <qualifiedname>urllib3.connection.HTTPConnection._response_options</qualifiedname>
+        <initializer> | None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="127" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1ac62b9b5e5c739db48b12215dece40edc" prot="protected" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str urllib3.connection.HTTPConnection::_tunnel_host</definition>
+        <argsstring></argsstring>
+        <name>_tunnel_host</name>
+        <qualifiedname>urllib3.connection.HTTPConnection._tunnel_host</qualifiedname>
+        <initializer> | None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="128" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1a70a25a4b5bb68d6fe038a6b563efe3fd" prot="protected" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int urllib3.connection.HTTPConnection::_tunnel_port</definition>
+        <argsstring></argsstring>
+        <name>_tunnel_port</name>
+        <qualifiedname>urllib3.connection.HTTPConnection._tunnel_port</qualifiedname>
+        <initializer> | None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="129" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1a4ae38e1d4616fbebdd79638d84be469f" prot="protected" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str urllib3.connection.HTTPConnection::_tunnel_scheme</definition>
+        <argsstring></argsstring>
+        <name>_tunnel_scheme</name>
+        <qualifiedname>urllib3.connection.HTTPConnection._tunnel_scheme</qualifiedname>
+        <initializer> | None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="130" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="130" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1a8054cd74cfd4c94e5340480dfefd3585" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.connection.HTTPConnection::socket_options</definition>
+        <argsstring></argsstring>
+        <name>socket_options</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.socket_options</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="153" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1a138f40e175e42ae521bbe2d0f6d9d9c6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.connection.HTTPConnection::proxy</definition>
+        <argsstring></argsstring>
+        <name>proxy</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.proxy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="154" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1acb69d5766717630021f67595c141178d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.connection.HTTPConnection::proxy_config</definition>
+        <argsstring></argsstring>
+        <name>proxy_config</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.proxy_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="155" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1a67806327cbd2db96731f201ab7548f41" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.connection.HTTPConnection::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.port</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="199" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1a225e4b3774685481ebe57be464057f13" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.connection.HTTPConnection::timeout</definition>
+        <argsstring></argsstring>
+        <name>timeout</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.timeout</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="200" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1a6adcc2d915be7a8b571ee3f40198c00d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.connection.HTTPConnection::host</definition>
+        <argsstring></argsstring>
+        <name>host</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.host</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="205" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1a4f2571c7c5aa18b267286ee62e4ea9b2" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.connection.HTTPConnection::sock</definition>
+        <argsstring></argsstring>
+        <name>sock</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.sock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="325" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1a34b6c9072f77911bcaffeea574065bf6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.connection.HTTPConnection::proxy_is_verified</definition>
+        <argsstring></argsstring>
+        <name>proxy_is_verified</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.proxy_is_verified</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="339" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1a4dff3ada32fb6ec1a91b018e693a7ae1" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.connection.HTTPConnection::is_verified</definition>
+        <argsstring></argsstring>
+        <name>is_verified</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.is_verified</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="376" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="376" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1a49e7438db1f919f5b9704905e577ada8" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.connection.HTTPConnection::_has_connected_to_proxy</definition>
+        <argsstring></argsstring>
+        <name>_has_connected_to_proxy</name>
+        <qualifiedname>urllib3.connection.HTTPConnection._has_connected_to_proxy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="157" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1ae84b34371a6fc55abdde26060b0c40b4" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.connection.HTTPConnection::_response_options</definition>
+        <argsstring></argsstring>
+        <name>_response_options</name>
+        <qualifiedname>urllib3.connection.HTTPConnection._response_options</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="158" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1a09dc1873bf231d71d622071c6af6e732" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.connection.HTTPConnection::_dns_host</definition>
+        <argsstring></argsstring>
+        <name>_dns_host</name>
+        <qualifiedname>urllib3.connection.HTTPConnection._dns_host</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="190" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1a44efef1bd6dd746a0c94d096e5b8f35b" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.connection.HTTPConnection::_tunnel_scheme</definition>
+        <argsstring></argsstring>
+        <name>_tunnel_scheme</name>
+        <qualifiedname>urllib3.connection.HTTPConnection._tunnel_scheme</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="233" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1a7bbe6beb930f17b61f1c09174e229ca4" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.connection.HTTPConnection::_tunnel_port</definition>
+        <argsstring></argsstring>
+        <name>_tunnel_port</name>
+        <qualifiedname>urllib3.connection.HTTPConnection._tunnel_port</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="251" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1aec3955df145205940c6d76b40e710cb5" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.connection.HTTPConnection::_raw_proxy_headers</definition>
+        <argsstring></argsstring>
+        <name>_raw_proxy_headers</name>
+        <qualifiedname>urllib3.connection.HTTPConnection._raw_proxy_headers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="309" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1connection_1_1HTTPConnection_1a668fed7e178ca6b22c51754ccdca2f3c" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.connection.HTTPConnection::_tunnel_host</definition>
+        <argsstring></argsstring>
+        <name>_tunnel_host</name>
+        <qualifiedname>urllib3.connection.HTTPConnection._tunnel_host</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="380" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="380" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classurllib3_1_1connection_1_1HTTPConnection_1a91bfd022c0cb45d93675c0c8b2cca773" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.connection.HTTPConnection.__init__</definition>
+        <argsstring>(self, str host, int|None port=None, *_TYPE_TIMEOUT timeout=_DEFAULT_TIMEOUT, tuple[str, int]|None source_address=None, int blocksize=16384, None|(connection._TYPE_SOCKET_OPTIONS) socket_options=default_socket_options, Url|None proxy=None, ProxyConfig|None proxy_config=None)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.__init__</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSConnection_1a9d40dbde701ddcd1c2c91ccad4a7d4d6">__init__</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1http2_1_1connection_1_1HTTP2Connection_1ae7406ca05ac69ea590121fadb0c6353a">__init__</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1connection_1_1HTTPSConnection_1a2c04e2a76fe4f4dddd19e63e3d87f029">__init__</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>host</declname>
+        </param>
+        <param>
+          <type>int|None</type>
+          <declname>port</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*_TYPE_TIMEOUT</type>
+          <declname>timeout</declname>
+          <defval>_DEFAULT_TIMEOUT</defval>
+        </param>
+        <param>
+          <type>tuple|None</type>
+          <declname>source_address</declname>
+          <array>[str, int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>blocksize</declname>
+          <defval>16384</defval>
+        </param>
+        <param>
+          <type>None|(connection._TYPE_SOCKET_OPTIONS)</type>
+          <declname>socket_options</declname>
+          <defval><ref refid="classurllib3_1_1connection_1_1HTTPConnection_1aa896bac6778f24b7a73226638ab8f97c" kindref="member">default_socket_options</ref></defval>
+        </param>
+        <param>
+          <type><ref refid="classurllib3_1_1util_1_1url_1_1Url" kindref="compound">Url</ref>|None</type>
+          <declname>proxy</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classurllib3_1_1__base__connection_1_1ProxyConfig" kindref="compound">ProxyConfig</ref>|None</type>
+          <declname>proxy_config</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="132" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="145" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1connection_1_1HTTPConnection_1a126905c04798cc422a4a4163aa3271b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str urllib3.connection.HTTPConnection.host</definition>
+        <argsstring>(self)</argsstring>
+        <name>host</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.host</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Getter method to remove any trailing dots that indicate the hostname is an FQDN.
+
+In general, SSL certificates don&apos;t include the trailing dot indicating a
+fully-qualified domain name, and thus, they don&apos;t validate properly when
+checked against a domain name that includes the dot. In addition, some
+servers may not expect to receive the trailing dot when provided.
+
+However, the hostname with trailing dot is critical to DNS resolution; doing a
+lookup with the trailing dot will properly only resolve the appropriate FQDN,
+whereas a lookup without a trailing dot will search the system&apos;s search domain
+list. Thus, it&apos;s important to keep the original host around for use only in
+those cases where it&apos;s appropriate (i.e., when doing DNS lookup to establish the
+actual TCP connection across which we&apos;re going to send HTTP requests).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="164" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="164" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1connection_1_1HTTPConnection_1a4460a072c3fb1e5404c27e797823367f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.connection.HTTPConnection.host</definition>
+        <argsstring>(self, str value)</argsstring>
+        <name>host</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.host</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Setter for the `host` property.
+
+We assume that only urllib3 uses the _dns_host attribute; httplib itself
+only uses `host`, and it seems reasonable that other libraries follow suit.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="183" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="183" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1connection_1_1HTTPConnection_1a7a2bf829d9093cda2fe52c53d5d7dde0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.connection.HTTPConnection.set_tunnel</definition>
+        <argsstring>(self, str host, int|None port=None, typing.Mapping[str, str]|None headers=None, str scheme=&quot;http&quot;)</argsstring>
+        <name>set_tunnel</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.set_tunnel</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1http2_1_1connection_1_1HTTP2Connection_1a6ac818868bbea19f00db8988edebc6cd">set_tunnel</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>host</declname>
+        </param>
+        <param>
+          <type>int|None</type>
+          <declname>port</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>typing.Mapping|None</type>
+          <declname>headers</declname>
+          <array>[str, str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>scheme</declname>
+          <defval>&quot;http&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="221" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="227" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1connection_1_1HTTPConnection_1a2e8722fd073695e4dad1517f95059d4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.connection.HTTPConnection.connect</definition>
+        <argsstring>(self)</argsstring>
+        <name>connect</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.connect</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1connection_1_1HTTPSConnection_1a9259b90e935c71c0088f2d09f7058153">connect</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1http2_1_1connection_1_1HTTP2Connection_1a59bb7ba87a6343b9e1c0b89e54b3a6fc">connect</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="324" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="324" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1connection_1_1HTTPConnection_1a245ae940942ab94d5887f5b7ca979d4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.connection.HTTPConnection.is_closed</definition>
+        <argsstring>(self)</argsstring>
+        <name>is_closed</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.is_closed</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="342" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="342" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1connection_1_1HTTPConnection_1aeff1e87db65d9d62fd7be3b5cc356b76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.connection.HTTPConnection.is_connected</definition>
+        <argsstring>(self)</argsstring>
+        <name>is_connected</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.is_connected</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="346" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="346" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1connection_1_1HTTPConnection_1a1e21d360e7fde5d6f011030107c0448d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.connection.HTTPConnection.has_connected_to_proxy</definition>
+        <argsstring>(self)</argsstring>
+        <name>has_connected_to_proxy</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.has_connected_to_proxy</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="352" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="352" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1connection_1_1HTTPConnection_1a70b6501eb42eaf279d09e82cdfb73f70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.connection.HTTPConnection.proxy_is_forwarding</definition>
+        <argsstring>(self)</argsstring>
+        <name>proxy_is_forwarding</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.proxy_is_forwarding</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return True if a forwarding proxy is configured, else return False
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="356" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="356" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1connection_1_1HTTPConnection_1ab4b1e5feeeeede2486203ba566de380e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.connection.HTTPConnection.proxy_is_tunneling</definition>
+        <argsstring>(self)</argsstring>
+        <name>proxy_is_tunneling</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.proxy_is_tunneling</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return True if a tunneling proxy is configured, else return False
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="363" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="363" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1connection_1_1HTTPConnection_1a8e859602d666e43aaa31a256820b5c41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.connection.HTTPConnection.close</definition>
+        <argsstring>(self)</argsstring>
+        <name>close</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.close</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1http2_1_1connection_1_1HTTP2Connection_1a27f1572b574cf6ea3ad339b378ef062c">close</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="369" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="369" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1connection_1_1HTTPConnection_1a224c389ef32f81a56aa7a6c9f67ed118" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.connection.HTTPConnection.putrequest</definition>
+        <argsstring>(self, str method, str url, bool skip_host=False, bool skip_accept_encoding=False)</argsstring>
+        <name>putrequest</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.putrequest</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1http2_1_1connection_1_1HTTP2Connection_1ae9463d71728a7e038f3f402b68dc529e">putrequest</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>skip_host</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>skip_accept_encoding</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="384" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="390" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1connection_1_1HTTPConnection_1a7e68cf0c3c3b86ab4437c16cd477072b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.connection.HTTPConnection.putheader</definition>
+        <argsstring>(self, str header, *str values)</argsstring>
+        <name>putheader</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.putheader</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1http2_1_1connection_1_1HTTP2Connection_1aa623469024cfe4e26ec9778bdbac2d3f">putheader</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>header</declname>
+        </param>
+        <param>
+          <type>*str</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="404" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="404" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1connection_1_1HTTPConnection_1abf6986e2021da1f483247b7e42e41eeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.connection.HTTPConnection.request</definition>
+        <argsstring>(self, str method, str url, _TYPE_BODY|None body=None, typing.Mapping[str, str]|None headers=None, *bool chunked=False, bool preload_content=True, bool decode_content=True, bool enforce_content_length=True)</argsstring>
+        <name>request</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.request</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1http2_1_1connection_1_1HTTP2Connection_1a9ff44737e7f1583e09aa28094a59e2f0">request</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>_TYPE_BODY|None</type>
+          <declname>body</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>typing.Mapping|None</type>
+          <declname>headers</declname>
+          <array>[str, str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*bool</type>
+          <declname>chunked</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>preload_content</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>decode_content</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enforce_content_length</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="418" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="429" bodyend="514"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1connection_1_1HTTPConnection_1a38b88879b22e03a1a7c4eda5c786e660" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.connection.HTTPConnection.request_chunked</definition>
+        <argsstring>(self, str method, str url, _TYPE_BODY|None body=None, typing.Mapping[str, str]|None headers=None)</argsstring>
+        <name>request_chunked</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.request_chunked</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>_TYPE_BODY|None</type>
+          <declname>body</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>typing.Mapping|None</type>
+          <declname>headers</declname>
+          <array>[str, str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Alternative to the common request method, which sends the
+body with chunked encoding and not as one block
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="515" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="521" bodyend="533"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1connection_1_1HTTPConnection_1a0178a01a73acfe8bf8cf472ace861b06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1response_1_1HTTPResponse" kindref="compound">HTTPResponse</ref></type>
+        <definition> HTTPResponse urllib3.connection.HTTPConnection.getresponse</definition>
+        <argsstring>(self)</argsstring>
+        <name>getresponse</name>
+        <qualifiedname>urllib3.connection.HTTPConnection.getresponse</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1http2_1_1connection_1_1HTTP2Connection_1ad8b12b98247c59a2c5f2ad5b0ef8c172">getresponse</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the response from the server.
+
+If the HTTPConnection is in the correct state, returns an instance of HTTPResponse or of whatever object is returned by the response_class variable.
+
+If a request has not been sent or if a previous response has not be handled, ResponseNotReady is raised. If the HTTP response indicates that the connection should be closed, then it will be closed before the response is returned. When the connection is closed, the underlying socket is closed.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="534" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="536" bodyend="596"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classurllib3_1_1connection_1_1HTTPConnection_1adef2aa29d40b8252a2abc8cdf3b8c33f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>socket.socket</type>
+        <definition> socket.socket urllib3.connection.HTTPConnection._new_conn</definition>
+        <argsstring>(self)</argsstring>
+        <name>_new_conn</name>
+        <qualifiedname>urllib3.connection.HTTPConnection._new_conn</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSConnection_1ae4e492401281d1f02344425016b9e97f">_new_conn</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Establish a socket connection and set nodelay settings on it.
+
+:return: New socket connection.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="192" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="192" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1connection_1_1HTTPConnection_1aeb03fcc10e6ce0a52e7036dee2cadc96" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bytes</type>
+        <definition> bytes urllib3.connection.HTTPConnection._wrap_ipv6</definition>
+        <argsstring>(self, bytes ip)</argsstring>
+        <name>_wrap_ipv6</name>
+        <qualifiedname>urllib3.connection.HTTPConnection._wrap_ipv6</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>bytes</type>
+          <declname>ip</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="238" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="238" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1connection_1_1HTTPConnection_1ad9558b239d5382b6116b120e2ae1aceb" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.connection.HTTPConnection._tunnel</definition>
+        <argsstring>(self)</argsstring>
+        <name>_tunnel</name>
+        <qualifiedname>urllib3.connection.HTTPConnection._tunnel</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="247" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="247" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1connection_1_1HTTPConnection_1ad9558b239d5382b6116b120e2ae1aceb" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.connection.HTTPConnection._tunnel</definition>
+        <argsstring>(self)</argsstring>
+        <name>_tunnel</name>
+        <qualifiedname>urllib3.connection.HTTPConnection._tunnel</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="290" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="290" bodyend="323"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Based on :class:`http.client.HTTPConnection` but provides an extra constructor
+backwards-compatibility layer between older and newer Pythons.
+
+Additional keyword parameters are used to configure attributes of the connection.
+Accepted parameters include:
+
+- ``source_address``: Set the source address for the current connection.
+- ``socket_options``: Set specific options on the underlying socket. If not specified, then
+  defaults are loaded from ``HTTPConnection.default_socket_options`` which includes disabling
+  Nagle&apos;s algorithm (sets TCP_NODELAY to 1) unless the connection is behind a proxy.
+
+  For example, if you wish to enable TCP Keep Alive in addition to the defaults,
+  you might pass:
+
+  .. code-block:: python
+
+     HTTPConnection.default_socket_options + [
+         (socket.SOL_SOCKET, socket.SO_KEEPALIVE, 1),
+     ]
+
+  Or you may want to disable the defaults by passing an empty list (e.g., ``[]``).
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>_HTTPConnection</label>
+      </node>
+      <node id="1">
+        <label>urllib3.connection.HTTPConnection</label>
+        <link refid="classurllib3_1_1connection_1_1HTTPConnection"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>urllib3.connection.HTTPSConnection</label>
+        <link refid="classurllib3_1_1connection_1_1HTTPSConnection"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>urllib3.contrib.socks.SOCKSConnection</label>
+        <link refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSConnection"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>urllib3.contrib.socks.SOCKSHTTPSConnection</label>
+        <link refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSHTTPSConnection"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>urllib3.http2.connection.HTTP2Connection</label>
+        <link refid="classurllib3_1_1http2_1_1connection_1_1HTTP2Connection"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>_HTTPConnection</label>
+      </node>
+      <node id="7">
+        <label>str</label>
+      </node>
+      <node id="3">
+        <label>typing</label>
+      </node>
+      <node id="6">
+        <label>typing.NamedTuple</label>
+      </node>
+      <node id="1">
+        <label>urllib3.connection.HTTPConnection</label>
+        <link refid="classurllib3_1_1connection_1_1HTTPConnection"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>default_port</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>socket_options</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>_response_options</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>_tunnel_host</edgelabel>
+          <edgelabel>_tunnel_scheme</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>urllib3._base_connection._ResponseOptions</label>
+        <link refid="classurllib3_1_1__base__connection_1_1__ResponseOptions"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>request_method</edgelabel>
+          <edgelabel>request_url</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>connection</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/urllib3/connection.py" line="82" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connection.py" bodystart="82" bodyend="596"/>
+    <listofallmembers>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a91bfd022c0cb45d93675c0c8b2cca773" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>__init__</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a09dc1873bf231d71d622071c6af6e732" prot="protected" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>_dns_host</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a3577c782aacf3b5ec02fe3a3e33be7cf" prot="protected" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>_has_connected_to_proxy</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a49e7438db1f919f5b9704905e577ada8" prot="protected" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>_has_connected_to_proxy</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1adef2aa29d40b8252a2abc8cdf3b8c33f" prot="protected" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>_new_conn</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1aec3955df145205940c6d76b40e710cb5" prot="protected" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>_raw_proxy_headers</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a32ff1302772ff6496fad96dfdeb9b2e2" prot="protected" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>_response_options</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1ae84b34371a6fc55abdde26060b0c40b4" prot="protected" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>_response_options</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1ad9558b239d5382b6116b120e2ae1aceb" prot="protected" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>_tunnel</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1ad9558b239d5382b6116b120e2ae1aceb" prot="protected" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>_tunnel</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1ac62b9b5e5c739db48b12215dece40edc" prot="protected" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>_tunnel_host</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a668fed7e178ca6b22c51754ccdca2f3c" prot="protected" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>_tunnel_host</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a70a25a4b5bb68d6fe038a6b563efe3fd" prot="protected" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>_tunnel_port</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a7bbe6beb930f17b61f1c09174e229ca4" prot="protected" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>_tunnel_port</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a4ae38e1d4616fbebdd79638d84be469f" prot="protected" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>_tunnel_scheme</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a44efef1bd6dd746a0c94d096e5b8f35b" prot="protected" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>_tunnel_scheme</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1aeb03fcc10e6ce0a52e7036dee2cadc96" prot="protected" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>_wrap_ipv6</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1af2ef0664033c3ea102d01ac95a6a3929" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>blocksize</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a8e859602d666e43aaa31a256820b5c41" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>close</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a2e8722fd073695e4dad1517f95059d4c" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>connect</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1afcc2a54dfedb1a36015224fa29863ba9" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>default_port</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1aa896bac6778f24b7a73226638ab8f97c" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>default_socket_options</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a0178a01a73acfe8bf8cf472ace861b06" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>getresponse</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a1e21d360e7fde5d6f011030107c0448d" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>has_connected_to_proxy</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a6adcc2d915be7a8b571ee3f40198c00d" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>host</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a126905c04798cc422a4a4163aa3271b0" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>host</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a4460a072c3fb1e5404c27e797823367f" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>host</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a245ae940942ab94d5887f5b7ca979d4a" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>is_closed</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1aeff1e87db65d9d62fd7be3b5cc356b76" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>is_connected</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1ab2024bc528bed4d7ad133e14942968e7" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>is_verified</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a4dff3ada32fb6ec1a91b018e693a7ae1" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>is_verified</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a67806327cbd2db96731f201ab7548f41" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>port</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a138f40e175e42ae521bbe2d0f6d9d9c6" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>proxy</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1acb69d5766717630021f67595c141178d" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>proxy_config</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a70b6501eb42eaf279d09e82cdfb73f70" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>proxy_is_forwarding</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1ab4b1e5feeeeede2486203ba566de380e" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>proxy_is_tunneling</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1ad67213dfc08ca8483cf0ca6c553f673c" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>proxy_is_verified</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a34b6c9072f77911bcaffeea574065bf6" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>proxy_is_verified</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a7e68cf0c3c3b86ab4437c16cd477072b" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>putheader</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a224c389ef32f81a56aa7a6c9f67ed118" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>putrequest</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1abf6986e2021da1f483247b7e42e41eeb" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>request</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a38b88879b22e03a1a7c4eda5c786e660" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>request_chunked</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a7a2bf829d9093cda2fe52c53d5d7dde0" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>set_tunnel</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a4f2571c7c5aa18b267286ee62e4ea9b2" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>sock</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a069610759fc064f1c752d6db69505bf9" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>socket_options</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a8054cd74cfd4c94e5340480dfefd3585" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>socket_options</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a33d5752e3a0c43884cd55119c3e86319" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>source_address</name></member>
+      <member refid="classurllib3_1_1connection_1_1HTTPConnection_1a225e4b3774685481ebe57be464057f13" prot="public" virt="non-virtual"><scope>urllib3::connection::HTTPConnection</scope><name>timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

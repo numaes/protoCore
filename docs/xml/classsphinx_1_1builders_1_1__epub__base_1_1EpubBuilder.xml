@@ -1,0 +1,1277 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::builders::_epub_base::EpubBuilder</compoundname>
+    <basecompoundref refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder" prot="public" virt="non-virtual">sphinx.builders.html.StandaloneHTMLBuilder</basecompoundref>
+    <derivedcompoundref refid="classsphinx_1_1builders_1_1epub3_1_1Epub3Builder" prot="public" virt="non-virtual">sphinx.builders.epub3.Epub3Builder</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a2d72fc8331076551b129b1992c5ab299" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool sphinx.builders._epub_base.EpubBuilder::copysource</definition>
+        <argsstring></argsstring>
+        <name>copysource</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.copysource</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="138" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a5e07ae2e6425be277fbb4f61bb4aa99c" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list sphinx.builders._epub_base.EpubBuilder::supported_image_types</definition>
+        <argsstring></argsstring>
+        <name>supported_image_types</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.supported_image_types</qualifiedname>
+        <initializer>=  [&apos;image/svg+xml&apos;, &apos;image/png&apos;, &apos;image/gif&apos;, &apos;image/jpeg&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="139" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a99fdc0ae900fafd22ed9d6b7d128c937" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool sphinx.builders._epub_base.EpubBuilder::supported_remote_images</definition>
+        <argsstring></argsstring>
+        <name>supported_remote_images</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.supported_remote_images</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="140" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1ae7545735da763710eb9daeaf5c7447b2" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool sphinx.builders._epub_base.EpubBuilder::add_permalinks</definition>
+        <argsstring></argsstring>
+        <name>add_permalinks</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.add_permalinks</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="143" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1ad017b1719cf70da7e9a386f119a64797" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool sphinx.builders._epub_base.EpubBuilder::allow_sharp_as_current_path</definition>
+        <argsstring></argsstring>
+        <name>allow_sharp_as_current_path</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.allow_sharp_as_current_path</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="145" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1af805dba41b3494228dc6c6efde31d4fb" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool sphinx.builders._epub_base.EpubBuilder::embedded</definition>
+        <argsstring></argsstring>
+        <name>embedded</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.embedded</qualifiedname>
+        <initializer>=  True</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="147" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a3d67d884ccc9031afb0f071e3c47ef15" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool sphinx.builders._epub_base.EpubBuilder::download_support</definition>
+        <argsstring></argsstring>
+        <name>download_support</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.download_support</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="149" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a815b1cc29f227fd63672c652af0025ad" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool sphinx.builders._epub_base.EpubBuilder::html_scaled_image_link</definition>
+        <argsstring></argsstring>
+        <name>html_scaled_image_link</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.html_scaled_image_link</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="151" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a2f5b2bb52989b9fb8dc5564a491b0aee" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool sphinx.builders._epub_base.EpubBuilder::search</definition>
+        <argsstring></argsstring>
+        <name>search</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.search</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="153" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a623081115ee2ffae203464139b703885" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>sphinx.builders._epub_base.EpubBuilder::coverpage_name</definition>
+        <argsstring></argsstring>
+        <name>coverpage_name</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.coverpage_name</qualifiedname>
+        <initializer>=  <ref refid="namespacesphinx_1_1builders_1_1__epub__base_1a8439c248376b03f77d4ae596cdc166c4" kindref="member">COVERPAGE_NAME</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="155" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1acd96469348b201941a9544050aecc1ef" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>sphinx.builders._epub_base.EpubBuilder::toctree_template</definition>
+        <argsstring></argsstring>
+        <name>toctree_template</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.toctree_template</qualifiedname>
+        <initializer>=  <ref refid="namespacesphinx_1_1builders_1_1__epub__base_1a03e0ee68183e7f756adafc56a6297a61" kindref="member">TOCTREE_TEMPLATE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="156" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1aae54857bf11d0b006e90438cebc643e1" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>sphinx.builders._epub_base.EpubBuilder::link_target_template</definition>
+        <argsstring></argsstring>
+        <name>link_target_template</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.link_target_template</qualifiedname>
+        <initializer>=  <ref refid="namespacesphinx_1_1builders_1_1__epub__base_1a0bb2a1b49e0783f2e3b1302b9f126e3f" kindref="member">LINK_TARGET_TEMPLATE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="157" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a5be434eb3ea82d7167cd87aa052461af" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>sphinx.builders._epub_base.EpubBuilder::css_link_target_class</definition>
+        <argsstring></argsstring>
+        <name>css_link_target_class</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.css_link_target_class</qualifiedname>
+        <initializer>=  <ref refid="namespacesphinx_1_1builders_1_1__epub__base_1aecdd952b9cc223ad49a89b024d701a25" kindref="member">CSS_LINK_TARGET_CLASS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="158" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a1b79b81699ec6589dd501f26f4f4f99f" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>sphinx.builders._epub_base.EpubBuilder::guide_titles</definition>
+        <argsstring></argsstring>
+        <name>guide_titles</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.guide_titles</qualifiedname>
+        <initializer>=  <ref refid="namespacesphinx_1_1builders_1_1__epub__base_1a6530c2dfad1ff1ab1c93c2e5a64621cd" kindref="member">GUIDE_TITLES</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="159" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a49cff5abe514234692ee3d3902d02f99" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>sphinx.builders._epub_base.EpubBuilder::media_types</definition>
+        <argsstring></argsstring>
+        <name>media_types</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.media_types</qualifiedname>
+        <initializer>=  <ref refid="namespacesphinx_1_1builders_1_1__epub__base_1a1c3faee2ec1fcf46e3743c9a15f4c6af" kindref="member">MEDIA_TYPES</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="160" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a5bf4ac316c7f0d34a716252ed3496753" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>sphinx.builders._epub_base.EpubBuilder::refuri_re</definition>
+        <argsstring></argsstring>
+        <name>refuri_re</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.refuri_re</qualifiedname>
+        <initializer>=  <ref refid="namespacesphinx_1_1builders_1_1__epub__base_1a455d8fda92621b0343c0e17b081adde5" kindref="member">REFURI_RE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="161" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a69edd40a3a9dba91af1b569b2efdfcec" prot="public" static="yes" mutable="no">
+        <type><ref refid="classsphinx_1_1util_1_1__pathlib_1_1__StrPath" kindref="compound">_StrPath</ref></type>
+        <definition>_StrPath sphinx.builders._epub_base.EpubBuilder::template_dir</definition>
+        <argsstring></argsstring>
+        <name>template_dir</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.template_dir</qualifiedname>
+        <initializer>=  <ref refid="classsphinx_1_1util_1_1__pathlib_1_1__StrPath" kindref="compound">_StrPath</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="162" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a4046bb8b5462468e03d0aaceeda9d8a7" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str sphinx.builders._epub_base.EpubBuilder::doctype</definition>
+        <argsstring></argsstring>
+        <name>doctype</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.doctype</qualifiedname>
+        <initializer>=  &apos;&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="163" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a78da5841e1b5877ff53e3b1bc38965c9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders._epub_base.EpubBuilder::out_suffix</definition>
+        <argsstring></argsstring>
+        <name>out_suffix</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.out_suffix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="168" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1ae27fd631fb1cc650c24d700f237b3785" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders._epub_base.EpubBuilder::link_suffix</definition>
+        <argsstring></argsstring>
+        <name>link_suffix</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.link_suffix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="169" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a1aefd61155872e3f4d7d0e0ee3bcd34b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders._epub_base.EpubBuilder::playorder</definition>
+        <argsstring></argsstring>
+        <name>playorder</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.playorder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="170" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a7f9ee6b11279b6d0f49f9cc399fcced8" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders._epub_base.EpubBuilder::tocid</definition>
+        <argsstring></argsstring>
+        <name>tocid</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.tocid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="171" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1adfff4203987c06bd32075ba1ca87c39a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders._epub_base.EpubBuilder::use_index</definition>
+        <argsstring></argsstring>
+        <name>use_index</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.use_index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="173" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a0506162cb97dfbe95a7955f95c6e388d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders._epub_base.EpubBuilder::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="177" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1ad47af42302ca5c81853599d0cc5dee3d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders._epub_base.EpubBuilder::tags</definition>
+        <argsstring></argsstring>
+        <name>tags</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.tags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="177" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1af9bbc104cdd97d0d07740ce6febc85b5" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders._epub_base.EpubBuilder::refnodes</definition>
+        <argsstring></argsstring>
+        <name>refnodes</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.refnodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="238" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a8eb2c94a9b56f31b6b1b4a0714380972" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders._epub_base.EpubBuilder::imagedir</definition>
+        <argsstring></argsstring>
+        <name>imagedir</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.imagedir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="419" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="419" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1abf2f43136c9424fbd1fef25967cda08e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders._epub_base.EpubBuilder::images</definition>
+        <argsstring></argsstring>
+        <name>images</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.images</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="421" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="421" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1af8031ce06c241e2efaa913c19bf1dcc5" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders._epub_base.EpubBuilder::ignored_files</definition>
+        <argsstring></argsstring>
+        <name>ignored_files</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.ignored_files</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="563" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="563" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a9eff028253a4458be13d0f0bbc88824b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders._epub_base.EpubBuilder::outdir</definition>
+        <argsstring></argsstring>
+        <name>outdir</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.outdir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="578" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="578" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a48e6f66f12b811c4d77386e4bc7d0ea3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders._epub_base.EpubBuilder.init</definition>
+        <argsstring>(self)</argsstring>
+        <name>init</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.init</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1a38542eaec543ce37e1660d43bfa7e0ab">init</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Load necessary templates and perform initialization.  The default
+implementation does nothing.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="165" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="165" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a1d30ae66f432fd92ae6394029b68e3c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1builders_1_1html_1_1__build__info_1_1BuildInfo" kindref="compound">BuildInfo</ref></type>
+        <definition> BuildInfo sphinx.builders._epub_base.EpubBuilder.create_build_info</definition>
+        <argsstring>(self)</argsstring>
+        <name>create_build_info</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.create_build_info</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1a01e223fb639102183e43a4e5f0c92f05">create_build_info</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="176" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="176" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a49d902d41d40553d6afd7f474ff5c1b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str, dict[str, str|int|bool]]</type>
+        <definition> tuple[str, dict[str, str | int | bool]] sphinx.builders._epub_base.EpubBuilder.get_theme_config</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_theme_config</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.get_theme_config</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1a6189e66b19ee010f5ab30e5f6d086b74">get_theme_config</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="179" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="179" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a423344c8cb376e74491fd4a47d177a40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.builders._epub_base.EpubBuilder.make_id</definition>
+        <argsstring>(self, str name)</argsstring>
+        <name>make_id</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.make_id</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a unique id for name.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="183" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="183" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a2bdd0f8880a0eefb026edff86da5f76a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[dict[str, Any]]</type>
+        <definition> list[dict[str, Any]] sphinx.builders._epub_base.EpubBuilder.get_refnodes</definition>
+        <argsstring>(self, Node doctree, list[dict[str, Any]] result)</argsstring>
+        <name>get_refnodes</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.get_refnodes</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref></type>
+          <declname>doctree</declname>
+        </param>
+        <param>
+          <type>list]</type>
+          <declname>result</declname>
+          <array>[dict[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Collect section titles, their depth in the toc and the refuri.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="192" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="196" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a989553732e602756e8cd0d8ffdf22800" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders._epub_base.EpubBuilder.check_refnodes</definition>
+        <argsstring>(self, list[dict[str, Any]] nodes)</argsstring>
+        <name>check_refnodes</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.check_refnodes</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>list]</type>
+          <declname>nodes</declname>
+          <array>[dict[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="218" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="218" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a7197ddf47f1a05ec4b82a755c36513d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders._epub_base.EpubBuilder.get_toc</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_toc</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.get_toc</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the total table of contents, containing the master_doc
+and pre and post files not managed by Sphinx.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="231" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="231" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1aa721fc0c3728a14567eeccd49366eaf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders._epub_base.EpubBuilder.toc_add_files</definition>
+        <argsstring>(self, list[dict[str, Any]] refnodes)</argsstring>
+        <name>toc_add_files</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.toc_add_files</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>list]</type>
+          <declname>refnodes</declname>
+          <array>[dict[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Add the root_doc, pre and post files to a list of refnodes.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="244" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="244" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1afa3457feda8125628e7ece6d3ef32bf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.builders._epub_base.EpubBuilder.fix_fragment</definition>
+        <argsstring>(self, str prefix, str fragment)</argsstring>
+        <name>fix_fragment</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.fix_fragment</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>prefix</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>fragment</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a href/id attribute with colons replaced by hyphens.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="272" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="272" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a96b3df5b4578d5fba29f8c5152a3883e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders._epub_base.EpubBuilder.fix_ids</definition>
+        <argsstring>(self, nodes.document tree)</argsstring>
+        <name>fix_ids</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.fix_ids</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>nodes.document</type>
+          <declname>tree</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Replace colons with hyphens in href and id attributes.
+
+Some readers crash because they interpret the part as a
+transport protocol specification.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="276" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="276" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a4a82d4a082554df5a23de36193b7fe76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders._epub_base.EpubBuilder.add_visible_links</definition>
+        <argsstring>(self, nodes.document tree, str show_urls=&apos;inline&apos;)</argsstring>
+        <name>add_visible_links</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.add_visible_links</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>nodes.document</type>
+          <declname>tree</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>show_urls</declname>
+          <defval>&apos;inline&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Add visible link targets for external links</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="310" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="312" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1affc473680b9c9db63771c3f922922f60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders._epub_base.EpubBuilder.write_doc</definition>
+        <argsstring>(self, str docname, nodes.document doctree)</argsstring>
+        <name>write_doc</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.write_doc</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1a3befa9ac9e524665a0fc04bf69c31f8c">write_doc</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <param>
+          <type>nodes.document</type>
+          <declname>doctree</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Write one document file.
+
+This method is overwritten in order to fix fragment identifiers
+and to add visible external links.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="382" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="382" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a4b325153348c2b44cbbc2977232a71e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders._epub_base.EpubBuilder.fix_genindex</definition>
+        <argsstring>(self, list[tuple[str, list[tuple[str, Any]]]] tree)</argsstring>
+        <name>fix_genindex</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.fix_genindex</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>list]]]</type>
+          <declname>tree</declname>
+          <array>[tuple[str, list[tuple[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Fix href attributes for genindex pages.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="392" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="392" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a435c77aa58c4eb4730c04912fb25f302" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.builders._epub_base.EpubBuilder.is_vector_graphics</definition>
+        <argsstring>(self, str filename)</argsstring>
+        <name>is_vector_graphics</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.is_vector_graphics</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Does the filename extension indicate a vector graphic format?</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="409" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="409" bodyend="413"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a27e9ccb0b9b7a1a814792af936e2eda6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders._epub_base.EpubBuilder.copy_image_files_pil</definition>
+        <argsstring>(self)</argsstring>
+        <name>copy_image_files_pil</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.copy_image_files_pil</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Copy images using Pillow, the Python Imaging Library.
+The method tries to read and write the files with Pillow, converting
+the format and resizing the image if necessary/possible.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="414" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="414" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a866ec7aff38f9d5c938f98a183f8df19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders._epub_base.EpubBuilder.copy_image_files</definition>
+        <argsstring>(self)</argsstring>
+        <name>copy_image_files</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.copy_image_files</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1a52a268f0823690b3f9f6d8a38840fb37">copy_image_files</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Copy image files to destination directory.
+This overwritten method can use Pillow to convert image files.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="469" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="469" bodyend="482"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a952359fcf32081934925ad4e28d8d3e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders._epub_base.EpubBuilder.copy_download_files</definition>
+        <argsstring>(self)</argsstring>
+        <name>copy_download_files</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.copy_download_files</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1ab49a7a633a67f594ae1252b4e03abc7b">copy_download_files</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="483" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="483" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a84b6342164c7e0ef3580e96ec3ab69aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders._epub_base.EpubBuilder.handle_page</definition>
+        <argsstring>(self, str pagename, dict[str, Any] addctx, str templatename=&apos;page.html&apos;, *Path|None outfilename=None, Any event_arg=None)</argsstring>
+        <name>handle_page</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.handle_page</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder_1ae2b1a234e80d5b2eaeb88d6add4d6334">handle_page</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>pagename</declname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>addctx</declname>
+          <array>[str, Any]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>templatename</declname>
+          <defval>&apos;page.html&apos;</defval>
+        </param>
+        <param>
+          <type>*Path|None</type>
+          <declname>outfilename</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>event_arg</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create a rendered page.
+
+This method is overwritten for genindex pages in order to fix href link
+attributes.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="486" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="494" bodyend="508"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a079b374312f3261ee7969c4257fef399" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders._epub_base.EpubBuilder.build_mimetype</definition>
+        <argsstring>(self)</argsstring>
+        <name>build_mimetype</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.build_mimetype</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Write the metainfo file mimetype.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="509" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="509" bodyend="517"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a413ac1258a4a1c066b6a3bdd5ca8fe64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders._epub_base.EpubBuilder.build_container</definition>
+        <argsstring>(self, str outname=&apos;META-INF/container.xml&apos;)</argsstring>
+        <name>build_container</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.build_container</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>outname</declname>
+          <defval>&apos;META-INF/container.xml&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Write the metainfo file META-INF/container.xml.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="518" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="518" bodyend="528"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1ac2a7ec510a87a0edf82ab5cd5e099704" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dict[str, Any]</type>
+        <definition> dict[str, Any] sphinx.builders._epub_base.EpubBuilder.content_metadata</definition>
+        <argsstring>(self)</argsstring>
+        <name>content_metadata</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.content_metadata</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1builders_1_1epub3_1_1Epub3Builder_1a92920c107e411745855b765cd15574b8">content_metadata</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create a dictionary with all metadata for the content.opf
+file properly escaped.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="529" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="529" bodyend="553"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a29eb9819024c6751e0f8f9b2d8a8a47b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders._epub_base.EpubBuilder.build_content</definition>
+        <argsstring>(self)</argsstring>
+        <name>build_content</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.build_content</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Write the metainfo file content.opf It contains bibliographic data,
+a file list and the spine (the reading order).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="554" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="554" bodyend="692"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a659e97a9e62c7bf0ddd422b58d32e042" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1builders_1_1__epub__base_1_1NavPoint" kindref="compound">NavPoint</ref></type>
+        <definition> NavPoint sphinx.builders._epub_base.EpubBuilder.new_navpoint</definition>
+        <argsstring>(self, dict[str, Any] node, int level, bool incr=True)</argsstring>
+        <name>new_navpoint</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.new_navpoint</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>node</declname>
+          <array>[str, Any]</array>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>incr</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create a new entry in the toc from the node at given level.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="693" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="695" bodyend="704"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a27c65084c94181fd40704eca085e7234" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[<ref refid="classsphinx_1_1builders_1_1__epub__base_1_1NavPoint" kindref="compound">NavPoint</ref>]</type>
+        <definition> list[NavPoint] sphinx.builders._epub_base.EpubBuilder.build_navpoints</definition>
+        <argsstring>(self, list[dict[str, Any]] nodes)</argsstring>
+        <name>build_navpoints</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.build_navpoints</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>list]</type>
+          <declname>nodes</declname>
+          <array>[dict[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create the toc navigation structure.
+
+Subelements of a node are nested inside the navpoint.  For nested nodes
+the parent node is reinserted in the subnav.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="705" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="705" bodyend="750"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1acd742abb0aedd848aa8bd6e65334e739" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dict[str, Any]</type>
+        <definition> dict[str, Any] sphinx.builders._epub_base.EpubBuilder.toc_metadata</definition>
+        <argsstring>(self, int level, list[NavPoint] navpoints)</argsstring>
+        <name>toc_metadata</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.toc_metadata</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>navpoints</declname>
+          <array>[NavPoint]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create a dictionary with all metadata for the toc.ncx file
+properly escaped.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="751" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="751" bodyend="762"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1ae0074487b082b9d33c7ff2ffae0c6f56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders._epub_base.EpubBuilder.build_toc</definition>
+        <argsstring>(self)</argsstring>
+        <name>build_toc</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.build_toc</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Write the metainfo file toc.ncx.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="763" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="763" bodyend="786"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1afe8882bfde6c0ed60d6311994801fcc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders._epub_base.EpubBuilder.build_epub</definition>
+        <argsstring>(self)</argsstring>
+        <name>build_epub</name>
+        <qualifiedname>sphinx.builders._epub_base.EpubBuilder.build_epub</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Write the epub file.
+
+It is a zip file with the mimetype file stored uncompressed as the first
+entry.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="787" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="787" bodyend="802"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Builder that outputs epub files.
+
+It creates the metainfo files container.opf, toc.ncx, mimetype, and
+META-INF/container.xml.  Afterwards, all necessary files are zipped to an
+epub file.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>sphinx.builders._epub_base.EpubBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.builders.Builder</label>
+        <link refid="classsphinx_1_1builders_1_1Builder"/>
+      </node>
+      <node id="4">
+        <label>sphinx.builders.epub3.Epub3Builder</label>
+        <link refid="classsphinx_1_1builders_1_1epub3_1_1Epub3Builder"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.builders.html.StandaloneHTMLBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>str</label>
+      </node>
+      <node id="8">
+        <label>PosixPath</label>
+      </node>
+      <node id="7">
+        <label>WindowsPath</label>
+      </node>
+      <node id="1">
+        <label>sphinx.builders._epub_base.EpubBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>template_dir</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>doctype</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.builders.Builder</label>
+        <link refid="classsphinx_1_1builders_1_1Builder"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>epilog</edgelabel>
+          <edgelabel>format</edgelabel>
+          <edgelabel>name</edgelabel>
+          <edgelabel>versioning_method</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.builders.html.StandaloneHTMLBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1html_1_1StandaloneHTMLBuilder"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>format</edgelabel>
+          <edgelabel>imgpath</edgelabel>
+          <edgelabel>link_suffix</edgelabel>
+          <edgelabel>name</edgelabel>
+          <edgelabel>out_suffix</edgelabel>
+          <edgelabel>searchindex_filename</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>indexer_format</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>sphinx.util._pathlib._StrPath</label>
+        <link refid="classsphinx_1_1util_1_1__pathlib_1_1__StrPath"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>Any</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" line="129" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/_epub_base.py" bodystart="129" bodyend="802"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1ae7545735da763710eb9daeaf5c7447b2" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>add_permalinks</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a4a82d4a082554df5a23de36193b7fe76" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>add_visible_links</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1ad017b1719cf70da7e9a386f119a64797" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>allow_sharp_as_current_path</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a413ac1258a4a1c066b6a3bdd5ca8fe64" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>build_container</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a29eb9819024c6751e0f8f9b2d8a8a47b" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>build_content</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1afe8882bfde6c0ed60d6311994801fcc5" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>build_epub</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a079b374312f3261ee7969c4257fef399" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>build_mimetype</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a27c65084c94181fd40704eca085e7234" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>build_navpoints</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1ae0074487b082b9d33c7ff2ffae0c6f56" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>build_toc</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a989553732e602756e8cd0d8ffdf22800" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>check_refnodes</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a0506162cb97dfbe95a7955f95c6e388d" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>config</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1ac2a7ec510a87a0edf82ab5cd5e099704" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>content_metadata</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a952359fcf32081934925ad4e28d8d3e6" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>copy_download_files</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a866ec7aff38f9d5c938f98a183f8df19" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>copy_image_files</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a27e9ccb0b9b7a1a814792af936e2eda6" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>copy_image_files_pil</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a2d72fc8331076551b129b1992c5ab299" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>copysource</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a623081115ee2ffae203464139b703885" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>coverpage_name</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a1d30ae66f432fd92ae6394029b68e3c6" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>create_build_info</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a5be434eb3ea82d7167cd87aa052461af" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>css_link_target_class</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a4046bb8b5462468e03d0aaceeda9d8a7" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>doctype</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a3d67d884ccc9031afb0f071e3c47ef15" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>download_support</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1af805dba41b3494228dc6c6efde31d4fb" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>embedded</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1afa3457feda8125628e7ece6d3ef32bf6" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>fix_fragment</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a4b325153348c2b44cbbc2977232a71e3" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>fix_genindex</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a96b3df5b4578d5fba29f8c5152a3883e" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>fix_ids</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a2bdd0f8880a0eefb026edff86da5f76a" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>get_refnodes</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a49d902d41d40553d6afd7f474ff5c1b7" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>get_theme_config</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a7197ddf47f1a05ec4b82a755c36513d8" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>get_toc</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a1b79b81699ec6589dd501f26f4f4f99f" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>guide_titles</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a84b6342164c7e0ef3580e96ec3ab69aa" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>handle_page</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a815b1cc29f227fd63672c652af0025ad" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>html_scaled_image_link</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1af8031ce06c241e2efaa913c19bf1dcc5" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>ignored_files</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a8eb2c94a9b56f31b6b1b4a0714380972" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>imagedir</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1abf2f43136c9424fbd1fef25967cda08e" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>images</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a48e6f66f12b811c4d77386e4bc7d0ea3" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>init</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a435c77aa58c4eb4730c04912fb25f302" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>is_vector_graphics</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1ae27fd631fb1cc650c24d700f237b3785" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>link_suffix</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1aae54857bf11d0b006e90438cebc643e1" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>link_target_template</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a423344c8cb376e74491fd4a47d177a40" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>make_id</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a49cff5abe514234692ee3d3902d02f99" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>media_types</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a659e97a9e62c7bf0ddd422b58d32e042" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>new_navpoint</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a78da5841e1b5877ff53e3b1bc38965c9" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>out_suffix</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a9eff028253a4458be13d0f0bbc88824b" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>outdir</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a1aefd61155872e3f4d7d0e0ee3bcd34b" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>playorder</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1af9bbc104cdd97d0d07740ce6febc85b5" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>refnodes</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a5bf4ac316c7f0d34a716252ed3496753" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>refuri_re</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a2f5b2bb52989b9fb8dc5564a491b0aee" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>search</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a5e07ae2e6425be277fbb4f61bb4aa99c" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>supported_image_types</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a99fdc0ae900fafd22ed9d6b7d128c937" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>supported_remote_images</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1ad47af42302ca5c81853599d0cc5dee3d" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>tags</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a69edd40a3a9dba91af1b569b2efdfcec" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>template_dir</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1aa721fc0c3728a14567eeccd49366eaf0" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>toc_add_files</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1acd742abb0aedd848aa8bd6e65334e739" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>toc_metadata</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1a7f9ee6b11279b6d0f49f9cc399fcced8" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>tocid</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1acd96469348b201941a9544050aecc1ef" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>toctree_template</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1adfff4203987c06bd32075ba1ca87c39a" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>use_index</name></member>
+      <member refid="classsphinx_1_1builders_1_1__epub__base_1_1EpubBuilder_1affc473680b9c9db63771c3f922922f60" prot="public" virt="non-virtual"><scope>sphinx::builders::_epub_base::EpubBuilder</scope><name>write_doc</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

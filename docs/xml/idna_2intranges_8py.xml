@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="idna_2intranges_8py" kind="file" language="Python">
+    <compoundname>intranges.py</compoundname>
+    <innernamespace refid="namespaceidna">idna</innernamespace>
+    <innernamespace refid="namespaceidna_1_1intranges">idna::intranges</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespaceidna_1_1intranges" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral">Given<sp/>a<sp/>list<sp/>of<sp/>integers,<sp/>made<sp/>up<sp/>of<sp/>(hopefully)<sp/>a<sp/>small<sp/>number<sp/>of<sp/>long<sp/>runs</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral">of<sp/>consecutive<sp/>integers,<sp/>compute<sp/>a<sp/>representation<sp/>of<sp/>the<sp/>form</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral">((start1,<sp/>end1),<sp/>(start2,<sp/>end2)<sp/>...).<sp/>Then<sp/>answer<sp/>the<sp/>question<sp/>&quot;was<sp/>x<sp/>present</highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral">in<sp/>the<sp/>original<sp/>list?&quot;<sp/>in<sp/>time<sp/>O(log(#<sp/>runs)).</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>bisect</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>List,<sp/>Tuple</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespaceidna_1_1intranges_1ad41ae90f978d76a3578d4221456736cd" kindref="member">intranges_from_list</ref>(list_:<sp/>List[int])<sp/>-&gt;<sp/>Tuple[int,<sp/>...]:</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Represent<sp/>a<sp/>list<sp/>of<sp/>integers<sp/>as<sp/>a<sp/>sequence<sp/>of<sp/>ranges:</highlight></codeline>
+<codeline lineno="14"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>((start_0,<sp/>end_0),<sp/>(start_1,<sp/>end_1),<sp/>...),<sp/>such<sp/>that<sp/>the<sp/>original</highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>integers<sp/>are<sp/>exactly<sp/>those<sp/>x<sp/>such<sp/>that<sp/>start_i<sp/>&lt;=<sp/>x<sp/>&lt;<sp/>end_i<sp/>for<sp/>some<sp/>i.</highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Ranges<sp/>are<sp/>encoded<sp/>as<sp/>single<sp/>integers<sp/>(start<sp/>&lt;&lt;<sp/>32<sp/>|<sp/>end),<sp/>not<sp/>as<sp/>tuples.</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>sorted_list<sp/>=<sp/>sorted(list_)</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>ranges<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>last_write<sp/>=<sp/>-1</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>i<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>range(len(sorted_list)):</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>i<sp/>+<sp/>1<sp/>&lt;<sp/>len(sorted_list):</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>sorted_list[i]<sp/>==<sp/>sorted_list[i<sp/>+<sp/>1]<sp/>-<sp/>1:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>current_range<sp/>=<sp/>sorted_list[last_write<sp/>+<sp/>1<sp/>:<sp/>i<sp/>+<sp/>1]</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ranges.append(<ref refid="namespaceidna_1_1intranges_1ad27491b0b915e3262882e2ecaff36c66" kindref="member">_encode_range</ref>(current_range[0],<sp/>current_range[-1]<sp/>+<sp/>1))</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>last_write<sp/>=<sp/>i</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tuple(ranges)</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespaceidna_1_1intranges_1ad27491b0b915e3262882e2ecaff36c66" kindref="member">_encode_range</ref>(start:<sp/>int,<sp/>end:<sp/>int)<sp/>-&gt;<sp/>int:</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(start<sp/>&lt;&lt;<sp/>32)<sp/>|<sp/>end</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespaceidna_1_1intranges_1a4c3230ea95d31a52a8aa380e90e9c867" kindref="member">_decode_range</ref>(r:<sp/>int)<sp/>-&gt;<sp/>Tuple[int,<sp/>int]:</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(r<sp/>&gt;&gt;<sp/>32),<sp/>(r<sp/>&amp;<sp/>((1<sp/>&lt;&lt;<sp/>32)<sp/>-<sp/>1))</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">intranges_contain(int_:<sp/>int,<sp/>ranges:<sp/>Tuple[int,<sp/>...])<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Determine<sp/>if<sp/>`int_`<sp/>falls<sp/>into<sp/>one<sp/>of<sp/>the<sp/>ranges<sp/>in<sp/>`ranges`.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>tuple_<sp/>=<sp/><ref refid="namespaceidna_1_1intranges_1ad27491b0b915e3262882e2ecaff36c66" kindref="member">_encode_range</ref>(int_,<sp/>0)</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>pos<sp/>=<sp/>bisect.bisect_left(ranges,<sp/>tuple_)</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>we<sp/>could<sp/>be<sp/>immediately<sp/>ahead<sp/>of<sp/>a<sp/>tuple<sp/>(start,<sp/>end)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>with<sp/>start<sp/>&lt;<sp/>int_<sp/>&lt;=<sp/>end</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>pos<sp/>&gt;<sp/>0:</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>left,<sp/>right<sp/>=<sp/><ref refid="namespaceidna_1_1intranges_1a4c3230ea95d31a52a8aa380e90e9c867" kindref="member">_decode_range</ref>(ranges[pos<sp/>-<sp/>1])</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>left<sp/>&lt;=<sp/>int_<sp/>&lt;<sp/>right:</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>or<sp/>we<sp/>could<sp/>be<sp/>immediately<sp/>behind<sp/>a<sp/>tuple<sp/>(int_,<sp/>end)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>pos<sp/>&lt;<sp/>len(ranges):</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>left,<sp/>_<sp/>=<sp/><ref refid="namespaceidna_1_1intranges_1a4c3230ea95d31a52a8aa380e90e9c867" kindref="member">_decode_range</ref>(ranges[pos])</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>left<sp/>==<sp/>int_:</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/idna/intranges.py"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1domains_1_1rst_1_1ReSTRole" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::domains::rst::ReSTRole</compoundname>
+    <basecompoundref refid="classsphinx_1_1domains_1_1rst_1_1ReSTMarkup" prot="public" virt="non-virtual">sphinx.domains.rst.ReSTMarkup</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1rst_1_1ReSTRole_1a15565d47ca72eb4b2e4310aa02df9286" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.domains.rst.ReSTRole.handle_signature</definition>
+        <argsstring>(self, str sig, desc_signature signode)</argsstring>
+        <name>handle_signature</name>
+        <qualifiedname>sphinx.domains.rst.ReSTRole.handle_signature</qualifiedname>
+        <reimplements refid="classsphinx_1_1directives_1_1ObjectDescription_1ae1e5e2560890e3a5b9dda0cbb813eaff">handle_signature</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>sig</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1desc__signature" kindref="compound">desc_signature</ref></type>
+          <declname>signode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse the signature *sig*.
+
+The individual nodes are then appended to *signode*.
+If ValueError is raised, parsing is aborted and the whole
+*sig* is put into a single desc_name node.
+
+The return value should be a value that identifies the object.  It is
+passed to :meth:`add_target_and_index()` unchanged, and otherwise only
+used to skip duplicates.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/domains/rst.py" line="217" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/domains/rst.py" bodystart="217" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1rst_1_1ReSTRole_1a366fdc0ed17899718e6fbde538f9b7bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.domains.rst.ReSTRole.get_index_text</definition>
+        <argsstring>(self, str objectname, str name)</argsstring>
+        <name>get_index_text</name>
+        <qualifiedname>sphinx.domains.rst.ReSTRole.get_index_text</qualifiedname>
+        <reimplements refid="classsphinx_1_1domains_1_1rst_1_1ReSTMarkup_1a1b01abb46575c8626bb78cb8ffb2cded">get_index_text</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>objectname</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/domains/rst.py" line="223" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/domains/rst.py" bodystart="223" bodyend="226"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Description of a reST role.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="7">
+        <label>ObjDescT</label>
+      </node>
+      <node id="8">
+        <label>str</label>
+      </node>
+      <node id="5">
+        <label>docutils.parsers.rst.Directive</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1Directive"/>
+      </node>
+      <node id="1">
+        <label>sphinx.domains.rst.ReSTRole</label>
+        <link refid="classsphinx_1_1domains_1_1rst_1_1ReSTRole"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.directives.ObjectDescription</label>
+        <link refid="classsphinx_1_1directives_1_1ObjectDescription"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.domains.rst.ReSTMarkup</label>
+        <link refid="classsphinx_1_1domains_1_1rst_1_1ReSTMarkup"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>sphinx.util.docutils.SphinxDirective</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Generic</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="7">
+        <label>ObjDescT</label>
+      </node>
+      <node id="8">
+        <label>str</label>
+      </node>
+      <node id="5">
+        <label>docutils.parsers.rst.Directive</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1Directive"/>
+      </node>
+      <node id="1">
+        <label>sphinx.domains.rst.ReSTRole</label>
+        <link refid="classsphinx_1_1domains_1_1rst_1_1ReSTRole"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>addnodes</label>
+      </node>
+      <node id="3">
+        <label>sphinx.directives.ObjectDescription</label>
+        <link refid="classsphinx_1_1directives_1_1ObjectDescription"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>domain</edgelabel>
+          <edgelabel>objtype</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>indexnode</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.domains.rst.ReSTMarkup</label>
+        <link refid="classsphinx_1_1domains_1_1rst_1_1ReSTMarkup"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>sphinx.util.docutils.SphinxDirective</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Generic</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/domains/rst.py" line="214" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/domains/rst.py" bodystart="214" bodyend="226"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1domains_1_1rst_1_1ReSTRole_1a366fdc0ed17899718e6fbde538f9b7bf" prot="public" virt="non-virtual"><scope>sphinx::domains::rst::ReSTRole</scope><name>get_index_text</name></member>
+      <member refid="classsphinx_1_1domains_1_1rst_1_1ReSTRole_1a15565d47ca72eb4b2e4310aa02df9286" prot="public" virt="non-virtual"><scope>sphinx::domains::rst::ReSTRole</scope><name>handle_signature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

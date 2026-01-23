@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="pygments_2formatters_2bbcode_8py" kind="file" language="Python">
+    <compoundname>bbcode.py</compoundname>
+    <innerclass refid="classpygments_1_1formatters_1_1bbcode_1_1BBCodeFormatter" prot="public">pygments::formatters::bbcode::BBCodeFormatter</innerclass>
+    <innernamespace refid="namespacepygments">pygments</innernamespace>
+    <innernamespace refid="namespacepygments_1_1formatters">pygments::formatters</innernamespace>
+    <innernamespace refid="namespacepygments_1_1formatters_1_1bbcode">pygments::formatters::bbcode</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepygments_1_1formatters_1_1bbcode" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>pygments.formatters.bbcode</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>~~~~~~~~~~~~~~~~~~~~~~~~~~</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>BBcode<sp/>formatter.</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:copyright:<sp/>Copyright<sp/>2006-2025<sp/>by<sp/>the<sp/>Pygments<sp/>team,<sp/>see<sp/>AUTHORS.</highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:license:<sp/>BSD,<sp/>see<sp/>LICENSE<sp/>for<sp/>details.</highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1formatter" kindref="compound">pygments.formatter</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Formatter</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1util" kindref="compound">pygments.util</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>get_bool_opt</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal">__all__<sp/>=<sp/>[</highlight><highlight class="stringliteral">&apos;BBCodeFormatter&apos;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="classpygments_1_1formatters_1_1bbcode_1_1BBCodeFormatter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpygments_1_1formatters_1_1bbcode_1_1BBCodeFormatter" kindref="compound">BBCodeFormatter</ref>(<ref refid="classpygments_1_1formatter_1_1Formatter" kindref="compound">Formatter</ref>):</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Format<sp/>tokens<sp/>with<sp/>BBcodes.<sp/>These<sp/>formatting<sp/>codes<sp/>are<sp/>used<sp/>by<sp/>many</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>bulletin<sp/>boards,<sp/>so<sp/>you<sp/>can<sp/>highlight<sp/>your<sp/>sourcecode<sp/>with<sp/>pygments<sp/>before</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>posting<sp/>it<sp/>there.</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>formatter<sp/>has<sp/>no<sp/>support<sp/>for<sp/>background<sp/>colors<sp/>and<sp/>borders,<sp/>as<sp/>there</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>are<sp/>no<sp/>common<sp/>BBcode<sp/>tags<sp/>for<sp/>that.</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Some<sp/>board<sp/>systems<sp/>(e.g.<sp/>phpBB)<sp/>don&apos;t<sp/>support<sp/>colors<sp/>in<sp/>their<sp/>[code]<sp/>tag,</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>so<sp/>you<sp/>can&apos;t<sp/>use<sp/>the<sp/>highlighting<sp/>together<sp/>with<sp/>that<sp/>tag.</highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Text<sp/>in<sp/>a<sp/>[code]<sp/>tag<sp/>usually<sp/>is<sp/>shown<sp/>with<sp/>a<sp/>monospace<sp/>font<sp/>(which<sp/>this</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>formatter<sp/>can<sp/>do<sp/>with<sp/>the<sp/>``monofont``<sp/>option)<sp/>and<sp/>no<sp/>spaces<sp/>(which<sp/>you</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>need<sp/>for<sp/>indentation)<sp/>are<sp/>removed.</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Additional<sp/>options<sp/>accepted:</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>`style`</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>style<sp/>to<sp/>use,<sp/>can<sp/>be<sp/>a<sp/>string<sp/>or<sp/>a<sp/>Style<sp/>subclass<sp/>(default:</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>``&apos;default&apos;``).</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>`codetag`</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>If<sp/>set<sp/>to<sp/>true,<sp/>put<sp/>the<sp/>output<sp/>into<sp/>``[code]``<sp/>tags<sp/>(default:</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>``false``)</highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>`monofont`</highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>If<sp/>set<sp/>to<sp/>true,<sp/>add<sp/>a<sp/>tag<sp/>to<sp/>show<sp/>the<sp/>code<sp/>with<sp/>a<sp/>monospace<sp/>font</highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(default:<sp/>``false``).</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;BBCode&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>aliases<sp/>=<sp/>[</highlight><highlight class="stringliteral">&apos;bbcode&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;bb&apos;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>filenames<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpygments_1_1formatters_1_1bbcode_1_1BBCodeFormatter_1a99ecbd73e9846ccb77fb863708d546b0" kindref="member">__init__</ref>(self,<sp/>**options):</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Formatter.__init__(self,<sp/>**options)</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpygments_1_1formatters_1_1bbcode_1_1BBCodeFormatter_1a17be9c6241d24fe0defb563be9d2da98" kindref="member">_code</ref><sp/>=<sp/>get_bool_opt(options,<sp/></highlight><highlight class="stringliteral">&apos;codetag&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpygments_1_1formatters_1_1bbcode_1_1BBCodeFormatter_1a3eaf7c9056bef51e8848d4a8be0bfe2b" kindref="member">_mono</ref><sp/>=<sp/>get_bool_opt(options,<sp/></highlight><highlight class="stringliteral">&apos;monofont&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpygments_1_1formatters_1_1bbcode_1_1BBCodeFormatter_1a991fb661ab2e5b9d297edfe36002757b" kindref="member">styles</ref><sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpygments_1_1formatters_1_1bbcode_1_1BBCodeFormatter_1aaf51c8c7aabd047ca0dabbb0541f3301" kindref="member">_make_styles</ref>()</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpygments_1_1formatters_1_1bbcode_1_1BBCodeFormatter_1aaf51c8c7aabd047ca0dabbb0541f3301" kindref="member">_make_styles</ref>(self):</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>ttype,<sp/>ndef<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>self.<ref refid="classpygments_1_1formatter_1_1Formatter_1a697f27d213162f232b72561d55ceca06" kindref="member">style</ref>:</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>start<sp/>=<sp/>end<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>ndef[</highlight><highlight class="stringliteral">&apos;color&apos;</highlight><highlight class="normal">]:</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>start<sp/>+=<sp/></highlight><highlight class="stringliteral">&apos;[color=#{}]&apos;</highlight><highlight class="normal">.<ref refid="classpygments_1_1formatter_1_1Formatter_1a25dfa768a9d57c4225df77c9ff5e6ad4" kindref="member">format</ref>(ndef[</highlight><highlight class="stringliteral">&apos;color&apos;</highlight><highlight class="normal">])</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>end<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;[/color]&apos;</highlight><highlight class="normal"><sp/>+<sp/>end</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>ndef[</highlight><highlight class="stringliteral">&apos;bold&apos;</highlight><highlight class="normal">]:</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>start<sp/>+=<sp/></highlight><highlight class="stringliteral">&apos;[b]&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>end<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;[/b]&apos;</highlight><highlight class="normal"><sp/>+<sp/>end</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>ndef[</highlight><highlight class="stringliteral">&apos;italic&apos;</highlight><highlight class="normal">]:</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>start<sp/>+=<sp/></highlight><highlight class="stringliteral">&apos;[i]&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>end<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;[/i]&apos;</highlight><highlight class="normal"><sp/>+<sp/>end</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>ndef[</highlight><highlight class="stringliteral">&apos;underline&apos;</highlight><highlight class="normal">]:</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>start<sp/>+=<sp/></highlight><highlight class="stringliteral">&apos;[u]&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>end<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;[/u]&apos;</highlight><highlight class="normal"><sp/>+<sp/>end</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>there<sp/>are<sp/>no<sp/>common<sp/>BBcodes<sp/>for<sp/>background-color<sp/>and<sp/>border</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpygments_1_1formatters_1_1bbcode_1_1BBCodeFormatter_1a991fb661ab2e5b9d297edfe36002757b" kindref="member">styles</ref>[ttype]<sp/>=<sp/>start,<sp/>end</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpygments_1_1formatters_1_1bbcode_1_1BBCodeFormatter_1aec2a84159af90aed8f40a43f503e2093" kindref="member">format_unencoded</ref>(self,<sp/>tokensource,<sp/>outfile):</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>self.<ref refid="classpygments_1_1formatters_1_1bbcode_1_1BBCodeFormatter_1a17be9c6241d24fe0defb563be9d2da98" kindref="member">_code</ref>:</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>outfile.write(</highlight><highlight class="stringliteral">&apos;[code]&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>self.<ref refid="classpygments_1_1formatters_1_1bbcode_1_1BBCodeFormatter_1a3eaf7c9056bef51e8848d4a8be0bfe2b" kindref="member">_mono</ref>:</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>outfile.write(</highlight><highlight class="stringliteral">&apos;[font=monospace]&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lastval<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lasttype<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>ttype,<sp/>value<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>tokensource:</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>ttype<sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>self.<ref refid="classpygments_1_1formatters_1_1bbcode_1_1BBCodeFormatter_1a991fb661ab2e5b9d297edfe36002757b" kindref="member">styles</ref>:</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ttype<sp/>=<sp/>ttype.parent</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>ttype<sp/>==<sp/>lasttype:</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lastval<sp/>+=<sp/>value</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>lastval:</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>start,<sp/>end<sp/>=<sp/>self.<ref refid="classpygments_1_1formatters_1_1bbcode_1_1BBCodeFormatter_1a991fb661ab2e5b9d297edfe36002757b" kindref="member">styles</ref>[lasttype]</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>outfile.write(</highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal">.join((start,<sp/>lastval,<sp/>end)))</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lastval<sp/>=<sp/>value</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lasttype<sp/>=<sp/>ttype</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>lastval:</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>start,<sp/>end<sp/>=<sp/>self.<ref refid="classpygments_1_1formatters_1_1bbcode_1_1BBCodeFormatter_1a991fb661ab2e5b9d297edfe36002757b" kindref="member">styles</ref>[lasttype]</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>outfile.write(</highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal">.join((start,<sp/>lastval,<sp/>end)))</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>self.<ref refid="classpygments_1_1formatters_1_1bbcode_1_1BBCodeFormatter_1a3eaf7c9056bef51e8848d4a8be0bfe2b" kindref="member">_mono</ref>:</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>outfile.write(</highlight><highlight class="stringliteral">&apos;[/font]&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>self.<ref refid="classpygments_1_1formatters_1_1bbcode_1_1BBCodeFormatter_1a17be9c6241d24fe0defb563be9d2da98" kindref="member">_code</ref>:</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>outfile.write(</highlight><highlight class="stringliteral">&apos;[/code]&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>self.<ref refid="classpygments_1_1formatters_1_1bbcode_1_1BBCodeFormatter_1a17be9c6241d24fe0defb563be9d2da98" kindref="member">_code</ref><sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>self.<ref refid="classpygments_1_1formatters_1_1bbcode_1_1BBCodeFormatter_1a3eaf7c9056bef51e8848d4a8be0bfe2b" kindref="member">_mono</ref>:</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>outfile.write(</highlight><highlight class="stringliteral">&apos;\n&apos;</highlight><highlight class="normal">)</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/pygments/formatters/bbcode.py"/>
+  </compounddef>
+</doxygen>

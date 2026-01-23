@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1util_1_1docutils_1_1LoggingReporter" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::util::docutils::LoggingReporter</compoundname>
+    <basecompoundref refid="classdocutils_1_1utils_1_1Reporter" prot="public" virt="non-virtual">docutils.utils.Reporter</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1util_1_1docutils_1_1LoggingReporter_1aab13910cd08c4107fea18e48c2eb9258" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1docutils_1_1LoggingReporter" kindref="compound">LoggingReporter</ref></type>
+        <definition> LoggingReporter sphinx.util.docutils.LoggingReporter.from_reporter</definition>
+        <argsstring>(type[LoggingReporter] cls, Reporter reporter)</argsstring>
+        <name>from_reporter</name>
+        <qualifiedname>sphinx.util.docutils.LoggingReporter.from_reporter</qualifiedname>
+        <param>
+          <type>type</type>
+          <declname>cls</declname>
+          <array>[LoggingReporter]</array>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1utils_1_1Reporter" kindref="compound">Reporter</ref></type>
+          <declname>reporter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create an instance of LoggingReporter from other reporter object.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="380" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="382" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1util_1_1docutils_1_1LoggingReporter_1a59f689d9b6f8a81cce433621ba11d6d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.docutils.LoggingReporter.__init__</definition>
+        <argsstring>(self, str source, int report_level=Reporter.WARNING_LEVEL, int halt_level=Reporter.SEVERE_LEVEL, bool debug=False, str error_handler=&apos;backslashreplace&apos;)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>sphinx.util.docutils.LoggingReporter.__init__</qualifiedname>
+        <reimplements refid="classdocutils_1_1utils_1_1Reporter_1a6e559276d61375450d78403f38931647">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <defname>source</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <defname>report_level</defname>
+          <defval><ref refid="classdocutils_1_1utils_1_1Reporter_1a8af18e5ffa9a7dfdf71cc2e1ef874c9c" kindref="member">Reporter.WARNING_LEVEL</ref></defval>
+        </param>
+        <param>
+          <type>int</type>
+          <defname>halt_level</defname>
+          <defval><ref refid="classdocutils_1_1utils_1_1Reporter_1a28b6aa26852499edbcfc66222278857b" kindref="member">Reporter.SEVERE_LEVEL</ref></defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <defname>stream</defname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>str</type>
+          <defname>debug</defname>
+          <defval>&apos;backslashreplace&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>:Parameters:
+    - `source`: The path to or description of the source data.
+    - `report_level`: The level at or above which warning output will
+      be sent to `stream`.
+    - `halt_level`: The level at or above which `SystemMessage`
+      exceptions will be raised, halting execution.
+    - `debug`: Show debug (level=0) system messages?
+    - `stream`: Where warning output is sent.  Can be file-like (has a
+      ``.write`` method), a string (file name, opened for writing),
+      &apos;&apos; (empty string) or `False` (for discarding all stream messages)
+      or `None` (implies `sys.stderr`; default).
+    - `encoding`: The output encoding.
+    - `error_handler`: The error handler for stderr output encoding.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="392" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="399" bodyend="405"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>docutils.utils.Reporter</label>
+        <link refid="classdocutils_1_1utils_1_1Reporter"/>
+      </node>
+      <node id="1">
+        <label>sphinx.util.docutils.LoggingReporter</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1LoggingReporter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>str</label>
+      </node>
+      <node id="2">
+        <label>docutils.utils.Reporter</label>
+        <link refid="classdocutils_1_1utils_1_1Reporter"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>levels</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>sphinx.util.docutils.LoggingReporter</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1LoggingReporter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="378" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="378" bodyend="405"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1util_1_1docutils_1_1LoggingReporter_1a59f689d9b6f8a81cce433621ba11d6d1" prot="public" virt="non-virtual"><scope>sphinx::util::docutils::LoggingReporter</scope><name>__init__</name></member>
+      <member refid="classsphinx_1_1util_1_1docutils_1_1LoggingReporter_1aab13910cd08c4107fea18e48c2eb9258" prot="public" virt="non-virtual"><scope>sphinx::util::docutils::LoggingReporter</scope><name>from_reporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

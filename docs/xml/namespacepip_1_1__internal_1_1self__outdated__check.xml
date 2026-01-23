@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1self__outdated__check" kind="namespace" language="Python">
+    <compoundname>pip::_internal::self_outdated_check</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1self__outdated__check_1_1SelfCheckState" prot="public">pip::_internal::self_outdated_check::SelfCheckState</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1self__outdated__check_1_1UpgradePrompt" prot="public">pip::_internal::self_outdated_check::UpgradePrompt</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1self__outdated__check_1af4aaf3d9f1cf7f23f6623f40c9f6c0b6" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::self_outdated_check._WEEK</definition>
+        <argsstring></argsstring>
+        <name>_WEEK</name>
+        <qualifiedname>pip._internal.self_outdated_check._WEEK</qualifiedname>
+        <initializer>=  datetime.timedelta(days=7)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/self_outdated_check.py" line="31" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/self_outdated_check.py" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1self__outdated__check_1a588d105ffdaf709ec245d8bff02d38eb" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::self_outdated_check.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.self_outdated_check.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/self_outdated_check.py" line="33" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/self_outdated_check.py" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1self__outdated__check_1aea0149ee1aae8961cae8ad565a71ab95" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.self_outdated_check._get_statefile_name</definition>
+        <argsstring>(str key)</argsstring>
+        <name>_get_statefile_name</name>
+        <qualifiedname>pip._internal.self_outdated_check._get_statefile_name</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/self_outdated_check.py" line="36" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/self_outdated_check.py" bodystart="36" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1self__outdated__check_1a4d837b551b90e2985dc5f4605147ca45" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>datetime.datetime</type>
+        <definition> datetime.datetime pip._internal.self_outdated_check._convert_date</definition>
+        <argsstring>(str isodate)</argsstring>
+        <name>_convert_date</name>
+        <qualifiedname>pip._internal.self_outdated_check._convert_date</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>isodate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert an ISO format string to a date.
+
+Handles the format 2020-01-22T14:24:01Z (trailing Z)
+which is not supported by older versions of fromisoformat.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/self_outdated_check.py" line="42" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/self_outdated_check.py" bodystart="42" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1self__outdated__check_1aa03ec1bd5ecf824fc81d5d421e4aacd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.self_outdated_check.was_installed_by_pip</definition>
+        <argsstring>(str pkg)</argsstring>
+        <name>was_installed_by_pip</name>
+        <qualifiedname>pip._internal.self_outdated_check.was_installed_by_pip</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>pkg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Checks whether pkg was installed by pip
+
+This is used not to display the upgrade message when pip is in fact
+installed by system package manager, such as dnf on Fedora.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/self_outdated_check.py" line="152" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/self_outdated_check.py" bodystart="152" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1self__outdated__check_1a1bc5e16c2c90b28417e5e63f99620961" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._internal.self_outdated_check._get_current_remote_pip_version</definition>
+        <argsstring>(PipSession session, optparse.Values options)</argsstring>
+        <name>_get_current_remote_pip_version</name>
+        <qualifiedname>pip._internal.self_outdated_check._get_current_remote_pip_version</qualifiedname>
+        <param>
+          <type>PipSession</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type>optparse.Values</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/self_outdated_check.py" line="162" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/self_outdated_check.py" bodystart="164" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1self__outdated__check_1a9cdc9e022e977d8bd5b628fd22629d1d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[<ref refid="classpip_1_1__internal_1_1self__outdated__check_1_1UpgradePrompt" kindref="compound">UpgradePrompt</ref>]</type>
+        <definition> Optional[UpgradePrompt] pip._internal.self_outdated_check._self_version_check_logic</definition>
+        <argsstring>(*SelfCheckState state, datetime.datetime current_time, DistributionVersion local_version, Callable[[], Optional[str]] get_remote_version)</argsstring>
+        <name>_self_version_check_logic</name>
+        <qualifiedname>pip._internal.self_outdated_check._self_version_check_logic</qualifiedname>
+        <param>
+          <type>*<ref refid="classpip_1_1__internal_1_1self__outdated__check_1_1SelfCheckState" kindref="compound">SelfCheckState</ref></type>
+          <declname>state</declname>
+        </param>
+        <param>
+          <type>datetime.datetime</type>
+          <declname>current_time</declname>
+        </param>
+        <param>
+          <type>DistributionVersion</type>
+          <declname>local_version</declname>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>get_remote_version</defname>
+          <array>[[]</array>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <declname>get_remote_version</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/self_outdated_check.py" line="190" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/self_outdated_check.py" bodystart="196" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1self__outdated__check_1aa9ec6c8db15db9806e565589d57643a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.self_outdated_check.pip_self_version_check</definition>
+        <argsstring>(PipSession session, optparse.Values options)</argsstring>
+        <name>pip_self_version_check</name>
+        <qualifiedname>pip._internal.self_outdated_check.pip_self_version_check</qualifiedname>
+        <param>
+          <type>PipSession</type>
+          <declname>session</declname>
+        </param>
+        <param>
+          <type>optparse.Values</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check for an update for pip.
+
+Limit the frequency of checks to once per week. State is stored either in
+the active virtualenv or in the user&apos;s USER_CACHE_DIR keyed off the prefix
+of the pip script path.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/self_outdated_check.py" line="224" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/self_outdated_check.py" bodystart="224" bodyend="249"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/self_outdated_check.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

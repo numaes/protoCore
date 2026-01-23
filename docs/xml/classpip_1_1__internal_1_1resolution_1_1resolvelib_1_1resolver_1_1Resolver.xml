@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1_1Resolver" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::resolution::resolvelib::resolver::Resolver</compoundname>
+    <basecompoundref refid="classpip_1_1__internal_1_1resolution_1_1base_1_1BaseResolver" prot="public" virt="non-virtual">pip._internal.resolution.base.BaseResolver</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1_1Resolver_1a78237ef7b5c3eacd40c287b9073ed101" prot="protected" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pip._internal.resolution.resolvelib.resolver.Resolver::_allowed_strategies</definition>
+        <argsstring></argsstring>
+        <name>_allowed_strategies</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.resolver.Resolver._allowed_strategies</qualifiedname>
+        <initializer>=  {&quot;eager&quot;, &quot;only-if-needed&quot;, &quot;to-satisfy-only&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" line="39" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1_1Resolver_1ade2b4bb013634d1a3f395bbd50c4652d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.resolution.resolvelib.resolver.Resolver::factory</definition>
+        <argsstring></argsstring>
+        <name>factory</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.resolver.Resolver.factory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" line="58" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1_1Resolver_1a91d554093f7b1def080c6a91cf7772d1" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.resolution.resolvelib.resolver.Resolver::ignore_dependencies</definition>
+        <argsstring></argsstring>
+        <name>ignore_dependencies</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.resolver.Resolver.ignore_dependencies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" line="69" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1_1Resolver_1a5f96ca89dd2817dae1f9cead748c0d5d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.resolution.resolvelib.resolver.Resolver::upgrade_strategy</definition>
+        <argsstring></argsstring>
+        <name>upgrade_strategy</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.resolver.Resolver.upgrade_strategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" line="70" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1_1Resolver_1ab3afbee4c3a2d46b9230e945c81c5387" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._internal.resolution.resolvelib.resolver.Resolver.__init__</definition>
+        <argsstring>(self, RequirementPreparer preparer, PackageFinder finder, Optional[WheelCache] wheel_cache, InstallRequirementProvider make_install_req, bool use_user_site, bool ignore_dependencies, bool ignore_installed, bool ignore_requires_python, bool force_reinstall, str upgrade_strategy, Optional[Tuple[int,...]] py_version_info=None)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.resolver.Resolver.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1operations_1_1prepare_1_1RequirementPreparer" kindref="compound">RequirementPreparer</ref></type>
+          <declname>preparer</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1index_1_1package__finder_1_1PackageFinder" kindref="compound">PackageFinder</ref></type>
+          <declname>finder</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>wheel_cache</declname>
+          <array>[WheelCache]</array>
+        </param>
+        <param>
+          <type>InstallRequirementProvider</type>
+          <declname>make_install_req</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>use_user_site</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>ignore_dependencies</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>ignore_installed</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>ignore_requires_python</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>force_reinstall</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>upgrade_strategy</declname>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <declname>py_version_info</declname>
+          <array>[Tuple[int,...]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" line="41" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" bodystart="54" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1_1Resolver_1adaeb803ba5f61621f03122bb37856c9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1req_1_1req__set_1_1RequirementSet" kindref="compound">RequirementSet</ref></type>
+        <definition> RequirementSet pip._internal.resolution.resolvelib.resolver.Resolver.resolve</definition>
+        <argsstring>(self, List[InstallRequirement] root_reqs, bool check_supported_wheels)</argsstring>
+        <name>resolve</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.resolver.Resolver.resolve</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1resolution_1_1base_1_1BaseResolver_1a6543e273c7e6dca0ae95a5c3f3792d64">resolve</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>root_reqs</declname>
+          <array>[InstallRequirement]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>check_supported_wheels</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" line="73" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" bodystart="75" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1_1Resolver_1a904569a348939d53fdaed08c35cf39bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[<ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref>]</type>
+        <definition> List[InstallRequirement] pip._internal.resolution.resolvelib.resolver.Resolver.get_installation_order</definition>
+        <argsstring>(self, RequirementSet req_set)</argsstring>
+        <name>get_installation_order</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.resolver.Resolver.get_installation_order</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1resolution_1_1base_1_1BaseResolver_1ac12947b2d893de0e4e64f73e4384c590">get_installation_order</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1req_1_1req__set_1_1RequirementSet" kindref="compound">RequirementSet</ref></type>
+          <declname>req_set</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get order for installation of requirements in RequirementSet.
+
+The returned list contains a requirement before another that depends on
+it. This helps ensure that the environment is kept consistent as they
+get installed one-by-one.
+
+The current implementation creates a topological ordering of the
+dependency graph, giving more weight to packages with less
+or no dependencies, while breaking any cycles in the graph at
+arbitrary points. We make no guarantees about where the cycle
+would be broken, other than it *would* be broken.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" line="185" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" bodystart="187" bodyend="216"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._internal.resolution.resolvelib.resolver.Resolver</label>
+        <link refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1_1Resolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.resolution.base.BaseResolver</label>
+        <link refid="classpip_1_1__internal_1_1resolution_1_1base_1_1BaseResolver"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>pip._internal.resolution.resolvelib.resolver.Resolver</label>
+        <link refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1_1Resolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.resolution.base.BaseResolver</label>
+        <link refid="classpip_1_1__internal_1_1resolution_1_1base_1_1BaseResolver"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" line="38" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" bodystart="38" bodyend="216"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1_1Resolver_1ab3afbee4c3a2d46b9230e945c81c5387" prot="public" virt="non-virtual"><scope>pip::_internal::resolution::resolvelib::resolver::Resolver</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1_1Resolver_1a78237ef7b5c3eacd40c287b9073ed101" prot="protected" virt="non-virtual"><scope>pip::_internal::resolution::resolvelib::resolver::Resolver</scope><name>_allowed_strategies</name></member>
+      <member refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1_1Resolver_1ade2b4bb013634d1a3f395bbd50c4652d" prot="public" virt="non-virtual"><scope>pip::_internal::resolution::resolvelib::resolver::Resolver</scope><name>factory</name></member>
+      <member refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1_1Resolver_1a904569a348939d53fdaed08c35cf39bf" prot="public" virt="non-virtual"><scope>pip::_internal::resolution::resolvelib::resolver::Resolver</scope><name>get_installation_order</name></member>
+      <member refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1_1Resolver_1a91d554093f7b1def080c6a91cf7772d1" prot="public" virt="non-virtual"><scope>pip::_internal::resolution::resolvelib::resolver::Resolver</scope><name>ignore_dependencies</name></member>
+      <member refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1_1Resolver_1adaeb803ba5f61621f03122bb37856c9a" prot="public" virt="non-virtual"><scope>pip::_internal::resolution::resolvelib::resolver::Resolver</scope><name>resolve</name></member>
+      <member refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1_1Resolver_1a5f96ca89dd2817dae1f9cead748c0d5d" prot="public" virt="non-virtual"><scope>pip::_internal::resolution::resolvelib::resolver::Resolver</scope><name>upgrade_strategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,398 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="unicode_8py" kind="file" language="Python">
+    <compoundname>unicode.py</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1__lazyclassproperty" prot="protected">pip::_vendor::pyparsing::unicode::_lazyclassproperty</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set" prot="public">pip::_vendor::pyparsing::unicode::unicode_set</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode" prot="public">pip::_vendor::pyparsing::unicode::pyparsing_unicode</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1BasicMultilingualPlane" prot="public">pip::_vendor::pyparsing::unicode::pyparsing_unicode::BasicMultilingualPlane</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Latin1" prot="public">pip::_vendor::pyparsing::unicode::pyparsing_unicode::Latin1</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1LatinA" prot="public">pip::_vendor::pyparsing::unicode::pyparsing_unicode::LatinA</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1LatinB" prot="public">pip::_vendor::pyparsing::unicode::pyparsing_unicode::LatinB</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Greek" prot="public">pip::_vendor::pyparsing::unicode::pyparsing_unicode::Greek</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Cyrillic" prot="public">pip::_vendor::pyparsing::unicode::pyparsing_unicode::Cyrillic</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Chinese" prot="public">pip::_vendor::pyparsing::unicode::pyparsing_unicode::Chinese</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Japanese" prot="public">pip::_vendor::pyparsing::unicode::pyparsing_unicode::Japanese</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Japanese_1_1Kanji" prot="public">pip::_vendor::pyparsing::unicode::pyparsing_unicode::Japanese::Kanji</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Japanese_1_1Hiragana" prot="public">pip::_vendor::pyparsing::unicode::pyparsing_unicode::Japanese::Hiragana</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Japanese_1_1Katakana" prot="public">pip::_vendor::pyparsing::unicode::pyparsing_unicode::Japanese::Katakana</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Hangul" prot="public">pip::_vendor::pyparsing::unicode::pyparsing_unicode::Hangul</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1CJK" prot="public">pip::_vendor::pyparsing::unicode::pyparsing_unicode::CJK</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Thai" prot="public">pip::_vendor::pyparsing::unicode::pyparsing_unicode::Thai</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Arabic" prot="public">pip::_vendor::pyparsing::unicode::pyparsing_unicode::Arabic</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Hebrew" prot="public">pip::_vendor::pyparsing::unicode::pyparsing_unicode::Hebrew</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Devanagari" prot="public">pip::_vendor::pyparsing::unicode::pyparsing_unicode::Devanagari</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1pyparsing">pip::_vendor::pyparsing</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1pyparsing_1_1unicode">pip::_vendor::pyparsing::unicode</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1pyparsing_1_1unicode" refkind="compound"><highlight class="comment">#<sp/>unicode.py</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>itertools<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>filterfalse</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>List,<sp/>Tuple,<sp/>Union</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8" refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1__lazyclassproperty" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1__lazyclassproperty" kindref="compound">_lazyclassproperty</ref>:</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1__lazyclassproperty_1af5bc34e65ef6805d4e4bab1fe0f783a2" kindref="member">__init__</ref>(self,<sp/>fn):</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1__lazyclassproperty_1a405c830773a3ddc6eb0301604fa615bc" kindref="member">fn</ref><sp/>=<sp/>fn</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1__lazyclassproperty_1a2e81ae0c91ca59ed0a54310c32635b6d" kindref="member">__doc__</ref><sp/>=<sp/>fn.__doc__</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1__lazyclassproperty_1a39496ea205c202115bfb1da427ce4b6f" kindref="member">__name__</ref><sp/>=<sp/>fn.__name__</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1__lazyclassproperty_1a0f54fb79142fec90bf79237fa7136232" kindref="member">__get__</ref>(self,<sp/>obj,<sp/>cls):</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>cls<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cls<sp/>=<sp/>type(obj)</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>hasattr(cls,<sp/></highlight><highlight class="stringliteral">&quot;_intern&quot;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>any(</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cls.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1__lazyclassproperty_1ab6d1e7955d7ccbe80a7a9c60d4da36e5" kindref="member">_intern</ref><sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/>getattr(superclass,<sp/></highlight><highlight class="stringliteral">&quot;_intern&quot;</highlight><highlight class="normal">,<sp/>[])</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>superclass<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>cls.__mro__[1:]</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>):</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cls.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1__lazyclassproperty_1ab6d1e7955d7ccbe80a7a9c60d4da36e5" kindref="member">_intern</ref><sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>attrname<sp/>=<sp/>self.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1__lazyclassproperty_1a405c830773a3ddc6eb0301604fa615bc" kindref="member">fn</ref>.__name__</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>attrname<sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>cls.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1__lazyclassproperty_1ab6d1e7955d7ccbe80a7a9c60d4da36e5" kindref="member">_intern</ref>:</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cls.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1__lazyclassproperty_1ab6d1e7955d7ccbe80a7a9c60d4da36e5" kindref="member">_intern</ref>[attrname]<sp/>=<sp/>self.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1__lazyclassproperty_1a405c830773a3ddc6eb0301604fa615bc" kindref="member">fn</ref>(cls)</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cls.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1__lazyclassproperty_1ab6d1e7955d7ccbe80a7a9c60d4da36e5" kindref="member">_intern</ref>[attrname]</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal">UnicodeRangeList<sp/>=<sp/>List[Union[Tuple[int,<sp/>int],<sp/>Tuple[int]]]</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set" kindref="compound">unicode_set</ref>:</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>A<sp/>set<sp/>of<sp/>Unicode<sp/>characters,<sp/>for<sp/>language-specific<sp/>strings<sp/>for</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>``alphas``,<sp/>``nums``,<sp/>``alphanums``,<sp/>and<sp/>``printables``.</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>A<sp/>unicode_set<sp/>is<sp/>defined<sp/>by<sp/>a<sp/>list<sp/>of<sp/>ranges<sp/>in<sp/>the<sp/>Unicode<sp/>character</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>set,<sp/>in<sp/>a<sp/>class<sp/>attribute<sp/>``_ranges``.<sp/>Ranges<sp/>can<sp/>be<sp/>specified<sp/>using</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>2-tuples<sp/>or<sp/>a<sp/>1-tuple,<sp/>such<sp/>as::</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_ranges<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x0020,<sp/>0x007e),</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x00a0,<sp/>0x00ff),</highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x0100,),</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Ranges<sp/>are<sp/>left-<sp/>and<sp/>right-inclusive.<sp/>A<sp/>1-tuple<sp/>of<sp/>(x,)<sp/>is<sp/>treated<sp/>as<sp/>(x,<sp/>x).</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>A<sp/>unicode<sp/>set<sp/>can<sp/>also<sp/>be<sp/>defined<sp/>using<sp/>multiple<sp/>inheritance<sp/>of<sp/>other<sp/>unicode<sp/>sets::</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>class<sp/>CJK(Chinese,<sp/>Japanese,<sp/>Korean):</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pass</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>_ranges:<sp/>UnicodeRangeList<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@_lazyclassproperty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set_1ab528a98f9dc358382e8ad40088adc974" kindref="member">_chars_for_ranges</ref>(cls):</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>cc<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>cls.__mro__:</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>cc<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/>unicode_set:</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>rr<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>getattr(cc,<sp/></highlight><highlight class="stringliteral">&quot;_ranges&quot;</highlight><highlight class="normal">,<sp/>()):</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ret.extend(range(rr[0],<sp/>rr[-1]<sp/>+<sp/>1))</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>[chr(c)<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>c<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>sorted(set(ret))]</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@_lazyclassproperty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1core_1a1d4f70b701c70795b29b2e1ca3ac33d8" kindref="member">printables</ref>(cls):</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;all<sp/>non-whitespace<sp/>characters<sp/>in<sp/>this<sp/>range&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">.join(filterfalse(str.isspace,<sp/>cls.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set_1ab528a98f9dc358382e8ad40088adc974" kindref="member">_chars_for_ranges</ref><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set_1a08b536ae1199404bd025398bf2dd8284" kindref="member">_chars_for_ranges</ref>))</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@_lazyclassproperty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1core_1aeea3c733c565e40c01044b720d891300" kindref="member">alphas</ref>(cls):</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;all<sp/>alphabetic<sp/>characters<sp/>in<sp/>this<sp/>range&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">.join(filter(str.isalpha,<sp/>cls.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set_1ab528a98f9dc358382e8ad40088adc974" kindref="member">_chars_for_ranges</ref><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set_1a08b536ae1199404bd025398bf2dd8284" kindref="member">_chars_for_ranges</ref>))</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@_lazyclassproperty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1core_1a79814e7ab5e96a8dc63274e6aec543ae" kindref="member">nums</ref>(cls):</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;all<sp/>numeric<sp/>digit<sp/>characters<sp/>in<sp/>this<sp/>range&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">.join(filter(str.isdigit,<sp/>cls.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set_1ab528a98f9dc358382e8ad40088adc974" kindref="member">_chars_for_ranges</ref><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set_1a08b536ae1199404bd025398bf2dd8284" kindref="member">_chars_for_ranges</ref>))</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@_lazyclassproperty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1core_1ab8a36d2864cef9875735cf99ea4aacdc" kindref="member">alphanums</ref>(cls):</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;all<sp/>alphanumeric<sp/>characters<sp/>in<sp/>this<sp/>range&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cls.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set_1aa490c669c619d0964778686f62b3c40d" kindref="member">alphas</ref><sp/>+<sp/>cls.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set_1a5ccbe0f8363ef1eac4b08140e51b382a" kindref="member">nums</ref></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@_lazyclassproperty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set_1a59a701991b28ad11fcf4803356d3dd37" kindref="member">identchars</ref>(cls):</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;all<sp/>characters<sp/>in<sp/>this<sp/>range<sp/>that<sp/>are<sp/>valid<sp/>identifier<sp/>characters,<sp/>plus<sp/>underscore<sp/>&apos;_&apos;&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">.join(</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sorted(</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set(</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">.join(filter(str.isidentifier,<sp/>cls.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set_1ab528a98f9dc358382e8ad40088adc974" kindref="member">_chars_for_ranges</ref><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set_1a08b536ae1199404bd025398bf2dd8284" kindref="member">_chars_for_ranges</ref>))</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzªµº&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@_lazyclassproperty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set_1af35d5e29e76ee5a334ab47bd9e3be005" kindref="member">identbodychars</ref>(cls):</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="102"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>all<sp/>characters<sp/>in<sp/>this<sp/>range<sp/>that<sp/>are<sp/>valid<sp/>identifier<sp/>body<sp/>characters,</highlight></codeline>
+<codeline lineno="103"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>plus<sp/>the<sp/>digits<sp/>0-9,<sp/>and<sp/>·<sp/>(Unicode<sp/>MIDDLE<sp/>DOT)</highlight></codeline>
+<codeline lineno="104"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">.join(</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sorted(</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>set(</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cls.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set_1a59a701991b28ad11fcf4803356d3dd37" kindref="member">identchars</ref><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set_1abfa15a81557275b640830e25d265ad7d" kindref="member">identchars</ref></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;0123456789·&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">.join(</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[c<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>c<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>cls.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set_1ab528a98f9dc358382e8ad40088adc974" kindref="member">_chars_for_ranges</ref><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set_1a08b536ae1199404bd025398bf2dd8284" kindref="member">_chars_for_ranges</ref><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal"><sp/>+<sp/>c).isidentifier()]</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@_lazyclassproperty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set_1a530a53cf38ba66900f707bea81a04b9b" kindref="member">identifier</ref>(cls):</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="120"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>a<sp/>pyparsing<sp/>Word<sp/>expression<sp/>for<sp/>an<sp/>identifier<sp/>using<sp/>this<sp/>range&apos;s<sp/>definitions<sp/>for</highlight></codeline>
+<codeline lineno="121"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>identchars<sp/>and<sp/>identbodychars</highlight></codeline>
+<codeline lineno="122"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1pyparsing" kindref="compound">pip._vendor.pyparsing</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Word</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Word" kindref="compound">Word</ref>(cls.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set_1a59a701991b28ad11fcf4803356d3dd37" kindref="member">identchars</ref><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set_1abfa15a81557275b640830e25d265ad7d" kindref="member">identchars</ref>,<sp/>cls.<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set_1af35d5e29e76ee5a334ab47bd9e3be005" kindref="member">identbodychars</ref><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set_1a1aa0e885fe9f43dddde4c6b6201527ef" kindref="member">identbodychars</ref>)</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode" kindref="compound">pyparsing_unicode</ref>(<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set" kindref="compound">unicode_set</ref>):</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="130"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>A<sp/>namespace<sp/>class<sp/>for<sp/>defining<sp/>common<sp/>language<sp/>unicode_sets.</highlight></codeline>
+<codeline lineno="131"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>fmt:<sp/>off</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>define<sp/>ranges<sp/>in<sp/>language<sp/>character<sp/>sets</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>_ranges:<sp/>UnicodeRangeList<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x0020,<sp/>sys.maxunicode),</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1BasicMultilingualPlane" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1BasicMultilingualPlane" kindref="compound">BasicMultilingualPlane</ref>(<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set" kindref="compound">unicode_set</ref>):</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Unicode<sp/>set<sp/>for<sp/>the<sp/>Basic<sp/>Multilingual<sp/>Plane&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_ranges:<sp/>UnicodeRangeList<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x0020,<sp/>0xFFFF),</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Latin1" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Latin1" kindref="compound">Latin1</ref>(<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set" kindref="compound">unicode_set</ref>):</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Unicode<sp/>set<sp/>for<sp/>Latin-1<sp/>Unicode<sp/>Character<sp/>Range&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_ranges:<sp/>UnicodeRangeList<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x0020,<sp/>0x007E),</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x00A0,<sp/>0x00FF),</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1LatinA" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1LatinA" kindref="compound">LatinA</ref>(<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set" kindref="compound">unicode_set</ref>):</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Unicode<sp/>set<sp/>for<sp/>Latin-A<sp/>Unicode<sp/>Character<sp/>Range&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_ranges:<sp/>UnicodeRangeList<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x0100,<sp/>0x017F),</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1LatinB" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1LatinB" kindref="compound">LatinB</ref>(<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set" kindref="compound">unicode_set</ref>):</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Unicode<sp/>set<sp/>for<sp/>Latin-B<sp/>Unicode<sp/>Character<sp/>Range&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_ranges:<sp/>UnicodeRangeList<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x0180,<sp/>0x024F),</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Greek" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Greek" kindref="compound">Greek</ref>(<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set" kindref="compound">unicode_set</ref>):</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Unicode<sp/>set<sp/>for<sp/>Greek<sp/>Unicode<sp/>Character<sp/>Ranges&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_ranges:<sp/>UnicodeRangeList<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x0342,<sp/>0x0345),</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x0370,<sp/>0x0377),</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x037A,<sp/>0x037F),</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x0384,<sp/>0x038A),</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x038C,),</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x038E,<sp/>0x03A1),</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x03A3,<sp/>0x03E1),</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x03F0,<sp/>0x03FF),</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1D26,<sp/>0x1D2A),</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1D5E,),</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1D60,),</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1D66,<sp/>0x1D6A),</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1F00,<sp/>0x1F15),</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1F18,<sp/>0x1F1D),</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1F20,<sp/>0x1F45),</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1F48,<sp/>0x1F4D),</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1F50,<sp/>0x1F57),</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1F59,),</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1F5B,),</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1F5D,),</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1F5F,<sp/>0x1F7D),</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1F80,<sp/>0x1FB4),</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1FB6,<sp/>0x1FC4),</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1FC6,<sp/>0x1FD3),</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1FD6,<sp/>0x1FDB),</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1FDD,<sp/>0x1FEF),</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1FF2,<sp/>0x1FF4),</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1FF6,<sp/>0x1FFE),</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x2129,),</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x2719,<sp/>0x271A),</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xAB65,),</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x10140,<sp/>0x1018D),</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x101A0,),</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1D200,<sp/>0x1D245),</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1F7A1,<sp/>0x1F7A7),</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205" refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Cyrillic" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Cyrillic" kindref="compound">Cyrillic</ref>(<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set" kindref="compound">unicode_set</ref>):</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Unicode<sp/>set<sp/>for<sp/>Cyrillic<sp/>Unicode<sp/>Character<sp/>Range&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_ranges:<sp/>UnicodeRangeList<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x0400,<sp/>0x052F),</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1C80,<sp/>0x1C88),</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1D2B,),</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1D78,),</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x2DE0,<sp/>0x2DFF),</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xA640,<sp/>0xA672),</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xA674,<sp/>0xA69F),</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xFE2E,<sp/>0xFE2F),</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Chinese" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Chinese" kindref="compound">Chinese</ref>(<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set" kindref="compound">unicode_set</ref>):</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Unicode<sp/>set<sp/>for<sp/>Chinese<sp/>Unicode<sp/>Character<sp/>Range&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_ranges:<sp/>UnicodeRangeList<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x2E80,<sp/>0x2E99),</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x2E9B,<sp/>0x2EF3),</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x31C0,<sp/>0x31E3),</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x3400,<sp/>0x4DB5),</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x4E00,<sp/>0x9FEF),</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xA700,<sp/>0xA707),</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xF900,<sp/>0xFA6D),</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xFA70,<sp/>0xFAD9),</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x16FE2,<sp/>0x16FE3),</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1F210,<sp/>0x1F212),</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1F214,<sp/>0x1F23B),</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1F240,<sp/>0x1F248),</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x20000,<sp/>0x2A6D6),</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x2A700,<sp/>0x2B734),</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x2B740,<sp/>0x2B81D),</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x2B820,<sp/>0x2CEA1),</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x2CEB0,<sp/>0x2EBE0),</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x2F800,<sp/>0x2FA1D),</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241" refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Japanese" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Japanese" kindref="compound">Japanese</ref>(<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set" kindref="compound">unicode_set</ref>):</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Unicode<sp/>set<sp/>for<sp/>Japanese<sp/>Unicode<sp/>Character<sp/>Range,<sp/>combining<sp/>Kanji,<sp/>Hiragana,<sp/>and<sp/>Katakana<sp/>ranges&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244" refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Japanese_1_1Kanji" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Japanese_1_1Kanji" kindref="compound">Kanji</ref>(<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set" kindref="compound">unicode_set</ref>):</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Unicode<sp/>set<sp/>for<sp/>Kanji<sp/>Unicode<sp/>Character<sp/>Range&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_ranges:<sp/>UnicodeRangeList<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x4E00,<sp/>0x9FBF),</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x3000,<sp/>0x303F),</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251" refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Japanese_1_1Hiragana" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Japanese_1_1Hiragana" kindref="compound">Hiragana</ref>(<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set" kindref="compound">unicode_set</ref>):</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Unicode<sp/>set<sp/>for<sp/>Hiragana<sp/>Unicode<sp/>Character<sp/>Range&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_ranges:<sp/>UnicodeRangeList<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x3041,<sp/>0x3096),</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x3099,<sp/>0x30A0),</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x30FC,),</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xFF70,),</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1B001,),</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1B150,<sp/>0x1B152),</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1F200,),</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263" refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Japanese_1_1Katakana" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Japanese_1_1Katakana" kindref="compound">Katakana</ref>(<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set" kindref="compound">unicode_set</ref>):</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Unicode<sp/>set<sp/>for<sp/>Katakana<sp/><sp/>Unicode<sp/>Character<sp/>Range&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_ranges:<sp/>UnicodeRangeList<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x3099,<sp/>0x309C),</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x30A0,<sp/>0x30FF),</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x31F0,<sp/>0x31FF),</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x32D0,<sp/>0x32FE),</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xFF65,<sp/>0xFF9F),</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1B000,),</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1B164,<sp/>0x1B167),</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1F201,<sp/>0x1F202),</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1F213,),</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>漢字<sp/>=<sp/>Kanji</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>カタカナ<sp/>=<sp/>Katakana</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ひらがな<sp/>=<sp/>Hiragana</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_ranges<sp/>=<sp/>(</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Kanji._ranges</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/>Hiragana._ranges</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/>Katakana._ranges</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287" refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Hangul" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Hangul" kindref="compound">Hangul</ref>(<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set" kindref="compound">unicode_set</ref>):</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Unicode<sp/>set<sp/>for<sp/>Hangul<sp/>(Korean)<sp/>Unicode<sp/>Character<sp/>Range&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_ranges:<sp/>UnicodeRangeList<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x1100,<sp/>0x11FF),</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x302E,<sp/>0x302F),</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x3131,<sp/>0x318E),</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x3200,<sp/>0x321C),</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x3260,<sp/>0x327B),</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x327E,),</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xA960,<sp/>0xA97C),</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xAC00,<sp/>0xD7A3),</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xD7B0,<sp/>0xD7C6),</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xD7CB,<sp/>0xD7FB),</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xFFA0,<sp/>0xFFBE),</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xFFC2,<sp/>0xFFC7),</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xFFCA,<sp/>0xFFCF),</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xFFD2,<sp/>0xFFD7),</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xFFDA,<sp/>0xFFDC),</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>Korean<sp/>=<sp/>Hangul</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309" refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1CJK" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1CJK" kindref="compound">CJK</ref>(<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Chinese" kindref="compound">Chinese</ref>,<sp/><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Japanese" kindref="compound">Japanese</ref>,<sp/><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Hangul" kindref="compound">Hangul</ref>):</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Unicode<sp/>set<sp/>for<sp/>combined<sp/>Chinese,<sp/>Japanese,<sp/>and<sp/>Korean<sp/>(CJK)<sp/>Unicode<sp/>Character<sp/>Range&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312" refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Thai" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Thai(unicode_set):</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Unicode<sp/>set<sp/>for<sp/>Thai<sp/>Unicode<sp/>Character<sp/>Range&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_ranges:<sp/>UnicodeRangeList<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x0E01,<sp/>0x0E3A),</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x0E3F,<sp/>0x0E5B)</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319" refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Arabic" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Arabic" kindref="compound">Arabic</ref>(<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set" kindref="compound">unicode_set</ref>):</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Unicode<sp/>set<sp/>for<sp/>Arabic<sp/>Unicode<sp/>Character<sp/>Range&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_ranges:<sp/>UnicodeRangeList<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x0600,<sp/>0x061B),</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x061E,<sp/>0x06FF),</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x0700,<sp/>0x077F),</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327" refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Hebrew" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Hebrew" kindref="compound">Hebrew</ref>(<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set" kindref="compound">unicode_set</ref>):</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Unicode<sp/>set<sp/>for<sp/>Hebrew<sp/>Unicode<sp/>Character<sp/>Range&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_ranges:<sp/>UnicodeRangeList<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x0591,<sp/>0x05C7),</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x05D0,<sp/>0x05EA),</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x05EF,<sp/>0x05F4),</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xFB1D,<sp/>0xFB36),</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xFB38,<sp/>0xFB3C),</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xFB3E,),</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xFB40,<sp/>0xFB41),</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xFB43,<sp/>0xFB44),</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xFB46,<sp/>0xFB4F),</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341" refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Devanagari" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1pyparsing__unicode_1_1Devanagari" kindref="compound">Devanagari</ref>(<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1unicode_1_1unicode__set" kindref="compound">unicode_set</ref>):</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Unicode<sp/>set<sp/>for<sp/>Devanagari<sp/>Unicode<sp/>Character<sp/>Range&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_ranges:<sp/>UnicodeRangeList<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0x0900,<sp/>0x097F),</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(0xA8E0,<sp/>0xA8FF)</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>BMP<sp/>=<sp/>BasicMultilingualPlane</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>add<sp/>language<sp/>identifiers<sp/>using<sp/>language<sp/>Unicode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>العربية<sp/>=<sp/>Arabic</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>中文<sp/>=<sp/>Chinese</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>кириллица<sp/>=<sp/>Cyrillic</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>Ελληνικά<sp/>=<sp/>Greek</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>עִברִית<sp/>=<sp/>Hebrew</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>日本語<sp/>=<sp/>Japanese</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>한국어<sp/>=<sp/>Korean</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>ไทย<sp/>=<sp/>Thai</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>देवनागरी<sp/>=<sp/>Devanagari</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>fmt:<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/unicode.py"/>
+  </compounddef>
+</doxygen>

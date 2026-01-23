@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1ext_1_1githubpages" kind="namespace" language="Python">
+    <compoundname>sphinx::ext::githubpages</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1githubpages_1a0896734a770028a429aca6e2a4097969" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.ext.githubpages._get_domain_from_url</definition>
+        <argsstring>(str url)</argsstring>
+        <name>_get_domain_from_url</name>
+        <qualifiedname>sphinx.ext.githubpages._get_domain_from_url</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the domain from a URL.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/githubpages.py" line="16" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/githubpages.py" bodystart="16" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1githubpages_1a4bf153028f3347fbd5eac8ace3d7e05c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.githubpages.create_nojekyll_and_cname</definition>
+        <argsstring>(Sphinx app, BuildEnvironment env)</argsstring>
+        <name>create_nojekyll_and_cname</name>
+        <qualifiedname>sphinx.ext.githubpages.create_nojekyll_and_cname</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Manage the ``.nojekyll`` and ``CNAME`` files for GitHub Pages.
+
+For HTML-format builders (e.g. &apos;html&apos;, &apos;dirhtml&apos;) we unconditionally create
+the ``.nojekyll`` file to signal that GitHub Pages should not run Jekyll
+processing.
+
+If the :confval:`html_baseurl` option is set, we also create a CNAME file
+with the domain from ``html_baseurl``, so long as it is not a ``github.io``
+domain.
+
+If this extension is loaded and the domain in ``html_baseurl`` no longer
+requires a CNAME file, we remove any existing ``CNAME`` files from the
+output directory.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/githubpages.py" line="21" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/githubpages.py" bodystart="21" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1githubpages_1a3b23d3587e4eb052b9aa153681ce0168" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1ExtensionMetadata" kindref="compound">ExtensionMetadata</ref></type>
+        <definition> ExtensionMetadata sphinx.ext.githubpages.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.ext.githubpages.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/githubpages.py" line="53" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/githubpages.py" bodystart="53" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>To publish HTML docs at GitHub Pages, create .nojekyll file.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/ext/githubpages.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

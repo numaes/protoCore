@@ -1,0 +1,2308 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1environment_1_1Environment" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::environment::Environment</compoundname>
+    <derivedcompoundref refid="classjinja2_1_1nativetypes_1_1NativeEnvironment" prot="public" virt="non-virtual">jinja2.nativetypes.NativeEnvironment</derivedcompoundref>
+    <derivedcompoundref refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment" prot="public" virt="non-virtual">jinja2.sandbox.SandboxedEnvironment</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1a299850b4b15f78a3f0b9eeac4774065b" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool jinja2.environment.Environment::sandboxed</definition>
+        <argsstring></argsstring>
+        <name>sandboxed</name>
+        <qualifiedname>jinja2.environment.Environment.sandboxed</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="270" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1a4c9f95a36934895e6d1976c14d8b894f" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool jinja2.environment.Environment::overlayed</definition>
+        <argsstring></argsstring>
+        <name>overlayed</name>
+        <qualifiedname>jinja2.environment.Environment.overlayed</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="273" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1a2944894e0bb6facc8b150e880f7d4557" prot="public" static="yes" mutable="no">
+        <type>t</type>
+        <definition>t jinja2.environment.Environment::linked_to</definition>
+        <argsstring></argsstring>
+        <name>linked_to</name>
+        <qualifiedname>jinja2.environment.Environment.linked_to</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="276" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1ad3c1e56ac606ed76b4708bf19877bd46" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool jinja2.environment.Environment::shared</definition>
+        <argsstring></argsstring>
+        <name>shared</name>
+        <qualifiedname>jinja2.environment.Environment.shared</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="280" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1a64d2246274eff95fed0ed59fdc93f302" prot="public" static="yes" mutable="no">
+        <type>t</type>
+        <definition>t jinja2.environment.Environment::code_generator_class</definition>
+        <argsstring></argsstring>
+        <name>code_generator_class</name>
+        <qualifiedname>jinja2.environment.Environment.code_generator_class</qualifiedname>
+        <initializer>=  <ref refid="classjinja2_1_1compiler_1_1CodeGenerator" kindref="compound">CodeGenerator</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="284" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1abafe91c81d1c0333873b08096ee81d2c" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str jinja2.environment.Environment::concat</definition>
+        <argsstring></argsstring>
+        <name>concat</name>
+        <qualifiedname>jinja2.environment.Environment.concat</qualifiedname>
+        <initializer>=  &quot;&quot;.join</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="286" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1ae3aae9b2d3d56b961c26464d880f805d" prot="public" static="yes" mutable="no">
+        <type>t</type>
+        <definition>t jinja2.environment.Environment::context_class</definition>
+        <argsstring></argsstring>
+        <name>context_class</name>
+        <qualifiedname>jinja2.environment.Environment.context_class</qualifiedname>
+        <initializer>=  <ref refid="classjinja2_1_1runtime_1_1Context" kindref="compound">Context</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="290" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1ad2d7e3f6afdcd5d4a0a41b20a3322dbd" prot="public" static="yes" mutable="no">
+        <type>t</type>
+        <definition>t jinja2.environment.Environment::template_class</definition>
+        <argsstring></argsstring>
+        <name>template_class</name>
+        <qualifiedname>jinja2.environment.Environment.template_class</qualifiedname>
+        <initializer>.Type[&quot;Template&quot;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="292" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="292" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1a21083815f94a638ccf3fe81be3dd16a4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::block_start_string</definition>
+        <argsstring></argsstring>
+        <name>block_start_string</name>
+        <qualifiedname>jinja2.environment.Environment.block_start_string</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="331" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1ae51a1b43158239b18a58e8b5c2ba8b78" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::block_end_string</definition>
+        <argsstring></argsstring>
+        <name>block_end_string</name>
+        <qualifiedname>jinja2.environment.Environment.block_end_string</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="332" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1aeb7d43cd6350d87ace77b61fe761191d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::variable_start_string</definition>
+        <argsstring></argsstring>
+        <name>variable_start_string</name>
+        <qualifiedname>jinja2.environment.Environment.variable_start_string</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="333" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1af606e27a375611fb1a176dcb86147350" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::variable_end_string</definition>
+        <argsstring></argsstring>
+        <name>variable_end_string</name>
+        <qualifiedname>jinja2.environment.Environment.variable_end_string</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="334" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1abd4d32c8d1b9394968de9fef0fe544f1" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::comment_start_string</definition>
+        <argsstring></argsstring>
+        <name>comment_start_string</name>
+        <qualifiedname>jinja2.environment.Environment.comment_start_string</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="335" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1a50977dcc623b4ccff0b06742b3c78f6b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::comment_end_string</definition>
+        <argsstring></argsstring>
+        <name>comment_end_string</name>
+        <qualifiedname>jinja2.environment.Environment.comment_end_string</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="336" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1ab06e678d1be219053a5a33576f96fae5" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::line_statement_prefix</definition>
+        <argsstring></argsstring>
+        <name>line_statement_prefix</name>
+        <qualifiedname>jinja2.environment.Environment.line_statement_prefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="337" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1a7f56eeff2e41f5790ba2d3146347531a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::line_comment_prefix</definition>
+        <argsstring></argsstring>
+        <name>line_comment_prefix</name>
+        <qualifiedname>jinja2.environment.Environment.line_comment_prefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="338" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="338" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1ae3aa2ae2619df9a2aa744adff8f734bb" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::trim_blocks</definition>
+        <argsstring></argsstring>
+        <name>trim_blocks</name>
+        <qualifiedname>jinja2.environment.Environment.trim_blocks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="339" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1a2f841f439d1d015b4e9fbbfdc95cd736" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::lstrip_blocks</definition>
+        <argsstring></argsstring>
+        <name>lstrip_blocks</name>
+        <qualifiedname>jinja2.environment.Environment.lstrip_blocks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="340" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1a7051919bf202901ab0cb86db634382ca" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::newline_sequence</definition>
+        <argsstring></argsstring>
+        <name>newline_sequence</name>
+        <qualifiedname>jinja2.environment.Environment.newline_sequence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="341" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1a1ce5f2ab4442fb62c1b27b14836dd8a7" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::keep_trailing_newline</definition>
+        <argsstring></argsstring>
+        <name>keep_trailing_newline</name>
+        <qualifiedname>jinja2.environment.Environment.keep_trailing_newline</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="342" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1a89ea29c99256661d4f8812f8668096cf" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::optimized</definition>
+        <argsstring></argsstring>
+        <name>optimized</name>
+        <qualifiedname>jinja2.environment.Environment.optimized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="346" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1ac812971d13a32a47d9ebd7e994207510" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::finalize</definition>
+        <argsstring></argsstring>
+        <name>finalize</name>
+        <qualifiedname>jinja2.environment.Environment.finalize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="347" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="347" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1a2567fab346f5e368a0d92db284ab30e4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::autoescape</definition>
+        <argsstring></argsstring>
+        <name>autoescape</name>
+        <qualifiedname>jinja2.environment.Environment.autoescape</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="348" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1af34cc62216dd902073c83b9523d65a31" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::filters</definition>
+        <argsstring></argsstring>
+        <name>filters</name>
+        <qualifiedname>jinja2.environment.Environment.filters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="351" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1aab1bee5de97fda71dd1983fcea67bdd7" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::tests</definition>
+        <argsstring></argsstring>
+        <name>tests</name>
+        <qualifiedname>jinja2.environment.Environment.tests</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="352" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1a12b3cef13dab3bd1a7c2e3b5f09d3f98" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::globals</definition>
+        <argsstring></argsstring>
+        <name>globals</name>
+        <qualifiedname>jinja2.environment.Environment.globals</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="353" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="353" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1a932fcb4327ccfbc91ebe69848556b60e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::loader</definition>
+        <argsstring></argsstring>
+        <name>loader</name>
+        <qualifiedname>jinja2.environment.Environment.loader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="356" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="356" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1a6b175442c705fa460fbc4478c9cbeb8c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::cache</definition>
+        <argsstring></argsstring>
+        <name>cache</name>
+        <qualifiedname>jinja2.environment.Environment.cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="357" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="357" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1aa5bc8250b943d3ffd73bab6966f5ee26" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::bytecode_cache</definition>
+        <argsstring></argsstring>
+        <name>bytecode_cache</name>
+        <qualifiedname>jinja2.environment.Environment.bytecode_cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="358" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="358" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1aff8d7153f26480f30ba1b5a544d85eac" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::auto_reload</definition>
+        <argsstring></argsstring>
+        <name>auto_reload</name>
+        <qualifiedname>jinja2.environment.Environment.auto_reload</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="359" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="359" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1a4734afddfa6a371f9a8abcb4313cf971" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::policies</definition>
+        <argsstring></argsstring>
+        <name>policies</name>
+        <qualifiedname>jinja2.environment.Environment.policies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="362" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="362" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1ad6e39b8b9cf90d8d1a420a40e29db2c9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::extensions</definition>
+        <argsstring></argsstring>
+        <name>extensions</name>
+        <qualifiedname>jinja2.environment.Environment.extensions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="365" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="365" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1aa393a275b440f523ec0da88ad25a8b2d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::is_async</definition>
+        <argsstring></argsstring>
+        <name>is_async</name>
+        <qualifiedname>jinja2.environment.Environment.is_async</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="367" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="367" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1environment_1_1Environment_1a665342b926d349e11d57692ffdcbd5dd" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.environment.Environment::__dict__</definition>
+        <argsstring></argsstring>
+        <name>__dict__</name>
+        <qualifiedname>jinja2.environment.Environment.__dict__</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="433" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="433" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1af758db6473e229538a23236ca94bc5b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>jinja2.environment.Environment.__init__</definition>
+        <argsstring>(self, str block_start_string=BLOCK_START_STRING, str block_end_string=BLOCK_END_STRING, str variable_start_string=VARIABLE_START_STRING, str variable_end_string=VARIABLE_END_STRING, str comment_start_string=COMMENT_START_STRING, str comment_end_string=COMMENT_END_STRING, t.Optional[str] line_statement_prefix=LINE_STATEMENT_PREFIX, t.Optional[str] line_comment_prefix=LINE_COMMENT_PREFIX, bool trim_blocks=TRIM_BLOCKS, bool lstrip_blocks=LSTRIP_BLOCKS, &quot;te.Literal[&apos;\\n&apos;, &apos;\\r\\n&apos;, &apos;\\r&apos;]&quot; newline_sequence=NEWLINE_SEQUENCE, bool keep_trailing_newline=KEEP_TRAILING_NEWLINE, t.Sequence[t.Union[str, t.Type[&quot;Extension&quot;]]] extensions=(), bool optimized=True, t.Type[Undefined] undefined=Undefined, t.Optional[t.Callable[..., t.Any]] finalize=None, t.Union[bool, t.Callable[[t.Optional[str]], bool]] autoescape=False, t.Optional[&quot;BaseLoader&quot;] loader=None, int cache_size=400, bool auto_reload=True, t.Optional[&quot;BytecodeCache&quot;] bytecode_cache=None, bool enable_async=False)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>jinja2.environment.Environment.__init__</qualifiedname>
+        <reimplementedby refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1a5b7084e92161580b72e9a30cea2d468e">__init__</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>block_start_string</declname>
+          <defval>BLOCK_START_STRING</defval>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>block_end_string</declname>
+          <defval>BLOCK_END_STRING</defval>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>variable_start_string</declname>
+          <defval>VARIABLE_START_STRING</defval>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>variable_end_string</declname>
+          <defval>VARIABLE_END_STRING</defval>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>comment_start_string</declname>
+          <defval>COMMENT_START_STRING</defval>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>comment_end_string</declname>
+          <defval>COMMENT_END_STRING</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>line_statement_prefix</declname>
+          <array>[str]</array>
+          <defval>LINE_STATEMENT_PREFIX</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>line_comment_prefix</declname>
+          <array>[str]</array>
+          <defval>LINE_COMMENT_PREFIX</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trim_blocks</declname>
+          <defval>TRIM_BLOCKS</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>lstrip_blocks</declname>
+          <defval>LSTRIP_BLOCKS</defval>
+        </param>
+        <param>
+          <type>&quot;te.Literal&quot;</type>
+          <declname>newline_sequence</declname>
+          <array>[&apos;\\n&apos;, &apos;\\r\\n&apos;, &apos;\\r&apos;]</array>
+          <defval>NEWLINE_SEQUENCE</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>keep_trailing_newline</declname>
+          <defval>KEEP_TRAILING_NEWLINE</defval>
+        </param>
+        <param>
+          <type>t.Sequence]]</type>
+          <declname>extensions</declname>
+          <array>[t.Union[str, t.Type[&quot;Extension&quot;]</array>
+          <defval>()</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>optimized</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>t.Type</type>
+          <declname>undefined</declname>
+          <array>[Undefined]</array>
+          <defval><ref refid="classjinja2_1_1runtime_1_1Undefined" kindref="compound">Undefined</ref></defval>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>finalize</declname>
+          <array>[t.Callable[..., t.Any]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Union]</type>
+          <defname>autoescape</defname>
+          <array>[bool, t.Callable[[t.Optional[str]</array>
+        </param>
+        <param>
+          <type>bool]]</type>
+          <declname>autoescape</declname>
+          <defname>loader</defname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>loader</declname>
+          <defname>cache_size</defname>
+          <array>[&quot;BaseLoader&quot;]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>cache_size</declname>
+          <defname>auto_reload</defname>
+          <defval>400</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>auto_reload</declname>
+          <defname>bytecode_cache</defname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>bytecode_cache</declname>
+          <defname>enable_async</defname>
+          <array>[&quot;BytecodeCache&quot;]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enable_async</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="294" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="318" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1aa854f0ad091eb27e4f2025e2d836f898" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.environment.Environment.add_extension</definition>
+        <argsstring>(self, t.Union[str, t.Type[&quot;Extension&quot;]] extension)</argsstring>
+        <name>add_extension</name>
+        <qualifiedname>jinja2.environment.Environment.add_extension</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Union]</type>
+          <declname>extension</declname>
+          <array>[str, t.Type[&quot;Extension&quot;]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Adds an extension after the environment was created.
+
+.. versionadded:: 2.5
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="370" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="370" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1addbbd33e41c262ae115a9f362391a7d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.environment.Environment.extend</definition>
+        <argsstring>(self, **t.Any attributes)</argsstring>
+        <name>extend</name>
+        <qualifiedname>jinja2.environment.Environment.extend</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>attributes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Add the items to the instance of the environment if they do not exist
+yet.  This is used by :ref:`extensions &lt;writing-extensions&gt;` to register
+callbacks and configuration values without breaking inheritance.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="377" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="377" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1afad4bab9e00f479fbef9b966fd7feeff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;te.Self&quot;</type>
+        <definition> &quot;te.Self&quot; jinja2.environment.Environment.overlay</definition>
+        <argsstring>(self, str block_start_string=missing, str block_end_string=missing, str variable_start_string=missing, str variable_end_string=missing, str comment_start_string=missing, str comment_end_string=missing, t.Optional[str] line_statement_prefix=missing, t.Optional[str] line_comment_prefix=missing, bool trim_blocks=missing, bool lstrip_blocks=missing, &quot;te.Literal[&apos;\\n&apos;, &apos;\\r\\n&apos;, &apos;\\r&apos;]&quot; newline_sequence=missing, bool keep_trailing_newline=missing, t.Sequence[t.Union[str, t.Type[&quot;Extension&quot;]]] extensions=missing, bool optimized=missing, t.Type[Undefined] undefined=missing, t.Optional[t.Callable[..., t.Any]] finalize=missing, t.Union[bool, t.Callable[[t.Optional[str]], bool]] autoescape=missing, t.Optional[&quot;BaseLoader&quot;] loader=missing, int cache_size=missing, bool auto_reload=missing, t.Optional[&quot;BytecodeCache&quot;] bytecode_cache=missing, bool enable_async=missing)</argsstring>
+        <name>overlay</name>
+        <qualifiedname>jinja2.environment.Environment.overlay</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>block_start_string</declname>
+          <defval>missing</defval>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>block_end_string</declname>
+          <defval>missing</defval>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>variable_start_string</declname>
+          <defval>missing</defval>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>variable_end_string</declname>
+          <defval>missing</defval>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>comment_start_string</declname>
+          <defval>missing</defval>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>comment_end_string</declname>
+          <defval>missing</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>line_statement_prefix</declname>
+          <array>[str]</array>
+          <defval>missing</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>line_comment_prefix</declname>
+          <array>[str]</array>
+          <defval>missing</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trim_blocks</declname>
+          <defval>missing</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>lstrip_blocks</declname>
+          <defval>missing</defval>
+        </param>
+        <param>
+          <type>&quot;te.Literal&quot;</type>
+          <declname>newline_sequence</declname>
+          <array>[&apos;\\n&apos;, &apos;\\r\\n&apos;, &apos;\\r&apos;]</array>
+          <defval>missing</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>keep_trailing_newline</declname>
+          <defval>missing</defval>
+        </param>
+        <param>
+          <type>t.Sequence]]</type>
+          <declname>extensions</declname>
+          <array>[t.Union[str, t.Type[&quot;Extension&quot;]</array>
+          <defval>missing</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>optimized</declname>
+          <defval>missing</defval>
+        </param>
+        <param>
+          <type>t.Type</type>
+          <declname>undefined</declname>
+          <array>[Undefined]</array>
+          <defval>missing</defval>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>finalize</declname>
+          <array>[t.Callable[..., t.Any]</array>
+          <defval>missing</defval>
+        </param>
+        <param>
+          <type>t.Union]</type>
+          <defname>autoescape</defname>
+          <array>[bool, t.Callable[[t.Optional[str]</array>
+        </param>
+        <param>
+          <type>bool]]</type>
+          <declname>autoescape</declname>
+          <defname>loader</defname>
+          <defval>missing</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>loader</declname>
+          <defname>cache_size</defname>
+          <array>[&quot;BaseLoader&quot;]</array>
+          <defval>missing</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>cache_size</declname>
+          <defname>auto_reload</defname>
+          <defval>missing</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>auto_reload</declname>
+          <defname>bytecode_cache</defname>
+          <defval>missing</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>bytecode_cache</declname>
+          <defname>enable_async</defname>
+          <array>[&quot;BytecodeCache&quot;]</array>
+          <defval>missing</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enable_async</declname>
+          <defval>missing</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create a new overlay environment that shares all the data with the
+current environment except for cache and the overridden attributes.
+Extensions cannot be removed for an overlayed environment.  An overlayed
+environment automatically gets all the extensions of the environment it
+is linked to plus optional extra extensions.
+
+Creating overlays should happen after the initial environment was set
+up completely.  Not all attributes are truly linked, some are just
+copied over so modifications on the original environment may not shine
+through.
+
+.. versionchanged:: 3.1.5
+    ``enable_async`` is applied correctly.
+
+.. versionchanged:: 3.1.2
+    Added the ``newline_sequence``, ``keep_trailing_newline``,
+    and ``enable_async`` parameters to match ``__init__``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="386" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="410" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1a8ce0539e36f1dc905a740f5495136085" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classjinja2_1_1lexer_1_1Lexer" kindref="compound">Lexer</ref></type>
+        <definition> Lexer jinja2.environment.Environment.lexer</definition>
+        <argsstring>(self)</argsstring>
+        <name>lexer</name>
+        <qualifiedname>jinja2.environment.Environment.lexer</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The lexer for this environment.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="458" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="458" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1a209b2c2cd92f8d7ba75bc226d8792e5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Iterator[&quot;Extension&quot;]</type>
+        <definition> t.Iterator[&quot;Extension&quot;] jinja2.environment.Environment.iter_extensions</definition>
+        <argsstring>(self)</argsstring>
+        <name>iter_extensions</name>
+        <qualifiedname>jinja2.environment.Environment.iter_extensions</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Iterates over the extensions by priority.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="462" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="462" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1adaac0af940852c76683f69125182a15c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Union[t.Any, <ref refid="classjinja2_1_1runtime_1_1Undefined" kindref="compound">Undefined</ref>]</type>
+        <definition> t.Union[t.Any, Undefined] jinja2.environment.Environment.getitem</definition>
+        <argsstring>(self, t.Any obj, t.Union[str, t.Any] argument)</argsstring>
+        <name>getitem</name>
+        <qualifiedname>jinja2.environment.Environment.getitem</qualifiedname>
+        <reimplementedby refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1a49f981155f611c092b19b662553ec41f">getitem</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>t.Union</type>
+          <declname>argument</declname>
+          <array>[str, t.Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get an item or attribute of an object but prefer the item.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="466" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="468" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1a7f381581b4a95b1cd53f5fa48e233fe0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Any</type>
+        <definition> t.Any jinja2.environment.Environment.getattr</definition>
+        <argsstring>(self, t.Any obj, str attribute)</argsstring>
+        <name>getattr</name>
+        <qualifiedname>jinja2.environment.Environment.getattr</qualifiedname>
+        <reimplementedby refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1aa670244404c96a2201bc9f1c8ab931e7">getattr</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>attribute</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get an item or attribute of an object but prefer the attribute.
+Unlike :meth:`getitem` the attribute *must* be a string.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="485" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="485" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1a9deceba83b2325e48cac0b19cbca82b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Any</type>
+        <definition> t.Any jinja2.environment.Environment.call_filter</definition>
+        <argsstring>(self, str name, t.Any value, t.Optional[t.Sequence[t.Any]] args=None, t.Optional[t.Mapping[str, t.Any]] kwargs=None, t.Optional[Context] context=None, t.Optional[EvalContext] eval_ctx=None)</argsstring>
+        <name>call_filter</name>
+        <qualifiedname>jinja2.environment.Environment.call_filter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>t.Any</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>args</declname>
+          <array>[t.Sequence[t.Any]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>kwargs</declname>
+          <array>[t.Mapping[str, t.Any]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>context</declname>
+          <array>[Context]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>eval_ctx</declname>
+          <array>[EvalContext]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Invoke a filter on a value the same way the compiler does.
+
+This might return a coroutine if the filter is running from an
+environment in async mode and the filter supports async
+execution. It&apos;s your responsibility to await this if needed.
+
+.. versionadded:: 2.7
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="552" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="560" bodyend="572"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1a8dc9961dee3839895e4115410dc2abe5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Any</type>
+        <definition> t.Any jinja2.environment.Environment.call_test</definition>
+        <argsstring>(self, str name, t.Any value, t.Optional[t.Sequence[t.Any]] args=None, t.Optional[t.Mapping[str, t.Any]] kwargs=None, t.Optional[Context] context=None, t.Optional[EvalContext] eval_ctx=None)</argsstring>
+        <name>call_test</name>
+        <qualifiedname>jinja2.environment.Environment.call_test</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>t.Any</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>args</declname>
+          <array>[t.Sequence[t.Any]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>kwargs</declname>
+          <array>[t.Mapping[str, t.Any]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>context</declname>
+          <array>[Context]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>eval_ctx</declname>
+          <array>[EvalContext]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Invoke a test on a value the same way the compiler does.
+
+This might return a coroutine if the test is running from an
+environment in async mode and the test supports async execution.
+It&apos;s your responsibility to await this if needed.
+
+.. versionchanged:: 3.0
+    Tests support ``@pass_context``, etc. decorators. Added
+    the ``context`` and ``eval_ctx`` parameters.
+
+.. versionadded:: 2.7
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="573" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="581" bodyend="597"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1a203dd9cf6165884a55677c5a9aeb3ac9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classjinja2_1_1nodes_1_1Template" kindref="compound">nodes.Template</ref></type>
+        <definition> nodes.Template jinja2.environment.Environment.parse</definition>
+        <argsstring>(self, str source, t.Optional[str] name=None, t.Optional[str] filename=None)</argsstring>
+        <name>parse</name>
+        <qualifiedname>jinja2.environment.Environment.parse</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>name</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>filename</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse the sourcecode and return the abstract syntax tree.  This
+tree of nodes is used by the compiler to convert the template into
+executable source- or bytecode.  This is useful for debugging or to
+extract information from templates.
+
+If you are :ref:`developing Jinja extensions &lt;writing-extensions&gt;`
+this gives you a good overview of the node tree generated.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="599" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="604" bodyend="617"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1a0e3c1818fa749b93bb20d2cc96ca0cff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Iterator[t.Tuple[int, str, str]]</type>
+        <definition> t.Iterator[t.Tuple[int, str, str]] jinja2.environment.Environment.lex</definition>
+        <argsstring>(self, str source, t.Optional[str] name=None, t.Optional[str] filename=None)</argsstring>
+        <name>lex</name>
+        <qualifiedname>jinja2.environment.Environment.lex</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>name</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>filename</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Lex the given sourcecode and return a generator that yields
+tokens as tuples in the form ``(lineno, token_type, value)``.
+This can be useful for :ref:`extension development &lt;writing-extensions&gt;`
+and debugging templates.
+
+This does not perform preprocessing.  If you want the preprocessing
+of the extensions to be applied you have to filter source through
+the :meth:`preprocess` method.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="624" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="629" bodyend="644"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1ada6737748d0d06899ee8c6085dd2fd6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.environment.Environment.preprocess</definition>
+        <argsstring>(self, str source, t.Optional[str] name=None, t.Optional[str] filename=None)</argsstring>
+        <name>preprocess</name>
+        <qualifiedname>jinja2.environment.Environment.preprocess</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>name</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>filename</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Preprocesses the source with all extensions.  This is automatically
+called for all parsing and compiling methods but *not* for :meth:`lex`
+because there you usually only want the actual source tokenized.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="645" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="650" bodyend="660"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1a7ee42dc831dd9458f8f3ce90d14124b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>CodeType</type>
+        <definition> CodeType jinja2.environment.Environment.compile</definition>
+        <argsstring>(self, t.Union[str, nodes.Template] source, t.Optional[str] name=None, t.Optional[str] filename=None, &quot;te.Literal[False]&quot; raw=False, bool defer_init=False)</argsstring>
+        <name>compile</name>
+        <qualifiedname>jinja2.environment.Environment.compile</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Union</type>
+          <declname>source</declname>
+          <array>[str, nodes.Template]</array>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>name</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>filename</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>&quot;te.Literal&quot;</type>
+          <declname>raw</declname>
+          <array>[False]</array>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>defer_init</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="712" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="719" bodyend="720"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1aa431cfc54275cf22a54509bc001819be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.environment.Environment.compile</definition>
+        <argsstring>(self, t.Union[str, nodes.Template] source, t.Optional[str] name=None, t.Optional[str] filename=None, &quot;te.Literal[True]&quot; raw=..., bool defer_init=False)</argsstring>
+        <name>compile</name>
+        <qualifiedname>jinja2.environment.Environment.compile</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Union</type>
+          <declname>source</declname>
+          <array>[str, nodes.Template]</array>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>name</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>filename</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>&quot;te.Literal&quot;</type>
+          <declname>raw</declname>
+          <array>[True]</array>
+          <defval>...</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>defer_init</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="722" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="729" bodyend="730"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1a66dbeb68d2ccaf508f2f3189da417d8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Union[str, CodeType]</type>
+        <definition> t.Union[str, CodeType] jinja2.environment.Environment.compile</definition>
+        <argsstring>(self, t.Union[str, nodes.Template] source, t.Optional[str] name=None, t.Optional[str] filename=None, bool raw=False, bool defer_init=False)</argsstring>
+        <name>compile</name>
+        <qualifiedname>jinja2.environment.Environment.compile</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Union</type>
+          <declname>source</declname>
+          <array>[str, nodes.Template]</array>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>name</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>filename</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>raw</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>defer_init</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Compile a node or template source code.  The `name` parameter is
+the load name of the template after it was joined using
+:meth:`join_path` if necessary, not the filename on the file system.
+the `filename` parameter is the estimated filename of the template on
+the file system.  If the template came from a database or memory this
+can be omitted.
+
+The return value of this method is a python code object.  If the `raw`
+parameter is `True` the return value will be a string with python
+code equivalent to the bytecode returned otherwise.  This method is
+mainly used internally.
+
+`defer_init` is use internally to aid the module code generator.  This
+causes the generated code to be able to import without the global
+environment variable to be set.
+
+.. versionadded:: 2.4
+   `defer_init` parameter added.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="732" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="739" bodyend="772"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1a132aeddd0259cd765a630c3490b122c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;TemplateExpression&quot;</type>
+        <definition> &quot;TemplateExpression&quot; jinja2.environment.Environment.compile_expression</definition>
+        <argsstring>(self, str source, bool undefined_to_none=True)</argsstring>
+        <name>compile_expression</name>
+        <qualifiedname>jinja2.environment.Environment.compile_expression</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>undefined_to_none</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>A handy helper method that returns a callable that accepts keyword
+arguments that appear as variables in the expression.  If called it
+returns the result of the expression.
+
+This is useful if applications want to use the same rules as Jinja
+in template &quot;configuration files&quot; or similar situations.
+
+Example usage:
+
+&gt;&gt;&gt; env = Environment()
+&gt;&gt;&gt; expr = env.compile_expression(&apos;foo == 42&apos;)
+&gt;&gt;&gt; expr(foo=23)
+False
+&gt;&gt;&gt; expr(foo=42)
+True
+
+Per default the return value is converted to `None` if the
+expression returns an undefined value.  This can be changed
+by setting `undefined_to_none` to `False`.
+
+&gt;&gt;&gt; env.compile_expression(&apos;var&apos;)() is None
+True
+&gt;&gt;&gt; env.compile_expression(&apos;var&apos;, undefined_to_none=False)()
+Undefined
+
+.. versionadded:: 2.1
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="773" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="775" bodyend="817"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1a485a7e65afe00930c1e0b24a5080ed9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.environment.Environment.compile_templates</definition>
+        <argsstring>(self, t.Union[str, &quot;os.PathLike[str]&quot;] target, t.Optional[t.Collection[str]] extensions=None, t.Optional[t.Callable[[str], bool]] filter_func=None, t.Optional[str] zip=&quot;deflated&quot;, t.Optional[t.Callable[[str], None]] log_function=None, bool ignore_errors=True)</argsstring>
+        <name>compile_templates</name>
+        <qualifiedname>jinja2.environment.Environment.compile_templates</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Union&quot;]</type>
+          <declname>target</declname>
+          <array>[str, &quot;os.PathLike[str]</array>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>extensions</declname>
+          <array>[t.Collection[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.</type>
+          <declname>Optional</declname>
+          <defname>filter_func</defname>
+          <array>[t.Callable[[str]</array>
+        </param>
+        <param>
+          <type>bool]]</type>
+          <declname>filter_func</declname>
+          <defname>zip</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>zip</declname>
+          <defname>log_function</defname>
+          <array>[str]</array>
+          <defval>&quot;deflated&quot;</defval>
+        </param>
+        <param>
+          <type>t.</type>
+          <declname>Optional</declname>
+          <defname>ignore_errors</defname>
+          <array>[t.Callable[[str]</array>
+        </param>
+        <param>
+          <type>None]]</type>
+          <declname>log_function</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>ignore_errors</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Finds all the templates the loader can find, compiles them
+and stores them in `target`.  If `zip` is `None`, instead of in a
+zipfile, the templates will be stored in a directory.
+By default a deflate zip algorithm is used. To switch to
+the stored algorithm, `zip` can be set to ``&apos;stored&apos;``.
+
+`extensions` and `filter_func` are passed to :meth:`list_templates`.
+Each template returned will be compiled to the target folder or
+zipfile.
+
+By default template compilation errors are ignored.  In case a
+log function is provided, errors are logged.  If you want template
+syntax errors to abort the compilation you can set `ignore_errors`
+to `False` and you will get an exception on syntax errors.
+
+.. versionadded:: 2.4
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="818" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="826" bodyend="898"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1a4afe517612b9934f476063ccf2489b86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.List[str]</type>
+        <definition> t.List[str] jinja2.environment.Environment.list_templates</definition>
+        <argsstring>(self, t.Optional[t.Collection[str]] extensions=None, t.Optional[t.Callable[[str], bool]] filter_func=None)</argsstring>
+        <name>list_templates</name>
+        <qualifiedname>jinja2.environment.Environment.list_templates</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>extensions</declname>
+          <array>[t.Collection[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.</type>
+          <declname>Optional</declname>
+          <defname>filter_func</defname>
+          <array>[t.Callable[[str]</array>
+        </param>
+        <param>
+          <type>bool]]</type>
+          <declname>filter_func</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a list of templates for this environment.  This requires
+that the loader supports the loader&apos;s
+:meth:`~BaseLoader.list_templates` method.
+
+If there are other files in the template folder besides the
+actual templates, the returned list can be filtered.  There are two
+ways: either `extensions` is set to a list of file extensions for
+templates, or a `filter_func` can be provided which is a callable that
+is passed a template name and should return `True` if it should end up
+in the result list.
+
+If the loader does not support that, a :exc:`TypeError` is raised.
+
+.. versionadded:: 2.4
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="899" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="903" bodyend="935"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1a3d712e74fd0a7db032669b45c916ec85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;te.NoReturn&quot;</type>
+        <definition> &quot;te.NoReturn&quot; jinja2.environment.Environment.handle_exception</definition>
+        <argsstring>(self, t.Optional[str] source=None)</argsstring>
+        <name>handle_exception</name>
+        <qualifiedname>jinja2.environment.Environment.handle_exception</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>source</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Exception handling helper.  This is used internally to either raise
+rewritten exceptions or return a rendered traceback for the template.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="936" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="936" bodyend="943"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1adc29a3ae54fdeccc97e991e07953208d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.environment.Environment.join_path</definition>
+        <argsstring>(self, str template, str parent)</argsstring>
+        <name>join_path</name>
+        <qualifiedname>jinja2.environment.Environment.join_path</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>template</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>parent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Join a template with the parent.  By default all the lookups are
+relative to the loader root so this method returns the `template`
+parameter unchanged, but if the paths should be relative to the
+parent template, this function can be used to calculate the real
+template name.
+
+Subclasses may override this method and implement template path
+joining here.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="944" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="944" bodyend="955"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1a01a140012367ce8393fba888374ab66c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;Template&quot;</type>
+        <definition> &quot;Template&quot; jinja2.environment.Environment.get_template</definition>
+        <argsstring>(self, t.Union[str, &quot;Template&quot;] name, t.Optional[str] parent=None, t.Optional[t.MutableMapping[str, t.Any]] globals=None)</argsstring>
+        <name>get_template</name>
+        <qualifiedname>jinja2.environment.Environment.get_template</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Union</type>
+          <declname>name</declname>
+          <array>[str, &quot;Template&quot;]</array>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>parent</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>globals</declname>
+          <array>[t.MutableMapping[str, t.Any]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Load a template by name with :attr:`loader` and return a
+:class:`Template`. If the template does not exist a
+:exc:`TemplateNotFound` exception is raised.
+
+:param name: Name of the template to load. When loading
+    templates from the filesystem, &quot;/&quot; is used as the path
+    separator, even on Windows.
+:param parent: The name of the parent template importing this
+    template. :meth:`join_path` can be used to implement name
+    transformations with this.
+:param globals: Extend the environment :attr:`globals` with
+    these extra variables available for all renders of this
+    template. If the template has already been loaded and
+    cached, its globals are updated with any new items.
+
+.. versionchanged:: 3.0
+    If a template is loaded from cache, ``globals`` will update
+    the template&apos;s globals instead of ignoring the new values.
+
+.. versionchanged:: 2.4
+    If ``name`` is a :class:`Template` object it is returned
+    unchanged.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="982" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="987" bodyend="1017"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1a44b9a9d2e0750926860b40dce708fe4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;Template&quot;</type>
+        <definition> &quot;Template&quot; jinja2.environment.Environment.select_template</definition>
+        <argsstring>(self, t.Iterable[t.Union[str, &quot;Template&quot;]] names, t.Optional[str] parent=None, t.Optional[t.MutableMapping[str, t.Any]] globals=None)</argsstring>
+        <name>select_template</name>
+        <qualifiedname>jinja2.environment.Environment.select_template</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Iterable]</type>
+          <declname>names</declname>
+          <array>[t.Union[str, &quot;Template&quot;]</array>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>parent</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>globals</declname>
+          <array>[t.MutableMapping[str, t.Any]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Like :meth:`get_template`, but tries loading multiple names.
+If none of the names can be loaded a :exc:`TemplatesNotFound`
+exception is raised.
+
+:param names: List of template names to try loading in order.
+:param parent: The name of the parent template importing this
+    template. :meth:`join_path` can be used to implement name
+    transformations with this.
+:param globals: Extend the environment :attr:`globals` with
+    these extra variables available for all renders of this
+    template. If the template has already been loaded and
+    cached, its globals are updated with any new items.
+
+.. versionchanged:: 3.0
+    If a template is loaded from cache, ``globals`` will update
+    the template&apos;s globals instead of ignoring the new values.
+
+.. versionchanged:: 2.11
+    If ``names`` is :class:`Undefined`, an :exc:`UndefinedError`
+    is raised instead. If no templates were found and ``names``
+    contains :class:`Undefined`, the message is more helpful.
+
+.. versionchanged:: 2.4
+    If ``names`` contains a :class:`Template` object it is
+    returned unchanged.
+
+.. versionadded:: 2.3
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="1019" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="1024" bodyend="1071"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1a193951eb679a2c84de387ca2b66aa27e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;Template&quot;</type>
+        <definition> &quot;Template&quot; jinja2.environment.Environment.get_or_select_template</definition>
+        <argsstring>(self, t.Union[str, &quot;Template&quot;, t.List[t.Union[str, &quot;Template&quot;]]] template_name_or_list, t.Optional[str] parent=None, t.Optional[t.MutableMapping[str, t.Any]] globals=None)</argsstring>
+        <name>get_or_select_template</name>
+        <qualifiedname>jinja2.environment.Environment.get_or_select_template</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Union]]</type>
+          <declname>template_name_or_list</declname>
+          <array>[str, &quot;Template&quot;, t.List[t.Union[str, &quot;Template&quot;]</array>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>parent</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>globals</declname>
+          <array>[t.MutableMapping[str, t.Any]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Use :meth:`select_template` if an iterable of template names
+is given, or :meth:`get_template` if one name is given.
+
+.. versionadded:: 2.3
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="1073" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="1080" bodyend="1091"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1af5ea39790a5ba664cc7c0c6e186143e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;Template&quot;</type>
+        <definition> &quot;Template&quot; jinja2.environment.Environment.from_string</definition>
+        <argsstring>(self, t.Union[str, nodes.Template] source, t.Optional[t.MutableMapping[str, t.Any]] globals=None, t.Optional[t.Type[&quot;Template&quot;]] template_class=None)</argsstring>
+        <name>from_string</name>
+        <qualifiedname>jinja2.environment.Environment.from_string</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Union</type>
+          <declname>source</declname>
+          <array>[str, nodes.Template]</array>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>globals</declname>
+          <array>[t.MutableMapping[str, t.Any]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>template_class</declname>
+          <array>[t.Type[&quot;Template&quot;]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Load a template from a source string without using
+:attr:`loader`.
+
+:param source: Jinja source to compile into a template.
+:param globals: Extend the environment :attr:`globals` with
+    these extra variables available for all renders of this
+    template. If the template has already been loaded and
+    cached, its globals are updated with any new items.
+:param template_class: Return an instance of this
+    :class:`Template` class.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="1092" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="1097" bodyend="1112"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1a119ee010e7f06e992df8f30974ad1137" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.MutableMapping[str, t.Any]</type>
+        <definition> t.MutableMapping[str, t.Any] jinja2.environment.Environment.make_globals</definition>
+        <argsstring>(self, t.Optional[t.MutableMapping[str, t.Any]] d)</argsstring>
+        <name>make_globals</name>
+        <qualifiedname>jinja2.environment.Environment.make_globals</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>d</declname>
+          <array>[t.MutableMapping[str, t.Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Make the globals map for a template. Any given template
+globals overlay the environment :attr:`globals`.
+
+Returns a :class:`collections.ChainMap`. This allows any changes
+to a template&apos;s globals to only affect that template, while
+changes to the environment&apos;s globals are still reflected.
+However, avoid modifying any globals after a template is loaded.
+
+:param d: Dict of template-specific globals.
+
+.. versionchanged:: 3.0
+    Use :class:`collections.ChainMap` to always prevent mutating
+    environment globals.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="1113" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="1115" bodyend="1135"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1aad7af4e3ecd8789b53835e13cb5de9e4" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Any</type>
+        <definition> t.Any jinja2.environment.Environment._filter_test_common</definition>
+        <argsstring>(self, t.Union[str, Undefined] name, t.Any value, t.Optional[t.Sequence[t.Any]] args, t.Optional[t.Mapping[str, t.Any]] kwargs, t.Optional[Context] context, t.Optional[EvalContext] eval_ctx, bool is_filter)</argsstring>
+        <name>_filter_test_common</name>
+        <qualifiedname>jinja2.environment.Environment._filter_test_common</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Union</type>
+          <declname>name</declname>
+          <array>[str, Undefined]</array>
+        </param>
+        <param>
+          <type>t.Any</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>args</declname>
+          <array>[t.Sequence[t.Any]</array>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>kwargs</declname>
+          <array>[t.Mapping[str, t.Any]</array>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>context</declname>
+          <array>[Context]</array>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>eval_ctx</declname>
+          <array>[EvalContext]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_filter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="498" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="507" bodyend="551"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1a057c4ff6c081612b3887b33ed3a2751c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classjinja2_1_1nodes_1_1Template" kindref="compound">nodes.Template</ref></type>
+        <definition> nodes.Template jinja2.environment.Environment._parse</definition>
+        <argsstring>(self, str source, t.Optional[str] name, t.Optional[str] filename)</argsstring>
+        <name>_parse</name>
+        <qualifiedname>jinja2.environment.Environment._parse</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>name</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>filename</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Internal parsing function used by `parse` and `compile`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="618" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="620" bodyend="623"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1aac91927185252d0a4e5586078d3f9075" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classjinja2_1_1lexer_1_1TokenStream" kindref="compound">TokenStream</ref></type>
+        <definition> TokenStream jinja2.environment.Environment._tokenize</definition>
+        <argsstring>(self, str source, t.Optional[str] name, t.Optional[str] filename=None, t.Optional[str] state=None)</argsstring>
+        <name>_tokenize</name>
+        <qualifiedname>jinja2.environment.Environment._tokenize</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>name</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>filename</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>state</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Called by the parser to do the preprocessing and filtering
+for all the extensions.  Returns a :class:`~jinja2.lexer.TokenStream`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="661" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="667" bodyend="681"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1a0b1ece45cf192279c5c84bd7336d793e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.environment.Environment._generate</definition>
+        <argsstring>(self, nodes.Template source, t.Optional[str] name, t.Optional[str] filename, bool defer_init=False)</argsstring>
+        <name>_generate</name>
+        <qualifiedname>jinja2.environment.Environment._generate</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Template" kindref="compound">nodes.Template</ref></type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>name</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>filename</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>defer_init</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Internal hook that can be overridden to hook a different generate
+method in.
+
+.. versionadded:: 2.5
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="682" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="688" bodyend="702"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1aa3bcc2ffaad0a4c65edcd2612ed435e4" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>CodeType</type>
+        <definition> CodeType jinja2.environment.Environment._compile</definition>
+        <argsstring>(self, str source, str filename)</argsstring>
+        <name>_compile</name>
+        <qualifiedname>jinja2.environment.Environment._compile</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>source</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Internal hook that can be overridden to hook a different compile
+method in.
+
+.. versionadded:: 2.5
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="703" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="703" bodyend="710"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1environment_1_1Environment_1a0e849e5eb6ee0bc5b4a374a486bfa6d1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;Template&quot;</type>
+        <definition> &quot;Template&quot; jinja2.environment.Environment._load_template</definition>
+        <argsstring>(self, str name, t.Optional[t.MutableMapping[str, t.Any]] globals)</argsstring>
+        <name>_load_template</name>
+        <qualifiedname>jinja2.environment.Environment._load_template</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>globals</declname>
+          <array>[t.MutableMapping[str, t.Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="957" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="959" bodyend="980"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>The core component of Jinja is the `Environment`.  It contains
+important shared variables like configuration, filters, tests,
+globals and others.  Instances of this class may be modified if
+they are not shared and if no template was loaded so far.
+Modifications on environments after the first template was loaded
+will lead to surprising effects and undefined behavior.
+
+Here are the possible initialization parameters:
+
+    `block_start_string`
+        The string marking the beginning of a block.  Defaults to ``&apos;{%&apos;``.
+
+    `block_end_string`
+        The string marking the end of a block.  Defaults to ``&apos;%}&apos;``.
+
+    `variable_start_string`
+        The string marking the beginning of a print statement.
+        Defaults to ``&apos;{{&apos;``.
+
+    `variable_end_string`
+        The string marking the end of a print statement.  Defaults to
+        ``&apos;}}&apos;``.
+
+    `comment_start_string`
+        The string marking the beginning of a comment.  Defaults to ``&apos;{#&apos;``.
+
+    `comment_end_string`
+        The string marking the end of a comment.  Defaults to ``&apos;#}&apos;``.
+
+    `line_statement_prefix`
+        If given and a string, this will be used as prefix for line based
+        statements.  See also :ref:`line-statements`.
+
+    `line_comment_prefix`
+        If given and a string, this will be used as prefix for line based
+        comments.  See also :ref:`line-statements`.
+
+        .. versionadded:: 2.2
+
+    `trim_blocks`
+        If this is set to ``True`` the first newline after a block is
+        removed (block, not variable tag!).  Defaults to `False`.
+
+    `lstrip_blocks`
+        If this is set to ``True`` leading spaces and tabs are stripped
+        from the start of a line to a block.  Defaults to `False`.
+
+    `newline_sequence`
+        The sequence that starts a newline.  Must be one of ``&apos;\r&apos;``,
+        ``&apos;\n&apos;`` or ``&apos;\r\n&apos;``.  The default is ``&apos;\n&apos;`` which is a
+        useful default for Linux and OS X systems as well as web
+        applications.
+
+    `keep_trailing_newline`
+        Preserve the trailing newline when rendering templates.
+        The default is ``False``, which causes a single newline,
+        if present, to be stripped from the end of the template.
+
+        .. versionadded:: 2.7
+
+    `extensions`
+        List of Jinja extensions to use.  This can either be import paths
+        as strings or extension classes.  For more information have a
+        look at :ref:`the extensions documentation &lt;jinja-extensions&gt;`.
+
+    `optimized`
+        should the optimizer be enabled?  Default is ``True``.
+
+    `undefined`
+        :class:`Undefined` or a subclass of it that is used to represent
+        undefined values in the template.
+
+    `finalize`
+        A callable that can be used to process the result of a variable
+        expression before it is output.  For example one can convert
+        ``None`` implicitly into an empty string here.
+
+    `autoescape`
+        If set to ``True`` the XML/HTML autoescaping feature is enabled by
+        default.  For more details about autoescaping see
+        :class:`~markupsafe.Markup`.  As of Jinja 2.4 this can also
+        be a callable that is passed the template name and has to
+        return ``True`` or ``False`` depending on autoescape should be
+        enabled by default.
+
+        .. versionchanged:: 2.4
+           `autoescape` can now be a function
+
+    `loader`
+        The template loader for this environment.
+
+    `cache_size`
+        The size of the cache.  Per default this is ``400`` which means
+        that if more than 400 templates are loaded the loader will clean
+        out the least recently used template.  If the cache size is set to
+        ``0`` templates are recompiled all the time, if the cache size is
+        ``-1`` the cache will not be cleaned.
+
+        .. versionchanged:: 2.8
+           The cache size was increased to 400 from a low 50.
+
+    `auto_reload`
+        Some loaders load templates from locations where the template
+        sources may change (ie: file system or database).  If
+        ``auto_reload`` is set to ``True`` (default) every time a template is
+        requested the loader checks if the source changed and if yes, it
+        will reload the template.  For higher performance it&apos;s possible to
+        disable that.
+
+    `bytecode_cache`
+        If set to a bytecode cache object, this object will provide a
+        cache for the internal Jinja bytecode so that templates don&apos;t
+        have to be parsed if they were not changed.
+
+        See :ref:`bytecode-cache` for more information.
+
+    `enable_async`
+        If set to true this enables async template execution which
+        allows using async functions and generators.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.environment.Environment</label>
+        <link refid="classjinja2_1_1environment_1_1Environment"/>
+      </node>
+      <node id="2">
+        <label>jinja2.nativetypes.NativeEnvironment</label>
+        <link refid="classjinja2_1_1nativetypes_1_1NativeEnvironment"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>jinja2.sandbox.ImmutableSandboxedEnvironment</label>
+        <link refid="classjinja2_1_1sandbox_1_1ImmutableSandboxedEnvironment"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.sandbox.SandboxedEnvironment</label>
+        <link refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>jinja2.environment.Environment</label>
+        <link refid="classjinja2_1_1environment_1_1Environment"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>concat</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="144" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="144" bodyend="1135"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a665342b926d349e11d57692ffdcbd5dd" prot="private" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>__dict__</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1af758db6473e229538a23236ca94bc5b5" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>__init__</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1aa3bcc2ffaad0a4c65edcd2612ed435e4" prot="protected" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>_compile</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1aad7af4e3ecd8789b53835e13cb5de9e4" prot="protected" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>_filter_test_common</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a0b1ece45cf192279c5c84bd7336d793e" prot="protected" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>_generate</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a0e849e5eb6ee0bc5b4a374a486bfa6d1" prot="protected" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>_load_template</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a057c4ff6c081612b3887b33ed3a2751c" prot="protected" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>_parse</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1aac91927185252d0a4e5586078d3f9075" prot="protected" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>_tokenize</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1aa854f0ad091eb27e4f2025e2d836f898" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>add_extension</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1aff8d7153f26480f30ba1b5a544d85eac" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>auto_reload</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a2567fab346f5e368a0d92db284ab30e4" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>autoescape</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1ae51a1b43158239b18a58e8b5c2ba8b78" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>block_end_string</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a21083815f94a638ccf3fe81be3dd16a4" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>block_start_string</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1aa5bc8250b943d3ffd73bab6966f5ee26" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>bytecode_cache</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a6b175442c705fa460fbc4478c9cbeb8c" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>cache</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a9deceba83b2325e48cac0b19cbca82b9" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>call_filter</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a8dc9961dee3839895e4115410dc2abe5" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>call_test</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a64d2246274eff95fed0ed59fdc93f302" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>code_generator_class</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a50977dcc623b4ccff0b06742b3c78f6b" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>comment_end_string</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1abd4d32c8d1b9394968de9fef0fe544f1" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>comment_start_string</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a7ee42dc831dd9458f8f3ce90d14124b5" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>compile</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1aa431cfc54275cf22a54509bc001819be" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>compile</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a66dbeb68d2ccaf508f2f3189da417d8e" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>compile</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a132aeddd0259cd765a630c3490b122c3" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>compile_expression</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a485a7e65afe00930c1e0b24a5080ed9d" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>compile_templates</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1abafe91c81d1c0333873b08096ee81d2c" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>concat</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1ae3aae9b2d3d56b961c26464d880f805d" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>context_class</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1addbbd33e41c262ae115a9f362391a7d5" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>extend</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1ad6e39b8b9cf90d8d1a420a40e29db2c9" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>extensions</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1af34cc62216dd902073c83b9523d65a31" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>filters</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1ac812971d13a32a47d9ebd7e994207510" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>finalize</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1af5ea39790a5ba664cc7c0c6e186143e6" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>from_string</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a193951eb679a2c84de387ca2b66aa27e" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>get_or_select_template</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a01a140012367ce8393fba888374ab66c" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>get_template</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a7f381581b4a95b1cd53f5fa48e233fe0" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>getattr</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1adaac0af940852c76683f69125182a15c" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>getitem</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a12b3cef13dab3bd1a7c2e3b5f09d3f98" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>globals</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a3d712e74fd0a7db032669b45c916ec85" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>handle_exception</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1aa393a275b440f523ec0da88ad25a8b2d" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>is_async</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a209b2c2cd92f8d7ba75bc226d8792e5a" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>iter_extensions</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1adc29a3ae54fdeccc97e991e07953208d" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>join_path</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a1ce5f2ab4442fb62c1b27b14836dd8a7" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>keep_trailing_newline</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a0e3c1818fa749b93bb20d2cc96ca0cff" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>lex</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a8ce0539e36f1dc905a740f5495136085" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>lexer</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a7f56eeff2e41f5790ba2d3146347531a" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>line_comment_prefix</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1ab06e678d1be219053a5a33576f96fae5" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>line_statement_prefix</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a2944894e0bb6facc8b150e880f7d4557" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>linked_to</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a4afe517612b9934f476063ccf2489b86" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>list_templates</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a932fcb4327ccfbc91ebe69848556b60e" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>loader</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a2f841f439d1d015b4e9fbbfdc95cd736" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>lstrip_blocks</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a119ee010e7f06e992df8f30974ad1137" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>make_globals</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a7051919bf202901ab0cb86db634382ca" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>newline_sequence</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a89ea29c99256661d4f8812f8668096cf" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>optimized</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1afad4bab9e00f479fbef9b966fd7feeff" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>overlay</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a4c9f95a36934895e6d1976c14d8b894f" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>overlayed</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a203dd9cf6165884a55677c5a9aeb3ac9" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>parse</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a4734afddfa6a371f9a8abcb4313cf971" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>policies</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1ada6737748d0d06899ee8c6085dd2fd6b" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>preprocess</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a299850b4b15f78a3f0b9eeac4774065b" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>sandboxed</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1a44b9a9d2e0750926860b40dce708fe4c" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>select_template</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1ad3c1e56ac606ed76b4708bf19877bd46" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>shared</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1ad2d7e3f6afdcd5d4a0a41b20a3322dbd" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>template_class</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1aab1bee5de97fda71dd1983fcea67bdd7" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>tests</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1ae3aa2ae2619df9a2aa744adff8f734bb" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>trim_blocks</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1af606e27a375611fb1a176dcb86147350" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>variable_end_string</name></member>
+      <member refid="classjinja2_1_1environment_1_1Environment_1aeb7d43cd6350d87ace77b61fe761191d" prot="public" virt="non-virtual"><scope>jinja2::environment::Environment</scope><name>variable_start_string</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

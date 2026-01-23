@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_Structural_01description_2guides_202__building__on__proto" kind="page">
+    <compoundname>md_Structural_01description_2guides_202__building__on__proto</compoundname>
+    <title>Guide: Building Your Own Systems with Proto</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_Structural_01description_2guides_202__building__on__proto_1autotoc_md61"/> </para>
+<sect1 id="md_Structural_01description_2guides_202__building__on__proto_1autotoc_md62">
+<title>Introduction</title>
+<para>Proto is not a standalone language; it&apos;s a library designed to be the powerful engine inside other systems. This guide outlines the two primary ways you can integrate Proto to build your own high-performance applications, virtual machines, or language runtimes.</para>
+</sect1>
+<sect1 id="md_Structural_01description_2guides_202__building__on__proto_1autotoc_md63">
+<title>The Two Integration Paths</title>
+<para>There are two main approaches to building on top of Proto, each suited for different needs.</para>
+<para><orderedlist>
+<listitem><para><bold>The <computeroutput>proto_python</computeroutput> Transpiler (The Easy Path):</bold> This is the quickest way to leverage Proto&apos;s performance. You write code in a subset of Python, and the <computeroutput>proto_python</computeroutput> tool automatically converts it into highly optimized C++ code that uses the Proto runtime. This is ideal for application development where you want the productivity of Python with the performance of a compiled backend.</para>
+</listitem><listitem><para><bold>Direct C++ Integration (The Power Path):</bold> This is for developers who want to build core systems, like a new language VM, a JIT compiler, or a high-performance game engine component, directly in C++. This path gives you maximum control and performance.</para>
+</listitem></orderedlist>
+</para>
+<sect2 id="md_Structural_01description_2guides_202__building__on__proto_1autotoc_md64">
+<title>Case Study: &lt;tt&gt;protoDB&lt;/tt&gt;</title>
+<para>The <computeroutput>protoDB</computeroutput> project is a perfect real-world example of the transpiler path. It&apos;s a complex object database written entirely in Python, but it uses <computeroutput>proto_python</computeroutput> to transpile its codebase into a native executable. This allows it to achieve performance that would be impossible with a standard Python interpreter, demonstrating the power of the transpiler approach.</para>
+</sect2>
+</sect1>
+<sect1 id="md_Structural_01description_2guides_202__building__on__proto_1autotoc_md65">
+<title>Direct C++ Integration Workflow</title>
+<para>When you need to build a system directly in C++, the workflow is straightforward.</para>
+<para><orderedlist>
+<listitem><para><bold>Include <computeroutput>proto.h</computeroutput>:</bold> This is the main public header file that exposes all of Proto&apos;s core functionality.</para>
+</listitem><listitem><para><bold>Create a <computeroutput>ProtoContext</computeroutput>:</bold> Your C++ application will create and hold an instance of a <computeroutput>ProtoContext</computeroutput>. This object is your primary interface to the runtime, used for creating objects, calling functions, and managing memory.</para>
+</listitem><listitem><para><bold>Compile and Link against <computeroutput>libproto.a</computeroutput>:</bold> Your C++ code is compiled as usual, and you simply link the final executable against the <computeroutput>libproto.a</computeroutput> static library that you built in the Quick Start guide.</para>
+</listitem></orderedlist>
+</para>
+<sect2 id="md_Structural_01description_2guides_202__building__on__proto_1autotoc_md66">
+<title>Example: A Simple C++ Host Application</title>
+<para>Here is a minimal <computeroutput>main.cpp</computeroutput> that demonstrates how to initialize the runtime, create a few objects, and interact with them.</para>
+<para>**<computeroutput>main.cpp</computeroutput>:** <programlisting filename=".cpp"><codeline><highlight class="preprocessor">#include<sp/>&quot;proto.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacebabel_1_1messages_1_1frontend_1a39fc65d776600295a7c803735469cca5" kindref="member">main</ref>()<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Create<sp/>a<sp/>context,<sp/>which<sp/>initializes<sp/>the<sp/>runtime</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>ProtoContext*<sp/>context<sp/>=<sp/></highlight><highlight class="keyword">new</highlight><highlight class="normal"><sp/>ProtoContext();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>Create<sp/>some<sp/>Proto<sp/>objects</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProtoObject<sp/>my_int<sp/>=<sp/>context-&gt;fromInteger(42);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProtoObject<sp/>my_str<sp/>=<sp/>context-&gt;newString(</highlight><highlight class="stringliteral">&quot;Hello<sp/>from<sp/>C++!&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>Interact<sp/>with<sp/>the<sp/>objects<sp/>(here,<sp/>just<sp/>printing)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>a<sp/>real<sp/>app,<sp/>you<sp/>would<sp/>call<sp/>functions,<sp/>pass<sp/>them<sp/>to<sp/>other<sp/>objects,<sp/>etc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Integer<sp/>value:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>my_int-&gt;asInteger()<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;String<sp/>value:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>my_str-&gt;asString()-&gt;c_str()<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>Clean<sp/>up<sp/>the<sp/>context</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal"><sp/>context;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>**<computeroutput>CMakeLists.txt</computeroutput>:** To build this, you would use a simple <computeroutput>CMakeLists.txt</computeroutput> file.</para>
+<para><programlisting filename=".cmake"><codeline><highlight class="normal">cproject(MyProtoApp<sp/>CXX)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Find<sp/>the<sp/>Proto<sp/>library<sp/>(assuming<sp/>it<sp/>was<sp/>installed<sp/>or<sp/>is<sp/>in<sp/>a<sp/>known<sp/>path)</highlight></codeline>
+<codeline><highlight class="normal">find_library(PROTO_LIBRARY<sp/>NAMES<sp/>protoCore<sp/>PATHS<sp/>/path/to/protoCore/build)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">add_executable(my_app<sp/>main.cpp)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Link<sp/>your<sp/>application<sp/>against<sp/>libproto.a</highlight></codeline>
+<codeline><highlight class="normal">target_link_libraries(my_app<sp/>${PROTO_LIBRARY})</highlight></codeline>
+</programlisting></para>
+</sect2>
+<sect2 id="md_Structural_01description_2guides_202__building__on__proto_1autotoc_md67">
+<title>Key Concepts for Direct Integration</title>
+<para><itemizedlist>
+<listitem><para><bold>Object Creation:</bold> Use methods on the <computeroutput>context</computeroutput> object, like <computeroutput>fromInteger()</computeroutput>, <computeroutput>newString()</computeroutput>, <computeroutput>newTuple()</computeroutput>, etc., to create new Proto values.</para>
+</listitem><listitem><para><bold>Calling Proto Functions:</bold> To call a function within the Proto world, you would first look up the function object (e.g., from another object&apos;s attributes) and then use <computeroutput>context-&gt;call(function, args)</computeroutput>.</para>
+</listitem><listitem><para><bold>Error Handling:</bold> Operations within Proto can fail (e.g., type errors, invalid arguments). These failures typically return a special error object. Your C++ host code should check for these error objects and handle them appropriately. </para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+</sect1>
+    </detaileddescription>
+    <location file="Structural description/guides/02_building_on_proto.md"/>
+  </compounddef>
+</doxygen>

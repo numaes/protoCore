@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1configuration" kind="namespace" language="Python">
+    <compoundname>pip::_internal::configuration</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1configuration_1_1Configuration" prot="public">pip::_internal::configuration::Configuration</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1configuration_1a361d9f6d6543b48050190488d62c2578" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::configuration.RawConfigParser</definition>
+        <argsstring></argsstring>
+        <name>RawConfigParser</name>
+        <qualifiedname>pip._internal.configuration.RawConfigParser</qualifiedname>
+        <initializer>=  configparser.RawConfigParser</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="29" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1configuration_1acdbd1804aa9f7af14ec120c721d07514" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::configuration.Kind</definition>
+        <argsstring></argsstring>
+        <name>Kind</name>
+        <qualifiedname>pip._internal.configuration.Kind</qualifiedname>
+        <initializer>=  NewType(&quot;Kind&quot;, str)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="30" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1configuration_1a3491ed747330bf1f16aaa176f127c098" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_internal::configuration.CONFIG_BASENAME</definition>
+        <argsstring></argsstring>
+        <name>CONFIG_BASENAME</name>
+        <qualifiedname>pip._internal.configuration.CONFIG_BASENAME</qualifiedname>
+        <initializer>=  &quot;pip.ini&quot; if WINDOWS else &quot;pip.conf&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="32" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1configuration_1ad86959280f08293aa0b05c2f3ceae8a7" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_internal::configuration.ENV_NAMES_IGNORED</definition>
+        <argsstring></argsstring>
+        <name>ENV_NAMES_IGNORED</name>
+        <qualifiedname>pip._internal.configuration.ENV_NAMES_IGNORED</qualifiedname>
+        <initializer>=  &quot;version&quot;, &quot;help&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="33" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1configuration_1aee310fce28f137a503a38f842e42cfb3" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::configuration.kinds</definition>
+        <argsstring></argsstring>
+        <name>kinds</name>
+        <qualifiedname>pip._internal.configuration.kinds</qualifiedname>
+        <initializer>=  enum(
+    USER=&quot;user&quot;,  # User Specific
+    GLOBAL=&quot;global&quot;,  # System Wide
+    SITE=&quot;site&quot;,  # [Virtual] Environment Specific
+    ENV=&quot;env&quot;,  # from PIP_CONFIG_FILE
+    ENV_VAR=&quot;env-var&quot;,  # from Environment Variables
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="36" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1configuration_1adf4aab6f8125f525d04a41d58023c649" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::configuration.OVERRIDE_ORDER</definition>
+        <argsstring></argsstring>
+        <name>OVERRIDE_ORDER</name>
+        <qualifiedname>pip._internal.configuration.OVERRIDE_ORDER</qualifiedname>
+        <initializer>=  kinds.GLOBAL, kinds.USER, kinds.SITE, kinds.ENV, kinds.ENV_VAR</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="43" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1configuration_1a031ce0eb9adc82b6e3bab2f2a967ec93" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::configuration.VALID_LOAD_ONLY</definition>
+        <argsstring></argsstring>
+        <name>VALID_LOAD_ONLY</name>
+        <qualifiedname>pip._internal.configuration.VALID_LOAD_ONLY</qualifiedname>
+        <initializer>=  kinds.USER, kinds.GLOBAL, kinds.SITE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="44" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1configuration_1abd083d8243bc9be21b28e14a2973ef59" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::configuration.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.configuration.logger</qualifiedname>
+        <initializer>=  getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="46" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1configuration_1a2a70d51b6ff493b281ba92b285016f59" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.configuration._normalize_name</definition>
+        <argsstring>(str name)</argsstring>
+        <name>_normalize_name</name>
+        <qualifiedname>pip._internal.configuration._normalize_name</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Make a name consistent regardless of source (environment or file)</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="50" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="50" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1configuration_1a3c05ac9e7da863497f4aa37c4153b504" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[str]</type>
+        <definition> List[str] pip._internal.configuration._disassemble_key</definition>
+        <argsstring>(str name)</argsstring>
+        <name>_disassemble_key</name>
+        <qualifiedname>pip._internal.configuration._disassemble_key</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="58" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="58" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1configuration_1a74e55d5a8133292571844c2922c1cfe2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Dict[<ref refid="namespacepip_1_1__internal_1_1configuration_1acdbd1804aa9f7af14ec120c721d07514" kindref="member">Kind</ref>, List[str]]</type>
+        <definition> Dict[Kind, List[str]] pip._internal.configuration.get_configuration_files</definition>
+        <argsstring>()</argsstring>
+        <name>get_configuration_files</name>
+        <qualifiedname>pip._internal.configuration.get_configuration_files</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="68" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/configuration.py" bodystart="68" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Configuration management setup
+
+Some terminology:
+- name
+  As written in config files.
+- value
+  Value associated with a name
+- key
+  Name combined with it&apos;s section (section.name)
+- variant
+  A single word describing where the configuration key-value pair came from
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/configuration.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

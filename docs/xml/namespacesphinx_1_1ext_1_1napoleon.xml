@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1ext_1_1napoleon" kind="namespace" language="Python">
+    <compoundname>sphinx::ext::napoleon</compoundname>
+    <innerclass refid="classsphinx_1_1ext_1_1napoleon_1_1Config" prot="public">sphinx::ext::napoleon::Config</innerclass>
+    <innernamespace refid="namespacesphinx_1_1ext_1_1napoleon_1_1docstring">sphinx::ext::napoleon::docstring</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1napoleon_1a9bc69da6ca0b1ea10c211a3f7f21ba62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1ExtensionMetadata" kindref="compound">ExtensionMetadata</ref></type>
+        <definition> ExtensionMetadata sphinx.ext.napoleon.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.ext.napoleon.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Sphinx extension setup function.
+
+When the extension is loaded, Sphinx imports this module and executes
+the ``setup()`` function, which in turn notifies Sphinx of everything
+the extension offers.
+
+Parameters
+----------
+app : sphinx.application.Sphinx
+    Application object representing the Sphinx process
+
+See Also
+--------
+`The Sphinx documentation on Extensions
+&lt;https://www.sphinx-doc.org/extensions.html&gt;`_
+
+`The Extension Tutorial &lt;https://www.sphinx-doc.org/extdev/tutorial.html&gt;`_
+
+`The Extension API &lt;https://www.sphinx-doc.org/extdev/appapi.html&gt;`_</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/napoleon/__init__.py" line="300" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/napoleon/__init__.py" bodystart="300" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1napoleon_1a1124dba0e6bc545d5a657d95e3cab008" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.napoleon._patch_python_domain</definition>
+        <argsstring>()</argsstring>
+        <name>_patch_python_domain</name>
+        <qualifiedname>sphinx.ext.napoleon._patch_python_domain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/napoleon/__init__.py" line="344" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/napoleon/__init__.py" bodystart="344" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1napoleon_1aff6f4ecbcfa9cdbead508b7af699f84f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.napoleon._process_docstring</definition>
+        <argsstring>(Sphinx app, str what, str name, Any obj, Any options, list[str] lines)</argsstring>
+        <name>_process_docstring</name>
+        <qualifiedname>sphinx.ext.napoleon._process_docstring</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>what</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>lines</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Process the docstring for a given python object.
+
+Called when autodoc has read and processed a docstring. `lines` is a list
+of docstring lines that `_process_docstring` modifies in place to change
+what Sphinx outputs.
+
+The following settings in conf.py control what styles of docstrings will
+be parsed:
+
+* ``napoleon_google_docstring`` -- parse Google style docstrings
+* ``napoleon_numpy_docstring`` -- parse NumPy style docstrings
+
+Parameters
+----------
+app : sphinx.application.Sphinx
+    Application object representing the Sphinx process.
+what : str
+    A string specifying the type of the object to which the docstring
+    belongs. Valid values: &quot;module&quot;, &quot;class&quot;, &quot;exception&quot;, &quot;function&quot;,
+    &quot;method&quot;, &quot;attribute&quot;.
+name : str
+    The fully qualified name of the object.
+obj : module, class, exception, function, method, or attribute
+    The object to which the docstring belongs.
+options : sphinx.ext.autodoc.Options
+    The options given to the directive: an object with attributes
+    inherited_members, undoc_members, show_inheritance and no_index that
+    are True if the flag option of same name was given to the auto
+    directive.
+lines : list of str
+    The lines of the docstring, see above.
+
+    .. note:: `lines` is modified *in place*</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/napoleon/__init__.py" line="364" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/napoleon/__init__.py" bodystart="366" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1napoleon_1ae6c167664da6ef519ddd803254c705f7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool|None</type>
+        <definition> bool | None sphinx.ext.napoleon._skip_member</definition>
+        <argsstring>(Sphinx app, str what, str name, Any obj, bool skip, Any options)</argsstring>
+        <name>_skip_member</name>
+        <qualifiedname>sphinx.ext.napoleon._skip_member</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>what</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>skip</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Determine if private and special class members are included in docs.
+
+The following settings in conf.py determine if private and special class
+members or init methods are included in the generated documentation:
+
+* ``napoleon_include_init_with_doc`` --
+  include init methods if they have docstrings
+* ``napoleon_include_private_with_doc`` --
+  include private members if they have docstrings
+* ``napoleon_include_special_with_doc`` --
+  include special members if they have docstrings
+
+Parameters
+----------
+app : sphinx.application.Sphinx
+    Application object representing the Sphinx process
+what : str
+    A string specifying the type of the object to which the member
+    belongs. Valid values: &quot;module&quot;, &quot;class&quot;, &quot;exception&quot;, &quot;function&quot;,
+    &quot;method&quot;, &quot;attribute&quot;.
+name : str
+    The name of the member.
+obj : module, class, exception, function, method, or attribute.
+    For example, if the member is the __init__ method of class A, then
+    `obj` will be `A.__init__`.
+skip : bool
+    A boolean indicating if autodoc will skip this member if `_skip_member`
+    does not override the decision
+options : sphinx.ext.autodoc.Options
+    The options given to the directive: an object with attributes
+    inherited_members, undoc_members, show_inheritance and no_index that
+    are True if the flag option of same name was given to the auto
+    directive.
+
+Returns
+-------
+bool
+    True if the member should be skipped during creation of the docs,
+    False if it should be included in the docs.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/napoleon/__init__.py" line="417" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/napoleon/__init__.py" bodystart="419" bodyend="504"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Support for NumPy and Google style docstrings.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/ext/napoleon/__init__.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,839 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1tomli_1_1__parser" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::tomli::_parser</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1tomli_1_1__parser_1_1Flags" prot="public">pip::_vendor::tomli::_parser::Flags</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1tomli_1_1__parser_1_1NestedDict" prot="public">pip::_vendor::tomli::_parser::NestedDict</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1tomli_1_1__parser_1_1Output" prot="public">pip::_vendor::tomli::_parser::Output</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1tomli_1_1__parser_1_1TOMLDecodeError" prot="public">pip::_vendor::tomli::_parser::TOMLDecodeError</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a4a03c280fec37286a39dc8bc813f4dfc" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::tomli::_parser.ASCII_CTRL</definition>
+        <argsstring></argsstring>
+        <name>ASCII_CTRL</name>
+        <qualifiedname>pip._vendor.tomli._parser.ASCII_CTRL</qualifiedname>
+        <initializer>=  frozenset(chr(i) for i in range(32)) | frozenset(chr(127))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="22" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a9c5464402f41abc525843bced756cdcb" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::tomli::_parser.ILLEGAL_BASIC_STR_CHARS</definition>
+        <argsstring></argsstring>
+        <name>ILLEGAL_BASIC_STR_CHARS</name>
+        <qualifiedname>pip._vendor.tomli._parser.ILLEGAL_BASIC_STR_CHARS</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a4a03c280fec37286a39dc8bc813f4dfc" kindref="member">ASCII_CTRL</ref> - frozenset(&quot;\t&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="26" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a85651e06dd43daff05446ffbdf004207" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::tomli::_parser.ILLEGAL_MULTILINE_BASIC_STR_CHARS</definition>
+        <argsstring></argsstring>
+        <name>ILLEGAL_MULTILINE_BASIC_STR_CHARS</name>
+        <qualifiedname>pip._vendor.tomli._parser.ILLEGAL_MULTILINE_BASIC_STR_CHARS</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a4a03c280fec37286a39dc8bc813f4dfc" kindref="member">ASCII_CTRL</ref> - frozenset(&quot;\t\n&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="27" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a8e6ad75092b9652e1a9ddd256bbbf6a3" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::tomli::_parser.ILLEGAL_LITERAL_STR_CHARS</definition>
+        <argsstring></argsstring>
+        <name>ILLEGAL_LITERAL_STR_CHARS</name>
+        <qualifiedname>pip._vendor.tomli._parser.ILLEGAL_LITERAL_STR_CHARS</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a9c5464402f41abc525843bced756cdcb" kindref="member">ILLEGAL_BASIC_STR_CHARS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="29" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a003e06322728701a44ea464ef9c9f4eb" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::tomli::_parser.ILLEGAL_MULTILINE_LITERAL_STR_CHARS</definition>
+        <argsstring></argsstring>
+        <name>ILLEGAL_MULTILINE_LITERAL_STR_CHARS</name>
+        <qualifiedname>pip._vendor.tomli._parser.ILLEGAL_MULTILINE_LITERAL_STR_CHARS</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a85651e06dd43daff05446ffbdf004207" kindref="member">ILLEGAL_MULTILINE_BASIC_STR_CHARS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="30" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a037c408406f54781979cc5cb5cf10208" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::tomli::_parser.ILLEGAL_COMMENT_CHARS</definition>
+        <argsstring></argsstring>
+        <name>ILLEGAL_COMMENT_CHARS</name>
+        <qualifiedname>pip._vendor.tomli._parser.ILLEGAL_COMMENT_CHARS</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a9c5464402f41abc525843bced756cdcb" kindref="member">ILLEGAL_BASIC_STR_CHARS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="32" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a08a25f3e9810f4a2860812bbd3ef7191" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::tomli::_parser.TOML_WS</definition>
+        <argsstring></argsstring>
+        <name>TOML_WS</name>
+        <qualifiedname>pip._vendor.tomli._parser.TOML_WS</qualifiedname>
+        <initializer>=  frozenset(&quot; \t&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="34" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a312be93eb77789770ff65f68f06ee7a9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::tomli::_parser.TOML_WS_AND_NEWLINE</definition>
+        <argsstring></argsstring>
+        <name>TOML_WS_AND_NEWLINE</name>
+        <qualifiedname>pip._vendor.tomli._parser.TOML_WS_AND_NEWLINE</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a08a25f3e9810f4a2860812bbd3ef7191" kindref="member">TOML_WS</ref> | frozenset(&quot;\n&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="35" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1abefd58e7c95ffebe6e54c0b94529f2fb" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::tomli::_parser.BARE_KEY_CHARS</definition>
+        <argsstring></argsstring>
+        <name>BARE_KEY_CHARS</name>
+        <qualifiedname>pip._vendor.tomli._parser.BARE_KEY_CHARS</qualifiedname>
+        <initializer>=  frozenset(string.ascii_letters + string.digits + &quot;-_&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="36" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a60f19c7306b99d3a5fd74eb9fc483a14" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::tomli::_parser.KEY_INITIAL_CHARS</definition>
+        <argsstring></argsstring>
+        <name>KEY_INITIAL_CHARS</name>
+        <qualifiedname>pip._vendor.tomli._parser.KEY_INITIAL_CHARS</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1abefd58e7c95ffebe6e54c0b94529f2fb" kindref="member">BARE_KEY_CHARS</ref> | frozenset(&quot;\&quot;&apos;&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="37" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a0d5cfa97027bbf1412a09e0a6b0a96d8" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::tomli::_parser.HEXDIGIT_CHARS</definition>
+        <argsstring></argsstring>
+        <name>HEXDIGIT_CHARS</name>
+        <qualifiedname>pip._vendor.tomli._parser.HEXDIGIT_CHARS</qualifiedname>
+        <initializer>=  frozenset(string.hexdigits)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="38" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a587ee0858661cce88e8bb49eeec547bb" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::tomli::_parser.BASIC_STR_ESCAPE_REPLACEMENTS</definition>
+        <argsstring></argsstring>
+        <name>BASIC_STR_ESCAPE_REPLACEMENTS</name>
+        <qualifiedname>pip._vendor.tomli._parser.BASIC_STR_ESCAPE_REPLACEMENTS</qualifiedname>
+        <initializer>=  MappingProxyType(
+    {
+        &quot;\\b&quot;: &quot;\u0008&quot;,  # backspace
+        &quot;\\t&quot;: &quot;\u0009&quot;,  # tab
+        &quot;\\n&quot;: &quot;\u000A&quot;,  # linefeed
+        &quot;\\f&quot;: &quot;\u000C&quot;,  # form feed
+        &quot;\\r&quot;: &quot;\u000D&quot;,  # carriage return
+        &apos;\\&quot;&apos;: &quot;\u0022&quot;,  # quote
+        &quot;\\\\&quot;: &quot;\u005C&quot;,  # backslash
+    }
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="40" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a1982a7cee0e8aa470b074a5c269a6fc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dict[str, Any]</type>
+        <definition> dict[str, Any] pip._vendor.tomli._parser.load</definition>
+        <argsstring>(BinaryIO __fp, *ParseFloat parse_float=float)</argsstring>
+        <name>load</name>
+        <qualifiedname>pip._vendor.tomli._parser.load</qualifiedname>
+        <param>
+          <type>BinaryIO</type>
+          <declname>__fp</declname>
+        </param>
+        <param>
+          <type>*ParseFloat</type>
+          <declname>parse_float</declname>
+          <defval>float</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse TOML from a binary file object.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="57" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="57" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a68609d4410223811070fe71b127ca54d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dict[str, Any]</type>
+        <definition> dict[str, Any] pip._vendor.tomli._parser.loads</definition>
+        <argsstring>(str __s, *ParseFloat parse_float=float)</argsstring>
+        <name>loads</name>
+        <qualifiedname>pip._vendor.tomli._parser.loads</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>__s</declname>
+        </param>
+        <param>
+          <type>*ParseFloat</type>
+          <declname>parse_float</declname>
+          <defval>float</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse TOML from a string.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="69" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="69" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a0eabb2d8d4c8d6634e9884f90ab0bdd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Pos</type>
+        <definition> Pos pip._vendor.tomli._parser.skip_chars</definition>
+        <argsstring>(str src, Pos pos, Iterable[str] chars)</argsstring>
+        <name>skip_chars</name>
+        <qualifiedname>pip._vendor.tomli._parser.skip_chars</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>Pos</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>Iterable</type>
+          <declname>chars</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="232" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="232" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a0bd9035442a5520abc82df6459ef0184" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Pos</type>
+        <definition> Pos pip._vendor.tomli._parser.skip_until</definition>
+        <argsstring>(str src, Pos pos, str expect, *frozenset[str] error_on, bool error_on_eof)</argsstring>
+        <name>skip_until</name>
+        <qualifiedname>pip._vendor.tomli._parser.skip_until</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>Pos</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>expect</declname>
+        </param>
+        <param>
+          <type>*frozenset</type>
+          <declname>error_on</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>error_on_eof</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="241" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="248" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1ab1d3d99bedae5876b8f5cfd96fb52e9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Pos</type>
+        <definition> Pos pip._vendor.tomli._parser.skip_comment</definition>
+        <argsstring>(str src, Pos pos)</argsstring>
+        <name>skip_comment</name>
+        <qualifiedname>pip._vendor.tomli._parser.skip_comment</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>Pos</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="263" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="263" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a0d310a4fa901dbfad7096044b826b411" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Pos</type>
+        <definition> Pos pip._vendor.tomli._parser.skip_comments_and_array_ws</definition>
+        <argsstring>(str src, Pos pos)</argsstring>
+        <name>skip_comments_and_array_ws</name>
+        <qualifiedname>pip._vendor.tomli._parser.skip_comments_and_array_ws</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>Pos</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="275" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="275" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1ac6850e31e01afcacc19cb64389a258ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[Pos, Key]</type>
+        <definition> tuple[Pos, Key] pip._vendor.tomli._parser.create_dict_rule</definition>
+        <argsstring>(str src, Pos pos, Output out)</argsstring>
+        <name>create_dict_rule</name>
+        <qualifiedname>pip._vendor.tomli._parser.create_dict_rule</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>Pos</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1tomli_1_1__parser_1_1Output" kindref="compound">Output</ref></type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="284" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="284" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a2fcfe9aa376d1f712efc31bbb1330048" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[Pos, Key]</type>
+        <definition> tuple[Pos, Key] pip._vendor.tomli._parser.create_list_rule</definition>
+        <argsstring>(str src, Pos pos, Output out)</argsstring>
+        <name>create_list_rule</name>
+        <qualifiedname>pip._vendor.tomli._parser.create_list_rule</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>Pos</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1tomli_1_1__parser_1_1Output" kindref="compound">Output</ref></type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="302" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="302" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a40fe76c7db8ecd153fcc483c3056fa8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Pos</type>
+        <definition> Pos pip._vendor.tomli._parser.key_value_rule</definition>
+        <argsstring>(str src, Pos pos, Output out, Key header, ParseFloat parse_float)</argsstring>
+        <name>key_value_rule</name>
+        <qualifiedname>pip._vendor.tomli._parser.key_value_rule</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>Pos</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1tomli_1_1__parser_1_1Output" kindref="compound">Output</ref></type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>Key</type>
+          <declname>header</declname>
+        </param>
+        <param>
+          <type>ParseFloat</type>
+          <declname>parse_float</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="323" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="325" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a0622daac11168a4edef39e002d6b642a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[Pos, Key, Any]</type>
+        <definition> tuple[Pos, Key, Any] pip._vendor.tomli._parser.parse_key_value_pair</definition>
+        <argsstring>(str src, Pos pos, ParseFloat parse_float)</argsstring>
+        <name>parse_key_value_pair</name>
+        <qualifiedname>pip._vendor.tomli._parser.parse_key_value_pair</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>Pos</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>ParseFloat</type>
+          <declname>parse_float</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="357" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="359" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a43adf4714ca5d74eff865e05ae94dc4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[Pos, Key]</type>
+        <definition> tuple[Pos, Key] pip._vendor.tomli._parser.parse_key</definition>
+        <argsstring>(str src, Pos pos)</argsstring>
+        <name>parse_key</name>
+        <qualifiedname>pip._vendor.tomli._parser.parse_key</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>Pos</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="373" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="373" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a49402b1a48e24f7293190567bb12c09e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[Pos, str]</type>
+        <definition> tuple[Pos, str] pip._vendor.tomli._parser.parse_key_part</definition>
+        <argsstring>(str src, Pos pos)</argsstring>
+        <name>parse_key_part</name>
+        <qualifiedname>pip._vendor.tomli._parser.parse_key_part</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>Pos</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="391" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="391" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a470e6cd779ed4db7d1da7dd39bc856c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[Pos, str]</type>
+        <definition> tuple[Pos, str] pip._vendor.tomli._parser.parse_one_line_basic_str</definition>
+        <argsstring>(str src, Pos pos)</argsstring>
+        <name>parse_one_line_basic_str</name>
+        <qualifiedname>pip._vendor.tomli._parser.parse_one_line_basic_str</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>Pos</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="407" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="407" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1adfb47d9db8cdb618d15a13628eda1656" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[Pos, list]</type>
+        <definition> tuple[Pos, list] pip._vendor.tomli._parser.parse_array</definition>
+        <argsstring>(str src, Pos pos, ParseFloat parse_float)</argsstring>
+        <name>parse_array</name>
+        <qualifiedname>pip._vendor.tomli._parser.parse_array</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>Pos</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>ParseFloat</type>
+          <declname>parse_float</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="412" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="412" bodyend="435"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a96fc50eb94ee07ebfae75fdb65ac71e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[Pos, dict]</type>
+        <definition> tuple[Pos, dict] pip._vendor.tomli._parser.parse_inline_table</definition>
+        <argsstring>(str src, Pos pos, ParseFloat parse_float)</argsstring>
+        <name>parse_inline_table</name>
+        <qualifiedname>pip._vendor.tomli._parser.parse_inline_table</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>Pos</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>ParseFloat</type>
+          <declname>parse_float</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="436" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="436" bodyend="467"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1ac03694ba8b78d1713d97f76725ef9995" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[Pos, str]</type>
+        <definition> tuple[Pos, str] pip._vendor.tomli._parser.parse_basic_str_escape</definition>
+        <argsstring>(str src, Pos pos, *bool multiline=False)</argsstring>
+        <name>parse_basic_str_escape</name>
+        <qualifiedname>pip._vendor.tomli._parser.parse_basic_str_escape</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>Pos</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>*bool</type>
+          <declname>multiline</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="468" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="470" bodyend="496"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1ae319f739018118a2f58ce2fdd6ed5d7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[Pos, str]</type>
+        <definition> tuple[Pos, str] pip._vendor.tomli._parser.parse_basic_str_escape_multiline</definition>
+        <argsstring>(str src, Pos pos)</argsstring>
+        <name>parse_basic_str_escape_multiline</name>
+        <qualifiedname>pip._vendor.tomli._parser.parse_basic_str_escape_multiline</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>Pos</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="497" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="497" bodyend="500"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a2f677c95b22fb47c6412935ab130599c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[Pos, str]</type>
+        <definition> tuple[Pos, str] pip._vendor.tomli._parser.parse_hex_char</definition>
+        <argsstring>(str src, Pos pos, int hex_len)</argsstring>
+        <name>parse_hex_char</name>
+        <qualifiedname>pip._vendor.tomli._parser.parse_hex_char</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>Pos</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>hex_len</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="501" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="501" bodyend="511"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a82942cd22120b301d360e2b63840e122" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[Pos, str]</type>
+        <definition> tuple[Pos, str] pip._vendor.tomli._parser.parse_literal_str</definition>
+        <argsstring>(str src, Pos pos)</argsstring>
+        <name>parse_literal_str</name>
+        <qualifiedname>pip._vendor.tomli._parser.parse_literal_str</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>Pos</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="512" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="512" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1ab2930a758fc2624841b4513a31605c48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[Pos, str]</type>
+        <definition> tuple[Pos, str] pip._vendor.tomli._parser.parse_multiline_str</definition>
+        <argsstring>(str src, Pos pos, *bool literal)</argsstring>
+        <name>parse_multiline_str</name>
+        <qualifiedname>pip._vendor.tomli._parser.parse_multiline_str</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>Pos</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>*bool</type>
+          <declname>literal</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="521" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="521" bodyend="551"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a0f9fefbd45071224f768739ac35ec3de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[Pos, str]</type>
+        <definition> tuple[Pos, str] pip._vendor.tomli._parser.parse_basic_str</definition>
+        <argsstring>(str src, Pos pos, *bool multiline)</argsstring>
+        <name>parse_basic_str</name>
+        <qualifiedname>pip._vendor.tomli._parser.parse_basic_str</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>Pos</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>*bool</type>
+          <declname>multiline</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="552" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="552" bodyend="583"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a658e95c4a5ef6f2c2cf84fef8632c303" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[Pos, Any]</type>
+        <definition> tuple[Pos, Any] pip._vendor.tomli._parser.parse_value</definition>
+        <argsstring>(str src, Pos pos, ParseFloat parse_float)</argsstring>
+        <name>parse_value</name>
+        <qualifiedname>pip._vendor.tomli._parser.parse_value</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>Pos</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>ParseFloat</type>
+          <declname>parse_float</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="584" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="586" bodyend="651"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a32d13d95566624c7f71f8c045badc438" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1tomli_1_1__parser_1_1TOMLDecodeError" kindref="compound">TOMLDecodeError</ref></type>
+        <definition> TOMLDecodeError pip._vendor.tomli._parser.suffixed_err</definition>
+        <argsstring>(str src, Pos pos, str msg)</argsstring>
+        <name>suffixed_err</name>
+        <qualifiedname>pip._vendor.tomli._parser.suffixed_err</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>Pos</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a `TOMLDecodeError` where error message is suffixed with
+coordinates in source.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="652" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="652" bodyend="668"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1a8e6a3ce9fe91d51ed6a3485ac794938b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.tomli._parser.is_unicode_scalar_value</definition>
+        <argsstring>(int codepoint)</argsstring>
+        <name>is_unicode_scalar_value</name>
+        <qualifiedname>pip._vendor.tomli._parser.is_unicode_scalar_value</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>codepoint</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="669" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="669" bodyend="672"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__parser_1aead90dd397c7f5c8fcc5f8ca40b9cb73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ParseFloat</type>
+        <definition> ParseFloat pip._vendor.tomli._parser.make_safe_parse_float</definition>
+        <argsstring>(ParseFloat parse_float)</argsstring>
+        <name>make_safe_parse_float</name>
+        <qualifiedname>pip._vendor.tomli._parser.make_safe_parse_float</qualifiedname>
+        <param>
+          <type>ParseFloat</type>
+          <declname>parse_float</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>A decorator to make `parse_float` safe.
+
+`parse_float` must not return dicts or lists, because these types
+would be mixed with parsed TOML tables and arrays, thus confusing
+the parser. The returned decorated callable raises `ValueError`
+instead of returning illegal types.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="673" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" bodystart="673" bodyend="692"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_parser.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1nativetypes_1_1NativeTemplate" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::nativetypes::NativeTemplate</compoundname>
+    <basecompoundref refid="classjinja2_1_1environment_1_1Template" prot="public" virt="non-virtual">jinja2.environment.Template</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1nativetypes_1_1NativeTemplate_1a764548637550ecfe11e9be3905f4732c" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>jinja2.nativetypes.NativeTemplate::environment_class</definition>
+        <argsstring></argsstring>
+        <name>environment_class</name>
+        <qualifiedname>jinja2.nativetypes.NativeTemplate.environment_class</qualifiedname>
+        <initializer>=  <ref refid="classjinja2_1_1nativetypes_1_1NativeEnvironment" kindref="compound">NativeEnvironment</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nativetypes.py" line="96" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nativetypes.py" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1nativetypes_1_1NativeTemplate_1a0ce05aed4dbd928b5efffd7ee1e88c18" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>jinja2.nativetypes.NativeTemplate::template_class</definition>
+        <argsstring></argsstring>
+        <name>template_class</name>
+        <qualifiedname>jinja2.nativetypes.NativeTemplate.template_class</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nativetypes.py" line="130" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nativetypes.py" bodystart="130" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjinja2_1_1nativetypes_1_1NativeTemplate_1a97c8605273784a0f415fd048bb122a19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Any</type>
+        <definition> t.Any jinja2.nativetypes.NativeTemplate.render</definition>
+        <argsstring>(self, *t.Any args, **t.Any kwargs)</argsstring>
+        <name>render</name>
+        <qualifiedname>jinja2.nativetypes.NativeTemplate.render</qualifiedname>
+        <reimplements refid="classjinja2_1_1environment_1_1Template_1a36cfef680e004196e4f72b6b8cc0574e">render</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>*t.Any</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Render the template to produce a native Python type. If the
+result is a single node, its value is returned. Otherwise, the
+nodes are concatenated as strings. If the result can be parsed
+with :func:`ast.literal_eval`, the parsed value is returned.
+Otherwise, the string is returned.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nativetypes.py" line="98" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nativetypes.py" bodystart="98" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1nativetypes_1_1NativeTemplate_1a695235d6ce52d957653050d5e65aa892" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Any</type>
+        <definition> t.Any jinja2.nativetypes.NativeTemplate.render_async</definition>
+        <argsstring>(self, *t.Any args, **t.Any kwargs)</argsstring>
+        <name>render_async</name>
+        <qualifiedname>jinja2.nativetypes.NativeTemplate.render_async</qualifiedname>
+        <reimplements refid="classjinja2_1_1environment_1_1Template_1a4ee286bbe14c578c28a35c4e0d93a52e">render_async</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>*t.Any</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This works similar to :meth:`render` but returns a coroutine
+that when awaited returns the entire rendered template string.  This
+requires the async feature to be enabled.
+
+Example usage::
+
+    await template.render_async(knights=&apos;that say nih; asynchronously&apos;)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nativetypes.py" line="114" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nativetypes.py" bodystart="114" bodyend="129"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.nativetypes.NativeTemplate</label>
+        <link refid="classjinja2_1_1nativetypes_1_1NativeTemplate"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.environment.Template</label>
+        <link refid="classjinja2_1_1environment_1_1Template"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>jinja2.nativetypes.NativeTemplate</label>
+        <link refid="classjinja2_1_1nativetypes_1_1NativeTemplate"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.environment.Environment</label>
+        <link refid="classjinja2_1_1environment_1_1Environment"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>concat</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.environment.Template</label>
+        <link refid="classjinja2_1_1environment_1_1Template"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>environment</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>_debug_info</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/jinja2/nativetypes.py" line="95" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nativetypes.py" bodystart="95" bodyend="131"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1nativetypes_1_1NativeTemplate_1a764548637550ecfe11e9be3905f4732c" prot="public" virt="non-virtual"><scope>jinja2::nativetypes::NativeTemplate</scope><name>environment_class</name></member>
+      <member refid="classjinja2_1_1nativetypes_1_1NativeTemplate_1a97c8605273784a0f415fd048bb122a19" prot="public" virt="non-virtual"><scope>jinja2::nativetypes::NativeTemplate</scope><name>render</name></member>
+      <member refid="classjinja2_1_1nativetypes_1_1NativeTemplate_1a695235d6ce52d957653050d5e65aa892" prot="public" virt="non-virtual"><scope>jinja2::nativetypes::NativeTemplate</scope><name>render_async</name></member>
+      <member refid="classjinja2_1_1nativetypes_1_1NativeTemplate_1a0ce05aed4dbd928b5efffd7ee1e88c18" prot="public" virt="non-virtual"><scope>jinja2::nativetypes::NativeTemplate</scope><name>template_class</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

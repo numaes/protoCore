@@ -1,0 +1,282 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1writers_1_1docutils__xml_1_1Writer" kind="class" language="Python" prot="public">
+    <compoundname>docutils::writers::docutils_xml::Writer</compoundname>
+    <basecompoundref refid="classdocutils_1_1writers_1_1Writer" prot="public" virt="non-virtual">docutils.writers.Writer</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1docutils__xml_1_1Writer_1a6272fb988730291e2193d5839f669f47" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.writers.docutils_xml.Writer::supported</definition>
+        <argsstring></argsstring>
+        <name>supported</name>
+        <qualifiedname>docutils.writers.docutils_xml.Writer.supported</qualifiedname>
+        <initializer>=  (&apos;xml&apos;,)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/docutils_xml.py" line="26" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/docutils_xml.py" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1docutils__xml_1_1Writer_1a9adb835ec5638aa8ee4a89ffdad541b1" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.writers.docutils_xml.Writer::settings_spec</definition>
+        <argsstring></argsstring>
+        <name>settings_spec</name>
+        <qualifiedname>docutils.writers.docutils_xml.Writer.settings_spec</qualifiedname>
+        <initializer>=  (
+        &apos;&quot;Docutils XML&quot; <ref refid="classdocutils_1_1writers_1_1docutils__xml_1_1Writer" kindref="compound">Writer</ref> Options&apos;,
+        None,
+        ((&apos;Generate XML with newlines before and after tags.&apos;,
+          [&apos;--newlines&apos;],
+          {&apos;action&apos;: &apos;store_true&apos;, &apos;validator&apos;: <ref refid="namespacedocutils_1_1frontend_1ae5594316055412787dd4264f1acb26dd" kindref="member">frontend.validate_boolean</ref>}),
+         (&apos;Generate XML with indents and newlines.&apos;,
+          [&apos;--indents&apos;],  # TODO use integer value for number of spaces?
+          {&apos;action&apos;: &apos;store_true&apos;, &apos;validator&apos;: <ref refid="namespacedocutils_1_1frontend_1ae5594316055412787dd4264f1acb26dd" kindref="member">frontend.validate_boolean</ref>}),
+         (&apos;Omit the XML declaration.  Use with caution.&apos;,
+          [&apos;--no-xml-declaration&apos;],
+          {&apos;dest&apos;: &apos;xml_declaration&apos;, &apos;default&apos;: 1, &apos;action&apos;: &apos;store_false&apos;,
+           &apos;validator&apos;: <ref refid="namespacedocutils_1_1frontend_1ae5594316055412787dd4264f1acb26dd" kindref="member">frontend.validate_boolean</ref>}),
+         (&apos;Omit the DOCTYPE declaration.&apos;,
+          [&apos;--no-doctype&apos;],
+          {&apos;dest&apos;: &apos;doctype_declaration&apos;, &apos;default&apos;: 1,
+           &apos;action&apos;: &apos;store_false&apos;, &apos;validator&apos;: <ref refid="namespacedocutils_1_1frontend_1ae5594316055412787dd4264f1acb26dd" kindref="member">frontend.validate_boolean</ref>}),))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/docutils_xml.py" line="29" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/docutils_xml.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1docutils__xml_1_1Writer_1adf215f0e661d00dd182cc0966f03d463" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.writers.docutils_xml.Writer::settings_defaults</definition>
+        <argsstring></argsstring>
+        <name>settings_defaults</name>
+        <qualifiedname>docutils.writers.docutils_xml.Writer.settings_defaults</qualifiedname>
+        <initializer>=  {&apos;output_encoding_error_handler&apos;: &apos;xmlcharrefreplace&apos;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/docutils_xml.py" line="47" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/docutils_xml.py" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1docutils__xml_1_1Writer_1a81d8449bb97b99a6235e9e083c953d08" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.writers.docutils_xml.Writer::config_section</definition>
+        <argsstring></argsstring>
+        <name>config_section</name>
+        <qualifiedname>docutils.writers.docutils_xml.Writer.config_section</qualifiedname>
+        <initializer>=  &apos;docutils_xml writer&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/docutils_xml.py" line="49" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/docutils_xml.py" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1docutils__xml_1_1Writer_1adbde28334871890c085e56d2aec426ea" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.writers.docutils_xml.Writer::config_section_dependencies</definition>
+        <argsstring></argsstring>
+        <name>config_section_dependencies</name>
+        <qualifiedname>docutils.writers.docutils_xml.Writer.config_section_dependencies</qualifiedname>
+        <initializer>=  (&apos;writers&apos;,)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/docutils_xml.py" line="50" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/docutils_xml.py" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1docutils__xml_1_1Writer_1a1f9f7f87d46260edaf05814964c8e604" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.writers.docutils_xml.Writer::output</definition>
+        <argsstring></argsstring>
+        <name>output</name>
+        <qualifiedname>docutils.writers.docutils_xml.Writer.output</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/docutils_xml.py" line="52" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/docutils_xml.py" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1docutils__xml_1_1Writer_1ac11984ad22d70dd84585b2effc0ff742" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.docutils_xml.Writer::translator_class</definition>
+        <argsstring></argsstring>
+        <name>translator_class</name>
+        <qualifiedname>docutils.writers.docutils_xml.Writer.translator_class</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/docutils_xml.py" line="57" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/docutils_xml.py" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1docutils__xml_1_1Writer_1ad1fc3c4ad809da7f2be7cd59492f55e2" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.docutils_xml.Writer::visitor</definition>
+        <argsstring></argsstring>
+        <name>visitor</name>
+        <qualifiedname>docutils.writers.docutils_xml.Writer.visitor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/docutils_xml.py" line="60" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/docutils_xml.py" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1docutils__xml_1_1Writer_1a661377fee30e697d734f1856778128b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.docutils_xml.Writer.__init__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>docutils.writers.docutils_xml.Writer.__init__</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1Writer_1ae362e6df277a5c57028e0fad4c94e6ea">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/docutils_xml.py" line="55" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/docutils_xml.py" bodystart="55" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1docutils__xml_1_1Writer_1a2d09a847d857e6e65e2d7325a4688dbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.docutils_xml.Writer.translate</definition>
+        <argsstring>(self)</argsstring>
+        <name>translate</name>
+        <qualifiedname>docutils.writers.docutils_xml.Writer.translate</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1Writer_1a94b7282f8b16d235a1839a22d19c244b">translate</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Do final translation of `self.document` into `self.output`.  Called
+from `write`.  Override in subclasses.
+
+Usually done with a `docutils.nodes.NodeVisitor` subclass, in
+combination with a call to `docutils.nodes.Node.walk()` or
+`docutils.nodes.Node.walkabout()`.  The ``NodeVisitor`` subclass must
+support all standard elements (listed in
+`docutils.nodes.node_class_names`) and possibly non-standard elements
+used by the current Reader as well.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/docutils_xml.py" line="59" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/docutils_xml.py" bodystart="59" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.writers.docutils_xml.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1docutils__xml_1_1Writer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.Component</label>
+        <link refid="classdocutils_1_1Component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+      </node>
+      <node id="5">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+      </node>
+      <node id="2">
+        <label>docutils.writers.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1Writer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="6">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>docutils.writers.docutils_xml.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1docutils__xml_1_1Writer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>config_section</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.Component</label>
+        <link refid="classdocutils_1_1Component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+      </node>
+      <node id="5">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+      </node>
+      <node id="2">
+        <label>docutils.writers.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1Writer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>component_type</edgelabel>
+          <edgelabel>config_section</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/docutils/writers/docutils_xml.py" line="24" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/docutils_xml.py" bodystart="24" bodyend="64"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1writers_1_1docutils__xml_1_1Writer_1a661377fee30e697d734f1856778128b8" prot="public" virt="non-virtual"><scope>docutils::writers::docutils_xml::Writer</scope><name>__init__</name></member>
+      <member refid="classdocutils_1_1writers_1_1docutils__xml_1_1Writer_1a81d8449bb97b99a6235e9e083c953d08" prot="public" virt="non-virtual"><scope>docutils::writers::docutils_xml::Writer</scope><name>config_section</name></member>
+      <member refid="classdocutils_1_1writers_1_1docutils__xml_1_1Writer_1adbde28334871890c085e56d2aec426ea" prot="public" virt="non-virtual"><scope>docutils::writers::docutils_xml::Writer</scope><name>config_section_dependencies</name></member>
+      <member refid="classdocutils_1_1writers_1_1docutils__xml_1_1Writer_1a1f9f7f87d46260edaf05814964c8e604" prot="public" virt="non-virtual"><scope>docutils::writers::docutils_xml::Writer</scope><name>output</name></member>
+      <member refid="classdocutils_1_1writers_1_1docutils__xml_1_1Writer_1adf215f0e661d00dd182cc0966f03d463" prot="public" virt="non-virtual"><scope>docutils::writers::docutils_xml::Writer</scope><name>settings_defaults</name></member>
+      <member refid="classdocutils_1_1writers_1_1docutils__xml_1_1Writer_1a9adb835ec5638aa8ee4a89ffdad541b1" prot="public" virt="non-virtual"><scope>docutils::writers::docutils_xml::Writer</scope><name>settings_spec</name></member>
+      <member refid="classdocutils_1_1writers_1_1docutils__xml_1_1Writer_1a6272fb988730291e2193d5839f669f47" prot="public" virt="non-virtual"><scope>docutils::writers::docutils_xml::Writer</scope><name>supported</name></member>
+      <member refid="classdocutils_1_1writers_1_1docutils__xml_1_1Writer_1a2d09a847d857e6e65e2d7325a4688dbf" prot="public" virt="non-virtual"><scope>docutils::writers::docutils_xml::Writer</scope><name>translate</name></member>
+      <member refid="classdocutils_1_1writers_1_1docutils__xml_1_1Writer_1ac11984ad22d70dd84585b2effc0ff742" prot="public" virt="non-virtual"><scope>docutils::writers::docutils_xml::Writer</scope><name>translator_class</name></member>
+      <member refid="classdocutils_1_1writers_1_1docutils__xml_1_1Writer_1ad1fc3c4ad809da7f2be7cd59492f55e2" prot="public" virt="non-virtual"><scope>docutils::writers::docutils_xml::Writer</scope><name>visitor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

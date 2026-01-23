@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="pip_2__vendor_2requests_2__internal__utils_8py" kind="file" language="Python">
+    <compoundname>_internal_utils.py</compoundname>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1requests">pip::_vendor::requests</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1requests_1_1__internal__utils">pip::_vendor::requests::_internal_utils</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1requests_1_1__internal__utils" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral">requests._internal_utils</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral">~~~~~~~~~~~~~~</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral">Provides<sp/>utility<sp/>functions<sp/>that<sp/>are<sp/>consumed<sp/>internally<sp/>by<sp/>Requests</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral">which<sp/>depend<sp/>on<sp/>extremely<sp/>few<sp/>external<sp/>helpers<sp/>(such<sp/>as<sp/>compat)</highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>re</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.compat<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>builtin_str</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal">_VALID_HEADER_NAME_RE_BYTE<sp/>=<sp/>re.compile(rb</highlight><highlight class="stringliteral">&quot;^[^:\s][^:\r\n]*$&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="13"><highlight class="normal">_VALID_HEADER_NAME_RE_STR<sp/>=<sp/>re.compile(</highlight><highlight class="stringliteral">r&quot;^[^:\s][^:\r\n]*$&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="14"><highlight class="normal">_VALID_HEADER_VALUE_RE_BYTE<sp/>=<sp/>re.compile(rb</highlight><highlight class="stringliteral">&quot;^\S[^\r\n]*$|^$&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="15"><highlight class="normal">_VALID_HEADER_VALUE_RE_STR<sp/>=<sp/>re.compile(</highlight><highlight class="stringliteral">r&quot;^\S[^\r\n]*$|^$&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal">_HEADER_VALIDATORS_STR<sp/>=<sp/>(_VALID_HEADER_NAME_RE_STR,<sp/>_VALID_HEADER_VALUE_RE_STR)</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">_HEADER_VALIDATORS_BYTE<sp/>=<sp/>(_VALID_HEADER_NAME_RE_BYTE,<sp/>_VALID_HEADER_VALUE_RE_BYTE)</highlight></codeline>
+<codeline lineno="19"><highlight class="normal">HEADER_VALIDATORS<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>bytes:<sp/>_HEADER_VALIDATORS_BYTE,</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>str:<sp/>_HEADER_VALIDATORS_STR,</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">to_native_string(string,<sp/>encoding=&quot;ascii&quot;):</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Given<sp/>a<sp/>string<sp/>object,<sp/>regardless<sp/>of<sp/>type,<sp/>returns<sp/>a<sp/>representation<sp/>of</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>that<sp/>string<sp/>in<sp/>the<sp/>native<sp/>string<sp/>type,<sp/>encoding<sp/>and<sp/>decoding<sp/>where</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>necessary.<sp/>This<sp/>assumes<sp/>ASCII<sp/>unless<sp/>told<sp/>otherwise.</highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>isinstance(string,<sp/>builtin_str):</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out<sp/>=<sp/>string</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out<sp/>=<sp/>string.decode(encoding)</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>out</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">unicode_is_ascii(u_string):</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Determine<sp/>if<sp/>unicode<sp/>string<sp/>only<sp/>contains<sp/>ASCII<sp/>characters.</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>str<sp/>u_string:<sp/>unicode<sp/>string<sp/>to<sp/>check.<sp/>Must<sp/>be<sp/>unicode</highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>and<sp/>not<sp/>Python<sp/>2<sp/>`str`.</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:rtype:<sp/>bool</highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">assert</highlight><highlight class="normal"><sp/>isinstance(u_string,<sp/>str)</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>u_string.encode(</highlight><highlight class="stringliteral">&quot;ascii&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>UnicodeEncodeError:</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/_internal_utils.py"/>
+  </compounddef>
+</doxygen>

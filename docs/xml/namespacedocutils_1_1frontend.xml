@@ -1,0 +1,845 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacedocutils_1_1frontend" kind="namespace" language="Python">
+    <compoundname>docutils::frontend</compoundname>
+    <innerclass refid="classdocutils_1_1frontend_1_1ConfigDeprecationWarning" prot="public">docutils::frontend::ConfigDeprecationWarning</innerclass>
+    <innerclass refid="classdocutils_1_1frontend_1_1ConfigParser" prot="public">docutils::frontend::ConfigParser</innerclass>
+    <innerclass refid="classdocutils_1_1frontend_1_1Option" prot="public">docutils::frontend::Option</innerclass>
+    <innerclass refid="classdocutils_1_1frontend_1_1OptionParser" prot="public">docutils::frontend::OptionParser</innerclass>
+    <innerclass refid="classdocutils_1_1frontend_1_1Values" prot="public">docutils::frontend::Values</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacedocutils_1_1frontend_1afa79ef5434051ae8962ab18acf353f30" prot="private" static="no" mutable="no">
+        <type>str</type>
+        <definition>str docutils::frontend.__docformat__</definition>
+        <argsstring></argsstring>
+        <name>__docformat__</name>
+        <qualifiedname>docutils.frontend.__docformat__</qualifiedname>
+        <initializer>=  &apos;reStructuredText&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/frontend.py" line="53" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacedocutils_1_1frontend_1ae9d4723f72e4e92d5cef43d22e5c873f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.store_multiple</definition>
+        <argsstring>(option, opt, value, parser, *args, **kwargs)</argsstring>
+        <name>store_multiple</name>
+        <qualifiedname>docutils.frontend.store_multiple</qualifiedname>
+        <param>
+          <type>option</type>
+          <defname>option</defname>
+        </param>
+        <param>
+          <type>opt</type>
+          <defname>opt</defname>
+        </param>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+        </param>
+        <param>
+          <type>parser</type>
+          <defname>parser</defname>
+        </param>
+        <param>
+          <type>*</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Store multiple values in `parser.values`.  (Option callback.)
+
+Store `None` for each attribute named in `args`, and store the value for
+each key (attribute name) in `kwargs`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/frontend.py" line="70" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="70" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1frontend_1a5aa509770e6104dd5d812dfd697c9096" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.read_config_file</definition>
+        <argsstring>(option, opt, value, parser)</argsstring>
+        <name>read_config_file</name>
+        <qualifiedname>docutils.frontend.read_config_file</qualifiedname>
+        <param>
+          <type>option</type>
+          <defname>option</defname>
+        </param>
+        <param>
+          <type>opt</type>
+          <defname>opt</defname>
+        </param>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+        </param>
+        <param>
+          <type>parser</type>
+          <defname>parser</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Read a configuration file during option processing.  (Option callback.)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/frontend.py" line="83" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="83" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1frontend_1a1b8e398ec21f5257a7442346288934ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.validate_encoding</definition>
+        <argsstring>(setting, value=None, option_parser=None, config_parser=None, config_section=None)</argsstring>
+        <name>validate_encoding</name>
+        <qualifiedname>docutils.frontend.validate_encoding</qualifiedname>
+        <param>
+          <type>setting</type>
+          <defname>setting</defname>
+        </param>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>option_parser</type>
+          <defname>option_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_parser</type>
+          <defname>config_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_section</type>
+          <defname>config_section</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/frontend.py" line="94" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="95" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1frontend_1a886e17ad543dbd1b26675ad0a50ad908" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.validate_encoding_error_handler</definition>
+        <argsstring>(setting, value=None, option_parser=None, config_parser=None, config_section=None)</argsstring>
+        <name>validate_encoding_error_handler</name>
+        <qualifiedname>docutils.frontend.validate_encoding_error_handler</qualifiedname>
+        <param>
+          <type>setting</type>
+          <defname>setting</defname>
+        </param>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>option_parser</type>
+          <defname>option_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_parser</type>
+          <defname>config_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_section</type>
+          <defname>config_section</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/frontend.py" line="111" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="112" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1frontend_1ace85a4717dfcb29c1b17496712df850e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.validate_encoding_and_error_handler</definition>
+        <argsstring>(setting, value, option_parser, config_parser=None, config_section=None)</argsstring>
+        <name>validate_encoding_and_error_handler</name>
+        <qualifiedname>docutils.frontend.validate_encoding_and_error_handler</qualifiedname>
+        <param>
+          <type>setting</type>
+          <defname>setting</defname>
+        </param>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+        </param>
+        <param>
+          <type>option_parser</type>
+          <defname>option_parser</defname>
+        </param>
+        <param>
+          <type>config_parser</type>
+          <defname>config_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_section</type>
+          <defname>config_section</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Side-effect: if an error handler is included in the value, it is inserted
+into the appropriate place as if it were a separate setting/option.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/frontend.py" line="129" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="130" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1frontend_1ae5594316055412787dd4264f1acb26dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.validate_boolean</definition>
+        <argsstring>(setting, value=None, option_parser=None, config_parser=None, config_section=None)</argsstring>
+        <name>validate_boolean</name>
+        <qualifiedname>docutils.frontend.validate_boolean</qualifiedname>
+        <param>
+          <type>setting</type>
+          <defname>setting</defname>
+        </param>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>option_parser</type>
+          <defname>option_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_parser</type>
+          <defname>config_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_section</type>
+          <defname>config_section</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check/normalize boolean settings:
+     True:  &apos;1&apos;, &apos;on&apos;, &apos;yes&apos;, &apos;true&apos;
+     False: &apos;0&apos;, &apos;off&apos;, &apos;no&apos;,&apos;false&apos;, &apos;&apos;
+
+All arguments except `value` are ignored
+(kept for compatibility with &quot;optparse&quot; module).
+If there is only one positional argument, it is interpreted as `value`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/frontend.py" line="148" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="149" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1frontend_1af98385529e8181a31bff885cb519f5b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.validate_ternary</definition>
+        <argsstring>(setting, value=None, option_parser=None, config_parser=None, config_section=None)</argsstring>
+        <name>validate_ternary</name>
+        <qualifiedname>docutils.frontend.validate_ternary</qualifiedname>
+        <param>
+          <type>setting</type>
+          <defname>setting</defname>
+        </param>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>option_parser</type>
+          <defname>option_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_parser</type>
+          <defname>config_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_section</type>
+          <defname>config_section</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check/normalize three-value settings:
+     True:  &apos;1&apos;, &apos;on&apos;, &apos;yes&apos;, &apos;true&apos;
+     False: &apos;0&apos;, &apos;off&apos;, &apos;no&apos;,&apos;false&apos;, &apos;&apos;
+     any other value: returned as-is.
+
+All arguments except `value` are ignored
+(kept for compatibility with &quot;optparse&quot; module).
+If there is only one positional argument, it is interpreted as `value`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/frontend.py" line="168" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="169" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1frontend_1aa68dfedff901d6535f2e346936531c1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.validate_nonnegative_int</definition>
+        <argsstring>(setting, value=None, option_parser=None, config_parser=None, config_section=None)</argsstring>
+        <name>validate_nonnegative_int</name>
+        <qualifiedname>docutils.frontend.validate_nonnegative_int</qualifiedname>
+        <param>
+          <type>setting</type>
+          <defname>setting</defname>
+        </param>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>option_parser</type>
+          <defname>option_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_parser</type>
+          <defname>config_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_section</type>
+          <defname>config_section</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/frontend.py" line="189" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="190" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1frontend_1a89d03bc4bad7c76512241ba2ed3a8b75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.validate_threshold</definition>
+        <argsstring>(setting, value=None, option_parser=None, config_parser=None, config_section=None)</argsstring>
+        <name>validate_threshold</name>
+        <qualifiedname>docutils.frontend.validate_threshold</qualifiedname>
+        <param>
+          <type>setting</type>
+          <defname>setting</defname>
+        </param>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>option_parser</type>
+          <defname>option_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_parser</type>
+          <defname>config_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_section</type>
+          <defname>config_section</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/frontend.py" line="202" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="203" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1frontend_1af18d3c4848df1b82a666b2e39675b93e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.validate_colon_separated_string_list</definition>
+        <argsstring>(setting, value=None, option_parser=None, config_parser=None, config_section=None)</argsstring>
+        <name>validate_colon_separated_string_list</name>
+        <qualifiedname>docutils.frontend.validate_colon_separated_string_list</qualifiedname>
+        <param>
+          <type>setting</type>
+          <defname>setting</defname>
+        </param>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>option_parser</type>
+          <defname>option_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_parser</type>
+          <defname>config_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_section</type>
+          <defname>config_section</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/frontend.py" line="218" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="220" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1frontend_1a095a8410ef46f6a9dd74bf05c99493b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.validate_comma_separated_list</definition>
+        <argsstring>(setting, value=None, option_parser=None, config_parser=None, config_section=None)</argsstring>
+        <name>validate_comma_separated_list</name>
+        <qualifiedname>docutils.frontend.validate_comma_separated_list</qualifiedname>
+        <param>
+          <type>setting</type>
+          <defname>setting</defname>
+        </param>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>option_parser</type>
+          <defname>option_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_parser</type>
+          <defname>config_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_section</type>
+          <defname>config_section</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check/normalize list arguments (split at &quot;,&quot; and strip whitespace).
+
+All arguments except `value` are ignored
+(kept for compatibility with &quot;optparse&quot; module).
+If there is only one positional argument, it is interpreted as `value`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/frontend.py" line="234" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="235" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1frontend_1a8bbbb28042d4c0eb6209716134a27b1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.validate_math_output</definition>
+        <argsstring>(setting, value=None, option_parser=None, config_parser=None, config_section=None)</argsstring>
+        <name>validate_math_output</name>
+        <qualifiedname>docutils.frontend.validate_math_output</qualifiedname>
+        <param>
+          <type>setting</type>
+          <defname>setting</defname>
+        </param>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>option_parser</type>
+          <defname>option_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_parser</type>
+          <defname>config_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_section</type>
+          <defname>config_section</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check &quot;math-output&quot; setting, return list with &quot;format&quot; and &quot;options&quot;.
+
+See also https://docutils.sourceforge.io/docs/user/config.html#math-output
+
+Argument list for compatibility with &quot;optparse&quot; module.
+All arguments except `value` are ignored.
+If there is only one positional argument, it is interpreted as `value`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/frontend.py" line="256" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="257" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1frontend_1a83fd6f5bceb8d45f9c753513e03ae47b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.validate_url_trailing_slash</definition>
+        <argsstring>(setting, value=None, option_parser=None, config_parser=None, config_section=None)</argsstring>
+        <name>validate_url_trailing_slash</name>
+        <qualifiedname>docutils.frontend.validate_url_trailing_slash</qualifiedname>
+        <param>
+          <type>setting</type>
+          <defname>setting</defname>
+        </param>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>option_parser</type>
+          <defname>option_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_parser</type>
+          <defname>config_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_section</type>
+          <defname>config_section</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/frontend.py" line="292" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="293" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1frontend_1a02c0625bd8b19e523d7e5e1ef3ee9afa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.validate_dependency_file</definition>
+        <argsstring>(setting, value=None, option_parser=None, config_parser=None, config_section=None)</argsstring>
+        <name>validate_dependency_file</name>
+        <qualifiedname>docutils.frontend.validate_dependency_file</qualifiedname>
+        <param>
+          <type>setting</type>
+          <defname>setting</defname>
+        </param>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>option_parser</type>
+          <defname>option_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_parser</type>
+          <defname>config_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_section</type>
+          <defname>config_section</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/frontend.py" line="307" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="308" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1frontend_1aebc4b348d8e33fe1f7f50985abdd0fad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.validate_strip_class</definition>
+        <argsstring>(setting, value=None, option_parser=None, config_parser=None, config_section=None)</argsstring>
+        <name>validate_strip_class</name>
+        <qualifiedname>docutils.frontend.validate_strip_class</qualifiedname>
+        <param>
+          <type>setting</type>
+          <defname>setting</defname>
+        </param>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>option_parser</type>
+          <defname>option_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_parser</type>
+          <defname>config_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_section</type>
+          <defname>config_section</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/frontend.py" line="321" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="322" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1frontend_1aff3370ce75387253a023208bd4818a47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.validate_smartquotes_locales</definition>
+        <argsstring>(setting, value=None, option_parser=None, config_parser=None, config_section=None)</argsstring>
+        <name>validate_smartquotes_locales</name>
+        <qualifiedname>docutils.frontend.validate_smartquotes_locales</qualifiedname>
+        <param>
+          <type>setting</type>
+          <defname>setting</defname>
+        </param>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>option_parser</type>
+          <defname>option_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_parser</type>
+          <defname>config_parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_section</type>
+          <defname>config_section</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check/normalize a comma separated list of smart quote definitions.
+
+Return a list of (language-tag, quotes) string tuples.
+
+All arguments except `value` are ignored
+(kept for compatibility with &quot;optparse&quot; module).
+If there is only one positional argument, it is interpreted as `value`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/frontend.py" line="339" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="340" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1frontend_1abcf5ede23aac9ea8e90e54bc5a38cdee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.make_paths_absolute</definition>
+        <argsstring>(pathdict, keys, base_path=None)</argsstring>
+        <name>make_paths_absolute</name>
+        <qualifiedname>docutils.frontend.make_paths_absolute</qualifiedname>
+        <param>
+          <type>pathdict</type>
+          <defname>pathdict</defname>
+        </param>
+        <param>
+          <type>keys</type>
+          <defname>keys</defname>
+        </param>
+        <param>
+          <type>base_path</type>
+          <defname>base_path</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Interpret filesystem path settings relative to the `base_path` given.
+
+Paths are values in `pathdict` whose keys are in `keys`.  Get `keys` from
+`OptionParser.relative_path_settings`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/frontend.py" line="380" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="380" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1frontend_1ae069f6017514db36c7911d354e3d65a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.make_one_path_absolute</definition>
+        <argsstring>(base_path, path)</argsstring>
+        <name>make_one_path_absolute</name>
+        <qualifiedname>docutils.frontend.make_one_path_absolute</qualifiedname>
+        <param>
+          <type>base_path</type>
+          <defname>base_path</defname>
+        </param>
+        <param>
+          <type>path</type>
+          <defname>path</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/frontend.py" line="401" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="401" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1frontend_1ae2fad6b5fbdf48b7fc29ccf112be5c15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.filter_settings_spec</definition>
+        <argsstring>(settings_spec, *exclude, **replace)</argsstring>
+        <name>filter_settings_spec</name>
+        <qualifiedname>docutils.frontend.filter_settings_spec</qualifiedname>
+        <param>
+          <type>settings_spec</type>
+          <defname>settings_spec</defname>
+        </param>
+        <param>
+          <type>*</type>
+          <declname>exclude</declname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>replace</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a copy of `settings_spec` excluding/replacing some settings.
+
+`settings_spec` is a tuple of configuration settings
+(cf. `docutils.SettingsSpec.settings_spec`).
+
+Optional positional arguments are names of to-be-excluded settings.
+Keyword arguments are option specification replacements.
+(See the html4strict writer for an example.)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/frontend.py" line="408" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="408" bodyend="436"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1frontend_1af253527c9815ca6b21adf257cbbecf75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.frontend.get_default_settings</definition>
+        <argsstring>(*components)</argsstring>
+        <name>get_default_settings</name>
+        <qualifiedname>docutils.frontend.get_default_settings</qualifiedname>
+        <param>
+          <type>*</type>
+          <declname>components</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return default runtime settings for `components`.
+
+Return a `frontend.Values` instance with defaults for generic Docutils
+settings and settings from the `components` (`SettingsSpec` instances).
+
+This corresponds to steps 1 and 2 in the `runtime settings priority`__.
+
+__ https://docutils.sourceforge.io/docs/api/runtime-settings.html
+   #settings-priority
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/frontend.py" line="1052" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/frontend.py" bodystart="1052" bodyend="1066"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Command-line and common processing for Docutils front-end tools.
+
+This module is provisional.
+Major changes will happen with the switch from the deprecated
+&quot;optparse&quot; module to &quot;arparse&quot;.
+
+Applications should use the high-level API provided by `docutils.core`.
+See https://docutils.sourceforge.io/docs/api/runtime-settings.html.
+
+Exports the following classes:
+
+* `OptionParser`: Standard Docutils command-line processing.
+  Deprecated. Will be replaced by an ArgumentParser.
+* `Option`: Customized version of `optparse.Option`; validation support.
+  Deprecated. Will be removed.
+* `Values`: Runtime settings; objects are simple structs
+  (``object.attribute``).  Supports cumulative list settings (attributes).
+  Deprecated. Will be removed.
+* `ConfigParser`: Standard Docutils config file processing.
+  Provisional. Details will change.
+
+Also exports the following functions:
+
+Interface function:
+  `get_default_settings()`.  New in 0.19.
+
+Option callbacks:
+  `store_multiple()`, `read_config_file()`. Deprecated.
+
+Setting validators:
+  `validate_encoding()`, `validate_encoding_error_handler()`,
+  `validate_encoding_and_error_handler()`,
+  `validate_boolean()`, `validate_ternary()`,
+  `validate_nonnegative_int()`, `validate_threshold()`,
+  `validate_colon_separated_string_list()`,
+  `validate_comma_separated_list()`,
+  `validate_url_trailing_slash()`,
+  `validate_dependency_file()`,
+  `validate_strip_class()`
+  `validate_smartquotes_locales()`.
+
+  Provisional.
+
+Misc:
+  `make_paths_absolute()`, `filter_settings_spec()`. Provisional.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/docutils/frontend.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

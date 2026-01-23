@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1config_1_1ENUM" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::config::ENUM</compoundname>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1config_1_1ENUM_1a89ce5fc01e95132b2a6115e1d19155e7" prot="protected" static="yes" mutable="no">
+        <type>TypeAlias</type>
+        <definition>TypeAlias sphinx.config.ENUM::_OptValidTypes</definition>
+        <argsstring></argsstring>
+        <name>_OptValidTypes</name>
+        <qualifiedname>sphinx.config.ENUM._OptValidTypes</qualifiedname>
+        <initializer>=  frozenset[type] | <ref refid="classsphinx_1_1config_1_1ENUM" kindref="compound">ENUM</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/config.py" line="97" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/config.py" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1config_1_1ENUM_1a8377d3ac274bdcd46fac7e764e36b497" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.config.ENUM::_candidates</definition>
+        <argsstring></argsstring>
+        <name>_candidates</name>
+        <qualifiedname>sphinx.config.ENUM._candidates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/config.py" line="86" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/config.py" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1config_1_1ENUM_1a7715e1a8c4e791f35e16e7a3d7c7eeb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.config.ENUM.__init__</definition>
+        <argsstring>(self, *str|bool|None candidates)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>sphinx.config.ENUM.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>*str|bool|None</type>
+          <declname>candidates</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/config.py" line="85" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/config.py" bodystart="85" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1config_1_1ENUM_1af508ae671f461b1cef5a7cfeb39c00fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.config.ENUM.__repr__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__repr__</name>
+        <qualifiedname>sphinx.config.ENUM.__repr__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/config.py" line="88" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/config.py" bodystart="88" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1config_1_1ENUM_1aac9fe10e34f9ba7b5c61f5f3987a31b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.config.ENUM.match</definition>
+        <argsstring>(self, str|bool|None|Sequence[str|bool|None] value)</argsstring>
+        <name>match</name>
+        <qualifiedname>sphinx.config.ENUM.match</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str|bool|None|Sequence</type>
+          <declname>value</declname>
+          <array>[str|bool|None]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/config.py" line="91" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/config.py" bodystart="91" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Represents the candidates which a config value should be one of.
+
+Example:
+    app.add_config_value(&apos;latex_show_urls&apos;, &apos;no&apos;, None, ENUM(&apos;no&apos;, &apos;footnote&apos;, &apos;inline&apos;))
+</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>sphinx.config.ENUM</label>
+        <link refid="classsphinx_1_1config_1_1ENUM"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>_OptValidTypes</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>TypeAlias</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/config.py" line="78" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/config.py" bodystart="78" bodyend="99"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1config_1_1ENUM_1a7715e1a8c4e791f35e16e7a3d7c7eeb4" prot="public" virt="non-virtual"><scope>sphinx::config::ENUM</scope><name>__init__</name></member>
+      <member refid="classsphinx_1_1config_1_1ENUM_1af508ae671f461b1cef5a7cfeb39c00fb" prot="public" virt="non-virtual"><scope>sphinx::config::ENUM</scope><name>__repr__</name></member>
+      <member refid="classsphinx_1_1config_1_1ENUM_1a8377d3ac274bdcd46fac7e764e36b497" prot="protected" virt="non-virtual"><scope>sphinx::config::ENUM</scope><name>_candidates</name></member>
+      <member refid="classsphinx_1_1config_1_1ENUM_1a89ce5fc01e95132b2a6115e1d19155e7" prot="protected" virt="non-virtual"><scope>sphinx::config::ENUM</scope><name>_OptValidTypes</name></member>
+      <member refid="classsphinx_1_1config_1_1ENUM_1aac9fe10e34f9ba7b5c61f5f3987a31b9" prot="public" virt="non-virtual"><scope>sphinx::config::ENUM</scope><name>match</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

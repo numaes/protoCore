@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classrequests_1_1sessions_1_1SessionRedirectMixin" kind="class" language="Python" prot="public">
+    <compoundname>requests::sessions::SessionRedirectMixin</compoundname>
+    <derivedcompoundref refid="classrequests_1_1sessions_1_1Session" prot="public" virt="non-virtual">requests.sessions.Session</derivedcompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classrequests_1_1sessions_1_1SessionRedirectMixin_1a7ac0af70ea290243bad62bcc1f6bfb12" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>requests.sessions.SessionRedirectMixin::cookies</definition>
+        <argsstring></argsstring>
+        <name>cookies</name>
+        <qualifiedname>requests.sessions.SessionRedirectMixin.cookies</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/requests/sessions.py" line="241" column="1" bodyfile="venv/lib/python3.12/site-packages/requests/sessions.py" bodystart="241" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrequests_1_1sessions_1_1SessionRedirectMixin_1a15e8423f68028b3267423133e2ee6758" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.sessions.SessionRedirectMixin.get_redirect_target</definition>
+        <argsstring>(self, resp)</argsstring>
+        <name>get_redirect_target</name>
+        <qualifiedname>requests.sessions.SessionRedirectMixin.get_redirect_target</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1util_1_1requests_1_1__Session_1ad365d7ea027ef1489e638d76b4cc915e">get_redirect_target</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>resp</type>
+          <defname>resp</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Receives a Response. Returns a redirect URI or ``None``</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/requests/sessions.py" line="107" column="1" bodyfile="venv/lib/python3.12/site-packages/requests/sessions.py" bodystart="107" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1sessions_1_1SessionRedirectMixin_1a64a84a5fcb083e3fca3a434c6ce00d62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.sessions.SessionRedirectMixin.should_strip_auth</definition>
+        <argsstring>(self, old_url, new_url)</argsstring>
+        <name>should_strip_auth</name>
+        <qualifiedname>requests.sessions.SessionRedirectMixin.should_strip_auth</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>old_url</type>
+          <defname>old_url</defname>
+        </param>
+        <param>
+          <type>new_url</type>
+          <defname>new_url</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Decide whether Authorization header should be removed when redirecting</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/requests/sessions.py" line="127" column="1" bodyfile="venv/lib/python3.12/site-packages/requests/sessions.py" bodystart="127" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1sessions_1_1SessionRedirectMixin_1a4616fdb64773cab479d0731c39520a53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.sessions.SessionRedirectMixin.resolve_redirects</definition>
+        <argsstring>(self, resp, req, stream=False, timeout=None, verify=True, cert=None, proxies=None, yield_requests=False, **adapter_kwargs)</argsstring>
+        <name>resolve_redirects</name>
+        <qualifiedname>requests.sessions.SessionRedirectMixin.resolve_redirects</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>resp</type>
+          <defname>resp</defname>
+        </param>
+        <param>
+          <type>req</type>
+          <defname>req</defname>
+        </param>
+        <param>
+          <type>stream</type>
+          <defname>stream</defname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>timeout</type>
+          <defname>timeout</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>verify</type>
+          <defname>verify</defname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>cert</type>
+          <defname>cert</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>proxies</type>
+          <defname>proxies</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>yield_requests</type>
+          <defname>yield_requests</defname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>adapter_kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Receives a Response. Returns a generator of Responses or Requests.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/requests/sessions.py" line="159" column="1" bodyfile="venv/lib/python3.12/site-packages/requests/sessions.py" bodystart="170" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1sessions_1_1SessionRedirectMixin_1a48028821cb720751f2f650bf45334101" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.sessions.SessionRedirectMixin.rebuild_auth</definition>
+        <argsstring>(self, prepared_request, response)</argsstring>
+        <name>rebuild_auth</name>
+        <qualifiedname>requests.sessions.SessionRedirectMixin.rebuild_auth</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>prepared_request</type>
+          <defname>prepared_request</defname>
+        </param>
+        <param>
+          <type>response</type>
+          <defname>response</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>When being redirected we may want to strip authentication from the
+request to avoid leaking credentials. This method intelligently removes
+and reapplies authentication where possible to avoid credential loss.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/requests/sessions.py" line="282" column="1" bodyfile="venv/lib/python3.12/site-packages/requests/sessions.py" bodystart="282" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1sessions_1_1SessionRedirectMixin_1a5a117c67c3f1f9e8a3be78ab8162c86c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.sessions.SessionRedirectMixin.rebuild_proxies</definition>
+        <argsstring>(self, prepared_request, proxies)</argsstring>
+        <name>rebuild_proxies</name>
+        <qualifiedname>requests.sessions.SessionRedirectMixin.rebuild_proxies</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>prepared_request</type>
+          <defname>prepared_request</defname>
+        </param>
+        <param>
+          <type>proxies</type>
+          <defname>proxies</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This method re-evaluates the proxy configuration by considering the
+environment variables. If we are redirected to a URL covered by
+NO_PROXY, we strip the proxy configuration. Otherwise, we set missing
+proxy keys for this URL (in case they were stripped by a previous
+redirect).
+
+This method also replaces the Proxy-Authorization header where
+necessary.
+
+:rtype: dict
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/requests/sessions.py" line="302" column="1" bodyfile="venv/lib/python3.12/site-packages/requests/sessions.py" bodystart="302" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1sessions_1_1SessionRedirectMixin_1a4e829931fc4c7aee7dea699ebc3a49d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.sessions.SessionRedirectMixin.rebuild_method</definition>
+        <argsstring>(self, prepared_request, response)</argsstring>
+        <name>rebuild_method</name>
+        <qualifiedname>requests.sessions.SessionRedirectMixin.rebuild_method</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>prepared_request</type>
+          <defname>prepared_request</defname>
+        </param>
+        <param>
+          <type>response</type>
+          <defname>response</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>When being redirected we may want to change the method of the request
+based on certain specs or browser behavior.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/requests/sessions.py" line="333" column="1" bodyfile="venv/lib/python3.12/site-packages/requests/sessions.py" bodystart="333" bodyend="355"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>requests.sessions.SessionRedirectMixin</label>
+        <link refid="classrequests_1_1sessions_1_1SessionRedirectMixin"/>
+      </node>
+      <node id="2">
+        <label>requests.sessions.Session</label>
+        <link refid="classrequests_1_1sessions_1_1Session"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.util.requests._Session</label>
+        <link refid="classsphinx_1_1util_1_1requests_1_1__Session"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="venv/lib/python3.12/site-packages/requests/sessions.py" line="106" column="1" bodyfile="venv/lib/python3.12/site-packages/requests/sessions.py" bodystart="106" bodyend="355"/>
+    <listofallmembers>
+      <member refid="classrequests_1_1sessions_1_1SessionRedirectMixin_1a7ac0af70ea290243bad62bcc1f6bfb12" prot="public" virt="non-virtual"><scope>requests::sessions::SessionRedirectMixin</scope><name>cookies</name></member>
+      <member refid="classrequests_1_1sessions_1_1SessionRedirectMixin_1a15e8423f68028b3267423133e2ee6758" prot="public" virt="non-virtual"><scope>requests::sessions::SessionRedirectMixin</scope><name>get_redirect_target</name></member>
+      <member refid="classrequests_1_1sessions_1_1SessionRedirectMixin_1a48028821cb720751f2f650bf45334101" prot="public" virt="non-virtual"><scope>requests::sessions::SessionRedirectMixin</scope><name>rebuild_auth</name></member>
+      <member refid="classrequests_1_1sessions_1_1SessionRedirectMixin_1a4e829931fc4c7aee7dea699ebc3a49d1" prot="public" virt="non-virtual"><scope>requests::sessions::SessionRedirectMixin</scope><name>rebuild_method</name></member>
+      <member refid="classrequests_1_1sessions_1_1SessionRedirectMixin_1a5a117c67c3f1f9e8a3be78ab8162c86c" prot="public" virt="non-virtual"><scope>requests::sessions::SessionRedirectMixin</scope><name>rebuild_proxies</name></member>
+      <member refid="classrequests_1_1sessions_1_1SessionRedirectMixin_1a4616fdb64773cab479d0731c39520a53" prot="public" virt="non-virtual"><scope>requests::sessions::SessionRedirectMixin</scope><name>resolve_redirects</name></member>
+      <member refid="classrequests_1_1sessions_1_1SessionRedirectMixin_1a64a84a5fcb083e3fca3a434c6ce00d62" prot="public" virt="non-virtual"><scope>requests::sessions::SessionRedirectMixin</scope><name>should_strip_auth</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

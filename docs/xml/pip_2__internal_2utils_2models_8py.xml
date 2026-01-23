@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="pip_2__internal_2utils_2models_8py" kind="file" language="Python">
+    <compoundname>models.py</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin" prot="public">pip::_internal::utils::models::KeyBasedCompareMixin</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal">pip::_internal</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1utils">pip::_internal::utils</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1utils_1_1models">pip::_internal::utils::models</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__internal_1_1utils_1_1models" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;Utilities<sp/>for<sp/>defining<sp/>models</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>operator</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Any,<sp/>Callable,<sp/>Type</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8" refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin" kindref="compound">KeyBasedCompareMixin</ref>:</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Provides<sp/>comparison<sp/>capabilities<sp/>that<sp/>is<sp/>based<sp/>on<sp/>a<sp/>key&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>__slots__<sp/>=<sp/>[</highlight><highlight class="stringliteral">&quot;_compare_key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;_defining_class&quot;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin_1a950e91d92415e612eb35fc20abea380a" kindref="member">__init__</ref>(self,<sp/>key:<sp/>Any,<sp/>defining_class:<sp/>Type[</highlight><highlight class="stringliteral">&quot;KeyBasedCompareMixin&quot;</highlight><highlight class="normal">])<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin_1a0031c50efb4ad21f2ba7c3a86a93dd28" kindref="member">_compare_key</ref><sp/>=<sp/>key</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin_1a34a7d6b8635d8bc3b42a2dd54b306513" kindref="member">_defining_class</ref><sp/>=<sp/>defining_class</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin_1a2821fc5c79ad166e625a58f4ee37b0a0" kindref="member">__hash__</ref>(self)<sp/>-&gt;<sp/>int:</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>hash(self.<ref refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin_1a0031c50efb4ad21f2ba7c3a86a93dd28" kindref="member">_compare_key</ref>)</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin_1ac4e989697826016b7b362b1e7a3f22e9" kindref="member">__lt__</ref>(self,<sp/>other:<sp/>Any)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.<ref refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin_1aa58c35c63bc2d393c6c7cc57d7286b63" kindref="member">_compare</ref>(other,<sp/>operator.__lt__)</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin_1ac386a88d92f79b79b0d3da42d2cf2348" kindref="member">__le__</ref>(self,<sp/>other:<sp/>Any)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.<ref refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin_1aa58c35c63bc2d393c6c7cc57d7286b63" kindref="member">_compare</ref>(other,<sp/>operator.__le__)</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin_1a00e02537c7187a4f9e85d2cc4524eb81" kindref="member">__gt__</ref>(self,<sp/>other:<sp/>Any)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.<ref refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin_1aa58c35c63bc2d393c6c7cc57d7286b63" kindref="member">_compare</ref>(other,<sp/>operator.__gt__)</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin_1ab253975187eb0b549a74870d85df436b" kindref="member">__ge__</ref>(self,<sp/>other:<sp/>Any)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.<ref refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin_1aa58c35c63bc2d393c6c7cc57d7286b63" kindref="member">_compare</ref>(other,<sp/>operator.__ge__)</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin_1ac57e056dc76e43ba7cc0d734b75b9d73" kindref="member">__eq__</ref>(self,<sp/>other:<sp/>Any)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.<ref refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin_1aa58c35c63bc2d393c6c7cc57d7286b63" kindref="member">_compare</ref>(other,<sp/>operator.__eq__)</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin_1aa58c35c63bc2d393c6c7cc57d7286b63" kindref="member">_compare</ref>(self,<sp/>other:<sp/>Any,<sp/>method:<sp/>Callable[[Any,<sp/>Any],<sp/>bool])<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>isinstance(other,<sp/>self.<ref refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin_1a34a7d6b8635d8bc3b42a2dd54b306513" kindref="member">_defining_class</ref>):</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NotImplemented</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>method(self.<ref refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin_1a0031c50efb4ad21f2ba7c3a86a93dd28" kindref="member">_compare_key</ref>,<sp/>other._compare_key)</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/models.py"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1util_1_1logging_1_1SphinxLogRecordTranslator" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::util::logging::SphinxLogRecordTranslator</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">logging.Filter</basecompoundref>
+    <derivedcompoundref refid="classsphinx_1_1util_1_1logging_1_1InfoLogRecordTranslator" prot="public" virt="non-virtual">sphinx.util.logging.InfoLogRecordTranslator</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1util_1_1logging_1_1WarningLogRecordTranslator" prot="public" virt="non-virtual">sphinx.util.logging.WarningLogRecordTranslator</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1util_1_1logging_1_1SphinxLogRecordTranslator_1abf61e9dcf16b3431e666cb0c2f9c9a1f" prot="public" static="yes" mutable="no">
+        <type>type</type>
+        <definition>type sphinx.util.logging.SphinxLogRecordTranslator::LogRecordClass</definition>
+        <argsstring></argsstring>
+        <name>LogRecordClass</name>
+        <qualifiedname>sphinx.util.logging.SphinxLogRecordTranslator.LogRecordClass</qualifiedname>
+        <initializer>[logging.LogRecord]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/logging.py" line="496" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/logging.py" bodystart="496" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1util_1_1logging_1_1SphinxLogRecordTranslator_1a9e9e6b6684755862e38f2fe2fd1201ff" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.util.logging.SphinxLogRecordTranslator::app</definition>
+        <argsstring></argsstring>
+        <name>app</name>
+        <qualifiedname>sphinx.util.logging.SphinxLogRecordTranslator.app</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/logging.py" line="499" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/logging.py" bodystart="499" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1util_1_1logging_1_1SphinxLogRecordTranslator_1a9c2df00afd282b76ffb991b6b8d3cb1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.logging.SphinxLogRecordTranslator.__init__</definition>
+        <argsstring>(self, Sphinx app)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>sphinx.util.logging.SphinxLogRecordTranslator.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/logging.py" line="498" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/logging.py" bodystart="498" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1util_1_1logging_1_1SphinxLogRecordTranslator_1a07d0b195b75498edab55b4c77d8e6fdd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.util.logging.SphinxLogRecordTranslator.filter</definition>
+        <argsstring>(self, SphinxWarningLogRecord record)</argsstring>
+        <name>filter</name>
+        <qualifiedname>sphinx.util.logging.SphinxLogRecordTranslator.filter</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1util_1_1logging_1_1WarningLogRecordTranslator_1aa59079ff0dcdb0daf510863561704cd9">filter</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1util_1_1logging_1_1SphinxWarningLogRecord" kindref="compound">SphinxWarningLogRecord</ref></type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/logging.py" line="502" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/logging.py" bodystart="502" bodyend="524"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Converts a log record to one Sphinx expects
+
+* Make a instance of SphinxLogRecord
+* docname to path if location given
+* append warning type/subtype to message if :confval:`show_warning_types` is ``True``
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>logging.Filter</label>
+      </node>
+      <node id="1">
+        <label>sphinx.util.logging.SphinxLogRecordTranslator</label>
+        <link refid="classsphinx_1_1util_1_1logging_1_1SphinxLogRecordTranslator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.util.logging.InfoLogRecordTranslator</label>
+        <link refid="classsphinx_1_1util_1_1logging_1_1InfoLogRecordTranslator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>sphinx.util.logging.WarningLogRecordTranslator</label>
+        <link refid="classsphinx_1_1util_1_1logging_1_1WarningLogRecordTranslator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>logging.Filter</label>
+      </node>
+      <node id="1">
+        <label>sphinx.util.logging.SphinxLogRecordTranslator</label>
+        <link refid="classsphinx_1_1util_1_1logging_1_1SphinxLogRecordTranslator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/util/logging.py" line="488" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/logging.py" bodystart="488" bodyend="524"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1util_1_1logging_1_1SphinxLogRecordTranslator_1a9c2df00afd282b76ffb991b6b8d3cb1a" prot="public" virt="non-virtual"><scope>sphinx::util::logging::SphinxLogRecordTranslator</scope><name>__init__</name></member>
+      <member refid="classsphinx_1_1util_1_1logging_1_1SphinxLogRecordTranslator_1a9e9e6b6684755862e38f2fe2fd1201ff" prot="public" virt="non-virtual"><scope>sphinx::util::logging::SphinxLogRecordTranslator</scope><name>app</name></member>
+      <member refid="classsphinx_1_1util_1_1logging_1_1SphinxLogRecordTranslator_1a07d0b195b75498edab55b4c77d8e6fdd" prot="public" virt="non-virtual"><scope>sphinx::util::logging::SphinxLogRecordTranslator</scope><name>filter</name></member>
+      <member refid="classsphinx_1_1util_1_1logging_1_1SphinxLogRecordTranslator_1abf61e9dcf16b3431e666cb0c2f9c9a1f" prot="public" virt="non-virtual"><scope>sphinx::util::logging::SphinxLogRecordTranslator</scope><name>LogRecordClass</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,322 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1ext_1_1napoleon_1_1Config" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::ext::napoleon::Config</compoundname>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1napoleon_1_1Config_1abd0500b4203634ed8d2d3b413d9d5513" prot="protected" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx.ext.napoleon.Config::_config_values</definition>
+        <argsstring></argsstring>
+        <name>_config_values</name>
+        <qualifiedname>sphinx.ext.napoleon.Config._config_values</qualifiedname>
+        <initializer>=  (
+        (&apos;napoleon_google_docstring&apos;, True, &apos;env&apos;, frozenset({bool})),
+        (&apos;napoleon_numpy_docstring&apos;, True, &apos;env&apos;, frozenset({bool})),
+        (&apos;napoleon_include_init_with_doc&apos;, False, &apos;env&apos;, frozenset({bool})),
+        (&apos;napoleon_include_private_with_doc&apos;, False, &apos;env&apos;, frozenset({bool})),
+        (&apos;napoleon_include_special_with_doc&apos;, False, &apos;env&apos;, frozenset({bool})),
+        (&apos;napoleon_use_admonition_for_examples&apos;, False, &apos;env&apos;, frozenset({bool})),
+        (&apos;napoleon_use_admonition_for_notes&apos;, False, &apos;env&apos;, frozenset({bool})),
+        (&apos;napoleon_use_admonition_for_references&apos;, False, &apos;env&apos;, frozenset({bool})),
+        (&apos;napoleon_use_ivar&apos;, False, &apos;env&apos;, frozenset({bool})),
+        (&apos;napoleon_use_param&apos;, True, &apos;env&apos;, frozenset({bool})),
+        (&apos;napoleon_use_rtype&apos;, True, &apos;env&apos;, frozenset({bool})),
+        (&apos;napoleon_use_keyword&apos;, True, &apos;env&apos;, frozenset({bool})),
+        (&apos;napoleon_preprocess_types&apos;, False, &apos;env&apos;, frozenset({bool})),
+        (&apos;napoleon_type_aliases&apos;, None, &apos;env&apos;, frozenset({dict, NoneType})),
+        (&apos;napoleon_custom_sections&apos;, None, &apos;env&apos;, frozenset({list, tuple, NoneType})),
+        (&apos;napoleon_attr_annotations&apos;, True, &apos;env&apos;, frozenset({bool})),
+    )</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/napoleon/__init__.py" line="274" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/napoleon/__init__.py" bodystart="274" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1napoleon_1_1Config_1aa6476d3afce023b30827b8e81fe5bd55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.napoleon.Config.__init__</definition>
+        <argsstring>(self, **Any settings)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>sphinx.ext.napoleon.Config.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>**Any</type>
+          <declname>settings</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/napoleon/__init__.py" line="293" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/napoleon/__init__.py" bodystart="293" bodyend="299"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Sphinx napoleon extension settings in `conf.py`.
+
+Listed below are all the settings used by napoleon and their default
+values. These settings can be changed in the Sphinx `conf.py` file. Make
+sure that &quot;sphinx.ext.napoleon&quot; is enabled in `conf.py`::
+
+    # conf.py
+
+    # Add any Sphinx extension module names here, as strings
+    extensions = [&apos;sphinx.ext.napoleon&apos;]
+
+    # Napoleon settings
+    napoleon_google_docstring = True
+    napoleon_numpy_docstring = True
+    napoleon_include_init_with_doc = False
+    napoleon_include_private_with_doc = False
+    napoleon_include_special_with_doc = False
+    napoleon_use_admonition_for_examples = False
+    napoleon_use_admonition_for_notes = False
+    napoleon_use_admonition_for_references = False
+    napoleon_use_ivar = False
+    napoleon_use_param = True
+    napoleon_use_rtype = True
+    napoleon_use_keyword = True
+    napoleon_preprocess_types = False
+    napoleon_type_aliases = None
+    napoleon_custom_sections = None
+    napoleon_attr_annotations = True
+
+.. _Google style:
+   https://google.github.io/styleguide/pyguide.html
+.. _NumPy style:
+   https://numpydoc.readthedocs.io/en/latest/format.html#docstring-standard
+
+Attributes
+----------
+napoleon_google_docstring : :obj:`bool` (Defaults to True)
+    True to parse `Google style`_ docstrings. False to disable support
+    for Google style docstrings.
+napoleon_numpy_docstring : :obj:`bool` (Defaults to True)
+    True to parse `NumPy style`_ docstrings. False to disable support
+    for NumPy style docstrings.
+napoleon_include_init_with_doc : :obj:`bool` (Defaults to False)
+    True to list ``__init___`` docstrings separately from the class
+    docstring. False to fall back to Sphinx&apos;s default behavior, which
+    considers the ``__init___`` docstring as part of the class
+    documentation.
+
+    **If True**::
+
+        def __init__(self):
+            \&quot;\&quot;\&quot;
+            This will be included in the docs because it has a docstring
+            \&quot;\&quot;\&quot;
+
+        def __init__(self):
+            # This will NOT be included in the docs
+
+napoleon_include_private_with_doc : :obj:`bool` (Defaults to False)
+    True to include private members (like ``_membername``) with docstrings
+    in the documentation. False to fall back to Sphinx&apos;s default behavior.
+
+    **If True**::
+
+        def _included(self):
+            \&quot;\&quot;\&quot;
+            This will be included in the docs because it has a docstring
+            \&quot;\&quot;\&quot;
+            pass
+
+        def _skipped(self):
+            # This will NOT be included in the docs
+            pass
+
+napoleon_include_special_with_doc : :obj:`bool` (Defaults to False)
+    True to include special members (like ``__membername__``) with
+    docstrings in the documentation. False to fall back to Sphinx&apos;s
+    default behavior.
+
+    **If True**::
+
+        def __str__(self):
+            \&quot;\&quot;\&quot;
+            This will be included in the docs because it has a docstring
+            \&quot;\&quot;\&quot;
+            return unicode(self).encode(&apos;utf-8&apos;)
+
+        def __unicode__(self):
+            # This will NOT be included in the docs
+            return unicode(self.__class__.__name__)
+
+napoleon_use_admonition_for_examples : :obj:`bool` (Defaults to False)
+    True to use the ``.. admonition::`` directive for the **Example** and
+    **Examples** sections. False to use the ``.. rubric::`` directive
+    instead. One may look better than the other depending on what HTML
+    theme is used.
+
+    This `NumPy style`_ snippet will be converted as follows::
+
+        Example
+        -------
+        This is just a quick example
+
+    **If True**::
+
+        .. admonition:: Example
+
+           This is just a quick example
+
+    **If False**::
+
+        .. rubric:: Example
+
+        This is just a quick example
+
+napoleon_use_admonition_for_notes : :obj:`bool` (Defaults to False)
+    True to use the ``.. admonition::`` directive for **Notes** sections.
+    False to use the ``.. rubric::`` directive instead.
+
+    Note
+    ----
+    The singular **Note** section will always be converted to a
+    ``.. note::`` directive.
+
+    See Also
+    --------
+    :confval:`napoleon_use_admonition_for_examples`
+
+napoleon_use_admonition_for_references : :obj:`bool` (Defaults to False)
+    True to use the ``.. admonition::`` directive for **References**
+    sections. False to use the ``.. rubric::`` directive instead.
+
+    See Also
+    --------
+    :confval:`napoleon_use_admonition_for_examples`
+
+napoleon_use_ivar : :obj:`bool` (Defaults to False)
+    True to use the ``:ivar:`` role for instance variables. False to use
+    the ``.. attribute::`` directive instead.
+
+    This `NumPy style`_ snippet will be converted as follows::
+
+        Attributes
+        ----------
+        attr1 : int
+            Description of `attr1`
+
+    **If True**::
+
+        :ivar attr1: Description of `attr1`
+        :vartype attr1: int
+
+    **If False**::
+
+        .. attribute:: attr1
+
+           Description of `attr1`
+
+           :type: int
+
+napoleon_use_param : :obj:`bool` (Defaults to True)
+    True to use a ``:param:`` role for each function parameter. False to
+    use a single ``:parameters:`` role for all the parameters.
+
+    This `NumPy style`_ snippet will be converted as follows::
+
+        Parameters
+        ----------
+        arg1 : str
+            Description of `arg1`
+        arg2 : int, optional
+            Description of `arg2`, defaults to 0
+
+    **If True**::
+
+        :param arg1: Description of `arg1`
+        :type arg1: str
+        :param arg2: Description of `arg2`, defaults to 0
+        :type arg2: int, optional
+
+    **If False**::
+
+        :parameters: * **arg1** (*str*) --
+                       Description of `arg1`
+                     * **arg2** (*int, optional*) --
+                       Description of `arg2`, defaults to 0
+
+napoleon_use_keyword : :obj:`bool` (Defaults to True)
+    True to use a ``:keyword:`` role for each function keyword argument.
+    False to use a single ``:keyword arguments:`` role for all the
+    keywords.
+
+    This behaves similarly to :confval:`napoleon_use_param`. Note unlike
+    docutils, ``:keyword:`` and ``:param:`` will not be treated the same
+    way - there will be a separate &quot;Keyword Arguments&quot; section, rendered
+    in the same fashion as &quot;Parameters&quot; section (type links created if
+    possible)
+
+    See Also
+    --------
+    :confval:`napoleon_use_param`
+
+napoleon_use_rtype : :obj:`bool` (Defaults to True)
+    True to use the ``:rtype:`` role for the return type. False to output
+    the return type inline with the description.
+
+    This `NumPy style`_ snippet will be converted as follows::
+
+        Returns
+        -------
+        bool
+            True if successful, False otherwise
+
+    **If True**::
+
+        :returns: True if successful, False otherwise
+        :rtype: bool
+
+    **If False**::
+
+        :returns: *bool* -- True if successful, False otherwise
+
+napoleon_preprocess_types : :obj:`bool` (Defaults to False)
+    Enable the type preprocessor.
+
+napoleon_type_aliases : :obj:`dict` (Defaults to None)
+    Add a mapping of strings to string, translating types in numpy
+    style docstrings. Only works if ``napoleon_preprocess_types = True``.
+
+napoleon_custom_sections : :obj:`list` (Defaults to None)
+    Add a list of custom sections to include, expanding the list of parsed sections.
+
+    The entries can either be strings or tuples, depending on the intention:
+      * To create a custom &quot;generic&quot; section, just pass a string.
+      * To create an alias for an existing section, pass a tuple containing the
+        alias name and the original, in that order.
+      * To create a custom section that displays like the parameters or returns
+        section, pass a tuple containing the custom section name and a string
+        value, &quot;params_style&quot; or &quot;returns_style&quot;.
+
+    If an entry is just a string, it is interpreted as a header for a generic
+    section. If the entry is a tuple/list/indexed container, the first entry
+    is the name of the section, the second is the section key to emulate. If the
+    second entry value is &quot;params_style&quot; or &quot;returns_style&quot;, the custom section
+    will be displayed like the parameters section or returns section.
+
+napoleon_attr_annotations : :obj:`bool` (Defaults to True)
+    Use the type annotations of class attributes that are documented in the docstring
+    but do not have a type in the docstring.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/ext/napoleon/__init__.py" line="21" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/napoleon/__init__.py" bodystart="21" bodyend="299"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1ext_1_1napoleon_1_1Config_1aa6476d3afce023b30827b8e81fe5bd55" prot="public" virt="non-virtual"><scope>sphinx::ext::napoleon::Config</scope><name>__init__</name></member>
+      <member refid="classsphinx_1_1ext_1_1napoleon_1_1Config_1abd0500b4203634ed8d2d3b413d9d5513" prot="protected" virt="non-virtual"><scope>sphinx::ext::napoleon::Config</scope><name>_config_values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1commands_1_1search" kind="namespace" language="Python">
+    <compoundname>pip::_internal::commands::search</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1commands_1_1search_1_1SearchCommand" prot="public">pip::_internal::commands::search::SearchCommand</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1commands_1_1search_1_1TransformedHit" prot="public">pip::_internal::commands::search::TransformedHit</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1commands_1_1search_1a5fbc5a05d0439034dab94ba276f9778b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::commands::search.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.commands.search.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/search.py" line="31" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/search.py" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1commands_1_1search_1a455909a9a55d9dad8ba9f62562410a53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[&quot;TransformedHit&quot;]</type>
+        <definition> List[&quot;TransformedHit&quot;] pip._internal.commands.search.transform_hits</definition>
+        <argsstring>(List[Dict[str, str]] hits)</argsstring>
+        <name>transform_hits</name>
+        <qualifiedname>pip._internal.commands.search.transform_hits</qualifiedname>
+        <param>
+          <type>List]</type>
+          <declname>hits</declname>
+          <array>[Dict[str, str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The list from pypi is really a list of versions. We want a list of
+packages with the list of versions stored inline. This converts the
+list from pypi into one we can use.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/search.py" line="88" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/search.py" bodystart="88" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1commands_1_1search_1aec68e23a6859b0cd004a4166b50ba894" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.commands.search.print_dist_installation_info</definition>
+        <argsstring>(str name, str latest)</argsstring>
+        <name>print_dist_installation_info</name>
+        <qualifiedname>pip._internal.commands.search.print_dist_installation_info</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>latest</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/search.py" line="116" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/search.py" bodystart="116" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1commands_1_1search_1aea62026a8ff59f71434d41eb1140cb19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.commands.search.print_results</definition>
+        <argsstring>(List[&quot;TransformedHit&quot;] hits, Optional[int] name_column_width=None, Optional[int] terminal_width=None)</argsstring>
+        <name>print_results</name>
+        <qualifiedname>pip._internal.commands.search.print_results</qualifiedname>
+        <param>
+          <type>List</type>
+          <declname>hits</declname>
+          <array>[&quot;TransformedHit&quot;]</array>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>name_column_width</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>terminal_width</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/search.py" line="135" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/search.py" bodystart="139" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1commands_1_1search_1a9a96c282851d5d550bc316f7ef8a20ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.commands.search.highest_version</definition>
+        <argsstring>(List[str] versions)</argsstring>
+        <name>highest_version</name>
+        <qualifiedname>pip._internal.commands.search.highest_version</qualifiedname>
+        <param>
+          <type>List</type>
+          <declname>versions</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/search.py" line="173" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/search.py" bodystart="173" bodyend="175"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/search.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

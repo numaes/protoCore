@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1cachecontrol_1_1cache_1_1SeparateBodyBaseCache" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::cachecontrol::cache::SeparateBodyBaseCache</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1cachecontrol_1_1cache_1_1BaseCache" prot="public" virt="non-virtual">pip._vendor.cachecontrol.cache.BaseCache</basecompoundref>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1network_1_1cache_1_1SafeFileCache" prot="public" virt="non-virtual">pip._internal.network.cache.SafeFileCache</derivedcompoundref>
+    <derivedcompoundref refid="classpip_1_1__vendor_1_1cachecontrol_1_1caches_1_1file__cache_1_1SeparateBodyFileCache" prot="public" virt="non-virtual">pip._vendor.cachecontrol.caches.file_cache.SeparateBodyFileCache</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1cachecontrol_1_1cache_1_1SeparateBodyBaseCache_1a10be6f262da8f25bb5f218bfd4be78cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.cachecontrol.cache.SeparateBodyBaseCache.set_body</definition>
+        <argsstring>(self, str key, bytes body)</argsstring>
+        <name>set_body</name>
+        <qualifiedname>pip._vendor.cachecontrol.cache.SeparateBodyBaseCache.set_body</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1network_1_1cache_1_1SafeFileCache_1a9f8fecbfb2071386ede8912774d1b110">set_body</reimplementedby>
+        <reimplementedby refid="classpip_1_1__vendor_1_1cachecontrol_1_1caches_1_1file__cache_1_1SeparateBodyFileCache_1a8fabbb6143c6afca2477309d3dfa7067">set_body</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>bytes</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/cache.py" line="67" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/cache.py" bodystart="67" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1cachecontrol_1_1cache_1_1SeparateBodyBaseCache_1aaf62ca8f9091e69b1dff6924222e35bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>IO[bytes]|None</type>
+        <definition> IO[bytes] | None pip._vendor.cachecontrol.cache.SeparateBodyBaseCache.get_body</definition>
+        <argsstring>(self, str key)</argsstring>
+        <name>get_body</name>
+        <qualifiedname>pip._vendor.cachecontrol.cache.SeparateBodyBaseCache.get_body</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1network_1_1cache_1_1SafeFileCache_1a91cbbbd1ccbe3c5caf947ec4937c9c62">get_body</reimplementedby>
+        <reimplementedby refid="classpip_1_1__vendor_1_1cachecontrol_1_1caches_1_1file__cache_1_1SeparateBodyFileCache_1a96853f5f4944aab4999b423e98ae94a7">get_body</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the body as file-like object.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/cache.py" line="70" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/cache.py" bodystart="70" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>In this variant, the body is not stored mixed in with the metadata, but is
+passed in (as a bytes-like object) in a separate call to ``set_body()``.
+
+That is, the expected interaction pattern is::
+
+    cache.set(key, serialized_metadata)
+    cache.set_body(key)
+
+Similarly, the body should be loaded separately via ``get_body()``.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._vendor.cachecontrol.cache.SeparateBodyBaseCache</label>
+        <link refid="classpip_1_1__vendor_1_1cachecontrol_1_1cache_1_1SeparateBodyBaseCache"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.network.cache.SafeFileCache</label>
+        <link refid="classpip_1_1__internal_1_1network_1_1cache_1_1SafeFileCache"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.cachecontrol.cache.BaseCache</label>
+        <link refid="classpip_1_1__vendor_1_1cachecontrol_1_1cache_1_1BaseCache"/>
+      </node>
+      <node id="4">
+        <label>pip._vendor.cachecontrol.caches.file_cache.SeparateBodyFileCache</label>
+        <link refid="classpip_1_1__vendor_1_1cachecontrol_1_1caches_1_1file__cache_1_1SeparateBodyFileCache"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>pip._vendor.cachecontrol.cache.SeparateBodyBaseCache</label>
+        <link refid="classpip_1_1__vendor_1_1cachecontrol_1_1cache_1_1SeparateBodyBaseCache"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.cachecontrol.cache.BaseCache</label>
+        <link refid="classpip_1_1__vendor_1_1cachecontrol_1_1cache_1_1BaseCache"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/cache.py" line="54" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/cache.py" bodystart="54" bodyend="75"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1cachecontrol_1_1cache_1_1SeparateBodyBaseCache_1aaf62ca8f9091e69b1dff6924222e35bb" prot="public" virt="non-virtual"><scope>pip::_vendor::cachecontrol::cache::SeparateBodyBaseCache</scope><name>get_body</name></member>
+      <member refid="classpip_1_1__vendor_1_1cachecontrol_1_1cache_1_1SeparateBodyBaseCache_1a10be6f262da8f25bb5f218bfd4be78cf" prot="public" virt="non-virtual"><scope>pip::_vendor::cachecontrol::cache::SeparateBodyBaseCache</scope><name>set_body</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

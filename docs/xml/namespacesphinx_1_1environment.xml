@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1environment" kind="namespace" language="Python">
+    <compoundname>sphinx::environment</compoundname>
+    <innerclass refid="classsphinx_1_1environment_1_1__CurrentDocument" prot="protected">sphinx::environment::_CurrentDocument</innerclass>
+    <innerclass refid="classsphinx_1_1environment_1_1BuildEnvironment" prot="public">sphinx::environment::BuildEnvironment</innerclass>
+    <innernamespace refid="namespacesphinx_1_1environment_1_1adapters">sphinx::environment::adapters</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1environment_1_1collectors">sphinx::environment::collectors</innernamespace>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1environment_1a18d42988f0667c8de3e74d5e7095a155" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::environment.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.environment.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" line="54" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1environment_1aa0e1e334b4c42f1d14fd6400ddbea9f6" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::environment.default_settings</definition>
+        <argsstring></argsstring>
+        <name>default_settings</name>
+        <qualifiedname>sphinx.environment.default_settings</qualifiedname>
+        <initializer>=  {
+    &apos;auto_id_prefix&apos;: &apos;id&apos;,
+    &apos;image_loading&apos;: &apos;link&apos;,
+    &apos;embed_stylesheet&apos;: False,
+    &apos;cloak_email_addresses&apos;: True,
+    &apos;pep_base_url&apos;: &apos;https://peps.python.org/&apos;,
+    &apos;pep_references&apos;: None,
+    &apos;rfc_base_url&apos;: &apos;https://datatracker.ietf.org/doc/html/&apos;,
+    &apos;rfc_references&apos;: None,
+    &apos;input_encoding&apos;: &apos;utf-8-sig&apos;,
+    &apos;doctitle_xform&apos;: False,
+    &apos;sectsubtitle_xform&apos;: False,
+    &apos;section_self_link&apos;: False,
+    &apos;halt_level&apos;: 5,
+    &apos;file_insertion_enabled&apos;: True,
+    &apos;smartquotes_locales&apos;: [],
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" line="56" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1environment_1af9ab888614550e85b706e97b17a72c07" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int sphinx::environment.ENV_VERSION</definition>
+        <argsstring></argsstring>
+        <name>ENV_VERSION</name>
+        <qualifiedname>sphinx.environment.ENV_VERSION</qualifiedname>
+        <initializer>=  65</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" line="76" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1environment_1a59ea205192d1cc5834b917c0826d8764" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int sphinx::environment.CONFIG_UNSET</definition>
+        <argsstring></argsstring>
+        <name>CONFIG_UNSET</name>
+        <qualifiedname>sphinx.environment.CONFIG_UNSET</qualifiedname>
+        <initializer>=  -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" line="79" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1environment_1a0642a9d7d6aa7738ce148f2b79872afe" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int sphinx::environment.CONFIG_OK</definition>
+        <argsstring></argsstring>
+        <name>CONFIG_OK</name>
+        <qualifiedname>sphinx.environment.CONFIG_OK</qualifiedname>
+        <initializer>=  1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" line="80" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1environment_1a340461a27a0490c8425b33348dce3687" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int sphinx::environment.CONFIG_NEW</definition>
+        <argsstring></argsstring>
+        <name>CONFIG_NEW</name>
+        <qualifiedname>sphinx.environment.CONFIG_NEW</qualifiedname>
+        <initializer>=  2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" line="81" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1environment_1a81a3cdf8e3e98dc6c19518e1a23e230f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int sphinx::environment.CONFIG_CHANGED</definition>
+        <argsstring></argsstring>
+        <name>CONFIG_CHANGED</name>
+        <qualifiedname>sphinx.environment.CONFIG_CHANGED</qualifiedname>
+        <initializer>=  3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" line="82" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1environment_1acc3dcf63d57206ef3581909a4d0524a0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int sphinx::environment.CONFIG_EXTENSIONS_CHANGED</definition>
+        <argsstring></argsstring>
+        <name>CONFIG_EXTENSIONS_CHANGED</name>
+        <qualifiedname>sphinx.environment.CONFIG_EXTENSIONS_CHANGED</qualifiedname>
+        <initializer>=  4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" line="83" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1environment_1a66ab8f5be604af0619135b32cb4e1953" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::environment.CONFIG_CHANGED_REASON</definition>
+        <argsstring></argsstring>
+        <name>CONFIG_CHANGED_REASON</name>
+        <qualifiedname>sphinx.environment.CONFIG_CHANGED_REASON</qualifiedname>
+        <initializer>=  {
+    CONFIG_NEW: __(&apos;new config&apos;),
+    CONFIG_CHANGED: __(&apos;config changed&apos;),
+    CONFIG_EXTENSIONS_CHANGED: __(&apos;extensions changed&apos;),
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" line="85" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1environment_1a8938c2de4ed1ce5a1232a85f50016895" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::environment.versioning_conditions</definition>
+        <argsstring></argsstring>
+        <name>versioning_conditions</name>
+        <qualifiedname>sphinx.environment.versioning_conditions</qualifiedname>
+        <initializer>=  {
+    &apos;none&apos;: False,
+    &apos;text&apos;: is_translatable,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" line="92" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1environment_1a4783143c0608cbaceccf54ece8999213" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Mapping[str, int]</type>
+        <definition> Mapping[str, int] sphinx.environment._get_env_version</definition>
+        <argsstring>(Mapping[str, Extension] extensions)</argsstring>
+        <name>_get_env_version</name>
+        <qualifiedname>sphinx.environment._get_env_version</qualifiedname>
+        <param>
+          <type>Mapping</type>
+          <declname>extensions</declname>
+          <array>[str, Extension]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" line="828" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" bodystart="828" bodyend="837"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1environment_1a8074ebfeb6d6f8c0a5fcabfc8849ef11" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>frozenset[str]</type>
+        <definition> frozenset[str] sphinx.environment._differing_config_keys</definition>
+        <argsstring>(Config old, Config new)</argsstring>
+        <name>_differing_config_keys</name>
+        <qualifiedname>sphinx.environment._differing_config_keys</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+          <declname>old</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+          <declname>new</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a set of keys that differ between two config objects.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" line="838" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" bodystart="838" bodyend="850"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1environment_1aebeb0152979a9becbb11b59a6e0864eb" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[tuple[str|None, str]]</type>
+        <definition> Iterator[tuple[str | None, str]] sphinx.environment._traverse_toctree</definition>
+        <argsstring>(set[str] traversed, str|None parent, str docname, dict[str, list[str]] toctree_includes)</argsstring>
+        <name>_traverse_toctree</name>
+        <qualifiedname>sphinx.environment._traverse_toctree</qualifiedname>
+        <param>
+          <type>set</type>
+          <declname>traversed</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>parent</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <param>
+          <type>dict]</type>
+          <declname>toctree_includes</declname>
+          <array>[str, list[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" line="851" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" bodystart="856" bodyend="878"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1environment_1ab0db5f5d846eab3b917ac49f65a4ce11" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.environment._check_toc_parents</definition>
+        <argsstring>(dict[str, list[str]] toctree_includes)</argsstring>
+        <name>_check_toc_parents</name>
+        <qualifiedname>sphinx.environment._check_toc_parents</qualifiedname>
+        <param>
+          <type>dict]</type>
+          <declname>toctree_includes</declname>
+          <array>[str, list[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" line="879" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" bodystart="879" bodyend="899"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Global creation environment.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/environment/__init__.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

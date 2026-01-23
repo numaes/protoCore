@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="pip_2__vendor_2pygments_2formatter_8py" kind="file" language="Python">
+    <compoundname>formatter.py</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1pygments_1_1formatter_1_1Formatter" prot="public">pip::_vendor::pygments::formatter::Formatter</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1pygments">pip::_vendor::pygments</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1pygments_1_1formatter">pip::_vendor::pygments::formatter</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1pygments_1_1formatter" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>pygments.formatter</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>~~~~~~~~~~~~~~~~~~</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Base<sp/>formatter<sp/>class.</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:copyright:<sp/>Copyright<sp/>2006-2023<sp/>by<sp/>the<sp/>Pygments<sp/>team,<sp/>see<sp/>AUTHORS.</highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:license:<sp/>BSD,<sp/>see<sp/>LICENSE<sp/>for<sp/>details.</highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>codecs</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1pygments_1_1util" kindref="compound">pip._vendor.pygments.util</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>get_bool_opt</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1pygments_1_1styles" kindref="compound">pip._vendor.pygments.styles</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>get_style_by_name</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal">__all__<sp/>=<sp/>[</highlight><highlight class="stringliteral">&apos;Formatter&apos;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1pygments_1_1formatter_1ac0c616e473bb7c760268b1babb4171da" kindref="member">_lookup_style</ref>(style):</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>isinstance(style,<sp/>str):</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>get_style_by_name(style)</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>style</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="classpip_1_1__vendor_1_1pygments_1_1formatter_1_1Formatter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pygments_1_1formatter_1_1Formatter" kindref="compound">Formatter</ref>:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Converts<sp/>a<sp/>token<sp/>stream<sp/>to<sp/>text.</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Formatters<sp/>should<sp/>have<sp/>attributes<sp/>to<sp/>help<sp/>selecting<sp/>them.<sp/>These</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>are<sp/>similar<sp/>to<sp/>the<sp/>corresponding<sp/>:class:`~pygments.lexer.Lexer`</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>attributes.</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>autoattribute::<sp/>name</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:no-value:</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>autoattribute::<sp/>aliases</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:no-value:</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>autoattribute::<sp/>filenames</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:no-value:</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>You<sp/>can<sp/>pass<sp/>options<sp/>as<sp/>keyword<sp/>arguments<sp/>to<sp/>the<sp/>constructor.</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>All<sp/>formatters<sp/>accept<sp/>these<sp/>basic<sp/>options:</highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>``style``</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>style<sp/>to<sp/>use,<sp/>can<sp/>be<sp/>a<sp/>string<sp/>or<sp/>a<sp/>Style<sp/>subclass</highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(default:<sp/>&quot;default&quot;).<sp/>Not<sp/>used<sp/>by<sp/>e.g.<sp/>the</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TerminalFormatter.</highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>``full``</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Tells<sp/>the<sp/>formatter<sp/>to<sp/>output<sp/>a<sp/>&quot;full&quot;<sp/>document,<sp/>i.e.</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>a<sp/>complete<sp/>self-contained<sp/>document.<sp/>This<sp/>doesn&apos;t<sp/>have</highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>any<sp/>effect<sp/>for<sp/>some<sp/>formatters<sp/>(default:<sp/>false).</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>``title``</highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>If<sp/>``full``<sp/>is<sp/>true,<sp/>the<sp/>title<sp/>that<sp/>should<sp/>be<sp/>used<sp/>to</highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caption<sp/>the<sp/>document<sp/>(default:<sp/>&apos;&apos;).</highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>``encoding``</highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>If<sp/>given,<sp/>must<sp/>be<sp/>an<sp/>encoding<sp/>name.<sp/>This<sp/>will<sp/>be<sp/>used<sp/>to</highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>convert<sp/>the<sp/>Unicode<sp/>token<sp/>strings<sp/>to<sp/>byte<sp/>strings<sp/>in<sp/>the</highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output.<sp/>If<sp/>it<sp/>is<sp/>&quot;&quot;<sp/>or<sp/>None,<sp/>Unicode<sp/>strings<sp/>will<sp/>be<sp/>written</highlight></codeline>
+<codeline lineno="60"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>to<sp/>the<sp/>output<sp/>file,<sp/>which<sp/>most<sp/>file-like<sp/>objects<sp/>do<sp/>not</highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>support<sp/>(default:<sp/>None).</highlight></codeline>
+<codeline lineno="62"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>``outencoding``</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Overrides<sp/>``encoding``<sp/>if<sp/>given.</highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>Full<sp/>name<sp/>for<sp/>the<sp/>formatter,<sp/>in<sp/>human-readable<sp/>form.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>name<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>A<sp/>list<sp/>of<sp/>short,<sp/>unique<sp/>identifiers<sp/>that<sp/>can<sp/>be<sp/>used<sp/>to<sp/>lookup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>the<sp/>formatter<sp/>from<sp/>a<sp/>list,<sp/>e.g.<sp/>using<sp/>:func:`.get_formatter_by_name()`.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>aliases<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>A<sp/>list<sp/>of<sp/>fnmatch<sp/>patterns<sp/>that<sp/>match<sp/>filenames<sp/>for<sp/>which<sp/>this</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>formatter<sp/>can<sp/>produce<sp/>output.<sp/>The<sp/>patterns<sp/>in<sp/>this<sp/>list<sp/>should<sp/>be<sp/>unique</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>among<sp/>all<sp/>formatters.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>filenames<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>If<sp/>True,<sp/>this<sp/>formatter<sp/>outputs<sp/>Unicode<sp/>strings<sp/>when<sp/>no<sp/>encoding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>option<sp/>is<sp/>given.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>unicodeoutput<sp/>=<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pygments_1_1formatter_1_1Formatter_1acbb04972d4ef23f9446dd564bd3a4ee0" kindref="member">__init__</ref>(self,<sp/>**options):</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>As<sp/>with<sp/>lexers,<sp/>this<sp/>constructor<sp/>takes<sp/>arbitrary<sp/>optional<sp/>arguments,</highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>and<sp/>if<sp/>you<sp/>override<sp/>it,<sp/>you<sp/>should<sp/>first<sp/>process<sp/>your<sp/>own<sp/>options,<sp/>then</highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>call<sp/>the<sp/>base<sp/>class<sp/>implementation.</highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1pygments_1_1formatter_1_1Formatter_1a92bba48fd972304e77ad54467ffb6c72" kindref="member">style</ref><sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1pygments_1_1formatter_1ac0c616e473bb7c760268b1babb4171da" kindref="member">_lookup_style</ref>(options.get(</highlight><highlight class="stringliteral">&apos;style&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;default&apos;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1pygments_1_1formatter_1_1Formatter_1ad853d9b4e31f4a2affdae94b1f54fc7d" kindref="member">full</ref><sp/>=<sp/>get_bool_opt(options,<sp/></highlight><highlight class="stringliteral">&apos;full&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1pygments_1_1formatter_1_1Formatter_1a0b23643c304bb922c4aea467cf2e3b98" kindref="member">title</ref><sp/>=<sp/>options.get(</highlight><highlight class="stringliteral">&apos;title&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1pygments_1_1formatter_1_1Formatter_1a17f27d9eb827309e9071b96f581d20e6" kindref="member">encoding</ref><sp/>=<sp/>options.get(</highlight><highlight class="stringliteral">&apos;encoding&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">)<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>self.<ref refid="classpip_1_1__vendor_1_1pygments_1_1formatter_1_1Formatter_1a17f27d9eb827309e9071b96f581d20e6" kindref="member">encoding</ref><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>(</highlight><highlight class="stringliteral">&apos;guess&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;chardet&apos;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>can<sp/>happen<sp/>for<sp/>e.g.<sp/>pygmentize<sp/>-O<sp/>encoding=guess</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1pygments_1_1formatter_1_1Formatter_1a17f27d9eb827309e9071b96f581d20e6" kindref="member">encoding</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&apos;utf-8&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1pygments_1_1formatter_1_1Formatter_1a17f27d9eb827309e9071b96f581d20e6" kindref="member">encoding</ref><sp/>=<sp/>options.get(</highlight><highlight class="stringliteral">&apos;outencoding&apos;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>self.<ref refid="classpip_1_1__vendor_1_1pygments_1_1formatter_1_1Formatter_1a17f27d9eb827309e9071b96f581d20e6" kindref="member">encoding</ref></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1pygments_1_1formatter_1_1Formatter_1a9750fa342ff1b56d411e46463b5cace2" kindref="member">options</ref><sp/>=<sp/>options</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pygments_1_1formatter_1_1Formatter_1aec2a61580621f69d245da7621cb2cf38" kindref="member">get_style_defs</ref>(self,<sp/>arg=&apos;&apos;):</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="101"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>This<sp/>method<sp/>must<sp/>return<sp/>statements<sp/>or<sp/>declarations<sp/>suitable<sp/>to<sp/>define</highlight></codeline>
+<codeline lineno="102"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>the<sp/>current<sp/>style<sp/>for<sp/>subsequent<sp/>highlighted<sp/>text<sp/>(e.g.<sp/>CSS<sp/>classes</highlight></codeline>
+<codeline lineno="103"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>in<sp/>the<sp/>`HTMLFormatter`).</highlight></codeline>
+<codeline lineno="104"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="105"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>optional<sp/>argument<sp/>`arg`<sp/>can<sp/>be<sp/>used<sp/>to<sp/>modify<sp/>the<sp/>generation<sp/>and</highlight></codeline>
+<codeline lineno="106"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>is<sp/>formatter<sp/>dependent<sp/>(it<sp/>is<sp/>standardized<sp/>because<sp/>it<sp/>can<sp/>be<sp/>given<sp/>on</highlight></codeline>
+<codeline lineno="107"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>the<sp/>command<sp/>line).</highlight></codeline>
+<codeline lineno="108"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="109"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>This<sp/>method<sp/>is<sp/>called<sp/>by<sp/>the<sp/>``-S``<sp/>:doc:`command-line<sp/>option<sp/>&lt;cmdline&gt;`,</highlight></codeline>
+<codeline lineno="110"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>the<sp/>`arg`<sp/>is<sp/>then<sp/>given<sp/>by<sp/>the<sp/>``-a``<sp/>option.</highlight></codeline>
+<codeline lineno="111"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1pygments_1_1formatter_1_1Formatter_1a11054ddaa650b704c79f1ea0500b1e1e" kindref="member">format</ref>(self,<sp/>tokensource,<sp/>outfile):</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="116"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>This<sp/>method<sp/>must<sp/>format<sp/>the<sp/>tokens<sp/>from<sp/>the<sp/>`tokensource`<sp/>iterable<sp/>and</highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>write<sp/>the<sp/>formatted<sp/>version<sp/>to<sp/>the<sp/>file<sp/>object<sp/>`outfile`.</highlight></codeline>
+<codeline lineno="118"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="119"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Formatter<sp/>options<sp/>can<sp/>control<sp/>how<sp/>exactly<sp/>the<sp/>tokens<sp/>are<sp/>converted.</highlight></codeline>
+<codeline lineno="120"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>self.<ref refid="classpip_1_1__vendor_1_1pygments_1_1formatter_1_1Formatter_1a17f27d9eb827309e9071b96f581d20e6" kindref="member">encoding</ref>:</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>wrap<sp/>the<sp/>outfile<sp/>in<sp/>a<sp/>StreamWriter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>outfile<sp/>=<sp/>codecs.lookup(self.<ref refid="classpip_1_1__vendor_1_1pygments_1_1formatter_1_1Formatter_1a17f27d9eb827309e9071b96f581d20e6" kindref="member">encoding</ref>)[3](outfile)</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.format_unencoded(tokensource,<sp/>outfile)</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/pygments/formatter.py"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,267 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractProvider" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::resolvelib::providers::AbstractProvider</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">object</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractProvider_1a79914e735681ad072e0cef80325c9bd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.resolvelib.providers.AbstractProvider.identify</definition>
+        <argsstring>(self, requirement_or_candidate)</argsstring>
+        <name>identify</name>
+        <qualifiedname>pip._vendor.resolvelib.providers.AbstractProvider.identify</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>requirement_or_candidate</type>
+          <defname>requirement_or_candidate</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Given a requirement, return an identifier for it.
+
+This is used to identify a requirement, e.g. whether two requirements
+should have their specifier parts merged.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/providers.py" line="4" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/providers.py" bodystart="4" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractProvider_1ada34dd8e785b95f164932a149d79831a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.resolvelib.providers.AbstractProvider.get_preference</definition>
+        <argsstring>(self, identifier, resolutions, candidates, information, backtrack_causes)</argsstring>
+        <name>get_preference</name>
+        <qualifiedname>pip._vendor.resolvelib.providers.AbstractProvider.get_preference</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>identifier</type>
+          <defname>identifier</defname>
+        </param>
+        <param>
+          <type>resolutions</type>
+          <defname>resolutions</defname>
+        </param>
+        <param>
+          <type>candidates</type>
+          <defname>candidates</defname>
+        </param>
+        <param>
+          <type>information</type>
+          <defname>information</defname>
+        </param>
+        <param>
+          <type>backtrack_causes</type>
+          <defname>backtrack_causes</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Produce a sort key for given requirement based on preference.
+
+The preference is defined as &quot;I think this requirement should be
+resolved first&quot;. The lower the return value is, the more preferred
+this group of arguments is.
+
+:param identifier: An identifier as returned by ``identify()``. This
+    identifies the dependency matches which should be returned.
+:param resolutions: Mapping of candidates currently pinned by the
+    resolver. Each key is an identifier, and the value is a candidate.
+    The candidate may conflict with requirements from ``information``.
+:param candidates: Mapping of each dependency&apos;s possible candidates.
+    Each value is an iterator of candidates.
+:param information: Mapping of requirement information of each package.
+    Each value is an iterator of *requirement information*.
+:param backtrack_causes: Sequence of requirement information that were
+    the requirements that caused the resolver to most recently backtrack.
+
+A *requirement information* instance is a named tuple with two members:
+
+* ``requirement`` specifies a requirement contributing to the current
+  list of candidates.
+* ``parent`` specifies the candidate that provides (depended on) the
+  requirement, or ``None`` to indicate a root requirement.
+
+The preference could depend on various issues, including (not
+necessarily in this order):
+
+* Is this package pinned in the current resolution result?
+* How relaxed is the requirement? Stricter ones should probably be
+  worked on first? (I don&apos;t know, actually.)
+* How many possibilities are there to satisfy this requirement? Those
+  with few left should likely be worked on first, I guess?
+* Are there any known conflicts for this requirement? We should
+  probably work on those with the most known conflicts.
+
+A sortable value should be returned (this will be used as the ``key``
+parameter of the built-in sorting function). The smaller the value is,
+the more preferred this requirement is (i.e. the sorting function
+is called with ``reverse=False``).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/providers.py" line="12" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/providers.py" bodystart="19" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractProvider_1a5b2c9ea46890ed5603080151a2b4e329" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.resolvelib.providers.AbstractProvider.find_matches</definition>
+        <argsstring>(self, identifier, requirements, incompatibilities)</argsstring>
+        <name>find_matches</name>
+        <qualifiedname>pip._vendor.resolvelib.providers.AbstractProvider.find_matches</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>identifier</type>
+          <defname>identifier</defname>
+        </param>
+        <param>
+          <type>requirements</type>
+          <defname>requirements</defname>
+        </param>
+        <param>
+          <type>incompatibilities</type>
+          <defname>incompatibilities</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Find all possible candidates that satisfy the given constraints.
+
+:param identifier: An identifier as returned by ``identify()``. This
+    identifies the dependency matches of which should be returned.
+:param requirements: A mapping of requirements that all returned
+    candidates must satisfy. Each key is an identifier, and the value
+    an iterator of requirements for that dependency.
+:param incompatibilities: A mapping of known incompatibilities of
+    each dependency. Each key is an identifier, and the value an
+    iterator of incompatibilities known to the resolver. All
+    incompatibilities *must* be excluded from the return value.
+
+This should try to get candidates based on the requirements&apos; types.
+For VCS, local, and archive requirements, the one-and-only match is
+returned, and for a &quot;named&quot; requirement, the index(es) should be
+consulted to find concrete candidates for this requirement.
+
+The return value should produce candidates ordered by preference; the
+most preferred candidate should come first. The return type may be one
+of the following:
+
+* A callable that returns an iterator that yields candidates.
+* An collection of candidates.
+* An iterable of candidates. This will be consumed immediately into a
+  list of candidates.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/providers.py" line="63" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/providers.py" bodystart="63" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractProvider_1ad4982e8b6087713429c248a442c751a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.resolvelib.providers.AbstractProvider.is_satisfied_by</definition>
+        <argsstring>(self, requirement, candidate)</argsstring>
+        <name>is_satisfied_by</name>
+        <qualifiedname>pip._vendor.resolvelib.providers.AbstractProvider.is_satisfied_by</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>requirement</type>
+          <defname>requirement</defname>
+        </param>
+        <param>
+          <type>candidate</type>
+          <defname>candidate</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Whether the given requirement can be satisfied by a candidate.
+
+The candidate is guaranteed to have been generated from the
+requirement.
+
+A boolean should be returned to indicate whether ``candidate`` is a
+viable solution to the requirement.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/providers.py" line="92" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/providers.py" bodystart="92" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractProvider_1ae8dac4d9e8ca1a96ae7d7a7d9dc3f363" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.resolvelib.providers.AbstractProvider.get_dependencies</definition>
+        <argsstring>(self, candidate)</argsstring>
+        <name>get_dependencies</name>
+        <qualifiedname>pip._vendor.resolvelib.providers.AbstractProvider.get_dependencies</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>candidate</type>
+          <defname>candidate</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get dependencies of a candidate.
+
+This should return a collection of requirements that `candidate`
+specifies as its dependencies.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/providers.py" line="103" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/providers.py" bodystart="103" bodyend="111"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Delegate class to provide the required interface for the resolver.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.resolvelib.providers.AbstractProvider</label>
+        <link refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractProvider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.resolvelib.providers.AbstractProvider</label>
+        <link refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractProvider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/providers.py" line="1" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/providers.py" bodystart="1" bodyend="111"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractProvider_1a5b2c9ea46890ed5603080151a2b4e329" prot="public" virt="non-virtual"><scope>pip::_vendor::resolvelib::providers::AbstractProvider</scope><name>find_matches</name></member>
+      <member refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractProvider_1ae8dac4d9e8ca1a96ae7d7a7d9dc3f363" prot="public" virt="non-virtual"><scope>pip::_vendor::resolvelib::providers::AbstractProvider</scope><name>get_dependencies</name></member>
+      <member refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractProvider_1ada34dd8e785b95f164932a149d79831a" prot="public" virt="non-virtual"><scope>pip::_vendor::resolvelib::providers::AbstractProvider</scope><name>get_preference</name></member>
+      <member refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractProvider_1a79914e735681ad072e0cef80325c9bd8" prot="public" virt="non-virtual"><scope>pip::_vendor::resolvelib::providers::AbstractProvider</scope><name>identify</name></member>
+      <member refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractProvider_1ad4982e8b6087713429c248a442c751a9" prot="public" virt="non-virtual"><scope>pip::_vendor::resolvelib::providers::AbstractProvider</scope><name>is_satisfied_by</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

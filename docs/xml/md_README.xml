@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_README" kind="page">
+    <compoundname>md_README</compoundname>
+    <title>Proto Documentation</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_README_1autotoc_md17"/> This directory contains the source files for the Proto project&apos;s official documentation.</para>
+<para>The documentation is built using <bold>Sphinx</bold>, a powerful documentation generator, and <bold>Doxygen</bold>, which is used to generate API references directly from the C++ source code comments.</para>
+<sect1 id="md_README_1autotoc_md18">
+<title>Prerequisites</title>
+<para>Before you can build the documentation, you need to ensure the following tools are installed on your system:</para>
+<para><itemizedlist>
+<listitem><para><bold>Python</bold> (3.6+)</para>
+</listitem><listitem><para><bold>Sphinx</bold>: The primary documentation generator.</para>
+</listitem><listitem><para><bold>Breathe</bold>: A Sphinx extension that acts as a bridge to Doxygen.</para>
+</listitem><listitem><para><bold>Doxygen</bold>: The tool used to extract documentation from the C++ source files.</para>
+</listitem></itemizedlist>
+</para>
+<para>You can install the required Python packages using pip:</para>
+<para><programlisting filename=".bash"><codeline><highlight class="normal">pip<sp/>install<sp/>sphinx<sp/>breathe</highlight></codeline>
+</programlisting></para>
+<para>To install Doxygen, use your system&apos;s package manager. For example:</para>
+<para><bold>On Debian/Ubuntu:</bold> <programlisting filename=".bash"><codeline><highlight class="normal">sudo<sp/>apt-get<sp/>install<sp/>doxygen</highlight></codeline>
+</programlisting></para>
+<para><bold>On macOS (using Homebrew):</bold> <programlisting filename=".bash"><codeline><highlight class="normal">brew<sp/>install<sp/>doxygen</highlight></codeline>
+</programlisting></para>
+</sect1>
+<sect1 id="md_README_1autotoc_md19">
+<title>Building the Documentation</title>
+<para>The build process is managed by CMake, which will first run Doxygen and then Sphinx.</para>
+<para><orderedlist>
+<listitem><para><bold>Configure the project</bold> (if you haven&apos;t already) from the root directory: <computeroutput>bash mkdir build cd build cmake .. </computeroutput></para>
+</listitem><listitem><para><bold>Build the <computeroutput>docs</computeroutput> target</bold> from within the <computeroutput>build</computeroutput> directory: <computeroutput>bash make docs </computeroutput> This command will first run Doxygen to generate XML files from the C++ source code and then run Sphinx to convert the <computeroutput>.rst</computeroutput> source files and the Doxygen output into a polished HTML website.</para>
+</listitem></orderedlist>
+</para>
+</sect1>
+<sect1 id="md_README_1autotoc_md20">
+<title>Viewing the Documentation</title>
+<para>After the build process is complete, the generated HTML files will be located in the <computeroutput>build/docs/html</computeroutput> directory.</para>
+<para>You can open the main page by opening the following file in your web browser:</para>
+<para><programlisting><codeline><highlight class="normal">build/docs/html/index.html</highlight></codeline>
+</programlisting> </para>
+</sect1>
+    </detaileddescription>
+    <location file="README.md"/>
+  </compounddef>
+</doxygen>

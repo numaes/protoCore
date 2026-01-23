@@ -1,0 +1,771 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1transforms_1_1Transform" kind="class" language="Python" prot="public">
+    <compoundname>docutils::transforms::Transform</compoundname>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1components_1_1Filter" prot="public" virt="non-virtual">docutils.transforms.components.Filter</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo" prot="public" virt="non-virtual">docutils.transforms.frontmatter.DocInfo</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1frontmatter_1_1TitlePromoter" prot="public" virt="non-virtual">docutils.transforms.frontmatter.TitlePromoter</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1misc_1_1CallBack" prot="public" virt="non-virtual">docutils.transforms.misc.CallBack</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1misc_1_1ClassAttribute" prot="public" virt="non-virtual">docutils.transforms.misc.ClassAttribute</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1misc_1_1Transitions" prot="public" virt="non-virtual">docutils.transforms.misc.Transitions</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1parts_1_1Contents" prot="public" virt="non-virtual">docutils.transforms.parts.Contents</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1parts_1_1SectNum" prot="public" virt="non-virtual">docutils.transforms.parts.SectNum</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1peps_1_1Contents" prot="public" virt="non-virtual">docutils.transforms.peps.Contents</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1peps_1_1Headers" prot="public" virt="non-virtual">docutils.transforms.peps.Headers</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1peps_1_1PEPZero" prot="public" virt="non-virtual">docutils.transforms.peps.PEPZero</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1peps_1_1TargetNotes" prot="public" virt="non-virtual">docutils.transforms.peps.TargetNotes</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1references_1_1AnonymousHyperlinks" prot="public" virt="non-virtual">docutils.transforms.references.AnonymousHyperlinks</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1references_1_1DanglingReferences" prot="public" virt="non-virtual">docutils.transforms.references.DanglingReferences</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1references_1_1ExternalTargets" prot="public" virt="non-virtual">docutils.transforms.references.ExternalTargets</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1references_1_1Footnotes" prot="public" virt="non-virtual">docutils.transforms.references.Footnotes</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1references_1_1IndirectHyperlinks" prot="public" virt="non-virtual">docutils.transforms.references.IndirectHyperlinks</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1references_1_1InternalTargets" prot="public" virt="non-virtual">docutils.transforms.references.InternalTargets</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1references_1_1PropagateTargets" prot="public" virt="non-virtual">docutils.transforms.references.PropagateTargets</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1references_1_1Substitutions" prot="public" virt="non-virtual">docutils.transforms.references.Substitutions</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1references_1_1TargetNotes" prot="public" virt="non-virtual">docutils.transforms.references.TargetNotes</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1universal_1_1Decorations" prot="public" virt="non-virtual">docutils.transforms.universal.Decorations</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1universal_1_1ExposeInternals" prot="public" virt="non-virtual">docutils.transforms.universal.ExposeInternals</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1universal_1_1FilterMessages" prot="public" virt="non-virtual">docutils.transforms.universal.FilterMessages</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1universal_1_1Messages" prot="public" virt="non-virtual">docutils.transforms.universal.Messages</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1universal_1_1SmartQuotes" prot="public" virt="non-virtual">docutils.transforms.universal.SmartQuotes</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1universal_1_1StripClassesAndElements" prot="public" virt="non-virtual">docutils.transforms.universal.StripClassesAndElements</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1universal_1_1StripComments" prot="public" virt="non-virtual">docutils.transforms.universal.StripComments</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1universal_1_1TestMessages" prot="public" virt="non-virtual">docutils.transforms.universal.TestMessages</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1writer__aux_1_1Admonitions" prot="public" virt="non-virtual">docutils.transforms.writer_aux.Admonitions</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1transforms_1_1writer__aux_1_1Compound" prot="public" virt="non-virtual">docutils.transforms.writer_aux.Compound</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1transforms_1_1SphinxTransform" prot="public" virt="non-virtual">sphinx.transforms.SphinxTransform</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1transforms_1_1Transform_1a942614b593b43d29ea9edce9ae763c49" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.transforms.Transform::default_priority</definition>
+        <argsstring></argsstring>
+        <name>default_priority</name>
+        <qualifiedname>docutils.transforms.Transform.default_priority</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/__init__.py" line="37" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/__init__.py" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1transforms_1_1Transform_1ad3aaf46a728e4300b65a525b2c35c5dd" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.transforms.Transform::document</definition>
+        <argsstring></argsstring>
+        <name>document</name>
+        <qualifiedname>docutils.transforms.Transform.document</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/__init__.py" line="45" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/__init__.py" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1transforms_1_1Transform_1aa3b293e3c50fc8701e4fcbb2c86b32dc" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.transforms.Transform::startnode</definition>
+        <argsstring></argsstring>
+        <name>startnode</name>
+        <qualifiedname>docutils.transforms.Transform.startnode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/__init__.py" line="48" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/__init__.py" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1transforms_1_1Transform_1ac4deb10345409110344aa2d0d060e2e3" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.transforms.Transform::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>docutils.transforms.Transform.language</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/__init__.py" line="53" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/__init__.py" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1Transform_1ab1ceb3a09ea1b3fc6256c2e536f82d6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.Transform.__init__</definition>
+        <argsstring>(self, document, startnode=None)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>docutils.transforms.Transform.__init__</qualifiedname>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1references_1_1TargetNotes_1a33d2715b57347cc6259621845b78086e">__init__</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1universal_1_1SmartQuotes_1a8e75c69cdcc7c55718107a1a95cf0bb8">__init__</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1writer__aux_1_1Compound_1ae47f37ec45a7ef77c2a73a66f08bb0ad">__init__</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1transforms_1_1Transform_1ad3aaf46a728e4300b65a525b2c35c5dd" kindref="member">document</ref></type>
+          <defname>document</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1transforms_1_1Transform_1aa3b293e3c50fc8701e4fcbb2c86b32dc" kindref="member">startnode</ref></type>
+          <defname>startnode</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Initial setup for in-place document transforms.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/__init__.py" line="40" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/__init__.py" bodystart="40" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1Transform_1a0a9e91ca01b2b5377cb61a18d8914f34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.Transform.apply</definition>
+        <argsstring>(self, **kwargs)</argsstring>
+        <name>apply</name>
+        <qualifiedname>docutils.transforms.Transform.apply</qualifiedname>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1components_1_1Filter_1ab71cee811709095465232ab9b03f1262">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocTitle_1a9b6388830cd9a294bb41506ef9fce6b0">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1frontmatter_1_1SectionSubTitle_1a9ce6fd24aa9e1f6f5760d873d7d1241f">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1a0cce82376ba6aa43e4de5a590f5a4613">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1misc_1_1CallBack_1aa999afcfbdaa597c1bcb0170afb092dd">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1misc_1_1ClassAttribute_1a56e4e00b3e984d545cc6c22312b709db">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1misc_1_1Transitions_1abd0ff14a2e1adac29126ed654af3530d">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1parts_1_1SectNum_1a971a4354a5192f22f11adeab2a0708ce">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1parts_1_1Contents_1ad1ec5f92d4ee73c7a4972bf0e59b79c2">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1peps_1_1Headers_1a81d0382f1034752cb940e3e1f3ab68ba">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1peps_1_1Contents_1a02161b4119d4ff642ce9819a6ba2a925">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1peps_1_1TargetNotes_1adb2f4994dd4b2e6025f14d131eb058fa">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1peps_1_1PEPZero_1a8e27ab7920ba86d2df5f9fc7d933153a">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1references_1_1PropagateTargets_1ac050d0704fff32ff512703dcc153194a">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1references_1_1AnonymousHyperlinks_1aa827579c09f6be7248b848b9879854b5">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1references_1_1IndirectHyperlinks_1a59d19434b8d8a741a93fbdad1321f8d2">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1references_1_1ExternalTargets_1a5904bb37cb3dae96d45233aef7c2fc9e">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1references_1_1InternalTargets_1a6c5442dba8e91bfd6621c60ffbbd7a38">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1references_1_1Footnotes_1a3b95cf45a23292813f3d41e58ca1f766">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1references_1_1Substitutions_1aa3e9f1f5c9bd0ded7da31e89895b8337">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1references_1_1TargetNotes_1aed35bd10362c783b64eb5e07eeaf65d3">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1references_1_1DanglingReferences_1a8b3a0d601c385c643427b810fd25bbed">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1universal_1_1Decorations_1afb21a6639a30d9c09c57ab4d0265b8c8">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1universal_1_1ExposeInternals_1a70dd585ed4ddf44afb0e9703b1256f7b">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1universal_1_1Messages_1a05e881a794c094e41275a1f400ed4010">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1universal_1_1FilterMessages_1abb38a07c1f68f2ec5aed4159c478404f">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1universal_1_1TestMessages_1afea53faa4fcdbfafd8e7e4176a3b0273">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1universal_1_1StripComments_1a44ffcc5c8349ec66f70d8893ff07e839">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1universal_1_1StripClassesAndElements_1a2b2a9f5759de524cde731da943fe077d">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1universal_1_1SmartQuotes_1a0a2fd5e27089d441ddf2a872a6ebb064">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1writer__aux_1_1Compound_1aadfc051f2f9501126e282f6556cda56e">apply</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1transforms_1_1writer__aux_1_1Admonitions_1aab6d010406500f353bd3106c38a6d177">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1FootnoteDocnameUpdater_1a49c722a4b65cb4bd4164de973737dfc6">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1domains_1_1c_1_1AliasTransform_1a007a102f69a11b3ab5c6f3a8e85eba24">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1domains_1_1citation_1_1CitationDefinitionTransform_1a528b68982d9245a1cc31e187b8a49a60">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1domains_1_1citation_1_1CitationReferenceTransform_1a710c6043bec595f3995267caea7eee30">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1domains_1_1cpp_1_1AliasTransform_1aaed31f09c9bd2d75014c1a7a610c914a">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1DefaultSubstitutions_1a45096e9e1f0b43b5dd8ff74a0a7ce868">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1MoveModuleTargets_1af261c9d5cf5202f934309e99909ad356">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1HandleCodeBlocks_1aadfdf124c013da9eaa3b8f49446a1a35">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1AutoNumbering_1a79dc452329b6d8439213c4009e95f2ea">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1SortIds_1aec070b64113b954f252c1cd3dca20f83">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1ApplySourceWorkaround_1a138e8a4d88038625a21600821e895c7c">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1AutoIndexUpgrader_1ae0376c0e7c0c07899a0d40dd5bf980b7">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1ExtraTranslatableNodes_1accfb5ee31f4b9233868f768965f7d04a">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1UnreferencedFootnotesDetector_1a1bfc8106310b52ce6d31825c9d562567">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1DoctestTransform_1af443c3cfcb72673f7a2b701257b6c992">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1FilterSystemMessages_1ae95f6407d87a5df7dbe5f5371f4c1456">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1SphinxSmartQuotes_1a71b6f6bd10bd0e476d15f373bf6f2ed7">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1DoctreeReadEvent_1aa38568a6aede066e0627b10e24c28a71">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1GlossarySorter_1afc2a47459a3012b3cc99d15fe6d48823">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1ReorderConsecutiveTargetAndIndexNodes_1a927ac9cc4b01663871366641385e4666">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1compact__bullet__list_1_1RefOnlyBulletListTransform_1a087eac309c6e99d221b7b0d57d6dc1a6">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1i18n_1_1PreserveTranslatableMessages_1a0be41cd58eb50eacf8d9733114571b54">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1i18n_1_1Locale_1af0ce40347b782c6a1a6b4b27efa7536e">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1i18n_1_1TranslationProgressTotaliser_1a137212f077ba887530b56b48bf398039">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1i18n_1_1AddTranslationClasses_1a8eee063766a949ecb84d0b60308efb26">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1i18n_1_1RemoveTranslatableInline_1a05a6c8d289b227d95a12e7f32360c695">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform_1a4f7592cd4048ea88c68a2710ef8973d4">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1post__transforms_1_1code_1_1HighlightLanguageTransform_1a9596cfeaf91582f332774d7f448cc281">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1post__transforms_1_1code_1_1TrimDoctestFlagsTransform_1a906c20d576f69361b36a81d9aecfe0af">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1BaseImageConverter_1afe3655aabfc3c983d4b490fa813bab17">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1references_1_1SphinxDanglingReferences_1a661cbe1e6752f29b518ec310bd0e8e50">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1transforms_1_1references_1_1SphinxDomains_1aa94c74bc2ba920646766508d635438a5">apply</reimplementedby>
+        <reimplementedby refid="classsphinx_1_1versioning_1_1UIDTransform_1a608ef351318c55d61abd672691104e61">apply</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Override to apply the transform to the document tree.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/__init__.py" line="57" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/__init__.py" bodystart="57" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Docutils transform component abstract base class.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+      <node id="2">
+        <label>docutils.transforms.components.Filter</label>
+        <link refid="classdocutils_1_1transforms_1_1components_1_1Filter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.transforms.frontmatter.DocInfo</label>
+        <link refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>docutils.transforms.frontmatter.DocTitle</label>
+        <link refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocTitle"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>docutils.transforms.frontmatter.SectionSubTitle</label>
+        <link refid="classdocutils_1_1transforms_1_1frontmatter_1_1SectionSubTitle"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.transforms.frontmatter.TitlePromoter</label>
+        <link refid="classdocutils_1_1transforms_1_1frontmatter_1_1TitlePromoter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>docutils.transforms.misc.CallBack</label>
+        <link refid="classdocutils_1_1transforms_1_1misc_1_1CallBack"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>docutils.transforms.misc.ClassAttribute</label>
+        <link refid="classdocutils_1_1transforms_1_1misc_1_1ClassAttribute"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>docutils.transforms.misc.Transitions</label>
+        <link refid="classdocutils_1_1transforms_1_1misc_1_1Transitions"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>docutils.transforms.parts.Contents</label>
+        <link refid="classdocutils_1_1transforms_1_1parts_1_1Contents"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>docutils.transforms.parts.SectNum</label>
+        <link refid="classdocutils_1_1transforms_1_1parts_1_1SectNum"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>docutils.transforms.peps.Contents</label>
+        <link refid="classdocutils_1_1transforms_1_1peps_1_1Contents"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>docutils.transforms.peps.Headers</label>
+        <link refid="classdocutils_1_1transforms_1_1peps_1_1Headers"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>docutils.transforms.peps.PEPZero</label>
+        <link refid="classdocutils_1_1transforms_1_1peps_1_1PEPZero"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>docutils.transforms.peps.TargetNotes</label>
+        <link refid="classdocutils_1_1transforms_1_1peps_1_1TargetNotes"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>docutils.transforms.references.AnonymousHyperlinks</label>
+        <link refid="classdocutils_1_1transforms_1_1references_1_1AnonymousHyperlinks"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>docutils.transforms.references.DanglingReferences</label>
+        <link refid="classdocutils_1_1transforms_1_1references_1_1DanglingReferences"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>docutils.transforms.references.ExternalTargets</label>
+        <link refid="classdocutils_1_1transforms_1_1references_1_1ExternalTargets"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>docutils.transforms.references.Footnotes</label>
+        <link refid="classdocutils_1_1transforms_1_1references_1_1Footnotes"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>docutils.transforms.references.IndirectHyperlinks</label>
+        <link refid="classdocutils_1_1transforms_1_1references_1_1IndirectHyperlinks"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>docutils.transforms.references.InternalTargets</label>
+        <link refid="classdocutils_1_1transforms_1_1references_1_1InternalTargets"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>docutils.transforms.references.PropagateTargets</label>
+        <link refid="classdocutils_1_1transforms_1_1references_1_1PropagateTargets"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>docutils.transforms.references.Substitutions</label>
+        <link refid="classdocutils_1_1transforms_1_1references_1_1Substitutions"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>docutils.transforms.references.TargetNotes</label>
+        <link refid="classdocutils_1_1transforms_1_1references_1_1TargetNotes"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>docutils.transforms.universal.Decorations</label>
+        <link refid="classdocutils_1_1transforms_1_1universal_1_1Decorations"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>docutils.transforms.universal.ExposeInternals</label>
+        <link refid="classdocutils_1_1transforms_1_1universal_1_1ExposeInternals"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>docutils.transforms.universal.FilterMessages</label>
+        <link refid="classdocutils_1_1transforms_1_1universal_1_1FilterMessages"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>docutils.transforms.universal.Messages</label>
+        <link refid="classdocutils_1_1transforms_1_1universal_1_1Messages"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>docutils.transforms.universal.SmartQuotes</label>
+        <link refid="classdocutils_1_1transforms_1_1universal_1_1SmartQuotes"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>docutils.transforms.universal.StripClassesAndElements</label>
+        <link refid="classdocutils_1_1transforms_1_1universal_1_1StripClassesAndElements"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>docutils.transforms.universal.StripComments</label>
+        <link refid="classdocutils_1_1transforms_1_1universal_1_1StripComments"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>docutils.transforms.universal.TestMessages</label>
+        <link refid="classdocutils_1_1transforms_1_1universal_1_1TestMessages"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>docutils.transforms.writer_aux.Admonitions</label>
+        <link refid="classdocutils_1_1transforms_1_1writer__aux_1_1Admonitions"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>docutils.transforms.writer_aux.Compound</label>
+        <link refid="classdocutils_1_1transforms_1_1writer__aux_1_1Compound"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="64">
+        <label>sphinx.builders.latex.transforms.BibliographyTransform</label>
+        <link refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1BibliographyTransform"/>
+        <childnode refid="63" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="65">
+        <label>sphinx.builders.latex.transforms.CitationReferenceTransform</label>
+        <link refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1CitationReferenceTransform"/>
+        <childnode refid="63" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="66">
+        <label>sphinx.builders.latex.transforms.DocumentTargetTransform</label>
+        <link refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1DocumentTargetTransform"/>
+        <childnode refid="63" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>sphinx.builders.latex.transforms.FootnoteDocnameUpdater</label>
+        <link refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1FootnoteDocnameUpdater"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="67">
+        <label>sphinx.builders.latex.transforms.IndexInSectionTitleTransform</label>
+        <link refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1IndexInSectionTitleTransform"/>
+        <childnode refid="63" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="68">
+        <label>sphinx.builders.latex.transforms.LaTeXFootnoteTransform</label>
+        <link refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1LaTeXFootnoteTransform"/>
+        <childnode refid="63" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="69">
+        <label>sphinx.builders.latex.transforms.LiteralBlockTransform</label>
+        <link refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1LiteralBlockTransform"/>
+        <childnode refid="63" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="70">
+        <label>sphinx.builders.latex.transforms.MathReferenceTransform</label>
+        <link refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1MathReferenceTransform"/>
+        <childnode refid="63" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="71">
+        <label>sphinx.builders.latex.transforms.ShowUrlsTransform</label>
+        <link refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1ShowUrlsTransform"/>
+        <childnode refid="63" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="72">
+        <label>sphinx.builders.latex.transforms.SubstitutionDefinitionsRemover</label>
+        <link refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1SubstitutionDefinitionsRemover"/>
+        <childnode refid="63" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="73">
+        <label>sphinx.builders.linkcheck.HyperlinkCollector</label>
+        <link refid="classsphinx_1_1builders_1_1linkcheck_1_1HyperlinkCollector"/>
+        <childnode refid="63" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>sphinx.domains.c.AliasTransform</label>
+        <link refid="classsphinx_1_1domains_1_1c_1_1AliasTransform"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>sphinx.domains.citation.CitationDefinitionTransform</label>
+        <link refid="classsphinx_1_1domains_1_1citation_1_1CitationDefinitionTransform"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>sphinx.domains.citation.CitationReferenceTransform</label>
+        <link refid="classsphinx_1_1domains_1_1citation_1_1CitationReferenceTransform"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="42">
+        <label>sphinx.domains.cpp.AliasTransform</label>
+        <link refid="classsphinx_1_1domains_1_1cpp_1_1AliasTransform"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="74">
+        <label>sphinx.ext.extlinks.ExternalLinksChecker</label>
+        <link refid="classsphinx_1_1ext_1_1extlinks_1_1ExternalLinksChecker"/>
+        <childnode refid="63" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="86">
+        <label>sphinx.ext.imgconverter.ImagemagickConverter</label>
+        <link refid="classsphinx_1_1ext_1_1imgconverter_1_1ImagemagickConverter"/>
+        <childnode refid="85" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="79">
+        <label>sphinx.ext.intersphinx._resolve.IntersphinxRoleResolver</label>
+        <link refid="classsphinx_1_1ext_1_1intersphinx_1_1__resolve_1_1IntersphinxRoleResolver"/>
+        <childnode refid="78" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="75">
+        <label>sphinx.ext.viewcode.ViewcodeAnchorTransform</label>
+        <link refid="classsphinx_1_1ext_1_1viewcode_1_1ViewcodeAnchorTransform"/>
+        <childnode refid="63" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="43">
+        <label>sphinx.transforms.ApplySourceWorkaround</label>
+        <link refid="classsphinx_1_1transforms_1_1ApplySourceWorkaround"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>sphinx.transforms.AutoIndexUpgrader</label>
+        <link refid="classsphinx_1_1transforms_1_1AutoIndexUpgrader"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>sphinx.transforms.AutoNumbering</label>
+        <link refid="classsphinx_1_1transforms_1_1AutoNumbering"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>sphinx.transforms.DefaultSubstitutions</label>
+        <link refid="classsphinx_1_1transforms_1_1DefaultSubstitutions"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>sphinx.transforms.DoctestTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1DoctestTransform"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="48">
+        <label>sphinx.transforms.DoctreeReadEvent</label>
+        <link refid="classsphinx_1_1transforms_1_1DoctreeReadEvent"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>sphinx.transforms.ExtraTranslatableNodes</label>
+        <link refid="classsphinx_1_1transforms_1_1ExtraTranslatableNodes"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="50">
+        <label>sphinx.transforms.FilterSystemMessages</label>
+        <link refid="classsphinx_1_1transforms_1_1FilterSystemMessages"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="51">
+        <label>sphinx.transforms.GlossarySorter</label>
+        <link refid="classsphinx_1_1transforms_1_1GlossarySorter"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="52">
+        <label>sphinx.transforms.HandleCodeBlocks</label>
+        <link refid="classsphinx_1_1transforms_1_1HandleCodeBlocks"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="53">
+        <label>sphinx.transforms.MoveModuleTargets</label>
+        <link refid="classsphinx_1_1transforms_1_1MoveModuleTargets"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="54">
+        <label>sphinx.transforms.ReorderConsecutiveTargetAndIndexNodes</label>
+        <link refid="classsphinx_1_1transforms_1_1ReorderConsecutiveTargetAndIndexNodes"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="55">
+        <label>sphinx.transforms.SortIds</label>
+        <link refid="classsphinx_1_1transforms_1_1SortIds"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>sphinx.transforms.SphinxSmartQuotes</label>
+        <link refid="classsphinx_1_1transforms_1_1SphinxSmartQuotes"/>
+        <childnode refid="30" relation="public-inheritance">
+        </childnode>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>sphinx.transforms.SphinxTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1SphinxTransform"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="56">
+        <label>sphinx.transforms.UnreferencedFootnotesDetector</label>
+        <link refid="classsphinx_1_1transforms_1_1UnreferencedFootnotesDetector"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="57">
+        <label>sphinx.transforms.compact_bullet_list.RefOnlyBulletListTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1compact__bullet__list_1_1RefOnlyBulletListTransform"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="58">
+        <label>sphinx.transforms.i18n.AddTranslationClasses</label>
+        <link refid="classsphinx_1_1transforms_1_1i18n_1_1AddTranslationClasses"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="59">
+        <label>sphinx.transforms.i18n.Locale</label>
+        <link refid="classsphinx_1_1transforms_1_1i18n_1_1Locale"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="60">
+        <label>sphinx.transforms.i18n.PreserveTranslatableMessages</label>
+        <link refid="classsphinx_1_1transforms_1_1i18n_1_1PreserveTranslatableMessages"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="61">
+        <label>sphinx.transforms.i18n.RemoveTranslatableInline</label>
+        <link refid="classsphinx_1_1transforms_1_1i18n_1_1RemoveTranslatableInline"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="62">
+        <label>sphinx.transforms.i18n.TranslationProgressTotaliser</label>
+        <link refid="classsphinx_1_1transforms_1_1i18n_1_1TranslationProgressTotaliser"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="76">
+        <label>sphinx.transforms.post_transforms.OnlyNodeTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1OnlyNodeTransform"/>
+        <childnode refid="63" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="77">
+        <label>sphinx.transforms.post_transforms.PropagateDescDomain</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1PropagateDescDomain"/>
+        <childnode refid="63" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="78">
+        <label>sphinx.transforms.post_transforms.ReferencesResolver</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1ReferencesResolver"/>
+        <childnode refid="63" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="80">
+        <label>sphinx.transforms.post_transforms.SigElementFallbackTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1SigElementFallbackTransform"/>
+        <childnode refid="63" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="63">
+        <label>sphinx.transforms.post_transforms.SphinxPostTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="81">
+        <label>sphinx.transforms.post_transforms.code.HighlightLanguageTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1code_1_1HighlightLanguageTransform"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="82">
+        <label>sphinx.transforms.post_transforms.code.TrimDoctestFlagsTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1code_1_1TrimDoctestFlagsTransform"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="83">
+        <label>sphinx.transforms.post_transforms.images.BaseImageConverter</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1BaseImageConverter"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="84">
+        <label>sphinx.transforms.post_transforms.images.DataURIExtractor</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1DataURIExtractor"/>
+        <childnode refid="83" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="85">
+        <label>sphinx.transforms.post_transforms.images.ImageConverter</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1ImageConverter"/>
+        <childnode refid="83" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="87">
+        <label>sphinx.transforms.post_transforms.images.ImageDownloader</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1ImageDownloader"/>
+        <childnode refid="83" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>sphinx.transforms.references.SphinxDanglingReferences</label>
+        <link refid="classsphinx_1_1transforms_1_1references_1_1SphinxDanglingReferences"/>
+        <childnode refid="17" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="88">
+        <label>sphinx.transforms.references.SphinxDomains</label>
+        <link refid="classsphinx_1_1transforms_1_1references_1_1SphinxDomains"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="89">
+        <label>sphinx.versioning.UIDTransform</label>
+        <link refid="classsphinx_1_1versioning_1_1UIDTransform"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="venv/lib/python3.12/site-packages/docutils/transforms/__init__.py" line="34" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/__init__.py" bodystart="34" bodyend="61"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1transforms_1_1Transform_1ab1ceb3a09ea1b3fc6256c2e536f82d6c" prot="public" virt="non-virtual"><scope>docutils::transforms::Transform</scope><name>__init__</name></member>
+      <member refid="classdocutils_1_1transforms_1_1Transform_1a0a9e91ca01b2b5377cb61a18d8914f34" prot="public" virt="non-virtual"><scope>docutils::transforms::Transform</scope><name>apply</name></member>
+      <member refid="classdocutils_1_1transforms_1_1Transform_1a942614b593b43d29ea9edce9ae763c49" prot="public" virt="non-virtual"><scope>docutils::transforms::Transform</scope><name>default_priority</name></member>
+      <member refid="classdocutils_1_1transforms_1_1Transform_1ad3aaf46a728e4300b65a525b2c35c5dd" prot="public" virt="non-virtual"><scope>docutils::transforms::Transform</scope><name>document</name></member>
+      <member refid="classdocutils_1_1transforms_1_1Transform_1ac4deb10345409110344aa2d0d060e2e3" prot="public" virt="non-virtual"><scope>docutils::transforms::Transform</scope><name>language</name></member>
+      <member refid="classdocutils_1_1transforms_1_1Transform_1aa3b293e3c50fc8701e4fcbb2c86b32dc" prot="public" virt="non-virtual"><scope>docutils::transforms::Transform</scope><name>startnode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1ext_1_1extlinks" kind="namespace" language="Python">
+    <compoundname>sphinx::ext::extlinks</compoundname>
+    <innerclass refid="classsphinx_1_1ext_1_1extlinks_1_1ExternalLinksChecker" prot="public">sphinx::ext::extlinks::ExternalLinksChecker</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1extlinks_1a4ecc764b4d49e21da3a5a4402462c194" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::extlinks.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.ext.extlinks.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/extlinks.py" line="43" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/extlinks.py" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1extlinks_1aaa9c213d96d3c35efd23065761936fd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1RoleFunction" kindref="compound">RoleFunction</ref></type>
+        <definition> RoleFunction sphinx.ext.extlinks.make_link_role</definition>
+        <argsstring>(str name, str base_url, str|None caption)</argsstring>
+        <name>make_link_role</name>
+        <qualifiedname>sphinx.ext.extlinks.make_link_role</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>base_url</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>caption</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/extlinks.py" line="93" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/extlinks.py" bodystart="93" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1extlinks_1a4689540f5c2c23359a7422891b6a1b5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.extlinks.setup_link_roles</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup_link_roles</name>
+        <qualifiedname>sphinx.ext.extlinks.setup_link_roles</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/extlinks.py" line="123" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/extlinks.py" bodystart="123" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1extlinks_1ad46756d4bd2c5dc466fbb57aa33f12b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1ExtensionMetadata" kindref="compound">ExtensionMetadata</ref></type>
+        <definition> ExtensionMetadata sphinx.ext.extlinks.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.ext.extlinks.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/extlinks.py" line="128" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/extlinks.py" bodystart="128" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Extension to save typing and prevent hard-coding of base URLs in reST files.
+
+This adds a new config value called ``extlinks`` that is created like this::
+
+   extlinks = {&apos;exmpl&apos;: (&apos;https://example.invalid/%s.html&apos;, caption), ...}
+
+Now you can use e.g. :exmpl:`foo` in your documents.  This will create a
+link to ``https://example.invalid/foo.html``.  The link caption depends on
+the *caption* value given:
+
+- If it is ``None``, the caption will be the full URL.
+- If it is a string, it must contain ``%s`` exactly once.  In this case the
+  caption will be *caption* with the role content substituted for ``%s``.
+
+You can also give an explicit caption, e.g. :exmpl:`Foo &lt;foo&gt;`.
+
+Both, the url string and the caption string must escape ``%`` as ``%%``.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/ext/extlinks.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

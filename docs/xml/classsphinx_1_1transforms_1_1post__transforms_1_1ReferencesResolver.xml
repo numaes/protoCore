@@ -1,0 +1,311 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1transforms_1_1post__transforms_1_1ReferencesResolver" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::transforms::post_transforms::ReferencesResolver</compoundname>
+    <basecompoundref refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform" prot="public" virt="non-virtual">sphinx.transforms.post_transforms.SphinxPostTransform</basecompoundref>
+    <derivedcompoundref refid="classsphinx_1_1ext_1_1intersphinx_1_1__resolve_1_1IntersphinxRoleResolver" prot="public" virt="non-virtual">sphinx.ext.intersphinx._resolve.IntersphinxRoleResolver</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1transforms_1_1post__transforms_1_1ReferencesResolver_1acc76754371f3fbff1efc2712c52f6f7f" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int sphinx.transforms.post_transforms.ReferencesResolver::default_priority</definition>
+        <argsstring></argsstring>
+        <name>default_priority</name>
+        <qualifiedname>sphinx.transforms.post_transforms.ReferencesResolver.default_priority</qualifiedname>
+        <initializer>=  10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/__init__.py" line="65" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/__init__.py" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1transforms_1_1post__transforms_1_1ReferencesResolver_1abc113a10e32b00572cd6b948da620244" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.transforms.post_transforms.ReferencesResolver::env</definition>
+        <argsstring></argsstring>
+        <name>env</name>
+        <qualifiedname>sphinx.transforms.post_transforms.ReferencesResolver.env</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/__init__.py" line="130" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/__init__.py" bodystart="130" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1transforms_1_1post__transforms_1_1ReferencesResolver_1aa646493562627e9187f22377a16bf8cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.transforms.post_transforms.ReferencesResolver.run</definition>
+        <argsstring>(self, **Any kwargs)</argsstring>
+        <name>run</name>
+        <qualifiedname>sphinx.transforms.post_transforms.ReferencesResolver.run</qualifiedname>
+        <reimplements refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform_1abc3400574a7c87e684a8033535e8d4e2">run</reimplements>
+        <reimplementedby refid="classsphinx_1_1ext_1_1intersphinx_1_1__resolve_1_1IntersphinxRoleResolver_1a45e4181e3d6821d63070842c6960df3f">run</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>**Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Main method of post transforms.
+
+Subclasses should override this method instead of ``apply()``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/__init__.py" line="67" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/__init__.py" bodystart="67" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1transforms_1_1post__transforms_1_1ReferencesResolver_1ad7872edf32a159f62d93665f9385d94f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.transforms.post_transforms.ReferencesResolver.warn_missing_reference</definition>
+        <argsstring>(self, str refdoc, str typ, str target, pending_xref node, Domain|None domain)</argsstring>
+        <name>warn_missing_reference</name>
+        <qualifiedname>sphinx.transforms.post_transforms.ReferencesResolver.warn_missing_reference</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>refdoc</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>typ</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1pending__xref" kindref="compound">pending_xref</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1domains_1_1Domain" kindref="compound">Domain</ref>|None</type>
+          <declname>domain</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/__init__.py" line="254" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/__init__.py" bodystart="261" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1transforms_1_1post__transforms_1_1ReferencesResolver_1a704d26b70102d4680bdf2a037f617795" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[<ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref>]|None</type>
+        <definition> list[Node] | None sphinx.transforms.post_transforms.ReferencesResolver.find_pending_xref_condition</definition>
+        <argsstring>(self, pending_xref node, Sequence[str] conditions)</argsstring>
+        <name>find_pending_xref_condition</name>
+        <qualifiedname>sphinx.transforms.post_transforms.ReferencesResolver.find_pending_xref_condition</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1pending__xref" kindref="compound">pending_xref</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>Sequence</type>
+          <declname>conditions</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/__init__.py" line="308" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/__init__.py" bodystart="312" bodyend="319"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classsphinx_1_1transforms_1_1post__transforms_1_1ReferencesResolver_1aaad6ac70008651aa05028adb2a37a454" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nodes.reference|None</type>
+        <definition> nodes.reference | None sphinx.transforms.post_transforms.ReferencesResolver._resolve_pending_xref</definition>
+        <argsstring>(self, addnodes.pending_xref node, Element contnode)</argsstring>
+        <name>_resolve_pending_xref</name>
+        <qualifiedname>sphinx.transforms.post_transforms.ReferencesResolver._resolve_pending_xref</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1pending__xref" kindref="compound">addnodes.pending_xref</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>contnode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/__init__.py" line="95" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/__init__.py" bodystart="97" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1transforms_1_1post__transforms_1_1ReferencesResolver_1a634d623b26138773b4d9b71a0f311059" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nodes.reference|None</type>
+        <definition> nodes.reference | None sphinx.transforms.post_transforms.ReferencesResolver._resolve_pending_xref_in_domain</definition>
+        <argsstring>(self, *Domain|None domain, addnodes.pending_xref node, Element contnode, str ref_doc, str typ, str target)</argsstring>
+        <name>_resolve_pending_xref_in_domain</name>
+        <qualifiedname>sphinx.transforms.post_transforms.ReferencesResolver._resolve_pending_xref_in_domain</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>*<ref refid="classsphinx_1_1domains_1_1Domain" kindref="compound">Domain</ref>|None</type>
+          <declname>domain</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1pending__xref" kindref="compound">addnodes.pending_xref</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>contnode</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>ref_doc</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>typ</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/__init__.py" line="162" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/__init__.py" bodystart="171" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1transforms_1_1post__transforms_1_1ReferencesResolver_1af3393ac7d3561a341ecc1ccca1c993ad" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nodes.reference|None</type>
+        <definition> nodes.reference | None sphinx.transforms.post_transforms.ReferencesResolver._resolve_pending_any_xref</definition>
+        <argsstring>(self, *addnodes.pending_xref node, Element contnode, str ref_doc, str target)</argsstring>
+        <name>_resolve_pending_any_xref</name>
+        <qualifiedname>sphinx.transforms.post_transforms.ReferencesResolver._resolve_pending_any_xref</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>*<ref refid="classsphinx_1_1addnodes_1_1pending__xref" kindref="compound">addnodes.pending_xref</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>contnode</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>ref_doc</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Resolve reference generated by the &quot;any&quot; role.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/__init__.py" line="186" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/__init__.py" bodystart="193" bodyend="253"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Resolves cross-references on doctrees.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+      <node id="1">
+        <label>sphinx.transforms.post_transforms.ReferencesResolver</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1ReferencesResolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>sphinx.ext.intersphinx._resolve.IntersphinxRoleResolver</label>
+        <link refid="classsphinx_1_1ext_1_1intersphinx_1_1__resolve_1_1IntersphinxRoleResolver"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.transforms.SphinxTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1SphinxTransform"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.transforms.post_transforms.SphinxPostTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+      <node id="1">
+        <label>sphinx.transforms.post_transforms.ReferencesResolver</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1ReferencesResolver"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.transforms.SphinxTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1SphinxTransform"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.transforms.post_transforms.SphinxPostTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/__init__.py" line="62" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/__init__.py" bodystart="62" bodyend="319"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1transforms_1_1post__transforms_1_1ReferencesResolver_1af3393ac7d3561a341ecc1ccca1c993ad" prot="protected" virt="non-virtual"><scope>sphinx::transforms::post_transforms::ReferencesResolver</scope><name>_resolve_pending_any_xref</name></member>
+      <member refid="classsphinx_1_1transforms_1_1post__transforms_1_1ReferencesResolver_1aaad6ac70008651aa05028adb2a37a454" prot="protected" virt="non-virtual"><scope>sphinx::transforms::post_transforms::ReferencesResolver</scope><name>_resolve_pending_xref</name></member>
+      <member refid="classsphinx_1_1transforms_1_1post__transforms_1_1ReferencesResolver_1a634d623b26138773b4d9b71a0f311059" prot="protected" virt="non-virtual"><scope>sphinx::transforms::post_transforms::ReferencesResolver</scope><name>_resolve_pending_xref_in_domain</name></member>
+      <member refid="classsphinx_1_1transforms_1_1post__transforms_1_1ReferencesResolver_1acc76754371f3fbff1efc2712c52f6f7f" prot="public" virt="non-virtual"><scope>sphinx::transforms::post_transforms::ReferencesResolver</scope><name>default_priority</name></member>
+      <member refid="classsphinx_1_1transforms_1_1post__transforms_1_1ReferencesResolver_1abc113a10e32b00572cd6b948da620244" prot="public" virt="non-virtual"><scope>sphinx::transforms::post_transforms::ReferencesResolver</scope><name>env</name></member>
+      <member refid="classsphinx_1_1transforms_1_1post__transforms_1_1ReferencesResolver_1a704d26b70102d4680bdf2a037f617795" prot="public" virt="non-virtual"><scope>sphinx::transforms::post_transforms::ReferencesResolver</scope><name>find_pending_xref_condition</name></member>
+      <member refid="classsphinx_1_1transforms_1_1post__transforms_1_1ReferencesResolver_1aa646493562627e9187f22377a16bf8cc" prot="public" virt="non-virtual"><scope>sphinx::transforms::post_transforms::ReferencesResolver</scope><name>run</name></member>
+      <member refid="classsphinx_1_1transforms_1_1post__transforms_1_1ReferencesResolver_1ad7872edf32a159f62d93665f9385d94f" prot="public" virt="non-virtual"><scope>sphinx::transforms::post_transforms::ReferencesResolver</scope><name>warn_missing_reference</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

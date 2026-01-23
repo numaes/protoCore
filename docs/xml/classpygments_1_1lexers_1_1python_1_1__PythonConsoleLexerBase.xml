@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpygments_1_1lexers_1_1python_1_1__PythonConsoleLexerBase" kind="class" language="Python" prot="protected">
+    <compoundname>pygments::lexers::python::_PythonConsoleLexerBase</compoundname>
+    <basecompoundref refid="classpygments_1_1lexer_1_1RegexLexer" prot="public" virt="non-virtual">pygments.lexer.RegexLexer</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1python_1_1__PythonConsoleLexerBase_1a662d26541ba23f262d3be925a03d354a" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pygments.lexers.python._PythonConsoleLexerBase::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>pygments.lexers.python._PythonConsoleLexerBase.name</qualifiedname>
+        <initializer>=  &apos;Python console session&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/python.py" line="640" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/python.py" bodystart="640" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1python_1_1__PythonConsoleLexerBase_1a2de697ccdb43265c074f99481c6a9d47" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list pygments.lexers.python._PythonConsoleLexerBase::aliases</definition>
+        <argsstring></argsstring>
+        <name>aliases</name>
+        <qualifiedname>pygments.lexers.python._PythonConsoleLexerBase.aliases</qualifiedname>
+        <initializer>=  [&apos;pycon&apos;, &apos;python-console&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/python.py" line="641" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/python.py" bodystart="641" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1python_1_1__PythonConsoleLexerBase_1a97714632a9a8c25f9a546c881e1fb135" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list pygments.lexers.python._PythonConsoleLexerBase::mimetypes</definition>
+        <argsstring></argsstring>
+        <name>mimetypes</name>
+        <qualifiedname>pygments.lexers.python._PythonConsoleLexerBase.mimetypes</qualifiedname>
+        <initializer>=  [&apos;text/x-python-doctest&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/python.py" line="642" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/python.py" bodystart="642" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1python_1_1__PythonConsoleLexerBase_1aa2700f60acf2132a7b325c27c379a137" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pygments.lexers.python._PythonConsoleLexerBase::tokens</definition>
+        <argsstring></argsstring>
+        <name>tokens</name>
+        <qualifiedname>pygments.lexers.python._PythonConsoleLexerBase.tokens</qualifiedname>
+        <initializer>=  {
+        &apos;root&apos;: [
+            (r&apos;(&gt;&gt;&gt; )(.*\n)&apos;, bygroups(Generic.Prompt, Other.Code), &apos;continuations&apos;),
+            # This happens, e.g., when tracebacks are embedded in documentation;
+            # trailing whitespaces are often stripped in such contexts.
+            (r&apos;(&gt;&gt;&gt;)(\n)&apos;, bygroups(Generic.Prompt, Whitespace)),
+            (r&apos;(\^C)?Traceback \(most recent call last\):\n&apos;, Other.Traceback, &apos;traceback&apos;),
+            # SyntaxError starts with this
+            (r&apos;  File &quot;[^&quot;]+&quot;, line \d+&apos;, Other.Traceback, &apos;traceback&apos;),
+            (r&apos;.*\n&apos;, Generic.Output),
+        ],
+        &apos;continuations&apos;: [
+            (r&apos;(\.\.\. )(.*\n)&apos;, bygroups(Generic.Prompt, Other.Code)),
+            # See above.
+            (r&apos;(\.\.\.)(\n)&apos;, bygroups(Generic.Prompt, Whitespace)),
+            <ref refid="classpygments_1_1lexer_1_1default" kindref="compound">default</ref>(&apos;#pop&apos;),
+        ],
+        &apos;traceback&apos;: [
+            # As soon as we see a traceback, consume everything until the next
+            # &gt;&gt;&gt; prompt.
+            (r&apos;(?=&gt;&gt;&gt;( |$))&apos;, Text, &apos;#pop&apos;),
+            (r&apos;(KeyboardInterrupt)(\n)&apos;, bygroups(Name.Class, Whitespace)),
+            (r&apos;.*\n&apos;, Other.Traceback),
+        ],
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/python.py" line="649" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/python.py" bodystart="649" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.lexers.python._PythonConsoleLexerBase</label>
+        <link refid="classpygments_1_1lexers_1_1python_1_1__PythonConsoleLexerBase"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexer.RegexLexer</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>pygments.lexer.RegexLexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="8">
+        <label>str</label>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.lexers.python._PythonConsoleLexerBase</label>
+        <link refid="classpygments_1_1lexers_1_1python_1_1__PythonConsoleLexerBase"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>name</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexer.RegexLexer</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>pygments.lexer.RegexLexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pygments/lexers/python.py" line="639" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/python.py" bodystart="639" bodyend="675"/>
+    <listofallmembers>
+      <member refid="classpygments_1_1lexers_1_1python_1_1__PythonConsoleLexerBase_1a2de697ccdb43265c074f99481c6a9d47" prot="public" virt="non-virtual"><scope>pygments::lexers::python::_PythonConsoleLexerBase</scope><name>aliases</name></member>
+      <member refid="classpygments_1_1lexers_1_1python_1_1__PythonConsoleLexerBase_1a97714632a9a8c25f9a546c881e1fb135" prot="public" virt="non-virtual"><scope>pygments::lexers::python::_PythonConsoleLexerBase</scope><name>mimetypes</name></member>
+      <member refid="classpygments_1_1lexers_1_1python_1_1__PythonConsoleLexerBase_1a662d26541ba23f262d3be925a03d354a" prot="public" virt="non-virtual"><scope>pygments::lexers::python::_PythonConsoleLexerBase</scope><name>name</name></member>
+      <member refid="classpygments_1_1lexers_1_1python_1_1__PythonConsoleLexerBase_1aa2700f60acf2132a7b325c27c379a137" prot="public" virt="non-virtual"><scope>pygments::lexers::python::_PythonConsoleLexerBase</scope><name>tokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

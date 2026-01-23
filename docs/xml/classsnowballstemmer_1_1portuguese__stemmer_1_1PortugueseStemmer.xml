@@ -1,0 +1,613 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer" kind="class" language="Python" prot="public">
+    <compoundname>snowballstemmer::portuguese_stemmer::PortugueseStemmer</compoundname>
+    <basecompoundref refid="classsnowballstemmer_1_1basestemmer_1_1BaseStemmer" prot="public" virt="non-virtual">snowballstemmer.basestemmer.BaseStemmer</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a820cdeca209d9b2cb66b3a269a196863" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict snowballstemmer.portuguese_stemmer.PortugueseStemmer::g_v</definition>
+        <argsstring></argsstring>
+        <name>g_v</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.g_v</qualifiedname>
+        <initializer>=  {u&quot;a&quot;, u&quot;e&quot;, u&quot;i&quot;, u&quot;o&quot;, u&quot;u&quot;, u&quot;á&quot;, u&quot;é&quot;, u&quot;í&quot;, u&quot;ó&quot;, u&quot;ú&quot;, u&quot;â&quot;, u&quot;ê&quot;, u&quot;ô&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="14" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1ae176943c21516a7707215547a84086ad" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int snowballstemmer.portuguese_stemmer.PortugueseStemmer::I_p2</definition>
+        <argsstring></argsstring>
+        <name>I_p2</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.I_p2</qualifiedname>
+        <initializer>=  0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="16" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1aba4e9acbd029b9d7a087f47fc8c2b440" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int snowballstemmer.portuguese_stemmer.PortugueseStemmer::I_p1</definition>
+        <argsstring></argsstring>
+        <name>I_p1</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.I_p1</qualifiedname>
+        <initializer>=  0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="17" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a7cafe73b0cb794656e1d92316fa9efbb" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int snowballstemmer.portuguese_stemmer.PortugueseStemmer::I_pV</definition>
+        <argsstring></argsstring>
+        <name>I_pV</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.I_pV</qualifiedname>
+        <initializer>=  0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="18" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a47fc30bbef1e706ef12aaf13070ba3e9" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.portuguese_stemmer.PortugueseStemmer::a_0</definition>
+        <argsstring></argsstring>
+        <name>a_0</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.a_0</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;&quot;, -1, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ã&quot;, 0, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;õ&quot;, 0, 2)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="409" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="409" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a3477accbd55ce085269d58aee6738fff" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.portuguese_stemmer.PortugueseStemmer::a_1</definition>
+        <argsstring></argsstring>
+        <name>a_1</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.a_1</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;&quot;, -1, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;a~&quot;, 0, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;o~&quot;, 0, 2)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="415" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="415" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a7d8b4ff45adba45e4fd3d6397dfae3f1" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.portuguese_stemmer.PortugueseStemmer::a_2</definition>
+        <argsstring></argsstring>
+        <name>a_2</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.a_2</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ic&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ad&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;os&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;iv&quot;, -1, 1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="421" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="421" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a076d006123853cc1aff9e7caeb48f773" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.portuguese_stemmer.PortugueseStemmer::a_3</definition>
+        <argsstring></argsstring>
+        <name>a_3</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.a_3</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ante&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;avel&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ível&quot;, -1, 1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="428" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="428" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a4811649a3f686a654b63c342eefc8fec" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.portuguese_stemmer.PortugueseStemmer::a_4</definition>
+        <argsstring></argsstring>
+        <name>a_4</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.a_4</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ic&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;abil&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;iv&quot;, -1, 1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="434" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="434" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a942e8553ee0ff90fb1fadccde616de14" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.portuguese_stemmer.PortugueseStemmer::a_5</definition>
+        <argsstring></argsstring>
+        <name>a_5</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.a_5</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="440" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="440" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1aadf44f9366068f168102517279ccafab" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.portuguese_stemmer.PortugueseStemmer::a_6</definition>
+        <argsstring></argsstring>
+        <name>a_6</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.a_6</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="488" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="488" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a5d91824e3aa98e2f294d2e579c5090c0" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.portuguese_stemmer.PortugueseStemmer::a_7</definition>
+        <argsstring></argsstring>
+        <name>a_7</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.a_7</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;a&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;i&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;o&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;os&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;á&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;í&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ó&quot;, -1, 1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="611" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="611" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a050555ec3b80fef4f3ba6a39b08feb58" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.portuguese_stemmer.PortugueseStemmer::a_8</definition>
+        <argsstring></argsstring>
+        <name>a_8</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.a_8</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;e&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ç&quot;, -1, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;é&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ê&quot;, -1, 1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="621" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="621" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a5909ea3a28ccedf512e7249f5009d167" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.portuguese_stemmer.PortugueseStemmer::bra</definition>
+        <argsstring></argsstring>
+        <name>bra</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.bra</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="24" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a16fa5a5d126e98a69a9fb200af461e63" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.portuguese_stemmer.PortugueseStemmer::ket</definition>
+        <argsstring></argsstring>
+        <name>ket</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.ket</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="26" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a5a6bb4d1e7f0bcf0d0626ecdeb0e7ae8" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.portuguese_stemmer.PortugueseStemmer::cursor</definition>
+        <argsstring></argsstring>
+        <name>cursor</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.cursor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="39" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1aa96785142fdf825eb1116480fca95229" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.portuguese_stemmer.PortugueseStemmer::I_pV</definition>
+        <argsstring></argsstring>
+        <name>I_pV</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.I_pV</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="44" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a84b29d116e636771dcd7c1743f8b55cc" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.portuguese_stemmer.PortugueseStemmer::I_p1</definition>
+        <argsstring></argsstring>
+        <name>I_p1</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.I_p1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="45" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a5736ca3bdd2d3544e78456dfc2f41429" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.portuguese_stemmer.PortugueseStemmer::I_p2</definition>
+        <argsstring></argsstring>
+        <name>I_p2</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.I_p2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="46" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1ac16916ffa383d5d1a92892e22decad8b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.portuguese_stemmer.PortugueseStemmer::limit_backward</definition>
+        <argsstring></argsstring>
+        <name>limit_backward</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.limit_backward</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="282" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="282" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a559c5a0d4c8be94a6e5d4fd5e1e7dcb3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.portuguese_stemmer.PortugueseStemmer.__r_prelude</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_prelude</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.__r_prelude</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="20" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="20" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1adab14608c174237aa17f4611bcc34a47" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.portuguese_stemmer.PortugueseStemmer.__r_mark_regions</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_mark_regions</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.__r_mark_regions</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="43" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="43" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a1be18b8c8e9220f60277efd93d12ee1a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.portuguese_stemmer.PortugueseStemmer.__r_postlude</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_postlude</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.__r_postlude</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="117" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="117" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a1038b46f2d144e9a6ff0011850814dbb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.portuguese_stemmer.PortugueseStemmer.__r_RV</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_RV</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.__r_RV</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="140" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="140" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1abbbaa9cfa72a2879ec2bc1ee4f27b0c0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.portuguese_stemmer.PortugueseStemmer.__r_R1</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_R1</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.__r_R1</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="143" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="143" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1ab23d1b32a9b9693543d6ac234e879b4e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.portuguese_stemmer.PortugueseStemmer.__r_R2</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_R2</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.__r_R2</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="146" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="146" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1ae3eec8da77206327f2a96da9462a51ae" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.portuguese_stemmer.PortugueseStemmer.__r_standard_suffix</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_standard_suffix</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.__r_standard_suffix</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="149" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="149" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1ab0587432830980882d5134ace8478ef0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.portuguese_stemmer.PortugueseStemmer.__r_verb_suffix</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_verb_suffix</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.__r_verb_suffix</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="278" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="278" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1ac0342baa1d2c6c7af561d11858ddbb14" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.portuguese_stemmer.PortugueseStemmer.__r_residual_suffix</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_residual_suffix</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.__r_residual_suffix</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="294" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="294" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1ab0232eee17c412758877488086eca115" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.portuguese_stemmer.PortugueseStemmer.__r_residual_form</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_residual_form</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer.__r_residual_form</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="306" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="306" bodyend="349"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a45399fa41143395ff8f4c72cb7c3a3e5" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.portuguese_stemmer.PortugueseStemmer._stem</definition>
+        <argsstring>(self)</argsstring>
+        <name>_stem</name>
+        <qualifiedname>snowballstemmer.portuguese_stemmer.PortugueseStemmer._stem</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="350" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="350" bodyend="408"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>This class implements the stemming algorithm defined by a snowball script.
+Generated from portuguese.sbl by Snowball 3.0.1 - https://snowballstem.org/
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>snowballstemmer.portuguese_stemmer.PortugueseStemmer</label>
+        <link refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>snowballstemmer.basestemmer.BaseStemmer</label>
+        <link refid="classsnowballstemmer_1_1basestemmer_1_1BaseStemmer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>snowballstemmer.portuguese_stemmer.PortugueseStemmer</label>
+        <link refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>snowballstemmer.basestemmer.BaseStemmer</label>
+        <link refid="classsnowballstemmer_1_1basestemmer_1_1BaseStemmer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" line="8" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/portuguese_stemmer.py" bodystart="8" bodyend="628"/>
+    <listofallmembers>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1adab14608c174237aa17f4611bcc34a47" prot="private" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>__r_mark_regions</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a1be18b8c8e9220f60277efd93d12ee1a" prot="private" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>__r_postlude</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a559c5a0d4c8be94a6e5d4fd5e1e7dcb3" prot="private" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>__r_prelude</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1abbbaa9cfa72a2879ec2bc1ee4f27b0c0" prot="private" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>__r_R1</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1ab23d1b32a9b9693543d6ac234e879b4e" prot="private" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>__r_R2</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1ab0232eee17c412758877488086eca115" prot="private" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>__r_residual_form</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1ac0342baa1d2c6c7af561d11858ddbb14" prot="private" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>__r_residual_suffix</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a1038b46f2d144e9a6ff0011850814dbb" prot="private" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>__r_RV</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1ae3eec8da77206327f2a96da9462a51ae" prot="private" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>__r_standard_suffix</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1ab0587432830980882d5134ace8478ef0" prot="private" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>__r_verb_suffix</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a45399fa41143395ff8f4c72cb7c3a3e5" prot="protected" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>_stem</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a47fc30bbef1e706ef12aaf13070ba3e9" prot="public" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>a_0</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a3477accbd55ce085269d58aee6738fff" prot="public" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>a_1</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a7d8b4ff45adba45e4fd3d6397dfae3f1" prot="public" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>a_2</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a076d006123853cc1aff9e7caeb48f773" prot="public" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>a_3</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a4811649a3f686a654b63c342eefc8fec" prot="public" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>a_4</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a942e8553ee0ff90fb1fadccde616de14" prot="public" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>a_5</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1aadf44f9366068f168102517279ccafab" prot="public" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>a_6</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a5d91824e3aa98e2f294d2e579c5090c0" prot="public" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>a_7</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a050555ec3b80fef4f3ba6a39b08feb58" prot="public" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>a_8</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a5909ea3a28ccedf512e7249f5009d167" prot="public" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>bra</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a5a6bb4d1e7f0bcf0d0626ecdeb0e7ae8" prot="public" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>cursor</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a820cdeca209d9b2cb66b3a269a196863" prot="public" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>g_v</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1aba4e9acbd029b9d7a087f47fc8c2b440" prot="public" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>I_p1</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a84b29d116e636771dcd7c1743f8b55cc" prot="public" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>I_p1</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1ae176943c21516a7707215547a84086ad" prot="public" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>I_p2</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a5736ca3bdd2d3544e78456dfc2f41429" prot="public" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>I_p2</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a7cafe73b0cb794656e1d92316fa9efbb" prot="public" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>I_pV</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1aa96785142fdf825eb1116480fca95229" prot="public" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>I_pV</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1a16fa5a5d126e98a69a9fb200af461e63" prot="public" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>ket</name></member>
+      <member refid="classsnowballstemmer_1_1portuguese__stemmer_1_1PortugueseStemmer_1ac16916ffa383d5d1a92892e22decad8b" prot="public" virt="non-virtual"><scope>snowballstemmer::portuguese_stemmer::PortugueseStemmer</scope><name>limit_backward</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

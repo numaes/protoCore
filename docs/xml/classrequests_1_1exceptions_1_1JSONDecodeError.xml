@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classrequests_1_1exceptions_1_1JSONDecodeError" kind="class" language="Python" prot="public">
+    <compoundname>requests::exceptions::JSONDecodeError</compoundname>
+    <basecompoundref refid="classrequests_1_1exceptions_1_1InvalidJSONError" prot="public" virt="non-virtual">requests.exceptions.InvalidJSONError</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">CompatJSONDecodeError</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classrequests_1_1exceptions_1_1JSONDecodeError_1acce4f19b3e56d337cb75f8605152bd10" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>requests.exceptions.JSONDecodeError::args</definition>
+        <argsstring></argsstring>
+        <name>args</name>
+        <qualifiedname>requests.exceptions.JSONDecodeError.args</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/requests/exceptions.py" line="42" column="1" bodyfile="venv/lib/python3.12/site-packages/requests/exceptions.py" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classrequests_1_1exceptions_1_1JSONDecodeError_1ac9555ae60aae7add50a6f8c85d8549e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.exceptions.JSONDecodeError.__init__</definition>
+        <argsstring>(self, *args, **kwargs)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>requests.exceptions.JSONDecodeError.__init__</qualifiedname>
+        <reimplements refid="classrequests_1_1exceptions_1_1RequestException_1a9d4ec4f6aab1d4e917f5698c63e62d97">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>*</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Construct the JSONDecodeError instance first with all
+args. Then use it&apos;s args to construct the IOError so that
+the json specific args aren&apos;t used as IOError specific args
+and the error message from JSONDecodeError is preserved.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/requests/exceptions.py" line="34" column="1" bodyfile="venv/lib/python3.12/site-packages/requests/exceptions.py" bodystart="34" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classrequests_1_1exceptions_1_1JSONDecodeError_1a7a936644a11865ccd1a0e4abb10b635c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>requests.exceptions.JSONDecodeError.__reduce__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__reduce__</name>
+        <qualifiedname>requests.exceptions.JSONDecodeError.__reduce__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The __reduce__ method called when pickling the object must
+be the one from the JSONDecodeError (be it json/simplejson)
+as it expects all the arguments for instantiation, not just
+one like the IOError, and the MRO would by default call the
+__reduce__ method from the IOError due to the inheritance order.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/requests/exceptions.py" line="44" column="1" bodyfile="venv/lib/python3.12/site-packages/requests/exceptions.py" bodystart="44" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Couldn&apos;t decode the text into json</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="5">
+        <label>CompatJSONDecodeError</label>
+      </node>
+      <node id="4">
+        <label>IOError</label>
+      </node>
+      <node id="1">
+        <label>requests.exceptions.JSONDecodeError</label>
+        <link refid="classrequests_1_1exceptions_1_1JSONDecodeError"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>requests.exceptions.InvalidJSONError</label>
+        <link refid="classrequests_1_1exceptions_1_1InvalidJSONError"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>requests.exceptions.RequestException</label>
+        <link refid="classrequests_1_1exceptions_1_1RequestException"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>CompatJSONDecodeError</label>
+      </node>
+      <node id="4">
+        <label>IOError</label>
+      </node>
+      <node id="1">
+        <label>requests.exceptions.JSONDecodeError</label>
+        <link refid="classrequests_1_1exceptions_1_1JSONDecodeError"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>requests.exceptions.InvalidJSONError</label>
+        <link refid="classrequests_1_1exceptions_1_1InvalidJSONError"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>requests.exceptions.RequestException</label>
+        <link refid="classrequests_1_1exceptions_1_1RequestException"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/requests/exceptions.py" line="31" column="1" bodyfile="venv/lib/python3.12/site-packages/requests/exceptions.py" bodystart="31" bodyend="54"/>
+    <listofallmembers>
+      <member refid="classrequests_1_1exceptions_1_1JSONDecodeError_1ac9555ae60aae7add50a6f8c85d8549e2" prot="public" virt="non-virtual"><scope>requests::exceptions::JSONDecodeError</scope><name>__init__</name></member>
+      <member refid="classrequests_1_1exceptions_1_1JSONDecodeError_1a7a936644a11865ccd1a0e4abb10b635c" prot="public" virt="non-virtual"><scope>requests::exceptions::JSONDecodeError</scope><name>__reduce__</name></member>
+      <member refid="classrequests_1_1exceptions_1_1JSONDecodeError_1acce4f19b3e56d337cb75f8605152bd10" prot="public" virt="non-virtual"><scope>requests::exceptions::JSONDecodeError</scope><name>args</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

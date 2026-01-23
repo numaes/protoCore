@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1network_1_1lazy__wheel" kind="namespace" language="Python">
+    <compoundname>pip::_internal::network::lazy_wheel</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1network_1_1lazy__wheel_1_1HTTPRangeRequestUnsupported" prot="public">pip::_internal::network::lazy_wheel::HTTPRangeRequestUnsupported</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1network_1_1lazy__wheel_1_1LazyZipOverHTTP" prot="public">pip::_internal::network::lazy_wheel::LazyZipOverHTTP</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1network_1_1lazy__wheel_1a2a4b967f5dc73f05bb479ed01c43f78e" prot="private" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_internal::network::lazy_wheel.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>pip._internal.network.lazy_wheel.__all__</qualifiedname>
+        <initializer>=  [&quot;HTTPRangeRequestUnsupported&quot;, &quot;dist_from_wheel_url&quot;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/network/lazy_wheel.py" line="3" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/network/lazy_wheel.py" bodystart="3" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1network_1_1lazy__wheel_1ae3e2f07e32bc823cd468d4460181ae29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" kindref="compound">BaseDistribution</ref></type>
+        <definition> BaseDistribution pip._internal.network.lazy_wheel.dist_from_wheel_url</definition>
+        <argsstring>(str name, str url, PipSession session)</argsstring>
+        <name>dist_from_wheel_url</name>
+        <qualifiedname>pip._internal.network.lazy_wheel.dist_from_wheel_url</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>PipSession</type>
+          <declname>session</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a distribution object from the given wheel URL.
+
+This uses HTTP range requests to only fetch the portion of the wheel
+containing metadata, just enough for the object to be constructed.
+If such requests are not supported, HTTPRangeRequestUnsupported
+is raised.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/network/lazy_wheel.py" line="23" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/network/lazy_wheel.py" bodystart="23" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Lazy ZIP over HTTP</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/network/lazy_wheel.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

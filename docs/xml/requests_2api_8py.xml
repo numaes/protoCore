@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="requests_2api_8py" kind="file" language="Python">
+    <compoundname>api.py</compoundname>
+    <innernamespace refid="namespacerequests">requests</innernamespace>
+    <innernamespace refid="namespacerequests_1_1api">requests::api</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacerequests_1_1api" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral">requests.api</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral">~~~~~~~~~~~~</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral">This<sp/>module<sp/>implements<sp/>the<sp/>Requests<sp/>API.</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral">:copyright:<sp/>(c)<sp/>2012<sp/>by<sp/>Kenneth<sp/>Reitz.</highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral">:license:<sp/>Apache2,<sp/>see<sp/>LICENSE<sp/>for<sp/>more<sp/>details.</highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sessions</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">request(method,<sp/>url,<sp/>**kwargs):</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Constructs<sp/>and<sp/>sends<sp/>a<sp/>:class:`Request<sp/>&lt;Request&gt;`.</highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>method:<sp/>method<sp/>for<sp/>the<sp/>new<sp/>:class:`Request`<sp/>object:<sp/>``GET``,<sp/>``OPTIONS``,<sp/>``HEAD``,<sp/>``POST``,<sp/>``PUT``,<sp/>``PATCH``,<sp/>or<sp/>``DELETE``.</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>url:<sp/>URL<sp/>for<sp/>the<sp/>new<sp/>:class:`Request`<sp/>object.</highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>params:<sp/>(optional)<sp/>Dictionary,<sp/>list<sp/>of<sp/>tuples<sp/>or<sp/>bytes<sp/>to<sp/>send</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>in<sp/>the<sp/>query<sp/>string<sp/>for<sp/>the<sp/>:class:`Request`.</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>data:<sp/>(optional)<sp/>Dictionary,<sp/>list<sp/>of<sp/>tuples,<sp/>bytes,<sp/>or<sp/>file-like</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>object<sp/>to<sp/>send<sp/>in<sp/>the<sp/>body<sp/>of<sp/>the<sp/>:class:`Request`.</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>json:<sp/>(optional)<sp/>A<sp/>JSON<sp/>serializable<sp/>Python<sp/>object<sp/>to<sp/>send<sp/>in<sp/>the<sp/>body<sp/>of<sp/>the<sp/>:class:`Request`.</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>headers:<sp/>(optional)<sp/>Dictionary<sp/>of<sp/>HTTP<sp/>Headers<sp/>to<sp/>send<sp/>with<sp/>the<sp/>:class:`Request`.</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>cookies:<sp/>(optional)<sp/>Dict<sp/>or<sp/>CookieJar<sp/>object<sp/>to<sp/>send<sp/>with<sp/>the<sp/>:class:`Request`.</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>files:<sp/>(optional)<sp/>Dictionary<sp/>of<sp/>``&apos;name&apos;:<sp/>file-like-objects``<sp/>(or<sp/>``{&apos;name&apos;:<sp/>file-tuple}``)<sp/>for<sp/>multipart<sp/>encoding<sp/>upload.</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>``file-tuple``<sp/>can<sp/>be<sp/>a<sp/>2-tuple<sp/>``(&apos;filename&apos;,<sp/>fileobj)``,<sp/>3-tuple<sp/>``(&apos;filename&apos;,<sp/>fileobj,<sp/>&apos;content_type&apos;)``</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>or<sp/>a<sp/>4-tuple<sp/>``(&apos;filename&apos;,<sp/>fileobj,<sp/>&apos;content_type&apos;,<sp/>custom_headers)``,<sp/>where<sp/>``&apos;content_type&apos;``<sp/>is<sp/>a<sp/>string</highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>defining<sp/>the<sp/>content<sp/>type<sp/>of<sp/>the<sp/>given<sp/>file<sp/>and<sp/>``custom_headers``<sp/>a<sp/>dict-like<sp/>object<sp/>containing<sp/>additional<sp/>headers</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>to<sp/>add<sp/>for<sp/>the<sp/>file.</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>auth:<sp/>(optional)<sp/>Auth<sp/>tuple<sp/>to<sp/>enable<sp/>Basic/Digest/Custom<sp/>HTTP<sp/>Auth.</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>timeout:<sp/>(optional)<sp/>How<sp/>many<sp/>seconds<sp/>to<sp/>wait<sp/>for<sp/>the<sp/>server<sp/>to<sp/>send<sp/>data</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>before<sp/>giving<sp/>up,<sp/>as<sp/>a<sp/>float,<sp/>or<sp/>a<sp/>:ref:`(connect<sp/>timeout,<sp/>read</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>timeout)<sp/>&lt;timeouts&gt;`<sp/>tuple.</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:type<sp/>timeout:<sp/>float<sp/>or<sp/>tuple</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>allow_redirects:<sp/>(optional)<sp/>Boolean.<sp/>Enable/disable<sp/>GET/OPTIONS/POST/PUT/PATCH/DELETE/HEAD<sp/>redirection.<sp/>Defaults<sp/>to<sp/>``True``.</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:type<sp/>allow_redirects:<sp/>bool</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>proxies:<sp/>(optional)<sp/>Dictionary<sp/>mapping<sp/>protocol<sp/>to<sp/>the<sp/>URL<sp/>of<sp/>the<sp/>proxy.</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>verify:<sp/>(optional)<sp/>Either<sp/>a<sp/>boolean,<sp/>in<sp/>which<sp/>case<sp/>it<sp/>controls<sp/>whether<sp/>we<sp/>verify</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>the<sp/>server&apos;s<sp/>TLS<sp/>certificate,<sp/>or<sp/>a<sp/>string,<sp/>in<sp/>which<sp/>case<sp/>it<sp/>must<sp/>be<sp/>a<sp/>path</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>to<sp/>a<sp/>CA<sp/>bundle<sp/>to<sp/>use.<sp/>Defaults<sp/>to<sp/>``True``.</highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>stream:<sp/>(optional)<sp/>if<sp/>``False``,<sp/>the<sp/>response<sp/>content<sp/>will<sp/>be<sp/>immediately<sp/>downloaded.</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>cert:<sp/>(optional)<sp/>if<sp/>String,<sp/>path<sp/>to<sp/>ssl<sp/>client<sp/>cert<sp/>file<sp/>(.pem).<sp/>If<sp/>Tuple,<sp/>(&apos;cert&apos;,<sp/>&apos;key&apos;)<sp/>pair.</highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:return:<sp/>:class:`Response<sp/>&lt;Response&gt;`<sp/>object</highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:rtype:<sp/>requests.Response</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Usage::</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>import<sp/>requests</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>req<sp/>=<sp/>requests.request(&apos;GET&apos;,<sp/>&apos;https://httpbin.org/get&apos;)</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&gt;&gt;&gt;<sp/>req</highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>&lt;Response<sp/>[200]&gt;</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>By<sp/>using<sp/>the<sp/>&apos;with&apos;<sp/>statement<sp/>we<sp/>are<sp/>sure<sp/>the<sp/>session<sp/>is<sp/>closed,<sp/>thus<sp/>we</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>avoid<sp/>leaving<sp/>sockets<sp/>open<sp/>which<sp/>can<sp/>trigger<sp/>a<sp/>ResourceWarning<sp/>in<sp/>some</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>cases,<sp/>and<sp/>look<sp/>like<sp/>a<sp/>memory<sp/>leak<sp/>in<sp/>others.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">with</highlight><highlight class="normal"><sp/><ref refid="classrequests_1_1sessions_1_1Session" kindref="compound">sessions.Session</ref>()<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>session:</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>session.request(method=method,<sp/>url=url,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">get(url,<sp/>params=None,<sp/>**kwargs):</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&quot;&quot;&quot;Sends<sp/>a<sp/>GET<sp/>request.</highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>url:<sp/>URL<sp/>for<sp/>the<sp/>new<sp/>:class:`Request`<sp/>object.</highlight></codeline>
+<codeline lineno="66"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>params:<sp/>(optional)<sp/>Dictionary,<sp/>list<sp/>of<sp/>tuples<sp/>or<sp/>bytes<sp/>to<sp/>send</highlight></codeline>
+<codeline lineno="67"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>in<sp/>the<sp/>query<sp/>string<sp/>for<sp/>the<sp/>:class:`Request`.</highlight></codeline>
+<codeline lineno="68"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>\*\*kwargs:<sp/>Optional<sp/>arguments<sp/>that<sp/>``request``<sp/>takes.</highlight></codeline>
+<codeline lineno="69"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:return:<sp/>:class:`Response<sp/>&lt;Response&gt;`<sp/>object</highlight></codeline>
+<codeline lineno="70"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:rtype:<sp/>requests.Response</highlight></codeline>
+<codeline lineno="71"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>request(</highlight><highlight class="stringliteral">&quot;get&quot;</highlight><highlight class="normal">,<sp/>url,<sp/>params=params,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">options(url,<sp/>**kwargs):</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&quot;&quot;&quot;Sends<sp/>an<sp/>OPTIONS<sp/>request.</highlight></codeline>
+<codeline lineno="78"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="79"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>url:<sp/>URL<sp/>for<sp/>the<sp/>new<sp/>:class:`Request`<sp/>object.</highlight></codeline>
+<codeline lineno="80"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>\*\*kwargs:<sp/>Optional<sp/>arguments<sp/>that<sp/>``request``<sp/>takes.</highlight></codeline>
+<codeline lineno="81"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:return:<sp/>:class:`Response<sp/>&lt;Response&gt;`<sp/>object</highlight></codeline>
+<codeline lineno="82"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:rtype:<sp/>requests.Response</highlight></codeline>
+<codeline lineno="83"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>request(</highlight><highlight class="stringliteral">&quot;options&quot;</highlight><highlight class="normal">,<sp/>url,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">head(url,<sp/>**kwargs):</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&quot;&quot;&quot;Sends<sp/>a<sp/>HEAD<sp/>request.</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>url:<sp/>URL<sp/>for<sp/>the<sp/>new<sp/>:class:`Request`<sp/>object.</highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>\*\*kwargs:<sp/>Optional<sp/>arguments<sp/>that<sp/>``request``<sp/>takes.<sp/>If</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>`allow_redirects`<sp/>is<sp/>not<sp/>provided,<sp/>it<sp/>will<sp/>be<sp/>set<sp/>to<sp/>`False`<sp/>(as</highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>opposed<sp/>to<sp/>the<sp/>default<sp/>:meth:`request`<sp/>behavior).</highlight></codeline>
+<codeline lineno="95"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:return:<sp/>:class:`Response<sp/>&lt;Response&gt;`<sp/>object</highlight></codeline>
+<codeline lineno="96"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:rtype:<sp/>requests.Response</highlight></codeline>
+<codeline lineno="97"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>kwargs.setdefault(</highlight><highlight class="stringliteral">&quot;allow_redirects&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>request(</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>url,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">post(url,<sp/>data=None,<sp/>json=None,<sp/>**kwargs):</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&quot;&quot;&quot;Sends<sp/>a<sp/>POST<sp/>request.</highlight></codeline>
+<codeline lineno="105"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="106"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>url:<sp/>URL<sp/>for<sp/>the<sp/>new<sp/>:class:`Request`<sp/>object.</highlight></codeline>
+<codeline lineno="107"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>data:<sp/>(optional)<sp/>Dictionary,<sp/>list<sp/>of<sp/>tuples,<sp/>bytes,<sp/>or<sp/>file-like</highlight></codeline>
+<codeline lineno="108"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>object<sp/>to<sp/>send<sp/>in<sp/>the<sp/>body<sp/>of<sp/>the<sp/>:class:`Request`.</highlight></codeline>
+<codeline lineno="109"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>json:<sp/>(optional)<sp/>A<sp/>JSON<sp/>serializable<sp/>Python<sp/>object<sp/>to<sp/>send<sp/>in<sp/>the<sp/>body<sp/>of<sp/>the<sp/>:class:`Request`.</highlight></codeline>
+<codeline lineno="110"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>\*\*kwargs:<sp/>Optional<sp/>arguments<sp/>that<sp/>``request``<sp/>takes.</highlight></codeline>
+<codeline lineno="111"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:return:<sp/>:class:`Response<sp/>&lt;Response&gt;`<sp/>object</highlight></codeline>
+<codeline lineno="112"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:rtype:<sp/>requests.Response</highlight></codeline>
+<codeline lineno="113"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>request(</highlight><highlight class="stringliteral">&quot;post&quot;</highlight><highlight class="normal">,<sp/>url,<sp/>data=data,<sp/>json=json,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">put(url,<sp/>data=None,<sp/>**kwargs):</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&quot;&quot;&quot;Sends<sp/>a<sp/>PUT<sp/>request.</highlight></codeline>
+<codeline lineno="120"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="121"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>url:<sp/>URL<sp/>for<sp/>the<sp/>new<sp/>:class:`Request`<sp/>object.</highlight></codeline>
+<codeline lineno="122"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>data:<sp/>(optional)<sp/>Dictionary,<sp/>list<sp/>of<sp/>tuples,<sp/>bytes,<sp/>or<sp/>file-like</highlight></codeline>
+<codeline lineno="123"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>object<sp/>to<sp/>send<sp/>in<sp/>the<sp/>body<sp/>of<sp/>the<sp/>:class:`Request`.</highlight></codeline>
+<codeline lineno="124"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>json:<sp/>(optional)<sp/>A<sp/>JSON<sp/>serializable<sp/>Python<sp/>object<sp/>to<sp/>send<sp/>in<sp/>the<sp/>body<sp/>of<sp/>the<sp/>:class:`Request`.</highlight></codeline>
+<codeline lineno="125"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>\*\*kwargs:<sp/>Optional<sp/>arguments<sp/>that<sp/>``request``<sp/>takes.</highlight></codeline>
+<codeline lineno="126"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:return:<sp/>:class:`Response<sp/>&lt;Response&gt;`<sp/>object</highlight></codeline>
+<codeline lineno="127"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:rtype:<sp/>requests.Response</highlight></codeline>
+<codeline lineno="128"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>request(</highlight><highlight class="stringliteral">&quot;put&quot;</highlight><highlight class="normal">,<sp/>url,<sp/>data=data,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">patch(url,<sp/>data=None,<sp/>**kwargs):</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&quot;&quot;&quot;Sends<sp/>a<sp/>PATCH<sp/>request.</highlight></codeline>
+<codeline lineno="135"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="136"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>url:<sp/>URL<sp/>for<sp/>the<sp/>new<sp/>:class:`Request`<sp/>object.</highlight></codeline>
+<codeline lineno="137"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>data:<sp/>(optional)<sp/>Dictionary,<sp/>list<sp/>of<sp/>tuples,<sp/>bytes,<sp/>or<sp/>file-like</highlight></codeline>
+<codeline lineno="138"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>object<sp/>to<sp/>send<sp/>in<sp/>the<sp/>body<sp/>of<sp/>the<sp/>:class:`Request`.</highlight></codeline>
+<codeline lineno="139"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>json:<sp/>(optional)<sp/>A<sp/>JSON<sp/>serializable<sp/>Python<sp/>object<sp/>to<sp/>send<sp/>in<sp/>the<sp/>body<sp/>of<sp/>the<sp/>:class:`Request`.</highlight></codeline>
+<codeline lineno="140"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>\*\*kwargs:<sp/>Optional<sp/>arguments<sp/>that<sp/>``request``<sp/>takes.</highlight></codeline>
+<codeline lineno="141"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:return:<sp/>:class:`Response<sp/>&lt;Response&gt;`<sp/>object</highlight></codeline>
+<codeline lineno="142"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:rtype:<sp/>requests.Response</highlight></codeline>
+<codeline lineno="143"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>request(</highlight><highlight class="stringliteral">&quot;patch&quot;</highlight><highlight class="normal">,<sp/>url,<sp/>data=data,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">delete(url,<sp/>**kwargs):</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&quot;&quot;&quot;Sends<sp/>a<sp/>DELETE<sp/>request.</highlight></codeline>
+<codeline lineno="150"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="151"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>url:<sp/>URL<sp/>for<sp/>the<sp/>new<sp/>:class:`Request`<sp/>object.</highlight></codeline>
+<codeline lineno="152"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>\*\*kwargs:<sp/>Optional<sp/>arguments<sp/>that<sp/>``request``<sp/>takes.</highlight></codeline>
+<codeline lineno="153"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:return:<sp/>:class:`Response<sp/>&lt;Response&gt;`<sp/>object</highlight></codeline>
+<codeline lineno="154"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:rtype:<sp/>requests.Response</highlight></codeline>
+<codeline lineno="155"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>request(</highlight><highlight class="stringliteral">&quot;delete&quot;</highlight><highlight class="normal">,<sp/>url,<sp/>**kwargs)</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/requests/api.py"/>
+  </compounddef>
+</doxygen>

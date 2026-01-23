@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceurllib3_1_1fields" kind="namespace" language="Python">
+    <compoundname>urllib3::fields</compoundname>
+    <innerclass refid="classurllib3_1_1fields_1_1RequestField" prot="public">urllib3::fields::RequestField</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceurllib3_1_1fields_1a68b8f1cffd50c65cc9b0900169c156f3" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::fields._TYPE_FIELD_VALUE</definition>
+        <argsstring></argsstring>
+        <name>_TYPE_FIELD_VALUE</name>
+        <qualifiedname>urllib3.fields._TYPE_FIELD_VALUE</qualifiedname>
+        <initializer>=  typing.Union[str, bytes]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/fields.py" line="7" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/fields.py" bodystart="7" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1fields_1a5738a68e18ea35c237d42602273c71b7" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::fields._TYPE_FIELD_VALUE_TUPLE</definition>
+        <argsstring></argsstring>
+        <name>_TYPE_FIELD_VALUE_TUPLE</name>
+        <qualifiedname>urllib3.fields._TYPE_FIELD_VALUE_TUPLE</qualifiedname>
+        <initializer>=  typing.Union[
+    <ref refid="namespaceurllib3_1_1fields_1a68b8f1cffd50c65cc9b0900169c156f3" kindref="member">_TYPE_FIELD_VALUE</ref>,
+    tuple[str, <ref refid="namespaceurllib3_1_1fields_1a68b8f1cffd50c65cc9b0900169c156f3" kindref="member">_TYPE_FIELD_VALUE</ref>],
+    tuple[str, <ref refid="namespaceurllib3_1_1fields_1a68b8f1cffd50c65cc9b0900169c156f3" kindref="member">_TYPE_FIELD_VALUE</ref>, str],
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/fields.py" line="8" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/fields.py" bodystart="8" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceurllib3_1_1fields_1a6a736b8ba2b6e4c1e6bc61fcc4efad2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str urllib3.fields.guess_content_type</definition>
+        <argsstring>(str|None filename, str default=&quot;application/octet-stream&quot;)</argsstring>
+        <name>guess_content_type</name>
+        <qualifiedname>urllib3.fields.guess_content_type</qualifiedname>
+        <param>
+          <type>str|None</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>default</declname>
+          <defval>&quot;application/octet-stream&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Guess the &quot;Content-Type&quot; of a file.
+
+:param filename:
+    The filename to guess the &quot;Content-Type&quot; of using :mod:`mimetypes`.
+:param default:
+    If no &quot;Content-Type&quot; can be guessed, default to `default`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/fields.py" line="15" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/fields.py" bodystart="17" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1fields_1a3fdf5a052ed5aad93192e3b6299e15ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str urllib3.fields.format_header_param_rfc2231</definition>
+        <argsstring>(str name, _TYPE_FIELD_VALUE value)</argsstring>
+        <name>format_header_param_rfc2231</name>
+        <qualifiedname>urllib3.fields.format_header_param_rfc2231</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceurllib3_1_1fields_1a68b8f1cffd50c65cc9b0900169c156f3" kindref="member">_TYPE_FIELD_VALUE</ref></type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Helper function to format and quote a single header parameter using the
+strategy defined in RFC 2231.
+
+Particularly useful for header parameters which might contain
+non-ASCII values, like file names. This follows
+`RFC 2388 Section 4.4 &lt;https://tools.ietf.org/html/rfc2388#section-4.4&gt;`_.
+
+:param name:
+    The name of the parameter, a string expected to be ASCII only.
+:param value:
+    The value of the parameter, provided as ``bytes`` or `str``.
+:returns:
+    An RFC-2231-formatted unicode string.
+
+.. deprecated:: 2.0.0
+    Will be removed in urllib3 v2.1.0. This is not valid for
+    ``multipart/form-data`` header parameters.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/fields.py" line="31" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/fields.py" bodystart="31" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1fields_1a2651814318f0217ebf40a9cdb5baf8b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str urllib3.fields.format_multipart_header_param</definition>
+        <argsstring>(str name, _TYPE_FIELD_VALUE value)</argsstring>
+        <name>format_multipart_header_param</name>
+        <qualifiedname>urllib3.fields.format_multipart_header_param</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceurllib3_1_1fields_1a68b8f1cffd50c65cc9b0900169c156f3" kindref="member">_TYPE_FIELD_VALUE</ref></type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Format and quote a single multipart header parameter.
+
+This follows the `WHATWG HTML Standard`_ as of 2021/06/10, matching
+the behavior of current browser and curl versions. Values are
+assumed to be UTF-8. The ``\\n``, ``\\r``, and ``&quot;`` characters are
+percent encoded.
+
+.. _WHATWG HTML Standard:
+    https://html.spec.whatwg.org/multipage/
+    form-control-infrastructure.html#multipart-form-data
+
+:param name:
+    The name of the parameter, an ASCII-only ``str``.
+:param value:
+    The value of the parameter, a ``str`` or UTF-8 encoded
+    ``bytes``.
+:returns:
+    A string ``name=&quot;value&quot;`` with the escaped value.
+
+.. versionchanged:: 2.0.0
+    Matches the WHATWG HTML Standard as of 2021/06/10. Control
+    characters are no longer percent encoded.
+
+.. versionchanged:: 2.0.0
+    Renamed from ``format_header_param_html5`` and
+    ``format_header_param``. The old names will be removed in
+    urllib3 v2.1.0.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/fields.py" line="79" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/fields.py" bodystart="79" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1fields_1a0f05c6e3436c7122305d36dee593b57f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str urllib3.fields.format_header_param_html5</definition>
+        <argsstring>(str name, _TYPE_FIELD_VALUE value)</argsstring>
+        <name>format_header_param_html5</name>
+        <qualifiedname>urllib3.fields.format_header_param_html5</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceurllib3_1_1fields_1a68b8f1cffd50c65cc9b0900169c156f3" kindref="member">_TYPE_FIELD_VALUE</ref></type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>.. deprecated:: 2.0.0
+    Renamed to :func:`format_multipart_header_param`. Will be
+    removed in urllib3 v2.1.0.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/fields.py" line="117" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/fields.py" bodystart="117" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1fields_1a86844619f4da48090883e03a3992f009" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str urllib3.fields.format_header_param</definition>
+        <argsstring>(str name, _TYPE_FIELD_VALUE value)</argsstring>
+        <name>format_header_param</name>
+        <qualifiedname>urllib3.fields.format_header_param</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceurllib3_1_1fields_1a68b8f1cffd50c65cc9b0900169c156f3" kindref="member">_TYPE_FIELD_VALUE</ref></type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>.. deprecated:: 2.0.0
+    Renamed to :func:`format_multipart_header_param`. Will be
+    removed in urllib3 v2.1.0.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/fields.py" line="135" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/fields.py" bodystart="135" bodyend="152"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/urllib3/fields.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

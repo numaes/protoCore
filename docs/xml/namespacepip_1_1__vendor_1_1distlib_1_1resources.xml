@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1distlib_1_1resources" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::distlib::resources</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1resources_1_1Resource" prot="public">pip::_vendor::distlib::resources::Resource</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1resources_1_1ResourceBase" prot="public">pip::_vendor::distlib::resources::ResourceBase</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1resources_1_1ResourceCache" prot="public">pip::_vendor::distlib::resources::ResourceCache</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1resources_1_1ResourceContainer" prot="public">pip::_vendor::distlib::resources::ResourceContainer</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1resources_1_1ResourceFinder" prot="public">pip::_vendor::distlib::resources::ResourceFinder</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1resources_1_1ZipResourceFinder" prot="public">pip::_vendor::distlib::resources::ZipResourceFinder</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1resources_1ac36f246ab1eb832bd94d2abec81b16fa" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::resources.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._vendor.distlib.resources.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/resources.py" line="21" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/resources.py" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1resources_1aeb94043edaac6fca77ea7eb5370671f2" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::resources.cache</definition>
+        <argsstring></argsstring>
+        <name>cache</name>
+        <qualifiedname>pip._vendor.distlib.resources.cache</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/resources.py" line="24" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/resources.py" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1resources_1a83e62224e2295a579eab1ca948cd818e" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict pip::_vendor::distlib::resources._finder_registry</definition>
+        <argsstring></argsstring>
+        <name>_finder_registry</name>
+        <qualifiedname>pip._vendor.distlib.resources._finder_registry</qualifiedname>
+        <initializer>=  {
+    type(None): <ref refid="classpip_1_1__vendor_1_1distlib_1_1resources_1_1ResourceFinder" kindref="compound">ResourceFinder</ref>,
+    zipimport.zipimporter: <ref refid="classpip_1_1__vendor_1_1distlib_1_1resources_1_1ZipResourceFinder" kindref="compound">ZipResourceFinder</ref>
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/resources.py" line="286" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/resources.py" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1resources_1ab41fe747af00ee695ef1704f6efbe153" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict pip::_vendor::distlib::resources._finder_cache</definition>
+        <argsstring></argsstring>
+        <name>_finder_cache</name>
+        <qualifiedname>pip._vendor.distlib.resources._finder_cache</qualifiedname>
+        <initializer>=  {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/resources.py" line="310" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/resources.py" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1resources_1ad8613ea7fad151125aab825ccaba7e7d" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::resources._dummy_module</definition>
+        <argsstring></argsstring>
+        <name>_dummy_module</name>
+        <qualifiedname>pip._vendor.distlib.resources._dummy_module</qualifiedname>
+        <initializer>=  types.ModuleType(str(&apos;__dummy__&apos;))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/resources.py" line="338" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/resources.py" bodystart="338" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distlib_1_1resources_1a2c24ae92a55d90efea1b14f42e92a906" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.resources.register_finder</definition>
+        <argsstring>(loader, finder_maker)</argsstring>
+        <name>register_finder</name>
+        <qualifiedname>pip._vendor.distlib.resources.register_finder</qualifiedname>
+        <param>
+          <type>loader</type>
+          <defname>loader</defname>
+        </param>
+        <param>
+          <type>finder_maker</type>
+          <defname>finder_maker</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/resources.py" line="306" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/resources.py" bodystart="306" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distlib_1_1resources_1a601fc7255477abfbb4d2d38c365de2d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.resources.finder</definition>
+        <argsstring>(package)</argsstring>
+        <name>finder</name>
+        <qualifiedname>pip._vendor.distlib.resources.finder</qualifiedname>
+        <param>
+          <type>package</type>
+          <defname>package</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a resource finder for a package.
+:param package: The name of the package.
+:return: A :class:`ResourceFinder` instance for the package.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/resources.py" line="313" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/resources.py" bodystart="313" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distlib_1_1resources_1ad2793779aa13dd9a6cc2c956ce74f58d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.resources.finder_for_path</definition>
+        <argsstring>(path)</argsstring>
+        <name>finder_for_path</name>
+        <qualifiedname>pip._vendor.distlib.resources.finder_for_path</qualifiedname>
+        <param>
+          <type>path</type>
+          <defname>path</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a resource finder for a path, which should represent a container.
+
+:param path: The path.
+:return: A :class:`ResourceFinder` instance for the path.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/resources.py" line="341" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/resources.py" bodystart="341" bodyend="359"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/resources.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

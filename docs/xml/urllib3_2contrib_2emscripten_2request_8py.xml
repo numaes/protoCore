@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="urllib3_2contrib_2emscripten_2request_8py" kind="file" language="Python">
+    <compoundname>request.py</compoundname>
+    <innerclass refid="classurllib3_1_1contrib_1_1emscripten_1_1request_1_1EmscriptenRequest" prot="public">urllib3::contrib::emscripten::request::EmscriptenRequest</innerclass>
+    <innernamespace refid="namespaceurllib3">urllib3</innernamespace>
+    <innernamespace refid="namespaceurllib3_1_1contrib">urllib3::contrib</innernamespace>
+    <innernamespace refid="namespaceurllib3_1_1contrib_1_1emscripten">urllib3::contrib::emscripten</innernamespace>
+    <innernamespace refid="namespaceurllib3_1_1contrib_1_1emscripten_1_1request">urllib3::contrib::emscripten::request</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespaceurllib3_1_1contrib_1_1emscripten_1_1request" refkind="compound"><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>dataclasses<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>dataclass,<sp/>field</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>..._base_connection<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>_TYPE_BODY</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">@dataclass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9" refid="classurllib3_1_1contrib_1_1emscripten_1_1request_1_1EmscriptenRequest" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classurllib3_1_1contrib_1_1emscripten_1_1request_1_1EmscriptenRequest" kindref="compound">EmscriptenRequest</ref>:</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/>method:<sp/>str</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>url:<sp/>str</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>params:<sp/>dict[str,<sp/>str]<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>body:<sp/>_TYPE_BODY<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>headers:<sp/>dict[str,<sp/>str]<sp/>=<sp/>field(default_factory=dict)</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>timeout:<sp/>float<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>decode_content:<sp/>bool<sp/>=<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classurllib3_1_1contrib_1_1emscripten_1_1request_1_1EmscriptenRequest_1a344a0e5bc24de64815dcd17f576e8498" kindref="member">set_header</ref>(self,<sp/>name:<sp/>str,<sp/>value:<sp/>str)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classurllib3_1_1contrib_1_1emscripten_1_1request_1_1EmscriptenRequest_1ab5427c38470616d15921af92e0a14cb1" kindref="member">headers</ref>[name.capitalize()]<sp/>=<sp/>value</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classurllib3_1_1contrib_1_1emscripten_1_1request_1_1EmscriptenRequest_1adf743d59b1e729c90df02a17129f0083" kindref="member">set_body</ref>(self,<sp/>body:<sp/>_TYPE_BODY<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classurllib3_1_1contrib_1_1emscripten_1_1request_1_1EmscriptenRequest_1a56599707fffe4364a92244734dec7df6" kindref="member">body</ref><ref refid="classurllib3_1_1contrib_1_1emscripten_1_1request_1_1EmscriptenRequest_1a39616b1ef4886a7fbb00ff46929b1d15" kindref="member">body</ref><sp/>=<sp/>body</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/request.py"/>
+  </compounddef>
+</doxygen>

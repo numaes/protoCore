@@ -1,0 +1,482 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer" kind="class" language="Python" prot="public">
+    <compoundname>snowballstemmer::catalan_stemmer::CatalanStemmer</compoundname>
+    <basecompoundref refid="classsnowballstemmer_1_1basestemmer_1_1BaseStemmer" prot="public" virt="non-virtual">snowballstemmer.basestemmer.BaseStemmer</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a30e10d1ee7f3604b82ce78b481ff5652" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict snowballstemmer.catalan_stemmer.CatalanStemmer::g_v</definition>
+        <argsstring></argsstring>
+        <name>g_v</name>
+        <qualifiedname>snowballstemmer.catalan_stemmer.CatalanStemmer.g_v</qualifiedname>
+        <initializer>=  {u&quot;a&quot;, u&quot;e&quot;, u&quot;i&quot;, u&quot;o&quot;, u&quot;u&quot;, u&quot;á&quot;, u&quot;à&quot;, u&quot;é&quot;, u&quot;è&quot;, u&quot;í&quot;, u&quot;ï&quot;, u&quot;ó&quot;, u&quot;ò&quot;, u&quot;ú&quot;, u&quot;ü&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="14" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1af9185c661e936878fb89ef3e179b2f19" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int snowballstemmer.catalan_stemmer.CatalanStemmer::I_p2</definition>
+        <argsstring></argsstring>
+        <name>I_p2</name>
+        <qualifiedname>snowballstemmer.catalan_stemmer.CatalanStemmer.I_p2</qualifiedname>
+        <initializer>=  0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="16" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a2876ddcc4768f2e372539ecc173eee23" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int snowballstemmer.catalan_stemmer.CatalanStemmer::I_p1</definition>
+        <argsstring></argsstring>
+        <name>I_p1</name>
+        <qualifiedname>snowballstemmer.catalan_stemmer.CatalanStemmer.I_p1</qualifiedname>
+        <initializer>=  0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="17" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1ae214837c54929ec934d98f5514002b1c" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.catalan_stemmer.CatalanStemmer::a_0</definition>
+        <argsstring></argsstring>
+        <name>a_0</name>
+        <qualifiedname>snowballstemmer.catalan_stemmer.CatalanStemmer.a_0</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;&quot;, -1, 7),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;·&quot;, 0, 6),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;à&quot;, 0, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;á&quot;, 0, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;è&quot;, 0, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;é&quot;, 0, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ì&quot;, 0, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;í&quot;, 0, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ï&quot;, 0, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ò&quot;, 0, 4),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ó&quot;, 0, 4),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ú&quot;, 0, 5),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ü&quot;, 0, 5)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="200" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1ac6835849be2a36bae80b4c8f653a85a6" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.catalan_stemmer.CatalanStemmer::a_1</definition>
+        <argsstring></argsstring>
+        <name>a_1</name>
+        <qualifiedname>snowballstemmer.catalan_stemmer.CatalanStemmer.a_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="216" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a86993c9e025b776a22ed1f8f5de87245" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.catalan_stemmer.CatalanStemmer::a_2</definition>
+        <argsstring></argsstring>
+        <name>a_2</name>
+        <qualifiedname>snowballstemmer.catalan_stemmer.CatalanStemmer.a_2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="258" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1aaca21ee2e61b4fd8de740de485894139" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.catalan_stemmer.CatalanStemmer::a_3</definition>
+        <argsstring></argsstring>
+        <name>a_3</name>
+        <qualifiedname>snowballstemmer.catalan_stemmer.CatalanStemmer.a_3</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="461" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="461" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1af2e2c4ecadf3ebaaa84ccea5b846ee71" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.catalan_stemmer.CatalanStemmer::a_4</definition>
+        <argsstring></argsstring>
+        <name>a_4</name>
+        <qualifiedname>snowballstemmer.catalan_stemmer.CatalanStemmer.a_4</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;a&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;e&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;i&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ïn&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;o&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ir&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;s&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;is&quot;, 6, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;os&quot;, 6, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ïs&quot;, 6, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;it&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;eu&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;iu&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;iqu&quot;, -1, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;itz&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;à&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;á&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;é&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ì&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;í&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ï&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ó&quot;, -1, 1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="747" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="747" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1afed0e2e097b6782cc5b814254c2475b2" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.catalan_stemmer.CatalanStemmer::I_p1</definition>
+        <argsstring></argsstring>
+        <name>I_p1</name>
+        <qualifiedname>snowballstemmer.catalan_stemmer.CatalanStemmer.I_p1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="20" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a2d09dc1548be0193b4179ed174b5c8ac" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.catalan_stemmer.CatalanStemmer::I_p2</definition>
+        <argsstring></argsstring>
+        <name>I_p2</name>
+        <qualifiedname>snowballstemmer.catalan_stemmer.CatalanStemmer.I_p2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="21" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a94e38041da5f9bfe1b52f288e654193b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.catalan_stemmer.CatalanStemmer::cursor</definition>
+        <argsstring></argsstring>
+        <name>cursor</name>
+        <qualifiedname>snowballstemmer.catalan_stemmer.CatalanStemmer.cursor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="39" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a502e5ae056486a7925a9a3a40d59f4a4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.catalan_stemmer.CatalanStemmer::bra</definition>
+        <argsstring></argsstring>
+        <name>bra</name>
+        <qualifiedname>snowballstemmer.catalan_stemmer.CatalanStemmer.bra</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="46" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a72b71573fa5927f36996d9120c6066f9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.catalan_stemmer.CatalanStemmer::ket</definition>
+        <argsstring></argsstring>
+        <name>ket</name>
+        <qualifiedname>snowballstemmer.catalan_stemmer.CatalanStemmer.ket</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="48" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a78316b1dac8020cff45753faa1657893" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.catalan_stemmer.CatalanStemmer::limit_backward</definition>
+        <argsstring></argsstring>
+        <name>limit_backward</name>
+        <qualifiedname>snowballstemmer.catalan_stemmer.CatalanStemmer.limit_backward</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="171" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="171" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1aaee45a3f6b520a5d28e34c37949ceb23" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.catalan_stemmer.CatalanStemmer.__r_mark_regions</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_mark_regions</name>
+        <qualifiedname>snowballstemmer.catalan_stemmer.CatalanStemmer.__r_mark_regions</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="19" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="19" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1af90808c97fc64e07b7863e17dc0f7559" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.catalan_stemmer.CatalanStemmer.__r_cleaning</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_cleaning</name>
+        <qualifiedname>snowballstemmer.catalan_stemmer.CatalanStemmer.__r_cleaning</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="42" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="42" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a09c1a774dee1eb6063fc2fc2e43ad295" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.catalan_stemmer.CatalanStemmer.__r_R1</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_R1</name>
+        <qualifiedname>snowballstemmer.catalan_stemmer.CatalanStemmer.__r_R1</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="77" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="77" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1ae5b79087dc459aaafdf2ebd9f45e9451" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.catalan_stemmer.CatalanStemmer.__r_R2</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_R2</name>
+        <qualifiedname>snowballstemmer.catalan_stemmer.CatalanStemmer.__r_R2</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="80" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a2a02333f75df3581e14d9b3696825cff" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.catalan_stemmer.CatalanStemmer.__r_attached_pronoun</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_attached_pronoun</name>
+        <qualifiedname>snowballstemmer.catalan_stemmer.CatalanStemmer.__r_attached_pronoun</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="83" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="83" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a8acb19dd2633b1a4dbe784d364f49b99" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.catalan_stemmer.CatalanStemmer.__r_standard_suffix</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_standard_suffix</name>
+        <qualifiedname>snowballstemmer.catalan_stemmer.CatalanStemmer.__r_standard_suffix</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="95" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="95" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a3c883a3ddfc6ab3055888804a7143bec" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.catalan_stemmer.CatalanStemmer.__r_verb_suffix</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_verb_suffix</name>
+        <qualifiedname>snowballstemmer.catalan_stemmer.CatalanStemmer.__r_verb_suffix</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="130" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="130" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a89fe7bbee36444f3780dfe06ba7ee5c7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.catalan_stemmer.CatalanStemmer.__r_residual_suffix</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_residual_suffix</name>
+        <qualifiedname>snowballstemmer.catalan_stemmer.CatalanStemmer.__r_residual_suffix</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="150" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="150" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a791f18622e6df8915ad33264f2357e58" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.catalan_stemmer.CatalanStemmer._stem</definition>
+        <argsstring>(self)</argsstring>
+        <name>_stem</name>
+        <qualifiedname>snowballstemmer.catalan_stemmer.CatalanStemmer._stem</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="169" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="169" bodyend="199"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>This class implements the stemming algorithm defined by a snowball script.
+Generated from catalan.sbl by Snowball 3.0.1 - https://snowballstem.org/
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>snowballstemmer.catalan_stemmer.CatalanStemmer</label>
+        <link refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>snowballstemmer.basestemmer.BaseStemmer</label>
+        <link refid="classsnowballstemmer_1_1basestemmer_1_1BaseStemmer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>snowballstemmer.catalan_stemmer.CatalanStemmer</label>
+        <link refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>snowballstemmer.basestemmer.BaseStemmer</label>
+        <link refid="classsnowballstemmer_1_1basestemmer_1_1BaseStemmer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" line="8" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/catalan_stemmer.py" bodystart="8" bodyend="772"/>
+    <listofallmembers>
+      <member refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a2a02333f75df3581e14d9b3696825cff" prot="private" virt="non-virtual"><scope>snowballstemmer::catalan_stemmer::CatalanStemmer</scope><name>__r_attached_pronoun</name></member>
+      <member refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1af90808c97fc64e07b7863e17dc0f7559" prot="private" virt="non-virtual"><scope>snowballstemmer::catalan_stemmer::CatalanStemmer</scope><name>__r_cleaning</name></member>
+      <member refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1aaee45a3f6b520a5d28e34c37949ceb23" prot="private" virt="non-virtual"><scope>snowballstemmer::catalan_stemmer::CatalanStemmer</scope><name>__r_mark_regions</name></member>
+      <member refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a09c1a774dee1eb6063fc2fc2e43ad295" prot="private" virt="non-virtual"><scope>snowballstemmer::catalan_stemmer::CatalanStemmer</scope><name>__r_R1</name></member>
+      <member refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1ae5b79087dc459aaafdf2ebd9f45e9451" prot="private" virt="non-virtual"><scope>snowballstemmer::catalan_stemmer::CatalanStemmer</scope><name>__r_R2</name></member>
+      <member refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a89fe7bbee36444f3780dfe06ba7ee5c7" prot="private" virt="non-virtual"><scope>snowballstemmer::catalan_stemmer::CatalanStemmer</scope><name>__r_residual_suffix</name></member>
+      <member refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a8acb19dd2633b1a4dbe784d364f49b99" prot="private" virt="non-virtual"><scope>snowballstemmer::catalan_stemmer::CatalanStemmer</scope><name>__r_standard_suffix</name></member>
+      <member refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a3c883a3ddfc6ab3055888804a7143bec" prot="private" virt="non-virtual"><scope>snowballstemmer::catalan_stemmer::CatalanStemmer</scope><name>__r_verb_suffix</name></member>
+      <member refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a791f18622e6df8915ad33264f2357e58" prot="protected" virt="non-virtual"><scope>snowballstemmer::catalan_stemmer::CatalanStemmer</scope><name>_stem</name></member>
+      <member refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1ae214837c54929ec934d98f5514002b1c" prot="public" virt="non-virtual"><scope>snowballstemmer::catalan_stemmer::CatalanStemmer</scope><name>a_0</name></member>
+      <member refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1ac6835849be2a36bae80b4c8f653a85a6" prot="public" virt="non-virtual"><scope>snowballstemmer::catalan_stemmer::CatalanStemmer</scope><name>a_1</name></member>
+      <member refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a86993c9e025b776a22ed1f8f5de87245" prot="public" virt="non-virtual"><scope>snowballstemmer::catalan_stemmer::CatalanStemmer</scope><name>a_2</name></member>
+      <member refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1aaca21ee2e61b4fd8de740de485894139" prot="public" virt="non-virtual"><scope>snowballstemmer::catalan_stemmer::CatalanStemmer</scope><name>a_3</name></member>
+      <member refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1af2e2c4ecadf3ebaaa84ccea5b846ee71" prot="public" virt="non-virtual"><scope>snowballstemmer::catalan_stemmer::CatalanStemmer</scope><name>a_4</name></member>
+      <member refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a502e5ae056486a7925a9a3a40d59f4a4" prot="public" virt="non-virtual"><scope>snowballstemmer::catalan_stemmer::CatalanStemmer</scope><name>bra</name></member>
+      <member refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a94e38041da5f9bfe1b52f288e654193b" prot="public" virt="non-virtual"><scope>snowballstemmer::catalan_stemmer::CatalanStemmer</scope><name>cursor</name></member>
+      <member refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a30e10d1ee7f3604b82ce78b481ff5652" prot="public" virt="non-virtual"><scope>snowballstemmer::catalan_stemmer::CatalanStemmer</scope><name>g_v</name></member>
+      <member refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a2876ddcc4768f2e372539ecc173eee23" prot="public" virt="non-virtual"><scope>snowballstemmer::catalan_stemmer::CatalanStemmer</scope><name>I_p1</name></member>
+      <member refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1afed0e2e097b6782cc5b814254c2475b2" prot="public" virt="non-virtual"><scope>snowballstemmer::catalan_stemmer::CatalanStemmer</scope><name>I_p1</name></member>
+      <member refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1af9185c661e936878fb89ef3e179b2f19" prot="public" virt="non-virtual"><scope>snowballstemmer::catalan_stemmer::CatalanStemmer</scope><name>I_p2</name></member>
+      <member refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a2d09dc1548be0193b4179ed174b5c8ac" prot="public" virt="non-virtual"><scope>snowballstemmer::catalan_stemmer::CatalanStemmer</scope><name>I_p2</name></member>
+      <member refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a72b71573fa5927f36996d9120c6066f9" prot="public" virt="non-virtual"><scope>snowballstemmer::catalan_stemmer::CatalanStemmer</scope><name>ket</name></member>
+      <member refid="classsnowballstemmer_1_1catalan__stemmer_1_1CatalanStemmer_1a78316b1dac8020cff45753faa1657893" prot="public" virt="non-virtual"><scope>snowballstemmer::catalan_stemmer::CatalanStemmer</scope><name>limit_backward</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

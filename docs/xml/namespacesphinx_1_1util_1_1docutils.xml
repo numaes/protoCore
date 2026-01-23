@@ -1,0 +1,392 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1util_1_1docutils" kind="namespace" language="Python">
+    <compoundname>sphinx::util::docutils</compoundname>
+    <innerclass refid="classsphinx_1_1util_1_1docutils_1_1__DirectivesDispatcher" prot="protected">sphinx::util::docutils::_DirectivesDispatcher</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1docutils_1_1__LanguageModule" prot="protected">sphinx::util::docutils::_LanguageModule</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1docutils_1_1__RolesDispatcher" prot="protected">sphinx::util::docutils::_RolesDispatcher</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1docutils_1_1CustomReSTDispatcher" prot="public">sphinx::util::docutils::CustomReSTDispatcher</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1docutils_1_1ElementLookupError" prot="public">sphinx::util::docutils::ElementLookupError</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1docutils_1_1LoggingReporter" prot="public">sphinx::util::docutils::LoggingReporter</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1docutils_1_1NullReporter" prot="public">sphinx::util::docutils::NullReporter</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1docutils_1_1ReferenceRole" prot="public">sphinx::util::docutils::ReferenceRole</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1docutils_1_1sphinx__domains" prot="public">sphinx::util::docutils::sphinx_domains</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective" prot="public">sphinx::util::docutils::SphinxDirective</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1docutils_1_1SphinxFileOutput" prot="public">sphinx::util::docutils::SphinxFileOutput</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1docutils_1_1SphinxRole" prot="public">sphinx::util::docutils::SphinxRole</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1docutils_1_1SphinxTranslator" prot="public">sphinx::util::docutils::SphinxTranslator</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1docutils_1_1WarningStream" prot="public">sphinx::util::docutils::WarningStream</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1docutils_1a96aaf0b35698c49b0172c2b491f16875" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::docutils.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.util.docutils.logger</qualifiedname>
+        <initializer>=  <ref refid="namespacesphinx_1_1util_1_1logging_1a145fcac2d401a60c07071e113b1c8458" kindref="member">logging.getLogger</ref>(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="24" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1docutils_1a6ad70c7baefd630540b4fc06bcb6aad5" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::docutils.report_re</definition>
+        <argsstring></argsstring>
+        <name>report_re</name>
+        <qualifiedname>sphinx.util.docutils.report_re</qualifiedname>
+        <initializer>=  re.compile(
+    &apos;^(.+?:(?:\\d+)?): \\((DEBUG|INFO|WARNING|ERROR|SEVERE)/(\\d+)?\\) &apos;
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="25" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1docutils_1a2d7f2567c279606c97acafd43fae2bc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[None]</type>
+        <definition> Iterator[None] sphinx.util.docutils.docutils_namespace</definition>
+        <argsstring>()</argsstring>
+        <name>docutils_namespace</name>
+        <qualifiedname>sphinx.util.docutils.docutils_namespace</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create namespace for reST parsers.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="73" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="73" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1docutils_1ae1a86a4a43ee138d186285bb84bd3ecb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.util.docutils.is_directive_registered</definition>
+        <argsstring>(str name)</argsstring>
+        <name>is_directive_registered</name>
+        <qualifiedname>sphinx.util.docutils.is_directive_registered</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check the *name* directive is already registered.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="89" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="89" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1docutils_1a216c71bdca755847561c9529c8e34260" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.docutils.register_directive</definition>
+        <argsstring>(str name, type[Directive] directive)</argsstring>
+        <name>register_directive</name>
+        <qualifiedname>sphinx.util.docutils.register_directive</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>type</type>
+          <declname>directive</declname>
+          <array>[Directive]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Register a directive to docutils.
+
+This modifies global state of docutils.  So it is better to use this
+inside ``docutils_namespace()`` to prevent side-effects.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="94" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="94" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1docutils_1a37d34ec109f8c83a24956a48f39c8e79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.util.docutils.is_role_registered</definition>
+        <argsstring>(str name)</argsstring>
+        <name>is_role_registered</name>
+        <qualifiedname>sphinx.util.docutils.is_role_registered</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check the *name* role is already registered.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="103" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="103" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1docutils_1a5fa15c78ddfc4f98374eb1b61cf942d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.docutils.register_role</definition>
+        <argsstring>(str name, RoleFunction role)</argsstring>
+        <name>register_role</name>
+        <qualifiedname>sphinx.util.docutils.register_role</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1util_1_1typing_1_1RoleFunction" kindref="compound">RoleFunction</ref></type>
+          <declname>role</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Register a role to docutils.
+
+This modifies global state of docutils.  So it is better to use this
+inside ``docutils_namespace()`` to prevent side-effects.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="108" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="108" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1docutils_1a14fcfe28ec14163816de5f42495a98fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.docutils.unregister_role</definition>
+        <argsstring>(str name)</argsstring>
+        <name>unregister_role</name>
+        <qualifiedname>sphinx.util.docutils.unregister_role</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Unregister a role from docutils.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="117" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="117" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1docutils_1ae9dd972a45a469cce983a8591e684c2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.util.docutils.is_node_registered</definition>
+        <argsstring>(type[Element] node)</argsstring>
+        <name>is_node_registered</name>
+        <qualifiedname>sphinx.util.docutils.is_node_registered</qualifiedname>
+        <param>
+          <type>type</type>
+          <declname>node</declname>
+          <array>[Element]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check the *node* is already registered.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="122" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="122" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1docutils_1a46141899e193c111f48c1125e78b87f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.docutils.register_node</definition>
+        <argsstring>(type[Element] node)</argsstring>
+        <name>register_node</name>
+        <qualifiedname>sphinx.util.docutils.register_node</qualifiedname>
+        <param>
+          <type>type</type>
+          <declname>node</declname>
+          <array>[Element]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Register a node to docutils.
+
+This modifies global state of some visitors.  So it is better to use this
+inside ``docutils_namespace()`` to prevent side-effects.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="127" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="127" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1docutils_1a814c67dcf2fcd7438a845b4f566bdb4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.docutils.unregister_node</definition>
+        <argsstring>(type[Element] node)</argsstring>
+        <name>unregister_node</name>
+        <qualifiedname>sphinx.util.docutils.unregister_node</qualifiedname>
+        <param>
+          <type>type</type>
+          <declname>node</declname>
+          <array>[Element]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Unregister a node from docutils.
+
+This is inverse of ``nodes._add_nodes_class_names()``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="138" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="138" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1docutils_1a1f3cdbc72149672ef2d1e9340887418c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[None]</type>
+        <definition> Iterator[None] sphinx.util.docutils.patched_get_language</definition>
+        <argsstring>()</argsstring>
+        <name>patched_get_language</name>
+        <qualifiedname>sphinx.util.docutils.patched_get_language</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Patch docutils.languages.get_language() temporarily.
+
+This ignores the second argument ``reporter`` to suppress warnings.
+See: https://github.com/sphinx-doc/sphinx/issues/3788
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="151" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="151" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1docutils_1a60ca9d69e2b2c587e17372108814fba4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[None]</type>
+        <definition> Iterator[None] sphinx.util.docutils.patched_rst_get_language</definition>
+        <argsstring>()</argsstring>
+        <name>patched_rst_get_language</name>
+        <qualifiedname>sphinx.util.docutils.patched_rst_get_language</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Patch docutils.parsers.rst.languages.get_language().
+Starting from docutils 0.17, get_language() in ``rst.languages``
+also has a reporter, which needs to be disabled temporarily.
+
+This should also work for old versions of docutils,
+because reporter is none by default.
+
+See: https://github.com/sphinx-doc/sphinx/issues/10179
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="173" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="173" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1docutils_1acf0631488ac977c372e252b4384f11c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[None]</type>
+        <definition> Iterator[None] sphinx.util.docutils.using_user_docutils_conf</definition>
+        <argsstring>(str|os.PathLike[str]|None confdir)</argsstring>
+        <name>using_user_docutils_conf</name>
+        <qualifiedname>sphinx.util.docutils.using_user_docutils_conf</qualifiedname>
+        <param>
+          <type>str|os.PathLike|None</type>
+          <declname>confdir</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Let docutils know the location of ``docutils.conf`` for Sphinx.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="199" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="199" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1docutils_1adad9a138f7d3f218d7a9167f076f939a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[None]</type>
+        <definition> Iterator[None] sphinx.util.docutils.patch_docutils</definition>
+        <argsstring>(str|os.PathLike[str]|None confdir=None)</argsstring>
+        <name>patch_docutils</name>
+        <qualifiedname>sphinx.util.docutils.patch_docutils</qualifiedname>
+        <param>
+          <type>str|os.PathLike|None</type>
+          <declname>confdir</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Patch to docutils temporarily.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="215" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="215" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1docutils_1a8af734094dd8fd0d0fdbaa793c4a9811" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[None]</type>
+        <definition> Iterator[None] sphinx.util.docutils.switch_source_input</definition>
+        <argsstring>(State[list[str]] state, StringList content)</argsstring>
+        <name>switch_source_input</name>
+        <qualifiedname>sphinx.util.docutils.switch_source_input</qualifiedname>
+        <param>
+          <type><ref refid="classdocutils_1_1statemachine_1_1State" kindref="compound">State</ref>]</type>
+          <declname>state</declname>
+          <array>[list[str]</array>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1statemachine_1_1StringList" kindref="compound">StringList</ref></type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Switch current source input of state temporarily.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="414" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="414" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1docutils_1a8a3c6672f524ce03120551856d8e6c65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nodes.document</type>
+        <definition> nodes.document sphinx.util.docutils.new_document</definition>
+        <argsstring>(str source_path, Any settings=None)</argsstring>
+        <name>new_document</name>
+        <qualifiedname>sphinx.util.docutils.new_document</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>settings</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a new empty document object.  This is an alternative of docutils&apos;.
+
+This is a simple wrapper for ``docutils.utils.new_document()``.  It
+caches the result of docutils&apos; and use it on second call for instantiation.
+This makes an instantiation of document nodes much faster.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="797" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="797" bodyend="819"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Utility functions for docutils.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

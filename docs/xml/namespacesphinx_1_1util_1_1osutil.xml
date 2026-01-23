@@ -1,0 +1,398 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1util_1_1osutil" kind="namespace" language="Python">
+    <compoundname>sphinx::util::osutil</compoundname>
+    <innerclass refid="classsphinx_1_1util_1_1osutil_1_1FileAvoidWrite" prot="public">sphinx::util::osutil::FileAvoidWrite</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1osutil_1a8ca8c64f91434398256c1f102b09e58a" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str sphinx::util::osutil.SEP</definition>
+        <argsstring></argsstring>
+        <name>SEP</name>
+        <qualifiedname>sphinx.util.osutil.SEP</qualifiedname>
+        <initializer>=  &apos;/&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" line="28" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1osutil_1af4ecf94ce43e091269d7a0328bce3a6e" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::osutil._no_fn_re</definition>
+        <argsstring></argsstring>
+        <name>_no_fn_re</name>
+        <qualifiedname>sphinx.util.osutil._no_fn_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;[^a-zA-Z0-9_-]&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" line="147" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1osutil_1ad9b8565e43a7236508350adf64e542ce" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str sphinx::util::osutil.safe_relpath</definition>
+        <argsstring></argsstring>
+        <name>safe_relpath</name>
+        <qualifiedname>sphinx.util.osutil.safe_relpath</qualifiedname>
+        <initializer>=  <ref refid="namespacesphinx_1_1util_1_1osutil_1aa316ce35817a9ebb88df3c05a4df613c" kindref="member">relpath</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" line="194" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1osutil_1a1020d062e11c522d628c5608d063d863" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::osutil.fs_encoding</definition>
+        <argsstring></argsstring>
+        <name>fs_encoding</name>
+        <qualifiedname>sphinx.util.osutil.fs_encoding</qualifiedname>
+        <initializer>=  sys.getfilesystemencoding() or sys.getdefaultencoding()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" line="195" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1osutil_1ab0aff27417b7e6a3571d2200352b5cd0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::osutil.abspath</definition>
+        <argsstring></argsstring>
+        <name>abspath</name>
+        <qualifiedname>sphinx.util.osutil.abspath</qualifiedname>
+        <initializer>=  os.path.abspath</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" line="198" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" bodystart="198" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1osutil_1ad918e766097f11113b1b98b0ca8252e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.osutil.os_path</definition>
+        <argsstring>(str canonical_path)</argsstring>
+        <name>os_path</name>
+        <qualifiedname>sphinx.util.osutil.os_path</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>canonical_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" line="31" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" bodystart="31" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1osutil_1ac99e8d33cc48d48dca52ed007429a192" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.osutil.canon_path</definition>
+        <argsstring>(str|os.PathLike[str] native_path)</argsstring>
+        <name>canon_path</name>
+        <qualifiedname>sphinx.util.osutil.canon_path</qualifiedname>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>native_path</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return path in OS-independent form</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" line="35" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" bodystart="35" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1osutil_1a79699dc0af6bf8f4ba6eef3991a944e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.osutil.path_stabilize</definition>
+        <argsstring>(str|os.PathLike[str] filepath)</argsstring>
+        <name>path_stabilize</name>
+        <qualifiedname>sphinx.util.osutil.path_stabilize</qualifiedname>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>filepath</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Normalize path separator and unicode string</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" line="40" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" bodystart="40" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1osutil_1a0f6e35ff58d94a81b0e13bc460669bc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.osutil.relative_uri</definition>
+        <argsstring>(str base, str to)</argsstring>
+        <name>relative_uri</name>
+        <qualifiedname>sphinx.util.osutil.relative_uri</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>base</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a relative URL from ``base`` to ``to``.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" line="46" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" bodystart="46" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1osutil_1a0dc0ba5535a2bb08335447a589a4468f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.osutil.ensuredir</definition>
+        <argsstring>(str|os.PathLike[str] file)</argsstring>
+        <name>ensuredir</name>
+        <qualifiedname>sphinx.util.osutil.ensuredir</qualifiedname>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>file</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Ensure that a path exists.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" line="69" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" bodystart="69" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1osutil_1a95e41ae279ab36edc4761cf384a5557f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.util.osutil._last_modified_time</definition>
+        <argsstring>(str|os.PathLike[str] source)</argsstring>
+        <name>_last_modified_time</name>
+        <qualifiedname>sphinx.util.osutil._last_modified_time</qualifiedname>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>source</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the last modified time of ``filename``.
+
+The time is returned as integer microseconds.
+The lowest common denominator of modern file-systems seems to be
+microsecond-level precision.
+
+We prefer to err on the side of re-rendering a file,
+so we round up to the nearest microsecond.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" line="74" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" bodystart="74" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1osutil_1ad9b3c962d870db4658942c6361ee480e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.osutil._copy_times</definition>
+        <argsstring>(str|os.PathLike[str] source, str|os.PathLike[str] dest)</argsstring>
+        <name>_copy_times</name>
+        <qualifiedname>sphinx.util.osutil._copy_times</qualifiedname>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>source</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>dest</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Copy a file&apos;s modification times.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" line="89" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" bodystart="89" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1osutil_1a868190c1ec8ed5d601c1ebb9d5d20295" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.osutil.copyfile</definition>
+        <argsstring>(str|os.PathLike[str] source, str|os.PathLike[str] dest, *bool force=False)</argsstring>
+        <name>copyfile</name>
+        <qualifiedname>sphinx.util.osutil.copyfile</qualifiedname>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>source</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>dest</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>*bool</type>
+          <declname>force</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Copy a file and its modification times, if possible.
+
+:param source: An existing source to copy.
+:param dest: The destination path.
+:param bool force: Overwrite the destination file even if it exists.
+:raise FileNotFoundError: The *source* does not exist.
+
+.. note:: :func:`copyfile` is a no-op if *source* and *dest* are identical.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" line="95" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" bodystart="100" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1osutil_1a5957d760a511a29c3bbd624388227d1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.osutil.make_filename</definition>
+        <argsstring>(str string)</argsstring>
+        <name>make_filename</name>
+        <qualifiedname>sphinx.util.osutil.make_filename</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>string</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" line="150" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" bodystart="150" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1osutil_1ab6d54afe157fa1ecb4c0c517dd05d1f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.osutil.make_filename_from_project</definition>
+        <argsstring>(str project)</argsstring>
+        <name>make_filename_from_project</name>
+        <qualifiedname>sphinx.util.osutil.make_filename_from_project</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>project</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" line="154" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" bodystart="154" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1osutil_1aa316ce35817a9ebb88df3c05a4df613c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.osutil.relpath</definition>
+        <argsstring>(str|os.PathLike[str] path, str|os.PathLike[str]|None start=os.curdir)</argsstring>
+        <name>relpath</name>
+        <qualifiedname>sphinx.util.osutil.relpath</qualifiedname>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>path</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>str|os.PathLike|None</type>
+          <declname>start</declname>
+          <array>[str]</array>
+          <defval>os.curdir</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a relative filepath to *path* either from the current directory or
+from an optional *start* directory.
+
+This is an alternative of ``os.path.relpath()``.  This returns original path
+if *path* and *start* are on different drives (for Windows platform).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" line="158" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" bodystart="160" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1osutil_1a9af72d63a5186af671e9a6cf4860e71d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Path</type>
+        <definition> Path sphinx.util.osutil._relative_path</definition>
+        <argsstring>(Path path, Path root)</argsstring>
+        <name>_relative_path</name>
+        <qualifiedname>sphinx.util.osutil._relative_path</qualifiedname>
+        <param>
+          <type>Path</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>Path</type>
+          <declname>root</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a relative filepath to *path* from the given *root* directory.
+
+This is an alternative of ``Path.relative_to``.
+It returns the original path if *path* and *root* are on different drives,
+which may happen on Windows.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" line="173" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" bodystart="173" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1osutil_1a0d8abd24eccfeb1cb4340aae23e24184" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.osutil.rmtree</definition>
+        <argsstring>(str|os.PathLike[str] path)</argsstring>
+        <name>rmtree</name>
+        <qualifiedname>sphinx.util.osutil.rmtree</qualifiedname>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>path</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" line="264" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" bodystart="264" bodyend="270"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Operating system-related utility functions for Sphinx.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/util/osutil.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

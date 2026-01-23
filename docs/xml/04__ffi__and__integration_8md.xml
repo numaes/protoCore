@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="04__ffi__and__integration_8md" kind="file" language="Markdown">
+    <compoundname>04_ffi_and_integration.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Architecture<sp/>Deep<sp/>Dive:<sp/>The<sp/>Foreign<sp/>Function<sp/>Interface<sp/>(FFI)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Introduction</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">No<sp/>system<sp/>is<sp/>an<sp/>island.<sp/>For<sp/>a<sp/>runtime<sp/>like<sp/>Proto<sp/>to<sp/>be<sp/>useful<sp/>in<sp/>the<sp/>real<sp/>world,<sp/>it<sp/>must<sp/>be<sp/>able<sp/>to<sp/>integrate<sp/>seamlessly<sp/>with<sp/>existing<sp/>C<sp/>and<sp/>C++<sp/>libraries.<sp/>The<sp/>Foreign<sp/>Function<sp/>Interface<sp/>(FFI)<sp/>is<sp/>the<sp/>mechanism<sp/>that<sp/>allows<sp/>code<sp/>running<sp/>inside<sp/>Proto<sp/>to<sp/>call<sp/>native<sp/>C/C++<sp/>functions<sp/>and<sp/>for<sp/>native<sp/>code<sp/>to<sp/>interact<sp/>with<sp/>Proto<sp/>objects.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Proto&apos;s<sp/>FFI<sp/>Advantage:<sp/>No<sp/>Memory<sp/>Compaction</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>single<sp/>biggest<sp/>challenge<sp/>when<sp/>building<sp/>an<sp/>FFI<sp/>for<sp/>a<sp/>garbage-collected<sp/>language<sp/>is<sp/>dealing<sp/>with<sp/>memory<sp/>movement.<sp/>In<sp/>many<sp/>GCs,<sp/>objects<sp/>can<sp/>be<sp/>moved<sp/>in<sp/>memory<sp/>during<sp/>a<sp/>compaction<sp/>phase.<sp/>This<sp/>means<sp/>native<sp/>C++<sp/>code<sp/>cannot<sp/>safely<sp/>hold<sp/>a<sp/>direct<sp/>pointer<sp/>to<sp/>an<sp/>object,<sp/>as<sp/>it<sp/>could<sp/>be<sp/>invalidated<sp/>at<sp/>any<sp/>moment.<sp/>This<sp/>usually<sp/>requires<sp/>a<sp/>complex<sp/>and<sp/>slow<sp/>&quot;handle&quot;<sp/>system.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Proto&apos;s<sp/>GC<sp/>**does<sp/>not<sp/>move<sp/>or<sp/>compact<sp/>memory**.<sp/>This<sp/>provides<sp/>a<sp/>massive<sp/>advantage<sp/>for<sp/>FFI<sp/>integration.<sp/>Since<sp/>an<sp/>object&apos;s<sp/>address<sp/>is<sp/>stable<sp/>for<sp/>its<sp/>entire<sp/>lifetime,<sp/>C++<sp/>code<sp/>can<sp/>hold<sp/>direct<sp/>pointers<sp/>to<sp/>Proto<sp/>objects.<sp/>This<sp/>makes<sp/>the<sp/>FFI<sp/>simpler,<sp/>faster,<sp/>and<sp/>more<sp/>natural<sp/>to<sp/>work<sp/>with.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>The<sp/>Safe<sp/>FFI<sp/>Pattern</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>The<sp/>Challenge</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">While<sp/>pointers<sp/>are<sp/>stable,<sp/>we<sp/>still<sp/>need<sp/>to<sp/>coordinate<sp/>with<sp/>the<sp/>garbage<sp/>collector.<sp/>If<sp/>you<sp/>call<sp/>a<sp/>long-running<sp/>native<sp/>function,<sp/>the<sp/>GC&apos;s<sp/>background<sp/>thread<sp/>might<sp/>run<sp/>while<sp/>the<sp/>native<sp/>code<sp/>is<sp/>executing.<sp/>The<sp/>GC<sp/>needs<sp/>to<sp/>know<sp/>that<sp/>the<sp/>Proto<sp/>objects<sp/>passed<sp/>to<sp/>the<sp/>native<sp/>function<sp/>are<sp/>still<sp/>alive,<sp/>but<sp/>it<sp/>cannot<sp/>scan<sp/>the<sp/>native<sp/>function&apos;s<sp/>stack.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>The<sp/>Solution:<sp/>The<sp/>`setManaged()`<sp/>/<sp/>`setUnmanaged()`<sp/>Protocol</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Proto<sp/>solves<sp/>this<sp/>with<sp/>a<sp/>simple,<sp/>explicit<sp/>protocol.<sp/>Before<sp/>calling<sp/>a<sp/>native<sp/>function<sp/>that<sp/>might<sp/>take<sp/>a<sp/>long<sp/>time<sp/>to<sp/>execute,<sp/>the<sp/>thread<sp/>must<sp/>tell<sp/>the<sp/>GC<sp/>that<sp/>it<sp/>is<sp/>entering<sp/>an<sp/>&quot;unmanaged&quot;<sp/>state.<sp/>When<sp/>the<sp/>native<sp/>function<sp/>returns,<sp/>the<sp/>thread<sp/>must<sp/>tell<sp/>the<sp/>GC<sp/>it<sp/>is<sp/>back<sp/>in<sp/>a<sp/>&quot;managed&quot;<sp/>state.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>`setUnmanaged()`:<sp/>Signals<sp/>to<sp/>the<sp/>GC<sp/>that<sp/>this<sp/>thread&apos;s<sp/>stack<sp/>is<sp/>now<sp/>opaque<sp/>and<sp/>should<sp/>not<sp/>be<sp/>scanned<sp/>for<sp/>roots.<sp/>The<sp/>thread<sp/>is<sp/>temporarily<sp/>detached<sp/>from<sp/>the<sp/>GC&apos;s<sp/>control.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>`setManaged()`:<sp/>Signals<sp/>that<sp/>the<sp/>thread<sp/>is<sp/>back<sp/>under<sp/>GC<sp/>control.<sp/>This<sp/>will<sp/>trigger<sp/>a<sp/>GC<sp/>cycle<sp/>if<sp/>one<sp/>was<sp/>requested<sp/>while<sp/>the<sp/>thread<sp/>was<sp/>unmanaged.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>protocol<sp/>ensures<sp/>that<sp/>the<sp/>GC<sp/>will<sp/>not<sp/>run<sp/>while<sp/>native<sp/>code<sp/>is<sp/>executing,<sp/>preventing<sp/>any<sp/>possibility<sp/>of<sp/>an<sp/>object<sp/>being<sp/>collected<sp/>while<sp/>it&apos;s<sp/>still<sp/>being<sp/>used<sp/>by<sp/>the<sp/>C++<sp/>code.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>RAII<sp/>Guard<sp/>for<sp/>Safety</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Manually<sp/>calling<sp/>`setManaged()`<sp/>and<sp/>`setUnmanaged()`<sp/>can<sp/>be<sp/>error-prone,<sp/>especially<sp/>in<sp/>the<sp/>face<sp/>of<sp/>C++<sp/>exceptions.<sp/>The<sp/>best<sp/>practice<sp/>is<sp/>to<sp/>wrap<sp/>the<sp/>FFI<sp/>call<sp/>in<sp/>a<sp/>simple<sp/>RAII<sp/>(Resource<sp/>Acquisition<sp/>Is<sp/>Initialization)<sp/>guard<sp/>class.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Here<sp/>is<sp/>an<sp/>example<sp/>of<sp/>what<sp/>such<sp/>a<sp/>guard<sp/>might<sp/>look<sp/>like:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Illustrative<sp/>FFIGuard<sp/>class</highlight></codeline>
+<codeline><highlight class="normal">class<sp/>FFIGuard<sp/>{</highlight></codeline>
+<codeline><highlight class="normal">public:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>FFIGuard(Thread*<sp/>thread)<sp/>:<sp/>p_thread(thread)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p_thread-&gt;setUnmanaged();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>~FFIGuard()<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p_thread-&gt;setManaged();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">private:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Thread*<sp/>p_thread;</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>Usage:</highlight></codeline>
+<codeline><highlight class="normal">void<sp/>my_native_wrapper(Thread*<sp/>thread,<sp/>const<sp/>ProtoObject<sp/>arg)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>FFIGuard<sp/>guard(thread);<sp/>//<sp/>Enters<sp/>unmanaged<sp/>mode</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>Now<sp/>it&apos;s<sp/>safe<sp/>to<sp/>call<sp/>long-running<sp/>C/C++<sp/>code</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>native_library_function(arg-&gt;as_string()-&gt;c_str());</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">}<sp/>//<sp/>guard<sp/>goes<sp/>out<sp/>of<sp/>scope<sp/>here,<sp/>automatically<sp/>re-enters<sp/>managed<sp/>mode</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Marshalling<sp/>Data</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">&quot;Marshalling&quot;<sp/>is<sp/>the<sp/>process<sp/>of<sp/>converting<sp/>data<sp/>between<sp/>the<sp/>Proto<sp/>world<sp/>and<sp/>the<sp/>native<sp/>C++<sp/>world.<sp/>This<sp/>typically<sp/>involves<sp/>creating<sp/>a<sp/>C++<sp/>wrapper<sp/>function<sp/>that<sp/>handles<sp/>the<sp/>conversion.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Here<sp/>is<sp/>a<sp/>simple<sp/>example<sp/>of<sp/>a<sp/>wrapper<sp/>that<sp/>exposes<sp/>a<sp/>C<sp/>function<sp/>`count_characters`<sp/>to<sp/>the<sp/>Proto<sp/>runtime.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>A<sp/>native<sp/>C<sp/>function<sp/>we<sp/>want<sp/>to<sp/>call</highlight></codeline>
+<codeline><highlight class="normal">int<sp/>count_characters(const<sp/>char*<sp/>str)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>strlen(str);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">//<sp/>The<sp/>C++<sp/>wrapper<sp/>function<sp/>exposed<sp/>to<sp/>Proto</highlight></codeline>
+<codeline><highlight class="normal">const<sp/>ProtoObject<sp/>proto_count_characters(Thread*<sp/>thread,<sp/>const<sp/>ProtoObject<sp/>p_str)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>1.<sp/>Use<sp/>a<sp/>guard<sp/>for<sp/>GC<sp/>safety</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>FFIGuard<sp/>guard(thread);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>2.<sp/>Marshall<sp/>the<sp/>arguments<sp/>from<sp/>Proto<sp/>to<sp/>C++</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>This<sp/>includes<sp/>type<sp/>checking.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>if<sp/>(!p_str-&gt;is_string())<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>//<sp/>In<sp/>a<sp/>real<sp/>implementation,<sp/>you<sp/>would<sp/>throw<sp/>a<sp/>Proto<sp/>exception<sp/>here</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>thread-&gt;runtime-&gt;new_nil();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>char*<sp/>native_str<sp/>=<sp/>p_str-&gt;as_string()-&gt;c_str();</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>3.<sp/>Call<sp/>the<sp/>actual<sp/>native<sp/>function</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>int<sp/>result<sp/>=<sp/>count_characters(native_str);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>4.<sp/>Marshall<sp/>the<sp/>return<sp/>value<sp/>from<sp/>C++<sp/>back<sp/>to<sp/>Proto</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>thread-&gt;runtime-&gt;from_integer(result);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+    </programlisting>
+    <location file="Structural description/architecture/04_ffi_and_integration.md"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1domains_1_1python_1_1__annotations" kind="namespace" language="Python">
+    <compoundname>sphinx::domains::python::_annotations</compoundname>
+    <innerclass refid="classsphinx_1_1domains_1_1python_1_1__annotations_1_1__TypeParameterListParser" prot="protected">sphinx::domains::python::_annotations::_TypeParameterListParser</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1domains_1_1python_1_1__annotations_1a2f3dab2ff0231c373bbe06ff0c368c38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str, str, str, bool]</type>
+        <definition> tuple[str, str, str, bool] sphinx.domains.python._annotations.parse_reftarget</definition>
+        <argsstring>(str reftarget, bool suppress_prefix=False)</argsstring>
+        <name>parse_reftarget</name>
+        <qualifiedname>sphinx.domains.python._annotations.parse_reftarget</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>reftarget</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>suppress_prefix</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse a type string and return (reftype, reftarget, title, refspecific flag)</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/domains/python/_annotations.py" line="29" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/domains/python/_annotations.py" bodystart="31" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1domains_1_1python_1_1__annotations_1a8494ef6ebbde58bbf1864a8a80271f59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1addnodes_1_1pending__xref" kindref="compound">addnodes.pending_xref</ref></type>
+        <definition> addnodes.pending_xref sphinx.domains.python._annotations.type_to_xref</definition>
+        <argsstring>(str target, BuildEnvironment env, *bool suppress_prefix=False)</argsstring>
+        <name>type_to_xref</name>
+        <qualifiedname>sphinx.domains.python._annotations.type_to_xref</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>*bool</type>
+          <declname>suppress_prefix</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert a type string to a cross reference node.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/domains/python/_annotations.py" line="57" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/domains/python/_annotations.py" bodystart="59" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1domains_1_1python_1_1__annotations_1a93db7c460bac4ce777c255ced501d0e7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[<ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref>]</type>
+        <definition> list[Node] sphinx.domains.python._annotations._parse_annotation</definition>
+        <argsstring>(str annotation, BuildEnvironment env)</argsstring>
+        <name>_parse_annotation</name>
+        <qualifiedname>sphinx.domains.python._annotations._parse_annotation</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>annotation</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse type annotation.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/domains/python/_annotations.py" line="94" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/domains/python/_annotations.py" bodystart="94" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1domains_1_1python_1_1__annotations_1a02f4a65bc8d7a0165c0ebca3e42742ce" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1addnodes_1_1desc__type__parameter__list" kindref="compound">addnodes.desc_type_parameter_list</ref></type>
+        <definition> addnodes.desc_type_parameter_list sphinx.domains.python._annotations._parse_type_list</definition>
+        <argsstring>(str tp_list, BuildEnvironment env, bool multi_line_parameter_list=False, bool trailing_comma=True)</argsstring>
+        <name>_parse_type_list</name>
+        <qualifiedname>sphinx.domains.python._annotations._parse_type_list</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>tp_list</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>multi_line_parameter_list</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trailing_comma</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse a list of type parameters according to PEP 695.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/domains/python/_annotations.py" line="403" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/domains/python/_annotations.py" bodystart="408" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1domains_1_1python_1_1__annotations_1a14b7756b20da276106fabd1913cd73a3" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1addnodes_1_1desc__parameterlist" kindref="compound">addnodes.desc_parameterlist</ref></type>
+        <definition> addnodes.desc_parameterlist sphinx.domains.python._annotations._parse_arglist</definition>
+        <argsstring>(str arglist, BuildEnvironment env, bool multi_line_parameter_list=False, bool trailing_comma=True)</argsstring>
+        <name>_parse_arglist</name>
+        <qualifiedname>sphinx.domains.python._annotations._parse_arglist</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>arglist</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>multi_line_parameter_list</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trailing_comma</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse a list of arguments using AST parser</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/domains/python/_annotations.py" line="469" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/domains/python/_annotations.py" bodystart="474" bodyend="525"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1domains_1_1python_1_1__annotations_1ace1e0df49b359c78486f79b4cc4289a3" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1addnodes_1_1desc__parameter" kindref="compound">addnodes.desc_parameter</ref></type>
+        <definition> addnodes.desc_parameter sphinx.domains.python._annotations._positional_only_separator</definition>
+        <argsstring>()</argsstring>
+        <name>_positional_only_separator</name>
+        <qualifiedname>sphinx.domains.python._annotations._positional_only_separator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/domains/python/_annotations.py" line="526" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/domains/python/_annotations.py" bodystart="526" bodyend="536"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1domains_1_1python_1_1__annotations_1a0e850a7c89736390850178ec4ff8674f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1addnodes_1_1desc__parameter" kindref="compound">addnodes.desc_parameter</ref></type>
+        <definition> addnodes.desc_parameter sphinx.domains.python._annotations._keyword_only_separator</definition>
+        <argsstring>()</argsstring>
+        <name>_keyword_only_separator</name>
+        <qualifiedname>sphinx.domains.python._annotations._keyword_only_separator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/domains/python/_annotations.py" line="537" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/domains/python/_annotations.py" bodystart="537" bodyend="547"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1domains_1_1python_1_1__annotations_1ae082e2e8497339c64e800bc27d194021" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.domains.python._annotations._pseudo_parse_arglist</definition>
+        <argsstring>(desc_signature signode, str arglist, bool multi_line_parameter_list=False, bool trailing_comma=True)</argsstring>
+        <name>_pseudo_parse_arglist</name>
+        <qualifiedname>sphinx.domains.python._annotations._pseudo_parse_arglist</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1desc__signature" kindref="compound">desc_signature</ref></type>
+          <declname>signode</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>arglist</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>multi_line_parameter_list</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trailing_comma</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>&apos;Parse&apos; a list of arguments separated by commas.
+
+Arguments can have &quot;optional&quot; annotations given by enclosing them in
+brackets.  Currently, this will split at any comma, even if it&apos;s inside a
+string literal (e.g. default argument value).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/domains/python/_annotations.py" line="548" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/domains/python/_annotations.py" bodystart="553" bodyend="603"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/domains/python/_annotations.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1____main_____1_1CliSettingsSpec" kind="class" language="Python" prot="public">
+    <compoundname>docutils::__main__::CliSettingsSpec</compoundname>
+    <basecompoundref refid="classdocutils_1_1SettingsSpec" prot="public" virt="non-virtual">docutils.SettingsSpec</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1____main_____1_1CliSettingsSpec_1ad9f98ef11a6a6edd1ab5da309a15e7b0" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.__main__.CliSettingsSpec::settings_spec</definition>
+        <argsstring></argsstring>
+        <name>settings_spec</name>
+        <qualifiedname>docutils.__main__.CliSettingsSpec.settings_spec</qualifiedname>
+        <initializer>=  (
+        &apos;Docutils Application Options&apos;,
+        &apos;Reader, writer, and parser settings influence the available options. &apos;
+        &apos;  Example: use `--help --writer=latex` to see LaTeX writer options. &apos;,
+        # options: (&apos;help text&apos;, [&lt;option strings&gt;], {&lt;keyword arguments&gt;})
+        ((&apos;Reader name (currently: &quot;%default&quot;).&apos;,
+          [&apos;--reader&apos;], {&apos;default&apos;: &apos;standalone&apos;, &apos;metavar&apos;: &apos;&lt;reader&gt;&apos;}),
+         (&apos;Parser name (currently: &quot;%default&quot;).&apos;,
+          [&apos;--parser&apos;], {&apos;default&apos;: &apos;rst&apos;, &apos;metavar&apos;: &apos;&lt;parser&gt;&apos;}),
+         (&apos;Writer name (currently: &quot;%default&quot;).&apos;,
+          [&apos;--writer&apos;], {&apos;default&apos;: &apos;html5&apos;, &apos;metavar&apos;: &apos;&lt;writer&gt;&apos;}),
+         )
+    )</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/__main__.py" line="38" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/__main__.py" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1____main_____1_1CliSettingsSpec_1a5e668e2666a513fe45853b658be5f15f" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.__main__.CliSettingsSpec::config_section</definition>
+        <argsstring></argsstring>
+        <name>config_section</name>
+        <qualifiedname>docutils.__main__.CliSettingsSpec.config_section</qualifiedname>
+        <initializer>=  &apos;docutils application&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/__main__.py" line="51" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/__main__.py" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1____main_____1_1CliSettingsSpec_1ad1f3ec1ee1c05eacf62039e072140337" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.__main__.CliSettingsSpec::config_section_dependencies</definition>
+        <argsstring></argsstring>
+        <name>config_section_dependencies</name>
+        <qualifiedname>docutils.__main__.CliSettingsSpec.config_section_dependencies</qualifiedname>
+        <initializer>=  (&apos;docutils-cli application&apos;,  # back-compat
+                                   &apos;applications&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/__main__.py" line="52" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/__main__.py" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Runtime settings &amp; command-line options for the generic CLI.
+
+Configurable reader, parser, and writer components.
+
+The &quot;--writer&quot; default will change to &apos;html&apos; in Docutils 2.0
+when &apos;html&apos; becomes an alias for the current value &apos;html5&apos;.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.__main__.CliSettingsSpec</label>
+        <link refid="classdocutils_1_1____main_____1_1CliSettingsSpec"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>docutils.__main__.CliSettingsSpec</label>
+        <link refid="classdocutils_1_1____main_____1_1CliSettingsSpec"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_section</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/docutils/__main__.py" line="29" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/__main__.py" bodystart="29" bodyend="55"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1____main_____1_1CliSettingsSpec_1a5e668e2666a513fe45853b658be5f15f" prot="public" virt="non-virtual"><scope>docutils::__main__::CliSettingsSpec</scope><name>config_section</name></member>
+      <member refid="classdocutils_1_1____main_____1_1CliSettingsSpec_1ad1f3ec1ee1c05eacf62039e072140337" prot="public" virt="non-virtual"><scope>docutils::__main__::CliSettingsSpec</scope><name>config_section_dependencies</name></member>
+      <member refid="classdocutils_1_1____main_____1_1CliSettingsSpec_1ad9f98ef11a6a6edd1ab5da309a15e7b0" prot="public" virt="non-virtual"><scope>docutils::__main__::CliSettingsSpec</scope><name>settings_spec</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1writers_1_1latex" kind="namespace" language="Python">
+    <compoundname>sphinx::writers::latex</compoundname>
+    <innerclass refid="classsphinx_1_1writers_1_1latex_1_1collected__footnote" prot="public">sphinx::writers::latex::collected_footnote</innerclass>
+    <innerclass refid="classsphinx_1_1writers_1_1latex_1_1LaTeXTranslator" prot="public">sphinx::writers::latex::LaTeXTranslator</innerclass>
+    <innerclass refid="classsphinx_1_1writers_1_1latex_1_1LaTeXWriter" prot="public">sphinx::writers::latex::LaTeXWriter</innerclass>
+    <innerclass refid="classsphinx_1_1writers_1_1latex_1_1Table" prot="public">sphinx::writers::latex::Table</innerclass>
+    <innerclass refid="classsphinx_1_1writers_1_1latex_1_1TableCell" prot="public">sphinx::writers::latex::TableCell</innerclass>
+    <innerclass refid="classsphinx_1_1writers_1_1latex_1_1UnsupportedError" prot="public">sphinx::writers::latex::UnsupportedError</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1writers_1_1latex_1ac14796e99b1dd10e55cede20eaf108c4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::writers::latex.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.writers.latex.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/latex.py" line="38" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/latex.py" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1writers_1_1latex_1a808340ade2d4263abcc18ec29c4307f6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int sphinx::writers::latex.MAX_CITATION_LABEL_LENGTH</definition>
+        <argsstring></argsstring>
+        <name>MAX_CITATION_LABEL_LENGTH</name>
+        <qualifiedname>sphinx.writers.latex.MAX_CITATION_LABEL_LENGTH</qualifiedname>
+        <initializer>=  8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/latex.py" line="40" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/latex.py" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1writers_1_1latex_1afe51b5114cf428f4fe2d8b6089f0b281" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list sphinx::writers::latex.LATEXSECTIONNAMES</definition>
+        <argsstring></argsstring>
+        <name>LATEXSECTIONNAMES</name>
+        <qualifiedname>sphinx.writers.latex.LATEXSECTIONNAMES</qualifiedname>
+        <initializer>=  [
+    &apos;part&apos;,
+    &apos;chapter&apos;,
+    &apos;section&apos;,
+    &apos;subsection&apos;,
+    &apos;subsubsection&apos;,
+    &apos;paragraph&apos;,
+    &apos;subparagraph&apos;,
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/latex.py" line="41" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/latex.py" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1writers_1_1latex_1a70c36e3f98e02b67931564a2ef4f7ca7" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::writers::latex.ENUMERATE_LIST_STYLE</definition>
+        <argsstring></argsstring>
+        <name>ENUMERATE_LIST_STYLE</name>
+        <qualifiedname>sphinx.writers.latex.ENUMERATE_LIST_STYLE</qualifiedname>
+        <initializer>=  defaultdict(
+    lambda: r&apos;\arabic&apos;,
+    {
+        &apos;arabic&apos;: r&apos;\arabic&apos;,
+        &apos;loweralpha&apos;: r&apos;\alph&apos;,
+        &apos;upperalpha&apos;: r&apos;\Alph&apos;,
+        &apos;lowerroman&apos;: r&apos;\roman&apos;,
+        &apos;upperroman&apos;: r&apos;\Roman&apos;,
+    },
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/latex.py" line="50" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/latex.py" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1writers_1_1latex_1a2c1824097cbdd63ad8faba2e9e41aa3a" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str sphinx::writers::latex.CR</definition>
+        <argsstring></argsstring>
+        <name>CR</name>
+        <qualifiedname>sphinx.writers.latex.CR</qualifiedname>
+        <initializer>=  &apos;\n&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/latex.py" line="61" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/latex.py" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1writers_1_1latex_1a328f3e2d0f2da828345e1884577fa6cd" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str sphinx::writers::latex.BLANKLINE</definition>
+        <argsstring></argsstring>
+        <name>BLANKLINE</name>
+        <qualifiedname>sphinx.writers.latex.BLANKLINE</qualifiedname>
+        <initializer>=  &apos;\n\n&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/latex.py" line="62" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/latex.py" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1writers_1_1latex_1a60b06365628aa39fef4994db8046b53d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::writers::latex.EXTRA_RE</definition>
+        <argsstring></argsstring>
+        <name>EXTRA_RE</name>
+        <qualifiedname>sphinx.writers.latex.EXTRA_RE</qualifiedname>
+        <initializer>=  re.compile(r&apos;^(.*\S)\s+\(([^()]*)\)\s*$&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/latex.py" line="63" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/latex.py" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1writers_1_1latex_1a8f9c365285a9c182a6a27763c6c8c6e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.writers.latex.escape_abbr</definition>
+        <argsstring>(str text)</argsstring>
+        <name>escape_abbr</name>
+        <qualifiedname>sphinx.writers.latex.escape_abbr</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Adjust spacing after abbreviations.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/latex.py" line="277" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/latex.py" bodystart="277" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1writers_1_1latex_1a8edb9882bd81ec5d9a9780d7ed7d1d1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.writers.latex.rstdim_to_latexdim</definition>
+        <argsstring>(str width_str, int scale=100)</argsstring>
+        <name>rstdim_to_latexdim</name>
+        <qualifiedname>sphinx.writers.latex.rstdim_to_latexdim</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>width_str</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>scale</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert `width_str` with rst length to LaTeX length.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/latex.py" line="282" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/latex.py" bodystart="282" bodyend="309"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Custom docutils writer for LaTeX.
+
+Much of this code is adapted from Dave Kuhlman&apos;s &quot;docpy&quot; writer from his
+docutils sandbox.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/writers/latex.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

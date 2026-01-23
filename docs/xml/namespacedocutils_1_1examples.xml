@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacedocutils_1_1examples" kind="namespace" language="Python">
+    <compoundname>docutils::examples</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacedocutils_1_1examples_1ad611268510a0f4c9447156922ece3814" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.examples.html_parts</definition>
+        <argsstring>(input_string, source_path=None, destination_path=None, input_encoding=&apos;unicode&apos;, doctitle=True, initial_header_level=1)</argsstring>
+        <name>html_parts</name>
+        <qualifiedname>docutils.examples.html_parts</qualifiedname>
+        <param>
+          <type>input_string</type>
+          <defname>input_string</defname>
+        </param>
+        <param>
+          <type>source_path</type>
+          <defname>source_path</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>destination_path</type>
+          <defname>destination_path</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>input_encoding</type>
+          <defname>input_encoding</defname>
+          <defval>&apos;unicode&apos;</defval>
+        </param>
+        <param>
+          <type>doctitle</type>
+          <defname>doctitle</defname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>initial_header_level</type>
+          <defname>initial_header_level</defname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Given an input string, returns a dictionary of HTML document parts.
+
+Dictionary keys are the names of parts, and values are Unicode strings;
+encoding is up to the client.
+
+Parameters:
+
+- `input_string`: A multi-line text string; required.
+- `source_path`: Path to the source file or object.  Optional, but useful
+  for diagnostic output (system messages).
+- `destination_path`: Path to the file or object which will receive the
+  output; optional.  Used for determining relative paths (stylesheets,
+  source links, etc.).
+- `input_encoding`: The encoding of `input_string`.  If it is an encoded
+  8-bit string, provide the correct encoding.  If it is a Unicode string,
+  use &quot;unicode&quot;, the default.
+- `doctitle`: Disable the promotion of a lone top-level section title to
+  document title (and subsequent section title to document subtitle
+  promotion); enabled by default.
+- `initial_header_level`: The initial level for header elements (e.g. 1
+  for &quot;&lt;h1&gt;&quot;).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/examples.py" line="17" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/examples.py" bodystart="19" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1examples_1a338e28e8c612351313cd8e8accb5e32f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.examples.html_body</definition>
+        <argsstring>(input_string, source_path=None, destination_path=None, input_encoding=&apos;unicode&apos;, output_encoding=&apos;unicode&apos;, doctitle=True, initial_header_level=1)</argsstring>
+        <name>html_body</name>
+        <qualifiedname>docutils.examples.html_body</qualifiedname>
+        <param>
+          <type>input_string</type>
+          <defname>input_string</defname>
+        </param>
+        <param>
+          <type>source_path</type>
+          <defname>source_path</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>destination_path</type>
+          <defname>destination_path</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>input_encoding</type>
+          <defname>input_encoding</defname>
+          <defval>&apos;unicode&apos;</defval>
+        </param>
+        <param>
+          <type>output_encoding</type>
+          <defname>output_encoding</defname>
+          <defval>&apos;unicode&apos;</defval>
+        </param>
+        <param>
+          <type>doctitle</type>
+          <defname>doctitle</defname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>initial_header_level</type>
+          <defname>initial_header_level</defname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Given an input string, returns an HTML fragment as a string.
+
+The return value is the contents of the &lt;body&gt; element.
+
+Parameters (see `html_parts()` for the remainder):
+
+- `output_encoding`: The desired encoding of the output.  If a Unicode
+  string is desired, use the default value of &quot;unicode&quot; .
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/examples.py" line="53" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/examples.py" bodystart="55" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1examples_1ae1c98614108999f7509e693a747018c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.examples.internals</definition>
+        <argsstring>(input_string, source_path=None, destination_path=None, input_encoding=&apos;unicode&apos;, settings_overrides=None)</argsstring>
+        <name>internals</name>
+        <qualifiedname>docutils.examples.internals</qualifiedname>
+        <param>
+          <type>input_string</type>
+          <defname>input_string</defname>
+        </param>
+        <param>
+          <type>source_path</type>
+          <defname>source_path</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>destination_path</type>
+          <defname>destination_path</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>input_encoding</type>
+          <defname>input_encoding</defname>
+          <defval>&apos;unicode&apos;</defval>
+        </param>
+        <param>
+          <type>settings_overrides</type>
+          <defname>settings_overrides</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the document tree and publisher, for exploring Docutils internals.
+
+Parameters: see `html_parts()`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/examples.py" line="77" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/examples.py" bodystart="78" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>This module contains practical examples of Docutils client code.
+
+Importing this module from client code is not recommended; its contents are
+subject to change in future Docutils releases.  Instead, it is recommended
+that you copy and paste the parts you need into your own code, modifying as
+necessary.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/docutils/examples.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacejinja2_1_1environment" kind="namespace" language="Python">
+    <compoundname>jinja2::environment</compoundname>
+    <innerclass refid="classjinja2_1_1environment_1_1Environment" prot="public">jinja2::environment::Environment</innerclass>
+    <innerclass refid="classjinja2_1_1environment_1_1Template" prot="public">jinja2::environment::Template</innerclass>
+    <innerclass refid="classjinja2_1_1environment_1_1TemplateExpression" prot="public">jinja2::environment::TemplateExpression</innerclass>
+    <innerclass refid="classjinja2_1_1environment_1_1TemplateModule" prot="public">jinja2::environment::TemplateModule</innerclass>
+    <innerclass refid="classjinja2_1_1environment_1_1TemplateStream" prot="public">jinja2::environment::TemplateStream</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacejinja2_1_1environment_1a50c5b22e6011dbacf7413f9c391d487f" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::environment._env_bound</definition>
+        <argsstring></argsstring>
+        <name>_env_bound</name>
+        <qualifiedname>jinja2.environment._env_bound</qualifiedname>
+        <initializer>=  t.TypeVar(&quot;_env_bound&quot;, bound=&quot;Environment&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="64" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacejinja2_1_1environment_1afeb223713077599777476fdf6af04d95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacejinja2_1_1environment_1a50c5b22e6011dbacf7413f9c391d487f" kindref="member">_env_bound</ref></type>
+        <definition> _env_bound jinja2.environment.get_spontaneous_environment</definition>
+        <argsstring>(t.Type[_env_bound] cls, *t.Any args)</argsstring>
+        <name>get_spontaneous_environment</name>
+        <qualifiedname>jinja2.environment.get_spontaneous_environment</qualifiedname>
+        <param>
+          <type>t.Type</type>
+          <declname>cls</declname>
+          <array>[_env_bound]</array>
+        </param>
+        <param>
+          <type>*t.Any</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a new spontaneous environment. A spontaneous environment
+is used for templates created directly rather than through an
+existing environment.
+
+:param cls: Environment class to create.
+:param args: Positional arguments passed to environment.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="69" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="69" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1environment_1ab2af190b4e94e6cdbec11d6886898323" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Optional[t.MutableMapping[t.Tuple[&quot;weakref.ref[t.Any]&quot;, str], &quot;Template&quot;]]</type>
+        <definition> t.Optional[t.MutableMapping[t.Tuple[&quot;weakref.ref[t.Any]&quot;, str], &quot;Template&quot;]] jinja2.environment.create_cache</definition>
+        <argsstring>(int size)</argsstring>
+        <name>create_cache</name>
+        <qualifiedname>jinja2.environment.create_cache</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the cache class for the given size.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="82" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="84" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1environment_1a4bbf0fef842a55a74395eaae48810d87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Optional[t.MutableMapping[t.Tuple[&quot;weakref.ref[t.Any]&quot;, str], &quot;Template&quot;]]</type>
+        <definition> t.Optional[t.MutableMapping[t.Tuple[&quot;weakref.ref[t.Any]&quot;, str], &quot;Template&quot;]] jinja2.environment.copy_cache</definition>
+        <argsstring>(t.Optional[t.MutableMapping[t.Any, t.Any]] cache)</argsstring>
+        <name>copy_cache</name>
+        <qualifiedname>jinja2.environment.copy_cache</qualifiedname>
+        <param>
+          <type>t.Optional]</type>
+          <declname>cache</declname>
+          <array>[t.MutableMapping[t.Any, t.Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create an empty copy of the given cache.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="95" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="97" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1environment_1ab1e8bc544172480c4c4f62e53cd7170d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Dict[str, &quot;Extension&quot;]</type>
+        <definition> t.Dict[str, &quot;Extension&quot;] jinja2.environment.load_extensions</definition>
+        <argsstring>(&quot;Environment&quot; environment, t.Sequence[t.Union[str, t.Type[&quot;Extension&quot;]]] extensions)</argsstring>
+        <name>load_extensions</name>
+        <qualifiedname>jinja2.environment.load_extensions</qualifiedname>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>t.Sequence]]</type>
+          <declname>extensions</declname>
+          <array>[t.Union[str, t.Type[&quot;Extension&quot;]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Load the extensions from the list and bind it to the environment.
+Returns a dict of instantiated extensions.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="108" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="111" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1environment_1afe598c41a792effdf285b05eaa87f215" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacejinja2_1_1environment_1a50c5b22e6011dbacf7413f9c391d487f" kindref="member">_env_bound</ref></type>
+        <definition> _env_bound jinja2.environment._environment_config_check</definition>
+        <argsstring>(_env_bound environment)</argsstring>
+        <name>_environment_config_check</name>
+        <qualifiedname>jinja2.environment._environment_config_check</qualifiedname>
+        <param>
+          <type><ref refid="namespacejinja2_1_1environment_1a50c5b22e6011dbacf7413f9c391d487f" kindref="member">_env_bound</ref></type>
+          <declname>environment</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Perform a sanity check on the environment.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="126" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/environment.py" bodystart="126" bodyend="143"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Classes for managing templates and their runtime and compile time
+options.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/jinja2/environment.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1457 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1events_1_1EventManager" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::events::EventManager</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1events_1_1EventManager_1ad5a5df0469f3a2334cf11e6a7d055436" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.events.EventManager::app</definition>
+        <argsstring></argsstring>
+        <name>app</name>
+        <qualifiedname>sphinx.events.EventManager.app</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="69" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1events_1_1EventManager_1a098d665cf990c8b6ba615320d337796d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.events.EventManager::events</definition>
+        <argsstring></argsstring>
+        <name>events</name>
+        <qualifiedname>sphinx.events.EventManager.events</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="70" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1events_1_1EventManager_1a98778b74d696a2d5dbc2e4e84bb69510" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.events.EventManager::next_listener_id</definition>
+        <argsstring></argsstring>
+        <name>next_listener_id</name>
+        <qualifiedname>sphinx.events.EventManager.next_listener_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="72" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1a92206da81140295f64982269ce64a3e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.events.EventManager.__init__</definition>
+        <argsstring>(self, Sphinx app)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>sphinx.events.EventManager.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="68" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="68" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1a5c273ec198dfbb100e2c4055cfc007e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.events.EventManager.add</definition>
+        <argsstring>(self, str name)</argsstring>
+        <name>add</name>
+        <qualifiedname>sphinx.events.EventManager.add</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Register a custom Sphinx event.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="74" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="74" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1ac1d719f0b283bb4bc7701f5ff5aba9e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;config-inited&apos;] name, Callable[[Sphinx, Config], None] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;config-inited&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, Config]</array>
+        </param>
+        <param>
+          <type>None]</type>
+          <declname>callback</declname>
+          <defname>priority</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="83" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="88" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1a3d210bec09ec02b3eb17fd92172e7c2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;builder-inited&apos;] name, Callable[[Sphinx], None] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;builder-inited&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx]</array>
+        </param>
+        <param>
+          <type>None]</type>
+          <declname>callback</declname>
+          <defname>priority</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="91" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="96" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1a9649981f20d44169be559e7c6872fec0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;env-get-outdated&apos;] name, Callable[[Sphinx, BuildEnvironment, Set[str], Set[str], Set[str]], Sequence[str]] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;env-get-outdated&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, BuildEnvironment, Set[str]</array>
+        </param>
+        <param>
+          <type>Set</type>
+          <defname>priority</defname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>Set]</type>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>Sequence]</type>
+          <declname>callback</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="99" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="106" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1aca2d51be69f4fcd41145f08045248013" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;env-before-read-docs&apos;] name, Callable[[Sphinx, BuildEnvironment, list[str]], None] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;env-before-read-docs&apos;]</array>
+        </param>
+        <param>
+          <type>Callable]</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, BuildEnvironment, list[str]</array>
+        </param>
+        <param>
+          <type>None]</type>
+          <declname>callback</declname>
+          <defname>priority</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="109" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="114" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1a397f0d87caaee3d202c8fbf654c9af06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;env-purge-doc&apos;] name, Callable[[Sphinx, BuildEnvironment, str], None] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;env-purge-doc&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, BuildEnvironment, str]</array>
+        </param>
+        <param>
+          <type>None]</type>
+          <declname>callback</declname>
+          <defname>priority</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="117" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="122" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1ac4d0552a1490f7b1c8e991f155067adb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;source-read&apos;] name, Callable[[Sphinx, str, list[str]], None] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;source-read&apos;]</array>
+        </param>
+        <param>
+          <type>Callable]</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, str, list[str]</array>
+        </param>
+        <param>
+          <type>None]</type>
+          <declname>callback</declname>
+          <defname>priority</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="125" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="130" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1af644a29477b7532b764abd12820a5c85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;include-read&apos;] name, Callable[[Sphinx, Path, str, list[str]], None] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;include-read&apos;]</array>
+        </param>
+        <param>
+          <type>Callable]</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, Path, str, list[str]</array>
+        </param>
+        <param>
+          <type>None]</type>
+          <declname>callback</declname>
+          <defname>priority</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="133" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="138" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1af64d5cd812b23ccf82f2b7ee2c6a7a8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;doctree-read&apos;] name, Callable[[Sphinx, nodes.document], None] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;doctree-read&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, nodes.document]</array>
+        </param>
+        <param>
+          <type>None]</type>
+          <declname>callback</declname>
+          <defname>priority</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="141" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="146" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1a4a9503af66202183b92a073f2ed20e7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;env-merge-info&apos;] name, Callable[[Sphinx, BuildEnvironment, Set[str], BuildEnvironment], None] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;env-merge-info&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, BuildEnvironment, Set[str]</array>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref>]</type>
+          <defname>priority</defname>
+        </param>
+        <param>
+          <type>None]</type>
+          <declname>callback</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="149" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="156" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1aaf8468e4f4d6f26f1c185f246a90daea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;env-updated&apos;] name, Callable[[Sphinx, BuildEnvironment], str] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;env-updated&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, BuildEnvironment]</array>
+        </param>
+        <param>
+          <type>str]</type>
+          <declname>callback</declname>
+          <defname>priority</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="159" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="164" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1a79741be4fd8bb4950be71e454147b108" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;env-get-updated&apos;] name, Callable[[Sphinx, BuildEnvironment], Iterable[str]] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;env-get-updated&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, BuildEnvironment]</array>
+        </param>
+        <param>
+          <type>Iterable]</type>
+          <declname>callback</declname>
+          <defname>priority</defname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="167" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="172" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1a85d48fcf2aa4a48e3e408efbf7e3049c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;env-check-consistency&apos;] name, Callable[[Sphinx, BuildEnvironment], None] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;env-check-consistency&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, BuildEnvironment]</array>
+        </param>
+        <param>
+          <type>None]</type>
+          <declname>callback</declname>
+          <defname>priority</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="175" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="180" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1ae7dc85a7f914b3e44392579af62e2339" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;write-started&apos;] name, Callable[[Sphinx, Builder], None] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;write-started&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, Builder]</array>
+        </param>
+        <param>
+          <type>None]</type>
+          <declname>callback</declname>
+          <defname>priority</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="183" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="188" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1ae56d33ded0839407d169a4a4f01c8b39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;doctree-resolved&apos;] name, Callable[[Sphinx, nodes.document, str], None] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;doctree-resolved&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, nodes.document, str]</array>
+        </param>
+        <param>
+          <type>None]</type>
+          <declname>callback</declname>
+          <defname>priority</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="191" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="196" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1ac2162ff0b5e7d5587a8f72133b538b52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;missing-reference&apos;] name, Callable[[Sphinx, BuildEnvironment, addnodes.pending_xref, nodes.TextElement], nodes.reference|None,] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;missing-reference&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, BuildEnvironment, addnodes.pending_xref, nodes.TextElement]</array>
+        </param>
+        <param>
+          <type>nodes.reference|</type>
+          <declname>None</declname>
+          <defname>priority</defname>
+        </param>
+        <param>
+          <type>]</type>
+          <declname>callback</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="199" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="207" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1a34a5f7d4680efa34f138ca57726d9c15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;warn-missing-reference&apos;] name, Callable[[Sphinx, Domain, addnodes.pending_xref], bool|None] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;warn-missing-reference&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, Domain, addnodes.pending_xref]</array>
+        </param>
+        <param>
+          <type>bool|None]</type>
+          <declname>callback</declname>
+          <defname>priority</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="210" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="215" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1a88f4b3c7c01375f536634e0152859b8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;build-finished&apos;] name, Callable[[Sphinx, Exception|None], None] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;build-finished&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, Exception|None]</array>
+        </param>
+        <param>
+          <type>None]</type>
+          <declname>callback</declname>
+          <defname>priority</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="218" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="223" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1a846a9efe51a60fb4c9f9d6e3d7babee2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;html-collect-pages&apos;] name, Callable[[Sphinx], Iterable[tuple[str, dict[str, Any], str]]] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;html-collect-pages&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx]</array>
+        </param>
+        <param>
+          <type>Iterable</type>
+          <defname>priority</defname>
+          <array>[tuple[str, dict[str, Any]</array>
+        </param>
+        <param>
+          <type>str]]]</type>
+          <declname>callback</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="228" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="233" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1a23905e14cda0af0035e8aa5726bdd3b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;html-page-context&apos;] name, Callable[[Sphinx, str, str, dict[str, Any], nodes.document], str|None] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;html-page-context&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, str, str, dict[str, Any]</array>
+        </param>
+        <param>
+          <type>nodes.document]</type>
+          <defname>priority</defname>
+        </param>
+        <param>
+          <type>str|None]</type>
+          <declname>callback</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="236" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="243" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1adc333554f411ea57eb98308377be052e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;linkcheck-process-uri&apos;] name, Callable[[Sphinx, str], str|None] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;linkcheck-process-uri&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, str]</array>
+        </param>
+        <param>
+          <type>str|None]</type>
+          <declname>callback</declname>
+          <defname>priority</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="246" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="251" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1ac25d67c95faa6ae72fc508986b096c12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;object-description-transform&apos;] name, Callable[[Sphinx, str, str, addnodes.desc_content], None] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;object-description-transform&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, str, str, addnodes.desc_content]</array>
+        </param>
+        <param>
+          <type>None]</type>
+          <declname>callback</declname>
+          <defname>priority</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="256" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="261" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1aa21b2dd847941cd48a0a3ae3d72179c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;autodoc-process-docstring&apos;] name, _AutodocProcessDocstringListener callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;autodoc-process-docstring&apos;]</array>
+        </param>
+        <param>
+          <type>_AutodocProcessDocstringListener</type>
+          <declname>callback</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="266" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="271" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1a1b3379edb9f2e0dbe566b71dd7054f9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;autodoc-before-process-signature&apos;] name, Callable[[Sphinx, Any, bool], None] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;autodoc-before-process-signature&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, Any, bool]</array>
+        </param>
+        <param>
+          <type>None]</type>
+          <declname>callback</declname>
+          <defname>priority</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="274" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="279" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1aa0ba57f9005c478b224ca5c776a4c2be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;autodoc-process-signature&apos;] name, Callable[[Sphinx, Literal[&apos;module&apos;, &apos;class&apos;, &apos;exception&apos;, &apos;function&apos;, &apos;method&apos;, &apos;attribute&apos;], str, Any, dict[str, bool], str|None, str|None,], tuple[str|None, str|None]|None,] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;autodoc-process-signature&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, Literal[ &apos;module&apos;, &apos;class&apos;, &apos;exception&apos;, &apos;function&apos;, &apos;method&apos;, &apos;attribute&apos;]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <defname>priority</defname>
+        </param>
+        <param>
+          <type>Any</type>
+        </param>
+        <param>
+          <type>dict</type>
+          <array>[str, bool]</array>
+        </param>
+        <param>
+          <type>str|</type>
+          <declname>None</declname>
+        </param>
+        <param>
+          <type>str|</type>
+          <declname>None</declname>
+        </param>
+        <param>
+          <type>]</type>
+        </param>
+        <param>
+          <type>tuple|</type>
+          <declname>None</declname>
+          <array>[str|None, str|None]</array>
+        </param>
+        <param>
+          <type>]</type>
+          <declname>callback</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="282" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="300" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1a0c9714588564fb2233346745cdaa2660" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;autodoc-process-bases&apos;] name, Callable[[Sphinx, str, Any, dict[str, bool], list[str]], None] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;autodoc-process-bases&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, str, Any, dict[str, bool]</array>
+        </param>
+        <param>
+          <type>list]</type>
+          <defname>priority</defname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>None]</type>
+          <declname>callback</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="303" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="308" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1a52089a238ddc56fc8c20c6c1032852d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;autodoc-skip-member&apos;] name, Callable[[Sphinx, Literal[&apos;module&apos;, &apos;class&apos;, &apos;exception&apos;, &apos;function&apos;, &apos;method&apos;, &apos;attribute&apos;], str, Any, bool, dict[str, bool],], bool,] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;autodoc-skip-member&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, Literal[ &apos;module&apos;, &apos;class&apos;, &apos;exception&apos;, &apos;function&apos;, &apos;method&apos;, &apos;attribute&apos;]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <defname>priority</defname>
+        </param>
+        <param>
+          <type>Any</type>
+        </param>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type>dict</type>
+          <array>[str, bool]</array>
+        </param>
+        <param>
+          <type>]</type>
+        </param>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type>]</type>
+          <declname>callback</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="311" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="328" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1a656cdeecea5b7e5ba528828ca91d2af2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;todo-defined&apos;] name, Callable[[Sphinx, todo_node], None] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;todo-defined&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, todo_node]</array>
+        </param>
+        <param>
+          <type>None]</type>
+          <declname>callback</declname>
+          <defname>priority</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="331" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="336" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1a58bd41147e1509c47433387199280c35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;viewcode-find-source&apos;] name, Callable[[Sphinx, str], tuple[str, dict[str, tuple[Literal[&apos;class&apos;, &apos;def&apos;, &apos;other&apos;], int, int]]],] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;viewcode-find-source&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, str]</array>
+        </param>
+        <param>
+          <type>tuple</type>
+          <defname>priority</defname>
+          <array>[str, dict[str, tuple[Literal[ &apos;class&apos;, &apos;def&apos;, &apos;other&apos;]</array>
+        </param>
+        <param>
+          <type>int</type>
+        </param>
+        <param>
+          <type>int]]]</type>
+        </param>
+        <param>
+          <type>]</type>
+          <declname>callback</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="339" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="347" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1a923e274ebf798c19d9515507ceaeb839" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, Literal[&apos;viewcode-follow-imported&apos;] name, Callable[[Sphinx, str, str], str|None] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>name</declname>
+          <array>[ &apos;viewcode-follow-imported&apos;]</array>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>callback</defname>
+          <array>[[Sphinx, str, str]</array>
+        </param>
+        <param>
+          <type>str|None]</type>
+          <declname>callback</declname>
+          <defname>priority</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="350" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="355" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1a674b2985e74617baae9fe7d4ceb6fc42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, str name, Callable[..., Any] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Callable</type>
+          <declname>callback</declname>
+          <array>[..., Any]</array>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="360" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="365" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1a674b2985e74617baae9fe7d4ceb6fc42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int sphinx.events.EventManager.connect</definition>
+        <argsstring>(self, str name, Callable[..., Any] callback, int priority)</argsstring>
+        <name>connect</name>
+        <qualifiedname>sphinx.events.EventManager.connect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Callable</type>
+          <declname>callback</declname>
+          <array>[..., Any]</array>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Connect a handler to specific event.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="367" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="367" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1a224199ea3f87103348cf8b14b137ba9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.events.EventManager.disconnect</definition>
+        <argsstring>(self, int listener_id)</argsstring>
+        <name>disconnect</name>
+        <qualifiedname>sphinx.events.EventManager.disconnect</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>listener_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Disconnect a handler.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="377" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="377" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1a26f39733ae099f7865183a982043b9c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[Any]</type>
+        <definition> list[Any] sphinx.events.EventManager.emit</definition>
+        <argsstring>(self, str name, *Any args, tuple[type[Exception],...] allowed_exceptions=())</argsstring>
+        <name>emit</name>
+        <qualifiedname>sphinx.events.EventManager.emit</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>*Any</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>tuple</type>
+          <defname>allowed_exceptions</defname>
+          <array>[type[Exception]</array>
+        </param>
+        <param>
+          <type>...]</type>
+          <declname>allowed_exceptions</declname>
+          <defval>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Emit a Sphinx event.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="384" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="389" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1events_1_1EventManager_1a57db5f75eb80c9cfb94565572e4b2f66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Any</type>
+        <definition> Any sphinx.events.EventManager.emit_firstresult</definition>
+        <argsstring>(self, str name, *Any args, tuple[type[Exception],...] allowed_exceptions=())</argsstring>
+        <name>emit_firstresult</name>
+        <qualifiedname>sphinx.events.EventManager.emit_firstresult</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>*Any</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>tuple</type>
+          <defname>allowed_exceptions</defname>
+          <array>[type[Exception]</array>
+        </param>
+        <param>
+          <type>...]</type>
+          <declname>allowed_exceptions</declname>
+          <defval>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Emit a Sphinx event and returns first result.
+
+This returns the result of the first handler that doesn&apos;t return ``None``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="423" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="428" bodyend="437"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Event manager for Sphinx.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="65" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="65" bodyend="437"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a92206da81140295f64982269ce64a3e3" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>__init__</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a5c273ec198dfbb100e2c4055cfc007e6" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>add</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1ad5a5df0469f3a2334cf11e6a7d055436" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>app</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1ac1d719f0b283bb4bc7701f5ff5aba9e3" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a3d210bec09ec02b3eb17fd92172e7c2e" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a9649981f20d44169be559e7c6872fec0" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1aca2d51be69f4fcd41145f08045248013" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a397f0d87caaee3d202c8fbf654c9af06" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1ac4d0552a1490f7b1c8e991f155067adb" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1af644a29477b7532b764abd12820a5c85" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1af64d5cd812b23ccf82f2b7ee2c6a7a8d" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a4a9503af66202183b92a073f2ed20e7a" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1aaf8468e4f4d6f26f1c185f246a90daea" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a79741be4fd8bb4950be71e454147b108" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a85d48fcf2aa4a48e3e408efbf7e3049c" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1ae7dc85a7f914b3e44392579af62e2339" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1ae56d33ded0839407d169a4a4f01c8b39" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1ac2162ff0b5e7d5587a8f72133b538b52" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a34a5f7d4680efa34f138ca57726d9c15" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a88f4b3c7c01375f536634e0152859b8c" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a846a9efe51a60fb4c9f9d6e3d7babee2" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a23905e14cda0af0035e8aa5726bdd3b1" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1adc333554f411ea57eb98308377be052e" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1ac25d67c95faa6ae72fc508986b096c12" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1aa21b2dd847941cd48a0a3ae3d72179c9" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a1b3379edb9f2e0dbe566b71dd7054f9f" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1aa0ba57f9005c478b224ca5c776a4c2be" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a0c9714588564fb2233346745cdaa2660" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a52089a238ddc56fc8c20c6c1032852d5" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a656cdeecea5b7e5ba528828ca91d2af2" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a58bd41147e1509c47433387199280c35" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a923e274ebf798c19d9515507ceaeb839" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a674b2985e74617baae9fe7d4ceb6fc42" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a674b2985e74617baae9fe7d4ceb6fc42" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>connect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a224199ea3f87103348cf8b14b137ba9a" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>disconnect</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a26f39733ae099f7865183a982043b9c4" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>emit</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a57db5f75eb80c9cfb94565572e4b2f66" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>emit_firstresult</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a098d665cf990c8b6ba615320d337796d" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>events</name></member>
+      <member refid="classsphinx_1_1events_1_1EventManager_1a98778b74d696a2d5dbc2e4e84bb69510" prot="public" virt="non-virtual"><scope>sphinx::events::EventManager</scope><name>next_listener_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

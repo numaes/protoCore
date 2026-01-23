@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1ext_1_1ifconfig" kind="namespace" language="Python">
+    <compoundname>sphinx::ext::ifconfig</compoundname>
+    <innerclass refid="classsphinx_1_1ext_1_1ifconfig_1_1ifconfig" prot="public">sphinx::ext::ifconfig::ifconfig</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1ifconfig_1_1IfConfig" prot="public">sphinx::ext::ifconfig::IfConfig</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1ifconfig_1ad25bac7aa624880d508b582f0f05ac71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.ifconfig.process_ifconfig_nodes</definition>
+        <argsstring>(Sphinx app, nodes.document doctree, str docname)</argsstring>
+        <name>process_ifconfig_nodes</name>
+        <qualifiedname>sphinx.ext.ifconfig.process_ifconfig_nodes</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type>nodes.document</type>
+          <declname>doctree</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/ifconfig.py" line="55" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/ifconfig.py" bodystart="55" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1ifconfig_1a0061d54e9e0cf57ea9c979601c9add07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1ExtensionMetadata" kindref="compound">ExtensionMetadata</ref></type>
+        <definition> ExtensionMetadata sphinx.ext.ifconfig.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.ext.ifconfig.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/ifconfig.py" line="78" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/ifconfig.py" bodystart="78" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Provides the ``ifconfig`` directive.
+
+The ``ifconfig`` directive enables writing documentation
+that is included depending on configuration variables.
+
+Usage::
+
+    .. ifconfig:: releaselevel in (&apos;alpha&apos;, &apos;beta&apos;, &apos;rc&apos;)
+
+       This stuff is only included in the built docs for unstable versions.
+
+The argument for ``ifconfig`` is a plain Python expression, evaluated in the
+namespace of the project configuration (that is, all variables from
+``conf.py`` are available.)
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/ext/ifconfig.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

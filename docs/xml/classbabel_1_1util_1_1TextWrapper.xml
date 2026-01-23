@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classbabel_1_1util_1_1TextWrapper" kind="class" language="Python" prot="public">
+    <compoundname>babel::util::TextWrapper</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">textwrap.TextWrapper</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classbabel_1_1util_1_1TextWrapper_1afff9d208628694862840a217f2b6cdf6" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>babel.util.TextWrapper::wordsep_re</definition>
+        <argsstring></argsstring>
+        <name>wordsep_re</name>
+        <qualifiedname>babel.util.TextWrapper.wordsep_re</qualifiedname>
+        <initializer>=  re.compile(
+        r&apos;(\s+|&apos;                                  # any whitespace
+        r&apos;(?&lt;=[\w\!\&quot;\&apos;\&amp;\.\,\?])-{2,}(?=\w))&apos;,   # em-dash
+    )</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/util.py" line="203" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/util.py" bodystart="203" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classbabel_1_1util_1_1TextWrapper_1a0dbd6e773f063e62a07c9716ebad0418" prot="protected" static="yes" mutable="no">
+        <type></type>
+        <definition>babel.util.TextWrapper::_enclosed_filename_re</definition>
+        <argsstring></argsstring>
+        <name>_enclosed_filename_re</name>
+        <qualifiedname>babel.util.TextWrapper._enclosed_filename_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;(\u2068[^\u2068]+?\u2069(?::-?\d+)?)&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/util.py" line="209" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/util.py" bodystart="209" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classbabel_1_1util_1_1TextWrapper_1aee3489c442ab3b9b7b3c319dee81d03d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>babel.util.TextWrapper._split</definition>
+        <argsstring>(self, text)</argsstring>
+        <name>_split</name>
+        <qualifiedname>babel.util.TextWrapper._split</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>text</type>
+          <defname>text</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Splits the text into indivisible chunks while ensuring that file names
+containing spaces are not broken up.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/util.py" line="211" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/util.py" bodystart="211" bodyend="228"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>babel.util.TextWrapper</label>
+        <link refid="classbabel_1_1util_1_1TextWrapper"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>textwrap::TextWrapper</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>babel.util.TextWrapper</label>
+        <link refid="classbabel_1_1util_1_1TextWrapper"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>textwrap::TextWrapper</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/babel/util.py" line="202" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/util.py" bodystart="202" bodyend="228"/>
+    <listofallmembers>
+      <member refid="classbabel_1_1util_1_1TextWrapper_1a0dbd6e773f063e62a07c9716ebad0418" prot="protected" virt="non-virtual"><scope>babel::util::TextWrapper</scope><name>_enclosed_filename_re</name></member>
+      <member refid="classbabel_1_1util_1_1TextWrapper_1aee3489c442ab3b9b7b3c319dee81d03d" prot="protected" virt="non-virtual"><scope>babel::util::TextWrapper</scope><name>_split</name></member>
+      <member refid="classbabel_1_1util_1_1TextWrapper_1afff9d208628694862840a217f2b6cdf6" prot="public" virt="non-virtual"><scope>babel::util::TextWrapper</scope><name>wordsep_re</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

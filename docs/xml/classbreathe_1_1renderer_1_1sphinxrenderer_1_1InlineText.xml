@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classbreathe_1_1renderer_1_1sphinxrenderer_1_1InlineText" kind="class" language="Python" prot="public">
+    <compoundname>breathe::renderer::sphinxrenderer::InlineText</compoundname>
+    <basecompoundref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text" prot="public" virt="non-virtual">docutils.parsers.rst.states.Text</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classbreathe_1_1renderer_1_1sphinxrenderer_1_1InlineText_1a391ff3803764f049aeeaf010345f658f" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict breathe.renderer.sphinxrenderer.InlineText::patterns</definition>
+        <argsstring></argsstring>
+        <name>patterns</name>
+        <qualifiedname>breathe.renderer.sphinxrenderer.InlineText.patterns</qualifiedname>
+        <initializer>=  {&quot;inlinetext&quot;: r&quot;&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/breathe/renderer/sphinxrenderer.py" line="451" column="1" bodyfile="venv/lib/python3.12/site-packages/breathe/renderer/sphinxrenderer.py" bodystart="451" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbreathe_1_1renderer_1_1sphinxrenderer_1_1InlineText_1a77c4fb28c088c376ce77dedd44399299" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list breathe.renderer.sphinxrenderer.InlineText::initial_transitions</definition>
+        <argsstring></argsstring>
+        <name>initial_transitions</name>
+        <qualifiedname>breathe.renderer.sphinxrenderer.InlineText.initial_transitions</qualifiedname>
+        <initializer>=  [(&quot;inlinetext&quot;,)]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/breathe/renderer/sphinxrenderer.py" line="452" column="1" bodyfile="venv/lib/python3.12/site-packages/breathe/renderer/sphinxrenderer.py" bodystart="452" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1sphinxrenderer_1_1InlineText_1a5a606a1546c87a49ad6a5544d3fc09b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>breathe.renderer.sphinxrenderer.InlineText.indent</definition>
+        <argsstring>(self, match, context, next_state)</argsstring>
+        <name>indent</name>
+        <qualifiedname>breathe.renderer.sphinxrenderer.InlineText.indent</qualifiedname>
+        <reimplements refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a3b8b4f70d44e1cd0350982b967dd0be7">indent</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>match</type>
+          <defname>match</defname>
+        </param>
+        <param>
+          <type>context</type>
+          <defname>context</defname>
+        </param>
+        <param>
+          <type>next_state</type>
+          <defname>next_state</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Avoid Text&apos;s indent from detecting space prefixed text and
+doing &quot;funny&quot; stuff; always rely on inlinetext for parsing.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/breathe/renderer/sphinxrenderer.py" line="454" column="1" bodyfile="venv/lib/python3.12/site-packages/breathe/renderer/sphinxrenderer.py" bodystart="454" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1sphinxrenderer_1_1InlineText_1a9caf61404fd3fc22e3f2296433ac68fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>breathe.renderer.sphinxrenderer.InlineText.eof</definition>
+        <argsstring>(self, context)</argsstring>
+        <name>eof</name>
+        <qualifiedname>breathe.renderer.sphinxrenderer.InlineText.eof</qualifiedname>
+        <reimplements refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a0800dd94a11174ad3c500e9fee215b48">eof</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>context</type>
+          <defname>context</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Text.eof() inserts a paragraph, so override it to skip adding elements.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/breathe/renderer/sphinxrenderer.py" line="461" column="1" bodyfile="venv/lib/python3.12/site-packages/breathe/renderer/sphinxrenderer.py" bodystart="461" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="classbreathe_1_1renderer_1_1sphinxrenderer_1_1InlineText_1afe16fc330fe4f730dce44375e76c1ef7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>breathe.renderer.sphinxrenderer.InlineText.inlinetext</definition>
+        <argsstring>(self, match, context, next_state)</argsstring>
+        <name>inlinetext</name>
+        <qualifiedname>breathe.renderer.sphinxrenderer.InlineText.inlinetext</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>match</type>
+          <defname>match</defname>
+        </param>
+        <param>
+          <type>context</type>
+          <defname>context</defname>
+        </param>
+        <param>
+          <type>next_state</type>
+          <defname>next_state</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Called by the StateMachine when an inline element is found (which is
+any text when this class is added as the single transition.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/breathe/renderer/sphinxrenderer.py" line="467" column="1" bodyfile="venv/lib/python3.12/site-packages/breathe/renderer/sphinxrenderer.py" bodystart="467" bodyend="485"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Add a custom docutils class to allow parsing inline text. This is to be
+used inside a @verbatim/@endverbatim block but only the first line is
+consumed and a inline element is generated as the parent, instead of the
+paragraph used by Text.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>breathe.renderer.sphinxrenderer.InlineText</label>
+        <link refid="classbreathe_1_1renderer_1_1sphinxrenderer_1_1InlineText"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.parsers.rst.states.RSTState</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.parsers.rst.states.Text</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>docutils.statemachine.State</label>
+        <link refid="classdocutils_1_1statemachine_1_1State"/>
+      </node>
+      <node id="4">
+        <label>docutils.statemachine.StateWS</label>
+        <link refid="classdocutils_1_1statemachine_1_1StateWS"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>breathe.renderer.sphinxrenderer.InlineText</label>
+        <link refid="classbreathe_1_1renderer_1_1sphinxrenderer_1_1InlineText"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.parsers.rst.states.RSTState</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.parsers.rst.states.Text</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>docutils.statemachine.State</label>
+        <link refid="classdocutils_1_1statemachine_1_1State"/>
+      </node>
+      <node id="4">
+        <label>docutils.statemachine.StateWS</label>
+        <link refid="classdocutils_1_1statemachine_1_1StateWS"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/breathe/renderer/sphinxrenderer.py" line="443" column="1" bodyfile="venv/lib/python3.12/site-packages/breathe/renderer/sphinxrenderer.py" bodystart="443" bodyend="485"/>
+    <listofallmembers>
+      <member refid="classbreathe_1_1renderer_1_1sphinxrenderer_1_1InlineText_1a9caf61404fd3fc22e3f2296433ac68fb" prot="public" virt="non-virtual"><scope>breathe::renderer::sphinxrenderer::InlineText</scope><name>eof</name></member>
+      <member refid="classbreathe_1_1renderer_1_1sphinxrenderer_1_1InlineText_1a5a606a1546c87a49ad6a5544d3fc09b1" prot="public" virt="non-virtual"><scope>breathe::renderer::sphinxrenderer::InlineText</scope><name>indent</name></member>
+      <member refid="classbreathe_1_1renderer_1_1sphinxrenderer_1_1InlineText_1a77c4fb28c088c376ce77dedd44399299" prot="public" virt="non-virtual"><scope>breathe::renderer::sphinxrenderer::InlineText</scope><name>initial_transitions</name></member>
+      <member refid="classbreathe_1_1renderer_1_1sphinxrenderer_1_1InlineText_1afe16fc330fe4f730dce44375e76c1ef7" prot="public" virt="non-virtual"><scope>breathe::renderer::sphinxrenderer::InlineText</scope><name>inlinetext</name></member>
+      <member refid="classbreathe_1_1renderer_1_1sphinxrenderer_1_1InlineText_1a391ff3803764f049aeeaf010345f658f" prot="public" virt="non-virtual"><scope>breathe::renderer::sphinxrenderer::InlineText</scope><name>patterns</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

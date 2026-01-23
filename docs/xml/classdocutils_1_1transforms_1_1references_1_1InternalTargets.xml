@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1transforms_1_1references_1_1InternalTargets" kind="class" language="Python" prot="public">
+    <compoundname>docutils::transforms::references::InternalTargets</compoundname>
+    <basecompoundref refid="classdocutils_1_1transforms_1_1Transform" prot="public" virt="non-virtual">docutils.transforms.Transform</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1transforms_1_1references_1_1InternalTargets_1ae20b6413391a40845e22d758405a75b3" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int docutils.transforms.references.InternalTargets::default_priority</definition>
+        <argsstring></argsstring>
+        <name>default_priority</name>
+        <qualifiedname>docutils.transforms.references.InternalTargets.default_priority</qualifiedname>
+        <initializer>=  660</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/references.py" line="369" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/references.py" bodystart="369" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1references_1_1InternalTargets_1a6c5442dba8e91bfd6621c60ffbbd7a38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.references.InternalTargets.apply</definition>
+        <argsstring>(self)</argsstring>
+        <name>apply</name>
+        <qualifiedname>docutils.transforms.references.InternalTargets.apply</qualifiedname>
+        <reimplements refid="classdocutils_1_1transforms_1_1Transform_1a0a9e91ca01b2b5377cb61a18d8914f34">apply</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Override to apply the transform to the document tree.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/references.py" line="371" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/references.py" bodystart="371" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1references_1_1InternalTargets_1a3183b224258714d0b72df5680c590683" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.references.InternalTargets.resolve_reference_ids</definition>
+        <argsstring>(self, target)</argsstring>
+        <name>resolve_reference_ids</name>
+        <qualifiedname>docutils.transforms.references.InternalTargets.resolve_reference_ids</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>target</type>
+          <defname>target</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Given::
+
+    &lt;paragraph&gt;
+        &lt;reference refname=&quot;direct internal&quot;&gt;
+            direct internal
+    &lt;target id=&quot;id1&quot; name=&quot;direct internal&quot;&gt;
+
+The &quot;refname&quot; attribute is replaced by &quot;refid&quot; linking to the target&apos;s
+&quot;id&quot;::
+
+    &lt;paragraph&gt;
+        &lt;reference refid=&quot;id1&quot;&gt;
+            direct internal
+    &lt;target id=&quot;id1&quot; name=&quot;direct internal&quot;&gt;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/references.py" line="376" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/references.py" bodystart="376" bodyend="406"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.transforms.references.InternalTargets</label>
+        <link refid="classdocutils_1_1transforms_1_1references_1_1InternalTargets"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>docutils.transforms.references.InternalTargets</label>
+        <link refid="classdocutils_1_1transforms_1_1references_1_1InternalTargets"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/docutils/transforms/references.py" line="367" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/references.py" bodystart="367" bodyend="406"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1transforms_1_1references_1_1InternalTargets_1a6c5442dba8e91bfd6621c60ffbbd7a38" prot="public" virt="non-virtual"><scope>docutils::transforms::references::InternalTargets</scope><name>apply</name></member>
+      <member refid="classdocutils_1_1transforms_1_1references_1_1InternalTargets_1ae20b6413391a40845e22d758405a75b3" prot="public" virt="non-virtual"><scope>docutils::transforms::references::InternalTargets</scope><name>default_priority</name></member>
+      <member refid="classdocutils_1_1transforms_1_1references_1_1InternalTargets_1a3183b224258714d0b72df5680c590683" prot="public" virt="non-virtual"><scope>docutils::transforms::references::InternalTargets</scope><name>resolve_reference_ids</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

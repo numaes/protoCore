@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceurllib3_1_1filepost" kind="namespace" language="Python">
+    <compoundname>urllib3::filepost</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceurllib3_1_1filepost_1a6fa9e3e560e45425637f4f3bf5ed61e0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::filepost.writer</definition>
+        <argsstring></argsstring>
+        <name>writer</name>
+        <qualifiedname>urllib3.filepost.writer</qualifiedname>
+        <initializer>=  codecs.lookup(&quot;utf-8&quot;)[3]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/filepost.py" line="11" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/filepost.py" bodystart="11" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1filepost_1aab3f347e95e539075bdffb1cc199fcc2" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::filepost._TYPE_FIELDS_SEQUENCE</definition>
+        <argsstring></argsstring>
+        <name>_TYPE_FIELDS_SEQUENCE</name>
+        <qualifiedname>urllib3.filepost._TYPE_FIELDS_SEQUENCE</qualifiedname>
+        <initializer>=  typing.Sequence[
+    typing.Union[tuple[str, _TYPE_FIELD_VALUE_TUPLE], <ref refid="classurllib3_1_1fields_1_1RequestField" kindref="compound">RequestField</ref>]
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/filepost.py" line="13" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/filepost.py" bodystart="13" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1filepost_1a83313364d7b78ea16a93ca17bd7f94be" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::filepost._TYPE_FIELDS</definition>
+        <argsstring></argsstring>
+        <name>_TYPE_FIELDS</name>
+        <qualifiedname>urllib3.filepost._TYPE_FIELDS</qualifiedname>
+        <initializer>=  typing.Union[
+    <ref refid="namespaceurllib3_1_1filepost_1aab3f347e95e539075bdffb1cc199fcc2" kindref="member">_TYPE_FIELDS_SEQUENCE</ref>,
+    typing.Mapping[str, _TYPE_FIELD_VALUE_TUPLE],
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/filepost.py" line="16" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/filepost.py" bodystart="16" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceurllib3_1_1filepost_1a4fb12a4dffcdabb3bbd01f664c319fe1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str urllib3.filepost.choose_boundary</definition>
+        <argsstring>()</argsstring>
+        <name>choose_boundary</name>
+        <qualifiedname>urllib3.filepost.choose_boundary</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Our embarrassingly-simple replacement for mimetools.choose_boundary.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/filepost.py" line="22" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/filepost.py" bodystart="22" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1filepost_1a52a5b13f167cbdeed89db67badefec85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>typing.Iterable[<ref refid="classurllib3_1_1fields_1_1RequestField" kindref="compound">RequestField</ref>]</type>
+        <definition> typing.Iterable[RequestField] urllib3.filepost.iter_field_objects</definition>
+        <argsstring>(_TYPE_FIELDS fields)</argsstring>
+        <name>iter_field_objects</name>
+        <qualifiedname>urllib3.filepost.iter_field_objects</qualifiedname>
+        <param>
+          <type><ref refid="namespaceurllib3_1_1filepost_1a83313364d7b78ea16a93ca17bd7f94be" kindref="member">_TYPE_FIELDS</ref></type>
+          <declname>fields</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Iterate over fields.
+
+Supports list of (k, v) tuples and dicts, and lists of
+:class:`~urllib3.fields.RequestField`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/filepost.py" line="29" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/filepost.py" bodystart="29" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1filepost_1ae33e99141e6817d9ae53e439cc3ba1a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[bytes, str]</type>
+        <definition> tuple[bytes, str] urllib3.filepost.encode_multipart_formdata</definition>
+        <argsstring>(_TYPE_FIELDS fields, str|None boundary=None)</argsstring>
+        <name>encode_multipart_formdata</name>
+        <qualifiedname>urllib3.filepost.encode_multipart_formdata</qualifiedname>
+        <param>
+          <type><ref refid="namespaceurllib3_1_1filepost_1a83313364d7b78ea16a93ca17bd7f94be" kindref="member">_TYPE_FIELDS</ref></type>
+          <declname>fields</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>boundary</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Encode a dictionary of ``fields`` using the multipart/form-data MIME format.
+
+:param fields:
+    Dictionary of fields or list of (key, :class:`~urllib3.fields.RequestField`).
+    Values are processed by :func:`urllib3.fields.RequestField.from_tuples`.
+
+:param boundary:
+    If not specified, then a random boundary will be generated using
+    :func:`urllib3.filepost.choose_boundary`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/filepost.py" line="51" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/filepost.py" bodystart="53" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/urllib3/filepost.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

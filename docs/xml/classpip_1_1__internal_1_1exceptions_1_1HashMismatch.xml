@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1exceptions_1_1HashMismatch" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::exceptions::HashMismatch</compoundname>
+    <basecompoundref refid="classpip_1_1__internal_1_1exceptions_1_1HashError" prot="public" virt="non-virtual">pip._internal.exceptions.HashError</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1exceptions_1_1HashMismatch_1a0583f085398d071f963d74ad6977b01c" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int pip._internal.exceptions.HashMismatch::order</definition>
+        <argsstring></argsstring>
+        <name>order</name>
+        <qualifiedname>pip._internal.exceptions.HashMismatch.order</qualifiedname>
+        <initializer>=  4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="575" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="575" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1exceptions_1_1HashMismatch_1afdf713626f29a3408c26d54c0624b6b0" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pip._internal.exceptions.HashMismatch::head</definition>
+        <argsstring></argsstring>
+        <name>head</name>
+        <qualifiedname>pip._internal.exceptions.HashMismatch.head</qualifiedname>
+        <initializer>=  (
+        &quot;THESE PACKAGES DO NOT MATCH THE HASHES FROM THE REQUIREMENTS &quot;
+        &quot;FILE. If you have updated the package versions, please update &quot;
+        &quot;the hashes. Otherwise, examine the package contents carefully; &quot;
+        &quot;someone may have tampered with them.&quot;
+    )</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="576" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="576" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1exceptions_1_1HashMismatch_1a75f1e4930d8d7dca662cfa12bd05842f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.exceptions.HashMismatch::allowed</definition>
+        <argsstring></argsstring>
+        <name>allowed</name>
+        <qualifiedname>pip._internal.exceptions.HashMismatch.allowed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="590" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="590" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1exceptions_1_1HashMismatch_1abae5463ebcc1108c4695cad4065133ce" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.exceptions.HashMismatch::gots</definition>
+        <argsstring></argsstring>
+        <name>gots</name>
+        <qualifiedname>pip._internal.exceptions.HashMismatch.gots</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="591" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="591" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1exceptions_1_1HashMismatch_1a89b96c614c9c81ba7b4ecd23e51c8a30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.exceptions.HashMismatch.__init__</definition>
+        <argsstring>(self, Dict[str, List[str]] allowed, Dict[str, &quot;_Hash&quot;] gots)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._internal.exceptions.HashMismatch.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Dict]</type>
+          <declname>allowed</declname>
+          <array>[str, List[str]</array>
+        </param>
+        <param>
+          <type>Dict</type>
+          <declname>gots</declname>
+          <array>[str, &quot;_Hash&quot;]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>:param allowed: A dict of algorithm names pointing to lists of allowed
+    hex digests
+:param gots: A dict of algorithm names pointing to hashes we
+    actually got from the files under suspicion
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="583" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="583" bodyend="592"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1exceptions_1_1HashMismatch_1a24c9ffc7b9a48c74ac53439d56a05dc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.exceptions.HashMismatch.body</definition>
+        <argsstring>(self)</argsstring>
+        <name>body</name>
+        <qualifiedname>pip._internal.exceptions.HashMismatch.body</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1exceptions_1_1HashError_1a8b1a0890122218544dd1a3e23c416431">body</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a summary of me for display under the heading.
+
+This default implementation simply prints a description of the
+triggering requirement.
+
+:param req: The InstallRequirement that provoked this error, with
+    its link already populated by the resolver&apos;s _populate_link().</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="593" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="593" bodyend="595"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1exceptions_1_1HashMismatch_1a9b7e5755035de0fc7149dcae9e18346a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.exceptions.HashMismatch._hash_comparison</definition>
+        <argsstring>(self)</argsstring>
+        <name>_hash_comparison</name>
+        <qualifiedname>pip._internal.exceptions.HashMismatch._hash_comparison</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a comparison of actual and expected hash values.
+
+Example::
+
+       Expected sha256 abcdeabcdeabcdeabcdeabcdeabcdeabcdeabcdeabcde
+                    or 123451234512345123451234512345123451234512345
+            Got        bcdefbcdefbcdefbcdefbcdefbcdefbcdefbcdefbcdef</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="596" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="596" bodyend="622"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Distribution file hash values don&apos;t match.
+
+:ivar package_name: The name of the package that triggered the hash
+    mismatch. Feel free to write to this after the exception is raise to
+    improve its error message.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="5">
+        <label>Exception</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.exceptions.HashMismatch</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1HashMismatch"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.exceptions.HashError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1HashError"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.exceptions.InstallationError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1InstallationError"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._internal.exceptions.PipError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1PipError"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>Exception</label>
+      </node>
+      <node id="7">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.exceptions.HashMismatch</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1HashMismatch"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.exceptions.HashError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1HashError"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>req</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>head</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.exceptions.InstallationError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1InstallationError"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._internal.exceptions.PipError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1PipError"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Optional</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="565" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="565" bodyend="622"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1exceptions_1_1HashMismatch_1a89b96c614c9c81ba7b4ecd23e51c8a30" prot="public" virt="non-virtual"><scope>pip::_internal::exceptions::HashMismatch</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__internal_1_1exceptions_1_1HashMismatch_1a9b7e5755035de0fc7149dcae9e18346a" prot="protected" virt="non-virtual"><scope>pip::_internal::exceptions::HashMismatch</scope><name>_hash_comparison</name></member>
+      <member refid="classpip_1_1__internal_1_1exceptions_1_1HashMismatch_1a75f1e4930d8d7dca662cfa12bd05842f" prot="public" virt="non-virtual"><scope>pip::_internal::exceptions::HashMismatch</scope><name>allowed</name></member>
+      <member refid="classpip_1_1__internal_1_1exceptions_1_1HashMismatch_1a24c9ffc7b9a48c74ac53439d56a05dc6" prot="public" virt="non-virtual"><scope>pip::_internal::exceptions::HashMismatch</scope><name>body</name></member>
+      <member refid="classpip_1_1__internal_1_1exceptions_1_1HashMismatch_1abae5463ebcc1108c4695cad4065133ce" prot="public" virt="non-virtual"><scope>pip::_internal::exceptions::HashMismatch</scope><name>gots</name></member>
+      <member refid="classpip_1_1__internal_1_1exceptions_1_1HashMismatch_1afdf713626f29a3408c26d54c0624b6b0" prot="public" virt="non-virtual"><scope>pip::_internal::exceptions::HashMismatch</scope><name>head</name></member>
+      <member refid="classpip_1_1__internal_1_1exceptions_1_1HashMismatch_1a0583f085398d071f963d74ad6977b01c" prot="public" virt="non-virtual"><scope>pip::_internal::exceptions::HashMismatch</scope><name>order</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

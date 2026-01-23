@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="process_8py" kind="file" language="Python">
+    <compoundname>process.py</compoundname>
+    <innerclass refid="classbreathe_1_1process_1_1ProjectData" prot="public">breathe::process::ProjectData</innerclass>
+    <innerclass refid="classbreathe_1_1process_1_1AutoDoxygenProcessHandle" prot="public">breathe::process::AutoDoxygenProcessHandle</innerclass>
+    <innernamespace refid="namespacebreathe">breathe</innernamespace>
+    <innernamespace refid="namespacebreathe_1_1process">breathe::process</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacebreathe_1_1process" refkind="compound"><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>os</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>pathlib<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Path</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>shlex<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>quote</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TYPE_CHECKING</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Callable</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacebreathe_1_1project" kindref="compound">breathe.project</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>AutoProjectInfo,<sp/>ProjectInfoFactory</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal">AUTOCFG_TEMPLATE<sp/>=<sp/></highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="14"><highlight class="stringliteral">PROJECT_NAME<sp/><sp/><sp/><sp/><sp/>=<sp/>&quot;{project_name}&quot;</highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral">OUTPUT_DIRECTORY<sp/>=<sp/>{output_dir}</highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral">GENERATE_LATEX<sp/><sp/><sp/>=<sp/>NO</highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral">GENERATE_MAN<sp/><sp/><sp/><sp/><sp/>=<sp/>NO</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral">GENERATE_RTF<sp/><sp/><sp/><sp/><sp/>=<sp/>NO</highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral">CASE_SENSE_NAMES<sp/>=<sp/>NO</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral">INPUT<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>{input}</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral">ENABLE_PREPROCESSING<sp/>=<sp/>YES</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral">QUIET<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>YES</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral">JAVADOC_AUTOBRIEF<sp/>=<sp/>YES</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral">JAVADOC_AUTOBRIEF<sp/>=<sp/>NO</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral">GENERATE_HTML<sp/>=<sp/>NO</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral">GENERATE_XML<sp/>=<sp/>YES</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral">ALIASES<sp/>=<sp/>rst=&quot;\verbatim<sp/>embed:rst&quot;</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral">ALIASES<sp/>+=<sp/>endrst=&quot;\endverbatim&quot;</highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral">ALIASES<sp/>+=<sp/>inlinerst=&quot;\verbatim<sp/>embed:rst:inline&quot;</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral">{extra}</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal">.strip()</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="classbreathe_1_1process_1_1ProjectData" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classbreathe_1_1process_1_1ProjectData" kindref="compound">ProjectData</ref>:</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Simple<sp/>handler<sp/>for<sp/>the<sp/>files<sp/>and<sp/>project_info<sp/>for<sp/>each<sp/>project.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classbreathe_1_1process_1_1ProjectData_1a13090ba49c49e43d1369f4c6375fea31" kindref="member">__init__</ref>(self,<sp/>auto_project_info:<sp/>AutoProjectInfo,<sp/>files:<sp/>list[str])<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classbreathe_1_1process_1_1ProjectData_1a915f5699ffb5ddf74a794794af218526" kindref="member">auto_project_info</ref><sp/>=<sp/>auto_project_info</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classbreathe_1_1process_1_1ProjectData_1a89f8d376416313c25676db68399e1fb1" kindref="member">files</ref><sp/>=<sp/>files</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="classbreathe_1_1process_1_1AutoDoxygenProcessHandle" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classbreathe_1_1process_1_1AutoDoxygenProcessHandle" kindref="compound">AutoDoxygenProcessHandle</ref>:</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classbreathe_1_1process_1_1AutoDoxygenProcessHandle_1a07d855454e50fe86854a3327b7877f6f" kindref="member">__init__</ref>(</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>run_process:<sp/>Callable,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>write_file:<sp/>Callable[[str<sp/>|<sp/>os.PathLike[str],<sp/>str,<sp/>str],<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>project_info_factory:<sp/>ProjectInfoFactory,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classbreathe_1_1process_1_1AutoDoxygenProcessHandle_1a168495acb174f39f28d0ec15b950a82c" kindref="member">run_process</ref><sp/>=<sp/>run_process</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classbreathe_1_1process_1_1AutoDoxygenProcessHandle_1a6c517f15f391b1e8f5f40fee145c9df7" kindref="member">write_file</ref><sp/>=<sp/>write_file</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classbreathe_1_1process_1_1AutoDoxygenProcessHandle_1a1a48817a00db0d3131d86eb439c072c8" kindref="member">project_info_factory</ref><sp/>=<sp/>project_info_factory</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classbreathe_1_1process_1_1AutoDoxygenProcessHandle_1a69a0f31a0334c87262843790ad086151" kindref="member">generate_xml</ref>(</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>projects_source:<sp/>dict[str,<sp/>tuple[str,<sp/>list[str]]],</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>doxygen_options:<sp/>dict[str,<sp/>str],</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>doxygen_aliases:<sp/>dict[str,<sp/>str],</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>project_files:<sp/>dict[str,<sp/>ProjectData]<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>First<sp/>collect<sp/>together<sp/>all<sp/>the<sp/>files<sp/>which<sp/>need<sp/>to<sp/>be<sp/>doxygen<sp/>processed<sp/>for<sp/>each<sp/>project</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>project_name,<sp/>file_structure<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>projects_source.items():</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>folder,<sp/>contents<sp/>=<sp/>file_structure</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto_project_info<sp/>=<sp/>self.<ref refid="classbreathe_1_1process_1_1AutoDoxygenProcessHandle_1a1a48817a00db0d3131d86eb439c072c8" kindref="member">project_info_factory</ref>.create_auto_project_info(</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>project_name,<sp/>folder</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>project_files[project_name]<sp/>=<sp/><ref refid="classbreathe_1_1process_1_1ProjectData" kindref="compound">ProjectData</ref>(auto_project_info,<sp/>contents)</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Iterate<sp/>over<sp/>the<sp/>projects<sp/>and<sp/>generate<sp/>doxygen<sp/>xml<sp/>output<sp/>for<sp/>the<sp/>files<sp/>for<sp/>each<sp/>one<sp/>into</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>a<sp/>directory<sp/>in<sp/>the<sp/>Sphinx<sp/>build<sp/>area</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>project_name,<sp/>data<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>project_files.items():</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>project_path<sp/>=<sp/>self.<ref refid="classbreathe_1_1process_1_1AutoDoxygenProcessHandle_1add4431015d0172412f69ae5e5daace55" kindref="member">process</ref>(</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data.auto_project_info,<sp/>data.files,<sp/>doxygen_options,<sp/>doxygen_aliases</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>project_info<sp/>=<sp/>data.auto_project_info.create_project_info(project_path)</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classbreathe_1_1process_1_1AutoDoxygenProcessHandle_1a1a48817a00db0d3131d86eb439c072c8" kindref="member">project_info_factory</ref>.store_project_info_for_auto(project_name,<sp/>project_info)</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">process(</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auto_project_info:<sp/>AutoProjectInfo,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>files:<sp/>list[str],</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>doxygen_options:<sp/>dict[str,<sp/>str],</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>doxygen_aliases:<sp/>dict[str,<sp/>str],</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name<sp/>=<sp/>auto_project_info.name()</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>full_paths<sp/>=<sp/>[str(auto_project_info.abs_path_to_source_file(f))<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>f<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>files]</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>options<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">.join(</highlight><highlight class="stringliteral">&quot;%s=%s&quot;</highlight><highlight class="normal"><sp/>%<sp/>pair<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>pair<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>doxygen_options.items())</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>aliases<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">.join(</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f</highlight><highlight class="stringliteral">&apos;ALIASES<sp/>+=<sp/>{name}=&quot;{value}&quot;&apos;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>name,<sp/>value<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>doxygen_aliases.items()</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg<sp/>=<sp/>AUTOCFG_TEMPLATE.format(</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>project_name=name,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output_dir=name,</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>input=</highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal">.join(full_paths),</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>extra=f</highlight><highlight class="stringliteral">&quot;{options}\n{aliases}&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>build_dir<sp/>=<sp/>Path(auto_project_info.build_dir(),<sp/></highlight><highlight class="stringliteral">&quot;breathe&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;doxygen&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfgfile<sp/>=<sp/>f</highlight><highlight class="stringliteral">&quot;{name}.cfg&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classbreathe_1_1process_1_1AutoDoxygenProcessHandle_1a6c517f15f391b1e8f5f40fee145c9df7" kindref="member">write_file</ref>(build_dir,<sp/>cfgfile,<sp/>cfg)</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Shell-escape<sp/>the<sp/>cfg<sp/>file<sp/>name<sp/>to<sp/>try<sp/>to<sp/>avoid<sp/>any<sp/>issue<sp/>where<sp/>the<sp/>name<sp/>might<sp/>include</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>malicious<sp/>shell<sp/>character<sp/>-<sp/>We<sp/>have<sp/>to<sp/>use<sp/>the<sp/>shell=True<sp/>option<sp/>to<sp/>make<sp/>it<sp/>work<sp/>on</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Windows.<sp/>See<sp/>issue<sp/>#271</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classbreathe_1_1process_1_1AutoDoxygenProcessHandle_1a168495acb174f39f28d0ec15b950a82c" kindref="member">run_process</ref>(f</highlight><highlight class="stringliteral">&quot;doxygen<sp/>{quote(cfgfile)}&quot;</highlight><highlight class="normal">,<sp/>cwd=build_dir,<sp/>shell=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>os.path.join(build_dir,<sp/>name,<sp/></highlight><highlight class="stringliteral">&quot;xml&quot;</highlight><highlight class="normal">)</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/breathe/process.py"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="requests_8py" kind="file" language="Python">
+    <compoundname>requests.py</compoundname>
+    <innerclass refid="classsphinx_1_1util_1_1requests_1_1__IgnoredRedirection" prot="protected">sphinx::util::requests::_IgnoredRedirection</innerclass>
+    <innerclass refid="classsphinx_1_1util_1_1requests_1_1__Session" prot="protected">sphinx::util::requests::_Session</innerclass>
+    <innernamespace refid="namespacesphinx">sphinx</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1util">sphinx::util</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1util_1_1requests">sphinx::util::requests</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacesphinx_1_1util_1_1requests" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;Simple<sp/>requests<sp/>package<sp/>loader&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral">from<sp/>__future__<sp/>import<sp/>annotations</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral">import<sp/>warnings</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral">from<sp/>typing<sp/>import<sp/>TYPE_CHECKING</highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral">from<sp/>urllib.parse<sp/>import<sp/>urljoin,<sp/>urlsplit</highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral">import<sp/>requests</highlight></codeline>
+<codeline lineno="10"><highlight class="stringliteral">from<sp/>urllib3.exceptions<sp/>import<sp/>InsecureRequestWarning</highlight></codeline>
+<codeline lineno="11"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="12"><highlight class="stringliteral">import<sp/>sphinx</highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="14"><highlight class="stringliteral">if<sp/>TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>import<sp/>re</highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>from<sp/>collections.abc<sp/>import<sp/>Sequence</highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>from<sp/>typing<sp/>import<sp/>Any</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral">_USER_AGENT<sp/>=<sp/>(</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>f&apos;Mozilla/5.0<sp/>(X11;<sp/>Linux<sp/>x86_64;<sp/>rv:100.0)<sp/>Gecko/20100101<sp/>Firefox/100.0<sp/>&apos;</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>f&apos;Sphinx/{sphinx.__version__}&apos;</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral">)</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="26" refid="classsphinx_1_1util_1_1requests_1_1__IgnoredRedirection" refkind="compound"><highlight class="stringliteral">class<sp/>_IgnoredRedirection(Exception):</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">Sphinx-internal<sp/>exception<sp/>raised<sp/>when<sp/>an<sp/>HTTP<sp/>redirect<sp/>is<sp/>ignored&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>def<sp/>__init__(self,<sp/>destination:<sp/>str,<sp/>status_code:<sp/>int)<sp/>-&gt;<sp/>None:</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.destination<sp/>=<sp/>destination</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.status_code<sp/>=<sp/>status_code</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">def<sp/>_get_tls_cacert(url:<sp/>str,<sp/>certs:<sp/>str<sp/>|<sp/>dict[str,<sp/>str]<sp/>|<sp/>None)<sp/>-&gt;<sp/>str<sp/>|<sp/>bool:</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;Get<sp/>additional<sp/>CA<sp/>cert<sp/>for<sp/>a<sp/>specific<sp/>URL.&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>if<sp/>not<sp/>certs:</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>True</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>elif<sp/>isinstance(certs,<sp/>str<sp/>|<sp/>tuple):</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>certs</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>else:</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hostname<sp/>=<sp/>urlsplit(url).netloc</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>&apos;@&apos;<sp/>in<sp/>hostname:</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_,<sp/>hostname<sp/>=<sp/>hostname.split(&apos;@&apos;,<sp/>1)</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>certs.get(hostname,<sp/>True)</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">def<sp/>get(url:<sp/>str,<sp/>**kwargs:<sp/>Any)<sp/>-&gt;<sp/>requests.Response:</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;Sends<sp/>a<sp/>GET<sp/>request<sp/>like<sp/>``requests.get()``.</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>This<sp/>sets<sp/>up<sp/>User-Agent<sp/>header<sp/>and<sp/>TLS<sp/>verification<sp/>automatically.</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>with<sp/>_Session()<sp/>as<sp/>session:</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>session.get(url,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal">def<sp/>head(url:<sp/>str,<sp/>**kwargs:<sp/>Any)<sp/>-&gt;<sp/>requests.Response:</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;Sends<sp/>a<sp/>HEAD<sp/>request<sp/>like<sp/>``requests.head()``.</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>This<sp/>sets<sp/>up<sp/>User-Agent<sp/>header<sp/>and<sp/>TLS<sp/>verification<sp/>automatically.</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>with<sp/>_Session()<sp/>as<sp/>session:</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>session.head(url,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="classsphinx_1_1util_1_1requests_1_1__Session" refkind="compound"><highlight class="normal">class<sp/>_Session(requests.Session):</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>_ignored_redirects:<sp/>Sequence[re.Pattern[str]]</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>def<sp/>__init__(self,<sp/>*args:<sp/>Any,<sp/>**kwargs:<sp/>Any)<sp/>-&gt;<sp/>None:</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self._ignored_redirects<sp/>=<sp/>kwargs.pop(&apos;_ignored_redirects&apos;,<sp/>())</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>super().__init__(*args,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>def<sp/>get_redirect_target(self,<sp/>resp:<sp/>requests.Response)<sp/>-&gt;<sp/>str<sp/>|<sp/>None:</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;Overrides<sp/>the<sp/>default<sp/>requests.Session.get_redirect_target&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#<sp/>do<sp/>not<sp/>follow<sp/>redirections<sp/>that<sp/>match<sp/>ignored<sp/>URI<sp/>patterns</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>resp.is_redirect:</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>destination<sp/>=<sp/>urljoin(resp.url,<sp/>resp.headers[&apos;location&apos;])</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>any(pat.match(destination)<sp/>for<sp/>pat<sp/>in<sp/>self._ignored_redirects):</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>raise<sp/>_IgnoredRedirection(</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>destination=destination,<sp/>status_code=resp.status_code</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>super().get_redirect_target(resp)</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>def<sp/>request(<sp/><sp/>#<sp/>type:<sp/>ignore[override]</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>method:<sp/>str,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>url:<sp/>str,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_user_agent:<sp/>str<sp/>=<sp/>&apos;&apos;,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_tls_info:<sp/>tuple[bool,<sp/>str<sp/>|<sp/>dict[str,<sp/>str]<sp/>|<sp/>None]<sp/>=<sp/>(),<sp/><sp/>#<sp/>type:<sp/>ignore[assignment]</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>**kwargs:<sp/>Any,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/>requests.Response:</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;Sends<sp/>a<sp/>request<sp/>with<sp/>an<sp/>HTTP<sp/>verb<sp/>and<sp/>url.</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>This<sp/>sets<sp/>up<sp/>User-Agent<sp/>header<sp/>and<sp/>TLS<sp/>verification<sp/>automatically.</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers<sp/>=<sp/>kwargs.setdefault(&apos;headers&apos;,<sp/>{})</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>headers.setdefault(&apos;User-Agent&apos;,<sp/>_user_agent<sp/>or<sp/>_USER_AGENT)</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>_tls_info:</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tls_verify,<sp/>tls_cacerts<sp/>=<sp/>_tls_info</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>verify<sp/>=<sp/>bool(kwargs.get(&apos;verify&apos;,<sp/>tls_verify))</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kwargs.setdefault(&apos;verify&apos;,<sp/>verify<sp/>and<sp/>_get_tls_cacert(url,<sp/>tls_cacerts))</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>else:</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>verify<sp/>=<sp/>kwargs.get(&apos;verify&apos;,<sp/>True)</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>verify:</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>super().request(method,<sp/>url,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>with<sp/>warnings.catch_warnings():</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#<sp/>ignore<sp/>InsecureRequestWarning<sp/>if<sp/>verify=False</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>warnings.filterwarnings(&apos;ignore&apos;,<sp/>category=InsecureRequestWarning)</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>super().request(method,<sp/>url,<sp/>**kwargs)</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/sphinx/util/requests.py"/>
+  </compounddef>
+</doxygen>

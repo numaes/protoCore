@@ -1,0 +1,219 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1nativetypes_1_1NativeCodeGenerator" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::nativetypes::NativeCodeGenerator</compoundname>
+    <basecompoundref refid="classjinja2_1_1compiler_1_1CodeGenerator" prot="public" virt="non-virtual">jinja2.compiler.CodeGenerator</basecompoundref>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="classjinja2_1_1nativetypes_1_1NativeCodeGenerator_1a2683c7d1bec0321b12411a2539ef8c4a" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Any</type>
+        <definition> t.Any jinja2.nativetypes.NativeCodeGenerator._default_finalize</definition>
+        <argsstring>(t.Any value)</argsstring>
+        <name>_default_finalize</name>
+        <qualifiedname>jinja2.nativetypes.NativeCodeGenerator._default_finalize</qualifiedname>
+        <reimplements refid="classjinja2_1_1compiler_1_1CodeGenerator_1a995194b49acb6859bbc0a2dad1e2b543">_default_finalize</reimplements>
+        <param>
+          <type>t.Any</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The default finalize function if the environment isn&apos;t
+configured with one. Or, if the environment has one, this is
+called on that function&apos;s output for constants.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nativetypes.py" line="56" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nativetypes.py" bodystart="56" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classjinja2_1_1nativetypes_1_1NativeCodeGenerator_1aafc4ac9b6b9a3911e90c6dedb5c0a7a8" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.nativetypes.NativeCodeGenerator._output_const_repr</definition>
+        <argsstring>(self, t.Iterable[t.Any] group)</argsstring>
+        <name>_output_const_repr</name>
+        <qualifiedname>jinja2.nativetypes.NativeCodeGenerator._output_const_repr</qualifiedname>
+        <reimplements refid="classjinja2_1_1compiler_1_1CodeGenerator_1adf19f6905847137ea6df0783c57e6d1c">_output_const_repr</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Iterable</type>
+          <declname>group</declname>
+          <array>[t.Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Given a group of constant values converted from ``Output``
+child nodes, produce a string to write to the template module
+source.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nativetypes.py" line="59" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nativetypes.py" bodystart="59" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1nativetypes_1_1NativeCodeGenerator_1aede3aca889040710c23d754eaf660273" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Any</type>
+        <definition> t.Any jinja2.nativetypes.NativeCodeGenerator._output_child_to_const</definition>
+        <argsstring>(self, nodes.Expr node, Frame frame, CodeGenerator._FinalizeInfo finalize)</argsstring>
+        <name>_output_child_to_const</name>
+        <qualifiedname>jinja2.nativetypes.NativeCodeGenerator._output_child_to_const</qualifiedname>
+        <reimplements refid="classjinja2_1_1compiler_1_1CodeGenerator_1a7713cde8c021ae15814cb6f41b500728">_output_child_to_const</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Expr" kindref="compound">nodes.Expr</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1CodeGenerator_1_1__FinalizeInfo" kindref="compound">CodeGenerator._FinalizeInfo</ref></type>
+          <declname>finalize</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Try to optimize a child of an ``Output`` node by trying to
+convert it to constant, finalized data at compile time.
+
+If :exc:`Impossible` is raised, the node is not constant and
+will be evaluated at runtime. Any other exception will also be
+evaluated at runtime for easier debugging.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nativetypes.py" line="62" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nativetypes.py" bodystart="64" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1nativetypes_1_1NativeCodeGenerator_1a4fef9a3a1dc59743c828ed0b47dba5eb" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.nativetypes.NativeCodeGenerator._output_child_pre</definition>
+        <argsstring>(self, nodes.Expr node, Frame frame, CodeGenerator._FinalizeInfo finalize)</argsstring>
+        <name>_output_child_pre</name>
+        <qualifiedname>jinja2.nativetypes.NativeCodeGenerator._output_child_pre</qualifiedname>
+        <reimplements refid="classjinja2_1_1compiler_1_1CodeGenerator_1a8cc085e0b26e5d58de557a2b51a4785e">_output_child_pre</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Expr" kindref="compound">nodes.Expr</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1CodeGenerator_1_1__FinalizeInfo" kindref="compound">CodeGenerator._FinalizeInfo</ref></type>
+          <declname>finalize</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Output extra source code before visiting a child of an
+``Output`` node.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nativetypes.py" line="75" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nativetypes.py" bodystart="77" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1nativetypes_1_1NativeCodeGenerator_1abd697c49f2e7e314c53dec0bf7b11f3a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.nativetypes.NativeCodeGenerator._output_child_post</definition>
+        <argsstring>(self, nodes.Expr node, Frame frame, CodeGenerator._FinalizeInfo finalize)</argsstring>
+        <name>_output_child_post</name>
+        <qualifiedname>jinja2.nativetypes.NativeCodeGenerator._output_child_post</qualifiedname>
+        <reimplements refid="classjinja2_1_1compiler_1_1CodeGenerator_1a4b9b2f82f9b5122518f6d9e02b9222ee">_output_child_post</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Expr" kindref="compound">nodes.Expr</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1Frame" kindref="compound">Frame</ref></type>
+          <declname>frame</declname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1compiler_1_1CodeGenerator_1_1__FinalizeInfo" kindref="compound">CodeGenerator._FinalizeInfo</ref></type>
+          <declname>finalize</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Output extra source code after visiting a child of an
+``Output`` node.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nativetypes.py" line="81" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nativetypes.py" bodystart="83" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A code generator which renders Python types by not adding
+``str()`` around output nodes.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.nativetypes.NativeCodeGenerator</label>
+        <link refid="classjinja2_1_1nativetypes_1_1NativeCodeGenerator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.compiler.CodeGenerator</label>
+        <link refid="classjinja2_1_1compiler_1_1CodeGenerator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.visitor.NodeVisitor</label>
+        <link refid="classjinja2_1_1visitor_1_1NodeVisitor"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>jinja2.nativetypes.NativeCodeGenerator</label>
+        <link refid="classjinja2_1_1nativetypes_1_1NativeCodeGenerator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.compiler.CodeGenerator</label>
+        <link refid="classjinja2_1_1compiler_1_1CodeGenerator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.visitor.NodeVisitor</label>
+        <link refid="classjinja2_1_1visitor_1_1NodeVisitor"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/jinja2/nativetypes.py" line="50" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nativetypes.py" bodystart="50" bodyend="87"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1nativetypes_1_1NativeCodeGenerator_1a2683c7d1bec0321b12411a2539ef8c4a" prot="protected" virt="non-virtual"><scope>jinja2::nativetypes::NativeCodeGenerator</scope><name>_default_finalize</name></member>
+      <member refid="classjinja2_1_1nativetypes_1_1NativeCodeGenerator_1abd697c49f2e7e314c53dec0bf7b11f3a" prot="protected" virt="non-virtual"><scope>jinja2::nativetypes::NativeCodeGenerator</scope><name>_output_child_post</name></member>
+      <member refid="classjinja2_1_1nativetypes_1_1NativeCodeGenerator_1a4fef9a3a1dc59743c828ed0b47dba5eb" prot="protected" virt="non-virtual"><scope>jinja2::nativetypes::NativeCodeGenerator</scope><name>_output_child_pre</name></member>
+      <member refid="classjinja2_1_1nativetypes_1_1NativeCodeGenerator_1aede3aca889040710c23d754eaf660273" prot="protected" virt="non-virtual"><scope>jinja2::nativetypes::NativeCodeGenerator</scope><name>_output_child_to_const</name></member>
+      <member refid="classjinja2_1_1nativetypes_1_1NativeCodeGenerator_1aafc4ac9b6b9a3911e90c6dedb5c0a7a8" prot="protected" virt="non-virtual"><scope>jinja2::nativetypes::NativeCodeGenerator</scope><name>_output_const_repr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

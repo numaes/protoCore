@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1builders_1_1latex_1_1transforms_1_1CitationReferenceTransform" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::builders::latex::transforms::CitationReferenceTransform</compoundname>
+    <basecompoundref refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform" prot="public" virt="non-virtual">sphinx.transforms.post_transforms.SphinxPostTransform</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1latex_1_1transforms_1_1CitationReferenceTransform_1a3762a1e05c1485ee63fe8771a86303f5" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int sphinx.builders.latex.transforms.CitationReferenceTransform::default_priority</definition>
+        <argsstring></argsstring>
+        <name>default_priority</name>
+        <qualifiedname>sphinx.builders.latex.transforms.CitationReferenceTransform.default_priority</qualifiedname>
+        <initializer>=  5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" line="541" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" bodystart="541" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1latex_1_1transforms_1_1CitationReferenceTransform_1a53dbf560a37d7f9c601dfd82f82acbdf" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx.builders.latex.transforms.CitationReferenceTransform::formats</definition>
+        <argsstring></argsstring>
+        <name>formats</name>
+        <qualifiedname>sphinx.builders.latex.transforms.CitationReferenceTransform.formats</qualifiedname>
+        <initializer>=  (&apos;latex&apos;,)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" line="542" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" bodystart="542" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1latex_1_1transforms_1_1CitationReferenceTransform_1a1970054c31b19baecd2b7b31885db09c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.latex.transforms.CitationReferenceTransform::document</definition>
+        <argsstring></argsstring>
+        <name>document</name>
+        <qualifiedname>sphinx.builders.latex.transforms.CitationReferenceTransform.document</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" line="549" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" bodystart="549" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1transforms_1_1CitationReferenceTransform_1aab8af1858ed75713d8bfa58afec4eccb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.latex.transforms.CitationReferenceTransform.run</definition>
+        <argsstring>(self, **Any kwargs)</argsstring>
+        <name>run</name>
+        <qualifiedname>sphinx.builders.latex.transforms.CitationReferenceTransform.run</qualifiedname>
+        <reimplements refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform_1abc3400574a7c87e684a8033535e8d4e2">run</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>**Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Main method of post transforms.
+
+Subclasses should override this method instead of ``apply()``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" line="544" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" bodystart="544" bodyend="557"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Replace pending_xref nodes for citation by citation_reference.
+
+To handle citation reference easily on LaTeX writer, this converts
+pending_xref nodes to citation_reference.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+      <node id="1">
+        <label>sphinx.builders.latex.transforms.CitationReferenceTransform</label>
+        <link refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1CitationReferenceTransform"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.transforms.SphinxTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1SphinxTransform"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.transforms.post_transforms.SphinxPostTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+      <node id="1">
+        <label>sphinx.builders.latex.transforms.CitationReferenceTransform</label>
+        <link refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1CitationReferenceTransform"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.transforms.SphinxTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1SphinxTransform"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.transforms.post_transforms.SphinxPostTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" line="534" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" bodystart="534" bodyend="557"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1CitationReferenceTransform_1a3762a1e05c1485ee63fe8771a86303f5" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::transforms::CitationReferenceTransform</scope><name>default_priority</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1CitationReferenceTransform_1a1970054c31b19baecd2b7b31885db09c" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::transforms::CitationReferenceTransform</scope><name>document</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1CitationReferenceTransform_1a53dbf560a37d7f9c601dfd82f82acbdf" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::transforms::CitationReferenceTransform</scope><name>formats</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1CitationReferenceTransform_1aab8af1858ed75713d8bfa58afec4eccb" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::transforms::CitationReferenceTransform</scope><name>run</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

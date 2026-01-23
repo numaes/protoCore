@@ -1,0 +1,325 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacebabel_1_1messages_1_1frontend" kind="namespace" language="Python">
+    <compoundname>babel::messages::frontend</compoundname>
+    <innerclass refid="classbabel_1_1messages_1_1frontend_1_1BaseError" prot="public">babel::messages::frontend::BaseError</innerclass>
+    <innerclass refid="classbabel_1_1messages_1_1frontend_1_1CommandLineInterface" prot="public">babel::messages::frontend::CommandLineInterface</innerclass>
+    <innerclass refid="classbabel_1_1messages_1_1frontend_1_1CommandMixin" prot="public">babel::messages::frontend::CommandMixin</innerclass>
+    <innerclass refid="classbabel_1_1messages_1_1frontend_1_1CompileCatalog" prot="public">babel::messages::frontend::CompileCatalog</innerclass>
+    <innerclass refid="classbabel_1_1messages_1_1frontend_1_1ConfigurationError" prot="public">babel::messages::frontend::ConfigurationError</innerclass>
+    <innerclass refid="classbabel_1_1messages_1_1frontend_1_1ExtractMessages" prot="public">babel::messages::frontend::ExtractMessages</innerclass>
+    <innerclass refid="classbabel_1_1messages_1_1frontend_1_1InitCatalog" prot="public">babel::messages::frontend::InitCatalog</innerclass>
+    <innerclass refid="classbabel_1_1messages_1_1frontend_1_1OptionError" prot="public">babel::messages::frontend::OptionError</innerclass>
+    <innerclass refid="classbabel_1_1messages_1_1frontend_1_1SetupError" prot="public">babel::messages::frontend::SetupError</innerclass>
+    <innerclass refid="classbabel_1_1messages_1_1frontend_1_1UpdateCatalog" prot="public">babel::messages::frontend::UpdateCatalog</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1frontend_1abc4b54ff9e2fd4e6a49bd97cc647edd0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::messages::frontend.log</definition>
+        <argsstring></argsstring>
+        <name>log</name>
+        <qualifiedname>babel.messages.frontend.log</qualifiedname>
+        <initializer>=  logging.getLogger(&apos;babel&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/frontend.py" line="41" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/frontend.py" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1frontend_1a1c41a6e19e5f3c914b2b5b01995e2662" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>babel.messages.frontend.listify_value</definition>
+        <argsstring>(arg, split=None)</argsstring>
+        <name>listify_value</name>
+        <qualifiedname>babel.messages.frontend.listify_value</qualifiedname>
+        <param>
+          <type>arg</type>
+          <defname>arg</defname>
+        </param>
+        <param>
+          <type>split</type>
+          <defname>split</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Make a list out of an argument.
+
+Values from `distutils` argument parsing are always single strings;
+values from `optparse` parsing may be lists of strings that may need
+to be further split.
+
+No matter the input, this function returns a flat list of whitespace-trimmed
+strings, with `None` values filtered out.
+
+&gt;&gt;&gt; listify_value(&quot;foo bar&quot;)
+[&apos;foo&apos;, &apos;bar&apos;]
+&gt;&gt;&gt; listify_value([&quot;foo bar&quot;])
+[&apos;foo&apos;, &apos;bar&apos;]
+&gt;&gt;&gt; listify_value([[&quot;foo&quot;], &quot;bar&quot;])
+[&apos;foo&apos;, &apos;bar&apos;]
+&gt;&gt;&gt; listify_value([[&quot;foo&quot;], [&quot;bar&quot;, None, &quot;foo&quot;]])
+[&apos;foo&apos;, &apos;bar&apos;, &apos;foo&apos;]
+&gt;&gt;&gt; listify_value(&quot;foo, bar, quux&quot;, &quot;,&quot;)
+[&apos;foo&apos;, &apos;bar&apos;, &apos;quux&apos;]
+
+:param arg: A string or a list of strings
+:param split: The argument to pass to `str.split()`.
+:return:
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/frontend.py" line="62" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/frontend.py" bodystart="62" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1frontend_1a09a7da866c5f9c3e06c6a5b4bd57c76f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>babel.messages.frontend._make_directory_filter</definition>
+        <argsstring>(ignore_patterns)</argsstring>
+        <name>_make_directory_filter</name>
+        <qualifiedname>babel.messages.frontend._make_directory_filter</qualifiedname>
+        <param>
+          <type>ignore_patterns</type>
+          <defname>ignore_patterns</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Build a directory_filter function based on a list of ignore patterns.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/frontend.py" line="277" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/frontend.py" bodystart="277" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1frontend_1a39fc65d776600295a7c803735469cca5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>babel.messages.frontend.main</definition>
+        <argsstring>()</argsstring>
+        <name>main</name>
+        <qualifiedname>babel.messages.frontend.main</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/frontend.py" line="997" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/frontend.py" bodystart="997" bodyend="1000"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1frontend_1a798c9ef9088d6e880410b6d1e1ed3a13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>babel.messages.frontend.parse_mapping</definition>
+        <argsstring>(fileobj, filename=None)</argsstring>
+        <name>parse_mapping</name>
+        <qualifiedname>babel.messages.frontend.parse_mapping</qualifiedname>
+        <param>
+          <type>fileobj</type>
+          <defname>fileobj</defname>
+        </param>
+        <param>
+          <type>filename</type>
+          <defname>filename</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/frontend.py" line="1001" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/frontend.py" bodystart="1001" bodyend="1009"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1frontend_1adcabcb039cd5a5cd0ac090e9f8b3625d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>babel.messages.frontend.parse_mapping_cfg</definition>
+        <argsstring>(fileobj, filename=None)</argsstring>
+        <name>parse_mapping_cfg</name>
+        <qualifiedname>babel.messages.frontend.parse_mapping_cfg</qualifiedname>
+        <param>
+          <type>fileobj</type>
+          <defname>fileobj</defname>
+        </param>
+        <param>
+          <type>filename</type>
+          <defname>filename</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse an extraction method mapping from a file-like object.
+
+:param fileobj: a readable file-like object containing the configuration
+                text to parse
+:param filename: the name of the file being parsed, for error messages
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/frontend.py" line="1010" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/frontend.py" bodystart="1010" bodyend="1040"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1frontend_1a0a2a416acce5619c7f616a542d9c7ef1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>babel.messages.frontend._parse_config_object</definition>
+        <argsstring>(dict config, *filename=&quot;(unknown)&quot;)</argsstring>
+        <name>_parse_config_object</name>
+        <qualifiedname>babel.messages.frontend._parse_config_object</qualifiedname>
+        <param>
+          <type>dict</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>*</type>
+          <declname>filename</declname>
+          <defval>&quot;(unknown)&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/frontend.py" line="1041" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/frontend.py" bodystart="1041" bodyend="1087"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1frontend_1a99b26aeefd3eb93ccae621eb70d5ca14" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>babel.messages.frontend._parse_mapping_toml</definition>
+        <argsstring>(BinaryIO fileobj, str filename=&quot;(unknown)&quot;, Literal[&quot;standalone&quot;, &quot;pyproject.toml&quot;] style=&quot;standalone&quot;)</argsstring>
+        <name>_parse_mapping_toml</name>
+        <qualifiedname>babel.messages.frontend._parse_mapping_toml</qualifiedname>
+        <param>
+          <type>BinaryIO</type>
+          <declname>fileobj</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>filename</declname>
+          <defval>&quot;(unknown)&quot;</defval>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>style</declname>
+          <array>[&quot;standalone&quot;, &quot;pyproject.toml&quot;]</array>
+          <defval>&quot;standalone&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse an extraction method mapping from a binary file-like object.
+
+.. warning: As of this version of Babel, this is a private API subject to changes.
+
+:param fileobj: a readable binary file-like object containing the configuration TOML to parse
+:param filename: the name of the file being parsed, for error messages
+:param style: whether the file is in the style of a `pyproject.toml` file, i.e. whether to look for `tool.babel`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/frontend.py" line="1088" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/frontend.py" bodystart="1092" bodyend="1128"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1frontend_1a946956106a623e8751ac95f29abe5a50" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[int|None, tuple[int|tuple[int, str],...]]</type>
+        <definition> tuple[int | None, tuple[int | tuple[int, str], ...]] babel.messages.frontend._parse_spec</definition>
+        <argsstring>(str s)</argsstring>
+        <name>_parse_spec</name>
+        <qualifiedname>babel.messages.frontend._parse_spec</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/frontend.py" line="1129" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/frontend.py" bodystart="1129" bodyend="1141"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1frontend_1a2b3a68543897b036991a614740006592" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>babel.messages.frontend.parse_keywords</definition>
+        <argsstring>(Iterable[str] strings=())</argsstring>
+        <name>parse_keywords</name>
+        <qualifiedname>babel.messages.frontend.parse_keywords</qualifiedname>
+        <param>
+          <type>Iterable</type>
+          <declname>strings</declname>
+          <array>[str]</array>
+          <defval>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse keywords specifications from the given list of strings.
+
+&gt;&gt;&gt; import pprint
+&gt;&gt;&gt; keywords = [&apos;_&apos;, &apos;dgettext:2&apos;, &apos;dngettext:2,3&apos;, &apos;pgettext:1c,2&apos;,
+...             &apos;polymorphic:1&apos;, &apos;polymorphic:2,2t&apos;, &apos;polymorphic:3c,3t&apos;]
+&gt;&gt;&gt; pprint.pprint(parse_keywords(keywords))
+{&apos;_&apos;: None,
+ &apos;dgettext&apos;: (2,),
+ &apos;dngettext&apos;: (2, 3),
+ &apos;pgettext&apos;: ((1, &apos;c&apos;), 2),
+ &apos;polymorphic&apos;: {None: (1,), 2: (2,), 3: ((3, &apos;c&apos;),)}}
+
+The input keywords are in GNU Gettext style; see :doc:`cmdline` for details.
+
+The output is a dictionary mapping keyword names to a dictionary of specifications.
+Keys in this dictionary are numbers of arguments, where ``None`` means that all numbers
+of arguments are matched, and a number means only calls with that number of arguments
+are matched (which happens when using the &quot;t&quot; specifier). However, as a special
+case for backwards compatibility, if the dictionary of specifications would
+be ``{None: x}``, i.e., there is only one specification and it matches all argument
+counts, then it is collapsed into just ``x``.
+
+A specification is either a tuple or None. If a tuple, each element can be either a number
+``n``, meaning that the nth argument should be extracted as a message, or the tuple
+``(n, &apos;c&apos;)``, meaning that the nth argument should be extracted as context for the
+messages. A ``None`` specification is equivalent to ``(1,)``, extracting the first
+argument.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/frontend.py" line="1142" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/frontend.py" bodystart="1142" bodyend="1189"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1frontend_1a7c2d550e5b9d980186dfe7487765daf2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>babel.messages.frontend.__getattr__</definition>
+        <argsstring>(str name)</argsstring>
+        <name>__getattr__</name>
+        <qualifiedname>babel.messages.frontend.__getattr__</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/frontend.py" line="1190" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/frontend.py" bodystart="1190" bodyend="1200"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>    babel.messages.frontend
+    ~~~~~~~~~~~~~~~~~~~~~~~
+
+    Frontends for the message extraction functionality.
+
+    :copyright: (c) 2013-2025 by the Babel Team.
+    :license: BSD, see LICENSE for more details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/babel/messages/frontend.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

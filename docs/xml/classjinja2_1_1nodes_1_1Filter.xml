@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1nodes_1_1Filter" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::nodes::Filter</compoundname>
+    <basecompoundref refid="classjinja2_1_1nodes_1_1__FilterTestCommon" prot="public" virt="non-virtual">jinja2.nodes._FilterTestCommon</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1Filter_1afc3bfc06400ad96c05349f1466a730b0" prot="public" static="yes" mutable="no">
+        <type>t</type>
+        <definition>t jinja2.nodes.Filter::node</definition>
+        <argsstring></argsstring>
+        <name>node</name>
+        <qualifiedname>jinja2.nodes.Filter.node</qualifiedname>
+        <initializer>.Optional[<ref refid="classjinja2_1_1nodes_1_1Expr" kindref="compound">Expr</ref>]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="795" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="795" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjinja2_1_1nodes_1_1Filter_1aeab327f7a51be070d649b097d51eaf83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Any</type>
+        <definition> t.Any jinja2.nodes.Filter.as_const</definition>
+        <argsstring>(self, t.Optional[EvalContext] eval_ctx=None)</argsstring>
+        <name>as_const</name>
+        <qualifiedname>jinja2.nodes.Filter.as_const</qualifiedname>
+        <reimplements refid="classjinja2_1_1nodes_1_1__FilterTestCommon_1a9592eeebeb2a582651c7a682e3356258">as_const</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>eval_ctx</declname>
+          <array>[EvalContext]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the value of the expression as constant or raise
+:exc:`Impossible` if this was not possible.
+
+An :class:`EvalContext` can be provided, if none is given
+a default context is created which requires the nodes to have
+an attached environment.
+
+.. versionchanged:: 2.4
+   the `eval_ctx` parameter was added.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="797" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="797" bodyend="803"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Apply a filter to an expression. ``name`` is the name of the
+filter, the other fields are the same as :class:`Call`.
+
+If ``node`` is ``None``, the filter is being used in a filter block
+and is applied to the content of the block.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.nodes.Filter</label>
+        <link refid="classjinja2_1_1nodes_1_1Filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.nodes.Expr</label>
+        <link refid="classjinja2_1_1nodes_1_1Expr"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>jinja2.nodes.Node</label>
+        <link refid="classjinja2_1_1nodes_1_1Node"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>jinja2.nodes.NodeType</label>
+        <link refid="classjinja2_1_1nodes_1_1NodeType"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.nodes._FilterTestCommon</label>
+        <link refid="classjinja2_1_1nodes_1_1__FilterTestCommon"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>metaclass</label>
+      </node>
+      <node id="7">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="8">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>jinja2.nodes.Filter</label>
+        <link refid="classjinja2_1_1nodes_1_1Filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.nodes.Expr</label>
+        <link refid="classjinja2_1_1nodes_1_1Expr"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>jinja2.nodes.Node</label>
+        <link refid="classjinja2_1_1nodes_1_1Node"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>jinja2.nodes.NodeType</label>
+        <link refid="classjinja2_1_1nodes_1_1NodeType"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.nodes._FilterTestCommon</label>
+        <link refid="classjinja2_1_1nodes_1_1__FilterTestCommon"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>node</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>name</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>metaclass</label>
+      </node>
+      <node id="7">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="787" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="787" bodyend="803"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1nodes_1_1Filter_1aeab327f7a51be070d649b097d51eaf83" prot="public" virt="non-virtual"><scope>jinja2::nodes::Filter</scope><name>as_const</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Filter_1afc3bfc06400ad96c05349f1466a730b0" prot="public" virt="non-virtual"><scope>jinja2::nodes::Filter</scope><name>node</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

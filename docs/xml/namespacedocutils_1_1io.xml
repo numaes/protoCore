@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacedocutils_1_1io" kind="namespace" language="Python">
+    <compoundname>docutils::io</compoundname>
+    <innerclass refid="classdocutils_1_1io_1_1BinaryFileOutput" prot="public">docutils::io::BinaryFileOutput</innerclass>
+    <innerclass refid="classdocutils_1_1io_1_1DocTreeInput" prot="public">docutils::io::DocTreeInput</innerclass>
+    <innerclass refid="classdocutils_1_1io_1_1ErrorOutput" prot="public">docutils::io::ErrorOutput</innerclass>
+    <innerclass refid="classdocutils_1_1io_1_1FileInput" prot="public">docutils::io::FileInput</innerclass>
+    <innerclass refid="classdocutils_1_1io_1_1FileOutput" prot="public">docutils::io::FileOutput</innerclass>
+    <innerclass refid="classdocutils_1_1io_1_1Input" prot="public">docutils::io::Input</innerclass>
+    <innerclass refid="classdocutils_1_1io_1_1InputError" prot="public">docutils::io::InputError</innerclass>
+    <innerclass refid="classdocutils_1_1io_1_1NullInput" prot="public">docutils::io::NullInput</innerclass>
+    <innerclass refid="classdocutils_1_1io_1_1NullOutput" prot="public">docutils::io::NullOutput</innerclass>
+    <innerclass refid="classdocutils_1_1io_1_1Output" prot="public">docutils::io::Output</innerclass>
+    <innerclass refid="classdocutils_1_1io_1_1OutputError" prot="public">docutils::io::OutputError</innerclass>
+    <innerclass refid="classdocutils_1_1io_1_1StringInput" prot="public">docutils::io::StringInput</innerclass>
+    <innerclass refid="classdocutils_1_1io_1_1StringOutput" prot="public">docutils::io::StringOutput</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacedocutils_1_1io_1ab4e42ef5ba3c4c26f344effb7e915161" prot="private" static="no" mutable="no">
+        <type>str</type>
+        <definition>str docutils::io.__docformat__</definition>
+        <argsstring></argsstring>
+        <name>__docformat__</name>
+        <qualifiedname>docutils.io.__docformat__</qualifiedname>
+        <initializer>=  &apos;reStructuredText&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/io.py" line="10" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/io.py" bodystart="10" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1io_1ab7dfc45a873ba500722b327146faf0e3" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils::io::_locale_encoding</definition>
+        <argsstring></argsstring>
+        <name>_locale_encoding</name>
+        <qualifiedname>docutils.io._locale_encoding</qualifiedname>
+        <initializer>=  (locale.getlocale()[1]
+                            or locale.getdefaultlocale()[1])</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/io.py" line="32" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/io.py" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacedocutils_1_1io_1a8735cf50341974eb1886e4fb70090b0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.io.check_encoding</definition>
+        <argsstring>(stream, encoding)</argsstring>
+        <name>check_encoding</name>
+        <qualifiedname>docutils.io.check_encoding</qualifiedname>
+        <param>
+          <type>stream</type>
+          <defname>stream</defname>
+        </param>
+        <param>
+          <type>encoding</type>
+          <defname>encoding</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Test, whether the encoding of `stream` matches `encoding`.
+
+Returns
+
+:None:  if `encoding` or `stream.encoding` are not a valid encoding
+        argument (e.g. ``None``) or `stream.encoding is missing.
+:True:  if the encoding argument resolves to the same value as `encoding`,
+:False: if the encodings differ.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/io.py" line="47" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/io.py" bodystart="47" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1io_1aa855c420e9ee0c4fd90853420c997ee2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.io.error_string</definition>
+        <argsstring>(err)</argsstring>
+        <name>error_string</name>
+        <qualifiedname>docutils.io.error_string</qualifiedname>
+        <param>
+          <type>err</type>
+          <defname>err</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return string representation of Exception `err`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/io.py" line="63" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/io.py" bodystart="63" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>I/O classes provide a uniform API for low-level input and output.  Subclasses
+exist for a variety of input/output mechanisms.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/docutils/io.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

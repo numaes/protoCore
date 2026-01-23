@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1commands_1_1install_1_1InstallCommand" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::commands::install::InstallCommand</compoundname>
+    <basecompoundref refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand" prot="public" virt="non-virtual">pip._internal.cli.req_command.RequirementCommand</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1commands_1_1install_1_1InstallCommand_1af05b7f840ee83e69164efd264c1ffbf0" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pip._internal.commands.install.InstallCommand::usage</definition>
+        <argsstring></argsstring>
+        <name>usage</name>
+        <qualifiedname>pip._internal.commands.install.InstallCommand.usage</qualifiedname>
+        <initializer>=  &quot;&quot;&quot;
+      %prog [options] &lt;requirement specifier&gt; [package-index-options] ...
+      %prog [options] -r &lt;requirements file&gt; [package-index-options] ...
+      %prog [options] [-e] &lt;vcs project url&gt; ...
+      %prog [options] [-e] &lt;local project path&gt; ...
+      %prog [options] &lt;archive url/path&gt; ...&quot;&quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/install.py" line="65" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/install.py" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1commands_1_1install_1_1InstallCommand_1ac88da4156a69dd8002d19157454a44d9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.commands.install.InstallCommand::cmd_opts</definition>
+        <argsstring></argsstring>
+        <name>cmd_opts</name>
+        <qualifiedname>pip._internal.commands.install.InstallCommand.cmd_opts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/install.py" line="103" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/install.py" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1commands_1_1install_1_1InstallCommand_1a0c66204991bcc6b8846a5d3af58e63c6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.commands.install.InstallCommand::parser</definition>
+        <argsstring></argsstring>
+        <name>parser</name>
+        <qualifiedname>pip._internal.commands.install.InstallCommand.parser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/install.py" line="243" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/install.py" bodystart="243" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1install_1_1InstallCommand_1acd7771f99caac556bedec90551f736c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.commands.install.InstallCommand.add_options</definition>
+        <argsstring>(self)</argsstring>
+        <name>add_options</name>
+        <qualifiedname>pip._internal.commands.install.InstallCommand.add_options</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command_1ad74cf63053e59d30953e9429750d41b3">add_options</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/install.py" line="72" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/install.py" bodystart="72" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1install_1_1InstallCommand_1a2a946583a8728eac5e890e367604f637" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int pip._internal.commands.install.InstallCommand.run</definition>
+        <argsstring>(self, Values options, List[str] args)</argsstring>
+        <name>run</name>
+        <qualifiedname>pip._internal.commands.install.InstallCommand.run</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command_1abfb817417c4522bde2e2eb6141126aba">run</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>args</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/install.py" line="266" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/install.py" bodystart="266" bodyend="516"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1install_1_1InstallCommand_1af43c0aefb628fc5d2f30ac7abd8d0d9d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.commands.install.InstallCommand._handle_target_dir</definition>
+        <argsstring>(self, str target_dir, TempDirectory target_temp_dir, bool upgrade)</argsstring>
+        <name>_handle_target_dir</name>
+        <qualifiedname>pip._internal.commands.install.InstallCommand._handle_target_dir</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>target_dir</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1utils_1_1temp__dir_1_1TempDirectory" kindref="compound">TempDirectory</ref></type>
+          <declname>target_temp_dir</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>upgrade</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/install.py" line="517" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/install.py" bodystart="519" bodyend="570"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1install_1_1InstallCommand_1a1663170e494ec45fd060bec25971253a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[ConflictDetails]</type>
+        <definition> Optional[ConflictDetails] pip._internal.commands.install.InstallCommand._determine_conflicts</definition>
+        <argsstring>(self, List[InstallRequirement] to_install)</argsstring>
+        <name>_determine_conflicts</name>
+        <qualifiedname>pip._internal.commands.install.InstallCommand._determine_conflicts</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>to_install</declname>
+          <array>[InstallRequirement]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/install.py" line="571" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/install.py" bodystart="573" bodyend="582"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1install_1_1InstallCommand_1a1cce9948aa8904f28ae5e464a3497705" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.commands.install.InstallCommand._warn_about_conflicts</definition>
+        <argsstring>(self, ConflictDetails conflict_details, str resolver_variant)</argsstring>
+        <name>_warn_about_conflicts</name>
+        <qualifiedname>pip._internal.commands.install.InstallCommand._warn_about_conflicts</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>ConflictDetails</type>
+          <declname>conflict_details</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>resolver_variant</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/install.py" line="583" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/install.py" bodystart="585" bodyend="633"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Install packages from:
+
+- PyPI (and other indexes) using requirement specifiers.
+- VCS project urls.
+- Local project directories.
+- Local or remote source archives.
+
+pip also supports installing from &quot;requirements files&quot;, which provide
+an easy way to specify a whole environment to be installed.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._internal.commands.install.InstallCommand</label>
+        <link refid="classpip_1_1__internal_1_1commands_1_1install_1_1InstallCommand"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._internal.cli.base_command.Command</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pip._internal.cli.command_context.CommandContextMixIn</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1command__context_1_1CommandContextMixIn"/>
+      </node>
+      <node id="3">
+        <label>pip._internal.cli.req_command.IndexGroupCommand</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1IndexGroupCommand"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.cli.req_command.RequirementCommand</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>pip._internal.cli.req_command.SessionCommandMixin</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1SessionCommandMixin"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="6">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.commands.install.InstallCommand</label>
+        <link refid="classpip_1_1__internal_1_1commands_1_1install_1_1InstallCommand"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>usage</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._internal.cli.base_command.Command</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>usage</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pip._internal.cli.command_context.CommandContextMixIn</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1command__context_1_1CommandContextMixIn"/>
+      </node>
+      <node id="3">
+        <label>pip._internal.cli.req_command.IndexGroupCommand</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1IndexGroupCommand"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.cli.req_command.RequirementCommand</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>pip._internal.cli.req_command.SessionCommandMixin</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1SessionCommandMixin"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/install.py" line="52" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/install.py" bodystart="52" bodyend="633"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1commands_1_1install_1_1InstallCommand_1a1663170e494ec45fd060bec25971253a" prot="protected" virt="non-virtual"><scope>pip::_internal::commands::install::InstallCommand</scope><name>_determine_conflicts</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1install_1_1InstallCommand_1af43c0aefb628fc5d2f30ac7abd8d0d9d" prot="protected" virt="non-virtual"><scope>pip::_internal::commands::install::InstallCommand</scope><name>_handle_target_dir</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1install_1_1InstallCommand_1a1cce9948aa8904f28ae5e464a3497705" prot="protected" virt="non-virtual"><scope>pip::_internal::commands::install::InstallCommand</scope><name>_warn_about_conflicts</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1install_1_1InstallCommand_1acd7771f99caac556bedec90551f736c6" prot="public" virt="non-virtual"><scope>pip::_internal::commands::install::InstallCommand</scope><name>add_options</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1install_1_1InstallCommand_1ac88da4156a69dd8002d19157454a44d9" prot="public" virt="non-virtual"><scope>pip::_internal::commands::install::InstallCommand</scope><name>cmd_opts</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1install_1_1InstallCommand_1a0c66204991bcc6b8846a5d3af58e63c6" prot="public" virt="non-virtual"><scope>pip::_internal::commands::install::InstallCommand</scope><name>parser</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1install_1_1InstallCommand_1a2a946583a8728eac5e890e367604f637" prot="public" virt="non-virtual"><scope>pip::_internal::commands::install::InstallCommand</scope><name>run</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1install_1_1InstallCommand_1af05b7f840ee83e69164efd264c1ffbf0" prot="public" virt="non-virtual"><scope>pip::_internal::commands::install::InstallCommand</scope><name>usage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,521 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::commands::cache::CacheCommand</compoundname>
+    <basecompoundref refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command" prot="public" virt="non-virtual">pip._internal.cli.base_command.Command</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1a060bc67c7cb51bc6f313c9fea17b835d" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool pip._internal.commands.cache.CacheCommand::ignore_require_venv</definition>
+        <argsstring></argsstring>
+        <name>ignore_require_venv</name>
+        <qualifiedname>pip._internal.commands.cache.CacheCommand.ignore_require_venv</qualifiedname>
+        <initializer>=  True</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" line="30" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1ac9a16800cb077d532e92ee16c829e799" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pip._internal.commands.cache.CacheCommand::usage</definition>
+        <argsstring></argsstring>
+        <name>usage</name>
+        <qualifiedname>pip._internal.commands.cache.CacheCommand.usage</qualifiedname>
+        <initializer>=  &quot;&quot;&quot;
+        %prog dir
+        %prog info
+        %prog list [&lt;pattern&gt;] [--format=[human, abspath]]
+        %prog remove &lt;pattern&gt;
+        %prog purge
+    &quot;&quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" line="31" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1afc67a6193b411ad1f481dacaa5bc5a80" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.commands.cache.CacheCommand::cmd_opts</definition>
+        <argsstring></argsstring>
+        <name>cmd_opts</name>
+        <qualifiedname>pip._internal.commands.cache.CacheCommand.cmd_opts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" line="49" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1af06da7955408f317786e4ded72af133c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.commands.cache.CacheCommand::get_cache_dir</definition>
+        <argsstring></argsstring>
+        <name>get_cache_dir</name>
+        <qualifiedname>pip._internal.commands.cache.CacheCommand.get_cache_dir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" line="53" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1a9237ef7b4df90181265988e8ebaff257" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.commands.cache.CacheCommand::get_cache_info</definition>
+        <argsstring></argsstring>
+        <name>get_cache_info</name>
+        <qualifiedname>pip._internal.commands.cache.CacheCommand.get_cache_info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" line="54" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1a50afdbbab08556bf669349838afb97ce" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.commands.cache.CacheCommand::list_cache_items</definition>
+        <argsstring></argsstring>
+        <name>list_cache_items</name>
+        <qualifiedname>pip._internal.commands.cache.CacheCommand.list_cache_items</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" line="55" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1a613a000da3ef4725a207fc101e52a904" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.commands.cache.CacheCommand::remove_cache_items</definition>
+        <argsstring></argsstring>
+        <name>remove_cache_items</name>
+        <qualifiedname>pip._internal.commands.cache.CacheCommand.remove_cache_items</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" line="56" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1a68f3bd9eed21b611a4695c23fba76238" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.commands.cache.CacheCommand::purge_cache</definition>
+        <argsstring></argsstring>
+        <name>purge_cache</name>
+        <qualifiedname>pip._internal.commands.cache.CacheCommand.purge_cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" line="57" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1a0f77d59024b9b1ef961c52f13d212f24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.commands.cache.CacheCommand.add_options</definition>
+        <argsstring>(self)</argsstring>
+        <name>add_options</name>
+        <qualifiedname>pip._internal.commands.cache.CacheCommand.add_options</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command_1ad74cf63053e59d30953e9429750d41b3">add_options</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" line="39" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" bodystart="39" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1afed6a8ed53011f9007c8a56b8e578dbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int pip._internal.commands.cache.CacheCommand.run</definition>
+        <argsstring>(self, Values options, List[str] args)</argsstring>
+        <name>run</name>
+        <qualifiedname>pip._internal.commands.cache.CacheCommand.run</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command_1abfb817417c4522bde2e2eb6141126aba">run</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>args</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" line="51" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" bodystart="51" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1abc54dec0066c8797449ba3a602c415ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.commands.cache.CacheCommand.get_cache_dir</definition>
+        <argsstring>(self, Values options, List[Any] args)</argsstring>
+        <name>get_cache_dir</name>
+        <qualifiedname>pip._internal.commands.cache.CacheCommand.get_cache_dir</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>args</declname>
+          <array>[Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" line="83" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" bodystart="83" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1aafbf37c4743301cbac984b518b8876a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.commands.cache.CacheCommand.get_cache_info</definition>
+        <argsstring>(self, Values options, List[Any] args)</argsstring>
+        <name>get_cache_info</name>
+        <qualifiedname>pip._internal.commands.cache.CacheCommand.get_cache_info</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>args</declname>
+          <array>[Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" line="89" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" bodystart="89" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1a2ce37a7df6f31adc4de58f7a77e839de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.commands.cache.CacheCommand.list_cache_items</definition>
+        <argsstring>(self, Values options, List[Any] args)</argsstring>
+        <name>list_cache_items</name>
+        <qualifiedname>pip._internal.commands.cache.CacheCommand.list_cache_items</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>args</declname>
+          <array>[Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" line="131" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" bodystart="131" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1a42b9ec0df882ab42396218b5f6343974" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.commands.cache.CacheCommand.format_for_human</definition>
+        <argsstring>(self, List[str] files)</argsstring>
+        <name>format_for_human</name>
+        <qualifiedname>pip._internal.commands.cache.CacheCommand.format_for_human</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>files</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" line="146" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" bodystart="146" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1ad573c8820083937049050918412107bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.commands.cache.CacheCommand.format_for_abspath</definition>
+        <argsstring>(self, List[str] files)</argsstring>
+        <name>format_for_abspath</name>
+        <qualifiedname>pip._internal.commands.cache.CacheCommand.format_for_abspath</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>files</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" line="159" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" bodystart="159" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1ad885f6803d6b57a4bd8fd583344dcea5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.commands.cache.CacheCommand.remove_cache_items</definition>
+        <argsstring>(self, Values options, List[Any] args)</argsstring>
+        <name>remove_cache_items</name>
+        <qualifiedname>pip._internal.commands.cache.CacheCommand.remove_cache_items</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>args</declname>
+          <array>[Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" line="163" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" bodystart="163" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1a83a1ba516b0d6c14b3567805336cc836" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.commands.cache.CacheCommand.purge_cache</definition>
+        <argsstring>(self, Values options, List[Any] args)</argsstring>
+        <name>purge_cache</name>
+        <qualifiedname>pip._internal.commands.cache.CacheCommand.purge_cache</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>args</declname>
+          <array>[Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" line="188" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" bodystart="188" bodyend="193"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1a5523806388de9bb7b802ed785c0ccc4e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.commands.cache.CacheCommand._cache_dir</definition>
+        <argsstring>(self, Values options, str subdir)</argsstring>
+        <name>_cache_dir</name>
+        <qualifiedname>pip._internal.commands.cache.CacheCommand._cache_dir</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>subdir</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" line="194" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" bodystart="194" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1a01ec47b6fdff7d3b50a30b2903f4400c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[str]</type>
+        <definition> List[str] pip._internal.commands.cache.CacheCommand._find_http_files</definition>
+        <argsstring>(self, Values options)</argsstring>
+        <name>_find_http_files</name>
+        <qualifiedname>pip._internal.commands.cache.CacheCommand._find_http_files</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" line="197" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" bodystart="197" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1ae933c111acbd6c0e5148a29a5945854a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[str]</type>
+        <definition> List[str] pip._internal.commands.cache.CacheCommand._find_wheels</definition>
+        <argsstring>(self, Values options, str pattern)</argsstring>
+        <name>_find_wheels</name>
+        <qualifiedname>pip._internal.commands.cache.CacheCommand._find_wheels</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" line="204" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" bodystart="204" bodyend="226"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Inspect and manage pip&apos;s wheel cache.
+
+Subcommands:
+
+- dir: Show the cache directory.
+- info: Show information about the cache.
+- list: List filenames of packages stored in the cache.
+- remove: Remove one or more package from the cache.
+- purge: Remove all items from the cache.
+
+``&lt;pattern&gt;`` can be a glob expression or a package name.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._internal.commands.cache.CacheCommand</label>
+        <link refid="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.cli.base_command.Command</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.cli.command_context.CommandContextMixIn</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1command__context_1_1CommandContextMixIn"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.commands.cache.CacheCommand</label>
+        <link refid="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>usage</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.cli.base_command.Command</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>usage</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.cli.command_context.CommandContextMixIn</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1command__context_1_1CommandContextMixIn"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" line="15" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/cache.py" bodystart="15" bodyend="226"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1a5523806388de9bb7b802ed785c0ccc4e" prot="protected" virt="non-virtual"><scope>pip::_internal::commands::cache::CacheCommand</scope><name>_cache_dir</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1a01ec47b6fdff7d3b50a30b2903f4400c" prot="protected" virt="non-virtual"><scope>pip::_internal::commands::cache::CacheCommand</scope><name>_find_http_files</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1ae933c111acbd6c0e5148a29a5945854a" prot="protected" virt="non-virtual"><scope>pip::_internal::commands::cache::CacheCommand</scope><name>_find_wheels</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1a0f77d59024b9b1ef961c52f13d212f24" prot="public" virt="non-virtual"><scope>pip::_internal::commands::cache::CacheCommand</scope><name>add_options</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1afc67a6193b411ad1f481dacaa5bc5a80" prot="public" virt="non-virtual"><scope>pip::_internal::commands::cache::CacheCommand</scope><name>cmd_opts</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1ad573c8820083937049050918412107bd" prot="public" virt="non-virtual"><scope>pip::_internal::commands::cache::CacheCommand</scope><name>format_for_abspath</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1a42b9ec0df882ab42396218b5f6343974" prot="public" virt="non-virtual"><scope>pip::_internal::commands::cache::CacheCommand</scope><name>format_for_human</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1af06da7955408f317786e4ded72af133c" prot="public" virt="non-virtual"><scope>pip::_internal::commands::cache::CacheCommand</scope><name>get_cache_dir</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1abc54dec0066c8797449ba3a602c415ae" prot="public" virt="non-virtual"><scope>pip::_internal::commands::cache::CacheCommand</scope><name>get_cache_dir</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1a9237ef7b4df90181265988e8ebaff257" prot="public" virt="non-virtual"><scope>pip::_internal::commands::cache::CacheCommand</scope><name>get_cache_info</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1aafbf37c4743301cbac984b518b8876a6" prot="public" virt="non-virtual"><scope>pip::_internal::commands::cache::CacheCommand</scope><name>get_cache_info</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1a060bc67c7cb51bc6f313c9fea17b835d" prot="public" virt="non-virtual"><scope>pip::_internal::commands::cache::CacheCommand</scope><name>ignore_require_venv</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1a50afdbbab08556bf669349838afb97ce" prot="public" virt="non-virtual"><scope>pip::_internal::commands::cache::CacheCommand</scope><name>list_cache_items</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1a2ce37a7df6f31adc4de58f7a77e839de" prot="public" virt="non-virtual"><scope>pip::_internal::commands::cache::CacheCommand</scope><name>list_cache_items</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1a68f3bd9eed21b611a4695c23fba76238" prot="public" virt="non-virtual"><scope>pip::_internal::commands::cache::CacheCommand</scope><name>purge_cache</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1a83a1ba516b0d6c14b3567805336cc836" prot="public" virt="non-virtual"><scope>pip::_internal::commands::cache::CacheCommand</scope><name>purge_cache</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1a613a000da3ef4725a207fc101e52a904" prot="public" virt="non-virtual"><scope>pip::_internal::commands::cache::CacheCommand</scope><name>remove_cache_items</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1ad885f6803d6b57a4bd8fd583344dcea5" prot="public" virt="non-virtual"><scope>pip::_internal::commands::cache::CacheCommand</scope><name>remove_cache_items</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1afed6a8ed53011f9007c8a56b8e578dbe" prot="public" virt="non-virtual"><scope>pip::_internal::commands::cache::CacheCommand</scope><name>run</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1cache_1_1CacheCommand_1ac9a16800cb077d532e92ee16c829e799" prot="public" virt="non-virtual"><scope>pip::_internal::commands::cache::CacheCommand</scope><name>usage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

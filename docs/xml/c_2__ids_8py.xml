@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="c_2__ids_8py" kind="file" language="Python">
+    <compoundname>_ids.py</compoundname>
+    <innernamespace refid="namespacesphinx">sphinx</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1domains">sphinx::domains</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1domains_1_1c">sphinx::domains::c</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1domains_1_1c_1_1__ids">sphinx::domains::c::_ids</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacesphinx_1_1domains_1_1c_1_1__ids" refkind="compound"><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>re</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TYPE_CHECKING</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>collections.abc<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Sequence,<sp/>Set</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">#<sp/>https://en.cppreference.com/w/c/keyword</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal">_keywords:<sp/>Set[str]<sp/>=<sp/>frozenset({</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;auto&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;break&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;case&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;char&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;const&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;continue&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;default&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;do&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;double&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;else&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;enum&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;extern&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;float&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;for&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;goto&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;if&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;inline&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;int&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;long&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;register&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;restrict&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;return&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;short&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;signed&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;sizeof&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;static&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;struct&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;switch&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;typedef&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;union&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;unsigned&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;void&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;volatile&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;while&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;_Alignas&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;_Alignof&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;_Atomic&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;_Bool&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;_Complex&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;_Decimal32&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;_Decimal64&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;_Decimal128&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;_Generic&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;_Imaginary&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;_Noreturn&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;_Static_assert&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;_Thread_local&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">})<sp/><sp/></highlight><highlight class="comment">#<sp/>fmt:<sp/>skip</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">#<sp/>These<sp/>are<sp/>only<sp/>keyword&apos;y<sp/>when<sp/>the<sp/>corresponding<sp/>headers<sp/>are<sp/>included.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">#<sp/>They<sp/>are<sp/>used<sp/>as<sp/>default<sp/>value<sp/>for<sp/>c_extra_keywords.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal">_macro_keywords:<sp/>Set[str]<sp/>=<sp/>frozenset({</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;alignas&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;alignof&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;bool&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;complex&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;imaginary&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;noreturn&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;static_assert&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;thread_local&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">})</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">#<sp/>these<sp/>are<sp/>ordered<sp/>by<sp/>precedence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">_expression_bin_ops:<sp/>Sequence[tuple[str,<sp/>...]]<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&apos;||&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;or&apos;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&apos;&amp;&amp;&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;and&apos;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&apos;|&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;bitor&apos;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&apos;^&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;xor&apos;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&apos;&amp;&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;bitand&apos;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&apos;==&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;!=&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;not_eq&apos;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&apos;&lt;=&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;&gt;=&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;&lt;&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;&gt;&apos;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&apos;&lt;&lt;&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;&gt;&gt;&apos;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&apos;+&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;-&apos;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&apos;*&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;/&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;%&apos;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&apos;.*&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;-&gt;*&apos;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">]</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">_expression_unary_ops:<sp/>Sequence[str]<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;++&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;--&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;*&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;&amp;&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;+&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;-&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;!&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;not&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;~&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;compl&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">]</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">_expression_assignment_ops:<sp/>Sequence[str]<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;=&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;*=&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;/=&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;%=&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;+=&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;-=&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;&gt;&gt;=&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;&lt;&lt;=&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;&amp;=&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;and_eq&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;^=&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;xor_eq&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;|=&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;or_eq&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">]</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal">_max_id<sp/>=<sp/>1</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">_id_prefix:<sp/>Sequence[str]<sp/>=<sp/>(</highlight><highlight class="stringliteral">&apos;&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;c.&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&apos;Cv2.&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Ids<sp/>are<sp/>used<sp/>in<sp/>lookup<sp/>keys<sp/>which<sp/>are<sp/>used<sp/>across<sp/>pickled<sp/>files,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">#<sp/>so<sp/>when<sp/>_max_id<sp/>changes,<sp/>make<sp/>sure<sp/>to<sp/>update<sp/>the<sp/>ENV_VERSION.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal">_string_re<sp/>=<sp/>re.compile(</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&quot;[LuU8]?(&apos;([^&apos;\\]*(?:\\.[^&apos;\\]*)*)&apos;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&apos;|&quot;([^&quot;\\]*(?:\\.[^&quot;\\]*)*)&quot;)&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>re.DOTALL,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">#<sp/>bool,<sp/>complex,<sp/>and<sp/>imaginary<sp/>are<sp/>macro<sp/>&quot;keywords&quot;,<sp/>so<sp/>they<sp/>are<sp/>handled<sp/>separately</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal">_simple_type_specifiers_re<sp/>=<sp/>re.compile(</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="106"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>\b(</highlight></codeline>
+<codeline lineno="107"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>void|_Bool</highlight></codeline>
+<codeline lineno="108"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>|signed|unsigned</highlight></codeline>
+<codeline lineno="109"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>|short|long</highlight></codeline>
+<codeline lineno="110"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>|char</highlight></codeline>
+<codeline lineno="111"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>|int</highlight></codeline>
+<codeline lineno="112"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>|__uint128|__int128</highlight></codeline>
+<codeline lineno="113"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>|__int(8|16|32|64|128)<sp/><sp/>#<sp/>extension</highlight></codeline>
+<codeline lineno="114"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>|float|double</highlight></codeline>
+<codeline lineno="115"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>|_Decimal(32|64|128)</highlight></codeline>
+<codeline lineno="116"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>|_Complex|_Imaginary</highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>|__float80|_Float64x|__float128|_Float128|__ibm128<sp/><sp/>#<sp/>extension</highlight></codeline>
+<codeline lineno="118"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>|__fp16<sp/><sp/>#<sp/>extension</highlight></codeline>
+<codeline lineno="119"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>|_Sat|_Fract|fract|_Accum|accum<sp/><sp/>#<sp/>extension</highlight></codeline>
+<codeline lineno="120"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)\b</highlight></codeline>
+<codeline lineno="121"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>re.VERBOSE,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">)</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/sphinx/domains/c/_ids.py"/>
+  </compounddef>
+</doxygen>

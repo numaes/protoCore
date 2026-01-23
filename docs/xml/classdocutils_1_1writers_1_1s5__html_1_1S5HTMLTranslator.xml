@@ -1,0 +1,686 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator" kind="class" language="Python" prot="public">
+    <compoundname>docutils::writers::s5_html::S5HTMLTranslator</compoundname>
+    <basecompoundref refid="classdocutils_1_1writers_1_1html4css1_1_1HTMLTranslator" prot="public" virt="non-virtual">docutils.writers.html4css1.HTMLTranslator</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a0cb3b816ff0a68dd481725698bdc7808" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.writers.s5_html.S5HTMLTranslator::s5_stylesheet_template</definition>
+        <argsstring></argsstring>
+        <name>s5_stylesheet_template</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.s5_stylesheet_template</qualifiedname>
+        <initializer>=  &quot;&quot;&quot;\
+&lt;!-- configuration parameters --&gt;
+&lt;<ref refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a352b2c99a47ba7681947a1acb02841bc" kindref="member">meta</ref> name=&quot;defaultView&quot; content=&quot;%(view_mode)s&quot; /&gt;
+&lt;<ref refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a352b2c99a47ba7681947a1acb02841bc" kindref="member">meta</ref> name=&quot;controlVis&quot; content=&quot;%(control_visibility)s&quot; /&gt;
+&lt;!-- style sheet links --&gt;
+&lt;script src=&quot;%(path)s/slides.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;%(path)s/slides.css&quot;
+      type=&quot;text/css&quot; media=&quot;projection&quot; id=&quot;slideProj&quot; /&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;%(path)s/outline.css&quot;
+      type=&quot;text/css&quot; media=&quot;screen&quot; id=&quot;outlineStyle&quot; /&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;%(path)s/print.css&quot;
+      type=&quot;text/css&quot; media=&quot;print&quot; id=&quot;slidePrint&quot; /&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;%(path)s/opera.css&quot;
+      type=&quot;text/css&quot; media=&quot;projection&quot; id=&quot;operaFix&quot; /&gt;\n&quot;&quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="95" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1acf672ced6490a72b29e2d8db80bf4ed3" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.writers.s5_html.S5HTMLTranslator::disable_current_slide</definition>
+        <argsstring></argsstring>
+        <name>disable_current_slide</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.disable_current_slide</qualifiedname>
+        <initializer>=  &quot;&quot;&quot;
+&lt;style type=&quot;text/css&quot;&gt;
+#currentSlide {display: none;}
+&lt;/style&gt;\n&quot;&quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="113" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a02664a42b7282a04defa19a82bdc4aa8" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.writers.s5_html.S5HTMLTranslator::layout_template</definition>
+        <argsstring></argsstring>
+        <name>layout_template</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.layout_template</qualifiedname>
+        <initializer>=  &quot;&quot;&quot;\
+&lt;div class=&quot;layout&quot;&gt;
+&lt;div id=&quot;controls&quot;&gt;&lt;/div&gt;
+&lt;div id=&quot;currentSlide&quot;&gt;&lt;/div&gt;
+&lt;div id=&quot;header&quot;&gt;
+%(<ref refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a61b1444ea40301fbdecb21f4c069696d" kindref="member">header</ref>)s
+&lt;/div&gt;
+&lt;div id=&quot;footer&quot;&gt;
+%(<ref refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1acc55a0a284881c5a92ccfc38fb8201c6" kindref="member">title</ref>)s%(<ref refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a93900f71680b752da58ed1a265ebfd95" kindref="member">footer</ref>)s
+&lt;/div&gt;
+&lt;/div&gt;\n&quot;&quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="118" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1aa00d79279526eb7bcefe28ae588bea11" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.writers.s5_html.S5HTMLTranslator::default_theme</definition>
+        <argsstring></argsstring>
+        <name>default_theme</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.default_theme</qualifiedname>
+        <initializer>=  &apos;default&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="134" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1aa09b896216b13d9dec69c19809f73a59" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.writers.s5_html.S5HTMLTranslator::base_theme_file</definition>
+        <argsstring></argsstring>
+        <name>base_theme_file</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.base_theme_file</qualifiedname>
+        <initializer>=  &apos;__base__&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="137" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1adaf8e5aa9babcebb2165debd4b9cc3b5" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.writers.s5_html.S5HTMLTranslator::direct_theme_files</definition>
+        <argsstring></argsstring>
+        <name>direct_theme_files</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.direct_theme_files</qualifiedname>
+        <initializer>=  (
+        &apos;slides.css&apos;, &apos;outline.css&apos;, &apos;print.css&apos;, &apos;opera.css&apos;, &apos;slides.js&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="140" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a4b964fd8e1b69b5350501781e4deab83" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.writers.s5_html.S5HTMLTranslator::indirect_theme_files</definition>
+        <argsstring></argsstring>
+        <name>indirect_theme_files</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.indirect_theme_files</qualifiedname>
+        <initializer>=  (
+        &apos;s5-core.css&apos;, &apos;framing.css&apos;, &apos;pretty.css&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="144" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a71a7e8d9134929d49d4353758317da66" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.writers.s5_html.S5HTMLTranslator::required_theme_files</definition>
+        <argsstring></argsstring>
+        <name>required_theme_files</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.required_theme_files</qualifiedname>
+        <initializer>=  <ref refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a4b964fd8e1b69b5350501781e4deab83" kindref="member">indirect_theme_files</ref> + <ref refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1adaf8e5aa9babcebb2165debd4b9cc3b5" kindref="member">direct_theme_files</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="149" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a0efad93fb63883424888f333f4daf8ba" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.writers.s5_html.S5HTMLTranslator::files_to_skip_pattern</definition>
+        <argsstring></argsstring>
+        <name>files_to_skip_pattern</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.files_to_skip_pattern</qualifiedname>
+        <initializer>=  re.compile(r&apos;~$|\.bak$|#$|\.cvsignore$&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="249" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="249" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a982acfc68863dc3386bbeba883f3aee7" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.s5_html.S5HTMLTranslator::theme_file_path</definition>
+        <argsstring></argsstring>
+        <name>theme_file_path</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.theme_file_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="155" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1ae5740655e640704ae40e607907c39e2d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.s5_html.S5HTMLTranslator::disable_current_slide</definition>
+        <argsstring></argsstring>
+        <name>disable_current_slide</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.disable_current_slide</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="168" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a21e80a4abd9083104a09cc58b1066816" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.s5_html.S5HTMLTranslator::s5_footer</definition>
+        <argsstring></argsstring>
+        <name>s5_footer</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.s5_footer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="170" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1aff005bdf7195dc08120c27737b6a5a9f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.s5_html.S5HTMLTranslator::s5_header</definition>
+        <argsstring></argsstring>
+        <name>s5_header</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.s5_header</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="171" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a4403eb31b854f7a450cc20aa83ce6aac" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.s5_html.S5HTMLTranslator::section_count</definition>
+        <argsstring></argsstring>
+        <name>section_count</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.section_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="172" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a3b1b87305e5e6e20caa2c92f47ab791a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.s5_html.S5HTMLTranslator::theme_files_copied</definition>
+        <argsstring></argsstring>
+        <name>theme_files_copied</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.theme_files_copied</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="173" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a566caffbd809596686748ca82951a118" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.s5_html.S5HTMLTranslator::required_theme_files</definition>
+        <argsstring></argsstring>
+        <name>required_theme_files</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.required_theme_files</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="213" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a4e3c421ef8edd2f1a1891978c935deaf" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.s5_html.S5HTMLTranslator::doctype</definition>
+        <argsstring></argsstring>
+        <name>doctype</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.doctype</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="283" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1abff6dc01908a692bc85603b266605f29" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.s5_html.S5HTMLTranslator::head</definition>
+        <argsstring></argsstring>
+        <name>head</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.head</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="287" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a48ab5011e0eeedc6bc16eeca52d8006a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.s5_html.S5HTMLTranslator::math_output</definition>
+        <argsstring></argsstring>
+        <name>math_output</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.math_output</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="289" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a8513cdcd8ded4cc6419713fbc867ec14" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.s5_html.S5HTMLTranslator::math_header</definition>
+        <argsstring></argsstring>
+        <name>math_header</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.math_header</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="290" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a998d2349dd537edb05cbf6dc67edd97f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.s5_html.S5HTMLTranslator::body</definition>
+        <argsstring></argsstring>
+        <name>body</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.body</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="295" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="295" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a23cde4bf7906c970586141e9e2807128" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.s5_html.S5HTMLTranslator.__init__</definition>
+        <argsstring>(self, *args)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.__init__</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1ad1310958d05603c2d41441f9b153e27d">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>*</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="152" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="152" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1ad497e4998c073922ef50d34a2b6ee73c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.s5_html.S5HTMLTranslator.setup_theme</definition>
+        <argsstring>(self)</argsstring>
+        <name>setup_theme</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.setup_theme</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="175" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="175" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a006aae6527c0526179df1c26b5fcfd56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.s5_html.S5HTMLTranslator.copy_theme</definition>
+        <argsstring>(self)</argsstring>
+        <name>copy_theme</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.copy_theme</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Locate &amp; copy theme files.
+
+A theme may be explicitly based on another theme via a &apos;__base__&apos;
+file.  The default base theme is &apos;default&apos;.  Files are accumulated
+from the specified theme, any base themes, and &apos;default&apos;.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="184" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="184" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a3bd9c6f3e0572dde7ac30be39395d1a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.s5_html.S5HTMLTranslator.copy_file</definition>
+        <argsstring>(self, name, source_dir, dest_dir)</argsstring>
+        <name>copy_file</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.copy_file</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <param>
+          <type>source_dir</type>
+          <defname>source_dir</defname>
+        </param>
+        <param>
+          <type>dest_dir</type>
+          <defname>dest_dir</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Copy file `name` from `source_dir` to `dest_dir`.
+Return True if the file exists in either `source_dir` or `dest_dir`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="251" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="251" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a8f2d0b43dc2f10a286e202446eac63b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.s5_html.S5HTMLTranslator.depart_document</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>depart_document</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.depart_document</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a10b598598bfbe175f7910ffb4d9d48c3">depart_document</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="282" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="282" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a171a6416dfc1835a2d142814602e0eea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.s5_html.S5HTMLTranslator.depart_footer</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>depart_footer</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.depart_footer</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a5b01f473db52ea9314d8b69d43535b7b">depart_footer</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="315" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="315" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a98a3504f0bf45fd561a2e29424f933c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.s5_html.S5HTMLTranslator.depart_header</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>depart_header</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.depart_header</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1ace4dd355a5c332bfad59ea64dca0de31">depart_header</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="322" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="322" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a9a99c40f597e596a9ef3f6e2a615c8c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.s5_html.S5HTMLTranslator.visit_section</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>visit_section</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.visit_section</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a210f1206844408a9df2d3b549f27f00d">visit_section</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="330" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="330" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a11dd9e2aba9ff3f5ed10fa092bf8497a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.s5_html.S5HTMLTranslator.visit_subtitle</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>visit_subtitle</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.visit_subtitle</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1html4css1_1_1HTMLTranslator_1a244d93d258e9ba5b46af774199dcac42">visit_subtitle</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="341" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="341" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a3dc359e8753fd6cedb5a66db86421d37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.s5_html.S5HTMLTranslator.visit_title</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>visit_title</name>
+        <qualifiedname>docutils.writers.s5_html.S5HTMLTranslator.visit_title</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a03ac1ad261c66919f5884b66bfb4a00c">visit_title</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="352" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="352" bodyend="354"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.writers.s5_html.S5HTMLTranslator</label>
+        <link refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.nodes.NodeVisitor</label>
+        <link refid="classdocutils_1_1nodes_1_1NodeVisitor"/>
+      </node>
+      <node id="3">
+        <label>docutils.writers._html_base.HTMLTranslator</label>
+        <link refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.writers.html4css1.HTMLTranslator</label>
+        <link refid="classdocutils_1_1writers_1_1html4css1_1_1HTMLTranslator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>docutils.writers.s5_html.S5HTMLTranslator</label>
+        <link refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>base_theme_file</edgelabel>
+          <edgelabel>default_theme</edgelabel>
+          <edgelabel>disable_current_slide</edgelabel>
+          <edgelabel>layout_template</edgelabel>
+          <edgelabel>s5_stylesheet_template</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.nodes.NodeVisitor</label>
+        <link refid="classdocutils_1_1nodes_1_1NodeVisitor"/>
+      </node>
+      <node id="3">
+        <label>docutils.writers._html_base.HTMLTranslator</label>
+        <link refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>content_type</edgelabel>
+          <edgelabel>doctype</edgelabel>
+          <edgelabel>doctype_mathml</edgelabel>
+          <edgelabel>embedded_stylesheet</edgelabel>
+          <edgelabel>lang_attribute</edgelabel>
+          <edgelabel>mathjax_script</edgelabel>
+          <edgelabel>mathjax_url</edgelabel>
+          <edgelabel>stylesheet_link</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.writers.html4css1.HTMLTranslator</label>
+        <link refid="classdocutils_1_1writers_1_1html4css1_1_1HTMLTranslator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" line="93" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/s5_html/__init__.py" bodystart="93" bodyend="354"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a23cde4bf7906c970586141e9e2807128" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>__init__</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1aa09b896216b13d9dec69c19809f73a59" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>base_theme_file</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a998d2349dd537edb05cbf6dc67edd97f" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>body</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a3bd9c6f3e0572dde7ac30be39395d1a1" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>copy_file</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a006aae6527c0526179df1c26b5fcfd56" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>copy_theme</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1aa00d79279526eb7bcefe28ae588bea11" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>default_theme</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a8f2d0b43dc2f10a286e202446eac63b3" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>depart_document</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a171a6416dfc1835a2d142814602e0eea" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>depart_footer</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a98a3504f0bf45fd561a2e29424f933c0" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>depart_header</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1adaf8e5aa9babcebb2165debd4b9cc3b5" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>direct_theme_files</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1acf672ced6490a72b29e2d8db80bf4ed3" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>disable_current_slide</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1ae5740655e640704ae40e607907c39e2d" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>disable_current_slide</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a4e3c421ef8edd2f1a1891978c935deaf" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>doctype</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a0efad93fb63883424888f333f4daf8ba" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>files_to_skip_pattern</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1abff6dc01908a692bc85603b266605f29" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>head</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a4b964fd8e1b69b5350501781e4deab83" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>indirect_theme_files</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a02664a42b7282a04defa19a82bdc4aa8" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>layout_template</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a8513cdcd8ded4cc6419713fbc867ec14" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>math_header</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a48ab5011e0eeedc6bc16eeca52d8006a" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>math_output</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a71a7e8d9134929d49d4353758317da66" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>required_theme_files</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a566caffbd809596686748ca82951a118" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>required_theme_files</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a21e80a4abd9083104a09cc58b1066816" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>s5_footer</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1aff005bdf7195dc08120c27737b6a5a9f" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>s5_header</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a0cb3b816ff0a68dd481725698bdc7808" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>s5_stylesheet_template</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a4403eb31b854f7a450cc20aa83ce6aac" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>section_count</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1ad497e4998c073922ef50d34a2b6ee73c" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>setup_theme</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a982acfc68863dc3386bbeba883f3aee7" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>theme_file_path</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a3b1b87305e5e6e20caa2c92f47ab791a" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>theme_files_copied</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a9a99c40f597e596a9ef3f6e2a615c8c5" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>visit_section</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a11dd9e2aba9ff3f5ed10fa092bf8497a" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>visit_subtitle</name></member>
+      <member refid="classdocutils_1_1writers_1_1s5__html_1_1S5HTMLTranslator_1a3dc359e8753fd6cedb5a66db86421d37" prot="public" virt="non-virtual"><scope>docutils::writers::s5_html::S5HTMLTranslator</scope><name>visit_title</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1transforms_1_1references_1_1Substitutions" kind="class" language="Python" prot="public">
+    <compoundname>docutils::transforms::references::Substitutions</compoundname>
+    <basecompoundref refid="classdocutils_1_1transforms_1_1Transform" prot="public" virt="non-virtual">docutils.transforms.Transform</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1transforms_1_1references_1_1Substitutions_1a4d9330942a4105d74d82469bca7399db" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int docutils.transforms.references.Substitutions::default_priority</definition>
+        <argsstring></argsstring>
+        <name>default_priority</name>
+        <qualifiedname>docutils.transforms.references.Substitutions.default_priority</qualifiedname>
+        <initializer>=  220</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/references.py" line="659" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/references.py" bodystart="659" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1references_1_1Substitutions_1aa3e9f1f5c9bd0ded7da31e89895b8337" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.references.Substitutions.apply</definition>
+        <argsstring>(self)</argsstring>
+        <name>apply</name>
+        <qualifiedname>docutils.transforms.references.Substitutions.apply</qualifiedname>
+        <reimplements refid="classdocutils_1_1transforms_1_1Transform_1a0a9e91ca01b2b5377cb61a18d8914f34">apply</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Override to apply the transform to the document tree.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/references.py" line="663" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/references.py" bodystart="663" bodyend="755"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Given the following ``document`` as input::
+
+    &lt;document&gt;
+        &lt;paragraph&gt;
+            The
+            &lt;substitution_reference refname=&quot;biohazard&quot;&gt;
+                biohazard
+             symbol is deservedly scary-looking.
+        &lt;substitution_definition name=&quot;biohazard&quot;&gt;
+            &lt;image alt=&quot;biohazard&quot; uri=&quot;biohazard.png&quot;&gt;
+
+The ``substitution_reference`` will simply be replaced by the
+contents of the corresponding ``substitution_definition``.
+
+The transformed result will be::
+
+    &lt;document&gt;
+        &lt;paragraph&gt;
+            The
+            &lt;image alt=&quot;biohazard&quot; uri=&quot;biohazard.png&quot;&gt;
+             symbol is deservedly scary-looking.
+        &lt;substitution_definition name=&quot;biohazard&quot;&gt;
+            &lt;image alt=&quot;biohazard&quot; uri=&quot;biohazard.png&quot;&gt;
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.transforms.references.Substitutions</label>
+        <link refid="classdocutils_1_1transforms_1_1references_1_1Substitutions"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>docutils.transforms.references.Substitutions</label>
+        <link refid="classdocutils_1_1transforms_1_1references_1_1Substitutions"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/docutils/transforms/references.py" line="631" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/references.py" bodystart="631" bodyend="755"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1transforms_1_1references_1_1Substitutions_1aa3e9f1f5c9bd0ded7da31e89895b8337" prot="public" virt="non-virtual"><scope>docutils::transforms::references::Substitutions</scope><name>apply</name></member>
+      <member refid="classdocutils_1_1transforms_1_1references_1_1Substitutions_1a4d9330942a4105d74d82469bca7399db" prot="public" virt="non-virtual"><scope>docutils::transforms::references::Substitutions</scope><name>default_priority</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="03__object__model_8md" kind="file" language="Markdown">
+    <compoundname>03_object_model.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Architecture<sp/>Deep<sp/>Dive:<sp/>The<sp/>Object<sp/>and<sp/>Type<sp/>System</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Introduction</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Proto<sp/>features<sp/>a<sp/>dynamic<sp/>and<sp/>flexible<sp/>object<sp/>model<sp/>that<sp/>differs<sp/>significantly<sp/>from<sp/>the<sp/>class-based<sp/>systems<sp/>found<sp/>in<sp/>languages<sp/>like<sp/>C++<sp/>or<sp/>Java.<sp/>It<sp/>combines<sp/>a<sp/>prototype-based<sp/>inheritance<sp/>system<sp/>with<sp/>an<sp/>efficient<sp/>memory<sp/>representation<sp/>using<sp/>tagged<sp/>pointers,<sp/>creating<sp/>a<sp/>powerful<sp/>foundation<sp/>for<sp/>dynamic<sp/>languages.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Tagged<sp/>Pointers</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">In<sp/>a<sp/>typical<sp/>dynamic<sp/>language,<sp/>every<sp/>value,<sp/>no<sp/>matter<sp/>how<sp/>small,<sp/>is<sp/>an<sp/>object<sp/>that<sp/>must<sp/>be<sp/>allocated<sp/>on<sp/>the<sp/>heap.<sp/>This<sp/>can<sp/>lead<sp/>to<sp/>significant<sp/>overhead.<sp/>Proto<sp/>avoids<sp/>this<sp/>by<sp/>using<sp/>**tagged<sp/>pointers**.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">A<sp/>`ProtoObjectPointer`<sp/>is<sp/>a<sp/>single<sp/>machine<sp/>word<sp/>(e.g.,<sp/>64<sp/>bits)<sp/>that<sp/>can<sp/>represent<sp/>either<sp/>a<sp/>true<sp/>pointer<sp/>to<sp/>a<sp/>heap-allocated<sp/>object<sp/>or<sp/>an<sp/>immediate<sp/>value.<sp/>This<sp/>is<sp/>achieved<sp/>by<sp/>using<sp/>the<sp/>lower<sp/>few<sp/>bits<sp/>of<sp/>the<sp/>word<sp/>as<sp/>a<sp/>&quot;tag&quot;<sp/>to<sp/>indicate<sp/>the<sp/>type<sp/>of<sp/>data<sp/>being<sp/>stored.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Because<sp/>heap-allocated<sp/>objects<sp/>are<sp/>always<sp/>aligned<sp/>to<sp/>a<sp/>certain<sp/>byte<sp/>boundary<sp/>(e.g.,<sp/>8<sp/>or<sp/>16<sp/>bytes),<sp/>their<sp/>memory<sp/>addresses<sp/>will<sp/>always<sp/>have<sp/>their<sp/>lowest<sp/>bits<sp/>as<sp/>zero.<sp/>We<sp/>can<sp/>take<sp/>advantage<sp/>of<sp/>this<sp/>to<sp/>store<sp/>information.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>If<sp/>the<sp/>lowest<sp/>bit<sp/>is<sp/>`0`,<sp/>the<sp/>value<sp/>is<sp/>a<sp/>true<sp/>pointer<sp/>to<sp/>a<sp/>`ProtoObject`<sp/>on<sp/>the<sp/>heap.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>If<sp/>the<sp/>lowest<sp/>bit<sp/>is<sp/>`1`,<sp/>the<sp/>value<sp/>is<sp/>an<sp/>immediate<sp/>63-bit<sp/>signed<sp/>integer.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>Other<sp/>tag<sp/>patterns<sp/>can<sp/>be<sp/>used<sp/>for<sp/>booleans,<sp/>null,<sp/>or<sp/>other<sp/>special<sp/>singletons.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`ProtoObjectPointer`<sp/>union<sp/>from<sp/>`proto_internal.h`<sp/>shows<sp/>this<sp/>concept<sp/>in<sp/>practice:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Illustrative<sp/>snippet<sp/>from<sp/>proto_internal.h</highlight></codeline>
+<codeline><highlight class="normal">union<sp/>ProtoObjectPointer<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>The<sp/>raw<sp/>64-bit<sp/>value</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>raw;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>The<sp/>value<sp/>interpreted<sp/>as<sp/>a<sp/>pointer<sp/>to<sp/>a<sp/>heap<sp/>object</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>ProtoObject<sp/>as_object;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>The<sp/>value<sp/>interpreted<sp/>as<sp/>a<sp/>signed<sp/>integer</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>as_integer;</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Benefits</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>primary<sp/>benefit<sp/>is<sp/>**performance**.<sp/>Creating<sp/>or<sp/>passing<sp/>around<sp/>an<sp/>integer<sp/>does<sp/>not<sp/>require<sp/>any<sp/>heap<sp/>allocation<sp/>or<sp/>garbage<sp/>collection<sp/>overhead.<sp/>This<sp/>makes<sp/>numerical<sp/>and<sp/>logical<sp/>operations<sp/>significantly<sp/>faster.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Prototype-Based<sp/>Inheritance</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Instead<sp/>of<sp/>classes,<sp/>Proto<sp/>uses<sp/>prototypes.<sp/>Every<sp/>object<sp/>can<sp/>be<sp/>a<sp/>prototype<sp/>for<sp/>another<sp/>object.<sp/>When<sp/>you<sp/>try<sp/>to<sp/>access<sp/>an<sp/>attribute<sp/>or<sp/>method<sp/>on<sp/>an<sp/>object,<sp/>the<sp/>runtime<sp/>first<sp/>looks<sp/>at<sp/>the<sp/>object<sp/>itself.<sp/>If<sp/>the<sp/>attribute<sp/>isn&apos;t<sp/>found,<sp/>it<sp/>follows<sp/>the<sp/>object&apos;s<sp/>`parent`<sp/>link<sp/>and<sp/>looks<sp/>at<sp/>its<sp/>prototype.<sp/>This<sp/>process<sp/>continues<sp/>up<sp/>the<sp/>chain<sp/>until<sp/>the<sp/>attribute<sp/>is<sp/>found<sp/>or<sp/>the<sp/>chain<sp/>ends.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>is<sp/>different<sp/>from<sp/>classical<sp/>inheritance,<sp/>where<sp/>a<sp/>class<sp/>defines<sp/>a<sp/>rigid<sp/>structure<sp/>that<sp/>all<sp/>its<sp/>instances<sp/>must<sp/>follow.<sp/>The<sp/>prototype<sp/>model<sp/>is<sp/>more<sp/>flexible,<sp/>allowing<sp/>objects<sp/>to<sp/>have<sp/>their<sp/>structures<sp/>and<sp/>behaviors<sp/>modified<sp/>dynamically<sp/>at<sp/>runtime.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Immutable<sp/>Data<sp/>Structures</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">To<sp/>ensure<sp/>thread<sp/>safety<sp/>and<sp/>enable<sp/>efficient<sp/>sharing,<sp/>Proto&apos;s<sp/>core<sp/>collection<sp/>types,<sp/>such<sp/>as<sp/>`ProtoString`<sp/>and<sp/>`ProtoTuple`,<sp/>are<sp/>**immutable**.<sp/>Once<sp/>created,<sp/>their<sp/>contents<sp/>cannot<sp/>be<sp/>changed.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>might<sp/>sound<sp/>inefficient,<sp/>but<sp/>these<sp/>types<sp/>are<sp/>implemented<sp/>using<sp/>sophisticated<sp/>tree-like<sp/>data<sp/>structures<sp/>(similar<sp/>to<sp/>ropes<sp/>for<sp/>strings<sp/>or<sp/>AVLs<sp/>for<sp/>tuples).<sp/>This<sp/>has<sp/>a<sp/>powerful<sp/>consequence:<sp/>operations<sp/>that<sp/>would<sp/>normally<sp/>be<sp/>expensive<sp/>are<sp/>very<sp/>cheap.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">For<sp/>example,<sp/>concatenating<sp/>two<sp/>large<sp/>strings<sp/>does<sp/>not<sp/>involve<sp/>copying<sp/>all<sp/>the<sp/>characters.<sp/>Instead,<sp/>it<sp/>creates<sp/>a<sp/>new,<sp/>small<sp/>&quot;node&quot;<sp/>object<sp/>that<sp/>simply<sp/>holds<sp/>pointers<sp/>to<sp/>the<sp/>two<sp/>original<sp/>strings.<sp/>This<sp/>makes<sp/>operations<sp/>like<sp/>concatenation,<sp/>slicing,<sp/>or<sp/>appending<sp/>an<sp/>O(log<sp/>N)<sp/>operation<sp/>instead<sp/>of<sp/>O(N),<sp/>as<sp/>no<sp/>full<sp/>copies<sp/>are<sp/>ever<sp/>needed.<sp/>This<sp/>design<sp/>is<sp/>crucial<sp/>for<sp/>building<sp/>scalable<sp/>and<sp/>performant<sp/>systems<sp/>that<sp/>heavily<sp/>manipulate<sp/>data.</highlight></codeline>
+    </programlisting>
+    <location file="Structural description/architecture/03_object_model.md"/>
+  </compounddef>
+</doxygen>

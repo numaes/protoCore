@@ -1,0 +1,396 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1ext_1_1InternationalizationExtension" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::ext::InternationalizationExtension</compoundname>
+    <basecompoundref refid="classjinja2_1_1ext_1_1Extension" prot="public" virt="non-virtual">jinja2.ext.Extension</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1ext_1_1InternationalizationExtension_1a7099ac7a644fc06c1f22c54881114832" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict jinja2.ext.InternationalizationExtension::tags</definition>
+        <argsstring></argsstring>
+        <name>tags</name>
+        <qualifiedname>jinja2.ext.InternationalizationExtension.tags</qualifiedname>
+        <initializer>=  {&quot;trans&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="249" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="249" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjinja2_1_1ext_1_1InternationalizationExtension_1a9c04d56aa54f2a8aabd1357ffff88335" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.ext.InternationalizationExtension.__init__</definition>
+        <argsstring>(self, Environment environment)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>jinja2.ext.InternationalizationExtension.__init__</qualifiedname>
+        <reimplements refid="classjinja2_1_1ext_1_1Extension_1a958e2fd3368f0fb48e7f2655783c5f12">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1environment_1_1Environment" kindref="compound">Environment</ref></type>
+          <declname>environment</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="258" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="258" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1ext_1_1InternationalizationExtension_1a05cdd72bd7f05240537e351810269c86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Union[<ref refid="classjinja2_1_1nodes_1_1Node" kindref="compound">nodes.Node</ref>, t.List[<ref refid="classjinja2_1_1nodes_1_1Node" kindref="compound">nodes.Node</ref>]]</type>
+        <definition> t.Union[nodes.Node, t.List[nodes.Node]] jinja2.ext.InternationalizationExtension.parse</definition>
+        <argsstring>(self, &quot;Parser&quot; parser)</argsstring>
+        <name>parse</name>
+        <qualifiedname>jinja2.ext.InternationalizationExtension.parse</qualifiedname>
+        <reimplements refid="classjinja2_1_1ext_1_1Extension_1ab21761ef8794ae53ffb445c8c03cdeed">parse</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;Parser&quot;</type>
+          <declname>parser</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse a translatable tag.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="355" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="355" bodyend="476"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classjinja2_1_1ext_1_1InternationalizationExtension_1aa41d1352650d07ed13b332f2cfef112f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.ext.InternationalizationExtension._install</definition>
+        <argsstring>(self, &quot;_SupportedTranslations&quot; translations, t.Optional[bool] newstyle=None)</argsstring>
+        <name>_install</name>
+        <qualifiedname>jinja2.ext.InternationalizationExtension._install</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;_SupportedTranslations&quot;</type>
+          <declname>translations</declname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>newstyle</declname>
+          <array>[bool]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="270" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="272" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1ext_1_1InternationalizationExtension_1a764e627f9d79008f3c2704a4af528d17" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.ext.InternationalizationExtension._install_null</definition>
+        <argsstring>(self, t.Optional[bool] newstyle=None)</argsstring>
+        <name>_install_null</name>
+        <qualifiedname>jinja2.ext.InternationalizationExtension._install_null</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>newstyle</declname>
+          <array>[bool]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="288" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="288" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1ext_1_1InternationalizationExtension_1a79719905121f93b4f72d5eeea800e026" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.ext.InternationalizationExtension._install_callables</definition>
+        <argsstring>(self, t.Callable[[str], str] gettext, t.Callable[[str, str, int], str] ngettext, t.Optional[bool] newstyle=None, t.Optional[t.Callable[[str, str], str]] pgettext=None, t.Optional[t.Callable[[str, str, str, int], str]] npgettext=None)</argsstring>
+        <name>_install_callables</name>
+        <qualifiedname>jinja2.ext.InternationalizationExtension._install_callables</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.</type>
+          <declname>Callable</declname>
+          <defname>gettext</defname>
+          <array>[[str]</array>
+        </param>
+        <param>
+          <type>str]</type>
+          <declname>gettext</declname>
+          <defname>ngettext</defname>
+        </param>
+        <param>
+          <type>t.</type>
+          <declname>Callable</declname>
+          <defname>newstyle</defname>
+          <array>[[str, str, int]</array>
+        </param>
+        <param>
+          <type>str]</type>
+          <declname>ngettext</declname>
+          <defname>pgettext</defname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>newstyle</declname>
+          <defname>npgettext</defname>
+          <array>[bool]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.</type>
+          <declname>Optional</declname>
+          <array>[t.Callable[[str, str]</array>
+        </param>
+        <param>
+          <type>str]]</type>
+          <declname>pgettext</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.</type>
+          <declname>Optional</declname>
+          <array>[t.Callable[[str, str, str, int]</array>
+        </param>
+        <param>
+          <type>str]]</type>
+          <declname>npgettext</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="316" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="323" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1ext_1_1InternationalizationExtension_1a83bff5ca42f136d905db6586cbfb4412" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.ext.InternationalizationExtension._uninstall</definition>
+        <argsstring>(self, &quot;_SupportedTranslations&quot; translations)</argsstring>
+        <name>_uninstall</name>
+        <qualifiedname>jinja2.ext.InternationalizationExtension._uninstall</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;_SupportedTranslations&quot;</type>
+          <declname>translations</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="340" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="340" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1ext_1_1InternationalizationExtension_1a793a657a098845251a154b3c8ef12de5" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Iterator[ t.Tuple[int, str, t.Union[t.Optional[str], t.Tuple[t.Optional[str],...]]]]</type>
+        <definition> t.Iterator[
+        t.Tuple[int, str, t.Union[t.Optional[str], t.Tuple[t.Optional[str], ...]]]
+    ] jinja2.ext.InternationalizationExtension._extract</definition>
+        <argsstring>(self, t.Union[str, nodes.Template] source, t.Sequence[str] gettext_functions=GETTEXT_FUNCTIONS)</argsstring>
+        <name>_extract</name>
+        <qualifiedname>jinja2.ext.InternationalizationExtension._extract</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Union</type>
+          <declname>source</declname>
+          <array>[str, nodes.Template]</array>
+        </param>
+        <param>
+          <type>t.Sequence</type>
+          <declname>gettext_functions</declname>
+          <array>[str]</array>
+          <defval><ref refid="namespacejinja2_1_1ext_1a7948d20afe021f411ec389734e46e665" kindref="member">GETTEXT_FUNCTIONS</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="344" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="350" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1ext_1_1InternationalizationExtension_1aaf849cbd34fe989445737b487a8087db" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.ext.InternationalizationExtension._trim_whitespace</definition>
+        <argsstring>(self, str string, t.Pattern[str] _ws_re=_ws_re)</argsstring>
+        <name>_trim_whitespace</name>
+        <qualifiedname>jinja2.ext.InternationalizationExtension._trim_whitespace</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type>t.Pattern</type>
+          <declname>_ws_re</declname>
+          <array>[str]</array>
+          <defval><ref refid="namespacejinja2_1_1ext_1a6118c75bd7a83142f1786017768e2c39" kindref="member">_ws_re</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="477" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="477" bodyend="479"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1ext_1_1InternationalizationExtension_1abba8c00d524a26470525e03522e19670" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Tuple[t.List[str], str]</type>
+        <definition> t.Tuple[t.List[str], str] jinja2.ext.InternationalizationExtension._parse_block</definition>
+        <argsstring>(self, &quot;Parser&quot; parser, bool allow_pluralize)</argsstring>
+        <name>_parse_block</name>
+        <qualifiedname>jinja2.ext.InternationalizationExtension._parse_block</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;Parser&quot;</type>
+          <declname>parser</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>allow_pluralize</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse until the next block tag with a given name.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="480" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="482" bodyend="526"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1ext_1_1InternationalizationExtension_1a0f18f0f6250c51f2f9a2b6f3ed25e889" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classjinja2_1_1nodes_1_1Output" kindref="compound">nodes.Output</ref></type>
+        <definition> nodes.Output jinja2.ext.InternationalizationExtension._make_node</definition>
+        <argsstring>(self, str singular, t.Optional[str] plural, t.Optional[str] context, t.Dict[str, nodes.Expr] variables, t.Optional[nodes.Expr] plural_expr, bool vars_referenced, bool num_called_num)</argsstring>
+        <name>_make_node</name>
+        <qualifiedname>jinja2.ext.InternationalizationExtension._make_node</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>singular</declname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>plural</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>context</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>t.Dict</type>
+          <declname>variables</declname>
+          <array>[str, nodes.Expr]</array>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>plural_expr</declname>
+          <array>[nodes.Expr]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>vars_referenced</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>num_called_num</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Generates a useful node from the data provided.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="527" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="536" bodyend="589"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>This extension adds gettext support to Jinja.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.ext.InternationalizationExtension</label>
+        <link refid="classjinja2_1_1ext_1_1InternationalizationExtension"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.ext.Extension</label>
+        <link refid="classjinja2_1_1ext_1_1Extension"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>jinja2.ext.InternationalizationExtension</label>
+        <link refid="classjinja2_1_1ext_1_1InternationalizationExtension"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.ext.Extension</label>
+        <link refid="classjinja2_1_1ext_1_1Extension"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="246" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="246" bodyend="589"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1ext_1_1InternationalizationExtension_1a9c04d56aa54f2a8aabd1357ffff88335" prot="public" virt="non-virtual"><scope>jinja2::ext::InternationalizationExtension</scope><name>__init__</name></member>
+      <member refid="classjinja2_1_1ext_1_1InternationalizationExtension_1a793a657a098845251a154b3c8ef12de5" prot="protected" virt="non-virtual"><scope>jinja2::ext::InternationalizationExtension</scope><name>_extract</name></member>
+      <member refid="classjinja2_1_1ext_1_1InternationalizationExtension_1aa41d1352650d07ed13b332f2cfef112f" prot="protected" virt="non-virtual"><scope>jinja2::ext::InternationalizationExtension</scope><name>_install</name></member>
+      <member refid="classjinja2_1_1ext_1_1InternationalizationExtension_1a79719905121f93b4f72d5eeea800e026" prot="protected" virt="non-virtual"><scope>jinja2::ext::InternationalizationExtension</scope><name>_install_callables</name></member>
+      <member refid="classjinja2_1_1ext_1_1InternationalizationExtension_1a764e627f9d79008f3c2704a4af528d17" prot="protected" virt="non-virtual"><scope>jinja2::ext::InternationalizationExtension</scope><name>_install_null</name></member>
+      <member refid="classjinja2_1_1ext_1_1InternationalizationExtension_1a0f18f0f6250c51f2f9a2b6f3ed25e889" prot="protected" virt="non-virtual"><scope>jinja2::ext::InternationalizationExtension</scope><name>_make_node</name></member>
+      <member refid="classjinja2_1_1ext_1_1InternationalizationExtension_1abba8c00d524a26470525e03522e19670" prot="protected" virt="non-virtual"><scope>jinja2::ext::InternationalizationExtension</scope><name>_parse_block</name></member>
+      <member refid="classjinja2_1_1ext_1_1InternationalizationExtension_1aaf849cbd34fe989445737b487a8087db" prot="protected" virt="non-virtual"><scope>jinja2::ext::InternationalizationExtension</scope><name>_trim_whitespace</name></member>
+      <member refid="classjinja2_1_1ext_1_1InternationalizationExtension_1a83bff5ca42f136d905db6586cbfb4412" prot="protected" virt="non-virtual"><scope>jinja2::ext::InternationalizationExtension</scope><name>_uninstall</name></member>
+      <member refid="classjinja2_1_1ext_1_1InternationalizationExtension_1a05cdd72bd7f05240537e351810269c86" prot="public" virt="non-virtual"><scope>jinja2::ext::InternationalizationExtension</scope><name>parse</name></member>
+      <member refid="classjinja2_1_1ext_1_1InternationalizationExtension_1a7099ac7a644fc06c1f22c54881114832" prot="public" virt="non-virtual"><scope>jinja2::ext::InternationalizationExtension</scope><name>tags</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

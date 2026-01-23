@@ -1,0 +1,665 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacedocutils_1_1writers_1_1odf__odt" kind="namespace" language="Python">
+    <compoundname>docutils::writers::odf_odt</compoundname>
+    <innerclass refid="classdocutils_1_1writers_1_1odf__odt_1_1__ElementInterfaceWrapper" prot="protected">docutils::writers::odf_odt::_ElementInterfaceWrapper</innerclass>
+    <innerclass refid="classdocutils_1_1writers_1_1odf__odt_1_1ListLevel" prot="public">docutils::writers::odf_odt::ListLevel</innerclass>
+    <innerclass refid="classdocutils_1_1writers_1_1odf__odt_1_1ODFTranslator" prot="public">docutils::writers::odf_odt::ODFTranslator</innerclass>
+    <innerclass refid="classdocutils_1_1writers_1_1odf__odt_1_1Reader" prot="public">docutils::writers::odf_odt::Reader</innerclass>
+    <innerclass refid="classdocutils_1_1writers_1_1odf__odt_1_1TableStyle" prot="public">docutils::writers::odf_odt::TableStyle</innerclass>
+    <innerclass refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer" prot="public">docutils::writers::odf_odt::Writer</innerclass>
+    <innernamespace refid="namespacedocutils_1_1writers_1_1odf__odt_1_1prepstyles">docutils::writers::odf_odt::prepstyles</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1writers_1_1odf__odt_1_1pygmentsformatter">docutils::writers::odf_odt::pygmentsformatter</innernamespace>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1aeb8eaa8b17a4dd2b0f8f3e990bb045dc" prot="private" static="no" mutable="no">
+        <type>str</type>
+        <definition>str docutils::writers::odf_odt.__docformat__</definition>
+        <argsstring></argsstring>
+        <name>__docformat__</name>
+        <qualifiedname>docutils.writers.odf_odt.__docformat__</qualifiedname>
+        <initializer>=  &apos;reStructuredText&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="12" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="12" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1a9992cf0f84bff7c26ed18e90e49aee4d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils::writers::odf_odt.pygments</definition>
+        <argsstring></argsstring>
+        <name>pygments</name>
+        <qualifiedname>docutils.writers.odf_odt.pygments</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="46" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1a04eedbf65fdf5b37a0e1bded85e1dc29" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str docutils::writers::odf_odt.VERSION</definition>
+        <argsstring></argsstring>
+        <name>VERSION</name>
+        <qualifiedname>docutils.writers.odf_odt.VERSION</qualifiedname>
+        <initializer>=  &apos;1.0a&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="57" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1acf98d23f58c597de48b59d52415e2733" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils::writers::odf_odt.IMAGE_NAME_COUNTER</definition>
+        <argsstring></argsstring>
+        <name>IMAGE_NAME_COUNTER</name>
+        <qualifiedname>docutils.writers.odf_odt.IMAGE_NAME_COUNTER</qualifiedname>
+        <initializer>=  itertools.count()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="59" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1a3f5f5424f7d0d8b94d978982bf1389c8" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>docutils::writers::odf_odt._parents</definition>
+        <argsstring></argsstring>
+        <name>_parents</name>
+        <qualifiedname>docutils.writers.odf_odt._parents</qualifiedname>
+        <initializer>=  weakref.WeakKeyDictionary()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="67" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1a0dca29f42d604f93b577e6eb121c6a90" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>docutils::writers::odf_odt._ElementInterface</definition>
+        <argsstring></argsstring>
+        <name>_ElementInterface</name>
+        <qualifiedname>docutils.writers.odf_odt._ElementInterface</qualifiedname>
+        <initializer>=  etree.Element</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="69" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1a887b34018559505b9234d1fc85c17344" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils::writers::odf_odt.SPACES_PATTERN</definition>
+        <argsstring></argsstring>
+        <name>SPACES_PATTERN</name>
+        <qualifiedname>docutils.writers.odf_odt.SPACES_PATTERN</qualifiedname>
+        <initializer>=  re.compile(r&apos;( +)&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="89" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1af205154c18f206b2daa5ed0b94d3018d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils::writers::odf_odt.TABS_PATTERN</definition>
+        <argsstring></argsstring>
+        <name>TABS_PATTERN</name>
+        <qualifiedname>docutils.writers.odf_odt.TABS_PATTERN</qualifiedname>
+        <initializer>=  re.compile(r&apos;(\t+)&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="90" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1a656257d003b727fbcbfb167fb94f4840" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils::writers::odf_odt.FILL_PAT1</definition>
+        <argsstring></argsstring>
+        <name>FILL_PAT1</name>
+        <qualifiedname>docutils.writers.odf_odt.FILL_PAT1</qualifiedname>
+        <initializer>=  re.compile(r&apos;^ +&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="91" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1a198644863908868a83b9b68dd3e755d2" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils::writers::odf_odt.FILL_PAT2</definition>
+        <argsstring></argsstring>
+        <name>FILL_PAT2</name>
+        <qualifiedname>docutils.writers.odf_odt.FILL_PAT2</qualifiedname>
+        <initializer>=  re.compile(r&apos; {2,}&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="92" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1ac6756df7af3e42ea4dd372c9006992dc" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str docutils::writers::odf_odt.TABLESTYLEPREFIX</definition>
+        <argsstring></argsstring>
+        <name>TABLESTYLEPREFIX</name>
+        <qualifiedname>docutils.writers.odf_odt.TABLESTYLEPREFIX</qualifiedname>
+        <initializer>=  &apos;rststyle-table-&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="94" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1aef7d6aef34639459bd5243aa9182a5b2" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str docutils::writers::odf_odt.TABLENAMEDEFAULT</definition>
+        <argsstring></argsstring>
+        <name>TABLENAMEDEFAULT</name>
+        <qualifiedname>docutils.writers.odf_odt.TABLENAMEDEFAULT</qualifiedname>
+        <initializer>=  &apos;%s0&apos; % <ref refid="namespacedocutils_1_1writers_1_1odf__odt_1ac6756df7af3e42ea4dd372c9006992dc" kindref="member">TABLESTYLEPREFIX</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="95" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1a43ae39d015112880958798d2b0c32bbe" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils::writers::odf_odt.TABLEPROPERTYNAMES</definition>
+        <argsstring></argsstring>
+        <name>TABLEPROPERTYNAMES</name>
+        <qualifiedname>docutils.writers.odf_odt.TABLEPROPERTYNAMES</qualifiedname>
+        <initializer>=  (
+    &apos;border&apos;, &apos;border-top&apos;, &apos;border-left&apos;,
+    &apos;border-right&apos;, &apos;border-bottom&apos;, )</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="96" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1aeeab90001bd442b9546e3737d82c7ccd" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str docutils::writers::odf_odt.GENERATOR_DESC</definition>
+        <argsstring></argsstring>
+        <name>GENERATOR_DESC</name>
+        <qualifiedname>docutils.writers.odf_odt.GENERATOR_DESC</qualifiedname>
+        <initializer>=  &apos;Docutils.org/odf_odt&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="100" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1a8e2415ca40979e441c4033d5097dc444" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str docutils::writers::odf_odt.NAME_SPACE_1</definition>
+        <argsstring></argsstring>
+        <name>NAME_SPACE_1</name>
+        <qualifiedname>docutils.writers.odf_odt.NAME_SPACE_1</qualifiedname>
+        <initializer>=  &apos;urn:oasis:names:tc:opendocument:xmlns:office:1.0&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="102" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1afc52329cd219f5fd91a4fe30366fe9f2" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::writers::odf_odt.CONTENT_NAMESPACE_DICT</definition>
+        <argsstring></argsstring>
+        <name>CONTENT_NAMESPACE_DICT</name>
+        <qualifiedname>docutils.writers.odf_odt.CONTENT_NAMESPACE_DICT</qualifiedname>
+        <initializer>=  {
+    # &apos;office:version&apos;: &apos;1.0&apos;,
+    &apos;chart&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:chart:1.0&apos;,
+    &apos;dc&apos;: &apos;http://purl.org/dc/elements/1.1/&apos;,
+    &apos;dom&apos;: &apos;http://www.w3.org/2001/xml-events&apos;,
+    &apos;dr3d&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0&apos;,
+    &apos;draw&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:drawing:1.0&apos;,
+    &apos;fo&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0&apos;,
+    &apos;form&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:form:1.0&apos;,
+    &apos;math&apos;: &apos;http://www.w3.org/1998/Math/MathML&apos;,
+    &apos;meta&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:meta:1.0&apos;,
+    &apos;number&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0&apos;,
+    &apos;office&apos;: <ref refid="namespacedocutils_1_1writers_1_1odf__odt_1a8e2415ca40979e441c4033d5097dc444" kindref="member">NAME_SPACE_1</ref>,
+    &apos;ooo&apos;: &apos;http://openoffice.org/2004/office&apos;,
+    &apos;oooc&apos;: &apos;http://openoffice.org/2004/calc&apos;,
+    &apos;ooow&apos;: &apos;http://openoffice.org/2004/writer&apos;,
+    &apos;presentation&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:presentation:1.0&apos;,
+
+    &apos;script&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:script:1.0&apos;,
+    &apos;style&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:style:1.0&apos;,
+    &apos;svg&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0&apos;,
+    &apos;table&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:table:1.0&apos;,
+    &apos;text&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:text:1.0&apos;,
+    &apos;xforms&apos;: &apos;http://www.w3.org/2002/xforms&apos;,
+    &apos;xlink&apos;: &apos;http://www.w3.org/1999/xlink&apos;,
+    &apos;xsd&apos;: &apos;http://www.w3.org/2001/XMLSchema&apos;,
+    &apos;xsi&apos;: &apos;http://www.w3.org/2001/XMLSchema-instance&apos;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="104" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1aa737f50ad0bc54147de7218517383d92" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::writers::odf_odt.STYLES_NAMESPACE_DICT</definition>
+        <argsstring></argsstring>
+        <name>STYLES_NAMESPACE_DICT</name>
+        <qualifiedname>docutils.writers.odf_odt.STYLES_NAMESPACE_DICT</qualifiedname>
+        <initializer>=  {
+    # &apos;office:version&apos;: &apos;1.0&apos;,
+    &apos;chart&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:chart:1.0&apos;,
+    &apos;dc&apos;: &apos;http://purl.org/dc/elements/1.1/&apos;,
+    &apos;dom&apos;: &apos;http://www.w3.org/2001/xml-events&apos;,
+    &apos;dr3d&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0&apos;,
+    &apos;draw&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:drawing:1.0&apos;,
+    &apos;fo&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0&apos;,
+    &apos;form&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:form:1.0&apos;,
+    &apos;math&apos;: &apos;http://www.w3.org/1998/Math/MathML&apos;,
+    &apos;meta&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:meta:1.0&apos;,
+    &apos;number&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0&apos;,
+    &apos;office&apos;: <ref refid="namespacedocutils_1_1writers_1_1odf__odt_1a8e2415ca40979e441c4033d5097dc444" kindref="member">NAME_SPACE_1</ref>,
+    &apos;presentation&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:presentation:1.0&apos;,
+    &apos;ooo&apos;: &apos;http://openoffice.org/2004/office&apos;,
+    &apos;oooc&apos;: &apos;http://openoffice.org/2004/calc&apos;,
+    &apos;ooow&apos;: &apos;http://openoffice.org/2004/writer&apos;,
+    &apos;script&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:script:1.0&apos;,
+    &apos;style&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:style:1.0&apos;,
+    &apos;svg&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0&apos;,
+    &apos;table&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:table:1.0&apos;,
+    &apos;text&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:text:1.0&apos;,
+    &apos;xlink&apos;: &apos;http://www.w3.org/1999/xlink&apos;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="133" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1a035539a8e492f77b48dfd6213d29868e" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::writers::odf_odt.MANIFEST_NAMESPACE_DICT</definition>
+        <argsstring></argsstring>
+        <name>MANIFEST_NAMESPACE_DICT</name>
+        <qualifiedname>docutils.writers.odf_odt.MANIFEST_NAMESPACE_DICT</qualifiedname>
+        <initializer>=  {
+    &apos;manifest&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:manifest:1.0&apos;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="158" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1ad5518cbf68693214214a0504e07775e2" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::writers::odf_odt.META_NAMESPACE_DICT</definition>
+        <argsstring></argsstring>
+        <name>META_NAMESPACE_DICT</name>
+        <qualifiedname>docutils.writers.odf_odt.META_NAMESPACE_DICT</qualifiedname>
+        <initializer>=  {
+    # &apos;office:version&apos;: &apos;1.0&apos;,
+    &apos;dc&apos;: &apos;http://purl.org/dc/elements/1.1/&apos;,
+    &apos;meta&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:meta:1.0&apos;,
+    &apos;office&apos;: <ref refid="namespacedocutils_1_1writers_1_1odf__odt_1a8e2415ca40979e441c4033d5097dc444" kindref="member">NAME_SPACE_1</ref>,
+    &apos;ooo&apos;: &apos;http://openoffice.org/2004/office&apos;,
+    &apos;xlink&apos;: &apos;http://www.w3.org/1999/xlink&apos;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="162" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1a438275d3aa087fd2d5c730dc1b69bd8e" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::writers::odf_odt.CONTENT_NAMESPACE_ATTRIB</definition>
+        <argsstring></argsstring>
+        <name>CONTENT_NAMESPACE_ATTRIB</name>
+        <qualifiedname>docutils.writers.odf_odt.CONTENT_NAMESPACE_ATTRIB</qualifiedname>
+        <initializer>=  {
+    # &apos;office:version&apos;: &apos;1.0&apos;,
+    &apos;xmlns:chart&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:chart:1.0&apos;,
+    &apos;xmlns:dc&apos;: &apos;http://purl.org/dc/elements/1.1/&apos;,
+    &apos;xmlns:dom&apos;: &apos;http://www.w3.org/2001/xml-events&apos;,
+    &apos;xmlns:dr3d&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0&apos;,
+    &apos;xmlns:draw&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:drawing:1.0&apos;,
+    &apos;xmlns:fo&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0&apos;,
+    &apos;xmlns:form&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:form:1.0&apos;,
+    &apos;xmlns:math&apos;: &apos;http://www.w3.org/1998/Math/MathML&apos;,
+    &apos;xmlns:meta&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:meta:1.0&apos;,
+    &apos;xmlns:number&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0&apos;,
+    &apos;xmlns:office&apos;: <ref refid="namespacedocutils_1_1writers_1_1odf__odt_1a8e2415ca40979e441c4033d5097dc444" kindref="member">NAME_SPACE_1</ref>,
+    &apos;xmlns:presentation&apos;:
+        &apos;urn:oasis:names:tc:opendocument:xmlns:presentation:1.0&apos;,
+    &apos;xmlns:ooo&apos;: &apos;http://openoffice.org/2004/office&apos;,
+    &apos;xmlns:oooc&apos;: &apos;http://openoffice.org/2004/calc&apos;,
+    &apos;xmlns:ooow&apos;: &apos;http://openoffice.org/2004/writer&apos;,
+    &apos;xmlns:script&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:script:1.0&apos;,
+    &apos;xmlns:style&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:style:1.0&apos;,
+    &apos;xmlns:svg&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0&apos;,
+    &apos;xmlns:table&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:table:1.0&apos;,
+    &apos;xmlns:text&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:text:1.0&apos;,
+    &apos;xmlns:xforms&apos;: &apos;http://www.w3.org/2002/xforms&apos;,
+    &apos;xmlns:xlink&apos;: &apos;http://www.w3.org/1999/xlink&apos;,
+    &apos;xmlns:xsd&apos;: &apos;http://www.w3.org/2001/XMLSchema&apos;,
+    &apos;xmlns:xsi&apos;: &apos;http://www.w3.org/2001/XMLSchema-instance&apos;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="174" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1a138471f4f84a0398212f8f6f8264df7a" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::writers::odf_odt.STYLES_NAMESPACE_ATTRIB</definition>
+        <argsstring></argsstring>
+        <name>STYLES_NAMESPACE_ATTRIB</name>
+        <qualifiedname>docutils.writers.odf_odt.STYLES_NAMESPACE_ATTRIB</qualifiedname>
+        <initializer>=  {
+    # &apos;office:version&apos;: &apos;1.0&apos;,
+    &apos;xmlns:chart&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:chart:1.0&apos;,
+    &apos;xmlns:dc&apos;: &apos;http://purl.org/dc/elements/1.1/&apos;,
+    &apos;xmlns:dom&apos;: &apos;http://www.w3.org/2001/xml-events&apos;,
+    &apos;xmlns:dr3d&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:dr3d:1.0&apos;,
+    &apos;xmlns:draw&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:drawing:1.0&apos;,
+    &apos;xmlns:fo&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0&apos;,
+    &apos;xmlns:form&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:form:1.0&apos;,
+    &apos;xmlns:math&apos;: &apos;http://www.w3.org/1998/Math/MathML&apos;,
+    &apos;xmlns:meta&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:meta:1.0&apos;,
+    &apos;xmlns:number&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:datastyle:1.0&apos;,
+    &apos;xmlns:office&apos;: <ref refid="namespacedocutils_1_1writers_1_1odf__odt_1a8e2415ca40979e441c4033d5097dc444" kindref="member">NAME_SPACE_1</ref>,
+    &apos;xmlns:presentation&apos;:
+        &apos;urn:oasis:names:tc:opendocument:xmlns:presentation:1.0&apos;,
+    &apos;xmlns:ooo&apos;: &apos;http://openoffice.org/2004/office&apos;,
+    &apos;xmlns:oooc&apos;: &apos;http://openoffice.org/2004/calc&apos;,
+    &apos;xmlns:ooow&apos;: &apos;http://openoffice.org/2004/writer&apos;,
+    &apos;xmlns:script&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:script:1.0&apos;,
+    &apos;xmlns:style&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:style:1.0&apos;,
+    &apos;xmlns:svg&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:svg-compatible:1.0&apos;,
+    &apos;xmlns:table&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:table:1.0&apos;,
+    &apos;xmlns:text&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:text:1.0&apos;,
+    &apos;xmlns:xlink&apos;: &apos;http://www.w3.org/1999/xlink&apos;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="203" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1a4021b6aeb7b64492b5d7130ec54adc2a" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::writers::odf_odt.MANIFEST_NAMESPACE_ATTRIB</definition>
+        <argsstring></argsstring>
+        <name>MANIFEST_NAMESPACE_ATTRIB</name>
+        <qualifiedname>docutils.writers.odf_odt.MANIFEST_NAMESPACE_ATTRIB</qualifiedname>
+        <initializer>=  {
+    &apos;xmlns:manifest&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:manifest:1.0&apos;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="229" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1a53aa40087ccf11e0f9199486352c285a" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::writers::odf_odt.META_NAMESPACE_ATTRIB</definition>
+        <argsstring></argsstring>
+        <name>META_NAMESPACE_ATTRIB</name>
+        <qualifiedname>docutils.writers.odf_odt.META_NAMESPACE_ATTRIB</qualifiedname>
+        <initializer>=  {
+    # &apos;office:version&apos;: &apos;1.0&apos;,
+    &apos;xmlns:dc&apos;: &apos;http://purl.org/dc/elements/1.1/&apos;,
+    &apos;xmlns:meta&apos;: &apos;urn:oasis:names:tc:opendocument:xmlns:meta:1.0&apos;,
+    &apos;xmlns:office&apos;: <ref refid="namespacedocutils_1_1writers_1_1odf__odt_1a8e2415ca40979e441c4033d5097dc444" kindref="member">NAME_SPACE_1</ref>,
+    &apos;xmlns:ooo&apos;: &apos;http://openoffice.org/2004/office&apos;,
+    &apos;xmlns:xlink&apos;: &apos;http://www.w3.org/1999/xlink&apos;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="233" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1writers_1_1odf__odt_1a634bdf0c69b38b597bbae50f27b092bc" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils::writers::odf_odt.BUILTIN_DEFAULT_TABLE_STYLE</definition>
+        <argsstring></argsstring>
+        <name>BUILTIN_DEFAULT_TABLE_STYLE</name>
+        <qualifiedname>docutils.writers.odf_odt.BUILTIN_DEFAULT_TABLE_STYLE</qualifiedname>
+        <initializer>=  <ref refid="classdocutils_1_1writers_1_1odf__odt_1_1TableStyle" kindref="compound">TableStyle</ref>(
+    border=&apos;0.0007in solid #000000&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="329" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="329" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacedocutils_1_1writers_1_1odf__odt_1ab43d5ae252940def01c6110427986c1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.odf_odt.Element</definition>
+        <argsstring>(tag, attrib=None, nsmap=None, nsdict=CNSD)</argsstring>
+        <name>Element</name>
+        <qualifiedname>docutils.writers.odf_odt.Element</qualifiedname>
+        <param>
+          <type>tag</type>
+          <defname>tag</defname>
+        </param>
+        <param>
+          <type>attrib</type>
+          <defname>attrib</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>nsmap</type>
+          <defname>nsmap</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>nsdict</type>
+          <defname>nsdict</defname>
+          <defval>CNSD</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="252" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="252" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1writers_1_1odf__odt_1a6a78463ce4b4badf6583d1612fb8e1cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.odf_odt.SubElement</definition>
+        <argsstring>(parent, tag, attrib=None, nsmap=None, nsdict=CNSD)</argsstring>
+        <name>SubElement</name>
+        <qualifiedname>docutils.writers.odf_odt.SubElement</qualifiedname>
+        <param>
+          <type>parent</type>
+          <defname>parent</defname>
+        </param>
+        <param>
+          <type>tag</type>
+          <defname>tag</defname>
+        </param>
+        <param>
+          <type>attrib</type>
+          <defname>attrib</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>nsmap</type>
+          <defname>nsmap</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>nsdict</type>
+          <defname>nsdict</defname>
+          <defval>CNSD</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="259" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="259" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1writers_1_1odf__odt_1a2db312305988f5a5a3f1d29f0142a2e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.odf_odt.fix_ns</definition>
+        <argsstring>(tag, attrib, nsdict)</argsstring>
+        <name>fix_ns</name>
+        <qualifiedname>docutils.writers.odf_odt.fix_ns</qualifiedname>
+        <param>
+          <type>tag</type>
+          <defname>tag</defname>
+        </param>
+        <param>
+          <type>attrib</type>
+          <defname>attrib</defname>
+        </param>
+        <param>
+          <type>nsdict</type>
+          <defname>nsdict</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="269" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="269" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1writers_1_1odf__odt_1ab32ad2a86488d1ed805c762a4a9fc7db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.odf_odt.add_ns</definition>
+        <argsstring>(tag, nsdict=CNSD)</argsstring>
+        <name>add_ns</name>
+        <qualifiedname>docutils.writers.odf_odt.add_ns</qualifiedname>
+        <param>
+          <type>tag</type>
+          <defname>tag</defname>
+        </param>
+        <param>
+          <type>nsdict</type>
+          <defname>nsdict</defname>
+          <defval>CNSD</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="278" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="278" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1writers_1_1odf__odt_1abe3cf9a90138de24eeb3df33a5d102be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.odf_odt.ToString</definition>
+        <argsstring>(et)</argsstring>
+        <name>ToString</name>
+        <qualifiedname>docutils.writers.odf_odt.ToString</qualifiedname>
+        <param>
+          <type>et</type>
+          <defname>et</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="282" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="282" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1writers_1_1odf__odt_1a78a238cb5555dc38b7751b781f2ddde5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.odf_odt.escape_cdata</definition>
+        <argsstring>(text)</argsstring>
+        <name>escape_cdata</name>
+        <qualifiedname>docutils.writers.odf_odt.escape_cdata</qualifiedname>
+        <param>
+          <type>text</type>
+          <defname>text</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="290" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" bodystart="290" bodyend="307"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Open Document Format (ODF) Writer.
+
+This module is provisional:
+the API is not settled and may change with any minor Docutils version.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/docutils/writers/odf_odt/__init__.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

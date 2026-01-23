@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1transforms_1_1components_1_1Filter" kind="class" language="Python" prot="public">
+    <compoundname>docutils::transforms::components::Filter</compoundname>
+    <basecompoundref refid="classdocutils_1_1transforms_1_1Transform" prot="public" virt="non-virtual">docutils.transforms.Transform</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1transforms_1_1components_1_1Filter_1aa88f05615195ca0ab1a897e7d1864a9d" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int docutils.transforms.components.Filter::default_priority</definition>
+        <argsstring></argsstring>
+        <name>default_priority</name>
+        <qualifiedname>docutils.transforms.components.Filter.default_priority</qualifiedname>
+        <initializer>=  780</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/components.py" line="42" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/components.py" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1components_1_1Filter_1ab71cee811709095465232ab9b03f1262" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.components.Filter.apply</definition>
+        <argsstring>(self)</argsstring>
+        <name>apply</name>
+        <qualifiedname>docutils.transforms.components.Filter.apply</qualifiedname>
+        <reimplements refid="classdocutils_1_1transforms_1_1Transform_1a0a9e91ca01b2b5377cb61a18d8914f34">apply</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Override to apply the transform to the document tree.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/components.py" line="44" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/components.py" bodystart="44" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Include or exclude elements which depend on a specific Docutils component.
+
+For use with `nodes.pending` elements.  A &quot;pending&quot; element&apos;s dictionary
+attribute ``details`` must contain the keys &quot;component&quot; and &quot;format&quot;.  The
+value of ``details[&apos;component&apos;]`` must match the type name of the
+component the elements depend on (e.g. &quot;writer&quot;).  The value of
+``details[&apos;format&apos;]`` is the name of a specific format or context of that
+component (e.g. &quot;html&quot;).  If the matching Docutils component supports that
+format or context, the &quot;pending&quot; element is replaced by the contents of
+``details[&apos;nodes&apos;]`` (a list of nodes); otherwise, the &quot;pending&quot; element
+is removed.
+
+For example, up to version 0.17, the reStructuredText &quot;meta&quot;
+directive created a &quot;pending&quot; element containing a &quot;meta&quot; element
+(in ``pending.details[&apos;nodes&apos;]``).
+Only writers (``pending.details[&apos;component&apos;] == &apos;writer&apos;``)
+supporting the &quot;html&quot;, &quot;latex&quot;, or &quot;odf&quot; formats
+(``pending.details[&apos;format&apos;] == &apos;html,latex,odf&apos;``) included the
+&quot;meta&quot; element; it was deleted from the output of all other writers.
+
+This transform is no longer used by Docutils, it may be removed in future.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.transforms.components.Filter</label>
+        <link refid="classdocutils_1_1transforms_1_1components_1_1Filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>docutils.transforms.components.Filter</label>
+        <link refid="classdocutils_1_1transforms_1_1components_1_1Filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/docutils/transforms/components.py" line="14" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/components.py" bodystart="14" bodyend="55"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1transforms_1_1components_1_1Filter_1ab71cee811709095465232ab9b03f1262" prot="public" virt="non-virtual"><scope>docutils::transforms::components::Filter</scope><name>apply</name></member>
+      <member refid="classdocutils_1_1transforms_1_1components_1_1Filter_1aa88f05615195ca0ab1a897e7d1864a9d" prot="public" virt="non-virtual"><scope>docutils::transforms::components::Filter</scope><name>default_priority</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

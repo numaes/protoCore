@@ -1,0 +1,686 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classurllib3_1_1poolmanager_1_1PoolManager" kind="class" language="Python" prot="public">
+    <compoundname>urllib3::poolmanager::PoolManager</compoundname>
+    <basecompoundref refid="classurllib3_1_1__request__methods_1_1RequestMethods" prot="public" virt="non-virtual">urllib3._request_methods.RequestMethods</basecompoundref>
+    <derivedcompoundref refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSProxyManager" prot="public" virt="non-virtual">urllib3.contrib.socks.SOCKSProxyManager</derivedcompoundref>
+    <derivedcompoundref refid="classurllib3_1_1poolmanager_1_1ProxyManager" prot="public" virt="non-virtual">urllib3.poolmanager.ProxyManager</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classurllib3_1_1poolmanager_1_1PoolManager_1a530490923836face119a0349e34603d5" prot="public" static="yes" mutable="no">
+        <type><ref refid="classurllib3_1_1util_1_1url_1_1Url" kindref="compound">Url</ref></type>
+        <definition>Url urllib3.poolmanager.PoolManager::proxy</definition>
+        <argsstring></argsstring>
+        <name>proxy</name>
+        <qualifiedname>urllib3.poolmanager.PoolManager.proxy</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="196" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1poolmanager_1_1PoolManager_1a0e71a50db452e2f780647adfd607e77f" prot="public" static="yes" mutable="no">
+        <type><ref refid="classurllib3_1_1__base__connection_1_1ProxyConfig" kindref="compound">ProxyConfig</ref></type>
+        <definition>ProxyConfig urllib3.poolmanager.PoolManager::proxy_config</definition>
+        <argsstring></argsstring>
+        <name>proxy_config</name>
+        <qualifiedname>urllib3.poolmanager.PoolManager.proxy_config</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="197" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="197" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classurllib3_1_1poolmanager_1_1PoolManager_1a87ee6bb1a61acffbc6d2c6cc91ff823d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.poolmanager.PoolManager::connection_pool_kw</definition>
+        <argsstring></argsstring>
+        <name>connection_pool_kw</name>
+        <qualifiedname>urllib3.poolmanager.PoolManager.connection_pool_kw</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="222" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1poolmanager_1_1PoolManager_1a026faad93e2fca6ebef94e86c796c263" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.poolmanager.PoolManager::pools</definition>
+        <argsstring></argsstring>
+        <name>pools</name>
+        <qualifiedname>urllib3.poolmanager.PoolManager.pools</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="225" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1poolmanager_1_1PoolManager_1ac47cb60e987b4a2b6e5c076e2c17ad96" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.poolmanager.PoolManager::pool_classes_by_scheme</definition>
+        <argsstring></argsstring>
+        <name>pool_classes_by_scheme</name>
+        <qualifiedname>urllib3.poolmanager.PoolManager.pool_classes_by_scheme</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="229" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1poolmanager_1_1PoolManager_1a6a46e31dbaa2ae9f1dda9407b9a9aa94" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.poolmanager.PoolManager::key_fn_by_scheme</definition>
+        <argsstring></argsstring>
+        <name>key_fn_by_scheme</name>
+        <qualifiedname>urllib3.poolmanager.PoolManager.key_fn_by_scheme</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="230" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1poolmanager_1_1PoolManager_1a4d7d4ea1ad5595093dc334605b37ccab" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.poolmanager.PoolManager::proxy</definition>
+        <argsstring></argsstring>
+        <name>proxy</name>
+        <qualifiedname>urllib3.poolmanager.PoolManager.proxy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="422" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="422" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1poolmanager_1_1PoolManager_1a7b5d35270c38cc8306822ea9b6ab662a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.poolmanager.PoolManager::proxy_config</definition>
+        <argsstring></argsstring>
+        <name>proxy_config</name>
+        <qualifiedname>urllib3.poolmanager.PoolManager.proxy_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="422" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="422" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classurllib3_1_1poolmanager_1_1PoolManager_1a608960257bba0fb191764be1307e97ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.poolmanager.PoolManager.__init__</definition>
+        <argsstring>(self, int num_pools=10, typing.Mapping[str, str]|None headers=None, **typing.Any connection_pool_kw)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>urllib3.poolmanager.PoolManager.__init__</qualifiedname>
+        <reimplements refid="classurllib3_1_1__request__methods_1_1RequestMethods_1a46a69c3766cbeba2bfd3948ab6c19de0">__init__</reimplements>
+        <reimplementedby refid="classurllib3_1_1poolmanager_1_1ProxyManager_1afe983a744d40888f41fad3e339bf9dc0">__init__</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSProxyManager_1a38a7c2e5b2c7749f08342a7dfd2ef0c1">__init__</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>num_pools</declname>
+          <defval>10</defval>
+        </param>
+        <param>
+          <type>typing.Mapping|None</type>
+          <declname>headers</declname>
+          <array>[str, str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>**typing.Any</type>
+          <declname>connection_pool_kw</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="199" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="204" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1poolmanager_1_1PoolManager_1a0f309c26cc6691f1a042e831d656649a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Self</type>
+        <definition> Self urllib3.poolmanager.PoolManager.__enter__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__enter__</name>
+        <qualifiedname>urllib3.poolmanager.PoolManager.__enter__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="232" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="232" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1poolmanager_1_1PoolManager_1a6ff34b551035c241af6ef5015a9629d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>typing.Literal[False]</type>
+        <definition> typing.Literal[False] urllib3.poolmanager.PoolManager.__exit__</definition>
+        <argsstring>(self, type[BaseException]|None exc_type, BaseException|None exc_val, TracebackType|None exc_tb)</argsstring>
+        <name>__exit__</name>
+        <qualifiedname>urllib3.poolmanager.PoolManager.__exit__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>type|None</type>
+          <declname>exc_type</declname>
+          <array>[BaseException]</array>
+        </param>
+        <param>
+          <type>BaseException|None</type>
+          <declname>exc_val</declname>
+        </param>
+        <param>
+          <type>TracebackType|None</type>
+          <declname>exc_tb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="235" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="240" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1poolmanager_1_1PoolManager_1aa2c49ef9a6da8cf3276ec5bd322dcc8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.poolmanager.PoolManager.clear</definition>
+        <argsstring>(self)</argsstring>
+        <name>clear</name>
+        <qualifiedname>urllib3.poolmanager.PoolManager.clear</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Empty our store of pools and direct them all to close.
+
+This will not affect in-flight connections, but they will not be
+re-used after completion.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="283" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="283" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1poolmanager_1_1PoolManager_1abb66b3bf06ac6cdfbedfd986c3827def" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1connectionpool_1_1HTTPConnectionPool" kindref="compound">HTTPConnectionPool</ref></type>
+        <definition> HTTPConnectionPool urllib3.poolmanager.PoolManager.connection_from_host</definition>
+        <argsstring>(self, str|None host, int|None port=None, str|None scheme=&quot;http&quot;, dict[str, typing.Any]|None pool_kwargs=None)</argsstring>
+        <name>connection_from_host</name>
+        <qualifiedname>urllib3.poolmanager.PoolManager.connection_from_host</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1poolmanager_1_1ProxyManager_1ad4ceaa516a5a5a23df81a656fb74d56b">connection_from_host</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>host</declname>
+        </param>
+        <param>
+          <type>int|None</type>
+          <declname>port</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>scheme</declname>
+          <defval>&quot;http&quot;</defval>
+        </param>
+        <param>
+          <type>dict|None</type>
+          <declname>pool_kwargs</declname>
+          <array>[str, typing.Any]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get a :class:`urllib3.connectionpool.ConnectionPool` based on the host, port, and scheme.
+
+If ``port`` isn&apos;t given, it will be derived from the ``scheme`` using
+``urllib3.connectionpool.port_by_scheme``. If ``pool_kwargs`` is
+provided, it is merged with the instance&apos;s ``connection_pool_kw``
+variable and used to create the new connection pool, if one is
+needed.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="292" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="298" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1poolmanager_1_1PoolManager_1aea6f885c374429d8c04966020b0e2013" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1connectionpool_1_1HTTPConnectionPool" kindref="compound">HTTPConnectionPool</ref></type>
+        <definition> HTTPConnectionPool urllib3.poolmanager.PoolManager.connection_from_context</definition>
+        <argsstring>(self, dict[str, typing.Any] request_context)</argsstring>
+        <name>connection_from_context</name>
+        <qualifiedname>urllib3.poolmanager.PoolManager.connection_from_context</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>request_context</declname>
+          <array>[str, typing.Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get a :class:`urllib3.connectionpool.ConnectionPool` based on the request context.
+
+``request_context`` must at least contain the ``scheme`` key and its
+value must be a key in ``key_fn_by_scheme`` instance variable.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="321" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="323" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1poolmanager_1_1PoolManager_1a19303883c9436480d93c527a9fa01584" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1connectionpool_1_1HTTPConnectionPool" kindref="compound">HTTPConnectionPool</ref></type>
+        <definition> HTTPConnectionPool urllib3.poolmanager.PoolManager.connection_from_pool_key</definition>
+        <argsstring>(self, PoolKey pool_key, dict[str, typing.Any] request_context)</argsstring>
+        <name>connection_from_pool_key</name>
+        <qualifiedname>urllib3.poolmanager.PoolManager.connection_from_pool_key</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classurllib3_1_1poolmanager_1_1PoolKey" kindref="compound">PoolKey</ref></type>
+          <declname>pool_key</declname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>request_context</declname>
+          <array>[str, typing.Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get a :class:`urllib3.connectionpool.ConnectionPool` based on the provided pool key.
+
+``pool_key`` should be a namedtuple that only contains immutable
+objects. At a minimum it must have the ``scheme``, ``host``, and
+``port`` fields.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="346" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="348" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1poolmanager_1_1PoolManager_1ad8f04bfd91966bb59c35e59c692a3e02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1connectionpool_1_1HTTPConnectionPool" kindref="compound">HTTPConnectionPool</ref></type>
+        <definition> HTTPConnectionPool urllib3.poolmanager.PoolManager.connection_from_url</definition>
+        <argsstring>(self, str url, dict[str, typing.Any]|None pool_kwargs=None)</argsstring>
+        <name>connection_from_url</name>
+        <qualifiedname>urllib3.poolmanager.PoolManager.connection_from_url</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>dict|None</type>
+          <declname>pool_kwargs</declname>
+          <array>[str, typing.Any]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Similar to :func:`urllib3.connectionpool.connection_from_url`.
+
+If ``pool_kwargs`` is not provided and a new pool needs to be
+constructed, ``self.connection_pool_kw`` is used to initialize
+the :class:`urllib3.connectionpool.ConnectionPool`. If ``pool_kwargs``
+is provided, it is used instead. Note that if a new pool does not
+need to be created for the request, the provided ``pool_kwargs`` are
+not used.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="372" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="374" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1poolmanager_1_1PoolManager_1a3a3a71c8c2c6adf3b0ee663c983b5998" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1response_1_1BaseHTTPResponse" kindref="compound">BaseHTTPResponse</ref></type>
+        <definition> BaseHTTPResponse urllib3.poolmanager.PoolManager.urlopen</definition>
+        <argsstring>(self, str method, str url, bool redirect=True, **typing.Any kw)</argsstring>
+        <name>urlopen</name>
+        <qualifiedname>urllib3.poolmanager.PoolManager.urlopen</qualifiedname>
+        <reimplements refid="classurllib3_1_1__request__methods_1_1RequestMethods_1ad5023faee921d03e65491abf8c804c14">urlopen</reimplements>
+        <reimplementedby refid="classurllib3_1_1poolmanager_1_1ProxyManager_1aa8c68c746a94a6a08a444564d466148c">urlopen</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>redirect</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>**typing.Any</type>
+          <declname>kw</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Same as :meth:`urllib3.HTTPConnectionPool.urlopen`
+with custom cross-host redirect logic and only sends the request-uri
+portion of the ``url``.
+
+The given ``url`` parameter must be absolute, such that an appropriate
+:class:`urllib3.connectionpool.ConnectionPool` can be chosen for it.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="425" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="427" bodyend="507"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classurllib3_1_1poolmanager_1_1PoolManager_1abab95b3da74d763d3c340550523ec68c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1connectionpool_1_1HTTPConnectionPool" kindref="compound">HTTPConnectionPool</ref></type>
+        <definition> HTTPConnectionPool urllib3.poolmanager.PoolManager._new_pool</definition>
+        <argsstring>(self, str scheme, str host, int port, dict[str, typing.Any]|None request_context=None)</argsstring>
+        <name>_new_pool</name>
+        <qualifiedname>urllib3.poolmanager.PoolManager._new_pool</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>scheme</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>host</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>port</declname>
+        </param>
+        <param>
+          <type>dict|None</type>
+          <declname>request_context</declname>
+          <array>[str, typing.Any]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create a new :class:`urllib3.connectionpool.ConnectionPool` based on host, port, scheme, and
+any additional pool keyword arguments.
+
+If ``request_context`` is provided, it is provided as keyword arguments
+to the pool class used. This method is used to actually create the
+connection pools handed out by :meth:`connection_from_url` and
+companion methods. It is intended to be overridden for customization.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="245" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="251" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1poolmanager_1_1PoolManager_1a617fb1a13e5e018ec8db14b86510236b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dict[str, typing.Any]</type>
+        <definition> dict[str, typing.Any] urllib3.poolmanager.PoolManager._merge_pool_kwargs</definition>
+        <argsstring>(self, dict[str, typing.Any]|None override)</argsstring>
+        <name>_merge_pool_kwargs</name>
+        <qualifiedname>urllib3.poolmanager.PoolManager._merge_pool_kwargs</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>dict|None</type>
+          <declname>override</declname>
+          <array>[str, typing.Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Merge a dictionary of override values for self.connection_pool_kw.
+
+This does not modify self.connection_pool_kw and returns a new dict.
+Any keys in the override dictionary with a value of ``None`` are
+removed from the merged dictionary.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="390" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="392" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1poolmanager_1_1PoolManager_1a767f5c2a9e16f541d6eb04e1f79d2835" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.poolmanager.PoolManager._proxy_requires_url_absolute_form</definition>
+        <argsstring>(self, Url parsed_url)</argsstring>
+        <name>_proxy_requires_url_absolute_form</name>
+        <qualifiedname>urllib3.poolmanager.PoolManager._proxy_requires_url_absolute_form</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classurllib3_1_1util_1_1url_1_1Url" kindref="compound">Url</ref></type>
+          <declname>parsed_url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Indicates if the proxy requires the complete destination URL in the
+request.  Normally this is only needed when not using an HTTP CONNECT
+tunnel.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="412" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="412" bodyend="424"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Allows for arbitrary requests while transparently keeping track of
+necessary connection pools for you.
+
+:param num_pools:
+    Number of connection pools to cache before discarding the least
+    recently used pool.
+
+:param headers:
+    Headers to include with all requests, unless other headers are given
+    explicitly.
+
+:param \\**connection_pool_kw:
+    Additional parameters are used to create fresh
+    :class:`urllib3.connectionpool.ConnectionPool` instances.
+
+Example:
+
+.. code-block:: python
+
+    import urllib3
+
+    http = urllib3.PoolManager(num_pools=2)
+
+    resp1 = http.request(&quot;GET&quot;, &quot;https://google.com/&quot;)
+    resp2 = http.request(&quot;GET&quot;, &quot;https://google.com/mail&quot;)
+    resp3 = http.request(&quot;GET&quot;, &quot;https://yahoo.com/&quot;)
+
+    print(len(http.pools))
+    # 2</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>urllib3.poolmanager.PoolManager</label>
+        <link refid="classurllib3_1_1poolmanager_1_1PoolManager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>urllib3._request_methods.RequestMethods</label>
+        <link refid="classurllib3_1_1__request__methods_1_1RequestMethods"/>
+      </node>
+      <node id="3">
+        <label>urllib3.contrib.socks.SOCKSProxyManager</label>
+        <link refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSProxyManager"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>urllib3.poolmanager.ProxyManager</label>
+        <link refid="classurllib3_1_1poolmanager_1_1ProxyManager"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="6">
+        <label>str</label>
+      </node>
+      <node id="7">
+        <label>int</label>
+      </node>
+      <node id="9">
+        <label>ssl</label>
+      </node>
+      <node id="4">
+        <label>typing.NamedTuple</label>
+      </node>
+      <node id="5">
+        <label>typing::Optional</label>
+      </node>
+      <node id="1">
+        <label>urllib3.poolmanager.PoolManager</label>
+        <link refid="classurllib3_1_1poolmanager_1_1PoolManager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>proxy</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>proxy_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="8">
+        <label>urllib3._base_connection.ProxyConfig</label>
+        <link refid="classurllib3_1_1__base__connection_1_1ProxyConfig"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>ssl_context</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>assert_fingerprint</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>urllib3._request_methods.RequestMethods</label>
+        <link refid="classurllib3_1_1__request__methods_1_1RequestMethods"/>
+      </node>
+      <node id="3">
+        <label>urllib3.util.url.Url</label>
+        <link refid="classurllib3_1_1util_1_1url_1_1Url"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" line="162" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/poolmanager.py" bodystart="162" bodyend="507"/>
+    <listofallmembers>
+      <member refid="classurllib3_1_1poolmanager_1_1PoolManager_1a0f309c26cc6691f1a042e831d656649a" prot="public" virt="non-virtual"><scope>urllib3::poolmanager::PoolManager</scope><name>__enter__</name></member>
+      <member refid="classurllib3_1_1poolmanager_1_1PoolManager_1a6ff34b551035c241af6ef5015a9629d0" prot="public" virt="non-virtual"><scope>urllib3::poolmanager::PoolManager</scope><name>__exit__</name></member>
+      <member refid="classurllib3_1_1poolmanager_1_1PoolManager_1a608960257bba0fb191764be1307e97ff" prot="public" virt="non-virtual"><scope>urllib3::poolmanager::PoolManager</scope><name>__init__</name></member>
+      <member refid="classurllib3_1_1poolmanager_1_1PoolManager_1a617fb1a13e5e018ec8db14b86510236b" prot="protected" virt="non-virtual"><scope>urllib3::poolmanager::PoolManager</scope><name>_merge_pool_kwargs</name></member>
+      <member refid="classurllib3_1_1poolmanager_1_1PoolManager_1abab95b3da74d763d3c340550523ec68c" prot="protected" virt="non-virtual"><scope>urllib3::poolmanager::PoolManager</scope><name>_new_pool</name></member>
+      <member refid="classurllib3_1_1poolmanager_1_1PoolManager_1a767f5c2a9e16f541d6eb04e1f79d2835" prot="protected" virt="non-virtual"><scope>urllib3::poolmanager::PoolManager</scope><name>_proxy_requires_url_absolute_form</name></member>
+      <member refid="classurllib3_1_1poolmanager_1_1PoolManager_1aa2c49ef9a6da8cf3276ec5bd322dcc8b" prot="public" virt="non-virtual"><scope>urllib3::poolmanager::PoolManager</scope><name>clear</name></member>
+      <member refid="classurllib3_1_1poolmanager_1_1PoolManager_1aea6f885c374429d8c04966020b0e2013" prot="public" virt="non-virtual"><scope>urllib3::poolmanager::PoolManager</scope><name>connection_from_context</name></member>
+      <member refid="classurllib3_1_1poolmanager_1_1PoolManager_1abb66b3bf06ac6cdfbedfd986c3827def" prot="public" virt="non-virtual"><scope>urllib3::poolmanager::PoolManager</scope><name>connection_from_host</name></member>
+      <member refid="classurllib3_1_1poolmanager_1_1PoolManager_1a19303883c9436480d93c527a9fa01584" prot="public" virt="non-virtual"><scope>urllib3::poolmanager::PoolManager</scope><name>connection_from_pool_key</name></member>
+      <member refid="classurllib3_1_1poolmanager_1_1PoolManager_1ad8f04bfd91966bb59c35e59c692a3e02" prot="public" virt="non-virtual"><scope>urllib3::poolmanager::PoolManager</scope><name>connection_from_url</name></member>
+      <member refid="classurllib3_1_1poolmanager_1_1PoolManager_1a87ee6bb1a61acffbc6d2c6cc91ff823d" prot="public" virt="non-virtual"><scope>urllib3::poolmanager::PoolManager</scope><name>connection_pool_kw</name></member>
+      <member refid="classurllib3_1_1poolmanager_1_1PoolManager_1a6a46e31dbaa2ae9f1dda9407b9a9aa94" prot="public" virt="non-virtual"><scope>urllib3::poolmanager::PoolManager</scope><name>key_fn_by_scheme</name></member>
+      <member refid="classurllib3_1_1poolmanager_1_1PoolManager_1ac47cb60e987b4a2b6e5c076e2c17ad96" prot="public" virt="non-virtual"><scope>urllib3::poolmanager::PoolManager</scope><name>pool_classes_by_scheme</name></member>
+      <member refid="classurllib3_1_1poolmanager_1_1PoolManager_1a026faad93e2fca6ebef94e86c796c263" prot="public" virt="non-virtual"><scope>urllib3::poolmanager::PoolManager</scope><name>pools</name></member>
+      <member refid="classurllib3_1_1poolmanager_1_1PoolManager_1a530490923836face119a0349e34603d5" prot="public" virt="non-virtual"><scope>urllib3::poolmanager::PoolManager</scope><name>proxy</name></member>
+      <member refid="classurllib3_1_1poolmanager_1_1PoolManager_1a4d7d4ea1ad5595093dc334605b37ccab" prot="public" virt="non-virtual"><scope>urllib3::poolmanager::PoolManager</scope><name>proxy</name></member>
+      <member refid="classurllib3_1_1poolmanager_1_1PoolManager_1a0e71a50db452e2f780647adfd607e77f" prot="public" virt="non-virtual"><scope>urllib3::poolmanager::PoolManager</scope><name>proxy_config</name></member>
+      <member refid="classurllib3_1_1poolmanager_1_1PoolManager_1a7b5d35270c38cc8306822ea9b6ab662a" prot="public" virt="non-virtual"><scope>urllib3::poolmanager::PoolManager</scope><name>proxy_config</name></member>
+      <member refid="classurllib3_1_1poolmanager_1_1PoolManager_1a3a3a71c8c2c6adf3b0ee663c983b5998" prot="public" virt="non-virtual"><scope>urllib3::poolmanager::PoolManager</scope><name>urlopen</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

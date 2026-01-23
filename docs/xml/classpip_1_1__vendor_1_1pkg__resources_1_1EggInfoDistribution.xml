@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1pkg__resources_1_1EggInfoDistribution" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::pkg_resources::EggInfoDistribution</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1pkg__resources_1_1Distribution" prot="public" virt="non-virtual">pip._vendor.pkg_resources.Distribution</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1pkg__resources_1_1EggInfoDistribution_1aaa3b7e8d2dc6b2f87e93966dd47f4e04" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.pkg_resources.EggInfoDistribution::_version</definition>
+        <argsstring></argsstring>
+        <name>_version</name>
+        <qualifiedname>pip._vendor.pkg_resources.EggInfoDistribution._version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" line="3083" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" bodystart="3083" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pkg__resources_1_1EggInfoDistribution_1a53f84c3e02ce178f77e7c736e5887c47" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pkg_resources.EggInfoDistribution._reload_version</definition>
+        <argsstring>(self)</argsstring>
+        <name>_reload_version</name>
+        <qualifiedname>pip._vendor.pkg_resources.EggInfoDistribution._reload_version</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pkg__resources_1_1Distribution_1a36d32c1379db076ce542abd701e3f635">_reload_version</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Packages installed by distutils (e.g. numpy or scipy),
+which uses an old safe_version, and so
+their version numbers can get mangled when
+converted to filenames (e.g., 1.11.0.dev0+2329eae to
+1.11.0.dev0_2329eae). These distributions will not be
+parsed properly
+downstream by Distribution and safe_version, so
+take an extra step and try to get the version number from
+the metadata file itself instead of the filename.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" line="3069" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" bodystart="3069" bodyend="3086"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._vendor.pkg_resources.EggInfoDistribution</label>
+        <link refid="classpip_1_1__vendor_1_1pkg__resources_1_1EggInfoDistribution"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pkg_resources.Distribution</label>
+        <link refid="classpip_1_1__vendor_1_1pkg__resources_1_1Distribution"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.pkg_resources.EggInfoDistribution</label>
+        <link refid="classpip_1_1__vendor_1_1pkg__resources_1_1EggInfoDistribution"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pkg_resources.Distribution</label>
+        <link refid="classpip_1_1__vendor_1_1pkg__resources_1_1Distribution"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>PKG_INFO</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" line="3068" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" bodystart="3068" bodyend="3086"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1pkg__resources_1_1EggInfoDistribution_1a53f84c3e02ce178f77e7c736e5887c47" prot="protected" virt="non-virtual"><scope>pip::_vendor::pkg_resources::EggInfoDistribution</scope><name>_reload_version</name></member>
+      <member refid="classpip_1_1__vendor_1_1pkg__resources_1_1EggInfoDistribution_1aaa3b7e8d2dc6b2f87e93966dd47f4e04" prot="protected" virt="non-virtual"><scope>pip::_vendor::pkg_resources::EggInfoDistribution</scope><name>_version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

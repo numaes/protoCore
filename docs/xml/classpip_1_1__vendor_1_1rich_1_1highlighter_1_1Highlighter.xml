@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1rich_1_1highlighter_1_1Highlighter" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::rich::highlighter::Highlighter</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">ABC</basecompoundref>
+    <derivedcompoundref refid="classpip_1_1__vendor_1_1rich_1_1highlighter_1_1NullHighlighter" prot="public" virt="non-virtual">pip._vendor.rich.highlighter.NullHighlighter</derivedcompoundref>
+    <derivedcompoundref refid="classpip_1_1__vendor_1_1rich_1_1highlighter_1_1RegexHighlighter" prot="public" virt="non-virtual">pip._vendor.rich.highlighter.RegexHighlighter</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1rich_1_1highlighter_1_1Highlighter_1a485aa94446599d88d3936aee5472d21c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1rich_1_1text_1_1Text" kindref="compound">Text</ref></type>
+        <definition> Text pip._vendor.rich.highlighter.Highlighter.__call__</definition>
+        <argsstring>(self, Union[str, Text] text)</argsstring>
+        <name>__call__</name>
+        <qualifiedname>pip._vendor.rich.highlighter.Highlighter.__call__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Union</type>
+          <declname>text</declname>
+          <array>[str, Text]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Highlight a str or Text instance.
+
+Args:
+    text (Union[str, ~Text]): Text to highlight.
+
+Raises:
+    TypeError: If not called with text or str.
+
+Returns:
+    Text: A test instance with highlighting applied.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/highlighter.py" line="20" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/highlighter.py" bodystart="20" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1rich_1_1highlighter_1_1Highlighter_1aa7e7012513a5f0346634873a861fd58f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.rich.highlighter.Highlighter.highlight</definition>
+        <argsstring>(self, Text text)</argsstring>
+        <name>highlight</name>
+        <qualifiedname>pip._vendor.rich.highlighter.Highlighter.highlight</qualifiedname>
+        <reimplementedby refid="classpip_1_1__vendor_1_1rich_1_1highlighter_1_1NullHighlighter_1a0a8e615a3fe617611f2534f6fff3d472">highlight</reimplementedby>
+        <reimplementedby refid="classpip_1_1__vendor_1_1rich_1_1highlighter_1_1RegexHighlighter_1aadd34eda287a4e0f866e7f2af4b01768">highlight</reimplementedby>
+        <reimplementedby refid="classpip_1_1__vendor_1_1rich_1_1highlighter_1_1JSONHighlighter_1a665c68339122738c84b124f04c00b206">highlight</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1rich_1_1text_1_1Text" kindref="compound">Text</ref></type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Apply highlighting in place to text.
+
+Args:
+    text (~Text): A text object highlight.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/highlighter.py" line="42" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/highlighter.py" bodystart="42" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Abstract base class for highlighters.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ABC</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.rich.highlighter.Highlighter</label>
+        <link refid="classpip_1_1__vendor_1_1rich_1_1highlighter_1_1Highlighter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pip._vendor.rich.highlighter.ISO8601Highlighter</label>
+        <link refid="classpip_1_1__vendor_1_1rich_1_1highlighter_1_1ISO8601Highlighter"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>pip._vendor.rich.highlighter.JSONHighlighter</label>
+        <link refid="classpip_1_1__vendor_1_1rich_1_1highlighter_1_1JSONHighlighter"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.rich.highlighter.NullHighlighter</label>
+        <link refid="classpip_1_1__vendor_1_1rich_1_1highlighter_1_1NullHighlighter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._vendor.rich.highlighter.RegexHighlighter</label>
+        <link refid="classpip_1_1__vendor_1_1rich_1_1highlighter_1_1RegexHighlighter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>pip._vendor.rich.highlighter.ReprHighlighter</label>
+        <link refid="classpip_1_1__vendor_1_1rich_1_1highlighter_1_1ReprHighlighter"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>pip._vendor.rich.traceback.PathHighlighter</label>
+        <link refid="classpip_1_1__vendor_1_1rich_1_1traceback_1_1PathHighlighter"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>ABC</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.rich.highlighter.Highlighter</label>
+        <link refid="classpip_1_1__vendor_1_1rich_1_1highlighter_1_1Highlighter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/highlighter.py" line="17" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/highlighter.py" bodystart="17" bodyend="49"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1rich_1_1highlighter_1_1Highlighter_1a485aa94446599d88d3936aee5472d21c" prot="public" virt="non-virtual"><scope>pip::_vendor::rich::highlighter::Highlighter</scope><name>__call__</name></member>
+      <member refid="classpip_1_1__vendor_1_1rich_1_1highlighter_1_1Highlighter_1aa7e7012513a5f0346634873a861fd58f" prot="public" virt="non-virtual"><scope>pip::_vendor::rich::highlighter::Highlighter</scope><name>highlight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

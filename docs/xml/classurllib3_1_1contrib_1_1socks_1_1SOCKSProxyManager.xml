@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classurllib3_1_1contrib_1_1socks_1_1SOCKSProxyManager" kind="class" language="Python" prot="public">
+    <compoundname>urllib3::contrib::socks::SOCKSProxyManager</compoundname>
+    <basecompoundref refid="classurllib3_1_1poolmanager_1_1PoolManager" prot="public" virt="non-virtual">urllib3.poolmanager.PoolManager</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classurllib3_1_1contrib_1_1socks_1_1SOCKSProxyManager_1a5316d6d8e1ed174dccb04afdfbf9fc26" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict urllib3.contrib.socks.SOCKSProxyManager::pool_classes_by_scheme</definition>
+        <argsstring></argsstring>
+        <name>pool_classes_by_scheme</name>
+        <qualifiedname>urllib3.contrib.socks.SOCKSProxyManager.pool_classes_by_scheme</qualifiedname>
+        <initializer>=  {
+        &quot;http&quot;: <ref refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSHTTPConnectionPool" kindref="compound">SOCKSHTTPConnectionPool</ref>,
+        &quot;https&quot;: <ref refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSHTTPSConnectionPool" kindref="compound">SOCKSHTTPSConnectionPool</ref>,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/socks.py" line="179" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/socks.py" bodystart="179" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classurllib3_1_1contrib_1_1socks_1_1SOCKSProxyManager_1ac08028e4df85a6d35ea8f8c5943b48e0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.contrib.socks.SOCKSProxyManager::proxy_url</definition>
+        <argsstring></argsstring>
+        <name>proxy_url</name>
+        <qualifiedname>urllib3.contrib.socks.SOCKSProxyManager.proxy_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/socks.py" line="214" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/socks.py" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classurllib3_1_1contrib_1_1socks_1_1SOCKSProxyManager_1a7665fb8e4032ea9a6e55e25547e2aec8" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3.contrib.socks.SOCKSProxyManager::pool_classes_by_scheme</definition>
+        <argsstring></argsstring>
+        <name>pool_classes_by_scheme</name>
+        <qualifiedname>urllib3.contrib.socks.SOCKSProxyManager.pool_classes_by_scheme</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/socks.py" line="228" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/socks.py" bodystart="228" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classurllib3_1_1contrib_1_1socks_1_1SOCKSProxyManager_1a38a7c2e5b2c7749f08342a7dfd2ef0c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>urllib3.contrib.socks.SOCKSProxyManager.__init__</definition>
+        <argsstring>(self, str proxy_url, str|None username=None, str|None password=None, int num_pools=10, typing.Mapping[str, str]|None headers=None, **typing.Any connection_pool_kw)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>urllib3.contrib.socks.SOCKSProxyManager.__init__</qualifiedname>
+        <reimplements refid="classurllib3_1_1poolmanager_1_1PoolManager_1a608960257bba0fb191764be1307e97ff">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>proxy_url</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>username</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>password</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>num_pools</declname>
+          <defval>10</defval>
+        </param>
+        <param>
+          <type>typing.Mapping|None</type>
+          <declname>headers</declname>
+          <array>[str, str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>**typing.Any</type>
+          <declname>connection_pool_kw</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/socks.py" line="184" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/socks.py" bodystart="192" bodyend="229"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A version of the urllib3 ProxyManager that routes connections via the
+defined SOCKS proxy.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>urllib3.contrib.socks.SOCKSProxyManager</label>
+        <link refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSProxyManager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>urllib3._request_methods.RequestMethods</label>
+        <link refid="classurllib3_1_1__request__methods_1_1RequestMethods"/>
+      </node>
+      <node id="2">
+        <label>urllib3.poolmanager.PoolManager</label>
+        <link refid="classurllib3_1_1poolmanager_1_1PoolManager"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="7">
+        <label>str</label>
+      </node>
+      <node id="8">
+        <label>int</label>
+      </node>
+      <node id="10">
+        <label>ssl</label>
+      </node>
+      <node id="5">
+        <label>typing.NamedTuple</label>
+      </node>
+      <node id="6">
+        <label>typing::Optional</label>
+      </node>
+      <node id="1">
+        <label>urllib3.contrib.socks.SOCKSProxyManager</label>
+        <link refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSProxyManager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>urllib3._base_connection.ProxyConfig</label>
+        <link refid="classurllib3_1_1__base__connection_1_1ProxyConfig"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>ssl_context</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>assert_fingerprint</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>urllib3._request_methods.RequestMethods</label>
+        <link refid="classurllib3_1_1__request__methods_1_1RequestMethods"/>
+      </node>
+      <node id="2">
+        <label>urllib3.poolmanager.PoolManager</label>
+        <link refid="classurllib3_1_1poolmanager_1_1PoolManager"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>proxy</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>proxy_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>urllib3.util.url.Url</label>
+        <link refid="classurllib3_1_1util_1_1url_1_1Url"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/urllib3/contrib/socks.py" line="173" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/socks.py" bodystart="173" bodyend="229"/>
+    <listofallmembers>
+      <member refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSProxyManager_1a38a7c2e5b2c7749f08342a7dfd2ef0c1" prot="public" virt="non-virtual"><scope>urllib3::contrib::socks::SOCKSProxyManager</scope><name>__init__</name></member>
+      <member refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSProxyManager_1a5316d6d8e1ed174dccb04afdfbf9fc26" prot="public" virt="non-virtual"><scope>urllib3::contrib::socks::SOCKSProxyManager</scope><name>pool_classes_by_scheme</name></member>
+      <member refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSProxyManager_1a7665fb8e4032ea9a6e55e25547e2aec8" prot="public" virt="non-virtual"><scope>urllib3::contrib::socks::SOCKSProxyManager</scope><name>pool_classes_by_scheme</name></member>
+      <member refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSProxyManager_1ac08028e4df85a6d35ea8f8c5943b48e0" prot="public" virt="non-virtual"><scope>urllib3::contrib::socks::SOCKSProxyManager</scope><name>proxy_url</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

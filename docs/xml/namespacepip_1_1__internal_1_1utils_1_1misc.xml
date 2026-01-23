@@ -1,0 +1,1240 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1utils_1_1misc" kind="namespace" language="Python">
+    <compoundname>pip::_internal::utils::misc</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller" prot="public">pip::_internal::utils::misc::ConfiguredBuildBackendHookCaller</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1utils_1_1misc_1_1HiddenText" prot="public">pip::_internal::utils::misc::HiddenText</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1utils_1_1misc_1_1StreamWrapper" prot="public">pip::_internal::utils::misc::StreamWrapper</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a6d15cb084f780fed4c569d7d53a800ec" prot="private" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_internal::utils::misc.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>pip._internal.utils.misc.__all__</qualifiedname>
+        <initializer>=  [
+    &quot;rmtree&quot;,
+    &quot;display_path&quot;,
+    &quot;backup_dir&quot;,
+    &quot;ask&quot;,
+    &quot;splitext&quot;,
+    &quot;format_size&quot;,
+    &quot;is_installable_dir&quot;,
+    &quot;normalize_path&quot;,
+    &quot;renames&quot;,
+    &quot;get_prog&quot;,
+    &quot;captured_stdout&quot;,
+    &quot;ensure_dir&quot;,
+    &quot;remove_auth_from_url&quot;,
+    &quot;check_externally_managed&quot;,
+    &quot;ConfiguredBuildBackendHookCaller&quot;,
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="48" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1misc_1ae056b341885a961b8f9bd71f86a3bdb9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::utils::misc.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.utils.misc.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="66" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a4f84d05af01eeb7281e27ec1748a890b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::utils::misc.T</definition>
+        <argsstring></argsstring>
+        <name>T</name>
+        <qualifiedname>pip._internal.utils.misc.T</qualifiedname>
+        <initializer>=  TypeVar(&quot;T&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="68" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a5283942e61824eb907951057408d1c15" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::utils::misc.ExcInfo</definition>
+        <argsstring></argsstring>
+        <name>ExcInfo</name>
+        <qualifiedname>pip._internal.utils.misc.ExcInfo</qualifiedname>
+        <initializer>=  Tuple[Type[BaseException], BaseException, TracebackType]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="69" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1misc_1adfa78f5d096205d396f991fe50480896" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::utils::misc.VersionInfo</definition>
+        <argsstring></argsstring>
+        <name>VersionInfo</name>
+        <qualifiedname>pip._internal.utils.misc.VersionInfo</qualifiedname>
+        <initializer>=  Tuple[int, int, int]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="70" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a185df8b78ba31039081ad4257f74d266" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::utils::misc.NetlocTuple</definition>
+        <argsstring></argsstring>
+        <name>NetlocTuple</name>
+        <qualifiedname>pip._internal.utils.misc.NetlocTuple</qualifiedname>
+        <initializer>=  Tuple[str, Tuple[Optional[str], Optional[str]]]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="71" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a1ec376aae529c498dcf2408a9ee7f92c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::utils::misc.OnExc</definition>
+        <argsstring></argsstring>
+        <name>OnExc</name>
+        <qualifiedname>pip._internal.utils.misc.OnExc</qualifiedname>
+        <initializer>=  Callable[[FunctionType, Path, BaseException], Any]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="72" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a34417f77195871df6665a6ea3a381723" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::utils::misc.OnErr</definition>
+        <argsstring></argsstring>
+        <name>OnErr</name>
+        <qualifiedname>pip._internal.utils.misc.OnErr</qualifiedname>
+        <initializer>=  Callable[[FunctionType, Path, <ref refid="namespacepip_1_1__internal_1_1utils_1_1misc_1a5283942e61824eb907951057408d1c15" kindref="member">ExcInfo</ref>], Any]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="73" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a29a254ebbcc52409e9c4f89bdc440ef7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.misc.get_pip_version</definition>
+        <argsstring>()</argsstring>
+        <name>get_pip_version</name>
+        <qualifiedname>pip._internal.utils.misc.get_pip_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="76" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="76" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a4454a8302dac9275e2087ee3a50422c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[int, int, int]</type>
+        <definition> Tuple[int, int, int] pip._internal.utils.misc.normalize_version_info</definition>
+        <argsstring>(Tuple[int,...] py_version_info)</argsstring>
+        <name>normalize_version_info</name>
+        <qualifiedname>pip._internal.utils.misc.normalize_version_info</qualifiedname>
+        <param>
+          <type>Tuple</type>
+          <declname>py_version_info</declname>
+          <array>[int,...]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert a tuple of ints representing a Python version to one of length
+three.
+
+:param py_version_info: a tuple of ints representing a Python version,
+    or None to specify no version. The tuple can have any length.
+
+:return: a tuple of length three if `py_version_info` is non-None.
+    Otherwise, return `py_version_info` unchanged (i.e. None).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="83" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="83" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a5cbf95830a3f4b3dd567ff0ac1f71a2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.utils.misc.ensure_dir</definition>
+        <argsstring>(str path)</argsstring>
+        <name>ensure_dir</name>
+        <qualifiedname>pip._internal.utils.misc.ensure_dir</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>os.path.makedirs without EEXIST.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="102" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="102" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a0d2e0440ac902b4ed636337928234ad2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.misc.get_prog</definition>
+        <argsstring>()</argsstring>
+        <name>get_prog</name>
+        <qualifiedname>pip._internal.utils.misc.get_prog</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="112" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="112" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a8a78f1c4586deda89e8f4446de3cd507" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.utils.misc.rmtree</definition>
+        <argsstring>(str dir, bool ignore_errors=False, Optional[OnExc] onexc=None)</argsstring>
+        <name>rmtree</name>
+        <qualifiedname>pip._internal.utils.misc.rmtree</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>dir</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>ignore_errors</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>onexc</declname>
+          <array>[OnExc]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="127" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="131" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1adaf2b34e634b19c4356bd2e18dc10f87" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.utils.misc._onerror_ignore</definition>
+        <argsstring>(*Any _args)</argsstring>
+        <name>_onerror_ignore</name>
+        <qualifiedname>pip._internal.utils.misc._onerror_ignore</qualifiedname>
+        <param>
+          <type>*Any</type>
+          <declname>_args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="149" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="149" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a186f9a4c18d42778e296e6461c24f65b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.utils.misc._onerror_reraise</definition>
+        <argsstring>(*Any _args)</argsstring>
+        <name>_onerror_reraise</name>
+        <qualifiedname>pip._internal.utils.misc._onerror_reraise</qualifiedname>
+        <param>
+          <type>*Any</type>
+          <declname>_args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="153" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="153" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a56f0fb8b6ecea6c11c23c64ec276429a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.utils.misc.rmtree_errorhandler</definition>
+        <argsstring>(FunctionType func, Path path, Union[ExcInfo, BaseException] exc_info, *OnExc onexc=_onerror_reraise)</argsstring>
+        <name>rmtree_errorhandler</name>
+        <qualifiedname>pip._internal.utils.misc.rmtree_errorhandler</qualifiedname>
+        <param>
+          <type>FunctionType</type>
+          <declname>func</declname>
+        </param>
+        <param>
+          <type>Path</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>Union</type>
+          <declname>exc_info</declname>
+          <array>[ExcInfo, BaseException]</array>
+        </param>
+        <param>
+          <type>*<ref refid="namespacepip_1_1__internal_1_1utils_1_1misc_1a1ec376aae529c498dcf2408a9ee7f92c" kindref="member">OnExc</ref></type>
+          <declname>onexc</declname>
+          <defval><ref refid="namespacepip_1_1__internal_1_1utils_1_1misc_1a186f9a4c18d42778e296e6461c24f65b" kindref="member">_onerror_reraise</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>`rmtree` error handler to &apos;force&apos; a file remove (i.e. like `rm -f`).
+
+* If a file is readonly then it&apos;s write flag is set and operation is
+  retried.
+
+* `onerror` is the original callback from `rmtree(... onerror=onerror)`
+  that is chained at the end if the &quot;rm -f&quot; still fails.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="157" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="163" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a15299a3ba896b5cc51f1364e2dcb0f4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.misc.display_path</definition>
+        <argsstring>(str path)</argsstring>
+        <name>display_path</name>
+        <qualifiedname>pip._internal.utils.misc.display_path</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Gives the display value for a given path, making it relative to cwd
+if possible.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="198" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="198" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a4e87c3a2c7146918dad1d10703fecb1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.misc.backup_dir</definition>
+        <argsstring>(str dir, str ext=&quot;.bak&quot;)</argsstring>
+        <name>backup_dir</name>
+        <qualifiedname>pip._internal.utils.misc.backup_dir</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>dir</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>ext</declname>
+          <defval>&quot;.bak&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Figure out the name of a directory to back up the given dir to
+(adding .bak, .bak2, etc)</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="207" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="207" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a8f1c4afafbb1007d0b8d6dbf8df4f408" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.misc.ask_path_exists</definition>
+        <argsstring>(str message, Iterable[str] options)</argsstring>
+        <name>ask_path_exists</name>
+        <qualifiedname>pip._internal.utils.misc.ask_path_exists</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>Iterable</type>
+          <declname>options</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="218" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="218" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a68631591e397cae7ac21ff6bc7f978c9" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.utils.misc._check_no_input</definition>
+        <argsstring>(str message)</argsstring>
+        <name>_check_no_input</name>
+        <qualifiedname>pip._internal.utils.misc._check_no_input</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Raise an error if no input is allowed.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="225" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="225" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a23da99d107abfa3b658079db96a1de6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.misc.ask</definition>
+        <argsstring>(str message, Iterable[str] options)</argsstring>
+        <name>ask</name>
+        <qualifiedname>pip._internal.utils.misc.ask</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>Iterable</type>
+          <declname>options</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Ask the message interactively, with the given possible responses</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="233" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="233" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a11215b200a2372ff3343ced0cff951c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.misc.ask_input</definition>
+        <argsstring>(str message)</argsstring>
+        <name>ask_input</name>
+        <qualifiedname>pip._internal.utils.misc.ask_input</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Ask for input interactively.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="248" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="248" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a05afdadb69f12b6c1e2ee07d46bba142" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.misc.ask_password</definition>
+        <argsstring>(str message)</argsstring>
+        <name>ask_password</name>
+        <qualifiedname>pip._internal.utils.misc.ask_password</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Ask for a password interactively.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="254" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="254" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a6756a96c4c63c0530bc6504e475bfecf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int pip._internal.utils.misc.strtobool</definition>
+        <argsstring>(str val)</argsstring>
+        <name>strtobool</name>
+        <qualifiedname>pip._internal.utils.misc.strtobool</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert a string representation of truth to true (1) or false (0).
+
+True values are &apos;y&apos;, &apos;yes&apos;, &apos;t&apos;, &apos;true&apos;, &apos;on&apos;, and &apos;1&apos;; false values
+are &apos;n&apos;, &apos;no&apos;, &apos;f&apos;, &apos;false&apos;, &apos;off&apos;, and &apos;0&apos;.  Raises ValueError if
+&apos;val&apos; is anything else.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="260" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="260" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a51bc86c785e4544db5a54b3fd92ac4f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.misc.format_size</definition>
+        <argsstring>(float bytes)</argsstring>
+        <name>format_size</name>
+        <qualifiedname>pip._internal.utils.misc.format_size</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="276" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="276" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1ab2d31e9aa749d7f614424b90a2ce30bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[List[str], List[int]]</type>
+        <definition> Tuple[List[str], List[int]] pip._internal.utils.misc.tabulate</definition>
+        <argsstring>(Iterable[Iterable[Any]] rows)</argsstring>
+        <name>tabulate</name>
+        <qualifiedname>pip._internal.utils.misc.tabulate</qualifiedname>
+        <param>
+          <type>Iterable]</type>
+          <declname>rows</declname>
+          <array>[Iterable[Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a list of formatted rows and a list of column sizes.
+
+For example::
+
+&gt;&gt;&gt; tabulate([[&apos;foobar&apos;, 2000], [0xdeadbeef]])
+([&apos;foobar     2000&apos;, &apos;3735928559&apos;], [10, 4])
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="287" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="287" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a55752b240a4b8f888141e276859a3d50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.utils.misc.is_installable_dir</definition>
+        <argsstring>(str path)</argsstring>
+        <name>is_installable_dir</name>
+        <qualifiedname>pip._internal.utils.misc.is_installable_dir</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Is path is a directory containing pyproject.toml or setup.py?
+
+If pyproject.toml exists, this is a PEP 517 project. Otherwise we look for
+a legacy setuptools layout by identifying setup.py. We don&apos;t check for the
+setup.cfg because using it without setup.py is only available for PEP 517
+projects, which are already covered by the pyproject.toml check.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="301" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="301" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a6b33c0e9922f8e3fced34e1f9c73e45e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Generator[bytes, None, None]</type>
+        <definition> Generator[bytes, None, None] pip._internal.utils.misc.read_chunks</definition>
+        <argsstring>(BinaryIO file, int size=io.DEFAULT_BUFFER_SIZE)</argsstring>
+        <name>read_chunks</name>
+        <qualifiedname>pip._internal.utils.misc.read_chunks</qualifiedname>
+        <param>
+          <type>BinaryIO</type>
+          <declname>file</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+          <defval>io.DEFAULT_BUFFER_SIZE</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Yield pieces of data from a file-like object until EOF.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="318" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="320" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1afa728975668a08a3fee81dc25d8f20da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.misc.normalize_path</definition>
+        <argsstring>(str path, bool resolve_symlinks=True)</argsstring>
+        <name>normalize_path</name>
+        <qualifiedname>pip._internal.utils.misc.normalize_path</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>resolve_symlinks</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert a path to its canonical, case-normalized, absolute version.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="329" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="329" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a718775b7df7a831d97af9749c6c02081" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[str, str]</type>
+        <definition> Tuple[str, str] pip._internal.utils.misc.splitext</definition>
+        <argsstring>(str path)</argsstring>
+        <name>splitext</name>
+        <qualifiedname>pip._internal.utils.misc.splitext</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Like os.path.splitext, but take off .tar too</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="342" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="342" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1ab0d426cc5cf94b2c720c0f6c38024d97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.utils.misc.renames</definition>
+        <argsstring>(str old, str new)</argsstring>
+        <name>renames</name>
+        <qualifiedname>pip._internal.utils.misc.renames</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>old</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>new</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Like os.renames(), but handles renaming across devices.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="351" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="351" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1ad3a206e90b94f359d0ba46921be17600" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.utils.misc.is_local</definition>
+        <argsstring>(str path)</argsstring>
+        <name>is_local</name>
+        <qualifiedname>pip._internal.utils.misc.is_local</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return True if path is within sys.prefix, if we&apos;re running in a virtualenv.
+
+If we&apos;re not in a virtualenv, all paths are considered &quot;local.&quot;
+
+Caution: this function assumes the head of path has been normalized
+with normalize_path.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="368" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="368" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1ab2ba19b6daf3b44cf5772f2750523d0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.utils.misc.write_output</definition>
+        <argsstring>(Any msg, *Any args)</argsstring>
+        <name>write_output</name>
+        <qualifiedname>pip._internal.utils.misc.write_output</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>msg</declname>
+        </param>
+        <param>
+          <type>*Any</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="382" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="382" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1adf11fe90b6118cf852f9ecdc17c035bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Generator[<ref refid="classpip_1_1__internal_1_1utils_1_1misc_1_1StreamWrapper" kindref="compound">StreamWrapper</ref>, None, None]</type>
+        <definition> Generator[StreamWrapper, None, None] pip._internal.utils.misc.captured_output</definition>
+        <argsstring>(str stream_name)</argsstring>
+        <name>captured_output</name>
+        <qualifiedname>pip._internal.utils.misc.captured_output</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>stream_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a context manager used by captured_stdout/stdin/stderr
+that temporarily replaces the sys stream *stream_name* with a StringIO.
+
+Taken from Lib/support/__init__.py in the CPython repo.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="403" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="403" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a298a110efbfd5ace59b41942d1fee926" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ContextManager[<ref refid="classpip_1_1__internal_1_1utils_1_1misc_1_1StreamWrapper" kindref="compound">StreamWrapper</ref>]</type>
+        <definition> ContextManager[StreamWrapper] pip._internal.utils.misc.captured_stdout</definition>
+        <argsstring>()</argsstring>
+        <name>captured_stdout</name>
+        <qualifiedname>pip._internal.utils.misc.captured_stdout</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Capture the output of sys.stdout:
+
+   with captured_stdout() as stdout:
+       print(&apos;hello&apos;)
+   self.assertEqual(stdout.getvalue(), &apos;hello\n&apos;)
+
+Taken from Lib/support/__init__.py in the CPython repo.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="417" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="417" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a194eaf391db7b63f50a8b8a95fd3256a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ContextManager[<ref refid="classpip_1_1__internal_1_1utils_1_1misc_1_1StreamWrapper" kindref="compound">StreamWrapper</ref>]</type>
+        <definition> ContextManager[StreamWrapper] pip._internal.utils.misc.captured_stderr</definition>
+        <argsstring>()</argsstring>
+        <name>captured_stderr</name>
+        <qualifiedname>pip._internal.utils.misc.captured_stderr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>See captured_stdout().
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="429" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="429" bodyend="436"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a534a6a18af2beafb5390d7b5226dfc02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Type[Any]</type>
+        <definition> Type[Any] pip._internal.utils.misc.enum</definition>
+        <argsstring>(*Any sequential, **Any named)</argsstring>
+        <name>enum</name>
+        <qualifiedname>pip._internal.utils.misc.enum</qualifiedname>
+        <param>
+          <type>*Any</type>
+          <declname>sequential</declname>
+        </param>
+        <param>
+          <type>**Any</type>
+          <declname>named</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="437" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="437" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a97a34281fc95d1e0e93809f49111d7f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.misc.build_netloc</definition>
+        <argsstring>(str host, Optional[int] port)</argsstring>
+        <name>build_netloc</name>
+        <qualifiedname>pip._internal.utils.misc.build_netloc</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>host</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>port</declname>
+          <array>[int]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Build a netloc from a host-port pair
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="444" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="444" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1aaa1d6e52f182dcfe5d4614d414410811" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.misc.build_url_from_netloc</definition>
+        <argsstring>(str netloc, str scheme=&quot;https&quot;)</argsstring>
+        <name>build_url_from_netloc</name>
+        <qualifiedname>pip._internal.utils.misc.build_url_from_netloc</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>netloc</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>scheme</declname>
+          <defval>&quot;https&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Build a full URL from a netloc.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="456" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="456" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1aaaa6e3e359f19e6ed6067556d2d8b8f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[Optional[str], Optional[int]]</type>
+        <definition> Tuple[Optional[str], Optional[int]] pip._internal.utils.misc.parse_netloc</definition>
+        <argsstring>(str netloc)</argsstring>
+        <name>parse_netloc</name>
+        <qualifiedname>pip._internal.utils.misc.parse_netloc</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>netloc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the host-port pair from a netloc.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="466" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="466" bodyend="474"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1ad854246c4d7e5f18f11717c712c923f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepip_1_1__internal_1_1utils_1_1misc_1a185df8b78ba31039081ad4257f74d266" kindref="member">NetlocTuple</ref></type>
+        <definition> NetlocTuple pip._internal.utils.misc.split_auth_from_netloc</definition>
+        <argsstring>(str netloc)</argsstring>
+        <name>split_auth_from_netloc</name>
+        <qualifiedname>pip._internal.utils.misc.split_auth_from_netloc</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>netloc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse out and remove the auth information from a netloc.
+
+Returns: (netloc, (username, password)).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="475" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="475" bodyend="503"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1afd961cd6b2607a6d6584302acc298493" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.misc.redact_netloc</definition>
+        <argsstring>(str netloc)</argsstring>
+        <name>redact_netloc</name>
+        <qualifiedname>pip._internal.utils.misc.redact_netloc</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>netloc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Replace the sensitive data in a netloc with &quot;****&quot;, if it exists.
+
+For example:
+    - &quot;user:pass@example.com&quot; returns &quot;user:****@example.com&quot;
+    - &quot;accesstoken@example.com&quot; returns &quot;****@example.com&quot;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="504" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="504" bodyend="523"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1abc24b3a8593ba1883ab26a23f2da2e31" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[str, <ref refid="namespacepip_1_1__internal_1_1utils_1_1misc_1a185df8b78ba31039081ad4257f74d266" kindref="member">NetlocTuple</ref>]</type>
+        <definition> Tuple[str, NetlocTuple] pip._internal.utils.misc._transform_url</definition>
+        <argsstring>(str url, Callable[[str], Tuple[Any,...]] transform_netloc)</argsstring>
+        <name>_transform_url</name>
+        <qualifiedname>pip._internal.utils.misc._transform_url</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>transform_netloc</defname>
+          <array>[[str]</array>
+        </param>
+        <param>
+          <type>Tuple]</type>
+          <declname>transform_netloc</declname>
+          <array>[Any,...]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Transform and replace netloc in a url.
+
+transform_netloc is a function taking the netloc and returning a
+tuple. The first element of this tuple is the new netloc. The
+entire tuple is returned.
+
+Returns a tuple containing the transformed url as item 0 and the
+original tuple returned by transform_netloc as item 1.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="524" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="526" bodyend="543"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1afe129e7fa430cc55712b53060063fa8f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepip_1_1__internal_1_1utils_1_1misc_1a185df8b78ba31039081ad4257f74d266" kindref="member">NetlocTuple</ref></type>
+        <definition> NetlocTuple pip._internal.utils.misc._get_netloc</definition>
+        <argsstring>(str netloc)</argsstring>
+        <name>_get_netloc</name>
+        <qualifiedname>pip._internal.utils.misc._get_netloc</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>netloc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="544" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="544" bodyend="547"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1abe80237f2b821216ef4e7b394eba361a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[str]</type>
+        <definition> Tuple[str] pip._internal.utils.misc._redact_netloc</definition>
+        <argsstring>(str netloc)</argsstring>
+        <name>_redact_netloc</name>
+        <qualifiedname>pip._internal.utils.misc._redact_netloc</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>netloc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="548" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="548" bodyend="551"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1afc7d8a4215cc995dc6ea577883718f6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[str, str, Tuple[Optional[str], Optional[str]]]</type>
+        <definition> Tuple[str, str, Tuple[Optional[str], Optional[str]]] pip._internal.utils.misc.split_auth_netloc_from_url</definition>
+        <argsstring>(str url)</argsstring>
+        <name>split_auth_netloc_from_url</name>
+        <qualifiedname>pip._internal.utils.misc.split_auth_netloc_from_url</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse a url into separate netloc, auth, and url with no auth.
+
+Returns: (url_without_auth, netloc, (username, password))
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="552" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="554" bodyend="563"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1ac122d2ead83ffbb9ae8ea549d8398765" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.misc.remove_auth_from_url</definition>
+        <argsstring>(str url)</argsstring>
+        <name>remove_auth_from_url</name>
+        <qualifiedname>pip._internal.utils.misc.remove_auth_from_url</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a copy of url with &apos;username:password@&apos; removed.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="564" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="564" bodyend="570"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1ad3e2bfe48650d19b26fe0eeb4f1d88cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.misc.redact_auth_from_url</definition>
+        <argsstring>(str url)</argsstring>
+        <name>redact_auth_from_url</name>
+        <qualifiedname>pip._internal.utils.misc.redact_auth_from_url</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Replace the password in a given url with ****.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="571" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="571" bodyend="575"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a0c198a2c523af3bf9f06239b6e29166e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.misc.redact_auth_from_requirement</definition>
+        <argsstring>(Requirement req)</argsstring>
+        <name>redact_auth_from_requirement</name>
+        <qualifiedname>pip._internal.utils.misc.redact_auth_from_requirement</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1Requirement" kindref="compound">Requirement</ref></type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Replace the password in a given requirement url with ****.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="576" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="576" bodyend="582"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1ac377522ae4eaa671dd56a5644ed96681" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1utils_1_1misc_1_1HiddenText" kindref="compound">HiddenText</ref></type>
+        <definition> HiddenText pip._internal.utils.misc.hide_value</definition>
+        <argsstring>(str value)</argsstring>
+        <name>hide_value</name>
+        <qualifiedname>pip._internal.utils.misc.hide_value</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="604" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="604" bodyend="607"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1afa80ca1d711e5b0b03ba46ee5d713feb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1utils_1_1misc_1_1HiddenText" kindref="compound">HiddenText</ref></type>
+        <definition> HiddenText pip._internal.utils.misc.hide_url</definition>
+        <argsstring>(str url)</argsstring>
+        <name>hide_url</name>
+        <qualifiedname>pip._internal.utils.misc.hide_url</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="608" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="608" bodyend="612"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a9caa722d87311833a23519fa7e92f4dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.utils.misc.protect_pip_from_modification_on_windows</definition>
+        <argsstring>(bool modifying_pip)</argsstring>
+        <name>protect_pip_from_modification_on_windows</name>
+        <qualifiedname>pip._internal.utils.misc.protect_pip_from_modification_on_windows</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>modifying_pip</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Protection of pip.exe from modification on Windows
+
+On Windows, any operation modifying pip should be run as:
+    python -m pip ...
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="613" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="613" bodyend="638"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a096823cf5f0595c7a2c42e78372599b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.utils.misc.check_externally_managed</definition>
+        <argsstring>()</argsstring>
+        <name>check_externally_managed</name>
+        <qualifiedname>pip._internal.utils.misc.check_externally_managed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check whether the current environment is externally managed.
+
+If the ``EXTERNALLY-MANAGED`` config file is found, the current environment
+is considered externally managed, and an ExternallyManagedEnvironment is
+raised.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="639" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="639" bodyend="653"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1ab552111d38a22d05ab0b6e5bd2e30cb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.utils.misc.is_console_interactive</definition>
+        <argsstring>()</argsstring>
+        <name>is_console_interactive</name>
+        <qualifiedname>pip._internal.utils.misc.is_console_interactive</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Is this console interactive?</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="654" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="654" bodyend="658"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1ab812fff145a7c443f1a15cf156529fe5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[Any, int]</type>
+        <definition> Tuple[Any, int] pip._internal.utils.misc.hash_file</definition>
+        <argsstring>(str path, int blocksize=1&lt;&lt; 20)</argsstring>
+        <name>hash_file</name>
+        <qualifiedname>pip._internal.utils.misc.hash_file</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>blocksize</declname>
+          <defval>1&lt;&lt; 20</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return (hash, length) for path using hashlib.sha256()</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="659" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="659" bodyend="670"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a053f480b2bbf19f8477751e2f9190b27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[Tuple[Any, Any]]</type>
+        <definition> Iterator[Tuple[Any, Any]] pip._internal.utils.misc.pairwise</definition>
+        <argsstring>(Iterable[Any] iterable)</argsstring>
+        <name>pairwise</name>
+        <qualifiedname>pip._internal.utils.misc.pairwise</qualifiedname>
+        <param>
+          <type>Iterable</type>
+          <declname>iterable</declname>
+          <array>[Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return paired elements.
+
+For example:
+    s -&gt; (s0, s1), (s2, s3), (s4, s5), ...
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="671" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="671" bodyend="681"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1misc_1a43466dedbaad81c63a0932601803f1c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[Iterable[<ref refid="namespacepip_1_1__internal_1_1utils_1_1misc_1a4f84d05af01eeb7281e27ec1748a890b" kindref="member">T</ref>], Iterable[<ref refid="namespacepip_1_1__internal_1_1utils_1_1misc_1a4f84d05af01eeb7281e27ec1748a890b" kindref="member">T</ref>]]</type>
+        <definition> Tuple[Iterable[T], Iterable[T]] pip._internal.utils.misc.partition</definition>
+        <argsstring>(Callable[[T], bool] pred, Iterable[T] iterable)</argsstring>
+        <name>partition</name>
+        <qualifiedname>pip._internal.utils.misc.partition</qualifiedname>
+        <param>
+          <type>Callable</type>
+          <defname>pred</defname>
+          <array>[[T]</array>
+        </param>
+        <param>
+          <type>bool]</type>
+          <declname>pred</declname>
+          <defname>iterable</defname>
+        </param>
+        <param>
+          <type>Iterable</type>
+          <declname>iterable</declname>
+          <array>[T]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Use a predicate to partition entries into false entries and true entries,
+like
+
+    partition(is_odd, range(10)) --&gt; 0 2 4 6 8   and  1 3 5 7 9
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="682" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="685" bodyend="695"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

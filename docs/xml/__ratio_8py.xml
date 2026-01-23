@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="__ratio_8py" kind="file" language="Python">
+    <compoundname>_ratio.py</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1__ratio_1_1Edge" prot="public">pip::_vendor::rich::_ratio::Edge</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1__ratio_1_1E" prot="public">pip::_vendor::rich::_ratio::E</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1rich">pip::_vendor::rich</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1rich_1_1__ratio">pip::_vendor::rich::_ratio</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1rich_1_1__ratio" refkind="compound"><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>fractions<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Fraction</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>math<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>ceil</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>cast,<sp/>List,<sp/>Optional,<sp/>Sequence</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>sys.version_info<sp/>&gt;=<sp/>(3,<sp/>8):</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Protocol</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1typing__extensions" kindref="compound">pip._vendor.typing_extensions</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Protocol<sp/><sp/></highlight><highlight class="comment">#<sp/>pragma:<sp/>no<sp/>cover</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12" refid="classpip_1_1__vendor_1_1rich_1_1__ratio_1_1Edge" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1rich_1_1__ratio_1_1Edge" kindref="compound">Edge</ref>(<ref refid="classpip_1_1__vendor_1_1typing__extensions_1_1Protocol" kindref="compound">Protocol</ref>):</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Any<sp/>object<sp/>that<sp/>defines<sp/>an<sp/>edge<sp/>(such<sp/>as<sp/>Layout).&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>size:<sp/>Optional[int]<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>ratio:<sp/>int<sp/>=<sp/>1</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>minimum_size:<sp/>int<sp/>=<sp/>1</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">ratio_resolve(total:<sp/>int,<sp/>edges:<sp/>Sequence[Edge])<sp/>-&gt;<sp/>List[int]:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Divide<sp/>total<sp/>space<sp/>to<sp/>satisfy<sp/>size,<sp/>ratio,<sp/>and<sp/>minimum_size,<sp/>constraints.</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>The<sp/>returned<sp/>list<sp/>of<sp/>integers<sp/>should<sp/>add<sp/>up<sp/>to<sp/>total<sp/>in<sp/>most<sp/>cases,<sp/>unless<sp/>it<sp/>is</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>impossible<sp/>to<sp/>satisfy<sp/>all<sp/>the<sp/>constraints.<sp/>For<sp/>instance,<sp/>if<sp/>there<sp/>are<sp/>two<sp/>edges</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>with<sp/>a<sp/>minimum<sp/>size<sp/>of<sp/>20<sp/>each<sp/>and<sp/>`total`<sp/>is<sp/>30<sp/>then<sp/>the<sp/>returned<sp/>list<sp/>will<sp/>be</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>greater<sp/>than<sp/>total.<sp/>In<sp/>practice,<sp/>this<sp/>would<sp/>mean<sp/>that<sp/>a<sp/>Layout<sp/>object<sp/>would</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>clip<sp/>the<sp/>rows<sp/>that<sp/>would<sp/>overflow<sp/>the<sp/>screen<sp/>height.</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Args:</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total<sp/>(int):<sp/>Total<sp/>number<sp/>of<sp/>characters.</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edges<sp/>(List[Edge]):<sp/>Edges<sp/>within<sp/>total<sp/>space.</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Returns:</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>List[int]:<sp/>Number<sp/>of<sp/>characters<sp/>for<sp/>each<sp/>edge.</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Size<sp/>of<sp/>edge<sp/>or<sp/>None<sp/>for<sp/>yet<sp/>to<sp/>be<sp/>determined</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>sizes<sp/>=<sp/>[(edge.size<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">)<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>edge<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>edges]</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>_Fraction<sp/>=<sp/>Fraction</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>While<sp/>any<sp/>edges<sp/>haven&apos;t<sp/>been<sp/>calculated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>sizes:</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Get<sp/>flexible<sp/>edges<sp/>and<sp/>index<sp/>to<sp/>map<sp/>these<sp/>back<sp/>on<sp/>to<sp/>sizes<sp/>list</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>flexible_edges<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(index,<sp/>edge)</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>index,<sp/>(size,<sp/>edge)<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>enumerate(zip(sizes,<sp/>edges))</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>size<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Remaining<sp/>space<sp/>in<sp/>total</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>remaining<sp/>=<sp/>total<sp/>-<sp/>sum(size<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>0<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>size<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>sizes)</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>remaining<sp/>&lt;=<sp/>0:</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>No<sp/>room<sp/>for<sp/>flexible<sp/>edges</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>[</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>((edge.minimum_size<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>1)<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>size<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>size)</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>size,<sp/>edge<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>zip(sizes,<sp/>edges)</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Calculate<sp/>number<sp/>of<sp/>characters<sp/>in<sp/>a<sp/>ratio<sp/>portion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>portion<sp/>=<sp/>_Fraction(</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>remaining,<sp/>sum((edge.ratio<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>1)<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>_,<sp/>edge<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>flexible_edges)</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>If<sp/>any<sp/>edges<sp/>will<sp/>be<sp/>less<sp/>than<sp/>their<sp/>minimum,<sp/>replace<sp/>size<sp/>with<sp/>the<sp/>minimum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>index,<sp/>edge<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>flexible_edges:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>portion<sp/>*<sp/>edge.ratio<sp/>&lt;=<sp/>edge.minimum_size:</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sizes[index]<sp/>=<sp/>edge.minimum_size</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>New<sp/>fixed<sp/>size<sp/>will<sp/>invalidate<sp/>calculations,<sp/>so<sp/>we<sp/>need<sp/>to<sp/>repeat<sp/>the<sp/>process</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Distribute<sp/>flexible<sp/>space<sp/>and<sp/>compensate<sp/>for<sp/>rounding<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Since<sp/>edge<sp/>sizes<sp/>can<sp/>only<sp/>be<sp/>integers<sp/>we<sp/>need<sp/>to<sp/>add<sp/>the<sp/>remainder</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>to<sp/>the<sp/>following<sp/>line</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>remainder<sp/>=<sp/>_Fraction(0)</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>index,<sp/>edge<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>flexible_edges:</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>size,<sp/>remainder<sp/>=<sp/>divmod(portion<sp/>*<sp/>edge.ratio<sp/>+<sp/>remainder,<sp/>1)</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sizes[index]<sp/>=<sp/>size</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Sizes<sp/>now<sp/>contains<sp/>integers<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cast(List[int],<sp/>sizes)</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">ratio_reduce(</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>total:<sp/>int,<sp/>ratios:<sp/>List[int],<sp/>maximums:<sp/>List[int],<sp/>values:<sp/>List[int]</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">)<sp/>-&gt;<sp/>List[int]:</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Divide<sp/>an<sp/>integer<sp/>total<sp/>in<sp/>to<sp/>parts<sp/>based<sp/>on<sp/>ratios.</highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Args:</highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total<sp/>(int):<sp/>The<sp/>total<sp/>to<sp/>divide.</highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ratios<sp/>(List[int]):<sp/>A<sp/>list<sp/>of<sp/>integer<sp/>ratios.</highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>maximums<sp/>(List[int]):<sp/>List<sp/>of<sp/>maximums<sp/>values<sp/>for<sp/>each<sp/>slot.</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>values<sp/>(List[int]):<sp/>List<sp/>of<sp/>values</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Returns:</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>List[int]:<sp/>A<sp/>list<sp/>of<sp/>integers<sp/>guaranteed<sp/>to<sp/>sum<sp/>to<sp/>total.</highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>ratios<sp/>=<sp/>[ratio<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>_max<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>0<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>ratio,<sp/>_max<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>zip(ratios,<sp/>maximums)]</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>total_ratio<sp/>=<sp/>sum(ratios)</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>total_ratio:</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>values[:]</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>total_remaining<sp/>=<sp/>total</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>result:<sp/>List[int]<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>append<sp/>=<sp/>result.append</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>ratio,<sp/>maximum,<sp/>value<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>zip(ratios,<sp/>maximums,<sp/>values):</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>ratio<sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/>total_ratio<sp/>&gt;<sp/>0:</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>distributed<sp/>=<sp/>min(maximum,<sp/>round(ratio<sp/>*<sp/>total_remaining<sp/>/<sp/>total_ratio))</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>append(value<sp/>-<sp/>distributed)</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_remaining<sp/>-=<sp/>distributed</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_ratio<sp/>-=<sp/>ratio</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>append(value)</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">ratio_distribute(</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>total:<sp/>int,<sp/>ratios:<sp/>List[int],<sp/>minimums:<sp/>Optional[List[int]]<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal">)<sp/>-&gt;<sp/>List[int]:</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Distribute<sp/>an<sp/>integer<sp/>total<sp/>in<sp/>to<sp/>parts<sp/>based<sp/>on<sp/>ratios.</highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="118"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Args:</highlight></codeline>
+<codeline lineno="119"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total<sp/>(int):<sp/>The<sp/>total<sp/>to<sp/>divide.</highlight></codeline>
+<codeline lineno="120"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ratios<sp/>(List[int]):<sp/>A<sp/>list<sp/>of<sp/>integer<sp/>ratios.</highlight></codeline>
+<codeline lineno="121"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>minimums<sp/>(List[int]):<sp/>List<sp/>of<sp/>minimum<sp/>values<sp/>for<sp/>each<sp/>slot.</highlight></codeline>
+<codeline lineno="122"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="123"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Returns:</highlight></codeline>
+<codeline lineno="124"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>List[int]:<sp/>A<sp/>list<sp/>of<sp/>integers<sp/>guaranteed<sp/>to<sp/>sum<sp/>to<sp/>total.</highlight></codeline>
+<codeline lineno="125"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>minimums:</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ratios<sp/>=<sp/>[ratio<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>_min<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>0<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>ratio,<sp/>_min<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>zip(ratios,<sp/>minimums)]</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>total_ratio<sp/>=<sp/>sum(ratios)</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">assert</highlight><highlight class="normal"><sp/>total_ratio<sp/>&gt;<sp/>0,<sp/></highlight><highlight class="stringliteral">&quot;Sum<sp/>of<sp/>ratios<sp/>must<sp/>be<sp/>&gt;<sp/>0&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>total_remaining<sp/>=<sp/>total</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>distributed_total:<sp/>List[int]<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>append<sp/>=<sp/>distributed_total.append</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>minimums<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_minimums<sp/>=<sp/>[0]<sp/>*<sp/>len(ratios)</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_minimums<sp/>=<sp/>minimums</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>ratio,<sp/>minimum<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>zip(ratios,<sp/>_minimums):</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>total_ratio<sp/>&gt;<sp/>0:</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>distributed<sp/>=<sp/>max(minimum,<sp/>ceil(ratio<sp/>*<sp/>total_remaining<sp/>/<sp/>total_ratio))</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>distributed<sp/>=<sp/>total_remaining</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>append(distributed)</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_ratio<sp/>-=<sp/>ratio</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_remaining<sp/>-=<sp/>distributed</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>distributed_total</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>__name__<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;__main__&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>dataclasses<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>dataclass</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@dataclass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="classpip_1_1__vendor_1_1rich_1_1__ratio_1_1E" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1rich_1_1__ratio_1_1E" kindref="compound">E</ref>:</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>size:<sp/>Optional[int]<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ratio:<sp/>int<sp/>=<sp/>1</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>minimum_size:<sp/>int<sp/>=<sp/>1</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>resolved<sp/>=<sp/>ratio_resolve(110,<sp/>[<ref refid="classpip_1_1__vendor_1_1rich_1_1__ratio_1_1E" kindref="compound">E</ref>(</highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,<sp/>1,<sp/>1),<sp/><ref refid="classpip_1_1__vendor_1_1rich_1_1__ratio_1_1E" kindref="compound">E</ref>(</highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,<sp/>1,<sp/>1),<sp/><ref refid="classpip_1_1__vendor_1_1rich_1_1__ratio_1_1E" kindref="compound">E</ref>(</highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,<sp/>1,<sp/>1)])</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>print(sum(resolved))</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/_ratio.py"/>
+  </compounddef>
+</doxygen>

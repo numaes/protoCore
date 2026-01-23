@@ -1,0 +1,458 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::pkg_resources::ResourceManager</compoundname>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1aa2b57b775489db4ed4491cfdfc8534cf" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.pkg_resources.ResourceManager::extraction_path</definition>
+        <argsstring></argsstring>
+        <name>extraction_path</name>
+        <qualifiedname>pip._vendor.pkg_resources.ResourceManager.extraction_path</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Set the base path where resources will be extracted to, if needed.
+
+If you do not call this routine before any extractions take place, the
+path defaults to the return value of ``get_default_cache()``.  (Which
+is based on the ``PYTHON_EGG_CACHE`` environment variable, with various
+platform-specific fallbacks.  See that routine&apos;s documentation for more
+details.)
+
+Resources are extracted to subdirectories of this path based upon
+information given by the ``IResourceProvider``.  You may set this to a
+temporary directory, but then you must call ``cleanup_resources()`` to
+delete the extracted files when done.  There is no guarantee that
+``cleanup_resources()`` will be able to remove all extracted files.
+
+(Note: you may not change the extraction path for a given resource
+manager once resources have been extracted, unless you first call
+``cleanup_resources()``.)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" line="1198" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" bodystart="1198" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1aea575c7d408f076473dceda4dfd972be" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.pkg_resources.ResourceManager::cached_files</definition>
+        <argsstring></argsstring>
+        <name>cached_files</name>
+        <qualifiedname>pip._vendor.pkg_resources.ResourceManager.cached_files</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" line="1201" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" bodystart="1201" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1a622e17a099076cee3c16470fcdbddae4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pkg_resources.ResourceManager.__init__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._vendor.pkg_resources.ResourceManager.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" line="1200" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" bodystart="1200" bodyend="1202"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1a19633753c14abb63e062457f4f9f490a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pkg_resources.ResourceManager.resource_exists</definition>
+        <argsstring>(self, package_or_requirement, resource_name)</argsstring>
+        <name>resource_exists</name>
+        <qualifiedname>pip._vendor.pkg_resources.ResourceManager.resource_exists</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>package_or_requirement</type>
+          <defname>package_or_requirement</defname>
+        </param>
+        <param>
+          <type>resource_name</type>
+          <defname>resource_name</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Does the named resource exist?</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" line="1203" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" bodystart="1203" bodyend="1206"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1ac812d3eb5ce4684ebc45114629166f81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pkg_resources.ResourceManager.resource_isdir</definition>
+        <argsstring>(self, package_or_requirement, resource_name)</argsstring>
+        <name>resource_isdir</name>
+        <qualifiedname>pip._vendor.pkg_resources.ResourceManager.resource_isdir</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>package_or_requirement</type>
+          <defname>package_or_requirement</defname>
+        </param>
+        <param>
+          <type>resource_name</type>
+          <defname>resource_name</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Is the named resource an existing directory?</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" line="1207" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" bodystart="1207" bodyend="1210"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1a082cd2ee78fbc6188b9e8417fdc4788c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pkg_resources.ResourceManager.resource_filename</definition>
+        <argsstring>(self, package_or_requirement, resource_name)</argsstring>
+        <name>resource_filename</name>
+        <qualifiedname>pip._vendor.pkg_resources.ResourceManager.resource_filename</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>package_or_requirement</type>
+          <defname>package_or_requirement</defname>
+        </param>
+        <param>
+          <type>resource_name</type>
+          <defname>resource_name</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a true filesystem path for specified resource</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" line="1211" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" bodystart="1211" bodyend="1216"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1a3e27e92791cc22eb485a622af9372907" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pkg_resources.ResourceManager.resource_stream</definition>
+        <argsstring>(self, package_or_requirement, resource_name)</argsstring>
+        <name>resource_stream</name>
+        <qualifiedname>pip._vendor.pkg_resources.ResourceManager.resource_stream</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>package_or_requirement</type>
+          <defname>package_or_requirement</defname>
+        </param>
+        <param>
+          <type>resource_name</type>
+          <defname>resource_name</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a readable file-like object for specified resource</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" line="1217" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" bodystart="1217" bodyend="1222"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1a497969b69ed6ba376a5729221858560c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pkg_resources.ResourceManager.resource_string</definition>
+        <argsstring>(self, package_or_requirement, resource_name)</argsstring>
+        <name>resource_string</name>
+        <qualifiedname>pip._vendor.pkg_resources.ResourceManager.resource_string</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>package_or_requirement</type>
+          <defname>package_or_requirement</defname>
+        </param>
+        <param>
+          <type>resource_name</type>
+          <defname>resource_name</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return specified resource as a string</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" line="1223" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" bodystart="1223" bodyend="1228"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1af56c4defbd24fa9d26e04c82970587ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pkg_resources.ResourceManager.resource_listdir</definition>
+        <argsstring>(self, package_or_requirement, resource_name)</argsstring>
+        <name>resource_listdir</name>
+        <qualifiedname>pip._vendor.pkg_resources.ResourceManager.resource_listdir</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>package_or_requirement</type>
+          <defname>package_or_requirement</defname>
+        </param>
+        <param>
+          <type>resource_name</type>
+          <defname>resource_name</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>List the contents of the named resource directory</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" line="1229" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" bodystart="1229" bodyend="1232"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1aca2e4fdfc59007a6b409649d83d72643" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pkg_resources.ResourceManager.extraction_error</definition>
+        <argsstring>(self)</argsstring>
+        <name>extraction_error</name>
+        <qualifiedname>pip._vendor.pkg_resources.ResourceManager.extraction_error</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Give an error message for problems extracting file(s)</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" line="1233" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" bodystart="1233" bodyend="1262"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1a61806eaf8ee7d9c561f8f1904e351aeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pkg_resources.ResourceManager.get_cache_path</definition>
+        <argsstring>(self, archive_name, names=())</argsstring>
+        <name>get_cache_path</name>
+        <qualifiedname>pip._vendor.pkg_resources.ResourceManager.get_cache_path</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>archive_name</type>
+          <defname>archive_name</defname>
+        </param>
+        <param>
+          <type>names</type>
+          <defname>names</defname>
+          <defval>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return absolute location in cache for `archive_name` and `names`
+
+The parent directory of the resulting path will be created if it does
+not already exist.  `archive_name` should be the base filename of the
+enclosing egg (which may not be the name of the enclosing zipfile!),
+including its &quot;.egg&quot; extension.  `names`, if provided, should be a
+sequence of path name parts &quot;under&quot; the egg&apos;s extraction location.
+
+This method should only be called by resource providers that need to
+obtain an extraction location, and only for names they intend to
+extract, as it tracks the generated names for possible cleanup later.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" line="1263" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" bodystart="1263" bodyend="1287"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1a83976cb71cdccbada99b13766845c578" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pkg_resources.ResourceManager.postprocess</definition>
+        <argsstring>(self, tempname, filename)</argsstring>
+        <name>postprocess</name>
+        <qualifiedname>pip._vendor.pkg_resources.ResourceManager.postprocess</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>tempname</type>
+          <defname>tempname</defname>
+        </param>
+        <param>
+          <type>filename</type>
+          <defname>filename</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Perform any platform-specific postprocessing of `tempname`
+
+This is where Mac header rewrites should be done; other platforms don&apos;t
+have anything special they should do.
+
+Resource providers should call this method ONLY after successfully
+extracting a compressed resource.  They must NOT call it on resources
+that are already in the filesystem.
+
+`tempname` is the current (temporary) name of the file, and `filename`
+is the name it will be renamed to by the caller after this routine
+returns.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" line="1315" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" bodystart="1315" bodyend="1334"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1a97d5eff70172e630907af1faef423217" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pkg_resources.ResourceManager.set_extraction_path</definition>
+        <argsstring>(self, path)</argsstring>
+        <name>set_extraction_path</name>
+        <qualifiedname>pip._vendor.pkg_resources.ResourceManager.set_extraction_path</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>path</type>
+          <defname>path</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Set the base path where resources will be extracted to, if needed.
+
+If you do not call this routine before any extractions take place, the
+path defaults to the return value of ``get_default_cache()``.  (Which
+is based on the ``PYTHON_EGG_CACHE`` environment variable, with various
+platform-specific fallbacks.  See that routine&apos;s documentation for more
+details.)
+
+Resources are extracted to subdirectories of this path based upon
+information given by the ``IResourceProvider``.  You may set this to a
+temporary directory, but then you must call ``cleanup_resources()`` to
+delete the extracted files when done.  There is no guarantee that
+``cleanup_resources()`` will be able to remove all extracted files.
+
+(Note: you may not change the extraction path for a given resource
+manager once resources have been extracted, unless you first call
+``cleanup_resources()``.)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" line="1335" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" bodystart="1335" bodyend="1358"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1a1caabc5d9105174f61d33f2b5ddaedd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pkg_resources.ResourceManager.cleanup_resources</definition>
+        <argsstring>(self, force=False)</argsstring>
+        <name>cleanup_resources</name>
+        <qualifiedname>pip._vendor.pkg_resources.ResourceManager.cleanup_resources</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>force</type>
+          <defname>force</defname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Delete all extracted resource files and directories, returning a list
+of the file and directory names that could not be successfully removed.
+This function does not have any concurrency protection, so it should
+generally only be called when the extraction path is a temporary
+directory exclusive to a single process.  This method is not
+automatically called; you must call it explicitly or register it as an
+``atexit`` function if you wish to ensure cleanup of a temporary
+directory used for extractions.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" line="1359" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" bodystart="1359" bodyend="1372"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1af2aed4d60bd7d65ee7d5c980342662a9" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pkg_resources.ResourceManager._warn_unsafe_extraction_path</definition>
+        <argsstring>(path)</argsstring>
+        <name>_warn_unsafe_extraction_path</name>
+        <qualifiedname>pip._vendor.pkg_resources.ResourceManager._warn_unsafe_extraction_path</qualifiedname>
+        <param>
+          <type>path</type>
+          <defname>path</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>If the default extraction path is overridden and set to an insecure
+location, such as /tmp, it opens up an opportunity for an attacker to
+replace an extracted file with an unauthorized payload. Warn the user
+if a known insecure location is used.
+
+See Distribute #375 for more details.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" line="1289" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" bodystart="1289" bodyend="1314"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Manage resource extraction and packages</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" line="1195" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pkg_resources/__init__.py" bodystart="1195" bodyend="1372"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1a622e17a099076cee3c16470fcdbddae4" prot="public" virt="non-virtual"><scope>pip::_vendor::pkg_resources::ResourceManager</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1af2aed4d60bd7d65ee7d5c980342662a9" prot="protected" virt="non-virtual"><scope>pip::_vendor::pkg_resources::ResourceManager</scope><name>_warn_unsafe_extraction_path</name></member>
+      <member refid="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1aea575c7d408f076473dceda4dfd972be" prot="public" virt="non-virtual"><scope>pip::_vendor::pkg_resources::ResourceManager</scope><name>cached_files</name></member>
+      <member refid="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1a1caabc5d9105174f61d33f2b5ddaedd5" prot="public" virt="non-virtual"><scope>pip::_vendor::pkg_resources::ResourceManager</scope><name>cleanup_resources</name></member>
+      <member refid="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1aca2e4fdfc59007a6b409649d83d72643" prot="public" virt="non-virtual"><scope>pip::_vendor::pkg_resources::ResourceManager</scope><name>extraction_error</name></member>
+      <member refid="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1aa2b57b775489db4ed4491cfdfc8534cf" prot="public" virt="non-virtual"><scope>pip::_vendor::pkg_resources::ResourceManager</scope><name>extraction_path</name></member>
+      <member refid="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1a61806eaf8ee7d9c561f8f1904e351aeb" prot="public" virt="non-virtual"><scope>pip::_vendor::pkg_resources::ResourceManager</scope><name>get_cache_path</name></member>
+      <member refid="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1a83976cb71cdccbada99b13766845c578" prot="public" virt="non-virtual"><scope>pip::_vendor::pkg_resources::ResourceManager</scope><name>postprocess</name></member>
+      <member refid="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1a19633753c14abb63e062457f4f9f490a" prot="public" virt="non-virtual"><scope>pip::_vendor::pkg_resources::ResourceManager</scope><name>resource_exists</name></member>
+      <member refid="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1a082cd2ee78fbc6188b9e8417fdc4788c" prot="public" virt="non-virtual"><scope>pip::_vendor::pkg_resources::ResourceManager</scope><name>resource_filename</name></member>
+      <member refid="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1ac812d3eb5ce4684ebc45114629166f81" prot="public" virt="non-virtual"><scope>pip::_vendor::pkg_resources::ResourceManager</scope><name>resource_isdir</name></member>
+      <member refid="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1af56c4defbd24fa9d26e04c82970587ee" prot="public" virt="non-virtual"><scope>pip::_vendor::pkg_resources::ResourceManager</scope><name>resource_listdir</name></member>
+      <member refid="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1a3e27e92791cc22eb485a622af9372907" prot="public" virt="non-virtual"><scope>pip::_vendor::pkg_resources::ResourceManager</scope><name>resource_stream</name></member>
+      <member refid="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1a497969b69ed6ba376a5729221858560c" prot="public" virt="non-virtual"><scope>pip::_vendor::pkg_resources::ResourceManager</scope><name>resource_string</name></member>
+      <member refid="classpip_1_1__vendor_1_1pkg__resources_1_1ResourceManager_1a97d5eff70172e630907af1faef423217" prot="public" virt="non-virtual"><scope>pip::_vendor::pkg_resources::ResourceManager</scope><name>set_extraction_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

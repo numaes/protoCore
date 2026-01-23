@@ -1,0 +1,273 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1operations_1_1check" kind="namespace" language="Python">
+    <compoundname>pip::_internal::operations::check</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1operations_1_1check_1_1PackageDetails" prot="public">pip::_internal::operations::check::PackageDetails</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1operations_1_1check_1ae884318312138e6f7ab45bd1d45180d7" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::operations::check.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.operations.check.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" line="18" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1operations_1_1check_1a772274a200eddcd0a3574e45e825c1e4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::operations::check.PackageSet</definition>
+        <argsstring></argsstring>
+        <name>PackageSet</name>
+        <qualifiedname>pip._internal.operations.check.PackageSet</qualifiedname>
+        <initializer>=  Dict[NormalizedName, <ref refid="classpip_1_1__internal_1_1operations_1_1check_1_1PackageDetails" kindref="compound">PackageDetails</ref>]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" line="27" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1operations_1_1check_1aca51bd22558103df3ace175abcb0e024" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::operations::check.Missing</definition>
+        <argsstring></argsstring>
+        <name>Missing</name>
+        <qualifiedname>pip._internal.operations.check.Missing</qualifiedname>
+        <initializer>=  Tuple[NormalizedName, <ref refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1Requirement" kindref="compound">Requirement</ref>]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" line="28" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1operations_1_1check_1a6e1d711030dfddbacc38304bfc8ef87a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::operations::check.Conflicting</definition>
+        <argsstring></argsstring>
+        <name>Conflicting</name>
+        <qualifiedname>pip._internal.operations.check.Conflicting</qualifiedname>
+        <initializer>=  Tuple[NormalizedName, DistributionVersion, <ref refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1Requirement" kindref="compound">Requirement</ref>]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" line="29" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1operations_1_1check_1a36e097c8c839760cdb999e39b799944c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::operations::check.MissingDict</definition>
+        <argsstring></argsstring>
+        <name>MissingDict</name>
+        <qualifiedname>pip._internal.operations.check.MissingDict</qualifiedname>
+        <initializer>=  Dict[NormalizedName, List[<ref refid="namespacepip_1_1__internal_1_1operations_1_1check_1aca51bd22558103df3ace175abcb0e024" kindref="member">Missing</ref>]]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" line="31" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1operations_1_1check_1a5b777bebebaee1d9c6751c1b639b72f4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::operations::check.ConflictingDict</definition>
+        <argsstring></argsstring>
+        <name>ConflictingDict</name>
+        <qualifiedname>pip._internal.operations.check.ConflictingDict</qualifiedname>
+        <initializer>=  Dict[NormalizedName, List[<ref refid="namespacepip_1_1__internal_1_1operations_1_1check_1a6e1d711030dfddbacc38304bfc8ef87a" kindref="member">Conflicting</ref>]]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" line="32" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1operations_1_1check_1acd52e1ca33b255f0f9a8b19883a9c7f4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::operations::check.CheckResult</definition>
+        <argsstring></argsstring>
+        <name>CheckResult</name>
+        <qualifiedname>pip._internal.operations.check.CheckResult</qualifiedname>
+        <initializer>=  Tuple[<ref refid="namespacepip_1_1__internal_1_1operations_1_1check_1a36e097c8c839760cdb999e39b799944c" kindref="member">MissingDict</ref>, <ref refid="namespacepip_1_1__internal_1_1operations_1_1check_1a5b777bebebaee1d9c6751c1b639b72f4" kindref="member">ConflictingDict</ref>]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" line="33" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1operations_1_1check_1a83b303238632b9b573cd69697b9a45e3" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::operations::check.ConflictDetails</definition>
+        <argsstring></argsstring>
+        <name>ConflictDetails</name>
+        <qualifiedname>pip._internal.operations.check.ConflictDetails</qualifiedname>
+        <initializer>=  Tuple[<ref refid="namespacepip_1_1__internal_1_1operations_1_1check_1a772274a200eddcd0a3574e45e825c1e4" kindref="member">PackageSet</ref>, <ref refid="namespacepip_1_1__internal_1_1operations_1_1check_1acd52e1ca33b255f0f9a8b19883a9c7f4" kindref="member">CheckResult</ref>]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" line="34" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1check_1a3a00702abda7ffce9e3db204e37f92d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[<ref refid="namespacepip_1_1__internal_1_1operations_1_1check_1a772274a200eddcd0a3574e45e825c1e4" kindref="member">PackageSet</ref>, bool]</type>
+        <definition> Tuple[PackageSet, bool] pip._internal.operations.check.create_package_set_from_installed</definition>
+        <argsstring>()</argsstring>
+        <name>create_package_set_from_installed</name>
+        <qualifiedname>pip._internal.operations.check.create_package_set_from_installed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Converts a list of distributions into a PackageSet.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" line="37" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" bodystart="37" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1check_1aedac8042bd11a2e9d4c81bfabcdc1910" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepip_1_1__internal_1_1operations_1_1check_1acd52e1ca33b255f0f9a8b19883a9c7f4" kindref="member">CheckResult</ref></type>
+        <definition> CheckResult pip._internal.operations.check.check_package_set</definition>
+        <argsstring>(PackageSet package_set, Optional[Callable[[str], bool]] should_ignore=None)</argsstring>
+        <name>check_package_set</name>
+        <qualifiedname>pip._internal.operations.check.check_package_set</qualifiedname>
+        <param>
+          <type><ref refid="namespacepip_1_1__internal_1_1operations_1_1check_1a772274a200eddcd0a3574e45e825c1e4" kindref="member">PackageSet</ref></type>
+          <declname>package_set</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <defname>should_ignore</defname>
+          <array>[Callable[[str]</array>
+        </param>
+        <param>
+          <type>bool]]</type>
+          <declname>should_ignore</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if a package set is consistent
+
+If should_ignore is passed, it should be a callable that takes a
+package name and returns a boolean.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" line="54" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" bodystart="56" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1check_1ac75d2c709d635ba62fef1c8a88afd230" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepip_1_1__internal_1_1operations_1_1check_1a83b303238632b9b573cd69697b9a45e3" kindref="member">ConflictDetails</ref></type>
+        <definition> ConflictDetails pip._internal.operations.check.check_install_conflicts</definition>
+        <argsstring>(List[InstallRequirement] to_install)</argsstring>
+        <name>check_install_conflicts</name>
+        <qualifiedname>pip._internal.operations.check.check_install_conflicts</qualifiedname>
+        <param>
+          <type>List</type>
+          <declname>to_install</declname>
+          <array>[InstallRequirement]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>For checking if the dependency graph would be consistent after \
+installing given requirements
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" line="101" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" bodystart="101" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1check_1ab85d78892b8b720d3af57a90a3973316" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Set[NormalizedName]</type>
+        <definition> Set[NormalizedName] pip._internal.operations.check._simulate_installation_of</definition>
+        <argsstring>(List[InstallRequirement] to_install, PackageSet package_set)</argsstring>
+        <name>_simulate_installation_of</name>
+        <qualifiedname>pip._internal.operations.check._simulate_installation_of</qualifiedname>
+        <param>
+          <type>List</type>
+          <declname>to_install</declname>
+          <array>[InstallRequirement]</array>
+        </param>
+        <param>
+          <type><ref refid="namespacepip_1_1__internal_1_1operations_1_1check_1a772274a200eddcd0a3574e45e825c1e4" kindref="member">PackageSet</ref></type>
+          <declname>package_set</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Computes the version of packages after installing to_install.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" line="121" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" bodystart="123" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1check_1a79bc2d52c4afcf9f69980d52c3faa904" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Set[NormalizedName]</type>
+        <definition> Set[NormalizedName] pip._internal.operations.check._create_whitelist</definition>
+        <argsstring>(Set[NormalizedName] would_be_installed, PackageSet package_set)</argsstring>
+        <name>_create_whitelist</name>
+        <qualifiedname>pip._internal.operations.check._create_whitelist</qualifiedname>
+        <param>
+          <type>Set</type>
+          <declname>would_be_installed</declname>
+          <array>[NormalizedName]</array>
+        </param>
+        <param>
+          <type><ref refid="namespacepip_1_1__internal_1_1operations_1_1check_1a772274a200eddcd0a3574e45e825c1e4" kindref="member">PackageSet</ref></type>
+          <declname>package_set</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" line="140" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" bodystart="142" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1check_1ad9d88033a47d695d1813fb98e34ebf55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.operations.check.warn_legacy_versions_and_specifiers</definition>
+        <argsstring>(PackageSet package_set)</argsstring>
+        <name>warn_legacy_versions_and_specifiers</name>
+        <qualifiedname>pip._internal.operations.check.warn_legacy_versions_and_specifiers</qualifiedname>
+        <param>
+          <type><ref refid="namespacepip_1_1__internal_1_1operations_1_1check_1a772274a200eddcd0a3574e45e825c1e4" kindref="member">PackageSet</ref></type>
+          <declname>package_set</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" line="157" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" bodystart="157" bodyend="188"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Validation of dependencies of packages
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/check.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

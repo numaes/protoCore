@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1distlib_1_1scripts" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::distlib::scripts</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1scripts_1_1ScriptMaker" prot="public">pip::_vendor::distlib::scripts::ScriptMaker</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1scripts_1af65dedd6d642e54a96515997ae5b0290" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::scripts.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._vendor.distlib.scripts.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/scripts.py" line="21" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/scripts.py" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1scripts_1af1ab6c81da47bd9f400db33619394858" prot="protected" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_vendor::distlib::scripts._DEFAULT_MANIFEST</definition>
+        <argsstring></argsstring>
+        <name>_DEFAULT_MANIFEST</name>
+        <qualifiedname>pip._vendor.distlib.scripts._DEFAULT_MANIFEST</qualifiedname>
+        <initializer>=  &apos;&apos;&apos;
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
+&lt;assembly xmlns=&quot;urn:schemas-microsoft-com:asm.v1&quot; manifestVersion=&quot;1.0&quot;&gt;
+ &lt;assemblyIdentity version=&quot;1.0.0.0&quot;
+ processorArchitecture=&quot;X86&quot;
+ name=&quot;%s&quot;
+ type=&quot;win32&quot;/&gt;
+
+ &lt;!-- Identify the application security requirements. --&gt;
+ &lt;trustInfo xmlns=&quot;urn:schemas-microsoft-com:asm.v3&quot;&gt;
+ &lt;security&gt;
+ &lt;requestedPrivileges&gt;
+ &lt;requestedExecutionLevel level=&quot;asInvoker&quot; uiAccess=&quot;false&quot;/&gt;
+ &lt;/requestedPrivileges&gt;
+ &lt;/security&gt;
+ &lt;/trustInfo&gt;
+&lt;/assembly&gt;&apos;&apos;&apos;.strip()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/scripts.py" line="23" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/scripts.py" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1scripts_1a96eb6da81ea43cebf358284fa66edfc1" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::scripts.FIRST_LINE_RE</definition>
+        <argsstring></argsstring>
+        <name>FIRST_LINE_RE</name>
+        <qualifiedname>pip._vendor.distlib.scripts.FIRST_LINE_RE</qualifiedname>
+        <initializer>=  re.compile(b&apos;^#!.*pythonw?[0-9.]*([ \t].*)?$&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/scripts.py" line="42" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/scripts.py" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1scripts_1a539ed14555335683b696c049076ae887" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_vendor::distlib::scripts.SCRIPT_TEMPLATE</definition>
+        <argsstring></argsstring>
+        <name>SCRIPT_TEMPLATE</name>
+        <qualifiedname>pip._vendor.distlib.scripts.SCRIPT_TEMPLATE</qualifiedname>
+        <initializer>=  r&apos;&apos;&apos;# -*- coding: utf-8 -*-
+import re
+import sys
+from %(module)s import %(import_name)s
+if __name__ == &apos;__main__&apos;:
+    sys.argv[0] = re.sub(r&apos;(-script\.pyw|\.exe)?$&apos;, &apos;&apos;, sys.argv[0])
+    sys.exit(%(func)s())
+&apos;&apos;&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/scripts.py" line="43" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/scripts.py" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1scripts_1a6584d04dfe6b111d667737320cfec381" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::scripts._enquote_executable</definition>
+        <argsstring></argsstring>
+        <name>_enquote_executable</name>
+        <qualifiedname>pip._vendor.distlib.scripts._enquote_executable</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1distlib_1_1scripts_1a9c6221b39adc41b6d66cf0435df366a1" kindref="member">enquote_executable</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/scripts.py" line="70" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/scripts.py" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distlib_1_1scripts_1a9c6221b39adc41b6d66cf0435df366a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.scripts.enquote_executable</definition>
+        <argsstring>(executable)</argsstring>
+        <name>enquote_executable</name>
+        <qualifiedname>pip._vendor.distlib.scripts.enquote_executable</qualifiedname>
+        <param>
+          <type>executable</type>
+          <defname>executable</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/scripts.py" line="53" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/scripts.py" bodystart="53" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/scripts.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

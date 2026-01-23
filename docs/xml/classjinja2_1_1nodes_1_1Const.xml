@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1nodes_1_1Const" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::nodes::Const</compoundname>
+    <basecompoundref refid="classjinja2_1_1nodes_1_1Literal" prot="public" virt="non-virtual">jinja2.nodes.Literal</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1Const_1a463aebb94c867bcd6e09ca88932f7d88" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple jinja2.nodes.Const::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>jinja2.nodes.Const.fields</qualifiedname>
+        <initializer>=  (&quot;value&quot;,)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="584" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="584" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1Const_1a2d447546dc1e80887f1f96af7ce8296f" prot="public" static="yes" mutable="no">
+        <type>t</type>
+        <definition>t jinja2.nodes.Const::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>jinja2.nodes.Const.value</qualifiedname>
+        <initializer>.Any</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="585" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="585" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjinja2_1_1nodes_1_1Const_1a025f1463e70e44af9df3097ece338c9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Any</type>
+        <definition> t.Any jinja2.nodes.Const.as_const</definition>
+        <argsstring>(self, t.Optional[EvalContext] eval_ctx=None)</argsstring>
+        <name>as_const</name>
+        <qualifiedname>jinja2.nodes.Const.as_const</qualifiedname>
+        <reimplements refid="classjinja2_1_1nodes_1_1Expr_1afc3c83d61cdf1d87d4a3f54637efb194">as_const</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>eval_ctx</declname>
+          <array>[EvalContext]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the value of the expression as constant or raise
+:exc:`Impossible` if this was not possible.
+
+An :class:`EvalContext` can be provided, if none is given
+a default context is created which requires the nodes to have
+an attached environment.
+
+.. versionchanged:: 2.4
+   the `eval_ctx` parameter was added.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="587" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="587" bodyend="589"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1nodes_1_1Const_1a8e32edb3126020ebdcd23e0b3804f30c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;Const&quot;</type>
+        <definition> &quot;Const&quot; jinja2.nodes.Const.from_untrusted</definition>
+        <argsstring>(cls, t.Any value, t.Optional[int] lineno=None, &quot;t.Optional[Environment]&quot; environment=None)</argsstring>
+        <name>from_untrusted</name>
+        <qualifiedname>jinja2.nodes.Const.from_untrusted</qualifiedname>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <param>
+          <type>t.Any</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>lineno</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>&quot;t.Optional&quot;</type>
+          <declname>environment</declname>
+          <array>[Environment]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a const object if the value is representable as
+constant value in the generated code, otherwise it will raise
+an `Impossible` exception.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="591" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="596" bodyend="607"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>All constant values.  The parser will return this node for simple
+constants such as ``42`` or ``&quot;foo&quot;`` but it can be used to store more
+complex values such as lists too.  Only constants with a safe
+representation (objects where ``eval(repr(x)) == x`` is true).
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.nodes.Const</label>
+        <link refid="classjinja2_1_1nodes_1_1Const"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.nodes.Expr</label>
+        <link refid="classjinja2_1_1nodes_1_1Expr"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.nodes.Literal</label>
+        <link refid="classjinja2_1_1nodes_1_1Literal"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>jinja2.nodes.Node</label>
+        <link refid="classjinja2_1_1nodes_1_1Node"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>jinja2.nodes.NodeType</label>
+        <link refid="classjinja2_1_1nodes_1_1NodeType"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>metaclass</label>
+      </node>
+      <node id="7">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>jinja2.nodes.Const</label>
+        <link refid="classjinja2_1_1nodes_1_1Const"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.nodes.Expr</label>
+        <link refid="classjinja2_1_1nodes_1_1Expr"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.nodes.Literal</label>
+        <link refid="classjinja2_1_1nodes_1_1Literal"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>jinja2.nodes.Node</label>
+        <link refid="classjinja2_1_1nodes_1_1Node"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>jinja2.nodes.NodeType</label>
+        <link refid="classjinja2_1_1nodes_1_1NodeType"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>metaclass</label>
+      </node>
+      <node id="7">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="577" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="577" bodyend="607"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1nodes_1_1Const_1a025f1463e70e44af9df3097ece338c9f" prot="public" virt="non-virtual"><scope>jinja2::nodes::Const</scope><name>as_const</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Const_1a463aebb94c867bcd6e09ca88932f7d88" prot="public" virt="non-virtual"><scope>jinja2::nodes::Const</scope><name>fields</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Const_1a8e32edb3126020ebdcd23e0b3804f30c" prot="public" virt="non-virtual"><scope>jinja2::nodes::Const</scope><name>from_untrusted</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Const_1a2d447546dc1e80887f1f96af7ce8296f" prot="public" virt="non-virtual"><scope>jinja2::nodes::Const</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

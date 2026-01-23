@@ -1,0 +1,607 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer" kind="class" language="Python" prot="public">
+    <compoundname>pygments::lexers::c_cpp::CFamilyLexer</compoundname>
+    <basecompoundref refid="classpygments_1_1lexer_1_1RegexLexer" prot="public" virt="non-virtual">pygments.lexer.RegexLexer</basecompoundref>
+    <derivedcompoundref refid="classpygments_1_1lexers_1_1c__cpp_1_1CLexer" prot="public" virt="non-virtual">pygments.lexers.c_cpp.CLexer</derivedcompoundref>
+    <derivedcompoundref refid="classpygments_1_1lexers_1_1c__cpp_1_1CppLexer" prot="public" virt="non-virtual">pygments.lexers.c_cpp.CppLexer</derivedcompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a5028782e6a79957738ee3990eeddb8e8" prot="protected" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pygments.lexers.c_cpp.CFamilyLexer::_ws1</definition>
+        <argsstring></argsstring>
+        <name>_ws1</name>
+        <qualifiedname>pygments.lexers.c_cpp.CFamilyLexer._ws1</qualifiedname>
+        <initializer>=  r&apos;\s*(?:/[*].*?[*]/\s*)?&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" line="30" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1aa56a79238580a9cb9b3328f303fc08dc" prot="protected" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pygments.lexers.c_cpp.CFamilyLexer::_hexpart</definition>
+        <argsstring></argsstring>
+        <name>_hexpart</name>
+        <qualifiedname>pygments.lexers.c_cpp.CFamilyLexer._hexpart</qualifiedname>
+        <initializer>=  r&apos;[0-9a-fA-F](\&apos;?[0-9a-fA-F])*&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" line="34" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a41e949e62c314a9f7188361071eaf694" prot="protected" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pygments.lexers.c_cpp.CFamilyLexer::_decpart</definition>
+        <argsstring></argsstring>
+        <name>_decpart</name>
+        <qualifiedname>pygments.lexers.c_cpp.CFamilyLexer._decpart</qualifiedname>
+        <initializer>=  r&apos;\d(\&apos;?\d)*&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" line="37" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1adac02ce6c7b282141ef76bf923da281b" prot="protected" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pygments.lexers.c_cpp.CFamilyLexer::_intsuffix</definition>
+        <argsstring></argsstring>
+        <name>_intsuffix</name>
+        <qualifiedname>pygments.lexers.c_cpp.CFamilyLexer._intsuffix</qualifiedname>
+        <initializer>=  r&apos;(([uU][lL]{0,2})|[lL]{1,2}[uU]?)?&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" line="39" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a6e80e3058c1621aece563a9d5628d75f" prot="protected" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pygments.lexers.c_cpp.CFamilyLexer::_ident</definition>
+        <argsstring></argsstring>
+        <name>_ident</name>
+        <qualifiedname>pygments.lexers.c_cpp.CFamilyLexer._ident</qualifiedname>
+        <initializer>=  r&apos;(?!\d)(?:[\w$]|\\u[0-9a-fA-F]{4}|\\U[0-9a-fA-F]{8})+&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" line="42" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1ad68a2d4df093a322162173bc4d853083" prot="protected" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pygments.lexers.c_cpp.CFamilyLexer::_namespaced_ident</definition>
+        <argsstring></argsstring>
+        <name>_namespaced_ident</name>
+        <qualifiedname>pygments.lexers.c_cpp.CFamilyLexer._namespaced_ident</qualifiedname>
+        <initializer>=  r&apos;(?!\d)(?:[\w$]|\\u[0-9a-fA-F]{4}|\\U[0-9a-fA-F]{8}|::)+&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" line="43" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a88be5cb0140b50b61f3081add956ecdf" prot="protected" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pygments.lexers.c_cpp.CFamilyLexer::_comment_single</definition>
+        <argsstring></argsstring>
+        <name>_comment_single</name>
+        <qualifiedname>pygments.lexers.c_cpp.CFamilyLexer._comment_single</qualifiedname>
+        <initializer>=  r&apos;//(?:.|(?&lt;=\\)\n)*\n&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" line="50" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a023b314136ba4f93e91aca70c11ed063" prot="protected" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pygments.lexers.c_cpp.CFamilyLexer::_comment_multiline</definition>
+        <argsstring></argsstring>
+        <name>_comment_multiline</name>
+        <qualifiedname>pygments.lexers.c_cpp.CFamilyLexer._comment_multiline</qualifiedname>
+        <initializer>=  r&apos;/(?:\\\n)?[*](?:[^*]|[*](?!(?:\\\n)?/))*[*](?:\\\n)?/&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" line="51" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1afc3fcccaad56b634e09e09ae41fadd32" prot="protected" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pygments.lexers.c_cpp.CFamilyLexer::_possible_comments</definition>
+        <argsstring></argsstring>
+        <name>_possible_comments</name>
+        <qualifiedname>pygments.lexers.c_cpp.CFamilyLexer._possible_comments</qualifiedname>
+        <initializer>=  rf&apos;\s*(?:(?:(?:{<ref refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a88be5cb0140b50b61f3081add956ecdf" kindref="member">_comment_single</ref>})|(?:{<ref refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a023b314136ba4f93e91aca70c11ed063" kindref="member">_comment_multiline</ref>}))\s*)*&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" line="54" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1aec3811dfbe7f5910ca86a5bf129e7572" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pygments.lexers.c_cpp.CFamilyLexer::tokens</definition>
+        <argsstring></argsstring>
+        <name>tokens</name>
+        <qualifiedname>pygments.lexers.c_cpp.CFamilyLexer.tokens</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" line="56" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a45201c1eb42241051feecdfa5852de7c" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pygments.lexers.c_cpp.CFamilyLexer::stdlib_types</definition>
+        <argsstring></argsstring>
+        <name>stdlib_types</name>
+        <qualifiedname>pygments.lexers.c_cpp.CFamilyLexer.stdlib_types</qualifiedname>
+        <initializer>=  {
+        &apos;size_t&apos;, &apos;ssize_t&apos;, &apos;off_t&apos;, &apos;wchar_t&apos;, &apos;ptrdiff_t&apos;, &apos;sig_atomic_t&apos;, &apos;fpos_t&apos;,
+        &apos;clock_t&apos;, &apos;time_t&apos;, &apos;va_list&apos;, &apos;jmp_buf&apos;, &apos;FILE&apos;, &apos;DIR&apos;, &apos;div_t&apos;, &apos;ldiv_t&apos;,
+        &apos;mbstate_t&apos;, &apos;wctrans_t&apos;, &apos;wint_t&apos;, &apos;wctype_t&apos;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" line="221" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a5d0d8b540dddb48fccfec37b0ba5cf2d" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pygments.lexers.c_cpp.CFamilyLexer::c99_types</definition>
+        <argsstring></argsstring>
+        <name>c99_types</name>
+        <qualifiedname>pygments.lexers.c_cpp.CFamilyLexer.c99_types</qualifiedname>
+        <initializer>=  {
+        &apos;int8_t&apos;, &apos;int16_t&apos;, &apos;int32_t&apos;, &apos;int64_t&apos;, &apos;uint8_t&apos;,
+        &apos;uint16_t&apos;, &apos;uint32_t&apos;, &apos;uint64_t&apos;, &apos;int_least8_t&apos;, &apos;int_least16_t&apos;,
+        &apos;int_least32_t&apos;, &apos;int_least64_t&apos;, &apos;uint_least8_t&apos;, &apos;uint_least16_t&apos;,
+        &apos;uint_least32_t&apos;, &apos;uint_least64_t&apos;, &apos;int_fast8_t&apos;, &apos;int_fast16_t&apos;, &apos;int_fast32_t&apos;,
+        &apos;int_fast64_t&apos;, &apos;uint_fast8_t&apos;, &apos;uint_fast16_t&apos;, &apos;uint_fast32_t&apos;, &apos;uint_fast64_t&apos;,
+        &apos;intptr_t&apos;, &apos;uintptr_t&apos;, &apos;intmax_t&apos;, &apos;uintmax_t&apos;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" line="225" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a082aafbec9a41bd954bc27c241d0dae4" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pygments.lexers.c_cpp.CFamilyLexer::linux_types</definition>
+        <argsstring></argsstring>
+        <name>linux_types</name>
+        <qualifiedname>pygments.lexers.c_cpp.CFamilyLexer.linux_types</qualifiedname>
+        <initializer>=  {
+        &apos;clockid_t&apos;, &apos;cpu_set_t&apos;, &apos;cpumask_t&apos;, &apos;dev_t&apos;, &apos;gid_t&apos;, &apos;id_t&apos;, &apos;ino_t&apos;, &apos;key_t&apos;,
+        &apos;mode_t&apos;, &apos;nfds_t&apos;, &apos;pid_t&apos;, &apos;rlim_t&apos;, &apos;sig_t&apos;, &apos;sighandler_t&apos;, &apos;siginfo_t&apos;,
+        &apos;sigset_t&apos;, &apos;sigval_t&apos;, &apos;socklen_t&apos;, &apos;timer_t&apos;, &apos;uid_t&apos;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" line="232" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a705d8f934318d0c6e67c5ef44aef4b37" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pygments.lexers.c_cpp.CFamilyLexer::c11_atomic_types</definition>
+        <argsstring></argsstring>
+        <name>c11_atomic_types</name>
+        <qualifiedname>pygments.lexers.c_cpp.CFamilyLexer.c11_atomic_types</qualifiedname>
+        <initializer>=  {
+        &apos;atomic_bool&apos;, &apos;atomic_char&apos;, &apos;atomic_schar&apos;, &apos;atomic_uchar&apos;, &apos;atomic_short&apos;,
+        &apos;atomic_ushort&apos;, &apos;atomic_int&apos;, &apos;atomic_uint&apos;, &apos;atomic_long&apos;, &apos;atomic_ulong&apos;,
+        &apos;atomic_llong&apos;, &apos;atomic_ullong&apos;, &apos;atomic_char16_t&apos;, &apos;atomic_char32_t&apos;, &apos;atomic_wchar_t&apos;,
+        &apos;atomic_int_least8_t&apos;, &apos;atomic_uint_least8_t&apos;, &apos;atomic_int_least16_t&apos;,
+        &apos;atomic_uint_least16_t&apos;, &apos;atomic_int_least32_t&apos;, &apos;atomic_uint_least32_t&apos;,
+        &apos;atomic_int_least64_t&apos;, &apos;atomic_uint_least64_t&apos;, &apos;atomic_int_fast8_t&apos;,
+        &apos;atomic_uint_fast8_t&apos;, &apos;atomic_int_fast16_t&apos;, &apos;atomic_uint_fast16_t&apos;,
+        &apos;atomic_int_fast32_t&apos;, &apos;atomic_uint_fast32_t&apos;, &apos;atomic_int_fast64_t&apos;,
+        &apos;atomic_uint_fast64_t&apos;, &apos;atomic_intptr_t&apos;, &apos;atomic_uintptr_t&apos;, &apos;atomic_size_t&apos;,
+        &apos;atomic_ptrdiff_t&apos;, &apos;atomic_intmax_t&apos;, &apos;atomic_uintmax_t&apos;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" line="236" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" bodystart="236" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1aa89abc2f850d22ee416a487a23b93318" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments.lexers.c_cpp.CFamilyLexer::stdlibhighlighting</definition>
+        <argsstring></argsstring>
+        <name>stdlibhighlighting</name>
+        <qualifiedname>pygments.lexers.c_cpp.CFamilyLexer.stdlibhighlighting</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" line="249" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a006b155568020e96bd87b9e352d83100" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments.lexers.c_cpp.CFamilyLexer::c99highlighting</definition>
+        <argsstring></argsstring>
+        <name>c99highlighting</name>
+        <qualifiedname>pygments.lexers.c_cpp.CFamilyLexer.c99highlighting</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" line="250" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a92b426968e480704d0d302c1851d2894" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments.lexers.c_cpp.CFamilyLexer::c11highlighting</definition>
+        <argsstring></argsstring>
+        <name>c11highlighting</name>
+        <qualifiedname>pygments.lexers.c_cpp.CFamilyLexer.c11highlighting</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" line="251" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a7bab002345a92bfafab1e23d3f83875c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments.lexers.c_cpp.CFamilyLexer::platformhighlighting</definition>
+        <argsstring></argsstring>
+        <name>platformhighlighting</name>
+        <qualifiedname>pygments.lexers.c_cpp.CFamilyLexer.platformhighlighting</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" line="252" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" bodystart="252" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1aec606e074dde860475cb8adb9645289b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.lexers.c_cpp.CFamilyLexer.__init__</definition>
+        <argsstring>(self, **options)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pygments.lexers.c_cpp.CFamilyLexer.__init__</qualifiedname>
+        <reimplements refid="classpygments_1_1lexer_1_1Lexer_1ad4f2ca2ced009731f38895a0699e1067">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This constructor takes arbitrary options as keyword arguments.
+Every subclass must first process its own options and then call
+the `Lexer` constructor, since it processes the basic
+options like `stripnl`.
+
+An example looks like this:
+
+.. sourcecode:: python
+
+   def __init__(self, **options):
+       self.compress = options.get(&apos;compress&apos;, &apos;&apos;)
+       Lexer.__init__(self, **options)
+
+As these options must all be specifiable as strings (due to the
+command line usage), there are various utility functions
+available to help with that, see `Utilities`_.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" line="248" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" bodystart="248" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1af6a8982823e1c7a66c5f1e836b133d5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.lexers.c_cpp.CFamilyLexer.get_tokens_unprocessed</definition>
+        <argsstring>(self, text, stack=(&apos;root&apos;,))</argsstring>
+        <name>get_tokens_unprocessed</name>
+        <qualifiedname>pygments.lexers.c_cpp.CFamilyLexer.get_tokens_unprocessed</qualifiedname>
+        <reimplements refid="classpygments_1_1lexer_1_1RegexLexer_1a56bd1a609a7e589293afd2d71637f91a">get_tokens_unprocessed</reimplements>
+        <reimplementedby refid="classpygments_1_1lexers_1_1c__like_1_1CudaLexer_1ab2a274e12785bfe6ed746a1441ebf2c1">get_tokens_unprocessed</reimplementedby>
+        <reimplementedby refid="classpygments_1_1lexers_1_1c__like_1_1ArduinoLexer_1ad394a004d7a46227267d537e7a01772d">get_tokens_unprocessed</reimplementedby>
+        <reimplementedby refid="classpygments_1_1lexers_1_1freefem_1_1FreeFemLexer_1a386c6067ac70d30844ee9e4c4042ae1b">get_tokens_unprocessed</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>text</type>
+          <defname>text</defname>
+        </param>
+        <param>
+          <type>stack</type>
+          <defname>stack</defname>
+          <defval>(&apos;root&apos;,)</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Split ``text`` into (tokentype, text) pairs.
+
+``stack`` is the initial stack (default: ``[&apos;root&apos;]``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" line="255" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" bodystart="255" bodyend="269"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>For C family source code.  This is used as a base class to avoid repetitious
+definitions.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.lexers.c_cpp.CFamilyLexer</label>
+        <link refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexer.RegexLexer</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>pygments.lexer.RegexLexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>pygments.lexers.c_cpp.CLexer</label>
+        <link refid="classpygments_1_1lexers_1_1c__cpp_1_1CLexer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>pygments.lexers.c_cpp.CppLexer</label>
+        <link refid="classpygments_1_1lexers_1_1c__cpp_1_1CppLexer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>pygments.lexers.c_like.ArduinoLexer</label>
+        <link refid="classpygments_1_1lexers_1_1c__like_1_1ArduinoLexer"/>
+        <childnode refid="15" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>pygments.lexers.c_like.CharmciLexer</label>
+        <link refid="classpygments_1_1lexers_1_1c__like_1_1CharmciLexer"/>
+        <childnode refid="15" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>pygments.lexers.c_like.CudaLexer</label>
+        <link refid="classpygments_1_1lexers_1_1c__like_1_1CudaLexer"/>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>pygments.lexers.c_like.ECLexer</label>
+        <link refid="classpygments_1_1lexers_1_1c__like_1_1ECLexer"/>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>pygments.lexers.c_like.MqlLexer</label>
+        <link refid="classpygments_1_1lexers_1_1c__like_1_1MqlLexer"/>
+        <childnode refid="15" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>pygments.lexers.c_like.NesCLexer</label>
+        <link refid="classpygments_1_1lexers_1_1c__like_1_1NesCLexer"/>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>pygments.lexers.c_like.OmgIdlLexer</label>
+        <link refid="classpygments_1_1lexers_1_1c__like_1_1OmgIdlLexer"/>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>pygments.lexers.c_like.PikeLexer</label>
+        <link refid="classpygments_1_1lexers_1_1c__like_1_1PikeLexer"/>
+        <childnode refid="15" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>pygments.lexers.c_like.PromelaLexer</label>
+        <link refid="classpygments_1_1lexers_1_1c__like_1_1PromelaLexer"/>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>pygments.lexers.c_like.SwigLexer</label>
+        <link refid="classpygments_1_1lexers_1_1c__like_1_1SwigLexer"/>
+        <childnode refid="15" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>pygments.lexers.freefem.FreeFemLexer</label>
+        <link refid="classpygments_1_1lexers_1_1freefem_1_1FreeFemLexer"/>
+        <childnode refid="15" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>pygments.lexers.objective.LogosLexer</label>
+        <link refid="classpygments_1_1lexers_1_1objective_1_1LogosLexer"/>
+        <childnode refid="22" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>pygments.lexers.objective.ObjectiveCLexer</label>
+        <link refid="classpygments_1_1lexers_1_1objective_1_1ObjectiveCLexer"/>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>pygments.lexers.objective.ObjectiveCppLexer</label>
+        <link refid="classpygments_1_1lexers_1_1objective_1_1ObjectiveCppLexer"/>
+        <childnode refid="15" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="8">
+        <label>str</label>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.lexers.c_cpp.CFamilyLexer</label>
+        <link refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>_comment_multiline</edgelabel>
+          <edgelabel>_comment_single</edgelabel>
+          <edgelabel>_decpart</edgelabel>
+          <edgelabel>_hexpart</edgelabel>
+          <edgelabel>_ident</edgelabel>
+          <edgelabel>_intsuffix</edgelabel>
+          <edgelabel>_namespaced_ident</edgelabel>
+          <edgelabel>_possible_comments</edgelabel>
+          <edgelabel>_ws1</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexer.RegexLexer</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>pygments.lexer.RegexLexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" line="22" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/c_cpp.py" bodystart="22" bodyend="269"/>
+    <listofallmembers>
+      <member refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1aec606e074dde860475cb8adb9645289b" prot="public" virt="non-virtual"><scope>pygments::lexers::c_cpp::CFamilyLexer</scope><name>__init__</name></member>
+      <member refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a023b314136ba4f93e91aca70c11ed063" prot="protected" virt="non-virtual"><scope>pygments::lexers::c_cpp::CFamilyLexer</scope><name>_comment_multiline</name></member>
+      <member refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a88be5cb0140b50b61f3081add956ecdf" prot="protected" virt="non-virtual"><scope>pygments::lexers::c_cpp::CFamilyLexer</scope><name>_comment_single</name></member>
+      <member refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a41e949e62c314a9f7188361071eaf694" prot="protected" virt="non-virtual"><scope>pygments::lexers::c_cpp::CFamilyLexer</scope><name>_decpart</name></member>
+      <member refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1aa56a79238580a9cb9b3328f303fc08dc" prot="protected" virt="non-virtual"><scope>pygments::lexers::c_cpp::CFamilyLexer</scope><name>_hexpart</name></member>
+      <member refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a6e80e3058c1621aece563a9d5628d75f" prot="protected" virt="non-virtual"><scope>pygments::lexers::c_cpp::CFamilyLexer</scope><name>_ident</name></member>
+      <member refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1adac02ce6c7b282141ef76bf923da281b" prot="protected" virt="non-virtual"><scope>pygments::lexers::c_cpp::CFamilyLexer</scope><name>_intsuffix</name></member>
+      <member refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1ad68a2d4df093a322162173bc4d853083" prot="protected" virt="non-virtual"><scope>pygments::lexers::c_cpp::CFamilyLexer</scope><name>_namespaced_ident</name></member>
+      <member refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1afc3fcccaad56b634e09e09ae41fadd32" prot="protected" virt="non-virtual"><scope>pygments::lexers::c_cpp::CFamilyLexer</scope><name>_possible_comments</name></member>
+      <member refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a5028782e6a79957738ee3990eeddb8e8" prot="protected" virt="non-virtual"><scope>pygments::lexers::c_cpp::CFamilyLexer</scope><name>_ws1</name></member>
+      <member refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a705d8f934318d0c6e67c5ef44aef4b37" prot="public" virt="non-virtual"><scope>pygments::lexers::c_cpp::CFamilyLexer</scope><name>c11_atomic_types</name></member>
+      <member refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a92b426968e480704d0d302c1851d2894" prot="public" virt="non-virtual"><scope>pygments::lexers::c_cpp::CFamilyLexer</scope><name>c11highlighting</name></member>
+      <member refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a5d0d8b540dddb48fccfec37b0ba5cf2d" prot="public" virt="non-virtual"><scope>pygments::lexers::c_cpp::CFamilyLexer</scope><name>c99_types</name></member>
+      <member refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a006b155568020e96bd87b9e352d83100" prot="public" virt="non-virtual"><scope>pygments::lexers::c_cpp::CFamilyLexer</scope><name>c99highlighting</name></member>
+      <member refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1af6a8982823e1c7a66c5f1e836b133d5b" prot="public" virt="non-virtual"><scope>pygments::lexers::c_cpp::CFamilyLexer</scope><name>get_tokens_unprocessed</name></member>
+      <member refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a082aafbec9a41bd954bc27c241d0dae4" prot="public" virt="non-virtual"><scope>pygments::lexers::c_cpp::CFamilyLexer</scope><name>linux_types</name></member>
+      <member refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a7bab002345a92bfafab1e23d3f83875c" prot="public" virt="non-virtual"><scope>pygments::lexers::c_cpp::CFamilyLexer</scope><name>platformhighlighting</name></member>
+      <member refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1a45201c1eb42241051feecdfa5852de7c" prot="public" virt="non-virtual"><scope>pygments::lexers::c_cpp::CFamilyLexer</scope><name>stdlib_types</name></member>
+      <member refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1aa89abc2f850d22ee416a487a23b93318" prot="public" virt="non-virtual"><scope>pygments::lexers::c_cpp::CFamilyLexer</scope><name>stdlibhighlighting</name></member>
+      <member refid="classpygments_1_1lexers_1_1c__cpp_1_1CFamilyLexer_1aec3811dfbe7f5910ca86a5bf129e7572" prot="public" virt="non-virtual"><scope>pygments::lexers::c_cpp::CFamilyLexer</scope><name>tokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

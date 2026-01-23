@@ -1,0 +1,426 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepackaging_1_1__parser" kind="namespace" language="Python">
+    <compoundname>packaging::_parser</compoundname>
+    <innerclass refid="classpackaging_1_1__parser_1_1Node" prot="public">packaging::_parser::Node</innerclass>
+    <innerclass refid="classpackaging_1_1__parser_1_1Op" prot="public">packaging::_parser::Op</innerclass>
+    <innerclass refid="classpackaging_1_1__parser_1_1ParsedRequirement" prot="public">packaging::_parser::ParsedRequirement</innerclass>
+    <innerclass refid="classpackaging_1_1__parser_1_1Value" prot="public">packaging::_parser::Value</innerclass>
+    <innerclass refid="classpackaging_1_1__parser_1_1Variable" prot="public">packaging::_parser::Variable</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepackaging_1_1__parser_1a9f4b6fccd1f983b2f004b7f32806e26b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::_parser.MarkerVar</definition>
+        <argsstring></argsstring>
+        <name>MarkerVar</name>
+        <qualifiedname>packaging._parser.MarkerVar</qualifiedname>
+        <initializer>=  Union[<ref refid="classpackaging_1_1__parser_1_1Variable" kindref="compound">Variable</ref>, <ref refid="classpackaging_1_1__parser_1_1Value" kindref="compound">Value</ref>]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/_parser.py" line="44" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/_parser.py" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1__parser_1abdd265fe97e305cd5b8ac848d2e018a9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::_parser.MarkerItem</definition>
+        <argsstring></argsstring>
+        <name>MarkerItem</name>
+        <qualifiedname>packaging._parser.MarkerItem</qualifiedname>
+        <initializer>=  Tuple[<ref refid="namespacepackaging_1_1__parser_1a9f4b6fccd1f983b2f004b7f32806e26b" kindref="member">MarkerVar</ref>, <ref refid="classpackaging_1_1__parser_1_1Op" kindref="compound">Op</ref>, <ref refid="namespacepackaging_1_1__parser_1a9f4b6fccd1f983b2f004b7f32806e26b" kindref="member">MarkerVar</ref>]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/_parser.py" line="45" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/_parser.py" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1__parser_1a8140d720da5813cefb55a94d6c401d2e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::_parser.MarkerAtom</definition>
+        <argsstring></argsstring>
+        <name>MarkerAtom</name>
+        <qualifiedname>packaging._parser.MarkerAtom</qualifiedname>
+        <initializer>=  Union[<ref refid="namespacepackaging_1_1__parser_1abdd265fe97e305cd5b8ac848d2e018a9" kindref="member">MarkerItem</ref>, Sequence[&quot;MarkerAtom&quot;]]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/_parser.py" line="46" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/_parser.py" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1__parser_1aed4a00e454791c165a16acbec80ef560" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::_parser.MarkerList</definition>
+        <argsstring></argsstring>
+        <name>MarkerList</name>
+        <qualifiedname>packaging._parser.MarkerList</qualifiedname>
+        <initializer>=  Sequence[Union[&quot;MarkerList&quot;, <ref refid="namespacepackaging_1_1__parser_1a8140d720da5813cefb55a94d6c401d2e" kindref="member">MarkerAtom</ref>, str]]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/_parser.py" line="47" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/_parser.py" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepackaging_1_1__parser_1a4b8888f738ddf61dc343a9ed7f68b0f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpackaging_1_1__parser_1_1ParsedRequirement" kindref="compound">ParsedRequirement</ref></type>
+        <definition> ParsedRequirement packaging._parser.parse_requirement</definition>
+        <argsstring>(str source)</argsstring>
+        <name>parse_requirement</name>
+        <qualifiedname>packaging._parser.parse_requirement</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>source</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/_parser.py" line="61" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/_parser.py" bodystart="61" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__parser_1a2142b0219e75393e5f981a40c3b90fe1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpackaging_1_1__parser_1_1ParsedRequirement" kindref="compound">ParsedRequirement</ref></type>
+        <definition> ParsedRequirement packaging._parser._parse_requirement</definition>
+        <argsstring>(Tokenizer tokenizer)</argsstring>
+        <name>_parse_requirement</name>
+        <qualifiedname>packaging._parser._parse_requirement</qualifiedname>
+        <param>
+          <type><ref refid="classpackaging_1_1__tokenizer_1_1Tokenizer" kindref="compound">Tokenizer</ref></type>
+          <declname>tokenizer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>requirement = WS? IDENTIFIER WS? extras WS? requirement_details
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/_parser.py" line="65" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/_parser.py" bodystart="65" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__parser_1a9352065165f132337ecc6edcb9ccc14f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str, str, <ref refid="namespacepackaging_1_1__parser_1aed4a00e454791c165a16acbec80ef560" kindref="member">MarkerList</ref>|None]</type>
+        <definition> tuple[str, str, MarkerList | None] packaging._parser._parse_requirement_details</definition>
+        <argsstring>(Tokenizer tokenizer)</argsstring>
+        <name>_parse_requirement_details</name>
+        <qualifiedname>packaging._parser._parse_requirement_details</qualifiedname>
+        <param>
+          <type><ref refid="classpackaging_1_1__tokenizer_1_1Tokenizer" kindref="compound">Tokenizer</ref></type>
+          <declname>tokenizer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>requirement_details = AT URL (WS requirement_marker?)?
+                    | specifier WS? (requirement_marker)?
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/_parser.py" line="86" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/_parser.py" bodystart="88" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__parser_1aea28d306db4da8b18980128b9fb3b8d4" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepackaging_1_1__parser_1aed4a00e454791c165a16acbec80ef560" kindref="member">MarkerList</ref></type>
+        <definition> MarkerList packaging._parser._parse_requirement_marker</definition>
+        <argsstring>(Tokenizer tokenizer, *int span_start, str after)</argsstring>
+        <name>_parse_requirement_marker</name>
+        <qualifiedname>packaging._parser._parse_requirement_marker</qualifiedname>
+        <param>
+          <type><ref refid="classpackaging_1_1__tokenizer_1_1Tokenizer" kindref="compound">Tokenizer</ref></type>
+          <declname>tokenizer</declname>
+        </param>
+        <param>
+          <type>*int</type>
+          <declname>span_start</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>after</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>requirement_marker = SEMICOLON marker WS?
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/_parser.py" line="137" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/_parser.py" bodystart="139" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__parser_1a3c003698fc73f855875b9fda63472f19" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[str]</type>
+        <definition> list[str] packaging._parser._parse_extras</definition>
+        <argsstring>(Tokenizer tokenizer)</argsstring>
+        <name>_parse_extras</name>
+        <qualifiedname>packaging._parser._parse_extras</qualifiedname>
+        <param>
+          <type><ref refid="classpackaging_1_1__tokenizer_1_1Tokenizer" kindref="compound">Tokenizer</ref></type>
+          <declname>tokenizer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>extras = (LEFT_BRACKET wsp* extras_list? wsp* RIGHT_BRACKET)?
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/_parser.py" line="157" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/_parser.py" bodystart="157" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__parser_1a9fa76ad47778fcceb8c9cb48cef56c70" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[str]</type>
+        <definition> list[str] packaging._parser._parse_extras_list</definition>
+        <argsstring>(Tokenizer tokenizer)</argsstring>
+        <name>_parse_extras_list</name>
+        <qualifiedname>packaging._parser._parse_extras_list</qualifiedname>
+        <param>
+          <type><ref refid="classpackaging_1_1__tokenizer_1_1Tokenizer" kindref="compound">Tokenizer</ref></type>
+          <declname>tokenizer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>extras_list = identifier (wsp* &apos;,&apos; wsp* identifier)*
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/_parser.py" line="176" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/_parser.py" bodystart="176" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__parser_1af48dacd7bc864fd81461eae328b23494" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str packaging._parser._parse_specifier</definition>
+        <argsstring>(Tokenizer tokenizer)</argsstring>
+        <name>_parse_specifier</name>
+        <qualifiedname>packaging._parser._parse_specifier</qualifiedname>
+        <param>
+          <type><ref refid="classpackaging_1_1__tokenizer_1_1Tokenizer" kindref="compound">Tokenizer</ref></type>
+          <declname>tokenizer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>specifier = LEFT_PARENTHESIS WS? version_many WS? RIGHT_PARENTHESIS
+          | WS? version_many WS?
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/_parser.py" line="203" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/_parser.py" bodystart="203" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__parser_1a12be681be357eb1fe54294e9ca10115e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str packaging._parser._parse_version_many</definition>
+        <argsstring>(Tokenizer tokenizer)</argsstring>
+        <name>_parse_version_many</name>
+        <qualifiedname>packaging._parser._parse_version_many</qualifiedname>
+        <param>
+          <type><ref refid="classpackaging_1_1__tokenizer_1_1Tokenizer" kindref="compound">Tokenizer</ref></type>
+          <declname>tokenizer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>version_many = (SPECIFIER (WS? COMMA WS? SPECIFIER)*)?
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/_parser.py" line="220" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/_parser.py" bodystart="220" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__parser_1a695f6a22f415804252e73fa8fe7c6453" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepackaging_1_1__parser_1aed4a00e454791c165a16acbec80ef560" kindref="member">MarkerList</ref></type>
+        <definition> MarkerList packaging._parser.parse_marker</definition>
+        <argsstring>(str source)</argsstring>
+        <name>parse_marker</name>
+        <qualifiedname>packaging._parser.parse_marker</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>source</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/_parser.py" line="252" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/_parser.py" bodystart="252" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__parser_1a6c50d1363e628d3fc74a013d329b4950" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepackaging_1_1__parser_1aed4a00e454791c165a16acbec80ef560" kindref="member">MarkerList</ref></type>
+        <definition> MarkerList packaging._parser._parse_full_marker</definition>
+        <argsstring>(Tokenizer tokenizer)</argsstring>
+        <name>_parse_full_marker</name>
+        <qualifiedname>packaging._parser._parse_full_marker</qualifiedname>
+        <param>
+          <type><ref refid="classpackaging_1_1__tokenizer_1_1Tokenizer" kindref="compound">Tokenizer</ref></type>
+          <declname>tokenizer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/_parser.py" line="256" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/_parser.py" bodystart="256" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__parser_1aece95ee47c73dcdbf8d202a579fc8698" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepackaging_1_1__parser_1aed4a00e454791c165a16acbec80ef560" kindref="member">MarkerList</ref></type>
+        <definition> MarkerList packaging._parser._parse_marker</definition>
+        <argsstring>(Tokenizer tokenizer)</argsstring>
+        <name>_parse_marker</name>
+        <qualifiedname>packaging._parser._parse_marker</qualifiedname>
+        <param>
+          <type><ref refid="classpackaging_1_1__tokenizer_1_1Tokenizer" kindref="compound">Tokenizer</ref></type>
+          <declname>tokenizer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>marker = marker_atom (BOOLOP marker_atom)+
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/_parser.py" line="262" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/_parser.py" bodystart="262" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__parser_1aadef04ba155f5d7b55f14e8bdf0726b6" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepackaging_1_1__parser_1a8140d720da5813cefb55a94d6c401d2e" kindref="member">MarkerAtom</ref></type>
+        <definition> MarkerAtom packaging._parser._parse_marker_atom</definition>
+        <argsstring>(Tokenizer tokenizer)</argsstring>
+        <name>_parse_marker_atom</name>
+        <qualifiedname>packaging._parser._parse_marker_atom</qualifiedname>
+        <param>
+          <type><ref refid="classpackaging_1_1__tokenizer_1_1Tokenizer" kindref="compound">Tokenizer</ref></type>
+          <declname>tokenizer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>marker_atom = WS? LEFT_PARENTHESIS WS? marker WS? RIGHT_PARENTHESIS WS?
+            | WS? marker_item WS?
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/_parser.py" line="274" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/_parser.py" bodystart="274" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__parser_1ab186b4a8a89f15fbd4ce1bd4516f6189" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepackaging_1_1__parser_1abdd265fe97e305cd5b8ac848d2e018a9" kindref="member">MarkerItem</ref></type>
+        <definition> MarkerItem packaging._parser._parse_marker_item</definition>
+        <argsstring>(Tokenizer tokenizer)</argsstring>
+        <name>_parse_marker_item</name>
+        <qualifiedname>packaging._parser._parse_marker_item</qualifiedname>
+        <param>
+          <type><ref refid="classpackaging_1_1__tokenizer_1_1Tokenizer" kindref="compound">Tokenizer</ref></type>
+          <declname>tokenizer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>marker_item = WS? marker_var WS? marker_op WS? marker_var WS?
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/_parser.py" line="296" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/_parser.py" bodystart="296" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__parser_1a903f5b5c8a32688e0bcc7e19e80f5ee4" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepackaging_1_1__parser_1a9f4b6fccd1f983b2f004b7f32806e26b" kindref="member">MarkerVar</ref></type>
+        <definition> MarkerVar packaging._parser._parse_marker_var</definition>
+        <argsstring>(Tokenizer tokenizer)</argsstring>
+        <name>_parse_marker_var</name>
+        <qualifiedname>packaging._parser._parse_marker_var</qualifiedname>
+        <param>
+          <type><ref refid="classpackaging_1_1__tokenizer_1_1Tokenizer" kindref="compound">Tokenizer</ref></type>
+          <declname>tokenizer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>marker_var = VARIABLE | QUOTED_STRING
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/_parser.py" line="310" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/_parser.py" bodystart="310" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__parser_1af152ab850afac9bd975fedf16e3bf509" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpackaging_1_1__parser_1_1Variable" kindref="compound">Variable</ref></type>
+        <definition> Variable packaging._parser.process_env_var</definition>
+        <argsstring>(str env_var)</argsstring>
+        <name>process_env_var</name>
+        <qualifiedname>packaging._parser.process_env_var</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>env_var</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/_parser.py" line="324" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/_parser.py" bodystart="324" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__parser_1a6f215513a9ea6931f80015934d89c7d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpackaging_1_1__parser_1_1Value" kindref="compound">Value</ref></type>
+        <definition> Value packaging._parser.process_python_str</definition>
+        <argsstring>(str python_str)</argsstring>
+        <name>process_python_str</name>
+        <qualifiedname>packaging._parser.process_python_str</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>python_str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/_parser.py" line="331" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/_parser.py" bodystart="331" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1__parser_1ac236faf57df754f111d6276373653196" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpackaging_1_1__parser_1_1Op" kindref="compound">Op</ref></type>
+        <definition> Op packaging._parser._parse_marker_op</definition>
+        <argsstring>(Tokenizer tokenizer)</argsstring>
+        <name>_parse_marker_op</name>
+        <qualifiedname>packaging._parser._parse_marker_op</qualifiedname>
+        <param>
+          <type><ref refid="classpackaging_1_1__tokenizer_1_1Tokenizer" kindref="compound">Tokenizer</ref></type>
+          <declname>tokenizer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>marker_op = IN | NOT IN | OP
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/_parser.py" line="336" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/_parser.py" bodystart="336" bodyend="354"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Handwritten parser of dependency specifiers.
+
+The docstring for each __parse_* function contains EBNF-inspired grammar representing
+the implementation.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/packaging/_parser.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

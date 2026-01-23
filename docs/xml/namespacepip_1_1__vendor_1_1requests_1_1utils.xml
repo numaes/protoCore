@@ -1,0 +1,1193 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1requests_1_1utils" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::requests::utils</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a4bd216d63008d5fc3c486a301800ac79" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pip::_vendor::requests::utils.NETRC_FILES</definition>
+        <argsstring></argsstring>
+        <name>NETRC_FILES</name>
+        <qualifiedname>pip._vendor.requests.utils.NETRC_FILES</qualifiedname>
+        <initializer>=  (&quot;.netrc&quot;, &quot;_netrc&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="61" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a90083bae612556808bc467d2f9281b3e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::requests::utils.DEFAULT_CA_BUNDLE_PATH</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_CA_BUNDLE_PATH</name>
+        <qualifiedname>pip._vendor.requests.utils.DEFAULT_CA_BUNDLE_PATH</qualifiedname>
+        <initializer>=  certs.where()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="63" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a36f3b9afb4fac0cfbbd9cc66739bb563" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict pip::_vendor::requests::utils.DEFAULT_PORTS</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_PORTS</name>
+        <qualifiedname>pip._vendor.requests.utils.DEFAULT_PORTS</qualifiedname>
+        <initializer>=  {&quot;http&quot;: 80, &quot;https&quot;: 443}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="65" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a2187911732e786a177683fe87d407957" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_vendor::requests::utils.DEFAULT_ACCEPT_ENCODING</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_ACCEPT_ENCODING</name>
+        <qualifiedname>pip._vendor.requests.utils.DEFAULT_ACCEPT_ENCODING</qualifiedname>
+        <initializer>=  &quot;, &quot;.join(
+    re.split(r&quot;,\s*&quot;, make_headers(accept_encoding=True)[&quot;accept-encoding&quot;])
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="68" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a9efd52995ea17b4eb8e2e2ae90f5eab1" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::requests::utils.UNRESERVED_SET</definition>
+        <argsstring></argsstring>
+        <name>UNRESERVED_SET</name>
+        <qualifiedname>pip._vendor.requests.utils.UNRESERVED_SET</qualifiedname>
+        <initializer>=  frozenset(
+    &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&quot; + &quot;0123456789-._~&quot;
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="630" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="630" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a51d2bac54ce755611a6ee46ae55a2ee2" prot="protected" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_vendor::requests::utils._null</definition>
+        <argsstring></argsstring>
+        <name>_null</name>
+        <qualifiedname>pip._vendor.requests.utils._null</qualifiedname>
+        <initializer>=  &quot;\x00&quot;.encode(&quot;ascii&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="950" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="950" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a7d0fcdee130757d8b0cd6cc89f4697ff" prot="protected" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_vendor::requests::utils._null2</definition>
+        <argsstring></argsstring>
+        <name>_null2</name>
+        <qualifiedname>pip._vendor.requests.utils._null2</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1requests_1_1utils_1a51d2bac54ce755611a6ee46ae55a2ee2" kindref="member">_null</ref> * 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="951" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="951" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a7e61ed21f738e839bb97c6a688a03bb0" prot="protected" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_vendor::requests::utils._null3</definition>
+        <argsstring></argsstring>
+        <name>_null3</name>
+        <qualifiedname>pip._vendor.requests.utils._null3</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1requests_1_1utils_1a51d2bac54ce755611a6ee46ae55a2ee2" kindref="member">_null</ref> * 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="952" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="952" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1ab9bfeef7b1bd8ab50558bed71a875160" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.proxy_bypass_registry</definition>
+        <argsstring>(host)</argsstring>
+        <name>proxy_bypass_registry</name>
+        <qualifiedname>pip._vendor.requests.utils.proxy_bypass_registry</qualifiedname>
+        <param>
+          <type>host</type>
+          <defname>host</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="76" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="76" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a29d202bcb5f5e527817a44a69547661c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.proxy_bypass</definition>
+        <argsstring>(host)</argsstring>
+        <name>proxy_bypass</name>
+        <qualifiedname>pip._vendor.requests.utils.proxy_bypass</qualifiedname>
+        <param>
+          <type>host</type>
+          <defname>host</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return True, if the host should be bypassed.
+
+Checks proxy settings gathered from the environment, if specified,
+or the registry.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="112" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="112" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a253f64f7c4cacce4600f190bf93af21b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.dict_to_sequence</definition>
+        <argsstring>(d)</argsstring>
+        <name>dict_to_sequence</name>
+        <qualifiedname>pip._vendor.requests.utils.dict_to_sequence</qualifiedname>
+        <param>
+          <type>d</type>
+          <defname>d</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns an internal sequence dictionary update.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="124" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="124" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a80ba31f8a842adc410e5fb326ee61255" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.super_len</definition>
+        <argsstring>(o)</argsstring>
+        <name>super_len</name>
+        <qualifiedname>pip._vendor.requests.utils.super_len</qualifiedname>
+        <param>
+          <type>o</type>
+          <defname>o</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="133" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="133" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a4ebe3ada85dd064d62e1ca4ceb525f21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.get_netrc_auth</definition>
+        <argsstring>(url, raise_errors=False)</argsstring>
+        <name>get_netrc_auth</name>
+        <qualifiedname>pip._vendor.requests.utils.get_netrc_auth</qualifiedname>
+        <param>
+          <type>url</type>
+          <defname>url</defname>
+        </param>
+        <param>
+          <type>raise_errors</type>
+          <defname>raise_errors</defname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns the Requests tuple auth for a given url from netrc.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="199" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="199" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a6927676c319993c652a90f15bad1e033" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.guess_filename</definition>
+        <argsstring>(obj)</argsstring>
+        <name>guess_filename</name>
+        <qualifiedname>pip._vendor.requests.utils.guess_filename</qualifiedname>
+        <param>
+          <type>obj</type>
+          <defname>obj</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Tries to guess the filename of the given object.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="256" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="256" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a3aff89e91f85fe653b90d50d84a41c3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.extract_zipped_paths</definition>
+        <argsstring>(path)</argsstring>
+        <name>extract_zipped_paths</name>
+        <qualifiedname>pip._vendor.requests.utils.extract_zipped_paths</qualifiedname>
+        <param>
+          <type>path</type>
+          <defname>path</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Replace nonexistent paths that look like they refer to a member of a zip
+archive with the location of an extracted copy of the target, or else
+just return the provided path unchanged.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="263" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="263" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1abe70bfdb0fe68a1dc8f7cc239ede29a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.atomic_open</definition>
+        <argsstring>(filename)</argsstring>
+        <name>atomic_open</name>
+        <qualifiedname>pip._vendor.requests.utils.atomic_open</qualifiedname>
+        <param>
+          <type>filename</type>
+          <defname>filename</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Write a file to the disk in an atomic fashion</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="301" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="301" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1aeca8391c407ef736606acfbc13fdcb0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.from_key_val_list</definition>
+        <argsstring>(value)</argsstring>
+        <name>from_key_val_list</name>
+        <qualifiedname>pip._vendor.requests.utils.from_key_val_list</qualifiedname>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Take an object and test to see if it can be represented as a
+dictionary. Unless it can not be represented as such, return an
+OrderedDict, e.g.,
+
+::
+
+    &gt;&gt;&gt; from_key_val_list([(&apos;key&apos;, &apos;val&apos;)])
+    OrderedDict([(&apos;key&apos;, &apos;val&apos;)])
+    &gt;&gt;&gt; from_key_val_list(&apos;string&apos;)
+    Traceback (most recent call last):
+    ...
+    ValueError: cannot encode objects that are not 2-tuples
+    &gt;&gt;&gt; from_key_val_list({&apos;key&apos;: &apos;val&apos;})
+    OrderedDict([(&apos;key&apos;, &apos;val&apos;)])
+
+:rtype: OrderedDict
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="313" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="313" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a4f34c2ad0c07f7ecd393c45254712b56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.to_key_val_list</definition>
+        <argsstring>(value)</argsstring>
+        <name>to_key_val_list</name>
+        <qualifiedname>pip._vendor.requests.utils.to_key_val_list</qualifiedname>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Take an object and test to see if it can be represented as a
+dictionary. If it can be, return a list of tuples, e.g.,
+
+::
+
+    &gt;&gt;&gt; to_key_val_list([(&apos;key&apos;, &apos;val&apos;)])
+    [(&apos;key&apos;, &apos;val&apos;)]
+    &gt;&gt;&gt; to_key_val_list({&apos;key&apos;: &apos;val&apos;})
+    [(&apos;key&apos;, &apos;val&apos;)]
+    &gt;&gt;&gt; to_key_val_list(&apos;string&apos;)
+    Traceback (most recent call last):
+    ...
+    ValueError: cannot encode objects that are not 2-tuples
+
+:rtype: list
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="340" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="340" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a50e80d1682e2e32e734264ba32810399" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.parse_list_header</definition>
+        <argsstring>(value)</argsstring>
+        <name>parse_list_header</name>
+        <qualifiedname>pip._vendor.requests.utils.parse_list_header</qualifiedname>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse lists as described by RFC 2068 Section 2.
+
+In particular, parse comma-separated lists where the elements of
+the list may include quoted-strings.  A quoted-string could
+contain a comma.  A non-quoted string could have quotes in the
+middle.  Quotes are removed automatically after parsing.
+
+It basically works like :func:`parse_set_header` just that items
+may appear multiple times and case sensitivity is preserved.
+
+The return value is a standard :class:`list`:
+
+&gt;&gt;&gt; parse_list_header(&apos;token, &quot;quoted value&quot;&apos;)
+[&apos;token&apos;, &apos;quoted value&apos;]
+
+To create a header from the :class:`list` again, use the
+:func:`dump_header` function.
+
+:param value: a string with a list header.
+:return: :class:`list`
+:rtype: list
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="370" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="370" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a1a43b5b12dfa184886e9c33de337469b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.parse_dict_header</definition>
+        <argsstring>(value)</argsstring>
+        <name>parse_dict_header</name>
+        <qualifiedname>pip._vendor.requests.utils.parse_dict_header</qualifiedname>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse lists of key, value pairs as described by RFC 2068 Section 2 and
+convert them into a python dict:
+
+&gt;&gt;&gt; d = parse_dict_header(&apos;foo=&quot;is a fish&quot;, bar=&quot;as well&quot;&apos;)
+&gt;&gt;&gt; type(d) is dict
+True
+&gt;&gt;&gt; sorted(d.items())
+[(&apos;bar&apos;, &apos;as well&apos;), (&apos;foo&apos;, &apos;is a fish&apos;)]
+
+If there is no value for a key it will be `None`:
+
+&gt;&gt;&gt; parse_dict_header(&apos;key_without_value&apos;)
+{&apos;key_without_value&apos;: None}
+
+To create a header from the :class:`dict` again, use the
+:func:`dump_header` function.
+
+:param value: a string with a dict header.
+:return: :class:`dict`
+:rtype: dict
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="402" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="402" bodyend="436"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a6293a26c126a1ed3ce7aa569159c82a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.unquote_header_value</definition>
+        <argsstring>(value, is_filename=False)</argsstring>
+        <name>unquote_header_value</name>
+        <qualifiedname>pip._vendor.requests.utils.unquote_header_value</qualifiedname>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+        </param>
+        <param>
+          <type>is_filename</type>
+          <defname>is_filename</defname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Unquotes a header value.  (Reversal of :func:`quote_header_value`).
+This does not use the real unquoting but what browsers are actually
+using for quoting.
+
+:param value: the header value to unquote.
+:rtype: str
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="437" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="437" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a2a9a1409c5ef494c62521a99136c3e66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.dict_from_cookiejar</definition>
+        <argsstring>(cj)</argsstring>
+        <name>dict_from_cookiejar</name>
+        <qualifiedname>pip._vendor.requests.utils.dict_from_cookiejar</qualifiedname>
+        <param>
+          <type>cj</type>
+          <defname>cj</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a key/value dictionary from a CookieJar.
+
+:param cj: CookieJar object to extract cookies from.
+:rtype: dict
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="462" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="462" bodyend="476"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1adae5c266a3223fa6a0dc2a84f4859404" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.add_dict_to_cookiejar</definition>
+        <argsstring>(cj, cookie_dict)</argsstring>
+        <name>add_dict_to_cookiejar</name>
+        <qualifiedname>pip._vendor.requests.utils.add_dict_to_cookiejar</qualifiedname>
+        <param>
+          <type>cj</type>
+          <defname>cj</defname>
+        </param>
+        <param>
+          <type>cookie_dict</type>
+          <defname>cookie_dict</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a CookieJar from a key/value dictionary.
+
+:param cj: CookieJar to insert cookies into.
+:param cookie_dict: Dict of key/values to insert into CookieJar.
+:rtype: CookieJar
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="477" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="477" bodyend="487"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a3bff891105e8afe15f65080e830b2d98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.get_encodings_from_content</definition>
+        <argsstring>(content)</argsstring>
+        <name>get_encodings_from_content</name>
+        <qualifiedname>pip._vendor.requests.utils.get_encodings_from_content</qualifiedname>
+        <param>
+          <type>content</type>
+          <defname>content</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns encodings from given content string.
+
+:param content: bytestring to extract encodings from.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="488" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="488" bodyend="512"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1ac96bd5abafa3921fcc7ea98f5121822a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils._parse_content_type_header</definition>
+        <argsstring>(header)</argsstring>
+        <name>_parse_content_type_header</name>
+        <qualifiedname>pip._vendor.requests.utils._parse_content_type_header</qualifiedname>
+        <param>
+          <type>header</type>
+          <defname>header</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns content type and parameters from given header
+
+:param header: string
+:return: tuple containing content type and dictionary of
+     parameters
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="513" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="513" bodyend="537"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a4a6d7e818f52a53abbc4401aa1278c02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.get_encoding_from_headers</definition>
+        <argsstring>(headers)</argsstring>
+        <name>get_encoding_from_headers</name>
+        <qualifiedname>pip._vendor.requests.utils.get_encoding_from_headers</qualifiedname>
+        <param>
+          <type>headers</type>
+          <defname>headers</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns encodings from given HTTP Header Dict.
+
+:param headers: dictionary to extract encoding from.
+:rtype: str
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="538" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="538" bodyend="562"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1af81a9ac07dc310410f398b4d2e82235a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.stream_decode_response_unicode</definition>
+        <argsstring>(iterator, r)</argsstring>
+        <name>stream_decode_response_unicode</name>
+        <qualifiedname>pip._vendor.requests.utils.stream_decode_response_unicode</qualifiedname>
+        <param>
+          <type>iterator</type>
+          <defname>iterator</defname>
+        </param>
+        <param>
+          <type>r</type>
+          <defname>r</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Stream decodes an iterator.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="563" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="563" bodyend="579"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a146c849b8628ef47ef59ff23fb7c966a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.iter_slices</definition>
+        <argsstring>(string, slice_length)</argsstring>
+        <name>iter_slices</name>
+        <qualifiedname>pip._vendor.requests.utils.iter_slices</qualifiedname>
+        <param>
+          <type>string</type>
+          <defname>string</defname>
+        </param>
+        <param>
+          <type>slice_length</type>
+          <defname>slice_length</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Iterate over slices of a string.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="580" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="580" bodyend="589"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1ae66a4c76bf9d6bb9a9a1bcd12d54c729" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.get_unicode_from_response</definition>
+        <argsstring>(r)</argsstring>
+        <name>get_unicode_from_response</name>
+        <qualifiedname>pip._vendor.requests.utils.get_unicode_from_response</qualifiedname>
+        <param>
+          <type>r</type>
+          <defname>r</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns the requested content back in unicode.
+
+:param r: Response object to get unicode content from.
+
+Tried:
+
+1. charset from content-type
+2. fall back and replace all unicode characters
+
+:rtype: str
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="590" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="590" bodyend="629"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a3466dbee542e9d8c5c72fe9f14707104" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.unquote_unreserved</definition>
+        <argsstring>(uri)</argsstring>
+        <name>unquote_unreserved</name>
+        <qualifiedname>pip._vendor.requests.utils.unquote_unreserved</qualifiedname>
+        <param>
+          <type>uri</type>
+          <defname>uri</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Un-escape any percent-escape sequences in a URI that are unreserved
+characters. This leaves all reserved, illegal and non-ASCII bytes encoded.
+
+:rtype: str
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="635" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="635" bodyend="658"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a5423e55b72b0579ee62756de012f46d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.requote_uri</definition>
+        <argsstring>(uri)</argsstring>
+        <name>requote_uri</name>
+        <qualifiedname>pip._vendor.requests.utils.requote_uri</qualifiedname>
+        <param>
+          <type>uri</type>
+          <defname>uri</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Re-quote the given URI.
+
+This function passes the given URI through an unquote/quote cycle to
+ensure that it is fully and consistently quoted.
+
+:rtype: str
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="659" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="659" bodyend="680"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a114697978d5f129b856615f0c4bf5a3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.address_in_network</definition>
+        <argsstring>(ip, net)</argsstring>
+        <name>address_in_network</name>
+        <qualifiedname>pip._vendor.requests.utils.address_in_network</qualifiedname>
+        <param>
+          <type>ip</type>
+          <defname>ip</defname>
+        </param>
+        <param>
+          <type>net</type>
+          <defname>net</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This function allows you to check if an IP belongs to a network subnet
+
+Example: returns True if ip = 192.168.1.1 and net = 192.168.1.0/24
+         returns False if ip = 192.168.1.1 and net = 192.168.100.0/24
+
+:rtype: bool
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="681" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="681" bodyend="695"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1af0b29a36fd2d548ef522110ead8f664a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.dotted_netmask</definition>
+        <argsstring>(mask)</argsstring>
+        <name>dotted_netmask</name>
+        <qualifiedname>pip._vendor.requests.utils.dotted_netmask</qualifiedname>
+        <param>
+          <type>mask</type>
+          <defname>mask</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Converts mask from /xx format to xxx.xxx.xxx.xxx
+
+Example: if mask is 24 function returns 255.255.255.0
+
+:rtype: str
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="696" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="696" bodyend="706"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a80a4becbc984d87681f2cd42e48acc46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.is_ipv4_address</definition>
+        <argsstring>(string_ip)</argsstring>
+        <name>is_ipv4_address</name>
+        <qualifiedname>pip._vendor.requests.utils.is_ipv4_address</qualifiedname>
+        <param>
+          <type>string_ip</type>
+          <defname>string_ip</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>:rtype: bool
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="707" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="707" bodyend="717"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1aa3eb1ea7d3a77b5705f89a47a772269f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.is_valid_cidr</definition>
+        <argsstring>(string_network)</argsstring>
+        <name>is_valid_cidr</name>
+        <qualifiedname>pip._vendor.requests.utils.is_valid_cidr</qualifiedname>
+        <param>
+          <type>string_network</type>
+          <defname>string_network</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Very simple check of the cidr format in no_proxy variable.
+
+:rtype: bool
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="718" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="718" bodyend="742"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1aefbee085b705b3603de28c6fce351b47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.set_environ</definition>
+        <argsstring>(env_name, value)</argsstring>
+        <name>set_environ</name>
+        <qualifiedname>pip._vendor.requests.utils.set_environ</qualifiedname>
+        <param>
+          <type>env_name</type>
+          <defname>env_name</defname>
+        </param>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Set the environment variable &apos;env_name&apos; to &apos;value&apos;
+
+Save previous value, yield, and then restore the previous value stored in
+the environment variable &apos;env_name&apos;.
+
+If &apos;value&apos; is None, do nothing</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="743" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="743" bodyend="763"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a75276d72afc82861d23d42f3c3e646f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.should_bypass_proxies</definition>
+        <argsstring>(url, no_proxy)</argsstring>
+        <name>should_bypass_proxies</name>
+        <qualifiedname>pip._vendor.requests.utils.should_bypass_proxies</qualifiedname>
+        <param>
+          <type>url</type>
+          <defname>url</defname>
+        </param>
+        <param>
+          <type>no_proxy</type>
+          <defname>no_proxy</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns whether we should bypass proxies or not.
+
+:rtype: bool
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="764" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="764" bodyend="823"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a00d7f5079d848378c8948f18673b3240" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.get_environ_proxies</definition>
+        <argsstring>(url, no_proxy=None)</argsstring>
+        <name>get_environ_proxies</name>
+        <qualifiedname>pip._vendor.requests.utils.get_environ_proxies</qualifiedname>
+        <param>
+          <type>url</type>
+          <defname>url</defname>
+        </param>
+        <param>
+          <type>no_proxy</type>
+          <defname>no_proxy</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a dict of environment proxies.
+
+:rtype: dict
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="824" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="824" bodyend="835"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a857d94588946349f3aecb0e3af1d7458" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.select_proxy</definition>
+        <argsstring>(url, proxies)</argsstring>
+        <name>select_proxy</name>
+        <qualifiedname>pip._vendor.requests.utils.select_proxy</qualifiedname>
+        <param>
+          <type>url</type>
+          <defname>url</defname>
+        </param>
+        <param>
+          <type>proxies</type>
+          <defname>proxies</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Select a proxy for the url, if applicable.
+
+:param url: The url being for the request
+:param proxies: A dictionary of schemes or schemes and hosts to proxy URLs
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="836" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="836" bodyend="861"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a112294a04691188f24f195a40f1710f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.resolve_proxies</definition>
+        <argsstring>(request, proxies, trust_env=True)</argsstring>
+        <name>resolve_proxies</name>
+        <qualifiedname>pip._vendor.requests.utils.resolve_proxies</qualifiedname>
+        <param>
+          <type>request</type>
+          <defname>request</defname>
+        </param>
+        <param>
+          <type>proxies</type>
+          <defname>proxies</defname>
+        </param>
+        <param>
+          <type>trust_env</type>
+          <defname>trust_env</defname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This method takes proxy information from a request and configuration
+input to resolve a mapping of target proxies. This will consider settings
+such a NO_PROXY to strip proxy configurations.
+
+:param request: Request or PreparedRequest
+:param proxies: A dictionary of schemes or schemes and hosts to proxy URLs
+:param trust_env: Boolean declaring whether to trust environment configs
+
+:rtype: dict
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="862" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="862" bodyend="888"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1ad6502d82070b39a2413ddf6d81b05af5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.default_user_agent</definition>
+        <argsstring>(name=&quot;python-requests&quot;)</argsstring>
+        <name>default_user_agent</name>
+        <qualifiedname>pip._vendor.requests.utils.default_user_agent</qualifiedname>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+          <defval>&quot;python-requests&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a string representing the default user agent.
+
+:rtype: str
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="889" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="889" bodyend="897"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a87cf0aa2d04aca50f4f60ed55d1fa2f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.default_headers</definition>
+        <argsstring>()</argsstring>
+        <name>default_headers</name>
+        <qualifiedname>pip._vendor.requests.utils.default_headers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>:rtype: requests.structures.CaseInsensitiveDict
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="898" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="898" bodyend="911"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1ab760a5b31c88de6609be7af1a554fe63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.parse_header_links</definition>
+        <argsstring>(value)</argsstring>
+        <name>parse_header_links</name>
+        <qualifiedname>pip._vendor.requests.utils.parse_header_links</qualifiedname>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a list of parsed link headers proxies.
+
+i.e. Link: &lt;http:/.../front.jpeg&gt;; rel=front; type=&quot;image/jpeg&quot;,&lt;http://.../back.jpeg&gt;; rel=back;type=&quot;image/jpeg&quot;
+
+:rtype: list
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="912" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="912" bodyend="949"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1ae4e7b8af6feeeacb2a3156f25ce19d75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.guess_json_utf</definition>
+        <argsstring>(data)</argsstring>
+        <name>guess_json_utf</name>
+        <qualifiedname>pip._vendor.requests.utils.guess_json_utf</qualifiedname>
+        <param>
+          <type>data</type>
+          <defname>data</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>:rtype: str
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="955" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="955" bodyend="986"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a8ed6aa8a2fdf1fb5f6a6a7095cf8faf4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.prepend_scheme_if_needed</definition>
+        <argsstring>(url, new_scheme)</argsstring>
+        <name>prepend_scheme_if_needed</name>
+        <qualifiedname>pip._vendor.requests.utils.prepend_scheme_if_needed</qualifiedname>
+        <param>
+          <type>url</type>
+          <defname>url</defname>
+        </param>
+        <param>
+          <type>new_scheme</type>
+          <defname>new_scheme</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Given a URL that may or may not have a scheme, prepend the given scheme.
+Does not replace a present scheme with the one provided as an argument.
+
+:rtype: str
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="987" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="987" bodyend="1015"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a25e5e1537e95954290592342323d2779" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.get_auth_from_url</definition>
+        <argsstring>(url)</argsstring>
+        <name>get_auth_from_url</name>
+        <qualifiedname>pip._vendor.requests.utils.get_auth_from_url</qualifiedname>
+        <param>
+          <type>url</type>
+          <defname>url</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Given a url with authentication components, extract them into a tuple of
+username,password.
+
+:rtype: (str,str)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="1016" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="1016" bodyend="1031"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1add2ddc2656ca902e8855e209ccf11e40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.check_header_validity</definition>
+        <argsstring>(header)</argsstring>
+        <name>check_header_validity</name>
+        <qualifiedname>pip._vendor.requests.utils.check_header_validity</qualifiedname>
+        <param>
+          <type>header</type>
+          <defname>header</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Verifies that header parts don&apos;t contain leading whitespace
+reserved characters, or return characters.
+
+:param header: tuple, in the format (name, value).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="1032" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="1032" bodyend="1042"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a6e3ea8ad157813149bf1dae4f1ed6a1e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils._validate_header_part</definition>
+        <argsstring>(header, header_part, header_validator_index)</argsstring>
+        <name>_validate_header_part</name>
+        <qualifiedname>pip._vendor.requests.utils._validate_header_part</qualifiedname>
+        <param>
+          <type>header</type>
+          <defname>header</defname>
+        </param>
+        <param>
+          <type>header_part</type>
+          <defname>header_part</defname>
+        </param>
+        <param>
+          <type>header_validator_index</type>
+          <defname>header_validator_index</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="1043" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="1043" bodyend="1061"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1adfd3a3dba80979701c8848cf024c39b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.urldefragauth</definition>
+        <argsstring>(url)</argsstring>
+        <name>urldefragauth</name>
+        <qualifiedname>pip._vendor.requests.utils.urldefragauth</qualifiedname>
+        <param>
+          <type>url</type>
+          <defname>url</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Given a url remove the fragment and the authentication part.
+
+:rtype: str
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="1062" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="1062" bodyend="1078"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1utils_1a378346aaca22bed0897039598754b605" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.utils.rewind_body</definition>
+        <argsstring>(prepared_request)</argsstring>
+        <name>rewind_body</name>
+        <qualifiedname>pip._vendor.requests.utils.rewind_body</qualifiedname>
+        <param>
+          <type>prepared_request</type>
+          <defname>prepared_request</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Move file pointer back to its recorded starting position
+so it can be read again on redirect.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="1079" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" bodystart="1079" bodyend="1095"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>requests.utils
+~~~~~~~~~~~~~~
+
+This module provides utility functions that are used within Requests
+that are also useful for external consumption.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/utils.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

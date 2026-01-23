@@ -1,0 +1,508 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::ext::autodoc::ModuleDocumenter</compoundname>
+    <basecompoundref refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter" prot="public" virt="non-virtual">sphinx.ext.autodoc.Documenter</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a376beb31fc6e3182ef49bd3ec4dac74b" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str sphinx.ext.autodoc.ModuleDocumenter::objtype</definition>
+        <argsstring></argsstring>
+        <name>objtype</name>
+        <qualifiedname>sphinx.ext.autodoc.ModuleDocumenter.objtype</qualifiedname>
+        <initializer>=  &apos;<ref refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter_1a7e2d450fcf19bfa582d3b4e19965ceaa" kindref="member">module</ref>&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1127" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a3440d0424d29b63086d95f87a5e3e3b3" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str sphinx.ext.autodoc.ModuleDocumenter::content_indent</definition>
+        <argsstring></argsstring>
+        <name>content_indent</name>
+        <qualifiedname>sphinx.ext.autodoc.ModuleDocumenter.content_indent</qualifiedname>
+        <initializer>=  &apos;&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1128" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a865aa9fa6668feb5ea082cc1f98d84b3" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.ext.autodoc.ModuleDocumenter::option_spec</definition>
+        <argsstring></argsstring>
+        <name>option_spec</name>
+        <qualifiedname>sphinx.ext.autodoc.ModuleDocumenter.option_spec</qualifiedname>
+        <initializer>=  {
+        &apos;members&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1a9e05a08d7b6276dc6180fd0fdaa10b45" kindref="member">members_option</ref>,
+        &apos;undoc-members&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1ae4b6d3e485a3bd65778487a2c7ca1888" kindref="member">bool_option</ref>,
+        &apos;no-index&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1ae4b6d3e485a3bd65778487a2c7ca1888" kindref="member">bool_option</ref>,
+        &apos;no-index-entry&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1ae4b6d3e485a3bd65778487a2c7ca1888" kindref="member">bool_option</ref>,
+        &apos;inherited-members&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1a4941bc17619992c250dcc9e2311cc94a" kindref="member">inherited_members_option</ref>,
+        &apos;show-inheritance&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1ae4b6d3e485a3bd65778487a2c7ca1888" kindref="member">bool_option</ref>,
+        &apos;synopsis&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1accb48241adb3d4045780d34ccc0cb446" kindref="member">identity</ref>,
+        &apos;platform&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1accb48241adb3d4045780d34ccc0cb446" kindref="member">identity</ref>,
+        &apos;deprecated&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1ae4b6d3e485a3bd65778487a2c7ca1888" kindref="member">bool_option</ref>,
+        &apos;member-order&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1a02cf9f9601307f75ffaccf61fc6ae59f" kindref="member">member_order_option</ref>,
+        &apos;exclude-members&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1a3a45a78fa33022a248cf1d678cc4ff58" kindref="member">exclude_members_option</ref>,
+        &apos;private-members&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1a9e05a08d7b6276dc6180fd0fdaa10b45" kindref="member">members_option</ref>,
+        &apos;special-members&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1a9e05a08d7b6276dc6180fd0fdaa10b45" kindref="member">members_option</ref>,
+        &apos;imported-members&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1ae4b6d3e485a3bd65778487a2c7ca1888" kindref="member">bool_option</ref>,
+        &apos;ignore-<ref refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter_1a7e2d450fcf19bfa582d3b4e19965ceaa" kindref="member">module</ref>-all&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1ae4b6d3e485a3bd65778487a2c7ca1888" kindref="member">bool_option</ref>,
+        &apos;no-value&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1ae4b6d3e485a3bd65778487a2c7ca1888" kindref="member">bool_option</ref>,
+        &apos;noindex&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1ae4b6d3e485a3bd65778487a2c7ca1888" kindref="member">bool_option</ref>,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1131" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a28b31b7c98470364629ac378501cdd11" prot="protected" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str sphinx.ext.autodoc.ModuleDocumenter::_extra_indent</definition>
+        <argsstring></argsstring>
+        <name>_extra_indent</name>
+        <qualifiedname>sphinx.ext.autodoc.ModuleDocumenter._extra_indent</qualifiedname>
+        <initializer>=  &apos;   &apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1129" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1129" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a01c6819130e4def96778cf62b208d09b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.ext.autodoc.ModuleDocumenter::options</definition>
+        <argsstring></argsstring>
+        <name>options</name>
+        <qualifiedname>sphinx.ext.autodoc.ModuleDocumenter.options</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1153" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1af8bb6f4853b65db637bfa383b1bfa769" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.ext.autodoc.ModuleDocumenter::indent</definition>
+        <argsstring></argsstring>
+        <name>indent</name>
+        <qualifiedname>sphinx.ext.autodoc.ModuleDocumenter.indent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1160" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a3a60e403da5ac5cce6df444babd3762f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.ext.autodoc.ModuleDocumenter::fullname</definition>
+        <argsstring></argsstring>
+        <name>fullname</name>
+        <qualifiedname>sphinx.ext.autodoc.ModuleDocumenter.fullname</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1186" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a4bb2e30c01e1c952369b30e15194d61b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.ext.autodoc.ModuleDocumenter::object</definition>
+        <argsstring></argsstring>
+        <name>object</name>
+        <qualifiedname>sphinx.ext.autodoc.ModuleDocumenter.object</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1234" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1234" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1aa5d375d9a18dc1af0a3b2af899f1bf20" prot="private" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.ext.autodoc.ModuleDocumenter::__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>sphinx.ext.autodoc.ModuleDocumenter.__all__</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1196" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1196" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a9e5c7cf71d2faeda42bd97f4b6d0932a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.autodoc.ModuleDocumenter.__init__</definition>
+        <argsstring>(self, *Any args)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>sphinx.ext.autodoc.ModuleDocumenter.__init__</qualifiedname>
+        <reimplements refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter_1a10aa6e0d86d6d48a75fec6b9c0b3f37e">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>*Any</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1151" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1151" bodyend="1155"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1ac597dd7e2bb37784d9feac5d289873c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.autodoc.ModuleDocumenter.add_content</definition>
+        <argsstring>(self, StringList|None more_content)</argsstring>
+        <name>add_content</name>
+        <qualifiedname>sphinx.ext.autodoc.ModuleDocumenter.add_content</qualifiedname>
+        <reimplements refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter_1a5d75b66e853d49c4578ee7f25477f110">add_content</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1statemachine_1_1StringList" kindref="compound">StringList</ref>|None</type>
+          <declname>more_content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Add content from docstrings, attribute documentation and user.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1156" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1156" bodyend="1164"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a88e7fe6d318f59ca855be07e9f17842c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.ext.autodoc.ModuleDocumenter.can_document_member</definition>
+        <argsstring>(type[Documenter] cls, Any member, str membername, bool isattr, Any parent)</argsstring>
+        <name>can_document_member</name>
+        <qualifiedname>sphinx.ext.autodoc.ModuleDocumenter.can_document_member</qualifiedname>
+        <reimplements refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter_1a83f949484ec5569f95428fa1dfc510ce">can_document_member</reimplements>
+        <param>
+          <type>type</type>
+          <declname>cls</declname>
+          <array>[Documenter]</array>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>member</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>membername</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isattr</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>parent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Called to see if a member can be documented by this Documenter.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1166" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1168" bodyend="1171"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a25f789335790fefe410b202e4787d730" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str|None, list[str]]</type>
+        <definition> tuple[str | None, list[str]] sphinx.ext.autodoc.ModuleDocumenter.resolve_name</definition>
+        <argsstring>(self, str|None modname, Any parents, str path, str base)</argsstring>
+        <name>resolve_name</name>
+        <qualifiedname>sphinx.ext.autodoc.ModuleDocumenter.resolve_name</qualifiedname>
+        <reimplements refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter_1ad35164b7b2be5eaa6f04bb0966d1b46f">resolve_name</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>modname</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>parents</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>base</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Resolve the module and name of the object to document given by the
+arguments and the current module/class.
+
+Must return a pair of the module name and a chain of attributes; for
+example, it would return ``(&apos;zipfile&apos;, [&apos;ZipFile&apos;, &apos;open&apos;])`` for the
+``zipfile.ZipFile.open`` method.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1172" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1174" bodyend="1180"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a48871b33221cfcc5fb7c83eaede570db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.ext.autodoc.ModuleDocumenter.parse_name</definition>
+        <argsstring>(self)</argsstring>
+        <name>parse_name</name>
+        <qualifiedname>sphinx.ext.autodoc.ModuleDocumenter.parse_name</qualifiedname>
+        <reimplements refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter_1a4f65126fb566a22a2c4f0833de4fc11b">parse_name</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Determine what module to import and what attribute to document.
+
+Returns True and sets *self.modname*, *self.objpath*, *self.fullname*,
+*self.args* and *self.retann* if parsing and resolving was successful.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1181" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1181" bodyend="1190"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a53ba11afdd5afcb2603712893fce62ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.ext.autodoc.ModuleDocumenter.import_object</definition>
+        <argsstring>(self, bool raiseerror=False)</argsstring>
+        <name>import_object</name>
+        <qualifiedname>sphinx.ext.autodoc.ModuleDocumenter.import_object</qualifiedname>
+        <reimplements refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter_1add874882800890e991f433322594286c">import_object</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>raiseerror</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Import the object given by *self.modname* and *self.objpath* and set
+it as *self.object*.
+
+Returns True if successful, False if an error occurred.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1191" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1191" bodyend="1210"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a7980fd571ced6e6497a3f600f65a3db7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.autodoc.ModuleDocumenter.add_directive_header</definition>
+        <argsstring>(self, str sig)</argsstring>
+        <name>add_directive_header</name>
+        <qualifiedname>sphinx.ext.autodoc.ModuleDocumenter.add_directive_header</qualifiedname>
+        <reimplements refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter_1aadb6c97647542111e66ca35b98b965c7">add_directive_header</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>sig</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Add the directive header and options to the generated content.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1211" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1211" bodyend="1225"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1ab0e0accc34703b8a304b89b10d260e83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dict[str, <ref refid="classsphinx_1_1ext_1_1autodoc_1_1ObjectMember" kindref="compound">ObjectMember</ref>]</type>
+        <definition> dict[str, ObjectMember] sphinx.ext.autodoc.ModuleDocumenter.get_module_members</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_module_members</name>
+        <qualifiedname>sphinx.ext.autodoc.ModuleDocumenter.get_module_members</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get members of target module.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1226" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1226" bodyend="1255"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a34eb9c199ce64c26f5ef447e4a4d7930" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[bool, list[<ref refid="classsphinx_1_1ext_1_1autodoc_1_1ObjectMember" kindref="compound">ObjectMember</ref>]]</type>
+        <definition> tuple[bool, list[ObjectMember]] sphinx.ext.autodoc.ModuleDocumenter.get_object_members</definition>
+        <argsstring>(self, bool want_all)</argsstring>
+        <name>get_object_members</name>
+        <qualifiedname>sphinx.ext.autodoc.ModuleDocumenter.get_object_members</qualifiedname>
+        <reimplements refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter_1a02a9f379b77d433ee45c7dd296b182f4">get_object_members</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>want_all</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return `(members_check_module, members)` where `members` is a
+list of `(membername, member)` pairs of the members of *self.object*.
+
+If *want_all* is True, return all members.  Else, only return those
+members given by *self.options.members* (which may also be None).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1256" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1256" bodyend="1286"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a4b2f7c5006389272b34c6fb4fbebab81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[tuple[<ref refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter" kindref="compound">Documenter</ref>, bool]]</type>
+        <definition> list[tuple[Documenter, bool]] sphinx.ext.autodoc.ModuleDocumenter.sort_members</definition>
+        <argsstring>(self, list[tuple[Documenter, bool]] documenters, str order)</argsstring>
+        <name>sort_members</name>
+        <qualifiedname>sphinx.ext.autodoc.ModuleDocumenter.sort_members</qualifiedname>
+        <reimplements refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter_1a8a9050d83f53297e86ae79b27c38ba40">sort_members</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>list]</type>
+          <declname>documenters</declname>
+          <array>[tuple[Documenter, bool]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>order</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Sort the given member list.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1287" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1289" bodyend="1313"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Specialized Documenter subclass for modules.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>sphinx.ext.autodoc.ModuleDocumenter</label>
+        <link refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.ext.autodoc.Documenter</label>
+        <link refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>sphinx.ext.autodoc.ModuleDocumenter</label>
+        <link refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>_extra_indent</edgelabel>
+          <edgelabel>content_indent</edgelabel>
+          <edgelabel>objtype</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.ext.autodoc.Documenter</label>
+        <link refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>content_indent</edgelabel>
+          <edgelabel>objtype</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1124" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1124" bodyend="1313"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1aa5d375d9a18dc1af0a3b2af899f1bf20" prot="private" virt="non-virtual"><scope>sphinx::ext::autodoc::ModuleDocumenter</scope><name>__all__</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a9e5c7cf71d2faeda42bd97f4b6d0932a" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ModuleDocumenter</scope><name>__init__</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a28b31b7c98470364629ac378501cdd11" prot="protected" virt="non-virtual"><scope>sphinx::ext::autodoc::ModuleDocumenter</scope><name>_extra_indent</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1ac597dd7e2bb37784d9feac5d289873c5" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ModuleDocumenter</scope><name>add_content</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a7980fd571ced6e6497a3f600f65a3db7" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ModuleDocumenter</scope><name>add_directive_header</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a88e7fe6d318f59ca855be07e9f17842c" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ModuleDocumenter</scope><name>can_document_member</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a3440d0424d29b63086d95f87a5e3e3b3" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ModuleDocumenter</scope><name>content_indent</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a3a60e403da5ac5cce6df444babd3762f" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ModuleDocumenter</scope><name>fullname</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1ab0e0accc34703b8a304b89b10d260e83" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ModuleDocumenter</scope><name>get_module_members</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a34eb9c199ce64c26f5ef447e4a4d7930" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ModuleDocumenter</scope><name>get_object_members</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a53ba11afdd5afcb2603712893fce62ce" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ModuleDocumenter</scope><name>import_object</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1af8bb6f4853b65db637bfa383b1bfa769" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ModuleDocumenter</scope><name>indent</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a4bb2e30c01e1c952369b30e15194d61b" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ModuleDocumenter</scope><name>object</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a376beb31fc6e3182ef49bd3ec4dac74b" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ModuleDocumenter</scope><name>objtype</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a865aa9fa6668feb5ea082cc1f98d84b3" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ModuleDocumenter</scope><name>option_spec</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a01c6819130e4def96778cf62b208d09b" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ModuleDocumenter</scope><name>options</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a48871b33221cfcc5fb7c83eaede570db" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ModuleDocumenter</scope><name>parse_name</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a25f789335790fefe410b202e4787d730" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ModuleDocumenter</scope><name>resolve_name</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleDocumenter_1a4b2f7c5006389272b34c6fb4fbebab81" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ModuleDocumenter</scope><name>sort_members</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

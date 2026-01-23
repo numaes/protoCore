@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="packaging_8py" kind="file" language="Python">
+    <compoundname>packaging.py</compoundname>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal">pip::_internal</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1utils">pip::_internal::utils</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1utils_1_1packaging">pip::_internal::utils::packaging</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__internal_1_1utils_1_1packaging" refkind="compound"><highlight class="keyword">import</highlight><highlight class="normal"><sp/>functools</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>logging</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>re</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>NewType,<sp/>Optional,<sp/>Tuple,<sp/>cast</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1packaging" kindref="compound">pip._vendor.packaging</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>specifiers,<sp/>version</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1packaging_1_1requirements" kindref="compound">pip._vendor.packaging.requirements</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Requirement</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal">NormalizedExtra<sp/>=<sp/>NewType(</highlight><highlight class="stringliteral">&quot;NormalizedExtra&quot;</highlight><highlight class="normal">,<sp/>str)</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal">logger<sp/>=<sp/>logging.getLogger(__name__)</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">check_requires_python(</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>requires_python:<sp/>Optional[str],<sp/>version_info:<sp/>Tuple[int,<sp/>...]</highlight></codeline>
+<codeline lineno="16"><highlight class="normal">)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Check<sp/>if<sp/>the<sp/>given<sp/>Python<sp/>version<sp/>matches<sp/>a<sp/>&quot;Requires-Python&quot;<sp/>specifier.</highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:param<sp/>version_info:<sp/>A<sp/>3-tuple<sp/>of<sp/>ints<sp/>representing<sp/>a<sp/>Python</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>major-minor-micro<sp/>version<sp/>to<sp/>check<sp/>(e.g.<sp/>`sys.version_info[:3]`).</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:return:<sp/>`True`<sp/>if<sp/>the<sp/>given<sp/>Python<sp/>version<sp/>satisfies<sp/>the<sp/>requirement.</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Otherwise,<sp/>return<sp/>`False`.</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:raises<sp/>InvalidSpecifier:<sp/>If<sp/>`requires_python`<sp/>has<sp/>an<sp/>invalid<sp/>format.</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>requires_python<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>The<sp/>package<sp/>provides<sp/>no<sp/>information</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>requires_python_specifier<sp/>=<sp/>specifiers.SpecifierSet(requires_python)</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>python_version<sp/>=<sp/>version.parse(</highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal">.join(map(str,<sp/>version_info)))</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>python_version<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>requires_python_specifier</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">@functools.lru_cache(maxsize=512)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">get_requirement(req_string:<sp/>str)<sp/>-&gt;<sp/>Requirement:</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Construct<sp/>a<sp/>packaging.Requirement<sp/>object<sp/>with<sp/>caching&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Parsing<sp/>requirement<sp/>strings<sp/>is<sp/>expensive,<sp/>and<sp/>is<sp/>also<sp/>expected<sp/>to<sp/>happen</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>with<sp/>a<sp/>low<sp/>diversity<sp/>of<sp/>different<sp/>arguments<sp/>(at<sp/>least<sp/>relative<sp/>the<sp/>number</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>constructed).<sp/>This<sp/>method<sp/>adds<sp/>a<sp/>cache<sp/>to<sp/>requirement<sp/>object<sp/>creation<sp/>to</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>minimize<sp/>repeated<sp/>parsing<sp/>of<sp/>the<sp/>same<sp/>string<sp/>to<sp/>construct<sp/>equivalent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Requirement<sp/>objects.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1Requirement" kindref="compound">Requirement</ref>(req_string)</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">safe_extra(extra:<sp/>str)<sp/>-&gt;<sp/>NormalizedExtra:</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Convert<sp/>an<sp/>arbitrary<sp/>string<sp/>to<sp/>a<sp/>standard<sp/>&apos;extra&apos;<sp/>name</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Any<sp/>runs<sp/>of<sp/>non-alphanumeric<sp/>characters<sp/>are<sp/>replaced<sp/>with<sp/>a<sp/>single<sp/>&apos;_&apos;,</highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>and<sp/>the<sp/>result<sp/>is<sp/>always<sp/>lowercased.</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>function<sp/>is<sp/>duplicated<sp/>from<sp/>``pkg_resources``.<sp/>Note<sp/>that<sp/>this<sp/>is<sp/>not</highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>the<sp/>same<sp/>to<sp/>either<sp/>``canonicalize_name``<sp/>or<sp/>``_egg_link_name``.</highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cast(NormalizedExtra,<sp/>re.sub(</highlight><highlight class="stringliteral">&quot;[^A-Za-z0-9.-]+&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal">,<sp/>extra).lower())</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/packaging.py"/>
+  </compounddef>
+</doxygen>

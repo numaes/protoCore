@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1nodes_1_1ContextReference" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::nodes::ContextReference</compoundname>
+    <basecompoundref refid="classjinja2_1_1nodes_1_1Expr" prot="public" virt="non-virtual">jinja2.nodes.Expr</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Returns the current template context.  It can be used like a
+:class:`Name` node, with a ``&apos;load&apos;`` ctx and will return the
+current :class:`~jinja2.runtime.Context` object.
+
+Here an example that assigns the current template name to a
+variable named `foo`::
+
+    Assign(Name(&apos;foo&apos;, ctx=&apos;store&apos;),
+           Getattr(ContextReference(), &apos;name&apos;))
+
+This is basically equivalent to using the
+:func:`~jinja2.pass_context` decorator when using the high-level
+API, which causes a reference to the context to be passed as the
+first argument to a function.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.nodes.ContextReference</label>
+        <link refid="classjinja2_1_1nodes_1_1ContextReference"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.nodes.Expr</label>
+        <link refid="classjinja2_1_1nodes_1_1Expr"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.nodes.Node</label>
+        <link refid="classjinja2_1_1nodes_1_1Node"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>jinja2.nodes.NodeType</label>
+        <link refid="classjinja2_1_1nodes_1_1NodeType"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>jinja2.nodes.ContextReference</label>
+        <link refid="classjinja2_1_1nodes_1_1ContextReference"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.nodes.Expr</label>
+        <link refid="classjinja2_1_1nodes_1_1Expr"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.nodes.Node</label>
+        <link refid="classjinja2_1_1nodes_1_1Node"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>jinja2.nodes.NodeType</label>
+        <link refid="classjinja2_1_1nodes_1_1NodeType"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="1116" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="1116" bodyend="1133"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

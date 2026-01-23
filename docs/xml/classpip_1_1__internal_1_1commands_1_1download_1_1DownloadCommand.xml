@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1commands_1_1download_1_1DownloadCommand" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::commands::download::DownloadCommand</compoundname>
+    <basecompoundref refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand" prot="public" virt="non-virtual">pip._internal.cli.req_command.RequirementCommand</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1commands_1_1download_1_1DownloadCommand_1abfa1b8930d53826a73898eec8f505e98" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pip._internal.commands.download.DownloadCommand::usage</definition>
+        <argsstring></argsstring>
+        <name>usage</name>
+        <qualifiedname>pip._internal.commands.download.DownloadCommand.usage</qualifiedname>
+        <initializer>=  &quot;&quot;&quot;
+      %prog [options] &lt;requirement specifier&gt; [package-index-options] ...
+      %prog [options] -r &lt;requirements file&gt; [package-index-options] ...
+      %prog [options] &lt;vcs project url&gt; ...
+      %prog [options] &lt;local project path&gt; ...
+      %prog [options] &lt;archive url/path&gt; ...&quot;&quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/download.py" line="31" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/download.py" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1commands_1_1download_1_1DownloadCommand_1a5822460f4f4205a391e4f4c8eaa61669" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.commands.download.DownloadCommand::cmd_opts</definition>
+        <argsstring></argsstring>
+        <name>cmd_opts</name>
+        <qualifiedname>pip._internal.commands.download.DownloadCommand.cmd_opts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/download.py" line="67" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/download.py" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1commands_1_1download_1_1DownloadCommand_1a2409e25af0d6c78cc8f2d2adf3f171d7" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.commands.download.DownloadCommand::parser</definition>
+        <argsstring></argsstring>
+        <name>parser</name>
+        <qualifiedname>pip._internal.commands.download.DownloadCommand.parser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/download.py" line="71" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/download.py" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1download_1_1DownloadCommand_1ad4f28049e3ece7692f876f5d8db24328" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.commands.download.DownloadCommand.add_options</definition>
+        <argsstring>(self)</argsstring>
+        <name>add_options</name>
+        <qualifiedname>pip._internal.commands.download.DownloadCommand.add_options</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command_1ad74cf63053e59d30953e9429750d41b3">add_options</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/download.py" line="38" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/download.py" bodystart="38" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1download_1_1DownloadCommand_1a0dd51c41d3594398e1ab28c6a08f8ddc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int pip._internal.commands.download.DownloadCommand.run</definition>
+        <argsstring>(self, Values options, List[str] args)</argsstring>
+        <name>run</name>
+        <qualifiedname>pip._internal.commands.download.DownloadCommand.run</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command_1abfb817417c4522bde2e2eb6141126aba">run</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>args</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/download.py" line="78" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/download.py" bodystart="78" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Download packages from:
+
+- PyPI (and other indexes) using requirement specifiers.
+- VCS project urls.
+- Local project directories.
+- Local or remote source archives.
+
+pip also supports downloading from &quot;requirements files&quot;, which provide
+an easy way to specify a whole environment to be downloaded.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._internal.commands.download.DownloadCommand</label>
+        <link refid="classpip_1_1__internal_1_1commands_1_1download_1_1DownloadCommand"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._internal.cli.base_command.Command</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pip._internal.cli.command_context.CommandContextMixIn</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1command__context_1_1CommandContextMixIn"/>
+      </node>
+      <node id="3">
+        <label>pip._internal.cli.req_command.IndexGroupCommand</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1IndexGroupCommand"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.cli.req_command.RequirementCommand</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>pip._internal.cli.req_command.SessionCommandMixin</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1SessionCommandMixin"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="6">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.commands.download.DownloadCommand</label>
+        <link refid="classpip_1_1__internal_1_1commands_1_1download_1_1DownloadCommand"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>usage</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._internal.cli.base_command.Command</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>usage</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pip._internal.cli.command_context.CommandContextMixIn</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1command__context_1_1CommandContextMixIn"/>
+      </node>
+      <node id="3">
+        <label>pip._internal.cli.req_command.IndexGroupCommand</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1IndexGroupCommand"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.cli.req_command.RequirementCommand</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>pip._internal.cli.req_command.SessionCommandMixin</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1SessionCommandMixin"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/download.py" line="18" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/download.py" bodystart="18" bodyend="148"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1commands_1_1download_1_1DownloadCommand_1ad4f28049e3ece7692f876f5d8db24328" prot="public" virt="non-virtual"><scope>pip::_internal::commands::download::DownloadCommand</scope><name>add_options</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1download_1_1DownloadCommand_1a5822460f4f4205a391e4f4c8eaa61669" prot="public" virt="non-virtual"><scope>pip::_internal::commands::download::DownloadCommand</scope><name>cmd_opts</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1download_1_1DownloadCommand_1a2409e25af0d6c78cc8f2d2adf3f171d7" prot="public" virt="non-virtual"><scope>pip::_internal::commands::download::DownloadCommand</scope><name>parser</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1download_1_1DownloadCommand_1a0dd51c41d3594398e1ab28c6a08f8ddc" prot="public" virt="non-virtual"><scope>pip::_internal::commands::download::DownloadCommand</scope><name>run</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1download_1_1DownloadCommand_1abfa1b8930d53826a73898eec8f505e98" prot="public" virt="non-virtual"><scope>pip::_internal::commands::download::DownloadCommand</scope><name>usage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

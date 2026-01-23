@@ -1,0 +1,398 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo" kind="class" language="Python" prot="public">
+    <compoundname>docutils::transforms::frontmatter::DocInfo</compoundname>
+    <basecompoundref refid="classdocutils_1_1transforms_1_1Transform" prot="public" virt="non-virtual">docutils.transforms.Transform</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1a27e446c33dddf09c18f21c862fb983a8" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int docutils.transforms.frontmatter.DocInfo::default_priority</definition>
+        <argsstring></argsstring>
+        <name>default_priority</name>
+        <qualifiedname>docutils.transforms.frontmatter.DocInfo.default_priority</qualifiedname>
+        <initializer>=  340</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" line="340" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1ac6fbf00ccf81b8e0178d61bbfda95214" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.transforms.frontmatter.DocInfo::biblio_nodes</definition>
+        <argsstring></argsstring>
+        <name>biblio_nodes</name>
+        <qualifiedname>docutils.transforms.frontmatter.DocInfo.biblio_nodes</qualifiedname>
+        <initializer>=  {
+          &apos;author&apos;: <ref refid="classdocutils_1_1nodes_1_1author" kindref="compound">nodes.author</ref>,
+          &apos;authors&apos;: <ref refid="classdocutils_1_1nodes_1_1authors" kindref="compound">nodes.authors</ref>,
+          &apos;organization&apos;: <ref refid="classdocutils_1_1nodes_1_1organization" kindref="compound">nodes.organization</ref>,
+          &apos;address&apos;: <ref refid="classdocutils_1_1nodes_1_1address" kindref="compound">nodes.address</ref>,
+          &apos;contact&apos;: <ref refid="classdocutils_1_1nodes_1_1contact" kindref="compound">nodes.contact</ref>,
+          &apos;version&apos;: <ref refid="classdocutils_1_1nodes_1_1version" kindref="compound">nodes.version</ref>,
+          &apos;revision&apos;: <ref refid="classdocutils_1_1nodes_1_1revision" kindref="compound">nodes.revision</ref>,
+          &apos;status&apos;: <ref refid="classdocutils_1_1nodes_1_1status" kindref="compound">nodes.status</ref>,
+          &apos;date&apos;: <ref refid="classdocutils_1_1nodes_1_1date" kindref="compound">nodes.date</ref>,
+          &apos;copyright&apos;: <ref refid="classdocutils_1_1nodes_1_1copyright" kindref="compound">nodes.copyright</ref>,
+          &apos;dedication&apos;: <ref refid="classdocutils_1_1nodes_1_1topic" kindref="compound">nodes.topic</ref>,
+          &apos;abstract&apos;: <ref refid="classdocutils_1_1nodes_1_1topic" kindref="compound">nodes.topic</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" line="342" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1a352aee770ddafb409c4f50174daa327f" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list docutils.transforms.frontmatter.DocInfo::rcs_keyword_substitutions</definition>
+        <argsstring></argsstring>
+        <name>rcs_keyword_substitutions</name>
+        <qualifiedname>docutils.transforms.frontmatter.DocInfo.rcs_keyword_substitutions</qualifiedname>
+        <initializer>=  [
+          (re.compile(r&apos;\$&apos; r&apos;Date: (\d\d\d\d)[-/](\d\d)[-/](\d\d)[ T][\d:]+&apos;
+                      r&apos;[^$]* \$&apos;, re.IGNORECASE), r&apos;\1-\2-\3&apos;),
+          (re.compile(r&apos;\$&apos; r&apos;RCSfile: (.+),v \$&apos;, re.IGNORECASE), r&apos;\1&apos;),
+          (re.compile(r&apos;\$[a-zA-Z]+: (.+) \$&apos;), r&apos;\1&apos;)]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" line="466" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" bodystart="466" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1afa4af511e50a6f938627a0eeb3dd9d00" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.transforms.frontmatter.DocInfo::rcs_keyword_substitutions</definition>
+        <argsstring></argsstring>
+        <name>rcs_keyword_substitutions</name>
+        <qualifiedname>docutils.transforms.frontmatter.DocInfo.rcs_keyword_substitutions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" line="392" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" bodystart="392" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1a0cce82376ba6aa43e4de5a590f5a4613" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.frontmatter.DocInfo.apply</definition>
+        <argsstring>(self)</argsstring>
+        <name>apply</name>
+        <qualifiedname>docutils.transforms.frontmatter.DocInfo.apply</qualifiedname>
+        <reimplements refid="classdocutils_1_1transforms_1_1Transform_1a0a9e91ca01b2b5377cb61a18d8914f34">apply</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Override to apply the transform to the document tree.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" line="358" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" bodystart="358" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1a49f256ffa07dc62968290f29f4af9478" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.frontmatter.DocInfo.extract_bibliographic</definition>
+        <argsstring>(self, field_list)</argsstring>
+        <name>extract_bibliographic</name>
+        <qualifiedname>docutils.transforms.frontmatter.DocInfo.extract_bibliographic</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>field_list</type>
+          <defname>field_list</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" line="374" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" bodystart="374" bodyend="425"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1a4c9c13f981b6084b9ad2af99de36c9b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.frontmatter.DocInfo.check_empty_biblio_field</definition>
+        <argsstring>(self, field, name)</argsstring>
+        <name>check_empty_biblio_field</name>
+        <qualifiedname>docutils.transforms.frontmatter.DocInfo.check_empty_biblio_field</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>field</type>
+          <defname>field</defname>
+        </param>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" line="426" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" bodystart="426" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1a4f1b36c457b5ed7f5422728e906a4429" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.frontmatter.DocInfo.check_compound_biblio_field</definition>
+        <argsstring>(self, field, name)</argsstring>
+        <name>check_compound_biblio_field</name>
+        <qualifiedname>docutils.transforms.frontmatter.DocInfo.check_compound_biblio_field</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>field</type>
+          <defname>field</defname>
+        </param>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" line="434" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" bodystart="434" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1a4172fa42e7fb25c2f21548e2003dd3da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.frontmatter.DocInfo.extract_authors</definition>
+        <argsstring>(self, field, name, docinfo)</argsstring>
+        <name>extract_authors</name>
+        <qualifiedname>docutils.transforms.frontmatter.DocInfo.extract_authors</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>field</type>
+          <defname>field</defname>
+        </param>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <param>
+          <type>docinfo</type>
+          <defname>docinfo</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" line="472" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" bodystart="472" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1acf49a369c6d34471c6345f221aa65afb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.frontmatter.DocInfo.authors_from_one_paragraph</definition>
+        <argsstring>(self, field)</argsstring>
+        <name>authors_from_one_paragraph</name>
+        <qualifiedname>docutils.transforms.frontmatter.DocInfo.authors_from_one_paragraph</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>field</type>
+          <defname>field</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return list of Text nodes with author names in `field`.
+
+Author names must be separated by one of the &quot;autor separators&quot;
+defined for the document language (default: &quot;;&quot; or &quot;,&quot;).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" line="502" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" bodystart="502" bodyend="521"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1ad5ce373e1e1303d1ae8fdac03a2eca72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.frontmatter.DocInfo.authors_from_bullet_list</definition>
+        <argsstring>(self, field)</argsstring>
+        <name>authors_from_bullet_list</name>
+        <qualifiedname>docutils.transforms.frontmatter.DocInfo.authors_from_bullet_list</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>field</type>
+          <defname>field</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" line="522" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" bodystart="522" bodyend="533"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1a20b83f145db0e950dd5835de65e1b514" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.transforms.frontmatter.DocInfo.authors_from_paragraphs</definition>
+        <argsstring>(self, field)</argsstring>
+        <name>authors_from_paragraphs</name>
+        <qualifiedname>docutils.transforms.frontmatter.DocInfo.authors_from_paragraphs</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>field</type>
+          <defname>field</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" line="534" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" bodystart="534" bodyend="541"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>This transform is specific to the reStructuredText_ markup syntax;
+see &quot;Bibliographic Fields&quot; in the `reStructuredText Markup
+Specification`_ for a high-level description. This transform
+should be run *after* the `DocTitle` transform.
+
+If the document contains a field list as the first element (instances
+of `nodes.PreBibliographic` are ignored), registered bibliographic
+field names are transformed to the corresponding DTD elements,
+becoming child elements of the &lt;docinfo&gt; element (except for a
+dedication and/or an abstract, which become &lt;topic&gt; elements after
+&lt;docinfo&gt;).
+
+For example, given this document fragment after parsing::
+
+    &lt;document&gt;
+        &lt;title&gt;
+            Document Title
+        &lt;field_list&gt;
+            &lt;field&gt;
+                &lt;field_name&gt;
+                    Author
+                &lt;field_body&gt;
+                    &lt;paragraph&gt;
+                        A. Name
+            &lt;field&gt;
+                &lt;field_name&gt;
+                    Status
+                &lt;field_body&gt;
+                    &lt;paragraph&gt;
+                        $RCSfile$
+        ...
+
+After running the bibliographic field list transform, the
+resulting document tree would look like this::
+
+    &lt;document&gt;
+        &lt;title&gt;
+            Document Title
+        &lt;docinfo&gt;
+            &lt;author&gt;
+                A. Name
+            &lt;status&gt;
+                frontmatter.py
+        ...
+
+The &quot;Status&quot; field contained an expanded RCS keyword, which is
+normally (but optionally) cleaned up by the transform. The sole
+contents of the field body must be a paragraph containing an
+expanded RCS keyword of the form &quot;$keyword: expansion text $&quot;. Any
+RCS keyword can be processed in any bibliographic field. The
+dollar signs and leading RCS keyword name are removed. Extra
+processing is done for the following RCS keywords:
+
+- &quot;RCSfile&quot; expands to the name of the file in the RCS or CVS
+  repository, which is the name of the source file with a &quot;,v&quot;
+  suffix appended. The transform will remove the &quot;,v&quot; suffix.
+
+- &quot;Date&quot; expands to the format &quot;YYYY/MM/DD hh:mm:ss&quot; (in the UTC
+  time zone). The RCS Keywords transform will extract just the
+  date itself and transform it to an ISO 8601 format date, as in
+  &quot;2000-12-31&quot;.
+
+  (Since the source file for this text is itself stored under CVS,
+  we can&apos;t show an example of the &quot;Date&quot; RCS keyword because we
+  can&apos;t prevent any RCS keywords used in this explanation from
+  being expanded. Only the &quot;RCSfile&quot; keyword is stable; its
+  expansion text changes only if the file name changes.)
+
+.. _reStructuredText: https://docutils.sourceforge.io/rst.html
+.. _reStructuredText Markup Specification:
+   https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.transforms.frontmatter.DocInfo</label>
+        <link refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>docutils.transforms.frontmatter.DocInfo</label>
+        <link refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" line="264" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/transforms/frontmatter.py" bodystart="264" bodyend="541"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1a0cce82376ba6aa43e4de5a590f5a4613" prot="public" virt="non-virtual"><scope>docutils::transforms::frontmatter::DocInfo</scope><name>apply</name></member>
+      <member refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1ad5ce373e1e1303d1ae8fdac03a2eca72" prot="public" virt="non-virtual"><scope>docutils::transforms::frontmatter::DocInfo</scope><name>authors_from_bullet_list</name></member>
+      <member refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1acf49a369c6d34471c6345f221aa65afb" prot="public" virt="non-virtual"><scope>docutils::transforms::frontmatter::DocInfo</scope><name>authors_from_one_paragraph</name></member>
+      <member refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1a20b83f145db0e950dd5835de65e1b514" prot="public" virt="non-virtual"><scope>docutils::transforms::frontmatter::DocInfo</scope><name>authors_from_paragraphs</name></member>
+      <member refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1ac6fbf00ccf81b8e0178d61bbfda95214" prot="public" virt="non-virtual"><scope>docutils::transforms::frontmatter::DocInfo</scope><name>biblio_nodes</name></member>
+      <member refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1a4f1b36c457b5ed7f5422728e906a4429" prot="public" virt="non-virtual"><scope>docutils::transforms::frontmatter::DocInfo</scope><name>check_compound_biblio_field</name></member>
+      <member refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1a4c9c13f981b6084b9ad2af99de36c9b8" prot="public" virt="non-virtual"><scope>docutils::transforms::frontmatter::DocInfo</scope><name>check_empty_biblio_field</name></member>
+      <member refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1a27e446c33dddf09c18f21c862fb983a8" prot="public" virt="non-virtual"><scope>docutils::transforms::frontmatter::DocInfo</scope><name>default_priority</name></member>
+      <member refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1a4172fa42e7fb25c2f21548e2003dd3da" prot="public" virt="non-virtual"><scope>docutils::transforms::frontmatter::DocInfo</scope><name>extract_authors</name></member>
+      <member refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1a49f256ffa07dc62968290f29f4af9478" prot="public" virt="non-virtual"><scope>docutils::transforms::frontmatter::DocInfo</scope><name>extract_bibliographic</name></member>
+      <member refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1a352aee770ddafb409c4f50174daa327f" prot="public" virt="non-virtual"><scope>docutils::transforms::frontmatter::DocInfo</scope><name>rcs_keyword_substitutions</name></member>
+      <member refid="classdocutils_1_1transforms_1_1frontmatter_1_1DocInfo_1afa4af511e50a6f938627a0eeb3dd9d00" prot="public" virt="non-virtual"><scope>docutils::transforms::frontmatter::DocInfo</scope><name>rcs_keyword_substitutions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

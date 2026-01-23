@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="breathe_2filetypes_8py" kind="file" language="Python">
+    <compoundname>filetypes.py</compoundname>
+    <innernamespace refid="namespacebreathe">breathe</innernamespace>
+    <innernamespace refid="namespacebreathe_1_1filetypes">breathe::filetypes</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacebreathe_1_1filetypes" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral">A<sp/>module<sp/>to<sp/>house<sp/>the<sp/>methods<sp/>for<sp/>resolving<sp/>a<sp/>code-blocks<sp/>language<sp/>based<sp/>on<sp/>filename</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral">(and<sp/>extension).</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>os.path</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1lexers" kindref="compound">pygments.lexers</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>get_lexer_for_filename</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepygments_1_1util" kindref="compound">pygments.util</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>ClassNotFound</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacebreathe_1_1filetypes_1a2611c4202413a80183b251b761558aac" kindref="member">get_pygments_alias</ref>(filename:<sp/>str)<sp/>-&gt;<sp/>str<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Find<sp/>first<sp/>pygments<sp/>alias<sp/>from<sp/>filename&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lexer_cls<sp/>=<sp/>get_lexer_for_filename(filename)</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>lexer_cls.aliases[0]<sp/><sp/></highlight><highlight class="comment">#<sp/>type:<sp/>ignore[attr-defined]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>ClassNotFound:</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacebreathe_1_1filetypes_1a27c27ca783e72b85507da00fcfee6e47" kindref="member">get_extension</ref>(filename:<sp/>str)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Get<sp/>extension<sp/>from<sp/>filename&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>If<sp/>the<sp/>filename<sp/>is<sp/>just<sp/>&apos;.ext&apos;<sp/>then<sp/>we<sp/>get<sp/>(&apos;.ext&apos;,<sp/>&apos;&apos;)<sp/>so<sp/>we<sp/>fall<sp/>back<sp/>to<sp/>first<sp/>part<sp/>if</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>the<sp/>second<sp/>isn&apos;t<sp/>there</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>(first,<sp/>second)<sp/>=<sp/>os.path.splitext(filename)</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Doxygen<sp/>allows<sp/>users<sp/>to<sp/>specify<sp/>the<sp/>file<sp/>extension<sp/>&quot;.unparsed&quot;<sp/>to<sp/>disable<sp/>syntax<sp/>highlighting.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>We<sp/>translate<sp/>it<sp/>into<sp/>the<sp/>pygments<sp/>un-highlighted<sp/>&apos;text&apos;<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(second<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>first).lstrip(</highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal">).replace(</highlight><highlight class="stringliteral">&quot;unparsed&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;text&quot;</highlight><highlight class="normal">)</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/breathe/filetypes.py"/>
+  </compounddef>
+</doxygen>

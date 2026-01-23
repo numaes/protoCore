@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classbabel_1_1messages_1_1setuptools__frontend_1_1update__catalog" kind="class" language="Python" prot="public">
+    <compoundname>babel::messages::setuptools_frontend::update_catalog</compoundname>
+    <basecompoundref refid="classbabel_1_1messages_1_1frontend_1_1UpdateCatalog" prot="public" virt="non-virtual">babel.messages.frontend.UpdateCatalog</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">Command</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Catalog merging command for use in ``setup.py`` scripts.
+
+If correctly installed, this command is available to Setuptools-using
+setup scripts automatically. For projects using plain old ``distutils``,
+the command needs to be registered explicitly in ``setup.py``::
+
+    from babel.messages.setuptools_frontend import update_catalog
+
+    setup(
+        ...
+        cmdclass = {&apos;update_catalog&apos;: update_catalog}
+    )
+
+.. versionadded:: 0.9
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>babel.messages.setuptools_frontend.update_catalog</label>
+        <link refid="classbabel_1_1messages_1_1setuptools__frontend_1_1update__catalog"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>babel.messages.frontend.CommandMixin</label>
+        <link refid="classbabel_1_1messages_1_1frontend_1_1CommandMixin"/>
+      </node>
+      <node id="2">
+        <label>babel.messages.frontend.UpdateCatalog</label>
+        <link refid="classbabel_1_1messages_1_1frontend_1_1UpdateCatalog"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>Command</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>babel.messages.setuptools_frontend.update_catalog</label>
+        <link refid="classbabel_1_1messages_1_1setuptools__frontend_1_1update__catalog"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>babel.messages.frontend.CommandMixin</label>
+        <link refid="classbabel_1_1messages_1_1frontend_1_1CommandMixin"/>
+      </node>
+      <node id="2">
+        <label>babel.messages.frontend.UpdateCatalog</label>
+        <link refid="classbabel_1_1messages_1_1frontend_1_1UpdateCatalog"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>description</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>str</label>
+      </node>
+      <node id="5">
+        <label>Command</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/babel/messages/setuptools_frontend.py" line="85" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/setuptools_frontend.py" bodystart="85" bodyend="102"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

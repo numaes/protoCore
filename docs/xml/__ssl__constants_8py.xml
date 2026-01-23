@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="__ssl__constants_8py" kind="file" language="Python">
+    <compoundname>_ssl_constants.py</compoundname>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1truststore">pip::_vendor::truststore</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1truststore_1_1__ssl__constants">pip::_vendor::truststore::_ssl_constants</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1truststore_1_1__ssl__constants" refkind="compound"><highlight class="keyword">import</highlight><highlight class="normal"><sp/>ssl</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>typing</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Hold<sp/>on<sp/>to<sp/>the<sp/>original<sp/>class<sp/>so<sp/>we<sp/>can<sp/>create<sp/>it<sp/>consistently</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">#<sp/>even<sp/>if<sp/>we<sp/>inject<sp/>our<sp/>own<sp/>SSLContext<sp/>into<sp/>the<sp/>ssl<sp/>module.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal">_original_SSLContext<sp/>=<sp/>ssl.SSLContext</highlight></codeline>
+<codeline lineno="8"><highlight class="normal">_original_super_SSLContext<sp/>=<sp/>super(_original_SSLContext,<sp/>_original_SSLContext)</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">#<sp/>CPython<sp/>is<sp/>known<sp/>to<sp/>be<sp/>good,<sp/>but<sp/>non-CPython<sp/>implementations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">#<sp/>may<sp/>implement<sp/>SSLContext<sp/>differently<sp/>so<sp/>to<sp/>be<sp/>safe<sp/>we<sp/>don&apos;t</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">#<sp/>subclass<sp/>the<sp/>SSLContext.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">#<sp/>This<sp/>is<sp/>returned<sp/>by<sp/>truststore.SSLContext.__class__()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal">_truststore_SSLContext_dunder_class:<sp/>typing.Optional[type]</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">#<sp/>This<sp/>value<sp/>is<sp/>the<sp/>superclass<sp/>of<sp/>truststore.SSLContext.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal">_truststore_SSLContext_super_class:<sp/>type</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>sys.implementation.name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;cpython&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>_truststore_SSLContext_super_class<sp/>=<sp/>_original_SSLContext</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>_truststore_SSLContext_dunder_class<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>_truststore_SSLContext_super_class<sp/>=<sp/>object</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>_truststore_SSLContext_dunder_class<sp/>=<sp/>_original_SSLContext</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">_set_ssl_context_verify_mode(</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>ssl_context:<sp/>ssl.SSLContext,<sp/>verify_mode:<sp/>ssl.VerifyMode</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>_original_super_SSLContext.verify_mode.__set__(ssl_context,<sp/>verify_mode)<sp/><sp/></highlight><highlight class="comment">#<sp/>type:<sp/>ignore[attr-defined]</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/truststore/_ssl_constants.py"/>
+  </compounddef>
+</doxygen>

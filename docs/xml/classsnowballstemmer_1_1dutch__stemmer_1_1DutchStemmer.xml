@@ -1,0 +1,997 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer" kind="class" language="Python" prot="public">
+    <compoundname>snowballstemmer::dutch_stemmer::DutchStemmer</compoundname>
+    <basecompoundref refid="classsnowballstemmer_1_1basestemmer_1_1BaseStemmer" prot="public" virt="non-virtual">snowballstemmer.basestemmer.BaseStemmer</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a1d4e4d073cb0505645677f8a0ecca10b" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict snowballstemmer.dutch_stemmer.DutchStemmer::g_E</definition>
+        <argsstring></argsstring>
+        <name>g_E</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.g_E</qualifiedname>
+        <initializer>=  {u&quot;e&quot;, u&quot;ë&quot;, u&quot;é&quot;, u&quot;è&quot;, u&quot;ê&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="14" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1aa78672eb2177a22567caba8e231af519" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict snowballstemmer.dutch_stemmer.DutchStemmer::g_AIOU</definition>
+        <argsstring></argsstring>
+        <name>g_AIOU</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.g_AIOU</qualifiedname>
+        <initializer>=  {u&quot;a&quot;, u&quot;ä&quot;, u&quot;á&quot;, u&quot;à&quot;, u&quot;â&quot;, u&quot;i&quot;, u&quot;ï&quot;, u&quot;í&quot;, u&quot;ì&quot;, u&quot;î&quot;, u&quot;o&quot;, u&quot;ö&quot;, u&quot;ó&quot;, u&quot;ò&quot;, u&quot;ô&quot;, u&quot;u&quot;, u&quot;ü&quot;, u&quot;ú&quot;, u&quot;ù&quot;, u&quot;û&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="16" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a49ca1468ea09c4d3c1a3b76ca1560837" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict snowballstemmer.dutch_stemmer.DutchStemmer::g_AEIOU</definition>
+        <argsstring></argsstring>
+        <name>g_AEIOU</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.g_AEIOU</qualifiedname>
+        <initializer>=  {u&quot;a&quot;, u&quot;ä&quot;, u&quot;á&quot;, u&quot;à&quot;, u&quot;â&quot;, u&quot;e&quot;, u&quot;ë&quot;, u&quot;é&quot;, u&quot;è&quot;, u&quot;ê&quot;, u&quot;i&quot;, u&quot;ï&quot;, u&quot;í&quot;, u&quot;ì&quot;, u&quot;î&quot;, u&quot;o&quot;, u&quot;ö&quot;, u&quot;ó&quot;, u&quot;ò&quot;, u&quot;ô&quot;, u&quot;u&quot;, u&quot;ü&quot;, u&quot;ú&quot;, u&quot;ù&quot;, u&quot;û&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="18" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a34f0fff9cf2d82484f16249cb9d150cc" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict snowballstemmer.dutch_stemmer.DutchStemmer::g_v</definition>
+        <argsstring></argsstring>
+        <name>g_v</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.g_v</qualifiedname>
+        <initializer>=  {u&quot;a&quot;, u&quot;ä&quot;, u&quot;á&quot;, u&quot;à&quot;, u&quot;â&quot;, u&quot;e&quot;, u&quot;ë&quot;, u&quot;é&quot;, u&quot;è&quot;, u&quot;ê&quot;, u&quot;i&quot;, u&quot;ï&quot;, u&quot;í&quot;, u&quot;ì&quot;, u&quot;î&quot;, u&quot;o&quot;, u&quot;ö&quot;, u&quot;ó&quot;, u&quot;ò&quot;, u&quot;ô&quot;, u&quot;u&quot;, u&quot;ü&quot;, u&quot;ú&quot;, u&quot;ù&quot;, u&quot;û&quot;, u&quot;y&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="20" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1ad543dc9f653858448be6388b0231cc7d" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict snowballstemmer.dutch_stemmer.DutchStemmer::g_v_WX</definition>
+        <argsstring></argsstring>
+        <name>g_v_WX</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.g_v_WX</qualifiedname>
+        <initializer>=  {u&quot;a&quot;, u&quot;ä&quot;, u&quot;á&quot;, u&quot;à&quot;, u&quot;â&quot;, u&quot;e&quot;, u&quot;ë&quot;, u&quot;é&quot;, u&quot;è&quot;, u&quot;ê&quot;, u&quot;i&quot;, u&quot;ï&quot;, u&quot;í&quot;, u&quot;ì&quot;, u&quot;î&quot;, u&quot;o&quot;, u&quot;ö&quot;, u&quot;ó&quot;, u&quot;ò&quot;, u&quot;ô&quot;, u&quot;u&quot;, u&quot;ü&quot;, u&quot;ú&quot;, u&quot;ù&quot;, u&quot;û&quot;, u&quot;y&quot;, u&quot;w&quot;, u&quot;x&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="22" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a0ff3bb22dae5e60a5b3d7371301eec10" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool snowballstemmer.dutch_stemmer.DutchStemmer::B_GE_removed</definition>
+        <argsstring></argsstring>
+        <name>B_GE_removed</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.B_GE_removed</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="24" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a4be4ecae6f90c8c46cdc55b054ce130e" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool snowballstemmer.dutch_stemmer.DutchStemmer::B_stemmed</definition>
+        <argsstring></argsstring>
+        <name>B_stemmed</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.B_stemmed</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="25" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a676d9a928c1fbb545ebb23f36dbe6578" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int snowballstemmer.dutch_stemmer.DutchStemmer::I_p2</definition>
+        <argsstring></argsstring>
+        <name>I_p2</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.I_p2</qualifiedname>
+        <initializer>=  0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="26" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a1e7bc8124646314e37bfdaa96804018f" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int snowballstemmer.dutch_stemmer.DutchStemmer::I_p1</definition>
+        <argsstring></argsstring>
+        <name>I_p1</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.I_p1</qualifiedname>
+        <initializer>=  0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="27" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1ab3fae30e89fd5c321df0479a00e2619d" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str snowballstemmer.dutch_stemmer.DutchStemmer::S_ch</definition>
+        <argsstring></argsstring>
+        <name>S_ch</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.S_ch</qualifiedname>
+        <initializer>=  &quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="28" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1af95cbe48b96116883f151f211fdaa529" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.dutch_stemmer.DutchStemmer::a_0</definition>
+        <argsstring></argsstring>
+        <name>a_0</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.a_0</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;a&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;e&quot;, -1, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;o&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;u&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;à&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;á&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;â&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ä&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;è&quot;, -1, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;é&quot;, -1, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ê&quot;, -1, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;eë&quot;, -1, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ië&quot;, -1, 4),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ò&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ó&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ô&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ö&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ù&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ú&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;û&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ü&quot;, -1, 1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="1165" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="1165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a299e1a69eea59bf39751b2883b3f3df0" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.dutch_stemmer.DutchStemmer::a_1</definition>
+        <argsstring></argsstring>
+        <name>a_1</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.a_1</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;nde&quot;, -1, 8),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;en&quot;, -1, 7),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;s&quot;, -1, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;&apos;s&quot;, 2, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;es&quot;, 2, 4),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ies&quot;, 4, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;aus&quot;, 2, 6),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;és&quot;, 2, 5)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="1189" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="1189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1afd67337a3ad0e4044814cbbbd0260e54" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.dutch_stemmer.DutchStemmer::a_2</definition>
+        <argsstring></argsstring>
+        <name>a_2</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.a_2</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;de&quot;, -1, 5),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ge&quot;, -1, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ische&quot;, -1, 4),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;je&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;lijke&quot;, -1, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;le&quot;, -1, 9),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ene&quot;, -1, 10),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;re&quot;, -1, 8),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;se&quot;, -1, 7),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;te&quot;, -1, 6),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ieve&quot;, -1, 11)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="1200" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="1200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a97bdf3ba28af31a1dfaefdea6b1bc009" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.dutch_stemmer.DutchStemmer::a_3</definition>
+        <argsstring></argsstring>
+        <name>a_3</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.a_3</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;heid&quot;, -1, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;fie&quot;, -1, 7),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;gie&quot;, -1, 8),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;atie&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;isme&quot;, -1, 5),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ing&quot;, -1, 5),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;arij&quot;, -1, 6),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;erij&quot;, -1, 5),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;sel&quot;, -1, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;rder&quot;, -1, 4),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ster&quot;, -1, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;iteit&quot;, -1, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;dst&quot;, -1, 10),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;tst&quot;, -1, 9)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="1214" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="1214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1ad681c7fb2174043f5bab70dec0aa7d11" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.dutch_stemmer.DutchStemmer::a_4</definition>
+        <argsstring></argsstring>
+        <name>a_4</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.a_4</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;end&quot;, -1, 9),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;atief&quot;, -1, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;erig&quot;, -1, 9),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;achtig&quot;, -1, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ioneel&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;baar&quot;, -1, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;laar&quot;, -1, 5),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;naar&quot;, -1, 4),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;raar&quot;, -1, 6),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;eriger&quot;, -1, 9),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;achtiger&quot;, -1, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;lijker&quot;, -1, 8),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;tant&quot;, -1, 7),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;erigst&quot;, -1, 9),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;achtigst&quot;, -1, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;lijkst&quot;, -1, 8)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="1231" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="1231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a838b040bc7f207703d5faf456a97ca1d" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.dutch_stemmer.DutchStemmer::a_5</definition>
+        <argsstring></argsstring>
+        <name>a_5</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.a_5</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ig&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;iger&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;igst&quot;, -1, 1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="1250" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="1250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a9f4c4853e8196c7f2e4ab48263746f16" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.dutch_stemmer.DutchStemmer::a_6</definition>
+        <argsstring></argsstring>
+        <name>a_6</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.a_6</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ft&quot;, -1, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;kt&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;pt&quot;, -1, 3)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="1256" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="1256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1adf33e9aeda8a331818495e355b6ee063" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.dutch_stemmer.DutchStemmer::a_7</definition>
+        <argsstring></argsstring>
+        <name>a_7</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.a_7</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;bb&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;cc&quot;, -1, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;dd&quot;, -1, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ff&quot;, -1, 4),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;gg&quot;, -1, 5),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;hh&quot;, -1, 6),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;jj&quot;, -1, 7),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;kk&quot;, -1, 8),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ll&quot;, -1, 9),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;mm&quot;, -1, 10),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;nn&quot;, -1, 11),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;pp&quot;, -1, 12),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;qq&quot;, -1, 13),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;rr&quot;, -1, 14),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ss&quot;, -1, 15),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;tt&quot;, -1, 16),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;v&quot;, -1, 4),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;vv&quot;, 16, 17),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ww&quot;, -1, 18),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;xx&quot;, -1, 19),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;z&quot;, -1, 15),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;zz&quot;, 20, 20)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="1262" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="1262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1ae80579185c9500e790ba0b85abae263b" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.dutch_stemmer.DutchStemmer::a_8</definition>
+        <argsstring></argsstring>
+        <name>a_8</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.a_8</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;d&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;t&quot;, -1, 2)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="1287" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="1287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a7287d8250093de046df213b61002c0ad" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.dutch_stemmer.DutchStemmer::a_9</definition>
+        <argsstring></argsstring>
+        <name>a_9</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.a_9</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;eft&quot;, 0, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;vaa&quot;, 0, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;val&quot;, 0, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;vali&quot;, 3, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;vare&quot;, 0, 1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="1292" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="1292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1ab616b76a8fe0d83cf1810ef01c11dbab" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.dutch_stemmer.DutchStemmer::a_10</definition>
+        <argsstring></argsstring>
+        <name>a_10</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.a_10</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ë&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ï&quot;, -1, 2)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="1301" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="1301" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a0027289193babccb9fcc1d2c86fcf3f0" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.dutch_stemmer.DutchStemmer::a_11</definition>
+        <argsstring></argsstring>
+        <name>a_11</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.a_11</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ë&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ï&quot;, -1, 2)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="1306" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="1306" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a6269b2e69fcdadba34ceac0fbd63efb5" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer::cursor</definition>
+        <argsstring></argsstring>
+        <name>cursor</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.cursor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="45" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a7f46cc5657ff61cb92eff073acb4dd35" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer::ket</definition>
+        <argsstring></argsstring>
+        <name>ket</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.ket</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="90" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1aaadaeb71f39df0d7d74ad40f85a7e4fe" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer::bra</definition>
+        <argsstring></argsstring>
+        <name>bra</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.bra</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="94" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a0ff7fd46b58272f20ca7cebe49c0d139" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer::S_ch</definition>
+        <argsstring></argsstring>
+        <name>S_ch</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.S_ch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="109" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1ae7cc871f4dafada52f222263e40f5af9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer::B_GE_removed</definition>
+        <argsstring></argsstring>
+        <name>B_GE_removed</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.B_GE_removed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="882" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="882" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a7783a181cb8c110d18b4e7f333b8fe28" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer::I_p1</definition>
+        <argsstring></argsstring>
+        <name>I_p1</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.I_p1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="995" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="995" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a6aa4400b460299fca642b2fac8a1ca0d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer::I_p2</definition>
+        <argsstring></argsstring>
+        <name>I_p2</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.I_p2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="996" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="996" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a457b51061391def22986f4fd16bb2512" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer::B_stemmed</definition>
+        <argsstring></argsstring>
+        <name>B_stemmed</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.B_stemmed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="1068" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="1068" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1adf3c2af8a2652d12e942a57c13ccfebe" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer::limit_backward</definition>
+        <argsstring></argsstring>
+        <name>limit_backward</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.limit_backward</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="1070" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="1070" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a021ef27c56e265e57517af4a2a0cb629" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer.__r_R1</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_R1</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.__r_R1</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="30" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="30" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a0c0d588f344eb68765d52c830d0a6209" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer.__r_R2</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_R2</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.__r_R2</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="33" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="33" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1af8823a98154b6733f968593af47792ef" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer.__r_V</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_V</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.__r_V</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="36" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="36" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a92ce0cb79c6b8b525866750317ea3f1b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer.__r_VX</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_VX</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.__r_VX</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="52" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="52" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a3a5ddb002bf457a28928bbc81daccd99" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer.__r_C</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_C</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.__r_C</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="71" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="71" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a0ab024c662b877c646a7bf2cf59d6eb0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer.__r_lengthen_V</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_lengthen_V</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.__r_lengthen_V</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="85" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="85" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a2fbf73b686c3ab5c7320f2a7a4a80649" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer.__r_Step_1</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_Step_1</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.__r_Step_1</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="175" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="175" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a6ef1a29fc312bba97b753f66126da742" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer.__r_Step_2</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_Step_2</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.__r_Step_2</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="331" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="331" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1ae6b4446fbcecd56a29524f7b35e2110d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer.__r_Step_3</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_Step_3</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.__r_Step_3</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="491" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="491" bodyend="574"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a043a1c250c72d8ad4f6735b527a78297" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer.__r_Step_4</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_Step_4</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.__r_Step_4</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="575" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="575" bodyend="666"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a3a7078d528fc13592a4e6771fdc21ce5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer.__r_Step_7</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_Step_7</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.__r_Step_7</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="667" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="667" bodyend="683"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a0e02c7b587974f1fb13bb0edcf01f990" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer.__r_Step_6</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_Step_6</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.__r_Step_6</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="684" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="684" bodyend="760"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1af24170ea59d0612ab2156262f16e8726" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer.__r_Step_1c</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_Step_1c</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.__r_Step_1c</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="761" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="761" bodyend="820"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a0eaf7e6132e266f1a960b1ccb76f034d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer.__r_Lose_prefix</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_Lose_prefix</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.__r_Lose_prefix</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="821" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="821" bodyend="902"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a6d308c2e457cdaf28e02d5df4e2d5369" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer.__r_Lose_infix</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_Lose_infix</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.__r_Lose_infix</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="903" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="903" bodyend="993"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a20825e80f883a107550fc25fdacfdc46" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer.__r_measure</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_measure</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer.__r_measure</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="994" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="994" bodyend="1066"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a41e2d14c7df6cdc0e89c4b24cd04a149" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.dutch_stemmer.DutchStemmer._stem</definition>
+        <argsstring>(self)</argsstring>
+        <name>_stem</name>
+        <qualifiedname>snowballstemmer.dutch_stemmer.DutchStemmer._stem</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="1067" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="1067" bodyend="1164"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>This class implements the stemming algorithm defined by a snowball script.
+Generated from dutch.sbl by Snowball 3.0.1 - https://snowballstem.org/
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>snowballstemmer.dutch_stemmer.DutchStemmer</label>
+        <link refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>snowballstemmer.basestemmer.BaseStemmer</label>
+        <link refid="classsnowballstemmer_1_1basestemmer_1_1BaseStemmer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>str</label>
+      </node>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>snowballstemmer.dutch_stemmer.DutchStemmer</label>
+        <link refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>S_ch</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>snowballstemmer.basestemmer.BaseStemmer</label>
+        <link refid="classsnowballstemmer_1_1basestemmer_1_1BaseStemmer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" line="8" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/dutch_stemmer.py" bodystart="8" bodyend="1311"/>
+    <listofallmembers>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a3a5ddb002bf457a28928bbc81daccd99" prot="private" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>__r_C</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a0ab024c662b877c646a7bf2cf59d6eb0" prot="private" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>__r_lengthen_V</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a6d308c2e457cdaf28e02d5df4e2d5369" prot="private" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>__r_Lose_infix</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a0eaf7e6132e266f1a960b1ccb76f034d" prot="private" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>__r_Lose_prefix</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a20825e80f883a107550fc25fdacfdc46" prot="private" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>__r_measure</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a021ef27c56e265e57517af4a2a0cb629" prot="private" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>__r_R1</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a0c0d588f344eb68765d52c830d0a6209" prot="private" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>__r_R2</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a2fbf73b686c3ab5c7320f2a7a4a80649" prot="private" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>__r_Step_1</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1af24170ea59d0612ab2156262f16e8726" prot="private" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>__r_Step_1c</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a6ef1a29fc312bba97b753f66126da742" prot="private" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>__r_Step_2</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1ae6b4446fbcecd56a29524f7b35e2110d" prot="private" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>__r_Step_3</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a043a1c250c72d8ad4f6735b527a78297" prot="private" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>__r_Step_4</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a0e02c7b587974f1fb13bb0edcf01f990" prot="private" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>__r_Step_6</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a3a7078d528fc13592a4e6771fdc21ce5" prot="private" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>__r_Step_7</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1af8823a98154b6733f968593af47792ef" prot="private" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>__r_V</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a92ce0cb79c6b8b525866750317ea3f1b" prot="private" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>__r_VX</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a41e2d14c7df6cdc0e89c4b24cd04a149" prot="protected" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>_stem</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1af95cbe48b96116883f151f211fdaa529" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>a_0</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a299e1a69eea59bf39751b2883b3f3df0" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>a_1</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1ab616b76a8fe0d83cf1810ef01c11dbab" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>a_10</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a0027289193babccb9fcc1d2c86fcf3f0" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>a_11</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1afd67337a3ad0e4044814cbbbd0260e54" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>a_2</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a97bdf3ba28af31a1dfaefdea6b1bc009" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>a_3</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1ad681c7fb2174043f5bab70dec0aa7d11" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>a_4</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a838b040bc7f207703d5faf456a97ca1d" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>a_5</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a9f4c4853e8196c7f2e4ab48263746f16" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>a_6</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1adf33e9aeda8a331818495e355b6ee063" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>a_7</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1ae80579185c9500e790ba0b85abae263b" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>a_8</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a7287d8250093de046df213b61002c0ad" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>a_9</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a0ff3bb22dae5e60a5b3d7371301eec10" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>B_GE_removed</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1ae7cc871f4dafada52f222263e40f5af9" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>B_GE_removed</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a4be4ecae6f90c8c46cdc55b054ce130e" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>B_stemmed</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a457b51061391def22986f4fd16bb2512" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>B_stemmed</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1aaadaeb71f39df0d7d74ad40f85a7e4fe" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>bra</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a6269b2e69fcdadba34ceac0fbd63efb5" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>cursor</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a49ca1468ea09c4d3c1a3b76ca1560837" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>g_AEIOU</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1aa78672eb2177a22567caba8e231af519" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>g_AIOU</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a1d4e4d073cb0505645677f8a0ecca10b" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>g_E</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a34f0fff9cf2d82484f16249cb9d150cc" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>g_v</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1ad543dc9f653858448be6388b0231cc7d" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>g_v_WX</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a1e7bc8124646314e37bfdaa96804018f" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>I_p1</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a7783a181cb8c110d18b4e7f333b8fe28" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>I_p1</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a676d9a928c1fbb545ebb23f36dbe6578" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>I_p2</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a6aa4400b460299fca642b2fac8a1ca0d" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>I_p2</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a7f46cc5657ff61cb92eff073acb4dd35" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>ket</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1adf3c2af8a2652d12e942a57c13ccfebe" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>limit_backward</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1ab3fae30e89fd5c321df0479a00e2619d" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>S_ch</name></member>
+      <member refid="classsnowballstemmer_1_1dutch__stemmer_1_1DutchStemmer_1a0ff7fd46b58272f20ca7cebe49c0d139" prot="public" virt="non-virtual"><scope>snowballstemmer::dutch_stemmer::DutchStemmer</scope><name>S_ch</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

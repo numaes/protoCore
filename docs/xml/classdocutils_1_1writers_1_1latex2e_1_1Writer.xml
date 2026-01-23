@@ -1,0 +1,421 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1writers_1_1latex2e_1_1Writer" kind="class" language="Python" prot="public">
+    <compoundname>docutils::writers::latex2e::Writer</compoundname>
+    <basecompoundref refid="classdocutils_1_1writers_1_1Writer" prot="public" virt="non-virtual">docutils.writers.Writer</basecompoundref>
+    <derivedcompoundref refid="classdocutils_1_1writers_1_1xetex_1_1Writer" prot="public" virt="non-virtual">docutils.writers.xetex.Writer</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1latex2e_1_1Writer_1abdb1403732d37c57c9d266769c91b6e6" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.writers.latex2e.Writer::supported</definition>
+        <argsstring></argsstring>
+        <name>supported</name>
+        <qualifiedname>docutils.writers.latex2e.Writer.supported</qualifiedname>
+        <initializer>=  (&apos;latex&apos;, &apos;latex2e&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" line="34" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1latex2e_1_1Writer_1a27bf0c5eb0db1d0a64d80583466b15ef" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.writers.latex2e.Writer::default_template</definition>
+        <argsstring></argsstring>
+        <name>default_template</name>
+        <qualifiedname>docutils.writers.latex2e.Writer.default_template</qualifiedname>
+        <initializer>=  &apos;default.tex&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" line="37" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1latex2e_1_1Writer_1ab6f5d3a84829cb8321ce10ee69a22db3" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.writers.latex2e.Writer::default_template_path</definition>
+        <argsstring></argsstring>
+        <name>default_template_path</name>
+        <qualifiedname>docutils.writers.latex2e.Writer.default_template_path</qualifiedname>
+        <initializer>=  <ref refid="namespacedocutils_1_1writers_1_1latex2e_1a4f0f756162ca0eff41605db63f3b952b" kindref="member">LATEX_WRITER_DIR</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" line="38" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1latex2e_1_1Writer_1a2199686795dd96bd29df01ee0526b86d" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.writers.latex2e.Writer::default_preamble</definition>
+        <argsstring></argsstring>
+        <name>default_preamble</name>
+        <qualifiedname>docutils.writers.latex2e.Writer.default_preamble</qualifiedname>
+        <initializer>=  (&apos;% PDF Standard Fonts\n&apos;
+                        &apos;\\usepackage{mathptmx} % Times\n&apos;
+                        &apos;\\usepackage[scaled=.90]{helvet}\n&apos;
+                        &apos;\\usepackage{courier}&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" line="39" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1latex2e_1_1Writer_1a26a5215014d6d3e7cb69e9bdef6c161f" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list docutils.writers.latex2e.Writer::table_style_values</definition>
+        <argsstring></argsstring>
+        <name>table_style_values</name>
+        <qualifiedname>docutils.writers.latex2e.Writer.table_style_values</qualifiedname>
+        <initializer>=  [  # TODO: align-left, align-center, align-right, ??
+                          &apos;booktabs&apos;, &apos;borderless&apos;, &apos;colwidths-auto&apos;,
+                          &apos;nolines&apos;, &apos;standard&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" line="43" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1latex2e_1_1Writer_1a5c7701f9e8bc028b3ab4d365299e60d2" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.writers.latex2e.Writer::settings_spec</definition>
+        <argsstring></argsstring>
+        <name>settings_spec</name>
+        <qualifiedname>docutils.writers.latex2e.Writer.settings_spec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" line="47" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1latex2e_1_1Writer_1aa5a83d2d5e710f057b5bfbe533b15dcf" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.writers.latex2e.Writer::relative_path_settings</definition>
+        <argsstring></argsstring>
+        <name>relative_path_settings</name>
+        <qualifiedname>docutils.writers.latex2e.Writer.relative_path_settings</qualifiedname>
+        <initializer>=  (&apos;template&apos;,)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" line="242" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1latex2e_1_1Writer_1a6d951cd9247094e902b302e7b1fdfd3e" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.writers.latex2e.Writer::settings_defaults</definition>
+        <argsstring></argsstring>
+        <name>settings_defaults</name>
+        <qualifiedname>docutils.writers.latex2e.Writer.settings_defaults</qualifiedname>
+        <initializer>=  {&apos;sectnum_depth&apos;: 0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" line="243" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1latex2e_1_1Writer_1a06f12cf7bd1fd5c70fddc04699383663" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.writers.latex2e.Writer::config_section</definition>
+        <argsstring></argsstring>
+        <name>config_section</name>
+        <qualifiedname>docutils.writers.latex2e.Writer.config_section</qualifiedname>
+        <initializer>=  &apos;latex2e writer&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" line="244" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1latex2e_1_1Writer_1a257d0ce99e2a3bc565af20776f679a58" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.writers.latex2e.Writer::config_section_dependencies</definition>
+        <argsstring></argsstring>
+        <name>config_section_dependencies</name>
+        <qualifiedname>docutils.writers.latex2e.Writer.config_section_dependencies</qualifiedname>
+        <initializer>=  (&apos;writers&apos;, &apos;latex writers&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" line="245" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1latex2e_1_1Writer_1adee7dad026b75c54bcb0eb2a351f8763" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.writers.latex2e.Writer::head_parts</definition>
+        <argsstring></argsstring>
+        <name>head_parts</name>
+        <qualifiedname>docutils.writers.latex2e.Writer.head_parts</qualifiedname>
+        <initializer>=  (&apos;head_prefix&apos;, &apos;requirements&apos;, &apos;latex_preamble&apos;,
+                  &apos;stylesheet&apos;, &apos;fallbacks&apos;, &apos;pdfsetup&apos;, &apos;titledata&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" line="247" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1latex2e_1_1Writer_1afde2b5bcc93691e56df5b1429f88fcf6" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.writers.latex2e.Writer::visitor_attributes</definition>
+        <argsstring></argsstring>
+        <name>visitor_attributes</name>
+        <qualifiedname>docutils.writers.latex2e.Writer.visitor_attributes</qualifiedname>
+        <initializer>=  <ref refid="classdocutils_1_1writers_1_1latex2e_1_1Writer_1adee7dad026b75c54bcb0eb2a351f8763" kindref="member">head_parts</ref> + (&apos;title&apos;, &apos;subtitle&apos;,
+                                       &apos;body_pre_docinfo&apos;, &apos;docinfo&apos;,
+                                       &apos;dedication&apos;, &apos;abstract&apos;, &apos;body&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" line="249" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1latex2e_1_1Writer_1af400c4d3506958415bec0d5a9d62925d" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.writers.latex2e.Writer::output</definition>
+        <argsstring></argsstring>
+        <name>output</name>
+        <qualifiedname>docutils.writers.latex2e.Writer.output</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" line="253" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" bodystart="253" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1latex2e_1_1Writer_1a69f8d82707e2a1e9d9240b7308b772e6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.latex2e.Writer::translator_class</definition>
+        <argsstring></argsstring>
+        <name>translator_class</name>
+        <qualifiedname>docutils.writers.latex2e.Writer.translator_class</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" line="258" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" bodystart="258" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1latex2e_1_1Writer_1aa088d377723c732c0e1727edcd29134c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.latex2e.Writer.__init__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>docutils.writers.latex2e.Writer.__init__</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1Writer_1ae362e6df277a5c57028e0fad4c94e6ea">__init__</reimplements>
+        <reimplementedby refid="classdocutils_1_1writers_1_1xetex_1_1Writer_1aa4e829183acbddab4955097d65eba958">__init__</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" line="256" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" bodystart="256" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1latex2e_1_1Writer_1a013b96d002e4e234ec23843218da8974" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.latex2e.Writer.get_transforms</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_transforms</name>
+        <qualifiedname>docutils.writers.latex2e.Writer.get_transforms</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1Writer_1aa91c382eea21f649d5a1e2399bc06568">get_transforms</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Transforms required by this class.  Override in subclasses.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" line="260" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" bodystart="260" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1latex2e_1_1Writer_1ac270e0165eea325601c2b8cecd947819" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.latex2e.Writer.translate</definition>
+        <argsstring>(self)</argsstring>
+        <name>translate</name>
+        <qualifiedname>docutils.writers.latex2e.Writer.translate</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1Writer_1a94b7282f8b16d235a1839a22d19c244b">translate</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Do final translation of `self.document` into `self.output`.  Called
+from `write`.  Override in subclasses.
+
+Usually done with a `docutils.nodes.NodeVisitor` subclass, in
+combination with a call to `docutils.nodes.Node.walk()` or
+`docutils.nodes.Node.walkabout()`.  The ``NodeVisitor`` subclass must
+support all standard elements (listed in
+`docutils.nodes.node_class_names`) and possibly non-standard elements
+used by the current Reader as well.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" line="268" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" bodystart="268" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1latex2e_1_1Writer_1a3e72e8cc411c53f799308987f67f2acd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.latex2e.Writer.assemble_parts</definition>
+        <argsstring>(self)</argsstring>
+        <name>assemble_parts</name>
+        <qualifiedname>docutils.writers.latex2e.Writer.assemble_parts</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1Writer_1a50f6c38b37c2aa79132feb57d0b6c276">assemble_parts</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Assemble the `self.parts` dictionary of output fragments.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" line="283" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" bodystart="283" bodyend="296"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.writers.latex2e.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1latex2e_1_1Writer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.Component</label>
+        <link refid="classdocutils_1_1Component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+      </node>
+      <node id="5">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+      </node>
+      <node id="2">
+        <label>docutils.writers.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1Writer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>docutils.writers.xetex.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1xetex_1_1Writer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="6">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>docutils.writers.latex2e.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1latex2e_1_1Writer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>config_section</edgelabel>
+          <edgelabel>default_template</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.Component</label>
+        <link refid="classdocutils_1_1Component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+      </node>
+      <node id="5">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+      </node>
+      <node id="2">
+        <label>docutils.writers.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1Writer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>component_type</edgelabel>
+          <edgelabel>config_section</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" line="32" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/latex2e/__init__.py" bodystart="32" bodyend="296"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1writers_1_1latex2e_1_1Writer_1aa088d377723c732c0e1727edcd29134c" prot="public" virt="non-virtual"><scope>docutils::writers::latex2e::Writer</scope><name>__init__</name></member>
+      <member refid="classdocutils_1_1writers_1_1latex2e_1_1Writer_1a3e72e8cc411c53f799308987f67f2acd" prot="public" virt="non-virtual"><scope>docutils::writers::latex2e::Writer</scope><name>assemble_parts</name></member>
+      <member refid="classdocutils_1_1writers_1_1latex2e_1_1Writer_1a06f12cf7bd1fd5c70fddc04699383663" prot="public" virt="non-virtual"><scope>docutils::writers::latex2e::Writer</scope><name>config_section</name></member>
+      <member refid="classdocutils_1_1writers_1_1latex2e_1_1Writer_1a257d0ce99e2a3bc565af20776f679a58" prot="public" virt="non-virtual"><scope>docutils::writers::latex2e::Writer</scope><name>config_section_dependencies</name></member>
+      <member refid="classdocutils_1_1writers_1_1latex2e_1_1Writer_1a2199686795dd96bd29df01ee0526b86d" prot="public" virt="non-virtual"><scope>docutils::writers::latex2e::Writer</scope><name>default_preamble</name></member>
+      <member refid="classdocutils_1_1writers_1_1latex2e_1_1Writer_1a27bf0c5eb0db1d0a64d80583466b15ef" prot="public" virt="non-virtual"><scope>docutils::writers::latex2e::Writer</scope><name>default_template</name></member>
+      <member refid="classdocutils_1_1writers_1_1latex2e_1_1Writer_1ab6f5d3a84829cb8321ce10ee69a22db3" prot="public" virt="non-virtual"><scope>docutils::writers::latex2e::Writer</scope><name>default_template_path</name></member>
+      <member refid="classdocutils_1_1writers_1_1latex2e_1_1Writer_1a013b96d002e4e234ec23843218da8974" prot="public" virt="non-virtual"><scope>docutils::writers::latex2e::Writer</scope><name>get_transforms</name></member>
+      <member refid="classdocutils_1_1writers_1_1latex2e_1_1Writer_1adee7dad026b75c54bcb0eb2a351f8763" prot="public" virt="non-virtual"><scope>docutils::writers::latex2e::Writer</scope><name>head_parts</name></member>
+      <member refid="classdocutils_1_1writers_1_1latex2e_1_1Writer_1af400c4d3506958415bec0d5a9d62925d" prot="public" virt="non-virtual"><scope>docutils::writers::latex2e::Writer</scope><name>output</name></member>
+      <member refid="classdocutils_1_1writers_1_1latex2e_1_1Writer_1aa5a83d2d5e710f057b5bfbe533b15dcf" prot="public" virt="non-virtual"><scope>docutils::writers::latex2e::Writer</scope><name>relative_path_settings</name></member>
+      <member refid="classdocutils_1_1writers_1_1latex2e_1_1Writer_1a6d951cd9247094e902b302e7b1fdfd3e" prot="public" virt="non-virtual"><scope>docutils::writers::latex2e::Writer</scope><name>settings_defaults</name></member>
+      <member refid="classdocutils_1_1writers_1_1latex2e_1_1Writer_1a5c7701f9e8bc028b3ab4d365299e60d2" prot="public" virt="non-virtual"><scope>docutils::writers::latex2e::Writer</scope><name>settings_spec</name></member>
+      <member refid="classdocutils_1_1writers_1_1latex2e_1_1Writer_1abdb1403732d37c57c9d266769c91b6e6" prot="public" virt="non-virtual"><scope>docutils::writers::latex2e::Writer</scope><name>supported</name></member>
+      <member refid="classdocutils_1_1writers_1_1latex2e_1_1Writer_1a26a5215014d6d3e7cb69e9bdef6c161f" prot="public" virt="non-virtual"><scope>docutils::writers::latex2e::Writer</scope><name>table_style_values</name></member>
+      <member refid="classdocutils_1_1writers_1_1latex2e_1_1Writer_1ac270e0165eea325601c2b8cecd947819" prot="public" virt="non-virtual"><scope>docutils::writers::latex2e::Writer</scope><name>translate</name></member>
+      <member refid="classdocutils_1_1writers_1_1latex2e_1_1Writer_1a69f8d82707e2a1e9d9240b7308b772e6" prot="public" virt="non-virtual"><scope>docutils::writers::latex2e::Writer</scope><name>translator_class</name></member>
+      <member refid="classdocutils_1_1writers_1_1latex2e_1_1Writer_1afde2b5bcc93691e56df5b1429f88fcf6" prot="public" virt="non-virtual"><scope>docutils::writers::latex2e::Writer</scope><name>visitor_attributes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

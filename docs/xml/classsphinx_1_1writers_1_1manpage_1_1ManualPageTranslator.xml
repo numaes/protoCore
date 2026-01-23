@@ -1,0 +1,2092 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::writers::manpage::ManualPageTranslator</compoundname>
+    <basecompoundref refid="classsphinx_1_1util_1_1docutils_1_1SphinxTranslator" prot="public" virt="non-virtual">sphinx.util.docutils.SphinxTranslator</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">BaseTranslator</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ab8fba088926d07b3ca15c0b1deb2a019" prot="protected" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.writers.manpage.ManualPageTranslator::_docinfo</definition>
+        <argsstring></argsstring>
+        <name>_docinfo</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator._docinfo</qualifiedname>
+        <initializer>=  {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="77" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a8cf0a70d93a956bb4a9d2c58d856ed43" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.writers.manpage.ManualPageTranslator::section_level</definition>
+        <argsstring></argsstring>
+        <name>section_level</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.section_level</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="83" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1af3a28040babb04ea6f2273830093f738" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.writers.manpage.ManualPageTranslator::first_param</definition>
+        <argsstring></argsstring>
+        <name>first_param</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.first_param</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="193" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="193" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a514f2e73218c4c27128db951d10e5d42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.__init__</definition>
+        <argsstring>(self, nodes.document document, Builder builder)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.__init__</qualifiedname>
+        <reimplements refid="classsphinx_1_1util_1_1docutils_1_1SphinxTranslator_1a5838f709b87093c479333e2b0ff29eed">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>nodes.document</type>
+          <declname>document</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1builders_1_1Builder" kindref="compound">Builder</ref></type>
+          <declname>builder</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="79" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="79" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a96f5758306a944e06f954696ccd14aeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.writers.manpage.ManualPageTranslator.header</definition>
+        <argsstring>(self)</argsstring>
+        <name>header</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.header</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="111" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="111" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1abdced8406304de837288bdceaf93f352" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_start_of_file</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_start_of_file</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_start_of_file</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="120" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="120" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a4741cdf446c191bb555cf54085114dbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_start_of_file</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_start_of_file</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_start_of_file</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="123" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="123" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a441895f6916df1af91578a2b4ba89d11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_desc</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_desc</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_desc</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>Domain-specific object descriptions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="133" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="133" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a9d77982ce60807e8eba027be3d1ac261" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_desc</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_desc</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_desc</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="136" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="136" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ab9b4dfe5eee29728acfb29f7e52b34ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_desc_signature</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_desc_signature</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_desc_signature</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="139" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="139" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1acd270d22691626b6d236be8f375894bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_desc_signature</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_desc_signature</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_desc_signature</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="143" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="143" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a507be139fd3bada87dee0388c9fef65e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_desc_signature_line</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_desc_signature_line</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_desc_signature_line</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="146" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="146" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a15c5c454ee4e8b5783d9d413bd3fd7b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_desc_signature_line</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_desc_signature_line</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_desc_signature_line</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="149" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="149" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1aa916d5fe74f4c524831b1c1780748515" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_desc_content</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_desc_content</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_desc_content</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="152" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="152" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a19e0fb8d50fe2f936f7b6c53b4bcff25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_desc_content</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_desc_content</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_desc_content</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="155" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="155" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ae4902a6b45861ace33ccf645d60534bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_desc_inline</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_desc_inline</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_desc_inline</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="158" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="158" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a7279949ee2a43877a6483ba701a3aec8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_desc_inline</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_desc_inline</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_desc_inline</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="161" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="161" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a51b3666ba52da10f61b8d877615b611f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_desc_name</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_desc_name</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_desc_name</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="167" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="167" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ab446469ceb856794e502dff12941548e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_desc_name</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_desc_name</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_desc_name</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="170" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="170" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a5c1e00906366f766a54e372a370fbd11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_desc_addname</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_desc_addname</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_desc_addname</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="173" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="173" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a74f045728117fa4df355bd5c854d73b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_desc_addname</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_desc_addname</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_desc_addname</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="176" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="176" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1adec18ada6c8e8c82b587d26a0f4b1078" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_desc_type</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_desc_type</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_desc_type</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="179" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="179" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ac6c226cd68985f4738f4dc43f784b58a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_desc_type</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_desc_type</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_desc_type</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="182" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="182" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1abacbd5efc24a741aa8def408ea8dc1cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_desc_returns</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_desc_returns</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_desc_returns</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="185" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="185" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a6e92f7991a8ab7badbf28d9fee8e8349" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_desc_returns</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_desc_returns</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_desc_returns</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="188" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="188" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a09c8261edb87d5b689f66a9f5c53ae95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_desc_parameterlist</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_desc_parameterlist</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_desc_parameterlist</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="191" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="191" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a833e86c369bd96d6e8eddd1b9c8d867c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_desc_parameterlist</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_desc_parameterlist</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_desc_parameterlist</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="195" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="195" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a3681a822b91af132dce9f73e960aedf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_desc_type_parameter_list</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_desc_type_parameter_list</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_desc_type_parameter_list</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="198" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="198" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1aaa9ab28e1d22e314fa47717e5ec774be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_desc_type_parameter_list</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_desc_type_parameter_list</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_desc_type_parameter_list</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="202" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="202" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1abbbd09154b0787885c2d7b005c614c31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_desc_parameter</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_desc_parameter</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_desc_parameter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="205" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="205" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a49b12fc77e6bfccce5c5537d9ced35bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_desc_parameter</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_desc_parameter</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_desc_parameter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="211" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="211" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ac61ae875ec0fa9b69c4063d7fef00593" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_desc_type_parameter</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_desc_type_parameter</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_desc_type_parameter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="214" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="214" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a9b16e60a38e9a62fcae7641aada2eebb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_desc_type_parameter</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_desc_type_parameter</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_desc_type_parameter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="217" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="217" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ab09be1f581431a6814ef8d6216088495" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_desc_optional</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_desc_optional</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_desc_optional</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="220" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="220" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1acf3ce8aeb1a69ccf969baa2cf58535d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_desc_optional</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_desc_optional</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_desc_optional</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="223" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="223" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a8ecccfb142812f3d6c5663356697c70a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_desc_annotation</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_desc_annotation</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_desc_annotation</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="226" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="226" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1add406487011220de49f446dfc4349a6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_desc_annotation</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_desc_annotation</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_desc_annotation</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="229" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="229" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a8433f927294e50e03a6f291e8c03d02b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_versionmodified</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_versionmodified</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_versionmodified</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="234" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="234" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a0c62ca925197fb82cbf075ec681281f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_versionmodified</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_versionmodified</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_versionmodified</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="237" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="237" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a7aa6d033c2898dfa4b700f040a472915" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_term</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_term</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_term</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="241" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="241" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ae07dbea590804ab6720cd01dd223fe13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_comment</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_comment</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_comment</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="248" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="248" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a99a42aa42801974536635fd31c76c9ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_footnote</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_footnote</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_footnote</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="252" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="252" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ad0e467251c5213009ce7ce391b603127" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_rubric</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_rubric</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_rubric</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="257" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="257" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1acbd471a7f81e0c9ff37676225bca29c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_rubric</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_rubric</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_rubric</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="264" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="264" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1acef33c7212f0d044948b33541393b7f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_seealso</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_seealso</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_seealso</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="267" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="267" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a84a5aca85e9a81b11bde8187468e0b2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_seealso</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_seealso</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_seealso</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="270" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="270" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1aa6b4c6320f7acfe4ba5ceceb308b2ade" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_productionlist</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_productionlist</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_productionlist</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="273" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="273" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1aca28aae2463498dcdc30f57b4d7ae5a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_productionlist</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_productionlist</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_productionlist</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="277" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="277" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a75670ad5cfe3a4acf03174f7ad4a329c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_production</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_production</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_production</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="280" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="280" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1af137ad47409686beb1349f35b354afbc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_production</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_production</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_production</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="283" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="283" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a9d642bc9a8a724a82764096362831dd9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_image</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_image</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_image</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="287" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="287" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ad707f95ab470a080a34cd57ac3bb4155" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_reference</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_reference</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_reference</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="294" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="294" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a79c0965fd1e0be8db16bfbc0873f2eb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_number_reference</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_number_reference</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_number_reference</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="323" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="323" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1aaac0c9ff555ce87c8f9cc5c38562da12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_centered</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_centered</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_centered</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="328" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="328" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1aeb4769d3755f46c2df49889f66831429" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_centered</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_centered</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_centered</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="332" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="332" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a7a6f8526c8af30d6e110d9d26cbeefb2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_compact_paragraph</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_compact_paragraph</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_compact_paragraph</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="335" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="335" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a1b131659d050409da87f799ef433b6a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_compact_paragraph</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_compact_paragraph</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_compact_paragraph</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="338" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="338" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ac5ebaf8c4161e997446c4b87bc47a7bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_download_reference</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_download_reference</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_download_reference</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="341" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="341" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a07bce79eae314b0f5a0785fc60b6ede6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_download_reference</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_download_reference</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_download_reference</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="344" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="344" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a5a33ef2bf1b69a5b0bcca82b1ee68006" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_toctree</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_toctree</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_toctree</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="347" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="347" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a554ff1c6ec708ed02347f3e14bf65d9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_index</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_index</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_index</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="350" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="350" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a8571dc7b54a345579f060827063876a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_tabular_col_spec</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_tabular_col_spec</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_tabular_col_spec</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="353" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="353" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a42a0ce64fbc7d1759a67f098aca309b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_glossary</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_glossary</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_glossary</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="356" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="356" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a5b614a430cf5f4532030114c15ca36d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_glossary</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_glossary</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_glossary</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="359" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="359" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a235e0807d43ad714eea8dbcb6f74d921" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_acks</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_acks</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_acks</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="362" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="362" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1abbb0959eafb7472cc728ee80c74aa29f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_hlist</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_hlist</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_hlist</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="372" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="372" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a035e2ca6d71a435f04e20e6208acec9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_hlist</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_hlist</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_hlist</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="375" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="375" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a029eadceae56df5de16543629dd6d2f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_hlistcol</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_hlistcol</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_hlistcol</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="378" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="378" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a6ef6add1b4c5d51d95645d90563dc26c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_hlistcol</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_hlistcol</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_hlistcol</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="381" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="381" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a0fe183a313c3bfbe2ac0f964f49e85f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_literal_emphasis</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_literal_emphasis</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_literal_emphasis</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="384" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="384" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a308b42ad9ae19e2f8f45ed9353c9dca6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_literal_emphasis</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_literal_emphasis</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_literal_emphasis</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="387" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="387" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1af6e95acf6b01e45cea5c7faa3abcc01a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_literal_strong</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_literal_strong</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_literal_strong</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="390" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="390" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a6c0a80009578a73a5b04c9e18b2ae19e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_literal_strong</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_literal_strong</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_literal_strong</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="393" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="393" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a2e8f30e44e2fcf317b98871f6b90ccba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_abbreviation</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_abbreviation</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_abbreviation</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="396" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="396" bodyend="398"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a9549f81d6f8ae1459489818e6e5345ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_abbreviation</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_abbreviation</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_abbreviation</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="399" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="399" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a4bbab83727c474cfcfffc71b249bb578" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_manpage</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_manpage</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_manpage</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="402" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="402" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a68e20154c075a582cda04878aeaac8eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_manpage</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_manpage</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_manpage</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="405" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="405" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a3c5d1e3d340a994fae9709df9d11014c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_caption</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_caption</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_caption</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="409" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="409" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1aed4332762dc9525a1a217549688224f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_caption</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_caption</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_caption</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="418" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="418" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a67667c10ed1b3c21f26d08dfb4412c63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_title</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_title</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_title</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="428" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="428" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a4177227f96222407ea5a183a74ea09e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_title</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_title</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_title</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="441" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="441" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1adb659520a074cd3c50ba2c7b44736de6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_raw</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_raw</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_raw</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="447" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="447" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ab72b5dd77d9ef203482ed6e1d9140d6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_meta</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_meta</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_meta</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="452" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="452" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1af304ed646b88905c81fc564016a065be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_inline</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>visit_inline</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_inline</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="455" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="455" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1afbfd1481461de7eacf63ea69e4c7b4e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_inline</definition>
+        <argsstring>(self, Element node)</argsstring>
+        <name>depart_inline</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_inline</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="458" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="458" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ade0103a1b02ca4037dbd60e9e3a81b0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_math</definition>
+        <argsstring>(self, nodes.math node)</argsstring>
+        <name>visit_math</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_math</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>nodes.math</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="461" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="461" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1adb6042add4a95fae6ebfe30cdaa5eb8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_math</definition>
+        <argsstring>(self, nodes.math node)</argsstring>
+        <name>depart_math</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_math</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>nodes.math</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="464" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="464" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a67b987954e7efbac419c7811c3abd497" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.visit_math_block</definition>
+        <argsstring>(self, nodes.math_block node)</argsstring>
+        <name>visit_math_block</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.visit_math_block</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>nodes.math_block</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="467" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="467" bodyend="469"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1aa96eb6bf89a04f23d2b7b09f49012476" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageTranslator.depart_math_block</definition>
+        <argsstring>(self, nodes.math_block node)</argsstring>
+        <name>depart_math_block</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageTranslator.depart_math_block</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>nodes.math_block</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="470" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="470" bodyend="472"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Custom man page translator.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>BaseTranslator</label>
+      </node>
+      <node id="3">
+        <label>nodes.NodeVisitor</label>
+      </node>
+      <node id="1">
+        <label>sphinx.writers.manpage.ManualPageTranslator</label>
+        <link refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.util.docutils.SphinxTranslator</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxTranslator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>BaseTranslator</label>
+      </node>
+      <node id="3">
+        <label>nodes.NodeVisitor</label>
+      </node>
+      <node id="1">
+        <label>sphinx.writers.manpage.ManualPageTranslator</label>
+        <link refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.util.docutils.SphinxTranslator</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxTranslator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="74" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="74" bodyend="472"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a514f2e73218c4c27128db951d10e5d42" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>__init__</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ab8fba088926d07b3ca15c0b1deb2a019" prot="protected" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>_docinfo</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a9549f81d6f8ae1459489818e6e5345ed" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_abbreviation</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1aed4332762dc9525a1a217549688224f8" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_caption</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1aeb4769d3755f46c2df49889f66831429" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_centered</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a1b131659d050409da87f799ef433b6a3" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_compact_paragraph</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a9d77982ce60807e8eba027be3d1ac261" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_desc</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a74f045728117fa4df355bd5c854d73b8" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_desc_addname</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1add406487011220de49f446dfc4349a6f" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_desc_annotation</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a19e0fb8d50fe2f936f7b6c53b4bcff25" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_desc_content</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a7279949ee2a43877a6483ba701a3aec8" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_desc_inline</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ab446469ceb856794e502dff12941548e" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_desc_name</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1acf3ce8aeb1a69ccf969baa2cf58535d9" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_desc_optional</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a49b12fc77e6bfccce5c5537d9ced35bb" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_desc_parameter</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a833e86c369bd96d6e8eddd1b9c8d867c" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_desc_parameterlist</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a6e92f7991a8ab7badbf28d9fee8e8349" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_desc_returns</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1acd270d22691626b6d236be8f375894bf" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_desc_signature</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a15c5c454ee4e8b5783d9d413bd3fd7b0" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_desc_signature_line</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ac6c226cd68985f4738f4dc43f784b58a" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_desc_type</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a9b16e60a38e9a62fcae7641aada2eebb" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_desc_type_parameter</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1aaa9ab28e1d22e314fa47717e5ec774be" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_desc_type_parameter_list</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a07bce79eae314b0f5a0785fc60b6ede6" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_download_reference</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a5b614a430cf5f4532030114c15ca36d0" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_glossary</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a035e2ca6d71a435f04e20e6208acec9e" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_hlist</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a6ef6add1b4c5d51d95645d90563dc26c" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_hlistcol</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1afbfd1481461de7eacf63ea69e4c7b4e9" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_inline</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a308b42ad9ae19e2f8f45ed9353c9dca6" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_literal_emphasis</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a6c0a80009578a73a5b04c9e18b2ae19e" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_literal_strong</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a68e20154c075a582cda04878aeaac8eb" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_manpage</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1adb6042add4a95fae6ebfe30cdaa5eb8a" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_math</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1aa96eb6bf89a04f23d2b7b09f49012476" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_math_block</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1af137ad47409686beb1349f35b354afbc" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_production</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1aca28aae2463498dcdc30f57b4d7ae5a7" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_productionlist</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1acbd471a7f81e0c9ff37676225bca29c7" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_rubric</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a84a5aca85e9a81b11bde8187468e0b2f" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_seealso</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a4741cdf446c191bb555cf54085114dbd" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_start_of_file</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a4177227f96222407ea5a183a74ea09e9" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_title</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a0c62ca925197fb82cbf075ec681281f4" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>depart_versionmodified</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1af3a28040babb04ea6f2273830093f738" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>first_param</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a96f5758306a944e06f954696ccd14aeb" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>header</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a8cf0a70d93a956bb4a9d2c58d856ed43" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>section_level</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a2e8f30e44e2fcf317b98871f6b90ccba" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_abbreviation</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a235e0807d43ad714eea8dbcb6f74d921" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_acks</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a3c5d1e3d340a994fae9709df9d11014c" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_caption</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1aaac0c9ff555ce87c8f9cc5c38562da12" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_centered</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ae07dbea590804ab6720cd01dd223fe13" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_comment</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a7a6f8526c8af30d6e110d9d26cbeefb2" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_compact_paragraph</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a441895f6916df1af91578a2b4ba89d11" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_desc</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a5c1e00906366f766a54e372a370fbd11" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_desc_addname</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a8ecccfb142812f3d6c5663356697c70a" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_desc_annotation</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1aa916d5fe74f4c524831b1c1780748515" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_desc_content</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ae4902a6b45861ace33ccf645d60534bd" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_desc_inline</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a51b3666ba52da10f61b8d877615b611f" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_desc_name</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ab09be1f581431a6814ef8d6216088495" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_desc_optional</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1abbbd09154b0787885c2d7b005c614c31" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_desc_parameter</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a09c8261edb87d5b689f66a9f5c53ae95" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_desc_parameterlist</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1abacbd5efc24a741aa8def408ea8dc1cf" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_desc_returns</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ab9b4dfe5eee29728acfb29f7e52b34ed" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_desc_signature</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a507be139fd3bada87dee0388c9fef65e" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_desc_signature_line</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1adec18ada6c8e8c82b587d26a0f4b1078" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_desc_type</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ac61ae875ec0fa9b69c4063d7fef00593" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_desc_type_parameter</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a3681a822b91af132dce9f73e960aedf6" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_desc_type_parameter_list</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ac5ebaf8c4161e997446c4b87bc47a7bd" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_download_reference</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a99a42aa42801974536635fd31c76c9ea" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_footnote</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a42a0ce64fbc7d1759a67f098aca309b1" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_glossary</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1abbb0959eafb7472cc728ee80c74aa29f" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_hlist</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a029eadceae56df5de16543629dd6d2f4" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_hlistcol</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a9d642bc9a8a724a82764096362831dd9" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_image</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a554ff1c6ec708ed02347f3e14bf65d9b" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_index</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1af304ed646b88905c81fc564016a065be" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_inline</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a0fe183a313c3bfbe2ac0f964f49e85f8" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_literal_emphasis</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1af6e95acf6b01e45cea5c7faa3abcc01a" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_literal_strong</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a4bbab83727c474cfcfffc71b249bb578" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_manpage</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ade0103a1b02ca4037dbd60e9e3a81b0e" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_math</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a67b987954e7efbac419c7811c3abd497" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_math_block</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ab72b5dd77d9ef203482ed6e1d9140d6c" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_meta</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a79c0965fd1e0be8db16bfbc0873f2eb1" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_number_reference</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a75670ad5cfe3a4acf03174f7ad4a329c" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_production</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1aa6b4c6320f7acfe4ba5ceceb308b2ade" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_productionlist</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1adb659520a074cd3c50ba2c7b44736de6" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_raw</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ad707f95ab470a080a34cd57ac3bb4155" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_reference</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1ad0e467251c5213009ce7ce391b603127" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_rubric</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1acef33c7212f0d044948b33541393b7f0" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_seealso</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1abdced8406304de837288bdceaf93f352" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_start_of_file</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a8571dc7b54a345579f060827063876a1" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_tabular_col_spec</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a7aa6d033c2898dfa4b700f040a472915" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_term</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a67667c10ed1b3c21f26d08dfb4412c63" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_title</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a5a33ef2bf1b69a5b0bcca82b1ee68006" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_toctree</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageTranslator_1a8433f927294e50e03a6f291e8c03d02b" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageTranslator</scope><name>visit_versionmodified</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

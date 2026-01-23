@@ -1,0 +1,335 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepygments_1_1lexers_1_1css" kind="namespace" language="Python">
+    <compoundname>pygments::lexers::css</compoundname>
+    <innerclass refid="classpygments_1_1lexers_1_1css_1_1CssLexer" prot="public">pygments::lexers::css::CssLexer</innerclass>
+    <innerclass refid="classpygments_1_1lexers_1_1css_1_1LessCssLexer" prot="public">pygments::lexers::css::LessCssLexer</innerclass>
+    <innerclass refid="classpygments_1_1lexers_1_1css_1_1SassLexer" prot="public">pygments::lexers::css::SassLexer</innerclass>
+    <innerclass refid="classpygments_1_1lexers_1_1css_1_1ScssLexer" prot="public">pygments::lexers::css::ScssLexer</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1css_1a9c405bd84c7f3d8ecbd955462db6ee27" prot="private" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pygments::lexers::css.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>pygments.lexers.css.__all__</qualifiedname>
+        <initializer>=  [&apos;<ref refid="classpygments_1_1lexers_1_1css_1_1CssLexer" kindref="compound">CssLexer</ref>&apos;, &apos;<ref refid="classpygments_1_1lexers_1_1css_1_1SassLexer" kindref="compound">SassLexer</ref>&apos;, &apos;<ref refid="classpygments_1_1lexers_1_1css_1_1ScssLexer" kindref="compound">ScssLexer</ref>&apos;, &apos;<ref refid="classpygments_1_1lexers_1_1css_1_1LessCssLexer" kindref="compound">LessCssLexer</ref>&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/css.py" line="20" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/css.py" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1css_1a191121e0d705e713a393dd11ac99db29" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pygments::lexers::css._vendor_prefixes</definition>
+        <argsstring></argsstring>
+        <name>_vendor_prefixes</name>
+        <qualifiedname>pygments.lexers.css._vendor_prefixes</qualifiedname>
+        <initializer>=  (
+    &apos;-ms-&apos;, &apos;mso-&apos;, &apos;-moz-&apos;, &apos;-o-&apos;, &apos;-xv-&apos;, &apos;-atsc-&apos;, &apos;-wap-&apos;, &apos;-khtml-&apos;,
+    &apos;-webkit-&apos;, &apos;prince-&apos;, &apos;-ah-&apos;, &apos;-hp-&apos;, &apos;-ro-&apos;, &apos;-rim-&apos;, &apos;-tc-&apos;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/css.py" line="25" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/css.py" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1css_1a6a3eb0b362b560807bfd5323b25cff90" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pygments::lexers::css._color_keywords</definition>
+        <argsstring></argsstring>
+        <name>_color_keywords</name>
+        <qualifiedname>pygments.lexers.css._color_keywords</qualifiedname>
+        <initializer>=  (
+    &apos;aliceblue&apos;, &apos;antiquewhite&apos;, &apos;aqua&apos;, &apos;aquamarine&apos;, &apos;azure&apos;, &apos;beige&apos;,
+    &apos;bisque&apos;, &apos;black&apos;, &apos;blanchedalmond&apos;, &apos;blue&apos;, &apos;blueviolet&apos;, &apos;brown&apos;,
+    &apos;burlywood&apos;, &apos;cadetblue&apos;, &apos;chartreuse&apos;, &apos;chocolate&apos;, &apos;coral&apos;,
+    &apos;cornflowerblue&apos;, &apos;cornsilk&apos;, &apos;crimson&apos;, &apos;cyan&apos;, &apos;darkblue&apos;, &apos;darkcyan&apos;,
+    &apos;darkgoldenrod&apos;, &apos;darkgray&apos;, &apos;darkgreen&apos;, &apos;darkgrey&apos;, &apos;darkkhaki&apos;,
+    &apos;darkmagenta&apos;, &apos;darkolivegreen&apos;, &apos;darkorange&apos;, &apos;darkorchid&apos;, &apos;darkred&apos;,
+    &apos;darksalmon&apos;, &apos;darkseagreen&apos;, &apos;darkslateblue&apos;, &apos;darkslategray&apos;,
+    &apos;darkslategrey&apos;, &apos;darkturquoise&apos;, &apos;darkviolet&apos;, &apos;deeppink&apos;, &apos;deepskyblue&apos;,
+    &apos;dimgray&apos;, &apos;dimgrey&apos;, &apos;dodgerblue&apos;, &apos;firebrick&apos;, &apos;floralwhite&apos;,
+    &apos;forestgreen&apos;, &apos;fuchsia&apos;, &apos;gainsboro&apos;, &apos;ghostwhite&apos;, &apos;gold&apos;, &apos;goldenrod&apos;,
+    &apos;gray&apos;, &apos;green&apos;, &apos;greenyellow&apos;, &apos;grey&apos;, &apos;honeydew&apos;, &apos;hotpink&apos;, &apos;indianred&apos;,
+    &apos;indigo&apos;, &apos;ivory&apos;, &apos;khaki&apos;, &apos;lavender&apos;, &apos;lavenderblush&apos;, &apos;lawngreen&apos;,
+    &apos;lemonchiffon&apos;, &apos;lightblue&apos;, &apos;lightcoral&apos;, &apos;lightcyan&apos;,
+    &apos;lightgoldenrodyellow&apos;, &apos;lightgray&apos;, &apos;lightgreen&apos;, &apos;lightgrey&apos;,
+    &apos;lightpink&apos;, &apos;lightsalmon&apos;, &apos;lightseagreen&apos;, &apos;lightskyblue&apos;,
+    &apos;lightslategray&apos;, &apos;lightslategrey&apos;, &apos;lightsteelblue&apos;, &apos;lightyellow&apos;,
+    &apos;lime&apos;, &apos;limegreen&apos;, &apos;linen&apos;, &apos;magenta&apos;, &apos;maroon&apos;, &apos;mediumaquamarine&apos;,
+    &apos;mediumblue&apos;, &apos;mediumorchid&apos;, &apos;mediumpurple&apos;, &apos;mediumseagreen&apos;,
+    &apos;mediumslateblue&apos;, &apos;mediumspringgreen&apos;, &apos;mediumturquoise&apos;,
+    &apos;mediumvioletred&apos;, &apos;midnightblue&apos;, &apos;mintcream&apos;, &apos;mistyrose&apos;, &apos;moccasin&apos;,
+    &apos;navajowhite&apos;, &apos;navy&apos;, &apos;oldlace&apos;, &apos;olive&apos;, &apos;olivedrab&apos;, &apos;orange&apos;,
+    &apos;orangered&apos;, &apos;orchid&apos;, &apos;palegoldenrod&apos;, &apos;palegreen&apos;, &apos;paleturquoise&apos;,
+    &apos;palevioletred&apos;, &apos;papayawhip&apos;, &apos;peachpuff&apos;, &apos;peru&apos;, &apos;pink&apos;, &apos;plum&apos;,
+    &apos;powderblue&apos;, &apos;purple&apos;, &apos;rebeccapurple&apos;, &apos;red&apos;, &apos;rosybrown&apos;, &apos;royalblue&apos;,
+    &apos;saddlebrown&apos;, &apos;salmon&apos;, &apos;sandybrown&apos;, &apos;seagreen&apos;, &apos;seashell&apos;, &apos;sienna&apos;,
+    &apos;silver&apos;, &apos;skyblue&apos;, &apos;slateblue&apos;, &apos;slategray&apos;, &apos;slategrey&apos;, &apos;snow&apos;,
+    &apos;springgreen&apos;, &apos;steelblue&apos;, &apos;tan&apos;, &apos;teal&apos;, &apos;thistle&apos;, &apos;tomato&apos;, &apos;turquoise&apos;,
+    &apos;violet&apos;, &apos;wheat&apos;, &apos;white&apos;, &apos;whitesmoke&apos;, &apos;yellow&apos;, &apos;yellowgreen&apos;,
+) + (&apos;transparent&apos;,)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/css.py" line="32" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/css.py" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1css_1a1ecd51e765c5fa0c1ebb171e6daca4c1" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pygments::lexers::css._keyword_values</definition>
+        <argsstring></argsstring>
+        <name>_keyword_values</name>
+        <qualifiedname>pygments.lexers.css._keyword_values</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/css.py" line="65" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/css.py" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1css_1a0cfb8fd573c37647b7ec0fd843b39567" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pygments::lexers::css._other_keyword_values</definition>
+        <argsstring></argsstring>
+        <name>_other_keyword_values</name>
+        <qualifiedname>pygments.lexers.css._other_keyword_values</qualifiedname>
+        <initializer>=  (
+    &apos;above&apos;, &apos;aural&apos;, &apos;behind&apos;, &apos;bidi-override&apos;, &apos;center-left&apos;, &apos;center-right&apos;,
+    &apos;cjk-ideographic&apos;, &apos;continuous&apos;, &apos;crop&apos;, &apos;cross&apos;, &apos;embed&apos;, &apos;far-left&apos;,
+    &apos;far-right&apos;, &apos;fast&apos;, &apos;faster&apos;, &apos;hebrew&apos;, &apos;high&apos;, &apos;higher&apos;, &apos;hiragana&apos;,
+    &apos;hiragana-iroha&apos;, &apos;katakana&apos;, &apos;katakana-iroha&apos;, &apos;landscape&apos;, &apos;left-side&apos;,
+    &apos;leftwards&apos;, &apos;level&apos;, &apos;loud&apos;, &apos;low&apos;, &apos;lower&apos;, &apos;message-box&apos;, &apos;middle&apos;,
+    &apos;mix&apos;, &apos;narrower&apos;, &apos;once&apos;, &apos;portrait&apos;, &apos;right-side&apos;, &apos;rightwards&apos;, &apos;silent&apos;,
+    &apos;slow&apos;, &apos;slower&apos;, &apos;small-caption&apos;, &apos;soft&apos;, &apos;spell-out&apos;, &apos;status-bar&apos;,
+    &apos;super&apos;, &apos;text-bottom&apos;, &apos;text-top&apos;, &apos;wider&apos;, &apos;x-fast&apos;, &apos;x-high&apos;, &apos;x-loud&apos;,
+    &apos;x-low&apos;, &apos;x-soft&apos;, &apos;yes&apos;, &apos;pre&apos;, &apos;pre-wrap&apos;, &apos;pre-line&apos;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/css.py" line="120" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/css.py" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1css_1aaa754793550250ed65e42dfe592d15e4" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pygments::lexers::css._functional_notation_keyword_values</definition>
+        <argsstring></argsstring>
+        <name>_functional_notation_keyword_values</name>
+        <qualifiedname>pygments.lexers.css._functional_notation_keyword_values</qualifiedname>
+        <initializer>=  (
+    &apos;attr&apos;, &apos;blackness&apos;, &apos;blend&apos;, &apos;blenda&apos;, &apos;blur&apos;, &apos;brightness&apos;, &apos;calc&apos;,
+    &apos;circle&apos;, &apos;color-mod&apos;, &apos;contrast&apos;, &apos;counter&apos;, &apos;cubic-bezier&apos;, &apos;device-cmyk&apos;,
+    &apos;drop-shadow&apos;, &apos;ellipse&apos;, &apos;gray&apos;, &apos;grayscale&apos;, &apos;hsl&apos;, &apos;hsla&apos;, &apos;hue&apos;,
+    &apos;hue-rotate&apos;, &apos;hwb&apos;, &apos;image&apos;, &apos;inset&apos;, &apos;invert&apos;, &apos;lightness&apos;,
+    &apos;linear-gradient&apos;, &apos;matrix&apos;, &apos;matrix3d&apos;, &apos;opacity&apos;, &apos;perspective&apos;,
+    &apos;polygon&apos;, &apos;radial-gradient&apos;, &apos;rect&apos;, &apos;repeating-linear-gradient&apos;,
+    &apos;repeating-radial-gradient&apos;, &apos;rgb&apos;, &apos;rgba&apos;, &apos;rotate&apos;, &apos;rotate3d&apos;, &apos;rotateX&apos;,
+    &apos;rotateY&apos;, &apos;rotateZ&apos;, &apos;saturate&apos;, &apos;saturation&apos;, &apos;scale&apos;, &apos;scale3d&apos;,
+    &apos;scaleX&apos;, &apos;scaleY&apos;, &apos;scaleZ&apos;, &apos;sepia&apos;, &apos;shade&apos;, &apos;skewX&apos;, &apos;skewY&apos;, &apos;steps&apos;,
+    &apos;tint&apos;, &apos;toggle&apos;, &apos;translate&apos;, &apos;translate3d&apos;, &apos;translateX&apos;, &apos;translateY&apos;,
+    &apos;translateZ&apos;, &apos;whiteness&apos;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/css.py" line="133" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/css.py" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1css_1a6a4e70d7459d398a14494f459757165d" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pygments::lexers::css._angle_units</definition>
+        <argsstring></argsstring>
+        <name>_angle_units</name>
+        <qualifiedname>pygments.lexers.css._angle_units</qualifiedname>
+        <initializer>=  (
+    &apos;deg&apos;, &apos;grad&apos;, &apos;rad&apos;, &apos;turn&apos;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/css.py" line="150" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/css.py" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1css_1a77e7884865d687d692e9da7e95dadf6c" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pygments::lexers::css._frequency_units</definition>
+        <argsstring></argsstring>
+        <name>_frequency_units</name>
+        <qualifiedname>pygments.lexers.css._frequency_units</qualifiedname>
+        <initializer>=  (
+    &apos;Hz&apos;, &apos;kHz&apos;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/css.py" line="153" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/css.py" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1css_1af6151d237a7a3687a4ed7e869207c9ee" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pygments::lexers::css._length_units</definition>
+        <argsstring></argsstring>
+        <name>_length_units</name>
+        <qualifiedname>pygments.lexers.css._length_units</qualifiedname>
+        <initializer>=  (
+    &apos;em&apos;, &apos;ex&apos;, &apos;ch&apos;, &apos;rem&apos;,
+    &apos;vh&apos;, &apos;vw&apos;, &apos;vmin&apos;, &apos;vmax&apos;,
+    &apos;px&apos;, &apos;mm&apos;, &apos;cm&apos;, &apos;in&apos;, &apos;pt&apos;, &apos;pc&apos;, &apos;q&apos;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/css.py" line="156" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/css.py" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1css_1adcc5fddca7a84d210fe9af865a685414" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pygments::lexers::css._resolution_units</definition>
+        <argsstring></argsstring>
+        <name>_resolution_units</name>
+        <qualifiedname>pygments.lexers.css._resolution_units</qualifiedname>
+        <initializer>=  (
+    &apos;dpi&apos;, &apos;dpcm&apos;, &apos;dppx&apos;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/css.py" line="161" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/css.py" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1css_1affc1014923caa493333d41cb5d81fbc4" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pygments::lexers::css._time_units</definition>
+        <argsstring></argsstring>
+        <name>_time_units</name>
+        <qualifiedname>pygments.lexers.css._time_units</qualifiedname>
+        <initializer>=  (
+    &apos;s&apos;, &apos;ms&apos;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/css.py" line="164" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/css.py" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1css_1adec6d1b59679a4c8bb84d9ccde96f91f" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pygments::lexers::css._all_units</definition>
+        <argsstring></argsstring>
+        <name>_all_units</name>
+        <qualifiedname>pygments.lexers.css._all_units</qualifiedname>
+        <initializer>=  <ref refid="namespacepygments_1_1lexers_1_1css_1a6a4e70d7459d398a14494f459757165d" kindref="member">_angle_units</ref> + <ref refid="namespacepygments_1_1lexers_1_1css_1a77e7884865d687d692e9da7e95dadf6c" kindref="member">_frequency_units</ref> + <ref refid="namespacepygments_1_1lexers_1_1css_1af6151d237a7a3687a4ed7e869207c9ee" kindref="member">_length_units</ref> + \
+    <ref refid="namespacepygments_1_1lexers_1_1css_1adcc5fddca7a84d210fe9af865a685414" kindref="member">_resolution_units</ref> + <ref refid="namespacepygments_1_1lexers_1_1css_1affc1014923caa493333d41cb5d81fbc4" kindref="member">_time_units</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/css.py" line="167" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/css.py" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1css_1a1d4c87465edf399fc93b63c9ccc50e70" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict pygments::lexers::css.common_sass_tokens</definition>
+        <argsstring></argsstring>
+        <name>common_sass_tokens</name>
+        <qualifiedname>pygments.lexers.css.common_sass_tokens</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/css.py" line="296" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/css.py" bodystart="296" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepygments_1_1lexers_1_1css_1abd3fb6b96ef8aa3bb6996b0fd5c29d4c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.lexers.css._indentation</definition>
+        <argsstring>(lexer, match, ctx)</argsstring>
+        <name>_indentation</name>
+        <qualifiedname>pygments.lexers.css._indentation</qualifiedname>
+        <param>
+          <type>lexer</type>
+          <defname>lexer</defname>
+        </param>
+        <param>
+          <type>match</type>
+          <defname>match</defname>
+        </param>
+        <param>
+          <type>ctx</type>
+          <defname>ctx</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/css.py" line="415" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/css.py" bodystart="415" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepygments_1_1lexers_1_1css_1ad6f2c868cabc653e6174acd38bf1fda9" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.lexers.css._starts_block</definition>
+        <argsstring>(token, state)</argsstring>
+        <name>_starts_block</name>
+        <qualifiedname>pygments.lexers.css._starts_block</qualifiedname>
+        <param>
+          <type>token</type>
+          <defname>token</defname>
+        </param>
+        <param>
+          <type>state</type>
+          <defname>state</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/css.py" line="431" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/css.py" bodystart="431" bodyend="445"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>    pygments.lexers.css
+    ~~~~~~~~~~~~~~~~~~~
+
+    Lexers for CSS and related stylesheet formats.
+
+    :copyright: Copyright 2006-2025 by the Pygments team, see AUTHORS.
+    :license: BSD, see LICENSE for details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pygments/lexers/css.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

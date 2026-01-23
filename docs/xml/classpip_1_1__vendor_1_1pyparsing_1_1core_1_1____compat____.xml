@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1____compat____" kind="class" language="Python" prot="private">
+    <compoundname>pip::_vendor::pyparsing::core::__compat__</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">__config_flags</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1____compat_____1a131bcfd334a49e35a94c813fd6fb9c4d" prot="protected" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pip._vendor.pyparsing.core.__compat__::_type_desc</definition>
+        <argsstring></argsstring>
+        <name>_type_desc</name>
+        <qualifiedname>pip._vendor.pyparsing.core.__compat__._type_desc</qualifiedname>
+        <initializer>=  &quot;compatibility&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="106" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1____compat_____1a7b5c581878878c446cf8906e0066f024" prot="protected" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list pip._vendor.pyparsing.core.__compat__::_all_names</definition>
+        <argsstring></argsstring>
+        <name>_all_names</name>
+        <qualifiedname>pip._vendor.pyparsing.core.__compat__._all_names</qualifiedname>
+        <initializer>=  [__ for __ in locals() if not __.startswith(&quot;_&quot;)]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="110" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1____compat_____1aea07e5fdf38b70ea919b575ddb04218b" prot="protected" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pip._vendor.pyparsing.core.__compat__::_fixed_names</definition>
+        <argsstring></argsstring>
+        <name>_fixed_names</name>
+        <qualifiedname>pip._vendor.pyparsing.core.__compat__._fixed_names</qualifiedname>
+        <initializer>=  &quot;&quot;&quot;
+        collect_all_And_tokens
+        &quot;&quot;&quot;.split()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="111" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1____compat_____1a55ea7593ba1e69f20e7531dfa5edd1da" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool pip._vendor.pyparsing.core.__compat__::collect_all_And_tokens</definition>
+        <argsstring></argsstring>
+        <name>collect_all_And_tokens</name>
+        <qualifiedname>pip._vendor.pyparsing.core.__compat__.collect_all_And_tokens</qualifiedname>
+        <initializer>=  True</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="108" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A cross-version compatibility configuration for pyparsing features that will be
+released in a future version. By setting values in this configuration to True,
+those features can be enabled in prior versions for compatibility development
+and testing.
+
+- ``collect_all_And_tokens`` - flag to enable fix for Issue #63 that fixes erroneous grouping
+  of results names when an :class:`And` expression is nested within an :class:`Or` or :class:`MatchFirst`;
+  maintained for compatibility, but setting to ``False`` no longer restores pre-2.3.1
+  behavior
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._vendor.pyparsing.core.__compat__</label>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>__config_flags</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.pyparsing.core.__compat__</label>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>_fixed_names</edgelabel>
+          <edgelabel>_type_desc</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>__config_flags</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="93" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="93" bodyend="115"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1____compat_____1a7b5c581878878c446cf8906e0066f024" prot="protected" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::__compat__</scope><name>_all_names</name></member>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1____compat_____1aea07e5fdf38b70ea919b575ddb04218b" prot="protected" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::__compat__</scope><name>_fixed_names</name></member>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1____compat_____1a131bcfd334a49e35a94c813fd6fb9c4d" prot="protected" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::__compat__</scope><name>_type_desc</name></member>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1____compat_____1a55ea7593ba1e69f20e7531dfa5edd1da" prot="public" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::__compat__</scope><name>collect_all_And_tokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

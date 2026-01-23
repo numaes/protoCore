@@ -1,0 +1,385 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacejinja2_1_1ext" kind="namespace" language="Python">
+    <compoundname>jinja2::ext</compoundname>
+    <innerclass refid="classjinja2_1_1ext_1_1__CommentFinder" prot="protected">jinja2::ext::_CommentFinder</innerclass>
+    <innerclass refid="classjinja2_1_1ext_1_1__TranslationsBasic" prot="protected">jinja2::ext::_TranslationsBasic</innerclass>
+    <innerclass refid="classjinja2_1_1ext_1_1__TranslationsContext" prot="protected">jinja2::ext::_TranslationsContext</innerclass>
+    <innerclass refid="classjinja2_1_1ext_1_1DebugExtension" prot="public">jinja2::ext::DebugExtension</innerclass>
+    <innerclass refid="classjinja2_1_1ext_1_1ExprStmtExtension" prot="public">jinja2::ext::ExprStmtExtension</innerclass>
+    <innerclass refid="classjinja2_1_1ext_1_1Extension" prot="public">jinja2::ext::Extension</innerclass>
+    <innerclass refid="classjinja2_1_1ext_1_1InternationalizationExtension" prot="public">jinja2::ext::InternationalizationExtension</innerclass>
+    <innerclass refid="classjinja2_1_1ext_1_1LoopControlExtension" prot="public">jinja2::ext::LoopControlExtension</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacejinja2_1_1ext_1a856269add060c2f715cf661ec813f544" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::ext._SupportedTranslations</definition>
+        <argsstring></argsstring>
+        <name>_SupportedTranslations</name>
+        <qualifiedname>jinja2.ext._SupportedTranslations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="40" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1ext_1a7948d20afe021f411ec389734e46e665" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple jinja2::ext.GETTEXT_FUNCTIONS</definition>
+        <argsstring></argsstring>
+        <name>GETTEXT_FUNCTIONS</name>
+        <qualifiedname>jinja2.ext.GETTEXT_FUNCTIONS</qualifiedname>
+        <initializer>=  (
+    &quot;_&quot;,
+    &quot;gettext&quot;,
+    &quot;ngettext&quot;,
+    &quot;pgettext&quot;,
+    &quot;npgettext&quot;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="45" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1ext_1a6118c75bd7a83142f1786017768e2c39" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::ext._ws_re</definition>
+        <argsstring></argsstring>
+        <name>_ws_re</name>
+        <qualifiedname>jinja2.ext._ws_re</qualifiedname>
+        <initializer>=  re.compile(r&quot;\s*\n\s*&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="52" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1ext_1a9deaf3252f2123ea2183b911dda8703f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::ext.i18n</definition>
+        <argsstring></argsstring>
+        <name>i18n</name>
+        <qualifiedname>jinja2.ext.i18n</qualifiedname>
+        <initializer>=  <ref refid="classjinja2_1_1ext_1_1InternationalizationExtension" kindref="compound">InternationalizationExtension</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="867" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="867" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1ext_1a40cd37910dc05061cb0bce62d7d17896" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::ext.do</definition>
+        <argsstring></argsstring>
+        <name>do</name>
+        <qualifiedname>jinja2.ext.do</qualifiedname>
+        <initializer>=  <ref refid="classjinja2_1_1ext_1_1ExprStmtExtension" kindref="compound">ExprStmtExtension</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="868" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="868" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1ext_1abaf23b61539b0326b5a6baea25dc119e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::ext.loopcontrols</definition>
+        <argsstring></argsstring>
+        <name>loopcontrols</name>
+        <qualifiedname>jinja2.ext.loopcontrols</qualifiedname>
+        <initializer>=  <ref refid="classjinja2_1_1ext_1_1LoopControlExtension" kindref="compound">LoopControlExtension</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="869" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="869" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacejinja2_1_1ext_1a353c1e044b0fa9c00a4d8e2a68beba29" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2::ext.debug</definition>
+        <argsstring></argsstring>
+        <name>debug</name>
+        <qualifiedname>jinja2.ext.debug</qualifiedname>
+        <initializer>=  <ref refid="classjinja2_1_1ext_1_1DebugExtension" kindref="compound">DebugExtension</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="870" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="870" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacejinja2_1_1ext_1ab4f673989905e4eaa25ffafb0a90d012" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Union[t.Any, <ref refid="classjinja2_1_1runtime_1_1Undefined" kindref="compound">Undefined</ref>]</type>
+        <definition> t.Union[t.Any, Undefined] jinja2.ext._gettext_alias</definition>
+        <argsstring>(Context __context, *t.Any args, **t.Any kwargs)</argsstring>
+        <name>_gettext_alias</name>
+        <qualifiedname>jinja2.ext._gettext_alias</qualifiedname>
+        <param>
+          <type><ref refid="classjinja2_1_1runtime_1_1Context" kindref="compound">Context</ref></type>
+          <declname>__context</declname>
+        </param>
+        <param>
+          <type>*t.Any</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="165" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="167" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1ext_1af62bedd720e19956e649a6d89a00c31b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Callable[..., str]</type>
+        <definition> t.Callable[..., str] jinja2.ext._make_new_gettext</definition>
+        <argsstring>(t.Callable[[str], str] func)</argsstring>
+        <name>_make_new_gettext</name>
+        <qualifiedname>jinja2.ext._make_new_gettext</qualifiedname>
+        <param>
+          <type>t.</type>
+          <declname>Callable</declname>
+          <defname>func</defname>
+          <array>[[str]</array>
+        </param>
+        <param>
+          <type>str]</type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="171" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="171" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1ext_1a19b06139c042a88d81832b61cacf3801" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Callable[..., str]</type>
+        <definition> t.Callable[..., str] jinja2.ext._make_new_ngettext</definition>
+        <argsstring>(t.Callable[[str, str, int], str] func)</argsstring>
+        <name>_make_new_ngettext</name>
+        <qualifiedname>jinja2.ext._make_new_ngettext</qualifiedname>
+        <param>
+          <type>t.</type>
+          <declname>Callable</declname>
+          <defname>func</defname>
+          <array>[[str, str, int]</array>
+        </param>
+        <param>
+          <type>str]</type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="185" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="185" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1ext_1aa7270ede1d8a4307ffa8847381982ba7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Callable[..., str]</type>
+        <definition> t.Callable[..., str] jinja2.ext._make_new_pgettext</definition>
+        <argsstring>(t.Callable[[str, str], str] func)</argsstring>
+        <name>_make_new_pgettext</name>
+        <qualifiedname>jinja2.ext._make_new_pgettext</qualifiedname>
+        <param>
+          <type>t.</type>
+          <declname>Callable</declname>
+          <defname>func</defname>
+          <array>[[str, str]</array>
+        </param>
+        <param>
+          <type>str]</type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="204" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="204" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1ext_1a382257818b3f598b218bb44bd67eccb9" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Callable[..., str]</type>
+        <definition> t.Callable[..., str] jinja2.ext._make_new_npgettext</definition>
+        <argsstring>(t.Callable[[str, str, str, int], str] func)</argsstring>
+        <name>_make_new_npgettext</name>
+        <qualifiedname>jinja2.ext._make_new_npgettext</qualifiedname>
+        <param>
+          <type>t.</type>
+          <declname>Callable</declname>
+          <defname>func</defname>
+          <array>[[str, str, str, int]</array>
+        </param>
+        <param>
+          <type>str]</type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="221" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="223" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1ext_1a1f9ffb1b10b1f8e33e80882532de5f8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Iterator[ t.Tuple[int, str, t.Union[t.Optional[str], t.Tuple[t.Optional[str],...]]]]</type>
+        <definition> t.Iterator[
+    t.Tuple[int, str, t.Union[t.Optional[str], t.Tuple[t.Optional[str], ...]]]
+] jinja2.ext.extract_from_ast</definition>
+        <argsstring>(nodes.Template ast, t.Sequence[str] gettext_functions=GETTEXT_FUNCTIONS, bool babel_style=True)</argsstring>
+        <name>extract_from_ast</name>
+        <qualifiedname>jinja2.ext.extract_from_ast</qualifiedname>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Template" kindref="compound">nodes.Template</ref></type>
+          <declname>ast</declname>
+        </param>
+        <param>
+          <type>t.Sequence</type>
+          <declname>gettext_functions</declname>
+          <array>[str]</array>
+          <defval><ref refid="namespacejinja2_1_1ext_1a7948d20afe021f411ec389734e46e665" kindref="member">GETTEXT_FUNCTIONS</ref></defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>babel_style</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Extract localizable strings from the given template node.  Per
+default this function returns matches in babel style that means non string
+parameters as well as keyword arguments are returned as `None`.  This
+allows Babel to figure out what you really meant if you are using
+gettext functions that allow keyword arguments for placeholder expansion.
+If you don&apos;t want that behavior set the `babel_style` parameter to `False`
+which causes only strings to be returned and parameters are always stored
+in tuples.  As a consequence invalid gettext calls (calls without a single
+string parameter or string parameters after non-string parameters) are
+skipped.
+
+This example explains the behavior:
+
+&gt;&gt;&gt; from jinja2 import Environment
+&gt;&gt;&gt; env = Environment()
+&gt;&gt;&gt; node = env.parse(&apos;{{ (_(&quot;foo&quot;), _(), ngettext(&quot;foo&quot;, &quot;bar&quot;, 42)) }}&apos;)
+&gt;&gt;&gt; list(extract_from_ast(node))
+[(1, &apos;_&apos;, &apos;foo&apos;), (1, &apos;_&apos;, ()), (1, &apos;ngettext&apos;, (&apos;foo&apos;, &apos;bar&apos;, None))]
+&gt;&gt;&gt; list(extract_from_ast(node, babel_style=False))
+[(1, &apos;_&apos;, (&apos;foo&apos;,)), (1, &apos;ngettext&apos;, (&apos;foo&apos;, &apos;bar&apos;))]
+
+For every string found this function yields a ``(lineno, function,
+message)`` tuple, where:
+
+* ``lineno`` is the number of the line on which the string was found,
+* ``function`` is the name of the ``gettext`` function used (if the
+  string was extracted from embedded Python code), and
+*   ``message`` is the string, or a tuple of strings for functions
+     with multiple string arguments.
+
+This extraction function operates on the AST and is because of that unable
+to extract any comments.  For comment support you have to use the babel
+extraction interface or extract comments yourself.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="655" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="661" bodyend="733"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacejinja2_1_1ext_1a589eb44491152597db7d719333c93a4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Iterator[ t.Tuple[ int, str, t.Union[t.Optional[str], t.Tuple[t.Optional[str],...]], t.List[str]]]</type>
+        <definition> t.Iterator[
+    t.Tuple[
+        int, str, t.Union[t.Optional[str], t.Tuple[t.Optional[str], ...]], t.List[str]
+    ]
+] jinja2.ext.babel_extract</definition>
+        <argsstring>(t.BinaryIO fileobj, t.Sequence[str] keywords, t.Sequence[str] comment_tags, t.Dict[str, t.Any] options)</argsstring>
+        <name>babel_extract</name>
+        <qualifiedname>jinja2.ext.babel_extract</qualifiedname>
+        <param>
+          <type>t.BinaryIO</type>
+          <declname>fileobj</declname>
+        </param>
+        <param>
+          <type>t.Sequence</type>
+          <declname>keywords</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>t.Sequence</type>
+          <declname>comment_tags</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>t.Dict</type>
+          <declname>options</declname>
+          <array>[str, t.Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Babel extraction method for Jinja templates.
+
+.. versionchanged:: 2.3
+   Basic support for translation comments was added.  If `comment_tags`
+   is now set to a list of keywords for extraction, the extractor will
+   try to find the best preceding comment that begins with one of the
+   keywords.  For best results, make sure to not have more than one
+   gettext call in one line of code and the matching comment in the
+   same line or the line before.
+
+.. versionchanged:: 2.5.1
+   The `newstyle_gettext` flag can be set to `True` to enable newstyle
+   gettext calls.
+
+.. versionchanged:: 2.7
+   A `silent` option can now be provided.  If set to `False` template
+   syntax errors are propagated instead of being ignored.
+
+:param fileobj: the file-like object the messages should be extracted from
+:param keywords: a list of keywords (i.e. function names) that should be
+                 recognized as translation functions
+:param comment_tags: a list of translator tags to search for and include
+                     in the results.
+:param options: a dictionary of additional options (optional)
+:return: an iterator over ``(lineno, funcname, message, comments)`` tuples.
+         (comments will be empty currently)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="774" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/ext.py" bodystart="783" bodyend="866"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Extension API for adding custom tags and behavior.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/jinja2/ext.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

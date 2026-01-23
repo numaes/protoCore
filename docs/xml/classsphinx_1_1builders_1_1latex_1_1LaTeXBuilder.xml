@@ -1,0 +1,744 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::builders::latex::LaTeXBuilder</compoundname>
+    <basecompoundref refid="classsphinx_1_1builders_1_1Builder" prot="public" virt="non-virtual">sphinx.builders.Builder</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a3e30d9c08b165eddddbdf3b673e4d373" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str sphinx.builders.latex.LaTeXBuilder::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.name</qualifiedname>
+        <initializer>=  &apos;latex&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="116" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a39cfb046e9bdcfd03190d9da68a357f9" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str sphinx.builders.latex.LaTeXBuilder::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.format</qualifiedname>
+        <initializer>=  &apos;latex&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="117" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a45e2f3c0b33e6f2816fa16e7e0820150" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.latex.LaTeXBuilder::epilog</definition>
+        <argsstring></argsstring>
+        <name>epilog</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.epilog</qualifiedname>
+        <initializer>=  __(&apos;The LaTeX files are in %(<ref refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1abca8ccb7c2dde2e8b2e79c62c1c6f876" kindref="member">outdir</ref>)s.&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="118" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1ace0390a1ef5084acaf7a643e5ac49e6b" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list sphinx.builders.latex.LaTeXBuilder::supported_image_types</definition>
+        <argsstring></argsstring>
+        <name>supported_image_types</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.supported_image_types</qualifiedname>
+        <initializer>=  [&apos;application/pdf&apos;, &apos;image/png&apos;, &apos;image/jpeg&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="126" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a5d524574d47b5cfee2e6a85fe51f4181" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool sphinx.builders.latex.LaTeXBuilder::supported_remote_images</definition>
+        <argsstring></argsstring>
+        <name>supported_remote_images</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.supported_remote_images</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="127" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1af7ec312bb2a9bebe03e81072494281ce" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.latex.LaTeXBuilder::default_translator_class</definition>
+        <argsstring></argsstring>
+        <name>default_translator_class</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.default_translator_class</qualifiedname>
+        <initializer>=  <ref refid="classsphinx_1_1writers_1_1latex_1_1LaTeXTranslator" kindref="compound">LaTeXTranslator</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="128" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a4bf8d820e707c699b6371c80fe095861" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.latex.LaTeXBuilder::themes</definition>
+        <argsstring></argsstring>
+        <name>themes</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.themes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="135" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1aee7c900d9cf97b83f50eed39fd04db3c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.latex.LaTeXBuilder::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="179" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1ab13e56feee62e997cf15b83d09bbcd72" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.latex.LaTeXBuilder::babel</definition>
+        <argsstring></argsstring>
+        <name>babel</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.babel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="219" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1aaacf41602dbc8c013dc7155356e4cd69" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.latex.LaTeXBuilder::docnames</definition>
+        <argsstring></argsstring>
+        <name>docnames</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.docnames</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="382" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="382" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1abca8ccb7c2dde2e8b2e79c62c1c6f876" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.latex.LaTeXBuilder::outdir</definition>
+        <argsstring></argsstring>
+        <name>outdir</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.outdir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="450" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="450" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1accefd92bab3b470512f00aa9e29d39a3" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.builders.latex.LaTeXBuilder::images</definition>
+        <argsstring></argsstring>
+        <name>images</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.images</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="480" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="480" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1ab46ede23ded0a1caeb43080fe44c2cf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.latex.LaTeXBuilder.init</definition>
+        <argsstring>(self)</argsstring>
+        <name>init</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.init</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1Builder_1a3a3338352ca4084aff4fa1d67c1dbf29">init</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Load necessary templates and perform initialization.  The default
+implementation does nothing.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="130" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="130" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1aab1e680b91e507a9649756376fbfebbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|list[str]</type>
+        <definition> str | list[str] sphinx.builders.latex.LaTeXBuilder.get_outdated_docs</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_outdated_docs</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.get_outdated_docs</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1Builder_1a0c12e2255176dcc8ae899dd0d486e68f">get_outdated_docs</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return an iterable of output files that are outdated, or a string
+describing what an update build will build.
+
+If the builder does not output individual files corresponding to
+source files, return a string here.  If it does, return an iterable
+of those files that need to be written.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="142" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="142" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a9aa37030c3d86cc21fa0d1007956606d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.builders.latex.LaTeXBuilder.get_target_uri</definition>
+        <argsstring>(self, str docname, str|None typ=None)</argsstring>
+        <name>get_target_uri</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.get_target_uri</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1Builder_1a76def68326a1d6bd664c0d1b98803a97">get_target_uri</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>typ</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the target URI for a document name.
+
+*typ* can be used to qualify the link characteristic for individual
+builders.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="145" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="145" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1aa69244da9cebf281458ba98bc8feb6c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.builders.latex.LaTeXBuilder.get_relative_uri</definition>
+        <argsstring>(self, str from_, str to, str|None typ=None)</argsstring>
+        <name>get_relative_uri</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.get_relative_uri</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1Builder_1aba1e325ab3ab6521cdfa194286240798">get_relative_uri</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>from_</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>to</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>typ</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a relative URI between two source filenames.
+
+:raises: :exc:`!NoUri` if there&apos;s no way to return a sensible URI.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="150" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="150" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a769f23d96eaec643c6fc1b18462f5859" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.latex.LaTeXBuilder.init_document_data</definition>
+        <argsstring>(self)</argsstring>
+        <name>init_document_data</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.init_document_data</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="154" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="154" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1abd62892b235cf99dae5454b6c5ca277d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.latex.LaTeXBuilder.init_context</definition>
+        <argsstring>(self)</argsstring>
+        <name>init_context</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.init_context</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="178" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="178" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a58f79ec8b6b739811221803f26826d82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.latex.LaTeXBuilder.update_context</definition>
+        <argsstring>(self)</argsstring>
+        <name>update_context</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.update_context</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Update template variables for .tex file just before writing.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="211" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="211" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1abf857af230b475ed1d4ac4bee7b56f91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.latex.LaTeXBuilder.init_babel</definition>
+        <argsstring>(self)</argsstring>
+        <name>init_babel</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.init_babel</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="218" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="218" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a334d4ee6d3bb4ba99dc740a5266bcec6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.latex.LaTeXBuilder.init_multilingual</definition>
+        <argsstring>(self)</argsstring>
+        <name>init_multilingual</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.init_multilingual</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="227" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="227" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a8375dd74fd2969c23cd84a77fd76c136" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.latex.LaTeXBuilder.write_stylesheet</definition>
+        <argsstring>(self)</argsstring>
+        <name>write_stylesheet</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.write_stylesheet</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="278" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="278" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1ae4bf73bc351bc1db5fdb0df69762e96d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.latex.LaTeXBuilder.prepare_writing</definition>
+        <argsstring>(self, Set[str] docnames)</argsstring>
+        <name>prepare_writing</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.prepare_writing</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1Builder_1a7a9b5f62382c631803acb5dd7ae128b3">prepare_writing</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Set</type>
+          <declname>docnames</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>A place where you can add logic before :meth:`write_doc` is run</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="292" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="292" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1afa2b9166ae7ce037f8b2f54253ff9a26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.latex.LaTeXBuilder.copy_assets</definition>
+        <argsstring>(self)</argsstring>
+        <name>copy_assets</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.copy_assets</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1Builder_1ac067f9fe46076dd8e43e4dc260abe482">copy_assets</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Where assets (images, static files, etc) are copied before writing</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="296" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="296" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a6a13e9f68c717d30f7b62b6b3138284a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.latex.LaTeXBuilder.write_documents</definition>
+        <argsstring>(self, Set[str] _docnames)</argsstring>
+        <name>write_documents</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.write_documents</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1Builder_1aeb476e0ce33dcb388010dd93ffb7780c">write_documents</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Set</type>
+          <declname>docnames</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Write all documents in *docnames*.
+
+This method can be overridden if a builder does not create
+output files for each document.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="302" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="302" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a739e415ef99484a8abeee95fe12843fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.builders.latex.LaTeXBuilder.get_contentsname</definition>
+        <argsstring>(self, str indexfile)</argsstring>
+        <name>get_contentsname</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.get_contentsname</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>indexfile</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="358" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="358" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a4afc70d40ef9b01d9452ba336946c0cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.latex.LaTeXBuilder.update_doc_context</definition>
+        <argsstring>(self, str title, str author, Theme theme)</argsstring>
+        <name>update_doc_context</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.update_doc_context</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>title</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>author</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1builders_1_1latex_1_1theming_1_1Theme" kindref="compound">Theme</ref></type>
+          <declname>theme</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="368" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="368" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a4dfc2b38d557a5b659d3dbca12bd3dcc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nodes.document</type>
+        <definition> nodes.document sphinx.builders.latex.LaTeXBuilder.assemble_doctree</definition>
+        <argsstring>(self, str indexfile, bool toctree_only, list[str] appendices)</argsstring>
+        <name>assemble_doctree</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.assemble_doctree</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>indexfile</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>toctree_only</declname>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>appendices</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="376" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="381" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1ae6ab954f385704c8759bcdea2d1a5989" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.latex.LaTeXBuilder.finish</definition>
+        <argsstring>(self)</argsstring>
+        <name>finish</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.finish</qualifiedname>
+        <reimplements refid="classsphinx_1_1builders_1_1Builder_1a43e2013572c826d5991e0003ec8c49bc">finish</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Finish the building process.
+
+The default implementation does nothing.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="424" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="424" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1ae55b0e9671ece6ec7459f6c9b59b706f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.latex.LaTeXBuilder.copy_support_files</definition>
+        <argsstring>(self)</argsstring>
+        <name>copy_support_files</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.copy_support_files</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Copy TeX support files from texinputs.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="429" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="429" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a7c4118a3c05e0849649c4e1d37c6c0f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.latex.LaTeXBuilder.copy_latex_additional_files</definition>
+        <argsstring>(self)</argsstring>
+        <name>copy_latex_additional_files</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.copy_latex_additional_files</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="466" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="466" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1ab43286b8d6fd52ba314074f7019a0870" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.latex.LaTeXBuilder.copy_image_files</definition>
+        <argsstring>(self)</argsstring>
+        <name>copy_image_files</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.copy_image_files</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="476" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="476" bodyend="511"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1afc2d254388dcecf105dbbd4f90e12866" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.latex.LaTeXBuilder.write_message_catalog</definition>
+        <argsstring>(self)</argsstring>
+        <name>write_message_catalog</name>
+        <qualifiedname>sphinx.builders.latex.LaTeXBuilder.write_message_catalog</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="512" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="512" bodyend="532"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Builds LaTeX output to create PDF.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>sphinx.builders.latex.LaTeXBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.builders.Builder</label>
+        <link refid="classsphinx_1_1builders_1_1Builder"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>sphinx.builders.latex.LaTeXBuilder</label>
+        <link refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>format</edgelabel>
+          <edgelabel>name</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.builders.Builder</label>
+        <link refid="classsphinx_1_1builders_1_1Builder"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>epilog</edgelabel>
+          <edgelabel>format</edgelabel>
+          <edgelabel>name</edgelabel>
+          <edgelabel>versioning_method</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" line="113" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/__init__.py" bodystart="113" bodyend="532"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a4dfc2b38d557a5b659d3dbca12bd3dcc" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>assemble_doctree</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1ab13e56feee62e997cf15b83d09bbcd72" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>babel</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1aee7c900d9cf97b83f50eed39fd04db3c" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>context</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1afa2b9166ae7ce037f8b2f54253ff9a26" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>copy_assets</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1ab43286b8d6fd52ba314074f7019a0870" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>copy_image_files</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a7c4118a3c05e0849649c4e1d37c6c0f3" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>copy_latex_additional_files</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1ae55b0e9671ece6ec7459f6c9b59b706f" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>copy_support_files</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1af7ec312bb2a9bebe03e81072494281ce" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>default_translator_class</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1aaacf41602dbc8c013dc7155356e4cd69" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>docnames</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a45e2f3c0b33e6f2816fa16e7e0820150" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>epilog</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1ae6ab954f385704c8759bcdea2d1a5989" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>finish</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a39cfb046e9bdcfd03190d9da68a357f9" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>format</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a739e415ef99484a8abeee95fe12843fb" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>get_contentsname</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1aab1e680b91e507a9649756376fbfebbf" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>get_outdated_docs</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1aa69244da9cebf281458ba98bc8feb6c7" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>get_relative_uri</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a9aa37030c3d86cc21fa0d1007956606d" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>get_target_uri</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1accefd92bab3b470512f00aa9e29d39a3" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>images</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1ab46ede23ded0a1caeb43080fe44c2cf0" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>init</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1abf857af230b475ed1d4ac4bee7b56f91" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>init_babel</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1abd62892b235cf99dae5454b6c5ca277d" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>init_context</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a769f23d96eaec643c6fc1b18462f5859" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>init_document_data</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a334d4ee6d3bb4ba99dc740a5266bcec6" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>init_multilingual</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a3e30d9c08b165eddddbdf3b673e4d373" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>name</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1abca8ccb7c2dde2e8b2e79c62c1c6f876" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>outdir</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1ae4bf73bc351bc1db5fdb0df69762e96d" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>prepare_writing</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1ace0390a1ef5084acaf7a643e5ac49e6b" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>supported_image_types</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a5d524574d47b5cfee2e6a85fe51f4181" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>supported_remote_images</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a4bf8d820e707c699b6371c80fe095861" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>themes</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a58f79ec8b6b739811221803f26826d82" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>update_context</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a4afc70d40ef9b01d9452ba336946c0cf" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>update_doc_context</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a6a13e9f68c717d30f7b62b6b3138284a" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>write_documents</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1afc2d254388dcecf105dbbd4f90e12866" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>write_message_catalog</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1LaTeXBuilder_1a8375dd74fd2969c23cd84a77fd76c136" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::LaTeXBuilder</scope><name>write_stylesheet</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

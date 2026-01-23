@@ -15,7 +15,7 @@ The `ProtoSpace` manages the global heap, the free list, and the GC thread. It c
 Each `ProtoContext` (representing a call stack frame) tracks objects allocated within its execution scope. It maintains a linked list of "young" cells (`lastAllocatedCell`).
 
 ### 3. DirtySegment
-When a context is destroyed or upon request, its "young generation" chain is submitted to `ProtoSpace` as a `DirtySegment`. These segments form the pool of objects that the GC will examine.
+When a context is destroyed upon function return, its "young generation" chain (`lastAllocatedCell`) is submitted to `ProtoSpace` as a `DirtySegment`. This ensures that objects remain safe and local to the context while the method is executing, and only become candidates for collection once the context is gone.
 
 ## The GC Cycle
 
@@ -29,9 +29,10 @@ The GC runs in a dedicated background thread (`gcThreadLoop`) and follows these 
 ### Phase 2: Root Collection
 While the world is stopped, the GC identifies all root objects:
 - **Global Roots**: Key prototypes and global objects in `ProtoSpace`.
-- **Thread Stacks**: Automatic locals and closure locals in all active `ProtoContext` objects across all threads.
-- **Young Generations**: Any outstanding `lastAllocatedCell` chains in active contexts are flushed to `DirtySegments`.
-- **Heap Snapshot**: The list of `DirtySegments` to be analyzed is captured and cleared from the global pool. This ensures the GC works on a consistent snapshot of objects that existed at the start of the cycle.
+- **Context Stacks**:
+    - Automatic and closure locals are scanned.
+    - The `lastAllocatedCell` chain of every active context is scanned for references. **Crucially**, the cells in this chain are NOT promoted or marked themselves during this phase; instead, only the objects they reference are added to the mark list. This "pins" the young objects while keeping them unmarked, allowing them to be reclaimed in the first GC cycle after their context is destroyed.
+- **Heap Snapshot**: The list of `DirtySegments` (already promoted from previously destroyed contexts) is captured for the mark-and-sweep phases.
 
 ### Phase 3: Resume The World
 - Once roots are safely collected into a work-list, the `stwFlag` is cleared.

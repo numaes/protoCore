@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="pip_2__vendor_2requests_2certs_8py" kind="file" language="Python">
+    <compoundname>certs.py</compoundname>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1requests">pip::_vendor::requests</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1requests_1_1certs">pip::_vendor::requests::certs</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1requests_1_1certs" refkind="compound"><highlight class="comment">#!/usr/bin/env<sp/>python</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral">requests.certs</highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral">~~~~~~~~~~~~~~</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral">This<sp/>module<sp/>returns<sp/>the<sp/>preferred<sp/>default<sp/>CA<sp/>certificate<sp/>bundle.<sp/>There<sp/>is</highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral">only<sp/>one<sp/>—<sp/>the<sp/>one<sp/>from<sp/>the<sp/>certifi<sp/>package.</highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="10"><highlight class="stringliteral">If<sp/>you<sp/>are<sp/>packaging<sp/>Requests,<sp/>e.g.,<sp/>for<sp/>a<sp/>Linux<sp/>distribution<sp/>or<sp/>a<sp/>managed</highlight></codeline>
+<codeline lineno="11"><highlight class="stringliteral">environment,<sp/>you<sp/>can<sp/>change<sp/>the<sp/>definition<sp/>of<sp/>where()<sp/>to<sp/>return<sp/>a<sp/>separately</highlight></codeline>
+<codeline lineno="12"><highlight class="stringliteral">packaged<sp/>CA<sp/>bundle.</highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>os</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;_PIP_STANDALONE_CERT&quot;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>os.environ:</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1certifi" kindref="compound">pip._vendor.certifi</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>where</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">where():</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>os.environ[</highlight><highlight class="stringliteral">&quot;_PIP_STANDALONE_CERT&quot;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>__name__<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;__main__&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>print(where())</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/certs.py"/>
+  </compounddef>
+</doxygen>

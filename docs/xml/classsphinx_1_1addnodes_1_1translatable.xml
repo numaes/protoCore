@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1addnodes_1_1translatable" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::addnodes::translatable</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">nodes.Node</basecompoundref>
+    <derivedcompoundref refid="classsphinx_1_1addnodes_1_1toctree" prot="public" virt="non-virtual">sphinx.addnodes.toctree</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1addnodes_1_1translatable_1aaf8248b76bac98c45d95238f99ff66c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.addnodes.translatable.preserve_original_messages</definition>
+        <argsstring>(self)</argsstring>
+        <name>preserve_original_messages</name>
+        <qualifiedname>sphinx.addnodes.translatable.preserve_original_messages</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1addnodes_1_1toctree_1aedd2ab09462cd525d4bce4242954349f">preserve_original_messages</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Preserve original translatable messages.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/addnodes.py" line="34" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/addnodes.py" bodystart="34" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1addnodes_1_1translatable_1ada8f3fb86dc4873cbdf576ed906f0646" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.addnodes.translatable.apply_translated_message</definition>
+        <argsstring>(self, str original_message, str translated_message)</argsstring>
+        <name>apply_translated_message</name>
+        <qualifiedname>sphinx.addnodes.translatable.apply_translated_message</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1addnodes_1_1toctree_1a4d57cde6ded38e5f5190916ed413e7fd">apply_translated_message</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>original_message</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>translated_message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Apply translated message.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/addnodes.py" line="38" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/addnodes.py" bodystart="40" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1addnodes_1_1translatable_1af28454a543a70598ff609954690ca1c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Sequence[str]</type>
+        <definition> Sequence[str] sphinx.addnodes.translatable.extract_original_messages</definition>
+        <argsstring>(self)</argsstring>
+        <name>extract_original_messages</name>
+        <qualifiedname>sphinx.addnodes.translatable.extract_original_messages</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1addnodes_1_1toctree_1a7ffc3e91b3a477fd8f44e13125610487">extract_original_messages</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Extract translation messages.
+
+:returns: list of extracted messages or messages generator
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/addnodes.py" line="44" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/addnodes.py" bodystart="44" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Node which supports translation.
+
+The translation goes forward with following steps:
+
+1. Preserve original translatable messages
+2. Apply translated messages from message catalog
+3. Extract preserved messages (for gettext builder)
+
+The translatable nodes MUST preserve original messages.
+And these messages should not be overridden at applying step.
+Because they are used at final step; extraction.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>nodes::Node</label>
+      </node>
+      <node id="1">
+        <label>sphinx.addnodes.translatable</label>
+        <link refid="classsphinx_1_1addnodes_1_1translatable"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.addnodes.toctree</label>
+        <link refid="classsphinx_1_1addnodes_1_1toctree"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>nodes::Node</label>
+      </node>
+      <node id="1">
+        <label>sphinx.addnodes.translatable</label>
+        <link refid="classsphinx_1_1addnodes_1_1translatable"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/addnodes.py" line="20" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/addnodes.py" bodystart="20" bodyend="51"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1addnodes_1_1translatable_1ada8f3fb86dc4873cbdf576ed906f0646" prot="public" virt="non-virtual"><scope>sphinx::addnodes::translatable</scope><name>apply_translated_message</name></member>
+      <member refid="classsphinx_1_1addnodes_1_1translatable_1af28454a543a70598ff609954690ca1c0" prot="public" virt="non-virtual"><scope>sphinx::addnodes::translatable</scope><name>extract_original_messages</name></member>
+      <member refid="classsphinx_1_1addnodes_1_1translatable_1aaf8248b76bac98c45d95238f99ff66c6" prot="public" virt="non-virtual"><scope>sphinx::addnodes::translatable</scope><name>preserve_original_messages</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1utils_1_1encoding" kind="namespace" language="Python">
+    <compoundname>pip::_internal::utils::encoding</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1encoding_1a6434e7d43f2409bc111f69273def364f" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_internal::utils::encoding.BOMS</definition>
+        <argsstring></argsstring>
+        <name>BOMS</name>
+        <qualifiedname>pip._internal.utils.encoding.BOMS</qualifiedname>
+        <initializer>=  [
+    (codecs.BOM_UTF8, &quot;utf-8&quot;),
+    (codecs.BOM_UTF16, &quot;utf-16&quot;),
+    (codecs.BOM_UTF16_BE, &quot;utf-16-be&quot;),
+    (codecs.BOM_UTF16_LE, &quot;utf-16-le&quot;),
+    (codecs.BOM_UTF32, &quot;utf-32&quot;),
+    (codecs.BOM_UTF32_BE, &quot;utf-32-be&quot;),
+    (codecs.BOM_UTF32_LE, &quot;utf-32-le&quot;),
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/encoding.py" line="7" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/encoding.py" bodystart="7" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1encoding_1af27297a9b4c563a9e1f1f5791f6e5d4d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::utils::encoding.ENCODING_RE</definition>
+        <argsstring></argsstring>
+        <name>ENCODING_RE</name>
+        <qualifiedname>pip._internal.utils.encoding.ENCODING_RE</qualifiedname>
+        <initializer>=  re.compile(rb&quot;coding[:=]\s*([-\w.]+)&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/encoding.py" line="17" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/encoding.py" bodystart="17" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1encoding_1a587cf016fd896202a9f7fa02e1e6d62a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.encoding.auto_decode</definition>
+        <argsstring>(bytes data)</argsstring>
+        <name>auto_decode</name>
+        <qualifiedname>pip._internal.utils.encoding.auto_decode</qualifiedname>
+        <param>
+          <type>bytes</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check a bytes string for a BOM to correctly detect the encoding
+
+Fallback to locale.getpreferredencoding(False) like open() on Python3</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/encoding.py" line="20" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/encoding.py" bodystart="20" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/encoding.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

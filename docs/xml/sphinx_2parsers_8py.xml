@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="sphinx_2parsers_8py" kind="file" language="Python">
+    <compoundname>parsers.py</compoundname>
+    <innerclass refid="classsphinx_1_1parsers_1_1Parser" prot="public">sphinx::parsers::Parser</innerclass>
+    <innerclass refid="classsphinx_1_1parsers_1_1RSTParser" prot="public">sphinx::parsers::RSTParser</innerclass>
+    <innernamespace refid="namespacesphinx">sphinx</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1parsers">sphinx::parsers</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacesphinx_1_1parsers" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>Base<sp/>class<sp/>for<sp/>additional<sp/>parsers.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>TYPE_CHECKING</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1parsers" kindref="compound">docutils.parsers</ref></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1parsers_1_1rst" kindref="compound">docutils.parsers.rst</ref></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1parsers_1_1rst" kindref="compound">docutils.parsers.rst</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>states</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1statemachine" kindref="compound">docutils.statemachine</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>StringList</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1transforms_1_1universal" kindref="compound">docutils.transforms.universal</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>SmartQuotes</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1util_1_1rst" kindref="compound">sphinx.util.rst</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>append_epilog,<sp/>prepend_prolog</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>docutils<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>nodes</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacedocutils_1_1transforms" kindref="compound">docutils.transforms</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Transform</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1application" kindref="compound">sphinx.application</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Sphinx</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1config" kindref="compound">sphinx.config</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Config</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1environment" kindref="compound">sphinx.environment</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>BuildEnvironment</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1util_1_1typing" kindref="compound">sphinx.util.typing</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>ExtensionMetadata</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="classsphinx_1_1parsers_1_1Parser" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1parsers_1_1Parser" kindref="compound">Parser</ref>(<ref refid="classdocutils_1_1parsers_1_1Parser" kindref="compound">docutils.parsers.Parser</ref>):</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>base<sp/>class<sp/>of<sp/>source<sp/>parsers.</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>The<sp/>additional<sp/>parsers<sp/>should<sp/>inherit<sp/>this<sp/>class</highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>instead<sp/>of<sp/>``docutils.parsers.Parser``.</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Compared<sp/>with<sp/>``docutils.parsers.Parser``,</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>this<sp/>class<sp/>improves<sp/>accessibility<sp/>to<sp/>Sphinx<sp/>APIs.</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>The<sp/>subclasses<sp/>can<sp/>access<sp/>sphinx<sp/>core<sp/>runtime<sp/>objects<sp/>(app,<sp/>config<sp/>and<sp/>env).</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>The<sp/>config<sp/>object</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>config:<sp/>Config</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#:<sp/>The<sp/>environment<sp/>object</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>env:<sp/>BuildEnvironment</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1parsers_1_1Parser_1a9c64599af269bc63b98b584b24d255f7" kindref="member">set_application</ref>(self,<sp/>app:<sp/>Sphinx)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;set_application<sp/>will<sp/>be<sp/>called<sp/>from<sp/>Sphinx<sp/>to<sp/>set<sp/>app<sp/>and<sp/>other<sp/>instance<sp/>variables</highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>sphinx.application.Sphinx<sp/>app:<sp/>Sphinx<sp/>application<sp/>object</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1parsers_1_1Parser_1a0ca50be908b3e781021815fee01c5ca3" kindref="member">_app</ref><sp/>=<sp/>app</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1parsers_1_1Parser_1acbb011911be06a3b87e968f93266720c" kindref="member">config</ref><ref refid="classsphinx_1_1parsers_1_1Parser_1ae09787a75bd2684a313d08f10ef181aa" kindref="member">config</ref><sp/>=<sp/>app.config</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1parsers_1_1Parser_1a85f83110ecb66f6f34a57ed99cc3f10f" kindref="member">env</ref><ref refid="classsphinx_1_1parsers_1_1Parser_1ac0b983477aa287563d6c45882afee287" kindref="member">env</ref><sp/>=<sp/>app.env</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="classsphinx_1_1parsers_1_1RSTParser" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1parsers_1_1RSTParser" kindref="compound">RSTParser</ref>(<ref refid="classdocutils_1_1parsers_1_1rst_1_1Parser" kindref="compound">docutils.parsers.rst.Parser</ref>,<sp/><ref refid="classsphinx_1_1parsers_1_1Parser" kindref="compound">Parser</ref>):</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>reST<sp/>parser<sp/>for<sp/>Sphinx.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1parsers_1_1RSTParser_1a5b476dfddfc51725a5c98c9ec370b297" kindref="member">get_transforms</ref>(self)<sp/>-&gt;<sp/>list[type[Transform]]:</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Sphinx&apos;s<sp/>reST<sp/>parser<sp/>replaces<sp/>a<sp/>transform<sp/>class<sp/>for<sp/>smart-quotes<sp/>by<sp/>its<sp/>own</highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>refs:<sp/>sphinx.io.SphinxStandaloneReader</highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>transforms<sp/>=<sp/>super().<ref refid="classsphinx_1_1parsers_1_1RSTParser_1a5b476dfddfc51725a5c98c9ec370b297" kindref="member">get_transforms</ref>()</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>transforms.remove(SmartQuotes)</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>transforms</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">parse(self,<sp/>inputstring:<sp/>str<sp/>|<sp/>StringList,<sp/>document:<sp/>nodes.document)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Parse<sp/>text<sp/>and<sp/>generate<sp/>a<sp/>document<sp/>tree.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classdocutils_1_1parsers_1_1Parser_1ae3370f4a9f5187c92fdc98a1304c5756" kindref="member">setup_parse</ref>(inputstring,<sp/>document)<sp/><sp/></highlight><highlight class="comment">#<sp/>type:<sp/>ignore[arg-type]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classdocutils_1_1parsers_1_1rst_1_1Parser_1a3bff01fe02a1a33d9112da9f3d00188c" kindref="member">statemachine</ref><ref refid="classsphinx_1_1parsers_1_1RSTParser_1a3951a3b4c8206289d7dcbec3ef35be48" kindref="member">statemachine</ref><sp/>=<sp/>states.RSTStateMachine(</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state_classes=self.<ref refid="classdocutils_1_1parsers_1_1rst_1_1Parser_1aa70494554eeb34bfb20d0c144754b474" kindref="member">state_classes</ref>,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>initial_state=self.<ref refid="classdocutils_1_1parsers_1_1rst_1_1Parser_1a01095fc06cf42f8efd0f93298d54fb4d" kindref="member">initial_state</ref>,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>debug=document.reporter.debug_flag,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>preprocess<sp/>inputstring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>isinstance(inputstring,<sp/>str):</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lines<sp/>=<sp/><ref refid="namespacedocutils_1_1statemachine_1a5b2d095d4f84209bcf6c2104fd5e59ba" kindref="member">docutils.statemachine.string2lines</ref>(</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>inputstring,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tab_width=document.settings.tab_width,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>convert_whitespace=</highlight><highlight class="keyword">True</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>inputlines<sp/>=<sp/><ref refid="classdocutils_1_1statemachine_1_1StringList" kindref="compound">StringList</ref>(lines,<sp/>document.current_source)</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>inputlines<sp/>=<sp/>inputstring</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1parsers_1_1RSTParser_1af2e35785fae5c8d886ecc85e04a36cd3" kindref="member">decorate</ref>(inputlines)</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classdocutils_1_1parsers_1_1rst_1_1Parser_1a3bff01fe02a1a33d9112da9f3d00188c" kindref="member">statemachine</ref><ref refid="classsphinx_1_1parsers_1_1RSTParser_1a3951a3b4c8206289d7dcbec3ef35be48" kindref="member">statemachine</ref>.run(inputlines,<sp/>document,<sp/>inliner=self.<ref refid="classdocutils_1_1parsers_1_1rst_1_1Parser_1a511dcd7bec0de4213bf7df76385b2d4b" kindref="member">inliner</ref>)</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classdocutils_1_1parsers_1_1Parser_1afec41700589f98b9b30133efe9434505" kindref="member">finish_parse</ref>()</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1parsers_1_1RSTParser_1af2e35785fae5c8d886ecc85e04a36cd3" kindref="member">decorate</ref>(self,<sp/>content:<sp/>StringList)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Preprocess<sp/>reST<sp/>content<sp/>before<sp/>parsing.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>prepend_prolog(content,<sp/>self.<ref refid="classsphinx_1_1parsers_1_1Parser_1acbb011911be06a3b87e968f93266720c" kindref="member">config</ref><ref refid="classsphinx_1_1parsers_1_1Parser_1ae09787a75bd2684a313d08f10ef181aa" kindref="member">config</ref>.rst_prolog)</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>append_epilog(content,<sp/>self.<ref refid="classsphinx_1_1parsers_1_1Parser_1acbb011911be06a3b87e968f93266720c" kindref="member">config</ref><ref refid="classsphinx_1_1parsers_1_1Parser_1ae09787a75bd2684a313d08f10ef181aa" kindref="member">config</ref>.rst_epilog)</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">setup(app:<sp/>Sphinx)<sp/>-&gt;<sp/>ExtensionMetadata:</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>app.add_source_parser(RSTParser)</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;version&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&apos;builtin&apos;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;parallel_read_safe&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;parallel_write_safe&apos;</highlight><highlight class="normal">:<sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/sphinx/parsers.py"/>
+  </compounddef>
+</doxygen>

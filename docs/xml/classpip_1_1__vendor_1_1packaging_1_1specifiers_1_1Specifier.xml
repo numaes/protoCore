@@ -1,0 +1,427 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::packaging::specifiers::Specifier</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1__IndividualSpecifier" prot="public" virt="non-virtual">pip._vendor.packaging.specifiers._IndividualSpecifier</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1aa6a5bab2ea9494c2a1de5087eee54cd6" prot="protected" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pip._vendor.packaging.specifiers.Specifier::_regex_str</definition>
+        <argsstring></argsstring>
+        <name>_regex_str</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.Specifier._regex_str</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="301" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="301" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1a1c3dd3a0238b868f061160a39f1a3177" prot="protected" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.packaging.specifiers.Specifier::_regex</definition>
+        <argsstring></argsstring>
+        <name>_regex</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.Specifier._regex</qualifiedname>
+        <initializer>=  re.compile(r&quot;^\s*&quot; + _regex_str + r&quot;\s*$&quot;, re.VERBOSE | re.IGNORECASE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="394" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="394" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1ab75861e399d72f1d330e835f8350ec96" prot="protected" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pip._vendor.packaging.specifiers.Specifier::_operators</definition>
+        <argsstring></argsstring>
+        <name>_operators</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.Specifier._operators</qualifiedname>
+        <initializer>=  {
+        &quot;~=&quot;: &quot;compatible&quot;,
+        &quot;==&quot;: &quot;equal&quot;,
+        &quot;!=&quot;: &quot;not_equal&quot;,
+        &quot;&lt;=&quot;: &quot;less_than_equal&quot;,
+        &quot;&gt;=&quot;: &quot;greater_than_equal&quot;,
+        &quot;&lt;&quot;: &quot;less_than&quot;,
+        &quot;&gt;&quot;: &quot;greater_than&quot;,
+        &quot;===&quot;: &quot;arbitrary&quot;,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="396" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="396" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1a92d2edc94bc0864abd9792a63067ae66" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.packaging.specifiers.Specifier::_prereleases</definition>
+        <argsstring></argsstring>
+        <name>_prereleases</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.Specifier._prereleases</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="579" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="579" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1ad3348ae7f143324b049592d00c802239" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.packaging.specifiers.Specifier._compare_compatible</definition>
+        <argsstring>(self, ParsedVersion prospective, str spec)</argsstring>
+        <name>_compare_compatible</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.Specifier._compare_compatible</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacepip_1_1__vendor_1_1packaging_1_1specifiers_1acee0b1dcc79d080da6960ede6afe154d" kindref="member">ParsedVersion</ref></type>
+          <declname>prospective</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="408" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="408" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1aff386c55b7442382f893a5c73af81b27" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.packaging.specifiers.Specifier._compare_equal</definition>
+        <argsstring>(self, ParsedVersion prospective, str spec)</argsstring>
+        <name>_compare_equal</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.Specifier._compare_equal</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacepip_1_1__vendor_1_1packaging_1_1specifiers_1acee0b1dcc79d080da6960ede6afe154d" kindref="member">ParsedVersion</ref></type>
+          <declname>prospective</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="430" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="430" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1ac075d7482cc67183e717c5f5445e099c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.packaging.specifiers.Specifier._compare_not_equal</definition>
+        <argsstring>(self, ParsedVersion prospective, str spec)</argsstring>
+        <name>_compare_not_equal</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.Specifier._compare_not_equal</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacepip_1_1__vendor_1_1packaging_1_1specifiers_1acee0b1dcc79d080da6960ede6afe154d" kindref="member">ParsedVersion</ref></type>
+          <declname>prospective</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="470" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="470" bodyend="472"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1ab0b74412e96a678b9f23501a7b10b268" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.packaging.specifiers.Specifier._compare_less_than_equal</definition>
+        <argsstring>(self, ParsedVersion prospective, str spec)</argsstring>
+        <name>_compare_less_than_equal</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.Specifier._compare_less_than_equal</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacepip_1_1__vendor_1_1packaging_1_1specifiers_1acee0b1dcc79d080da6960ede6afe154d" kindref="member">ParsedVersion</ref></type>
+          <declname>prospective</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="474" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="474" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1a3b46b965534a01c9de4e863139a91074" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.packaging.specifiers.Specifier._compare_greater_than_equal</definition>
+        <argsstring>(self, ParsedVersion prospective, str spec)</argsstring>
+        <name>_compare_greater_than_equal</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.Specifier._compare_greater_than_equal</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacepip_1_1__vendor_1_1packaging_1_1specifiers_1acee0b1dcc79d080da6960ede6afe154d" kindref="member">ParsedVersion</ref></type>
+          <declname>prospective</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="482" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="484" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1a062a66b0d0433a8021ce5a86694b80cf" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.packaging.specifiers.Specifier._compare_less_than</definition>
+        <argsstring>(self, ParsedVersion prospective, str spec_str)</argsstring>
+        <name>_compare_less_than</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.Specifier._compare_less_than</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacepip_1_1__vendor_1_1packaging_1_1specifiers_1acee0b1dcc79d080da6960ede6afe154d" kindref="member">ParsedVersion</ref></type>
+          <declname>prospective</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>spec_str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="492" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="492" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1a76e51f505dfd9cc89e2ac54d8bebc1ee" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.packaging.specifiers.Specifier._compare_greater_than</definition>
+        <argsstring>(self, ParsedVersion prospective, str spec_str)</argsstring>
+        <name>_compare_greater_than</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.Specifier._compare_greater_than</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacepip_1_1__vendor_1_1packaging_1_1specifiers_1acee0b1dcc79d080da6960ede6afe154d" kindref="member">ParsedVersion</ref></type>
+          <declname>prospective</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>spec_str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="518" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="518" bodyend="548"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1a6d52465ac7d2bb1bd32b944e9569a750" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.packaging.specifiers.Specifier._compare_arbitrary</definition>
+        <argsstring>(self, Version prospective, str spec)</argsstring>
+        <name>_compare_arbitrary</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.Specifier._compare_arbitrary</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1packaging_1_1version_1_1Version" kindref="compound">Version</ref></type>
+          <declname>prospective</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="549" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="549" bodyend="551"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1a94896054c4deb1cf1ab028fb0a045848" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.packaging.specifiers.Specifier.prereleases</definition>
+        <argsstring>(self)</argsstring>
+        <name>prereleases</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.Specifier.prereleases</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1__IndividualSpecifier_1a02f98fd977fd4f1377e6b2ee994089e3">prereleases</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns whether or not pre-releases as a whole are allowed by this
+specifier.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="553" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="553" bodyend="576"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1af1e606eb11b7321f394795929cf34085" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.packaging.specifiers.Specifier.prereleases</definition>
+        <argsstring>(self, bool value)</argsstring>
+        <name>prereleases</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.Specifier.prereleases</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1__IndividualSpecifier_1a02f98fd977fd4f1377e6b2ee994089e3">prereleases</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns whether or not pre-releases as a whole are allowed by this
+specifier.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="578" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="578" bodyend="581"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="5">
+        <label>abc.ABCMeta</label>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.packaging.specifiers.Specifier</label>
+        <link refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.packaging.specifiers.BaseSpecifier</label>
+        <link refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1BaseSpecifier"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.packaging.specifiers._IndividualSpecifier</label>
+        <link refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1__IndividualSpecifier"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>abc.ABCMeta</label>
+      </node>
+      <node id="7">
+        <label>str</label>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.packaging.specifiers.Specifier</label>
+        <link refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>_regex_str</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.packaging.specifiers.BaseSpecifier</label>
+        <link refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1BaseSpecifier"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.packaging.specifiers._IndividualSpecifier</label>
+        <link refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1__IndividualSpecifier"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>_regex</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Pattern</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="299" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="299" bodyend="581"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1a6d52465ac7d2bb1bd32b944e9569a750" prot="protected" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::Specifier</scope><name>_compare_arbitrary</name></member>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1ad3348ae7f143324b049592d00c802239" prot="protected" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::Specifier</scope><name>_compare_compatible</name></member>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1aff386c55b7442382f893a5c73af81b27" prot="protected" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::Specifier</scope><name>_compare_equal</name></member>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1a76e51f505dfd9cc89e2ac54d8bebc1ee" prot="protected" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::Specifier</scope><name>_compare_greater_than</name></member>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1a3b46b965534a01c9de4e863139a91074" prot="protected" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::Specifier</scope><name>_compare_greater_than_equal</name></member>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1a062a66b0d0433a8021ce5a86694b80cf" prot="protected" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::Specifier</scope><name>_compare_less_than</name></member>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1ab0b74412e96a678b9f23501a7b10b268" prot="protected" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::Specifier</scope><name>_compare_less_than_equal</name></member>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1ac075d7482cc67183e717c5f5445e099c" prot="protected" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::Specifier</scope><name>_compare_not_equal</name></member>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1ab75861e399d72f1d330e835f8350ec96" prot="protected" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::Specifier</scope><name>_operators</name></member>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1a92d2edc94bc0864abd9792a63067ae66" prot="protected" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::Specifier</scope><name>_prereleases</name></member>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1a1c3dd3a0238b868f061160a39f1a3177" prot="protected" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::Specifier</scope><name>_regex</name></member>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1aa6a5bab2ea9494c2a1de5087eee54cd6" prot="protected" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::Specifier</scope><name>_regex_str</name></member>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1a94896054c4deb1cf1ab028fb0a045848" prot="public" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::Specifier</scope><name>prereleases</name></member>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1Specifier_1af1e606eb11b7321f394795929cf34085" prot="public" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::Specifier</scope><name>prereleases</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

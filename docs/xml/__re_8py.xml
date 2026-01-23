@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="__re_8py" kind="file" language="Python">
+    <compoundname>_re.py</compoundname>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1tomli">pip::_vendor::tomli</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1tomli_1_1__re">pip::_vendor::tomli::_re</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1tomli_1_1__re" refkind="compound"><highlight class="comment">#<sp/>SPDX-License-Identifier:<sp/>MIT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">#<sp/>SPDX-FileCopyrightText:<sp/>2021<sp/>Taneli<sp/>Hukkinen</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Licensed<sp/>to<sp/>PSF<sp/>under<sp/>a<sp/>Contributor<sp/>Agreement.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>datetime<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>date,<sp/>datetime,<sp/>time,<sp/>timedelta,<sp/>timezone,<sp/>tzinfo</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>functools<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>lru_cache</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>re</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Any</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>._types<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>ParseFloat</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">#<sp/>E.g.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">#<sp/>-<sp/>00:32:00.999999</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">#<sp/>-<sp/>00:32:00</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal">_TIME_RE_STR<sp/>=<sp/></highlight><highlight class="stringliteral">r&quot;([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])(?:\.([0-9]{1,6})[0-9]*)?&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal">RE_NUMBER<sp/>=<sp/>re.compile(</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral">0</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral">(?:</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>x[0-9A-Fa-f](?:_?[0-9A-Fa-f])*<sp/><sp/><sp/>#<sp/>hex</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>b[01](?:_?[01])*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#<sp/>bin</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>|</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>o[0-7](?:_?[0-7])*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#<sp/>oct</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral">)</highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral">|</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral">[+-]?(?:0|[1-9](?:_?[0-9])*)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#<sp/>dec,<sp/>integer<sp/>part</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral">(?P&lt;floatpart&gt;</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>(?:\.[0-9](?:_?[0-9])*)?<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>#<sp/>optional<sp/>fractional<sp/>part</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>(?:[eE][+-]?[0-9](?:_?[0-9])*)?<sp/><sp/>#<sp/>optional<sp/>exponent<sp/>part</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral">)</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>flags=re.VERBOSE,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">RE_LOCALTIME<sp/>=<sp/>re.compile(_TIME_RE_STR)</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">RE_DATETIME<sp/>=<sp/>re.compile(</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>rf</highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral">([0-9]{{4}})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])<sp/><sp/>#<sp/>date,<sp/>e.g.<sp/>1988-10-27</highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral">(?:</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>[Tt<sp/>]</highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>{_TIME_RE_STR}</highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>(?:([Zz])|([+-])([01][0-9]|2[0-3]):([0-5][0-9]))?<sp/><sp/>#<sp/>optional<sp/>time<sp/>offset</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral">)?</highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>flags=re.VERBOSE,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">match_to_datetime(match:<sp/>re.Match)<sp/>-&gt;<sp/>datetime<sp/>|<sp/>date:</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Convert<sp/>a<sp/>`RE_DATETIME`<sp/>match<sp/>to<sp/>`datetime.datetime`<sp/>or<sp/>`datetime.date`.</highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Raises<sp/>ValueError<sp/>if<sp/>the<sp/>match<sp/>does<sp/>not<sp/>correspond<sp/>to<sp/>a<sp/>valid<sp/>date</highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>or<sp/>datetime.</highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>(</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>year_str,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>month_str,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>day_str,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hour_str,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>minute_str,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sec_str,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>micros_str,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>zulu_time,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>offset_sign_str,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>offset_hour_str,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>offset_minute_str,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>match.groups()</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>year,<sp/>month,<sp/>day<sp/>=<sp/>int(year_str),<sp/>int(month_str),<sp/>int(day_str)</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>hour_str<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>date(year,<sp/>month,<sp/>day)</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>hour,<sp/>minute,<sp/>sec<sp/>=<sp/>int(hour_str),<sp/>int(minute_str),<sp/>int(sec_str)</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>micros<sp/>=<sp/>int(micros_str.ljust(6,<sp/></highlight><highlight class="stringliteral">&quot;0&quot;</highlight><highlight class="normal">))<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>micros_str<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>0</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>offset_sign_str:</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tz:<sp/>tzinfo<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1tomli_1_1__re_1a4030ae8061e53cfa32af2c04fecc2cd2" kindref="member">cached_tz</ref>(</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>offset_hour_str,<sp/>offset_minute_str,<sp/>offset_sign_str</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/>zulu_time:</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tz<sp/>=<sp/>timezone.utc</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:<sp/><sp/></highlight><highlight class="comment">#<sp/>local<sp/>date-time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tz<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacedatetime" kindref="compound">datetime</ref>(year,<sp/>month,<sp/>day,<sp/>hour,<sp/>minute,<sp/>sec,<sp/>micros,<sp/>tzinfo=tz)</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="preprocessor">@lru_cache(maxsize=None)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1tomli_1_1__re_1a4030ae8061e53cfa32af2c04fecc2cd2" kindref="member">cached_tz</ref>(hour_str:<sp/>str,<sp/>minute_str:<sp/>str,<sp/>sign_str:<sp/>str)<sp/>-&gt;<sp/>timezone:</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>sign<sp/>=<sp/>1<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>sign_str<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;+&quot;</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>-1</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>timezone(</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>timedelta(</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hours=sign<sp/>*<sp/>int(hour_str),</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>minutes=sign<sp/>*<sp/>int(minute_str),</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">match_to_localtime(match:<sp/>re.Match)<sp/>-&gt;<sp/>time:</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>hour_str,<sp/>minute_str,<sp/>sec_str,<sp/>micros_str<sp/>=<sp/>match.groups()</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>micros<sp/>=<sp/>int(micros_str.ljust(6,<sp/></highlight><highlight class="stringliteral">&quot;0&quot;</highlight><highlight class="normal">))<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>micros_str<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>0</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>time(int(hour_str),<sp/>int(minute_str),<sp/>int(sec_str),<sp/>micros)</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">match_to_number(match:<sp/>re.Match,<sp/>parse_float:<sp/>ParseFloat)<sp/>-&gt;<sp/>Any:</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>match.group(</highlight><highlight class="stringliteral">&quot;floatpart&quot;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>parse_float(match.group())</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>int(match.group(),<sp/>0)</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_re.py"/>
+  </compounddef>
+</doxygen>

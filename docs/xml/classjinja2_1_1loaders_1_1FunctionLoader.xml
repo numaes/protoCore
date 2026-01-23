@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1loaders_1_1FunctionLoader" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::loaders::FunctionLoader</compoundname>
+    <basecompoundref refid="classjinja2_1_1loaders_1_1BaseLoader" prot="public" virt="non-virtual">jinja2.loaders.BaseLoader</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1loaders_1_1FunctionLoader_1a03df6507e5499da9be3737a24aefde6c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.loaders.FunctionLoader::load_func</definition>
+        <argsstring></argsstring>
+        <name>load_func</name>
+        <qualifiedname>jinja2.loaders.FunctionLoader.load_func</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/loaders.py" line="489" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/loaders.py" bodystart="489" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjinja2_1_1loaders_1_1FunctionLoader_1a2351afd8b3167cd2696771ccca6606e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.loaders.FunctionLoader.__init__</definition>
+        <argsstring>(self, t.Callable[[str], t.Optional[t.Union[str, t.Tuple[str, t.Optional[str], t.Optional[t.Callable[[], bool]]]]],] load_func)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>jinja2.loaders.FunctionLoader.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.</type>
+          <declname>Callable</declname>
+          <defname>load_func</defname>
+          <array>[[str]</array>
+        </param>
+        <param>
+          <type>t.</type>
+          <declname>Optional</declname>
+          <array>[t.Union[str, t.Tuple[str, t.Optional[str]</array>
+        </param>
+        <param>
+          <type>t.</type>
+          <declname>Optional</declname>
+          <array>[t.Callable[[]</array>
+        </param>
+        <param>
+          <type>bool]]]]]</type>
+        </param>
+        <param>
+          <type>]</type>
+          <declname>load_func</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/loaders.py" line="478" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/loaders.py" bodystart="488" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1loaders_1_1FunctionLoader_1a67fb406e35ab3309cc2afcc0d3bf2c4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Tuple[str, t.Optional[str], t.Optional[t.Callable[[], bool]]]</type>
+        <definition> t.Tuple[str, t.Optional[str], t.Optional[t.Callable[[], bool]]] jinja2.loaders.FunctionLoader.get_source</definition>
+        <argsstring>(self, &quot;Environment&quot; environment, str template)</argsstring>
+        <name>get_source</name>
+        <qualifiedname>jinja2.loaders.FunctionLoader.get_source</qualifiedname>
+        <reimplements refid="classjinja2_1_1loaders_1_1BaseLoader_1a7e222ad2ab60e2cfd58c11822b0c4951">get_source</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>template</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the template source, filename and reload helper for a template.
+It&apos;s passed the environment and template name and has to return a
+tuple in the form ``(source, filename, uptodate)`` or raise a
+`TemplateNotFound` error if it can&apos;t locate the template.
+
+The source part of the returned tuple must be the source of the
+template as a string. The filename should be the name of the
+file on the filesystem if it was loaded from there, otherwise
+``None``. The filename is used by Python for the tracebacks
+if no loader extension is used.
+
+The last item in the tuple is the `uptodate` function.  If auto
+reloading is enabled it&apos;s always called to check if the template
+changed.  No arguments are passed so the function must store the
+old state somewhere (for example in a closure).  If it returns `False`
+the template will be reloaded.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/loaders.py" line="491" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/loaders.py" bodystart="493" bodyend="504"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A loader that is passed a function which does the loading.  The
+function receives the name of the template and has to return either
+a string with the template source, a tuple in the form ``(source,
+filename, uptodatefunc)`` or `None` if the template does not exist.
+
+&gt;&gt;&gt; def load_template(name):
+...     if name == &apos;index.html&apos;:
+...         return &apos;...&apos;
+...
+&gt;&gt;&gt; loader = FunctionLoader(load_template)
+
+The `uptodatefunc` is a function that is called if autoreload is enabled
+and has to return `True` if the template is still up to date.  For more
+details have a look at :meth:`BaseLoader.get_source` which has the same
+return value.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.loaders.FunctionLoader</label>
+        <link refid="classjinja2_1_1loaders_1_1FunctionLoader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.loaders.BaseLoader</label>
+        <link refid="classjinja2_1_1loaders_1_1BaseLoader"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>jinja2.loaders.FunctionLoader</label>
+        <link refid="classjinja2_1_1loaders_1_1FunctionLoader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.loaders.BaseLoader</label>
+        <link refid="classjinja2_1_1loaders_1_1BaseLoader"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/jinja2/loaders.py" line="460" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/loaders.py" bodystart="460" bodyend="504"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1loaders_1_1FunctionLoader_1a2351afd8b3167cd2696771ccca6606e7" prot="public" virt="non-virtual"><scope>jinja2::loaders::FunctionLoader</scope><name>__init__</name></member>
+      <member refid="classjinja2_1_1loaders_1_1FunctionLoader_1a67fb406e35ab3309cc2afcc0d3bf2c4f" prot="public" virt="non-virtual"><scope>jinja2::loaders::FunctionLoader</scope><name>get_source</name></member>
+      <member refid="classjinja2_1_1loaders_1_1FunctionLoader_1a03df6507e5499da9be3737a24aefde6c" prot="public" virt="non-virtual"><scope>jinja2::loaders::FunctionLoader</scope><name>load_func</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

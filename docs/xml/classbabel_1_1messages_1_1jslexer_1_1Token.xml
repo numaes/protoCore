@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classbabel_1_1messages_1_1jslexer_1_1Token" kind="class" language="Python" prot="public">
+    <compoundname>babel::messages::jslexer::Token</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">NamedTuple</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classbabel_1_1messages_1_1jslexer_1_1Token_1a441dd38de79b53cf8ce1064e7fd1fbd0" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str babel.messages.jslexer.Token::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>babel.messages.jslexer.Token.type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/jslexer.py" line="37" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/jslexer.py" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbabel_1_1messages_1_1jslexer_1_1Token_1a4ecc8914450a254bff731c96e506d799" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str babel.messages.jslexer.Token::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>babel.messages.jslexer.Token.value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/jslexer.py" line="38" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/jslexer.py" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbabel_1_1messages_1_1jslexer_1_1Token_1a210c9e331a4990d862a6ee6db73eec30" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int babel.messages.jslexer.Token::lineno</definition>
+        <argsstring></argsstring>
+        <name>lineno</name>
+        <qualifiedname>babel.messages.jslexer.Token.lineno</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/jslexer.py" line="39" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/jslexer.py" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classbabel_1_1messages_1_1jslexer_1_1Token_1a034ffce303efdb3635c728b3555a2a58" prot="protected" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list babel.messages.jslexer.Token::_rules</definition>
+        <argsstring></argsstring>
+        <name>_rules</name>
+        <qualifiedname>babel.messages.jslexer.Token._rules</qualifiedname>
+        <initializer>=  [
+    (None, re.compile(r&apos;\s+&apos;, re.UNICODE)),
+    (None, re.compile(r&apos;&lt;!--.*&apos;)),
+    (&apos;linecomment&apos;, re.compile(r&apos;//.*&apos;)),
+    (&apos;multilinecomment&apos;, re.compile(r&apos;/\*.*?\*/&apos;, re.UNICODE | re.DOTALL)),
+    (&apos;dotted_name&apos;, <ref refid="namespacebabel_1_1messages_1_1jslexer_1acbb5e757d1b0e1724452be68eac00700" kindref="member">dotted_name_re</ref>),
+    (&apos;name&apos;, <ref refid="namespacebabel_1_1messages_1_1jslexer_1a94d2f1bf06a968b80b2af494384acf6e" kindref="member">name_re</ref>),
+    (&apos;number&apos;, re.compile(, re.VERBOSE)),
+    (&apos;jsx_tag&apos;, re.compile(r&apos;(?:&lt;/?[^&gt;\s]+|/&gt;)&apos;, re.I)),  # May be mangled in `<ref refid="namespacebabel_1_1messages_1_1jslexer_1a3de255de7d5c04fd7dcff05e8ef613e5" kindref="member">get_rules</ref>`
+    (&apos;operator&apos;, re.compile(r&apos;(%s)&apos; % &apos;|&apos;.join(map(re.escape, <ref refid="namespacebabel_1_1messages_1_1jslexer_1af40c01c43a12a9badedce44aa6ccda20" kindref="member">operators</ref>)))),
+    (&apos;template_string&apos;, re.compile(, re.UNICODE)),
+    (&apos;string&apos;, re.compile(, re.VERBOSE | re.DOTALL)),
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/jslexer.py" line="42" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/jslexer.py" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>babel.messages.jslexer.Token</label>
+        <link refid="classbabel_1_1messages_1_1jslexer_1_1Token"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>NamedTuple</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>babel.messages.jslexer.Token</label>
+        <link refid="classbabel_1_1messages_1_1jslexer_1_1Token"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>type</edgelabel>
+          <edgelabel>value</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>str</label>
+      </node>
+      <node id="2">
+        <label>NamedTuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/babel/messages/jslexer.py" line="36" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/jslexer.py" bodystart="36" bodyend="64"/>
+    <listofallmembers>
+      <member refid="classbabel_1_1messages_1_1jslexer_1_1Token_1a034ffce303efdb3635c728b3555a2a58" prot="protected" virt="non-virtual"><scope>babel::messages::jslexer::Token</scope><name>_rules</name></member>
+      <member refid="classbabel_1_1messages_1_1jslexer_1_1Token_1a210c9e331a4990d862a6ee6db73eec30" prot="public" virt="non-virtual"><scope>babel::messages::jslexer::Token</scope><name>lineno</name></member>
+      <member refid="classbabel_1_1messages_1_1jslexer_1_1Token_1a441dd38de79b53cf8ce1064e7fd1fbd0" prot="public" virt="non-virtual"><scope>babel::messages::jslexer::Token</scope><name>type</name></member>
+      <member refid="classbabel_1_1messages_1_1jslexer_1_1Token_1a4ecc8914450a254bff731c96e506d799" prot="public" virt="non-virtual"><scope>babel::messages::jslexer::Token</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

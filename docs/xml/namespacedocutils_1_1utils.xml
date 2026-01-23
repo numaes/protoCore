@@ -1,0 +1,735 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacedocutils_1_1utils" kind="namespace" language="Python">
+    <compoundname>docutils::utils</compoundname>
+    <innerclass refid="classdocutils_1_1utils_1_1BadOptionDataError" prot="public">docutils::utils::BadOptionDataError</innerclass>
+    <innerclass refid="classdocutils_1_1utils_1_1BadOptionError" prot="public">docutils::utils::BadOptionError</innerclass>
+    <innerclass refid="classdocutils_1_1utils_1_1DependencyList" prot="public">docutils::utils::DependencyList</innerclass>
+    <innerclass refid="classdocutils_1_1utils_1_1DuplicateOptionError" prot="public">docutils::utils::DuplicateOptionError</innerclass>
+    <innerclass refid="classdocutils_1_1utils_1_1ExtensionOptionError" prot="public">docutils::utils::ExtensionOptionError</innerclass>
+    <innerclass refid="classdocutils_1_1utils_1_1NameValueError" prot="public">docutils::utils::NameValueError</innerclass>
+    <innerclass refid="classdocutils_1_1utils_1_1Reporter" prot="public">docutils::utils::Reporter</innerclass>
+    <innerclass refid="classdocutils_1_1utils_1_1SystemMessage" prot="public">docutils::utils::SystemMessage</innerclass>
+    <innerclass refid="classdocutils_1_1utils_1_1SystemMessagePropagation" prot="public">docutils::utils::SystemMessagePropagation</innerclass>
+    <innernamespace refid="namespacedocutils_1_1utils_1_1code__analyzer">docutils::utils::code_analyzer</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1utils_1_1error__reporting">docutils::utils::error_reporting</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1utils_1_1math">docutils::utils::math</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1utils_1_1punctuation__chars">docutils::utils::punctuation_chars</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1utils_1_1roman">docutils::utils::roman</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1utils_1_1smartquotes">docutils::utils::smartquotes</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1utils_1_1urischemes">docutils::utils::urischemes</innernamespace>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1a1ec0e05539cd6fd11558faf1def877b0" prot="private" static="no" mutable="no">
+        <type>str</type>
+        <definition>str docutils::utils.__docformat__</definition>
+        <argsstring></argsstring>
+        <name>__docformat__</name>
+        <qualifiedname>docutils.utils.__docformat__</qualifiedname>
+        <initializer>=  &apos;reStructuredText&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="9" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="9" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1a2a5ef3cb97d6f123ecb5fe39cbcd6a0d" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::utils.east_asian_widths</definition>
+        <argsstring></argsstring>
+        <name>east_asian_widths</name>
+        <qualifiedname>docutils.utils.east_asian_widths</qualifiedname>
+        <initializer>=  {&apos;W&apos;: 2,   # Wide
+                     &apos;F&apos;: 2,   # Full-width (wide)
+                     &apos;Na&apos;: 1,  # Narrow
+                     &apos;H&apos;: 1,   # Half-width (narrow)
+                     &apos;N&apos;: 1,   # Neutral (not East Asian, treated as narrow)
+                     &apos;A&apos;: 1,   # Ambiguous (s/b wide in East Asian context,
+                     }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="681" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="681" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1a19a65dd948cd06b36c2516c9e32778cd" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::utils.release_level_abbreviations</definition>
+        <argsstring></argsstring>
+        <name>release_level_abbreviations</name>
+        <qualifiedname>docutils.utils.release_level_abbreviations</qualifiedname>
+        <initializer>=  {
+    &apos;alpha&apos;: &apos;a&apos;,
+    &apos;beta&apos;: &apos;b&apos;,
+    &apos;candidate&apos;: &apos;rc&apos;,
+    &apos;final&apos;: &apos;&apos;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="822" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="822" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1a342bed2f404c7ba37993402ea4df9434" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.extract_extension_options</definition>
+        <argsstring>(field_list, options_spec)</argsstring>
+        <name>extract_extension_options</name>
+        <qualifiedname>docutils.utils.extract_extension_options</qualifiedname>
+        <param>
+          <type>field_list</type>
+          <defname>field_list</defname>
+        </param>
+        <param>
+          <type>options_spec</type>
+          <defname>options_spec</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a dictionary mapping extension option names to converted values.
+
+:Parameters:
+    - `field_list`: A flat field list without field arguments, where each
+      field body consists of a single paragraph only.
+    - `options_spec`: Dictionary mapping known option names to a
+      conversion function such as `int` or `float`.
+
+:Exceptions:
+    - `KeyError` for unknown option names.
+    - `ValueError` for invalid option values (raised by the conversion
+       function).
+    - `TypeError` for invalid option value types (raised by conversion
+       function).
+    - `DuplicateOptionError` for duplicate options.
+    - `BadOptionError` for invalid fields.
+    - `BadOptionDataError` for invalid option data (missing name,
+      missing data, bad quotes, etc.).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="248" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="248" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1ac674607fcc4a2660922b2778ffde047a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.extract_options</definition>
+        <argsstring>(field_list)</argsstring>
+        <name>extract_options</name>
+        <qualifiedname>docutils.utils.extract_options</qualifiedname>
+        <param>
+          <type>field_list</type>
+          <defname>field_list</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a list of option (name, value) pairs from field names &amp; bodies.
+
+:Parameter:
+    `field_list`: A flat field list, where each field name is a single
+    word and each field body consists of a single paragraph only.
+
+:Exceptions:
+    - `BadOptionError` for invalid fields.
+    - `BadOptionDataError` for invalid option data (missing name,
+      missing data, bad quotes, etc.).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="273" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="273" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1a69813e62f42fa7f562b86d85466862cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.assemble_option_dict</definition>
+        <argsstring>(option_list, options_spec)</argsstring>
+        <name>assemble_option_dict</name>
+        <qualifiedname>docutils.utils.assemble_option_dict</qualifiedname>
+        <param>
+          <type>option_list</type>
+          <defname>option_list</defname>
+        </param>
+        <param>
+          <type>options_spec</type>
+          <defname>options_spec</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a mapping of option names to values.
+
+:Parameters:
+    - `option_list`: A list of (name, value) pairs (the output of
+      `extract_options()`).
+    - `options_spec`: Dictionary mapping known option names to a
+      conversion function such as `int` or `float`.
+
+:Exceptions:
+    - `KeyError` for unknown option names.
+    - `DuplicateOptionError` for duplicate options.
+    - `ValueError` for invalid option values (raised by conversion
+       function).
+    - `TypeError` for invalid option value types (raised by conversion
+       function).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="308" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="308" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1a5dd09bb13918e6d81043af578882d196" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.decode_path</definition>
+        <argsstring>(path)</argsstring>
+        <name>decode_path</name>
+        <qualifiedname>docutils.utils.decode_path</qualifiedname>
+        <param>
+          <type>path</type>
+          <defname>path</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Ensure `path` is Unicode. Return `str` instance.
+
+Decode file/path string in a failsafe manner if not already done.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="344" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="344" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1ac3fd14a817d2755f6e9a3d84fbca2d7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.extract_name_value</definition>
+        <argsstring>(line)</argsstring>
+        <name>extract_name_value</name>
+        <qualifiedname>docutils.utils.extract_name_value</qualifiedname>
+        <param>
+          <type>line</type>
+          <defname>line</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a list of (name, value) from a line of the form &quot;name=value ...&quot;.
+
+:Exception:
+    `NameValueError` for invalid input (missing name, missing data, bad
+    quotes, etc.).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="368" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="368" bodyend="412"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1ab73aae3495a901c1facddd4cd9908e21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.new_reporter</definition>
+        <argsstring>(source_path, settings)</argsstring>
+        <name>new_reporter</name>
+        <qualifiedname>docutils.utils.new_reporter</qualifiedname>
+        <param>
+          <type>source_path</type>
+          <defname>source_path</defname>
+        </param>
+        <param>
+          <type>settings</type>
+          <defname>settings</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a new Reporter object.
+
+:Parameters:
+    `source` : string
+        The path to or description of the source text of the document.
+    `settings` : optparse.Values object
+        Runtime settings.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="413" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="413" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1a102ea5ddc6a35911f00f978d40a7df30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.new_document</definition>
+        <argsstring>(source_path, settings=None)</argsstring>
+        <name>new_document</name>
+        <qualifiedname>docutils.utils.new_document</qualifiedname>
+        <param>
+          <type>source_path</type>
+          <defname>source_path</defname>
+        </param>
+        <param>
+          <type>settings</type>
+          <defname>settings</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a new empty document object.
+
+:Parameters:
+    `source_path` : string
+        The path to or description of the source text of the document.
+    `settings` : optparse.Values object
+        Runtime settings.  If none are provided, a default core set will
+        be used.  If you will use the document object with any Docutils
+        components, you must provide their default settings as well.
+
+        For example, if parsing rST, at least provide the rst-parser
+        settings, obtainable as follows:
+
+        Defaults for parser component::
+
+            settings = docutils.frontend.get_default_settings(
+                           docutils.parsers.rst.Parser)
+
+        Defaults and configuration file customizations::
+
+            settings = docutils.core.Publisher(
+                parser=docutils.parsers.rst.Parser).get_settings()</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="431" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="431" bodyend="467"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1adf68467281d14b14c06e7d5c70944463" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.clean_rcs_keywords</definition>
+        <argsstring>(paragraph, keyword_substitutions)</argsstring>
+        <name>clean_rcs_keywords</name>
+        <qualifiedname>docutils.utils.clean_rcs_keywords</qualifiedname>
+        <param>
+          <type>paragraph</type>
+          <defname>paragraph</defname>
+        </param>
+        <param>
+          <type>keyword_substitutions</type>
+          <defname>keyword_substitutions</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="468" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="468" bodyend="477"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1a65498eec10c3a8dd12abc6bebd0f2ba0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.relative_path</definition>
+        <argsstring>(source, target)</argsstring>
+        <name>relative_path</name>
+        <qualifiedname>docutils.utils.relative_path</qualifiedname>
+        <param>
+          <type>source</type>
+          <defname>source</defname>
+        </param>
+        <param>
+          <type>target</type>
+          <defname>target</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Build and return a path to `target`, relative to `source` (both files).
+
+The return value is a `str` suitable to be included in `source`
+as a reference to `target`.
+
+:Parameters:
+    `source` : path-like object or None
+        Path of a file in the start directory for the relative path
+        (the file does not need to exist).
+        The value ``None`` is replaced with &quot;&lt;cwd&gt;/dummy_file&quot;.
+    `target` : path-like object
+        End point of the returned relative path.
+
+Differences to `os.path.relpath()`:
+
+* Inverse argument order.
+* `source` is assumed to be a FILE in the start directory (add a &quot;dummy&quot;
+  file name to obtain the path relative from a directory)
+  while `os.path.relpath()` expects a DIRECTORY as `start` argument.
+* Always use Posix path separator (&quot;/&quot;) for the output.
+* Use `os.sep` for parsing the input
+  (changing the value of `os.sep` is ignored by `os.relpath()`).
+* If there is no common prefix, return the absolute path to `target`.
+
+Differences to `pathlib.PurePath.relative_to(other)`:
+
+* pathlib offers an object oriented interface.
+* `source` expects path to a FILE while `other` expects a DIRECTORY.
+* `target` defaults to the cwd, no default value for `other`.
+* `relative_path()` always returns a path (relative or absolute),
+  while `PurePath.relative_to()` raises a ValueError
+  if `target` is not a subpath of `other` (no &quot;..&quot; inserted).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="478" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="478" bodyend="532"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1a17c947461297f2702c50b993bca50239" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.get_stylesheet_reference</definition>
+        <argsstring>(settings, relative_to=None)</argsstring>
+        <name>get_stylesheet_reference</name>
+        <qualifiedname>docutils.utils.get_stylesheet_reference</qualifiedname>
+        <param>
+          <type>settings</type>
+          <defname>settings</defname>
+        </param>
+        <param>
+          <type>relative_to</type>
+          <defname>relative_to</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Retrieve a stylesheet reference from the settings object.
+
+Deprecated. Use get_stylesheet_list() instead to
+enable specification of multiple stylesheets as a comma-separated
+list.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="533" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="533" bodyend="564"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1a058d936f695819966fd373f92cbbb2a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.get_stylesheet_list</definition>
+        <argsstring>(settings)</argsstring>
+        <name>get_stylesheet_list</name>
+        <qualifiedname>docutils.utils.get_stylesheet_list</qualifiedname>
+        <param>
+          <type>settings</type>
+          <defname>settings</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Retrieve list of stylesheet references from the settings object.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="565" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="565" bodyend="581"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1a44919d300882dddf64ca641e743ec419" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.find_file_in_dirs</definition>
+        <argsstring>(path, dirs)</argsstring>
+        <name>find_file_in_dirs</name>
+        <qualifiedname>docutils.utils.find_file_in_dirs</qualifiedname>
+        <param>
+          <type>path</type>
+          <defname>path</defname>
+        </param>
+        <param>
+          <type>dirs</type>
+          <defname>dirs</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Search for `path` in the list of directories `dirs`.
+
+Return the first expansion that matches an existing file.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="582" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="582" bodyend="597"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1ae882f1c128b125600a362fceb188df14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.get_trim_footnote_ref_space</definition>
+        <argsstring>(settings)</argsstring>
+        <name>get_trim_footnote_ref_space</name>
+        <qualifiedname>docutils.utils.get_trim_footnote_ref_space</qualifiedname>
+        <param>
+          <type>settings</type>
+          <defname>settings</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return whether or not to trim footnote space.
+
+If trim_footnote_reference_space is not None, return it.
+
+If trim_footnote_reference_space is None, return False unless the
+footnote reference style is &apos;superscript&apos;.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="598" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="598" bodyend="612"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1a8d45cf31f9a85c3729e3746074dd3a56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.get_source_line</definition>
+        <argsstring>(node)</argsstring>
+        <name>get_source_line</name>
+        <qualifiedname>docutils.utils.get_source_line</qualifiedname>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the &quot;source&quot; and &quot;line&quot; attributes from the `node` given or from
+its closest ancestor.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="613" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="613" bodyend="624"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1ad5198b3aa479db728ddfc1f7ab196bae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.escape2null</definition>
+        <argsstring>(text)</argsstring>
+        <name>escape2null</name>
+        <qualifiedname>docutils.utils.escape2null</qualifiedname>
+        <param>
+          <type>text</type>
+          <defname>text</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a string with escape-backslashes converted to nulls.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="625" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="625" bodyend="638"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1ae397291ece7a07b26f8ff536b38bf02c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.split_escaped_whitespace</definition>
+        <argsstring>(text)</argsstring>
+        <name>split_escaped_whitespace</name>
+        <qualifiedname>docutils.utils.split_escaped_whitespace</qualifiedname>
+        <param>
+          <type>text</type>
+          <defname>text</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Split `text` on escaped whitespace (null+space or null+newline).
+Return a list of strings.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="639" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="639" bodyend="649"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1a91b131ba44dd0c65c7ff0e9156fdcab2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.strip_combining_chars</definition>
+        <argsstring>(text)</argsstring>
+        <name>strip_combining_chars</name>
+        <qualifiedname>docutils.utils.strip_combining_chars</qualifiedname>
+        <param>
+          <type>text</type>
+          <defname>text</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="650" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="650" bodyend="653"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1af2c17d0831960cd63159e40d614a60dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.find_combining_chars</definition>
+        <argsstring>(text)</argsstring>
+        <name>find_combining_chars</name>
+        <qualifiedname>docutils.utils.find_combining_chars</qualifiedname>
+        <param>
+          <type>text</type>
+          <defname>text</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return indices of all combining chars in  Unicode string `text`.
+
+&gt;&gt;&gt; from docutils.utils import find_combining_chars
+&gt;&gt;&gt; find_combining_chars(&apos;A t̆ab̆lĕ&apos;)
+[3, 6, 9]</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="654" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="654" bodyend="664"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1a6218bf439154bb2d8360eb487b9ff460" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.column_indices</definition>
+        <argsstring>(text)</argsstring>
+        <name>column_indices</name>
+        <qualifiedname>docutils.utils.column_indices</qualifiedname>
+        <param>
+          <type>text</type>
+          <defname>text</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Indices of Unicode string `text` when skipping combining characters.
+
+&gt;&gt;&gt; from docutils.utils import column_indices
+&gt;&gt;&gt; column_indices(&apos;A t̆ab̆lĕ&apos;)
+[0, 1, 2, 4, 5, 7, 8]</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="665" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="665" bodyend="680"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1a2b2e6c55938ef4e6a52ca2bc7b882d2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.column_width</definition>
+        <argsstring>(text)</argsstring>
+        <name>column_width</name>
+        <qualifiedname>docutils.utils.column_width</qualifiedname>
+        <param>
+          <type>text</type>
+          <defname>text</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the column width of text.
+
+Correct ``len(text)`` for wide East Asian and combining Unicode chars.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="692" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="692" bodyend="703"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1a1053e5cec3a41f5bed305f3557f860ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.uniq</definition>
+        <argsstring>(L)</argsstring>
+        <name>uniq</name>
+        <qualifiedname>docutils.utils.uniq</qualifiedname>
+        <param>
+          <type>L</type>
+          <defname>L</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="704" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="704" bodyend="711"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1a8b37882d674790b7427085a1a04da035" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.normalize_language_tag</definition>
+        <argsstring>(tag)</argsstring>
+        <name>normalize_language_tag</name>
+        <qualifiedname>docutils.utils.normalize_language_tag</qualifiedname>
+        <param>
+          <type>tag</type>
+          <defname>tag</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a list of normalized combinations for a `BCP 47` language tag.
+
+Example:
+
+&gt;&gt;&gt; from docutils.utils import normalize_language_tag
+&gt;&gt;&gt; normalize_language_tag(&apos;de_AT-1901&apos;)
+[&apos;de-at-1901&apos;, &apos;de-at&apos;, &apos;de-1901&apos;, &apos;de&apos;]
+&gt;&gt;&gt; normalize_language_tag(&apos;de-CH-x_altquot&apos;)
+[&apos;de-ch-x-altquot&apos;, &apos;de-ch&apos;, &apos;de-x-altquot&apos;, &apos;de&apos;]</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="712" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="712" bodyend="738"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1a86692dcf85ca9e2c264ac3a769e3db21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.xml_declaration</definition>
+        <argsstring>(encoding=None)</argsstring>
+        <name>xml_declaration</name>
+        <qualifiedname>docutils.utils.xml_declaration</qualifiedname>
+        <param>
+          <type>encoding</type>
+          <defname>encoding</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return an XML text declaration.
+
+Include an encoding declaration, if `encoding`
+is not &apos;unicode&apos;, &apos;&apos;, or None.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="739" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="739" bodyend="751"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1a21114decf6d2fc581e437cc622ad0360" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.version_identifier</definition>
+        <argsstring>(version_info=None)</argsstring>
+        <name>version_identifier</name>
+        <qualifiedname>docutils.utils.version_identifier</qualifiedname>
+        <param>
+          <type>version_info</type>
+          <defname>version_info</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a version identifier string built from `version_info`, a
+`docutils.VersionInfo` namedtuple instance or compatible tuple. If
+`version_info` is not provided, by default return a version identifier
+string based on `docutils.__version_info__` (i.e. the current Docutils
+version).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="829" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="829" bodyend="862"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Miscellaneous utilities for the documentation utilities.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

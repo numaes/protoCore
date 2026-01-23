@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1tomli_1_1__re" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::tomli::_re</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1tomli_1_1__re_1ae74d1f3d2db4b3b7356164154c0ea518" prot="protected" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_vendor::tomli::_re._TIME_RE_STR</definition>
+        <argsstring></argsstring>
+        <name>_TIME_RE_STR</name>
+        <qualifiedname>pip._vendor.tomli._re._TIME_RE_STR</qualifiedname>
+        <initializer>=  r&quot;([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])(?:\.([0-9]{1,6})[0-9]*)?&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_re.py" line="17" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_re.py" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1tomli_1_1__re_1ad2300d5479fa770e3c3fc42994ef5a85" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::tomli::_re.RE_NUMBER</definition>
+        <argsstring></argsstring>
+        <name>RE_NUMBER</name>
+        <qualifiedname>pip._vendor.tomli._re.RE_NUMBER</qualifiedname>
+        <initializer>=  re.compile(
+    ,
+    flags=re.VERBOSE,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_re.py" line="19" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_re.py" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1tomli_1_1__re_1a5cec53937b4358aaba324df37d60af1c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::tomli::_re.RE_LOCALTIME</definition>
+        <argsstring></argsstring>
+        <name>RE_LOCALTIME</name>
+        <qualifiedname>pip._vendor.tomli._re.RE_LOCALTIME</qualifiedname>
+        <initializer>=  re.compile(<ref refid="namespacepip_1_1__vendor_1_1tomli_1_1__re_1ae74d1f3d2db4b3b7356164154c0ea518" kindref="member">_TIME_RE_STR</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_re.py" line="38" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_re.py" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1tomli_1_1__re_1ac8e7642b265968ab49d4980633d7798b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::tomli::_re.RE_DATETIME</definition>
+        <argsstring></argsstring>
+        <name>RE_DATETIME</name>
+        <qualifiedname>pip._vendor.tomli._re.RE_DATETIME</qualifiedname>
+        <initializer>=  re.compile(
+    rf,
+    flags=re.VERBOSE,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_re.py" line="39" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_re.py" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__re_1a9a39f8f2ce9b139c52bf7f515cca94e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>datetime|date</type>
+        <definition> datetime | date pip._vendor.tomli._re.match_to_datetime</definition>
+        <argsstring>(re.Match match)</argsstring>
+        <name>match_to_datetime</name>
+        <qualifiedname>pip._vendor.tomli._re.match_to_datetime</qualifiedname>
+        <param>
+          <type>re.Match</type>
+          <declname>match</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert a `RE_DATETIME` match to `datetime.datetime` or `datetime.date`.
+
+Raises ValueError if the match does not correspond to a valid date
+or datetime.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_re.py" line="52" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_re.py" bodystart="52" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__re_1a4030ae8061e53cfa32af2c04fecc2cd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>timezone</type>
+        <definition> timezone pip._vendor.tomli._re.cached_tz</definition>
+        <argsstring>(str hour_str, str minute_str, str sign_str)</argsstring>
+        <name>cached_tz</name>
+        <qualifiedname>pip._vendor.tomli._re.cached_tz</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>hour_str</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>minute_str</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>sign_str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_re.py" line="88" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_re.py" bodystart="88" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__re_1a621f1e6bc7b8fafcf2a671fba4486ece" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>time</type>
+        <definition> time pip._vendor.tomli._re.match_to_localtime</definition>
+        <argsstring>(re.Match match)</argsstring>
+        <name>match_to_localtime</name>
+        <qualifiedname>pip._vendor.tomli._re.match_to_localtime</qualifiedname>
+        <param>
+          <type>re.Match</type>
+          <declname>match</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_re.py" line="98" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_re.py" bodystart="98" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1tomli_1_1__re_1a6154c115f745889d62c8a5b316305750" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Any</type>
+        <definition> Any pip._vendor.tomli._re.match_to_number</definition>
+        <argsstring>(re.Match match, ParseFloat parse_float)</argsstring>
+        <name>match_to_number</name>
+        <qualifiedname>pip._vendor.tomli._re.match_to_number</qualifiedname>
+        <param>
+          <type>re.Match</type>
+          <declname>match</declname>
+        </param>
+        <param>
+          <type>ParseFloat</type>
+          <declname>parse_float</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_re.py" line="104" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_re.py" bodystart="104" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/tomli/_re.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

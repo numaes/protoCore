@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1readers_1_1doctree_1_1Reader" kind="class" language="Python" prot="public">
+    <compoundname>docutils::readers::doctree::Reader</compoundname>
+    <basecompoundref refid="classdocutils_1_1readers_1_1ReReader" prot="public" virt="non-virtual">docutils.readers.ReReader</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1readers_1_1doctree_1_1Reader_1a467bbe1925971766ba63e02f03ad9507" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.readers.doctree.Reader::supported</definition>
+        <argsstring></argsstring>
+        <name>supported</name>
+        <qualifiedname>docutils.readers.doctree.Reader.supported</qualifiedname>
+        <initializer>=  (&apos;doctree&apos;,)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/readers/doctree.py" line="27" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/readers/doctree.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1readers_1_1doctree_1_1Reader_1aaa585f46506bc5189cd02f3dc61bbc2e" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.readers.doctree.Reader::config_section</definition>
+        <argsstring></argsstring>
+        <name>config_section</name>
+        <qualifiedname>docutils.readers.doctree.Reader.config_section</qualifiedname>
+        <initializer>=  &apos;doctree reader&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/readers/doctree.py" line="29" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/readers/doctree.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1readers_1_1doctree_1_1Reader_1af3245e2684b8245daa8ede7349787eb2" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.readers.doctree.Reader::config_section_dependencies</definition>
+        <argsstring></argsstring>
+        <name>config_section_dependencies</name>
+        <qualifiedname>docutils.readers.doctree.Reader.config_section_dependencies</qualifiedname>
+        <initializer>=  (&apos;readers&apos;,)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/readers/doctree.py" line="30" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/readers/doctree.py" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1readers_1_1doctree_1_1Reader_1af885d554e0bffa1e39734bdac1fdf134" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.readers.doctree.Reader::document</definition>
+        <argsstring></argsstring>
+        <name>document</name>
+        <qualifiedname>docutils.readers.doctree.Reader.document</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/readers/doctree.py" line="37" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/readers/doctree.py" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1readers_1_1doctree_1_1Reader_1a712218e258de47f3e008c4ddaf83b7fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.readers.doctree.Reader.parse</definition>
+        <argsstring>(self)</argsstring>
+        <name>parse</name>
+        <qualifiedname>docutils.readers.doctree.Reader.parse</qualifiedname>
+        <reimplements refid="classdocutils_1_1readers_1_1Reader_1a7212409c9aabb23ee592dbc2319dc457">parse</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>No parsing to do; refurbish the document tree instead.
+Overrides the inherited method.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/readers/doctree.py" line="32" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/readers/doctree.py" bodystart="32" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Adapt the Reader API for an existing document tree.
+
+The existing document tree must be passed as the ``source`` parameter to
+the `docutils.core.Publisher` initializer, wrapped in a
+`docutils.io.DocTreeInput` object::
+
+    pub = docutils.core.Publisher(
+        ..., source=docutils.io.DocTreeInput(document), ...)
+
+The original document settings are overridden; if you want to use the
+settings of the original document, pass ``settings=document.settings`` to
+the Publisher call above.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.readers.doctree.Reader</label>
+        <link refid="classdocutils_1_1readers_1_1doctree_1_1Reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.Component</label>
+        <link refid="classdocutils_1_1Component"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+      </node>
+      <node id="6">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+      </node>
+      <node id="2">
+        <label>docutils.readers.ReReader</label>
+        <link refid="classdocutils_1_1readers_1_1ReReader"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.readers.Reader</label>
+        <link refid="classdocutils_1_1readers_1_1Reader"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="7">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>docutils.readers.doctree.Reader</label>
+        <link refid="classdocutils_1_1readers_1_1doctree_1_1Reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>config_section</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.Component</label>
+        <link refid="classdocutils_1_1Component"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+      </node>
+      <node id="6">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+      </node>
+      <node id="2">
+        <label>docutils.readers.ReReader</label>
+        <link refid="classdocutils_1_1readers_1_1ReReader"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.readers.Reader</label>
+        <link refid="classdocutils_1_1readers_1_1Reader"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>component_type</edgelabel>
+          <edgelabel>config_section</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/docutils/readers/doctree.py" line="10" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/readers/doctree.py" bodystart="10" bodyend="47"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1readers_1_1doctree_1_1Reader_1aaa585f46506bc5189cd02f3dc61bbc2e" prot="public" virt="non-virtual"><scope>docutils::readers::doctree::Reader</scope><name>config_section</name></member>
+      <member refid="classdocutils_1_1readers_1_1doctree_1_1Reader_1af3245e2684b8245daa8ede7349787eb2" prot="public" virt="non-virtual"><scope>docutils::readers::doctree::Reader</scope><name>config_section_dependencies</name></member>
+      <member refid="classdocutils_1_1readers_1_1doctree_1_1Reader_1af885d554e0bffa1e39734bdac1fdf134" prot="public" virt="non-virtual"><scope>docutils::readers::doctree::Reader</scope><name>document</name></member>
+      <member refid="classdocutils_1_1readers_1_1doctree_1_1Reader_1a712218e258de47f3e008c4ddaf83b7fb" prot="public" virt="non-virtual"><scope>docutils::readers::doctree::Reader</scope><name>parse</name></member>
+      <member refid="classdocutils_1_1readers_1_1doctree_1_1Reader_1a467bbe1925971766ba63e02f03ad9507" prot="public" virt="non-virtual"><scope>docutils::readers::doctree::Reader</scope><name>supported</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

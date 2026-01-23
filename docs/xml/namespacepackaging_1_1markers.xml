@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepackaging_1_1markers" kind="namespace" language="Python">
+    <compoundname>packaging::markers</compoundname>
+    <innerclass refid="classpackaging_1_1markers_1_1Environment" prot="public">packaging::markers::Environment</innerclass>
+    <innerclass refid="classpackaging_1_1markers_1_1InvalidMarker" prot="public">packaging::markers::InvalidMarker</innerclass>
+    <innerclass refid="classpackaging_1_1markers_1_1Marker" prot="public">packaging::markers::Marker</innerclass>
+    <innerclass refid="classpackaging_1_1markers_1_1UndefinedComparison" prot="public">packaging::markers::UndefinedComparison</innerclass>
+    <innerclass refid="classpackaging_1_1markers_1_1UndefinedEnvironmentName" prot="public">packaging::markers::UndefinedEnvironmentName</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepackaging_1_1markers_1a3686d9f8f08a8ac7d436099d2e3862d9" prot="private" static="no" mutable="no">
+        <type>list</type>
+        <definition>list packaging::markers.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>packaging.markers.__all__</qualifiedname>
+        <initializer>=  [
+    &quot;EvaluateContext&quot;,
+    &quot;InvalidMarker&quot;,
+    &quot;Marker&quot;,
+    &quot;UndefinedComparison&quot;,
+    &quot;UndefinedEnvironmentName&quot;,
+    &quot;default_environment&quot;,
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/markers.py" line="19" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/markers.py" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1markers_1a165dd3d0b67d282aba22f34125f04dcf" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::markers.Operator</definition>
+        <argsstring></argsstring>
+        <name>Operator</name>
+        <qualifiedname>packaging.markers.Operator</qualifiedname>
+        <initializer>=  Callable[[str, Union[str, AbstractSet[str]]], bool]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/markers.py" line="28" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/markers.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1markers_1ac41337e91f261bb03e0f7ff5b4e99071" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::markers.EvaluateContext</definition>
+        <argsstring></argsstring>
+        <name>EvaluateContext</name>
+        <qualifiedname>packaging.markers.EvaluateContext</qualifiedname>
+        <initializer>=  Literal[&quot;metadata&quot;, &quot;lock_file&quot;, &quot;requirement&quot;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/markers.py" line="29" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/markers.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1markers_1a4e6250e5cffd09c02946ce1d0196dfbe" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict packaging::markers.MARKERS_ALLOWING_SET</definition>
+        <argsstring></argsstring>
+        <name>MARKERS_ALLOWING_SET</name>
+        <qualifiedname>packaging.markers.MARKERS_ALLOWING_SET</qualifiedname>
+        <initializer>=  {&quot;extras&quot;, &quot;dependency_groups&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/markers.py" line="30" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/markers.py" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1markers_1a9a228274be2d25af33615319d49bddb1" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict packaging::markers._operators</definition>
+        <argsstring></argsstring>
+        <name>_operators</name>
+        <qualifiedname>packaging.markers._operators</qualifiedname>
+        <initializer>=  {
+    &quot;in&quot;: lambda lhs, rhs: lhs in rhs,
+    &quot;not in&quot;: lambda lhs, rhs: lhs not in rhs,
+    &quot;&lt;&quot;: operator.lt,
+    &quot;&lt;=&quot;: operator.le,
+    &quot;==&quot;: operator.eq,
+    &quot;!=&quot;: operator.ne,
+    &quot;&gt;=&quot;: operator.ge,
+    &quot;&gt;&quot;: operator.gt,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/markers.py" line="168" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/markers.py" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepackaging_1_1markers_1a76ada785408cb326ba1a138da51b45a8" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Any</type>
+        <definition> Any packaging.markers._normalize_extra_values</definition>
+        <argsstring>(Any results)</argsstring>
+        <name>_normalize_extra_values</name>
+        <qualifiedname>packaging.markers._normalize_extra_values</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>results</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Normalize extra values.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/markers.py" line="124" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/markers.py" bodystart="124" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1markers_1a0347ae124a20c329fead4d5603e65e9a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str packaging.markers._format_marker</definition>
+        <argsstring>(list[str]|MarkerAtom|str marker, bool|None first=True)</argsstring>
+        <name>_format_marker</name>
+        <qualifiedname>packaging.markers._format_marker</qualifiedname>
+        <param>
+          <type>list|MarkerAtom|str</type>
+          <declname>marker</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>bool|None</type>
+          <declname>first</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/markers.py" line="140" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/markers.py" bodystart="142" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1markers_1add06822acb0b633ee59748a4db91b832" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool packaging.markers._eval_op</definition>
+        <argsstring>(str lhs, Op op, str|AbstractSet[str] rhs)</argsstring>
+        <name>_eval_op</name>
+        <qualifiedname>packaging.markers._eval_op</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>lhs</declname>
+        </param>
+        <param>
+          <type><ref refid="classpackaging_1_1__parser_1_1Op" kindref="compound">Op</ref></type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>str|AbstractSet</type>
+          <declname>rhs</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/markers.py" line="180" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/markers.py" bodystart="180" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1markers_1adbe762679016637d1df4a773f38602ac" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str, str|AbstractSet[str]]</type>
+        <definition> tuple[str, str | AbstractSet[str]] packaging.markers._normalize</definition>
+        <argsstring>(str lhs, str|AbstractSet[str] rhs, str key)</argsstring>
+        <name>_normalize</name>
+        <qualifiedname>packaging.markers._normalize</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>lhs</declname>
+        </param>
+        <param>
+          <type>str|AbstractSet</type>
+          <declname>rhs</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/markers.py" line="196" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/markers.py" bodystart="198" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1markers_1a1ee9ff183fba75a2cacd960f9e0c3ab7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool packaging.markers._evaluate_markers</definition>
+        <argsstring>(MarkerList markers, dict[str, str|AbstractSet[str]] environment)</argsstring>
+        <name>_evaluate_markers</name>
+        <qualifiedname>packaging.markers._evaluate_markers</qualifiedname>
+        <param>
+          <type>MarkerList</type>
+          <declname>markers</declname>
+        </param>
+        <param>
+          <type>dict]</type>
+          <declname>environment</declname>
+          <array>[str, str|AbstractSet[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/markers.py" line="216" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/markers.py" bodystart="218" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1markers_1a180a6b2c5d03a42a958ebc5582014ccb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str packaging.markers.format_full_version</definition>
+        <argsstring>(sys._version_info info)</argsstring>
+        <name>format_full_version</name>
+        <qualifiedname>packaging.markers.format_full_version</qualifiedname>
+        <param>
+          <type>sys._version_info</type>
+          <declname>info</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/markers.py" line="248" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/markers.py" bodystart="248" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1markers_1a95479b0c8b7cb1cae5ae33dad3f46695" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpackaging_1_1markers_1_1Environment" kindref="compound">Environment</ref></type>
+        <definition> Environment packaging.markers.default_environment</definition>
+        <argsstring>()</argsstring>
+        <name>default_environment</name>
+        <qualifiedname>packaging.markers.default_environment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/markers.py" line="256" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/markers.py" bodystart="256" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1markers_1acfbe8c8a45398e02a431d82d90c6e112" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dict[str, str|AbstractSet[str]]</type>
+        <definition> dict[str, str | AbstractSet[str]] packaging.markers._repair_python_full_version</definition>
+        <argsstring>(dict[str, str|AbstractSet[str]] env)</argsstring>
+        <name>_repair_python_full_version</name>
+        <qualifiedname>packaging.markers._repair_python_full_version</qualifiedname>
+        <param>
+          <type>dict]</type>
+          <declname>env</declname>
+          <array>[str, str|AbstractSet[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Work around platform.python_version() returning something that is not PEP 440
+compliant for non-tagged Python builds.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/markers.py" line="352" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/markers.py" bodystart="354" bodyend="363"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/packaging/markers.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

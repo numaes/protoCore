@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="sphinx_2errors_8py" kind="file" language="Python">
+    <compoundname>errors.py</compoundname>
+    <innerclass refid="classsphinx_1_1errors_1_1SphinxError" prot="public">sphinx::errors::SphinxError</innerclass>
+    <innerclass refid="classsphinx_1_1errors_1_1SphinxWarning" prot="public">sphinx::errors::SphinxWarning</innerclass>
+    <innerclass refid="classsphinx_1_1errors_1_1ApplicationError" prot="public">sphinx::errors::ApplicationError</innerclass>
+    <innerclass refid="classsphinx_1_1errors_1_1ExtensionError" prot="public">sphinx::errors::ExtensionError</innerclass>
+    <innerclass refid="classsphinx_1_1errors_1_1BuildEnvironmentError" prot="public">sphinx::errors::BuildEnvironmentError</innerclass>
+    <innerclass refid="classsphinx_1_1errors_1_1ConfigError" prot="public">sphinx::errors::ConfigError</innerclass>
+    <innerclass refid="classsphinx_1_1errors_1_1DocumentError" prot="public">sphinx::errors::DocumentError</innerclass>
+    <innerclass refid="classsphinx_1_1errors_1_1ThemeError" prot="public">sphinx::errors::ThemeError</innerclass>
+    <innerclass refid="classsphinx_1_1errors_1_1VersionRequirementError" prot="public">sphinx::errors::VersionRequirementError</innerclass>
+    <innerclass refid="classsphinx_1_1errors_1_1SphinxParallelError" prot="public">sphinx::errors::SphinxParallelError</innerclass>
+    <innerclass refid="classsphinx_1_1errors_1_1PycodeError" prot="public">sphinx::errors::PycodeError</innerclass>
+    <innerclass refid="classsphinx_1_1errors_1_1NoUri" prot="public">sphinx::errors::NoUri</innerclass>
+    <innerclass refid="classsphinx_1_1errors_1_1FiletypeNotFoundError" prot="public">sphinx::errors::FiletypeNotFoundError</innerclass>
+    <innernamespace refid="namespacesphinx">sphinx</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1errors">sphinx::errors</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacesphinx_1_1errors" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;Contains<sp/>SphinxError<sp/>and<sp/>a<sp/>few<sp/>subclasses.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6" refid="classsphinx_1_1errors_1_1SphinxError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1errors_1_1SphinxError" kindref="compound">SphinxError</ref>(Exception):</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Base<sp/>class<sp/>for<sp/>Sphinx<sp/>errors.</highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>is<sp/>the<sp/>base<sp/>class<sp/>for<sp/>&quot;nice&quot;<sp/>exceptions.<sp/><sp/>When<sp/>such<sp/>an<sp/>exception<sp/>is</highlight></codeline>
+<codeline lineno="10"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>raised,<sp/>Sphinx<sp/>will<sp/>abort<sp/>the<sp/>build<sp/>and<sp/>present<sp/>the<sp/>exception<sp/>category<sp/>and</highlight></codeline>
+<codeline lineno="11"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>message<sp/>to<sp/>the<sp/>user.</highlight></codeline>
+<codeline lineno="12"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Extensions<sp/>are<sp/>encouraged<sp/>to<sp/>derive<sp/>from<sp/>this<sp/>exception<sp/>for<sp/>their<sp/>custom</highlight></codeline>
+<codeline lineno="14"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>errors.</highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Exceptions<sp/>*not*<sp/>derived<sp/>from<sp/>:exc:`SphinxError`<sp/>are<sp/>treated<sp/>as<sp/>unexpected</highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>and<sp/>shown<sp/>to<sp/>the<sp/>user<sp/>with<sp/>a<sp/>part<sp/>of<sp/>the<sp/>traceback<sp/>(and<sp/>the<sp/>full<sp/>traceback</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>saved<sp/>in<sp/>a<sp/>temporary<sp/>file).</highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>..<sp/>attribute::<sp/>category</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Description<sp/>of<sp/>the<sp/>exception<sp/>&quot;category&quot;,<sp/>used<sp/>in<sp/>converting<sp/>the</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>exception<sp/>to<sp/>a<sp/>string<sp/>(&quot;category:<sp/>message&quot;).<sp/><sp/>Should<sp/>be<sp/>set<sp/>accordingly</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>in<sp/>subclasses.</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>category<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;Sphinx<sp/>error&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="classsphinx_1_1errors_1_1SphinxWarning" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1errors_1_1SphinxWarning" kindref="compound">SphinxWarning</ref>(<ref refid="classsphinx_1_1errors_1_1SphinxError" kindref="compound">SphinxError</ref>):</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Warning,<sp/>treated<sp/>as<sp/>error.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>category<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;Warning,<sp/>treated<sp/>as<sp/>error&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="classsphinx_1_1errors_1_1ApplicationError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1errors_1_1ApplicationError" kindref="compound">ApplicationError</ref>(<ref refid="classsphinx_1_1errors_1_1SphinxError" kindref="compound">SphinxError</ref>):</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Application<sp/>initialization<sp/>error.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>category<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;Application<sp/>error&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="classsphinx_1_1errors_1_1ExtensionError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1errors_1_1ExtensionError" kindref="compound">ExtensionError</ref>(<ref refid="classsphinx_1_1errors_1_1SphinxError" kindref="compound">SphinxError</ref>):</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Extension<sp/>error.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1errors_1_1ExtensionError_1a2972dce0dcf3cd728187db46c879db6a" kindref="member">__init__</ref>(</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>message:<sp/>str,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>orig_exc:<sp/>Exception<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>modname:<sp/>str<sp/>|<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>super().<ref refid="classsphinx_1_1errors_1_1ExtensionError_1a2972dce0dcf3cd728187db46c879db6a" kindref="member">__init__</ref>(message)</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1errors_1_1ExtensionError_1a9aad40f76bf59de82696cd98716793d4" kindref="member">message</ref><sp/>=<sp/>message</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1errors_1_1ExtensionError_1a9a7291719a1d7b83d36f4f0babf33abe" kindref="member">orig_exc</ref><sp/>=<sp/>orig_exc</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1errors_1_1ExtensionError_1a6dc13f94145de84cf95f305777133ad1" kindref="member">modname</ref><sp/>=<sp/>modname</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@property</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1errors_1_1SphinxError_1a50a7d7b83269378cfe6682cb67c3ee54" kindref="member">category</ref>(self)<sp/>-&gt;<sp/>str:<sp/><sp/></highlight><highlight class="comment">#<sp/>type:<sp/>ignore[override]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>self.<ref refid="classsphinx_1_1errors_1_1ExtensionError_1a6dc13f94145de84cf95f305777133ad1" kindref="member">modname</ref>:</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&apos;Extension<sp/>error<sp/>(%s)&apos;</highlight><highlight class="normal"><sp/>%<sp/>self.<ref refid="classsphinx_1_1errors_1_1ExtensionError_1a6dc13f94145de84cf95f305777133ad1" kindref="member">modname</ref></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&apos;Extension<sp/>error&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1errors_1_1ExtensionError_1ab5ccfddbfa2f411523c97d646947f79c" kindref="member">__repr__</ref>(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>self.<ref refid="classsphinx_1_1errors_1_1ExtensionError_1a9a7291719a1d7b83d36f4f0babf33abe" kindref="member">orig_exc</ref>:</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>f</highlight><highlight class="stringliteral">&apos;{self.__class__.__name__}({self.message!r},<sp/>{self.orig_exc!r})&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>f</highlight><highlight class="stringliteral">&apos;{self.__class__.__name__}({self.message!r})&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1errors_1_1ExtensionError_1a31fd8c7a43f9b22021d0d03bebd05acd" kindref="member">__str__</ref>(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>parent_str<sp/>=<sp/>super().<ref refid="classsphinx_1_1errors_1_1ExtensionError_1a31fd8c7a43f9b22021d0d03bebd05acd" kindref="member">__str__</ref>()</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>self.<ref refid="classsphinx_1_1errors_1_1ExtensionError_1a9a7291719a1d7b83d36f4f0babf33abe" kindref="member">orig_exc</ref>:</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>f</highlight><highlight class="stringliteral">&apos;{parent_str}<sp/>(exception:<sp/>{self.orig_exc})&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>parent_str</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classsphinx_1_1errors_1_1BuildEnvironmentError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1errors_1_1BuildEnvironmentError" kindref="compound">BuildEnvironmentError</ref>(<ref refid="classsphinx_1_1errors_1_1SphinxError" kindref="compound">SphinxError</ref>):</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;BuildEnvironment<sp/>error.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>category<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;BuildEnvironment<sp/>error&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="classsphinx_1_1errors_1_1ConfigError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1errors_1_1ConfigError" kindref="compound">ConfigError</ref>(<ref refid="classsphinx_1_1errors_1_1SphinxError" kindref="compound">SphinxError</ref>):</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Configuration<sp/>error.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>category<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;Configuration<sp/>error&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="classsphinx_1_1errors_1_1DocumentError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1errors_1_1DocumentError" kindref="compound">DocumentError</ref>(<ref refid="classsphinx_1_1errors_1_1SphinxError" kindref="compound">SphinxError</ref>):</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Document<sp/>error.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>category<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;Document<sp/>error&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="classsphinx_1_1errors_1_1ThemeError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1errors_1_1ThemeError" kindref="compound">ThemeError</ref>(<ref refid="classsphinx_1_1errors_1_1SphinxError" kindref="compound">SphinxError</ref>):</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Theme<sp/>error.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>category<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;Theme<sp/>error&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="classsphinx_1_1errors_1_1VersionRequirementError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1errors_1_1VersionRequirementError" kindref="compound">VersionRequirementError</ref>(<ref refid="classsphinx_1_1errors_1_1SphinxError" kindref="compound">SphinxError</ref>):</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Incompatible<sp/>Sphinx<sp/>version<sp/>error.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>category<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;Sphinx<sp/>version<sp/>error&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="classsphinx_1_1errors_1_1SphinxParallelError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1errors_1_1SphinxParallelError" kindref="compound">SphinxParallelError</ref>(<ref refid="classsphinx_1_1errors_1_1SphinxError" kindref="compound">SphinxError</ref>):</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Sphinx<sp/>parallel<sp/>build<sp/>error.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>category<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;Sphinx<sp/>parallel<sp/>build<sp/>error&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1errors_1_1SphinxParallelError_1ac1ceef435ee2ee623b1eb745372069cf" kindref="member">__init__</ref>(self,<sp/>message:<sp/>str,<sp/>traceback:<sp/>str)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1errors_1_1SphinxParallelError_1a79102f2e4cc7dabbcc9f6ccbab5e98fe" kindref="member">message</ref><sp/>=<sp/>message</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1errors_1_1SphinxParallelError_1ae8c41f7e734fdbe2f64a4a860ad9a11f" kindref="member">traceback</ref><sp/>=<sp/>traceback</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1errors_1_1SphinxParallelError_1a0f8b213dbc8a0bec70fd324b36af2ff1" kindref="member">__str__</ref>(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.<ref refid="classsphinx_1_1errors_1_1SphinxParallelError_1a79102f2e4cc7dabbcc9f6ccbab5e98fe" kindref="member">message</ref></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="classsphinx_1_1errors_1_1PycodeError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1errors_1_1PycodeError" kindref="compound">PycodeError</ref>(Exception):</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Pycode<sp/>Python<sp/>source<sp/>code<sp/>analyser<sp/>error.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1errors_1_1PycodeError_1a1622dae48e58432a1e60672c8a9f60d5" kindref="member">__str__</ref>(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res<sp/>=<sp/>self.<ref refid="classsphinx_1_1errors_1_1PycodeError_1a2ad3e59dc1fafbee3749044d02066b75" kindref="member">args</ref>[0]</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>len(self.<ref refid="classsphinx_1_1errors_1_1PycodeError_1a2ad3e59dc1fafbee3749044d02066b75" kindref="member">args</ref>)<sp/>&gt;<sp/>1:</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>res<sp/>+=<sp/></highlight><highlight class="stringliteral">&apos;<sp/>(exception<sp/>was:<sp/>%r)&apos;</highlight><highlight class="normal"><sp/>%<sp/>self.<ref refid="classsphinx_1_1errors_1_1PycodeError_1a2ad3e59dc1fafbee3749044d02066b75" kindref="member">args</ref>[1]</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="classsphinx_1_1errors_1_1NoUri" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1errors_1_1NoUri" kindref="compound">NoUri</ref>(Exception):</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Raised<sp/>by<sp/>builder.get_relative_uri()<sp/>or<sp/>from<sp/>missing-reference<sp/>handlers</highlight></codeline>
+<codeline lineno="130"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>if<sp/>there<sp/>is<sp/>no<sp/>URI<sp/>available.</highlight></codeline>
+<codeline lineno="131"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="classsphinx_1_1errors_1_1FiletypeNotFoundError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">FiletypeNotFoundError(Exception):</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Raised<sp/>by<sp/>get_filetype()<sp/>if<sp/>a<sp/>filename<sp/>matches<sp/>no<sp/>source<sp/>suffix.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">pass</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/sphinx/errors.py"/>
+  </compounddef>
+</doxygen>

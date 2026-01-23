@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepackaging_1_1specifiers" kind="namespace" language="Python">
+    <compoundname>packaging::specifiers</compoundname>
+    <innerclass refid="classpackaging_1_1specifiers_1_1BaseSpecifier" prot="public">packaging::specifiers::BaseSpecifier</innerclass>
+    <innerclass refid="classpackaging_1_1specifiers_1_1InvalidSpecifier" prot="public">packaging::specifiers::InvalidSpecifier</innerclass>
+    <innerclass refid="classpackaging_1_1specifiers_1_1Specifier" prot="public">packaging::specifiers::Specifier</innerclass>
+    <innerclass refid="classpackaging_1_1specifiers_1_1SpecifierSet" prot="public">packaging::specifiers::SpecifierSet</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepackaging_1_1specifiers_1a6408da24304ac0d92ab9d420c4771ef4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::specifiers.UnparsedVersion</definition>
+        <argsstring></argsstring>
+        <name>UnparsedVersion</name>
+        <qualifiedname>packaging.specifiers.UnparsedVersion</qualifiedname>
+        <initializer>=  Union[<ref refid="classpackaging_1_1version_1_1Version" kindref="compound">Version</ref>, str]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/specifiers.py" line="21" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1specifiers_1a32ce1b57e4207bf34b7272749a200756" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::specifiers.UnparsedVersionVar</definition>
+        <argsstring></argsstring>
+        <name>UnparsedVersionVar</name>
+        <qualifiedname>packaging.specifiers.UnparsedVersionVar</qualifiedname>
+        <initializer>=  TypeVar(&quot;UnparsedVersionVar&quot;, bound=<ref refid="namespacepackaging_1_1specifiers_1a6408da24304ac0d92ab9d420c4771ef4" kindref="member">UnparsedVersion</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/specifiers.py" line="22" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1specifiers_1a8e71a4e93736fbb85359f1eb54f19a70" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::specifiers.CallableOperator</definition>
+        <argsstring></argsstring>
+        <name>CallableOperator</name>
+        <qualifiedname>packaging.specifiers.CallableOperator</qualifiedname>
+        <initializer>=  Callable[[<ref refid="classpackaging_1_1version_1_1Version" kindref="compound">Version</ref>, str], bool]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/specifiers.py" line="23" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepackaging_1_1specifiers_1ab9a2d97967a8783a77d4a5c9c4ad81de" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>packaging::specifiers._prefix_regex</definition>
+        <argsstring></argsstring>
+        <name>_prefix_regex</name>
+        <qualifiedname>packaging.specifiers._prefix_regex</qualifiedname>
+        <initializer>=  re.compile(r&quot;^([0-9]+)((?:a|b|c|rc)[0-9]+)$&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/specifiers.py" line="627" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="627" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepackaging_1_1specifiers_1a075a73fc9deabd0af51612073a3a44bf" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpackaging_1_1version_1_1Version" kindref="compound">Version</ref></type>
+        <definition> Version packaging.specifiers._coerce_version</definition>
+        <argsstring>(UnparsedVersion version)</argsstring>
+        <name>_coerce_version</name>
+        <qualifiedname>packaging.specifiers._coerce_version</qualifiedname>
+        <param>
+          <type><ref refid="namespacepackaging_1_1specifiers_1a6408da24304ac0d92ab9d420c4771ef4" kindref="member">UnparsedVersion</ref></type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/specifiers.py" line="26" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="26" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1specifiers_1ab3ec7a7f8d808ae055418f0779040085" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[str]</type>
+        <definition> list[str] packaging.specifiers._version_split</definition>
+        <argsstring>(str version)</argsstring>
+        <name>_version_split</name>
+        <qualifiedname>packaging.specifiers._version_split</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Split version into components.
+
+The split components are intended for version comparison. The logic does
+not attempt to retain the original version string, so joining the
+components back with :func:`_version_join` may not produce the original
+version string.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/specifiers.py" line="630" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="630" bodyend="651"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1specifiers_1a2720a394f5e7eea3a8c9ac8209358520" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str packaging.specifiers._version_join</definition>
+        <argsstring>(list[str] components)</argsstring>
+        <name>_version_join</name>
+        <qualifiedname>packaging.specifiers._version_join</qualifiedname>
+        <param>
+          <type>list</type>
+          <declname>components</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Join split version components into a version string.
+
+This function assumes the input came from :func:`_version_split`, where the
+first component must be the epoch (either empty or numeric), and all other
+components numeric.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/specifiers.py" line="652" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="652" bodyend="662"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1specifiers_1ab4b0b450c3a1e470ab335f3f0b46eeec" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool packaging.specifiers._is_not_suffix</definition>
+        <argsstring>(str segment)</argsstring>
+        <name>_is_not_suffix</name>
+        <qualifiedname>packaging.specifiers._is_not_suffix</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>segment</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/specifiers.py" line="663" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="663" bodyend="668"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepackaging_1_1specifiers_1a0f28fc097f47de68e7355147472f98cc" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[list[str], list[str]]</type>
+        <definition> tuple[list[str], list[str]] packaging.specifiers._pad_version</definition>
+        <argsstring>(list[str] left, list[str] right)</argsstring>
+        <name>_pad_version</name>
+        <qualifiedname>packaging.specifiers._pad_version</qualifiedname>
+        <param>
+          <type>list</type>
+          <declname>left</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>right</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/packaging/specifiers.py" line="669" column="1" bodyfile="venv/lib/python3.12/site-packages/packaging/specifiers.py" bodystart="669" bodyend="689"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>.. testsetup::
+
+    from packaging.specifiers import Specifier, SpecifierSet, InvalidSpecifier
+    from packaging.version import Version
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/packaging/specifiers.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

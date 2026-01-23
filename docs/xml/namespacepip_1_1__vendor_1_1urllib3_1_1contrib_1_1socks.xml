@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1urllib3_1_1contrib_1_1socks" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::urllib3::contrib::socks</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1socks_1_1SOCKSConnection" prot="public">pip::_vendor::urllib3::contrib::socks::SOCKSConnection</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1socks_1_1SOCKSHTTPConnectionPool" prot="public">pip::_vendor::urllib3::contrib::socks::SOCKSHTTPConnectionPool</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1socks_1_1SOCKSHTTPSConnection" prot="public">pip::_vendor::urllib3::contrib::socks::SOCKSHTTPSConnection</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1socks_1_1SOCKSHTTPSConnectionPool" prot="public">pip::_vendor::urllib3::contrib::socks::SOCKSHTTPSConnectionPool</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1urllib3_1_1contrib_1_1socks_1_1SOCKSProxyManager" prot="public">pip::_vendor::urllib3::contrib::socks::SOCKSProxyManager</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1urllib3_1_1contrib_1_1socks_1ae213fa4600ecc1ebe2edf3cab6f2d838" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::urllib3::contrib::socks.ssl</definition>
+        <argsstring></argsstring>
+        <name>ssl</name>
+        <qualifiedname>pip._vendor.urllib3.contrib.socks.ssl</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/urllib3/contrib/socks.py" line="72" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/urllib3/contrib/socks.py" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>This module contains provisional support for SOCKS proxies from within
+urllib3. This module supports SOCKS4, SOCKS4A (an extension of SOCKS4), and
+SOCKS5. To enable its functionality, either install PySocks or install this
+module with the ``socks`` extra.
+
+The SOCKS implementation supports the full range of urllib3 features. It also
+supports the following SOCKS features:
+
+- SOCKS4A (``proxy_url=&apos;socks4a://...``)
+- SOCKS4 (``proxy_url=&apos;socks4://...``)
+- SOCKS5 with remote DNS (``proxy_url=&apos;socks5h://...``)
+- SOCKS5 with local DNS (``proxy_url=&apos;socks5://...``)
+- Usernames and passwords for the SOCKS proxy
+
+.. note::
+   It is recommended to use ``socks5h://`` or ``socks4a://`` schemes in
+   your ``proxy_url`` to ensure that DNS resolution is done from the remote
+   server instead of client-side when connecting to a domain name.
+
+SOCKS4 supports IPv4 and domain names with the SOCKS4A extension. SOCKS5
+supports IPv4, IPv6, and domain names.
+
+When connecting to a SOCKS4 proxy the ``username`` portion of the ``proxy_url``
+will be sent as the ``userid`` section of the SOCKS request:
+
+.. code-block:: python
+
+    proxy_url=&quot;socks4a://&lt;userid&gt;@proxy-host&quot;
+
+When connecting to a SOCKS5 proxy the ``username`` and ``password`` portion
+of the ``proxy_url`` will be sent as the username/password to authenticate
+with the proxy:
+
+.. code-block:: python
+
+    proxy_url=&quot;socks5h://&lt;username&gt;:&lt;password&gt;@proxy-host&quot;</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/urllib3/contrib/socks.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

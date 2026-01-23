@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1ext_1_1extlinks_1_1ExternalLinksChecker" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::ext::extlinks::ExternalLinksChecker</compoundname>
+    <basecompoundref refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform" prot="public" virt="non-virtual">sphinx.transforms.post_transforms.SphinxPostTransform</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1extlinks_1_1ExternalLinksChecker_1a7064af580d7dacd7444a8ca3facb14dd" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int sphinx.ext.extlinks.ExternalLinksChecker::default_priority</definition>
+        <argsstring></argsstring>
+        <name>default_priority</name>
+        <qualifiedname>sphinx.ext.extlinks.ExternalLinksChecker.default_priority</qualifiedname>
+        <initializer>=  500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/extlinks.py" line="52" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/extlinks.py" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1extlinks_1_1ExternalLinksChecker_1a897b32300fc8245a0a6004c27101c152" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.extlinks.ExternalLinksChecker.run</definition>
+        <argsstring>(self, **Any kwargs)</argsstring>
+        <name>run</name>
+        <qualifiedname>sphinx.ext.extlinks.ExternalLinksChecker.run</qualifiedname>
+        <reimplements refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform_1abc3400574a7c87e684a8033535e8d4e2">run</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>**Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Main method of post transforms.
+
+Subclasses should override this method instead of ``apply()``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/extlinks.py" line="54" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/extlinks.py" bodystart="54" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1extlinks_1_1ExternalLinksChecker_1a6f4e15f3aa84889d295a863672ef5b26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.extlinks.ExternalLinksChecker.check_uri</definition>
+        <argsstring>(self, nodes.reference refnode)</argsstring>
+        <name>check_uri</name>
+        <qualifiedname>sphinx.ext.extlinks.ExternalLinksChecker.check_uri</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>nodes.reference</type>
+          <declname>refnode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>If the URI in ``refnode`` has a replacement in ``extlinks``,
+emit a warning with a replacement suggestion.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/extlinks.py" line="61" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/extlinks.py" bodystart="61" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>For each external link, check if it can be replaced by an extlink.
+
+We treat each ``reference`` node without ``internal`` attribute as an external link.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+      <node id="1">
+        <label>sphinx.ext.extlinks.ExternalLinksChecker</label>
+        <link refid="classsphinx_1_1ext_1_1extlinks_1_1ExternalLinksChecker"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.transforms.SphinxTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1SphinxTransform"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.transforms.post_transforms.SphinxPostTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+      <node id="1">
+        <label>sphinx.ext.extlinks.ExternalLinksChecker</label>
+        <link refid="classsphinx_1_1ext_1_1extlinks_1_1ExternalLinksChecker"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.transforms.SphinxTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1SphinxTransform"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.transforms.post_transforms.SphinxPostTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/ext/extlinks.py" line="46" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/extlinks.py" bodystart="46" bodyend="92"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1ext_1_1extlinks_1_1ExternalLinksChecker_1a6f4e15f3aa84889d295a863672ef5b26" prot="public" virt="non-virtual"><scope>sphinx::ext::extlinks::ExternalLinksChecker</scope><name>check_uri</name></member>
+      <member refid="classsphinx_1_1ext_1_1extlinks_1_1ExternalLinksChecker_1a7064af580d7dacd7444a8ca3facb14dd" prot="public" virt="non-virtual"><scope>sphinx::ext::extlinks::ExternalLinksChecker</scope><name>default_priority</name></member>
+      <member refid="classsphinx_1_1ext_1_1extlinks_1_1ExternalLinksChecker_1a897b32300fc8245a0a6004c27101c152" prot="public" virt="non-virtual"><scope>sphinx::ext::extlinks::ExternalLinksChecker</scope><name>run</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

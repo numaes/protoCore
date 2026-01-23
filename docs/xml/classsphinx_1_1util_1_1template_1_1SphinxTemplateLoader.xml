@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1util_1_1template_1_1SphinxTemplateLoader" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::util::template::SphinxTemplateLoader</compoundname>
+    <basecompoundref refid="classjinja2_1_1loaders_1_1BaseLoader" prot="public" virt="non-virtual">jinja2.loaders.BaseLoader</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1util_1_1template_1_1SphinxTemplateLoader_1a290f7060dbc434cfe31acd7181ced344" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.util.template.SphinxTemplateLoader::loaders</definition>
+        <argsstring></argsstring>
+        <name>loaders</name>
+        <qualifiedname>sphinx.util.template.SphinxTemplateLoader.loaders</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/template.py" line="133" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/template.py" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1util_1_1template_1_1SphinxTemplateLoader_1ae8630c4d04b706d79eafec40e8b707c5" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.util.template.SphinxTemplateLoader::sysloaders</definition>
+        <argsstring></argsstring>
+        <name>sysloaders</name>
+        <qualifiedname>sphinx.util.template.SphinxTemplateLoader.sysloaders</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/template.py" line="134" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/template.py" bodystart="134" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1util_1_1template_1_1SphinxTemplateLoader_1a061e290636da18787da04ea283f8c25d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.template.SphinxTemplateLoader.__init__</definition>
+        <argsstring>(self, str|os.PathLike[str] confdir, Sequence[str|os.PathLike[str]] templates_paths, Sequence[str|os.PathLike[str]] system_templates_paths)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>sphinx.util.template.SphinxTemplateLoader.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>confdir</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>Sequence]</type>
+          <declname>templates_paths</declname>
+          <array>[str|os.PathLike[str]</array>
+        </param>
+        <param>
+          <type>Sequence]</type>
+          <declname>system_templates_paths</declname>
+          <array>[str|os.PathLike[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/template.py" line="127" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/template.py" bodystart="132" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1util_1_1template_1_1SphinxTemplateLoader_1a8818204f45bcb9221f8804758dadfe36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str, str, Callable[[], bool]]</type>
+        <definition> tuple[str, str, Callable[[], bool]] sphinx.util.template.SphinxTemplateLoader.get_source</definition>
+        <argsstring>(self, Environment environment, str template)</argsstring>
+        <name>get_source</name>
+        <qualifiedname>sphinx.util.template.SphinxTemplateLoader.get_source</qualifiedname>
+        <reimplements refid="classjinja2_1_1loaders_1_1BaseLoader_1a7e222ad2ab60e2cfd58c11822b0c4951">get_source</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1environment_1_1Environment" kindref="compound">Environment</ref></type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>template</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the template source, filename and reload helper for a template.
+It&apos;s passed the environment and template name and has to return a
+tuple in the form ``(source, filename, uptodate)`` or raise a
+`TemplateNotFound` error if it can&apos;t locate the template.
+
+The source part of the returned tuple must be the source of the
+template as a string. The filename should be the name of the
+file on the filesystem if it was loaded from there, otherwise
+``None``. The filename is used by Python for the tracebacks
+if no loader extension is used.
+
+The last item in the tuple is the `uptodate` function.  If auto
+reloading is enabled it&apos;s always called to check if the template
+changed.  No arguments are passed so the function must store the
+old state somewhere (for example in a closure).  If it returns `False`
+the template will be reloaded.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/template.py" line="146" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/template.py" bodystart="150" bodyend="164"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A loader supporting template inheritance</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>jinja2.loaders.BaseLoader</label>
+        <link refid="classjinja2_1_1loaders_1_1BaseLoader"/>
+      </node>
+      <node id="1">
+        <label>sphinx.util.template.SphinxTemplateLoader</label>
+        <link refid="classsphinx_1_1util_1_1template_1_1SphinxTemplateLoader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>jinja2.loaders.BaseLoader</label>
+        <link refid="classjinja2_1_1loaders_1_1BaseLoader"/>
+      </node>
+      <node id="1">
+        <label>sphinx.util.template.SphinxTemplateLoader</label>
+        <link refid="classsphinx_1_1util_1_1template_1_1SphinxTemplateLoader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/util/template.py" line="124" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/template.py" bodystart="124" bodyend="164"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1util_1_1template_1_1SphinxTemplateLoader_1a061e290636da18787da04ea283f8c25d" prot="public" virt="non-virtual"><scope>sphinx::util::template::SphinxTemplateLoader</scope><name>__init__</name></member>
+      <member refid="classsphinx_1_1util_1_1template_1_1SphinxTemplateLoader_1a8818204f45bcb9221f8804758dadfe36" prot="public" virt="non-virtual"><scope>sphinx::util::template::SphinxTemplateLoader</scope><name>get_source</name></member>
+      <member refid="classsphinx_1_1util_1_1template_1_1SphinxTemplateLoader_1a290f7060dbc434cfe31acd7181ced344" prot="public" virt="non-virtual"><scope>sphinx::util::template::SphinxTemplateLoader</scope><name>loaders</name></member>
+      <member refid="classsphinx_1_1util_1_1template_1_1SphinxTemplateLoader_1ae8630c4d04b706d79eafec40e8b707c5" prot="public" virt="non-virtual"><scope>sphinx::util::template::SphinxTemplateLoader</scope><name>sysloaders</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

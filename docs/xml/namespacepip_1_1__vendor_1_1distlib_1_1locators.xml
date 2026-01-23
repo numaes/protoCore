@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1distlib_1_1locators" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::distlib::locators</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1AggregatingLocator" prot="public">pip::_vendor::distlib::locators::AggregatingLocator</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1DirectoryLocator" prot="public">pip::_vendor::distlib::locators::DirectoryLocator</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1DistPathLocator" prot="public">pip::_vendor::distlib::locators::DistPathLocator</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1JSONLocator" prot="public">pip::_vendor::distlib::locators::JSONLocator</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1Locator" prot="public">pip::_vendor::distlib::locators::Locator</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1Page" prot="public">pip::_vendor::distlib::locators::Page</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1PyPIJSONLocator" prot="public">pip::_vendor::distlib::locators::PyPIJSONLocator</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1PyPIRPCLocator" prot="public">pip::_vendor::distlib::locators::PyPIRPCLocator</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1RedirectHandler" prot="public">pip::_vendor::distlib::locators::RedirectHandler</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1SimpleScrapingLocator" prot="public">pip::_vendor::distlib::locators::SimpleScrapingLocator</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1locators_1afc8f375b11701bd480c71f4cdd9cacde" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::locators.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._vendor.distlib.locators.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="34" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1locators_1a96905ce8df1c43b8d98cfb207d9af91d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::locators.HASHER_HASH</definition>
+        <argsstring></argsstring>
+        <name>HASHER_HASH</name>
+        <qualifiedname>pip._vendor.distlib.locators.HASHER_HASH</qualifiedname>
+        <initializer>=  re.compile(r&apos;^(\w+)=([a-f0-9]+)&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="36" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1locators_1a1efeb335447e403b2497ea7a6325645d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::locators.CHARSET</definition>
+        <argsstring></argsstring>
+        <name>CHARSET</name>
+        <qualifiedname>pip._vendor.distlib.locators.CHARSET</qualifiedname>
+        <initializer>=  re.compile(r&apos;;\s*charset\s*=\s*(.*)\s*$&apos;, re.I)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="37" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1locators_1a96301efd5d5cc39f68b80cc399ee4c98" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::distlib::locators.HTML_CONTENT_TYPE</definition>
+        <argsstring></argsstring>
+        <name>HTML_CONTENT_TYPE</name>
+        <qualifiedname>pip._vendor.distlib.locators.HTML_CONTENT_TYPE</qualifiedname>
+        <initializer>=  re.compile(&apos;text/html|application/x(ht)?ml&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="38" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1distlib_1_1locators_1a1b7f03957e0d67a81849383af4b92ac6" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pip::_vendor::distlib::locators.DEFAULT_INDEX</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_INDEX</name>
+        <qualifiedname>pip._vendor.distlib.locators.DEFAULT_INDEX</qualifiedname>
+        <initializer>=  &apos;https://pypi.org/pypi&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="39" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1distlib_1_1locators_1a7fab4687297fd3bff22ecc98477e0bc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.get_all_distribution_names</definition>
+        <argsstring>(url=None)</argsstring>
+        <name>get_all_distribution_names</name>
+        <qualifiedname>pip._vendor.distlib.locators.get_all_distribution_names</qualifiedname>
+        <param>
+          <type>url</type>
+          <defname>url</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return all distribution names known by an index.
+:param url: The URL of the index.
+:return: A list of all known distribution names.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="42" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="42" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

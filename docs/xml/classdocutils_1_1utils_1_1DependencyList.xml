@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1utils_1_1DependencyList" kind="class" language="Python" prot="public">
+    <compoundname>docutils::utils::DependencyList</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1DependencyList_1a9e763be4341cae0a5541e77c5668c603" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.utils.DependencyList::list</definition>
+        <argsstring></argsstring>
+        <name>list</name>
+        <qualifiedname>docutils.utils.DependencyList.list</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="769" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="769" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1DependencyList_1a8fef7ab930200fdf7fdce717dc093dfc" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.utils.DependencyList::file</definition>
+        <argsstring></argsstring>
+        <name>file</name>
+        <qualifiedname>docutils.utils.DependencyList.file</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="770" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="770" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1utils_1_1DependencyList_1a778e1a0ad0834680f67c0acfd8ec8492" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.DependencyList.__init__</definition>
+        <argsstring>(self, output_file=None, dependencies=())</argsstring>
+        <name>__init__</name>
+        <qualifiedname>docutils.utils.DependencyList.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>output_file</type>
+          <defname>output_file</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>dependencies</type>
+          <defname>dependencies</defname>
+          <defval>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Initialize the dependency list, automatically setting the
+output file to `output_file` (see `set_output()`) and adding
+all supplied dependencies.
+
+If output_file is None, no file output is done when calling add().
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="761" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="761" bodyend="774"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1utils_1_1DependencyList_1a832dc2fa803ab1899acd9f965a996559" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.DependencyList.set_output</definition>
+        <argsstring>(self, output_file)</argsstring>
+        <name>set_output</name>
+        <qualifiedname>docutils.utils.DependencyList.set_output</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>output_file</type>
+          <defname>output_file</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Set the output file and clear the list of already added
+dependencies.
+
+`output_file` must be a string.  The specified file is
+immediately overwritten.
+
+If output_file is &apos;-&apos;, the output will be written to stdout.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="775" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="775" bodyend="790"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1utils_1_1DependencyList_1ac1373e620e949a723ec7003404bba247" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.DependencyList.add</definition>
+        <argsstring>(self, *paths)</argsstring>
+        <name>add</name>
+        <qualifiedname>docutils.utils.DependencyList.add</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>*</type>
+          <declname>paths</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Append `path` to `self.list` unless it is already there.
+
+Also append to `self.file` unless it is already there
+or `self.file is `None`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="791" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="791" bodyend="805"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1utils_1_1DependencyList_1af41ce010372e77a58f5276aeb79e76e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.DependencyList.close</definition>
+        <argsstring>(self)</argsstring>
+        <name>close</name>
+        <qualifiedname>docutils.utils.DependencyList.close</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Close the output file.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="806" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="806" bodyend="813"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1utils_1_1DependencyList_1a76d25c80dccbf8a51b0938da14417084" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.DependencyList.__repr__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__repr__</name>
+        <qualifiedname>docutils.utils.DependencyList.__repr__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="814" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="814" bodyend="821"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>List of dependencies, with file recording support.
+
+Note that the output file is not automatically closed.  You have
+to explicitly call the close() method.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" line="752" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/__init__.py" bodystart="752" bodyend="821"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1utils_1_1DependencyList_1a778e1a0ad0834680f67c0acfd8ec8492" prot="public" virt="non-virtual"><scope>docutils::utils::DependencyList</scope><name>__init__</name></member>
+      <member refid="classdocutils_1_1utils_1_1DependencyList_1a76d25c80dccbf8a51b0938da14417084" prot="public" virt="non-virtual"><scope>docutils::utils::DependencyList</scope><name>__repr__</name></member>
+      <member refid="classdocutils_1_1utils_1_1DependencyList_1ac1373e620e949a723ec7003404bba247" prot="public" virt="non-virtual"><scope>docutils::utils::DependencyList</scope><name>add</name></member>
+      <member refid="classdocutils_1_1utils_1_1DependencyList_1af41ce010372e77a58f5276aeb79e76e6" prot="public" virt="non-virtual"><scope>docutils::utils::DependencyList</scope><name>close</name></member>
+      <member refid="classdocutils_1_1utils_1_1DependencyList_1a8fef7ab930200fdf7fdce717dc093dfc" prot="public" virt="non-virtual"><scope>docutils::utils::DependencyList</scope><name>file</name></member>
+      <member refid="classdocutils_1_1utils_1_1DependencyList_1a9e763be4341cae0a5541e77c5668c603" prot="public" virt="non-virtual"><scope>docutils::utils::DependencyList</scope><name>list</name></member>
+      <member refid="classdocutils_1_1utils_1_1DependencyList_1a832dc2fa803ab1899acd9f965a996559" prot="public" virt="non-virtual"><scope>docutils::utils::DependencyList</scope><name>set_output</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

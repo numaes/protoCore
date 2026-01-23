@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1utils_1_1__jaraco__text" kind="namespace" language="Python">
+    <compoundname>pip::_internal::utils::_jaraco_text</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1__jaraco__text_1a1228bee0fd7f0ad2fb86f9fe1bd30d85" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._internal.utils._jaraco_text._nonblank</definition>
+        <argsstring>(str)</argsstring>
+        <name>_nonblank</name>
+        <qualifiedname>pip._internal.utils._jaraco_text._nonblank</qualifiedname>
+        <param>
+          <type>str</type>
+          <defname>str</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/_jaraco_text.py" line="36" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/_jaraco_text.py" bodystart="36" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1__jaraco__text_1a71a5df0586058cabcc3c1db98025f1b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._internal.utils._jaraco_text.yield_lines</definition>
+        <argsstring>(iterable)</argsstring>
+        <name>yield_lines</name>
+        <qualifiedname>pip._internal.utils._jaraco_text.yield_lines</qualifiedname>
+        <param>
+          <type>iterable</type>
+          <defname>iterable</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>    Yield valid lines of a string or iterable.
+
+    &gt;&gt;&gt; list(yield_lines(&apos;&apos;))
+    []
+    &gt;&gt;&gt; list(yield_lines([&apos;foo&apos;, &apos;bar&apos;]))
+    [&apos;foo&apos;, &apos;bar&apos;]
+    &gt;&gt;&gt; list(yield_lines(&apos;foo\nbar&apos;))
+    [&apos;foo&apos;, &apos;bar&apos;]
+    &gt;&gt;&gt; list(yield_lines(&apos;\nfoo\n#bar\nbaz #comment&apos;))
+    [&apos;foo&apos;, &apos;baz #comment&apos;]
+    &gt;&gt;&gt; list(yield_lines([&apos;foo\nbar&apos;, &apos;baz&apos;, &apos;bing\n\n\n&apos;]))
+    [&apos;foo&apos;, &apos;bar&apos;, &apos;baz&apos;, &apos;bing&apos;]</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/_jaraco_text.py" line="41" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/_jaraco_text.py" bodystart="41" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1__jaraco__text_1ac1ff6bed309d2e2a78285b20e7a05ac6" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._internal.utils._jaraco_text._</definition>
+        <argsstring>(text)</argsstring>
+        <name>_</name>
+        <qualifiedname>pip._internal.utils._jaraco_text._</qualifiedname>
+        <param>
+          <type>text</type>
+          <defname>text</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/_jaraco_text.py" line="60" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/_jaraco_text.py" bodystart="60" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1__jaraco__text_1a63fd1833b1075373a98e9830fcb5ecbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._internal.utils._jaraco_text.drop_comment</definition>
+        <argsstring>(line)</argsstring>
+        <name>drop_comment</name>
+        <qualifiedname>pip._internal.utils._jaraco_text.drop_comment</qualifiedname>
+        <param>
+          <type>line</type>
+          <defname>line</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Drop comments.
+
+&gt;&gt;&gt; drop_comment(&apos;foo # bar&apos;)
+&apos;foo&apos;
+
+A hash without a space may be in a URL.
+
+&gt;&gt;&gt; drop_comment(&apos;http://example.com/foo#bar&apos;)
+&apos;http://example.com/foo#bar&apos;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/_jaraco_text.py" line="64" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/_jaraco_text.py" bodystart="64" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1__jaraco__text_1a35ff90bca359767f7de519330a7bba12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._internal.utils._jaraco_text.join_continuation</definition>
+        <argsstring>(lines)</argsstring>
+        <name>join_continuation</name>
+        <qualifiedname>pip._internal.utils._jaraco_text.join_continuation</qualifiedname>
+        <param>
+          <type>lines</type>
+          <defname>lines</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Join lines continued by a trailing backslash.
+
+&gt;&gt;&gt; list(join_continuation([&apos;foo \\&apos;, &apos;bar&apos;, &apos;baz&apos;]))
+[&apos;foobar&apos;, &apos;baz&apos;]
+&gt;&gt;&gt; list(join_continuation([&apos;foo \\&apos;, &apos;bar&apos;, &apos;baz&apos;]))
+[&apos;foobar&apos;, &apos;baz&apos;]
+&gt;&gt;&gt; list(join_continuation([&apos;foo \\&apos;, &apos;bar \\&apos;, &apos;baz&apos;]))
+[&apos;foobarbaz&apos;]
+
+Not sure why, but...
+The character preceeding the backslash is also elided.
+
+&gt;&gt;&gt; list(join_continuation([&apos;goo\\&apos;, &apos;dly&apos;]))
+[&apos;godly&apos;]
+
+A terrible idea, but...
+If no line is available to continue, suppress the lines.
+
+&gt;&gt;&gt; list(join_continuation([&apos;foo&apos;, &apos;bar\\&apos;, &apos;baz\\&apos;]))
+[&apos;foo&apos;]
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/_jaraco_text.py" line="79" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/_jaraco_text.py" bodystart="79" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Functions brought over from jaraco.text.
+
+These functions are not supposed to be used within `pip._internal`. These are
+helper functions brought over from `jaraco.text` to enable vendoring newer
+copies of `pkg_resources` without having to vendor `jaraco.text` and its entire
+dependency cone; something that our vendoring setup is not currently capable of
+handling.
+
+License reproduced from original source below:
+
+Copyright Jason R. Coombs
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &quot;Software&quot;), to
+deal in the Software without restriction, including without limitation the
+rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+sell copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+IN THE SOFTWARE.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/_jaraco_text.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

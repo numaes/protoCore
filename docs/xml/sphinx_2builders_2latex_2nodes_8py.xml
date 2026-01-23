@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="sphinx_2builders_2latex_2nodes_8py" kind="file" language="Python">
+    <compoundname>nodes.py</compoundname>
+    <innerclass refid="classsphinx_1_1builders_1_1latex_1_1nodes_1_1captioned__literal__block" prot="public">sphinx::builders::latex::nodes::captioned_literal_block</innerclass>
+    <innerclass refid="classsphinx_1_1builders_1_1latex_1_1nodes_1_1footnotemark" prot="public">sphinx::builders::latex::nodes::footnotemark</innerclass>
+    <innerclass refid="classsphinx_1_1builders_1_1latex_1_1nodes_1_1footnotetext" prot="public">sphinx::builders::latex::nodes::footnotetext</innerclass>
+    <innerclass refid="classsphinx_1_1builders_1_1latex_1_1nodes_1_1math__reference" prot="public">sphinx::builders::latex::nodes::math_reference</innerclass>
+    <innerclass refid="classsphinx_1_1builders_1_1latex_1_1nodes_1_1thebibliography" prot="public">sphinx::builders::latex::nodes::thebibliography</innerclass>
+    <innernamespace refid="namespacesphinx">sphinx</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1builders">sphinx::builders</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1builders_1_1latex">sphinx::builders::latex</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1builders_1_1latex_1_1nodes">sphinx::builders::latex::nodes</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacesphinx_1_1builders_1_1latex_1_1nodes" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;Additional<sp/>nodes<sp/>for<sp/>LaTeX<sp/>writer.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>docutils<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>nodes</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8" refid="classsphinx_1_1builders_1_1latex_1_1nodes_1_1captioned__literal__block" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1builders_1_1latex_1_1nodes_1_1captioned__literal__block" kindref="compound">captioned_literal_block</ref>(nodes.container):</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>node<sp/>for<sp/>a<sp/>container<sp/>of<sp/>literal_block<sp/>having<sp/>a<sp/>caption.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14" refid="classsphinx_1_1builders_1_1latex_1_1nodes_1_1footnotemark" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1builders_1_1latex_1_1nodes_1_1footnotemark" kindref="compound">footnotemark</ref>(nodes.Inline,<sp/>nodes.Referential,<sp/>nodes.TextElement):</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&quot;&quot;&quot;A<sp/>node<sp/>represents<sp/>``\footnotemark``.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="classsphinx_1_1builders_1_1latex_1_1nodes_1_1footnotetext" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1builders_1_1latex_1_1nodes_1_1footnotetext" kindref="compound">footnotetext</ref>(</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>nodes.General,<sp/>nodes.BackLinkable,<sp/>nodes.Element,<sp/>nodes.Labeled,<sp/>nodes.Targetable</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">):</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">r&quot;&quot;&quot;A<sp/>node<sp/>represents<sp/>``\footnotetext``.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="classsphinx_1_1builders_1_1latex_1_1nodes_1_1math__reference" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1builders_1_1latex_1_1nodes_1_1math__reference" kindref="compound">math_reference</ref>(nodes.Inline,<sp/>nodes.Referential,<sp/>nodes.TextElement):</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>node<sp/>for<sp/>a<sp/>reference<sp/>for<sp/>equation.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="classsphinx_1_1builders_1_1latex_1_1nodes_1_1thebibliography" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1builders_1_1latex_1_1nodes_1_1thebibliography" kindref="compound">thebibliography</ref>(nodes.container):</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>node<sp/>for<sp/>wrapping<sp/>bibliographies.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal">HYPERLINK_SUPPORT_NODES<sp/>=<sp/>(</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>nodes.figure,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>nodes.literal_block,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>nodes.table,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>nodes.section,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>captioned_literal_block,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">)</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/nodes.py"/>
+  </compounddef>
+</doxygen>

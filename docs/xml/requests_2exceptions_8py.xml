@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="requests_2exceptions_8py" kind="file" language="Python">
+    <compoundname>exceptions.py</compoundname>
+    <innerclass refid="classrequests_1_1exceptions_1_1RequestException" prot="public">requests::exceptions::RequestException</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1InvalidJSONError" prot="public">requests::exceptions::InvalidJSONError</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1JSONDecodeError" prot="public">requests::exceptions::JSONDecodeError</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1HTTPError" prot="public">requests::exceptions::HTTPError</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1ConnectionError" prot="public">requests::exceptions::ConnectionError</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1ProxyError" prot="public">requests::exceptions::ProxyError</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1SSLError" prot="public">requests::exceptions::SSLError</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1Timeout" prot="public">requests::exceptions::Timeout</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1ConnectTimeout" prot="public">requests::exceptions::ConnectTimeout</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1ReadTimeout" prot="public">requests::exceptions::ReadTimeout</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1URLRequired" prot="public">requests::exceptions::URLRequired</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1TooManyRedirects" prot="public">requests::exceptions::TooManyRedirects</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1MissingSchema" prot="public">requests::exceptions::MissingSchema</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1InvalidSchema" prot="public">requests::exceptions::InvalidSchema</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1InvalidURL" prot="public">requests::exceptions::InvalidURL</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1InvalidHeader" prot="public">requests::exceptions::InvalidHeader</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1InvalidProxyURL" prot="public">requests::exceptions::InvalidProxyURL</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1ChunkedEncodingError" prot="public">requests::exceptions::ChunkedEncodingError</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1ContentDecodingError" prot="public">requests::exceptions::ContentDecodingError</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1StreamConsumedError" prot="public">requests::exceptions::StreamConsumedError</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1RetryError" prot="public">requests::exceptions::RetryError</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1UnrewindableBodyError" prot="public">requests::exceptions::UnrewindableBodyError</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1RequestsWarning" prot="public">requests::exceptions::RequestsWarning</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1FileModeWarning" prot="public">requests::exceptions::FileModeWarning</innerclass>
+    <innerclass refid="classrequests_1_1exceptions_1_1RequestsDependencyWarning" prot="public">requests::exceptions::RequestsDependencyWarning</innerclass>
+    <innernamespace refid="namespacerequests">requests</innernamespace>
+    <innernamespace refid="namespacerequests_1_1exceptions">requests::exceptions</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacerequests_1_1exceptions" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral">requests.exceptions</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral">~~~~~~~~~~~~~~~~~~~</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral">This<sp/>module<sp/>contains<sp/>the<sp/>set<sp/>of<sp/>Requests&apos;<sp/>exceptions.</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespaceurllib3_1_1exceptions" kindref="compound">urllib3.exceptions</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>HTTPError<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>BaseHTTPError</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.compat<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>JSONDecodeError<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>CompatJSONDecodeError</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12" refid="classrequests_1_1exceptions_1_1RequestException" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1RequestException" kindref="compound">RequestException</ref>(IOError):</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;There<sp/>was<sp/>an<sp/>ambiguous<sp/>exception<sp/>that<sp/>occurred<sp/>while<sp/>handling<sp/>your</highlight></codeline>
+<codeline lineno="14"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>request.</highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1RequestException_1a9d4ec4f6aab1d4e917f5698c63e62d97" kindref="member">__init__</ref>(self,<sp/>*args,<sp/>**kwargs):</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Initialize<sp/>RequestException<sp/>with<sp/>`request`<sp/>and<sp/>`response`<sp/>objects.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>response<sp/>=<sp/>kwargs.pop(</highlight><highlight class="stringliteral">&quot;response&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classrequests_1_1exceptions_1_1RequestException_1ab49d237b2258b5de5cfaff9117362181" kindref="member">response</ref><sp/>=<sp/>response</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classrequests_1_1exceptions_1_1RequestException_1a873ace946e8c29ae42657a313d9fd36f" kindref="member">request</ref><sp/>=<sp/>kwargs.pop(</highlight><highlight class="stringliteral">&quot;request&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>response<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>self.<ref refid="classrequests_1_1exceptions_1_1RequestException_1a873ace946e8c29ae42657a313d9fd36f" kindref="member">request</ref><sp/></highlight><highlight class="keywordflow">and</highlight><highlight class="normal"><sp/>hasattr(response,<sp/></highlight><highlight class="stringliteral">&quot;request&quot;</highlight><highlight class="normal">):</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classrequests_1_1exceptions_1_1RequestException_1a873ace946e8c29ae42657a313d9fd36f" kindref="member">request</ref><sp/>=<sp/>self.<ref refid="classrequests_1_1exceptions_1_1RequestException_1ab49d237b2258b5de5cfaff9117362181" kindref="member">response</ref>.request</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>super().<ref refid="classrequests_1_1exceptions_1_1RequestException_1a9d4ec4f6aab1d4e917f5698c63e62d97" kindref="member">__init__</ref>(*args,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="classrequests_1_1exceptions_1_1InvalidJSONError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1InvalidJSONError" kindref="compound">InvalidJSONError</ref>(<ref refid="classrequests_1_1exceptions_1_1RequestException" kindref="compound">RequestException</ref>):</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>JSON<sp/>error<sp/>occurred.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="classrequests_1_1exceptions_1_1JSONDecodeError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">JSONDecodeError(InvalidJSONError,<sp/>CompatJSONDecodeError):</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Couldn&apos;t<sp/>decode<sp/>the<sp/>text<sp/>into<sp/>json&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1JSONDecodeError_1ac9555ae60aae7add50a6f8c85d8549e2" kindref="member">__init__</ref>(self,<sp/>*args,<sp/>**kwargs):</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Construct<sp/>the<sp/>JSONDecodeError<sp/>instance<sp/>first<sp/>with<sp/>all</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>args.<sp/>Then<sp/>use<sp/>it&apos;s<sp/>args<sp/>to<sp/>construct<sp/>the<sp/>IOError<sp/>so<sp/>that</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>the<sp/>json<sp/>specific<sp/>args<sp/>aren&apos;t<sp/>used<sp/>as<sp/>IOError<sp/>specific<sp/>args</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>and<sp/>the<sp/>error<sp/>message<sp/>from<sp/>JSONDecodeError<sp/>is<sp/>preserved.</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>CompatJSONDecodeError.__init__(self,<sp/>*args)</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>InvalidJSONError.__init__(self,<sp/>*self.args,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1JSONDecodeError_1a7a936644a11865ccd1a0e4abb10b635c" kindref="member">__reduce__</ref>(self):</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>__reduce__<sp/>method<sp/>called<sp/>when<sp/>pickling<sp/>the<sp/>object<sp/>must</highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>be<sp/>the<sp/>one<sp/>from<sp/>the<sp/>JSONDecodeError<sp/>(be<sp/>it<sp/>json/simplejson)</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>as<sp/>it<sp/>expects<sp/>all<sp/>the<sp/>arguments<sp/>for<sp/>instantiation,<sp/>not<sp/>just</highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>one<sp/>like<sp/>the<sp/>IOError,<sp/>and<sp/>the<sp/>MRO<sp/>would<sp/>by<sp/>default<sp/>call<sp/>the</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>__reduce__<sp/>method<sp/>from<sp/>the<sp/>IOError<sp/>due<sp/>to<sp/>the<sp/>inheritance<sp/>order.</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>CompatJSONDecodeError.__reduce__(self)</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="classrequests_1_1exceptions_1_1HTTPError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1HTTPError" kindref="compound">HTTPError</ref>(<ref refid="classrequests_1_1exceptions_1_1RequestException" kindref="compound">RequestException</ref>):</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;An<sp/>HTTP<sp/>error<sp/>occurred.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="classrequests_1_1exceptions_1_1ConnectionError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ConnectionError(RequestException):</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>Connection<sp/>error<sp/>occurred.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="classrequests_1_1exceptions_1_1ProxyError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1ProxyError" kindref="compound">ProxyError</ref>(<ref refid="classrequests_1_1exceptions_1_1ConnectionError" kindref="compound">ConnectionError</ref>):</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>proxy<sp/>error<sp/>occurred.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="classrequests_1_1exceptions_1_1SSLError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1SSLError" kindref="compound">SSLError</ref>(<ref refid="classrequests_1_1exceptions_1_1ConnectionError" kindref="compound">ConnectionError</ref>):</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;An<sp/>SSL<sp/>error<sp/>occurred.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="classrequests_1_1exceptions_1_1Timeout" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1Timeout" kindref="compound">Timeout</ref>(<ref refid="classrequests_1_1exceptions_1_1RequestException" kindref="compound">RequestException</ref>):</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;The<sp/>request<sp/>timed<sp/>out.</highlight></codeline>
+<codeline lineno="73"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="74"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Catching<sp/>this<sp/>error<sp/>will<sp/>catch<sp/>both</highlight></codeline>
+<codeline lineno="75"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:exc:`~requests.exceptions.ConnectTimeout`<sp/>and</highlight></codeline>
+<codeline lineno="76"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:exc:`~requests.exceptions.ReadTimeout`<sp/>errors.</highlight></codeline>
+<codeline lineno="77"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="classrequests_1_1exceptions_1_1ConnectTimeout" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1ConnectTimeout" kindref="compound">ConnectTimeout</ref>(<ref refid="classrequests_1_1exceptions_1_1ConnectionError" kindref="compound">ConnectionError</ref>,<sp/><ref refid="classrequests_1_1exceptions_1_1Timeout" kindref="compound">Timeout</ref>):</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;The<sp/>request<sp/>timed<sp/>out<sp/>while<sp/>trying<sp/>to<sp/>connect<sp/>to<sp/>the<sp/>remote<sp/>server.</highlight></codeline>
+<codeline lineno="82"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="83"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Requests<sp/>that<sp/>produced<sp/>this<sp/>error<sp/>are<sp/>safe<sp/>to<sp/>retry.</highlight></codeline>
+<codeline lineno="84"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="classrequests_1_1exceptions_1_1ReadTimeout" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1ReadTimeout" kindref="compound">ReadTimeout</ref>(<ref refid="classrequests_1_1exceptions_1_1Timeout" kindref="compound">Timeout</ref>):</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;The<sp/>server<sp/>did<sp/>not<sp/>send<sp/>any<sp/>data<sp/>in<sp/>the<sp/>allotted<sp/>amount<sp/>of<sp/>time.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="classrequests_1_1exceptions_1_1URLRequired" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1URLRequired" kindref="compound">URLRequired</ref>(<ref refid="classrequests_1_1exceptions_1_1RequestException" kindref="compound">RequestException</ref>):</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>valid<sp/>URL<sp/>is<sp/>required<sp/>to<sp/>make<sp/>a<sp/>request.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="classrequests_1_1exceptions_1_1TooManyRedirects" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1TooManyRedirects" kindref="compound">TooManyRedirects</ref>(<ref refid="classrequests_1_1exceptions_1_1RequestException" kindref="compound">RequestException</ref>):</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Too<sp/>many<sp/>redirects.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="classrequests_1_1exceptions_1_1MissingSchema" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1MissingSchema" kindref="compound">MissingSchema</ref>(<ref refid="classrequests_1_1exceptions_1_1RequestException" kindref="compound">RequestException</ref>,<sp/>ValueError):</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;The<sp/>URL<sp/>scheme<sp/>(e.g.<sp/>http<sp/>or<sp/>https)<sp/>is<sp/>missing.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="classrequests_1_1exceptions_1_1InvalidSchema" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1InvalidSchema" kindref="compound">InvalidSchema</ref>(<ref refid="classrequests_1_1exceptions_1_1RequestException" kindref="compound">RequestException</ref>,<sp/>ValueError):</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;The<sp/>URL<sp/>scheme<sp/>provided<sp/>is<sp/>either<sp/>invalid<sp/>or<sp/>unsupported.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="classrequests_1_1exceptions_1_1InvalidURL" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1InvalidURL" kindref="compound">InvalidURL</ref>(<ref refid="classrequests_1_1exceptions_1_1RequestException" kindref="compound">RequestException</ref>,<sp/>ValueError):</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;The<sp/>URL<sp/>provided<sp/>was<sp/>somehow<sp/>invalid.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="classrequests_1_1exceptions_1_1InvalidHeader" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1InvalidHeader" kindref="compound">InvalidHeader</ref>(<ref refid="classrequests_1_1exceptions_1_1RequestException" kindref="compound">RequestException</ref>,<sp/>ValueError):</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;The<sp/>header<sp/>value<sp/>provided<sp/>was<sp/>somehow<sp/>invalid.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classrequests_1_1exceptions_1_1InvalidProxyURL" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1InvalidProxyURL" kindref="compound">InvalidProxyURL</ref>(<ref refid="classrequests_1_1exceptions_1_1InvalidURL" kindref="compound">InvalidURL</ref>):</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;The<sp/>proxy<sp/>URL<sp/>provided<sp/>is<sp/>invalid.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="classrequests_1_1exceptions_1_1ChunkedEncodingError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1ChunkedEncodingError" kindref="compound">ChunkedEncodingError</ref>(<ref refid="classrequests_1_1exceptions_1_1RequestException" kindref="compound">RequestException</ref>):</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;The<sp/>server<sp/>declared<sp/>chunked<sp/>encoding<sp/>but<sp/>sent<sp/>an<sp/>invalid<sp/>chunk.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="classrequests_1_1exceptions_1_1ContentDecodingError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1ContentDecodingError" kindref="compound">ContentDecodingError</ref>(<ref refid="classrequests_1_1exceptions_1_1RequestException" kindref="compound">RequestException</ref>,<sp/>BaseHTTPError):</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Failed<sp/>to<sp/>decode<sp/>response<sp/>content.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="classrequests_1_1exceptions_1_1StreamConsumedError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1StreamConsumedError" kindref="compound">StreamConsumedError</ref>(<ref refid="classrequests_1_1exceptions_1_1RequestException" kindref="compound">RequestException</ref>,<sp/>TypeError):</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;The<sp/>content<sp/>for<sp/>this<sp/>response<sp/>was<sp/>already<sp/>consumed.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="classrequests_1_1exceptions_1_1RetryError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1RetryError" kindref="compound">RetryError</ref>(<ref refid="classrequests_1_1exceptions_1_1RequestException" kindref="compound">RequestException</ref>):</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Custom<sp/>retries<sp/>logic<sp/>failed&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classrequests_1_1exceptions_1_1UnrewindableBodyError" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1UnrewindableBodyError" kindref="compound">UnrewindableBodyError</ref>(<ref refid="classrequests_1_1exceptions_1_1RequestException" kindref="compound">RequestException</ref>):</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Requests<sp/>encountered<sp/>an<sp/>error<sp/>when<sp/>trying<sp/>to<sp/>rewind<sp/>a<sp/>body.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Warnings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="classrequests_1_1exceptions_1_1RequestsWarning" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1RequestsWarning" kindref="compound">RequestsWarning</ref>(Warning):</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Base<sp/>warning<sp/>for<sp/>Requests.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="classrequests_1_1exceptions_1_1FileModeWarning" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1FileModeWarning" kindref="compound">FileModeWarning</ref>(<ref refid="classrequests_1_1exceptions_1_1RequestsWarning" kindref="compound">RequestsWarning</ref>,<sp/>DeprecationWarning):</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>file<sp/>was<sp/>opened<sp/>in<sp/>text<sp/>mode,<sp/>but<sp/>Requests<sp/>determined<sp/>its<sp/>binary<sp/>length.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="classrequests_1_1exceptions_1_1RequestsDependencyWarning" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classrequests_1_1exceptions_1_1RequestsDependencyWarning" kindref="compound">RequestsDependencyWarning</ref>(<ref refid="classrequests_1_1exceptions_1_1RequestsWarning" kindref="compound">RequestsWarning</ref>):</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;An<sp/>imported<sp/>dependency<sp/>doesn&apos;t<sp/>match<sp/>the<sp/>expected<sp/>version<sp/>range.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/requests/exceptions.py"/>
+  </compounddef>
+</doxygen>

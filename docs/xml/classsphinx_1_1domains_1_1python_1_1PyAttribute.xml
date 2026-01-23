@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1domains_1_1python_1_1PyAttribute" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::domains::python::PyAttribute</compoundname>
+    <basecompoundref refid="classsphinx_1_1domains_1_1python_1_1__object_1_1PyObject" prot="public" virt="non-virtual">sphinx.domains.python._object.PyObject</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1domains_1_1python_1_1PyAttribute_1af368da6ca49a26d28a70e6c9dac0ca89" prot="public" static="yes" mutable="no">
+        <type>ClassVar</type>
+        <definition>ClassVar sphinx.domains.python.PyAttribute::option_spec</definition>
+        <argsstring></argsstring>
+        <name>option_spec</name>
+        <qualifiedname>sphinx.domains.python.PyAttribute.option_spec</qualifiedname>
+        <initializer>=  PyObject.option_spec.copy()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" line="333" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" bodystart="333" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1python_1_1PyAttribute_1a3affebbc9e77f77f8471b3b80729fb82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str, str]</type>
+        <definition> tuple[str, str] sphinx.domains.python.PyAttribute.handle_signature</definition>
+        <argsstring>(self, str sig, desc_signature signode)</argsstring>
+        <name>handle_signature</name>
+        <qualifiedname>sphinx.domains.python.PyAttribute.handle_signature</qualifiedname>
+        <reimplements refid="classsphinx_1_1domains_1_1python_1_1__object_1_1PyObject_1aa1fc19eaf21256e13ca625545ec19e87">handle_signature</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>sig</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1desc__signature" kindref="compound">desc_signature</ref></type>
+          <declname>signode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Transform a Python signature into RST nodes.
+
+Return (fully qualified name of the thing, classname if any).
+
+If inside a class, the current class name is handled intelligently:
+* it is stripped from the displayed name if present
+* it is added to the full name (return value) if not present
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" line="339" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" bodystart="339" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1python_1_1PyAttribute_1a53a1549abe2ae12af1b196905b7fbd0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.domains.python.PyAttribute.get_index_text</definition>
+        <argsstring>(self, str modname, tuple[str, str] name_cls)</argsstring>
+        <name>get_index_text</name>
+        <qualifiedname>sphinx.domains.python.PyAttribute.get_index_text</qualifiedname>
+        <reimplements refid="classsphinx_1_1domains_1_1python_1_1__object_1_1PyObject_1a3d2538d86daa445469b7bf15e054197d">get_index_text</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>modname</declname>
+        </param>
+        <param>
+          <type>tuple</type>
+          <declname>name</declname>
+          <array>[str, str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the text for the index entry of the object.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" line="366" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" bodystart="366" bodyend="380"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Description of an attribute.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="7">
+        <label>ObjDescT</label>
+      </node>
+      <node id="9">
+        <label>str</label>
+      </node>
+      <node id="5">
+        <label>docutils.parsers.rst.Directive</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1Directive"/>
+      </node>
+      <node id="1">
+        <label>sphinx.domains.python.PyAttribute</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1PyAttribute"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.directives.ObjectDescription</label>
+        <link refid="classsphinx_1_1directives_1_1ObjectDescription"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.domains.python._object.PyObject</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1__object_1_1PyObject"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+        <childnode refid="9" relation="public-inheritance">
+        </childnode>
+        <childnode refid="9" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>sphinx.util.docutils.SphinxDirective</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>tuple</label>
+      </node>
+      <node id="6">
+        <label>Generic</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="7">
+        <label>ObjDescT</label>
+      </node>
+      <node id="8">
+        <label>str</label>
+      </node>
+      <node id="5">
+        <label>docutils.parsers.rst.Directive</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1Directive"/>
+      </node>
+      <node id="1">
+        <label>sphinx.domains.python.PyAttribute</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1PyAttribute"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="11" relation="usage">
+          <edgelabel>option_spec</edgelabel>
+        </childnode>
+      </node>
+      <node id="9">
+        <label>addnodes</label>
+      </node>
+      <node id="3">
+        <label>sphinx.directives.ObjectDescription</label>
+        <link refid="classsphinx_1_1directives_1_1ObjectDescription"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>domain</edgelabel>
+          <edgelabel>objtype</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>indexnode</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.domains.python._object.PyObject</label>
+        <link refid="classsphinx_1_1domains_1_1python_1_1__object_1_1PyObject"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="10" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>sphinx.util.docutils.SphinxDirective</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>tuple</label>
+      </node>
+      <node id="11">
+        <label>ClassVar</label>
+      </node>
+      <node id="6">
+        <label>Generic</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" line="330" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/domains/python/__init__.py" bodystart="330" bodyend="380"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1domains_1_1python_1_1PyAttribute_1a53a1549abe2ae12af1b196905b7fbd0b" prot="public" virt="non-virtual"><scope>sphinx::domains::python::PyAttribute</scope><name>get_index_text</name></member>
+      <member refid="classsphinx_1_1domains_1_1python_1_1PyAttribute_1a3affebbc9e77f77f8471b3b80729fb82" prot="public" virt="non-virtual"><scope>sphinx::domains::python::PyAttribute</scope><name>handle_signature</name></member>
+      <member refid="classsphinx_1_1domains_1_1python_1_1PyAttribute_1af368da6ca49a26d28a70e6c9dac0ca89" prot="public" virt="non-virtual"><scope>sphinx::domains::python::PyAttribute</scope><name>option_spec</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

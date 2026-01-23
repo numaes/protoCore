@@ -1,0 +1,290 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpygments_1_1formatters_1_1latex_1_1LatexEmbeddedLexer" kind="class" language="Python" prot="public">
+    <compoundname>pygments::formatters::latex::LatexEmbeddedLexer</compoundname>
+    <basecompoundref refid="classpygments_1_1lexer_1_1Lexer" prot="public" virt="non-virtual">pygments.lexer.Lexer</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpygments_1_1formatters_1_1latex_1_1LatexEmbeddedLexer_1a518ede9be2451527344d00af08e58111" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments.formatters.latex.LatexEmbeddedLexer::left</definition>
+        <argsstring></argsstring>
+        <name>left</name>
+        <qualifiedname>pygments.formatters.latex.LatexEmbeddedLexer.left</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/formatters/latex.py" line="449" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/formatters/latex.py" bodystart="449" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1formatters_1_1latex_1_1LatexEmbeddedLexer_1a7844c7577bf854bd8409d5542195ed2f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments.formatters.latex.LatexEmbeddedLexer::right</definition>
+        <argsstring></argsstring>
+        <name>right</name>
+        <qualifiedname>pygments.formatters.latex.LatexEmbeddedLexer.right</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/formatters/latex.py" line="450" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/formatters/latex.py" bodystart="450" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1formatters_1_1latex_1_1LatexEmbeddedLexer_1aed27a20205471b7e83931328cc36c083" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments.formatters.latex.LatexEmbeddedLexer::lang</definition>
+        <argsstring></argsstring>
+        <name>lang</name>
+        <qualifiedname>pygments.formatters.latex.LatexEmbeddedLexer.lang</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/formatters/latex.py" line="451" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/formatters/latex.py" bodystart="451" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpygments_1_1formatters_1_1latex_1_1LatexEmbeddedLexer_1a1957a5fc997566675a5eead5260f3738" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.formatters.latex.LatexEmbeddedLexer.__init__</definition>
+        <argsstring>(self, left, right, lang, **options)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pygments.formatters.latex.LatexEmbeddedLexer.__init__</qualifiedname>
+        <reimplements refid="classpygments_1_1lexer_1_1Lexer_1ad4f2ca2ced009731f38895a0699e1067">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpygments_1_1formatters_1_1latex_1_1LatexEmbeddedLexer_1a518ede9be2451527344d00af08e58111" kindref="member">left</ref></type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="classpygments_1_1formatters_1_1latex_1_1LatexEmbeddedLexer_1a7844c7577bf854bd8409d5542195ed2f" kindref="member">right</ref></type>
+          <defname>right</defname>
+        </param>
+        <param>
+          <type><ref refid="classpygments_1_1formatters_1_1latex_1_1LatexEmbeddedLexer_1aed27a20205471b7e83931328cc36c083" kindref="member">lang</ref></type>
+          <defname>lang</defname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This constructor takes arbitrary options as keyword arguments.
+Every subclass must first process its own options and then call
+the `Lexer` constructor, since it processes the basic
+options like `stripnl`.
+
+An example looks like this:
+
+.. sourcecode:: python
+
+   def __init__(self, **options):
+       self.compress = options.get(&apos;compress&apos;, &apos;&apos;)
+       Lexer.__init__(self, **options)
+
+As these options must all be specifiable as strings (due to the
+command line usage), there are various utility functions
+available to help with that, see `Utilities`_.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/formatters/latex.py" line="448" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/formatters/latex.py" bodystart="448" bodyend="453"/>
+      </memberdef>
+      <memberdef kind="function" id="classpygments_1_1formatters_1_1latex_1_1LatexEmbeddedLexer_1a9fbdb9afa1f0e50c2b5bd5ee74b05ffd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.formatters.latex.LatexEmbeddedLexer.get_tokens_unprocessed</definition>
+        <argsstring>(self, text)</argsstring>
+        <name>get_tokens_unprocessed</name>
+        <qualifiedname>pygments.formatters.latex.LatexEmbeddedLexer.get_tokens_unprocessed</qualifiedname>
+        <reimplements refid="classpygments_1_1lexer_1_1Lexer_1a01ab45fced48ec5089f0a810040e1ac8">get_tokens_unprocessed</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>text</type>
+          <defname>text</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This method should process the text and return an iterable of
+``(index, tokentype, value)`` tuples where ``index`` is the starting
+position of the token within the input text.
+
+It must be overridden by subclasses. It is recommended to
+implement it as a generator to maximize effectiveness.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/formatters/latex.py" line="454" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/formatters/latex.py" bodystart="454" bodyend="472"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpygments_1_1formatters_1_1latex_1_1LatexEmbeddedLexer_1adcc2c183b140dc204a674ccaaa5e5482" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.formatters.latex.LatexEmbeddedLexer._find_safe_escape_tokens</definition>
+        <argsstring>(self, text)</argsstring>
+        <name>_find_safe_escape_tokens</name>
+        <qualifiedname>pygments.formatters.latex.LatexEmbeddedLexer._find_safe_escape_tokens</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>text</type>
+          <defname>text</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim> find escape tokens that are not in strings or comments </verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/formatters/latex.py" line="473" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/formatters/latex.py" bodystart="473" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="function" id="classpygments_1_1formatters_1_1latex_1_1LatexEmbeddedLexer_1a8821d045454595b48f00c4993df8a004" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.formatters.latex.LatexEmbeddedLexer._filter_to</definition>
+        <argsstring>(self, it, pred)</argsstring>
+        <name>_filter_to</name>
+        <qualifiedname>pygments.formatters.latex.LatexEmbeddedLexer._filter_to</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>it</type>
+          <defname>it</defname>
+        </param>
+        <param>
+          <type>pred</type>
+          <defname>pred</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim> Keep only the tokens that match `pred`, merge the others together </verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/formatters/latex.py" line="485" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/formatters/latex.py" bodystart="485" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="classpygments_1_1formatters_1_1latex_1_1LatexEmbeddedLexer_1a8214f33ff8039648319cbd6581456f4d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.formatters.latex.LatexEmbeddedLexer._find_escape_tokens</definition>
+        <argsstring>(self, text)</argsstring>
+        <name>_find_escape_tokens</name>
+        <qualifiedname>pygments.formatters.latex.LatexEmbeddedLexer._find_escape_tokens</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>text</type>
+          <defname>text</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim> Find escape tokens within text, give token=None otherwise </verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/formatters/latex.py" line="502" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/formatters/latex.py" bodystart="502" bodyend="519"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>This lexer takes one lexer as argument, the lexer for the language
+being formatted, and the left and right delimiters for escaped text.
+
+First everything is scanned using the language lexer to obtain
+strings and comments. All other consecutive tokens are merged and
+the resulting text is scanned for escaped segments, which are given
+the Token.Escape type. Finally text that is not escaped is scanned
+again with the language lexer.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.formatters.latex.LatexEmbeddedLexer</label>
+        <link refid="classpygments_1_1formatters_1_1latex_1_1LatexEmbeddedLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.formatters.latex.LatexEmbeddedLexer</label>
+        <link refid="classpygments_1_1formatters_1_1latex_1_1LatexEmbeddedLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pygments/formatters/latex.py" line="437" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/formatters/latex.py" bodystart="437" bodyend="519"/>
+    <listofallmembers>
+      <member refid="classpygments_1_1formatters_1_1latex_1_1LatexEmbeddedLexer_1a1957a5fc997566675a5eead5260f3738" prot="public" virt="non-virtual"><scope>pygments::formatters::latex::LatexEmbeddedLexer</scope><name>__init__</name></member>
+      <member refid="classpygments_1_1formatters_1_1latex_1_1LatexEmbeddedLexer_1a8821d045454595b48f00c4993df8a004" prot="protected" virt="non-virtual"><scope>pygments::formatters::latex::LatexEmbeddedLexer</scope><name>_filter_to</name></member>
+      <member refid="classpygments_1_1formatters_1_1latex_1_1LatexEmbeddedLexer_1a8214f33ff8039648319cbd6581456f4d" prot="protected" virt="non-virtual"><scope>pygments::formatters::latex::LatexEmbeddedLexer</scope><name>_find_escape_tokens</name></member>
+      <member refid="classpygments_1_1formatters_1_1latex_1_1LatexEmbeddedLexer_1adcc2c183b140dc204a674ccaaa5e5482" prot="protected" virt="non-virtual"><scope>pygments::formatters::latex::LatexEmbeddedLexer</scope><name>_find_safe_escape_tokens</name></member>
+      <member refid="classpygments_1_1formatters_1_1latex_1_1LatexEmbeddedLexer_1a9fbdb9afa1f0e50c2b5bd5ee74b05ffd" prot="public" virt="non-virtual"><scope>pygments::formatters::latex::LatexEmbeddedLexer</scope><name>get_tokens_unprocessed</name></member>
+      <member refid="classpygments_1_1formatters_1_1latex_1_1LatexEmbeddedLexer_1aed27a20205471b7e83931328cc36c083" prot="public" virt="non-virtual"><scope>pygments::formatters::latex::LatexEmbeddedLexer</scope><name>lang</name></member>
+      <member refid="classpygments_1_1formatters_1_1latex_1_1LatexEmbeddedLexer_1a518ede9be2451527344d00af08e58111" prot="public" virt="non-virtual"><scope>pygments::formatters::latex::LatexEmbeddedLexer</scope><name>left</name></member>
+      <member refid="classpygments_1_1formatters_1_1latex_1_1LatexEmbeddedLexer_1a7844c7577bf854bd8409d5542195ed2f" prot="public" virt="non-virtual"><scope>pygments::formatters::latex::LatexEmbeddedLexer</scope><name>right</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

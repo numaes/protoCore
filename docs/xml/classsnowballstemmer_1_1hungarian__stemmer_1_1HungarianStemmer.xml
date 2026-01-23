@@ -1,0 +1,689 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer" kind="class" language="Python" prot="public">
+    <compoundname>snowballstemmer::hungarian_stemmer::HungarianStemmer</compoundname>
+    <basecompoundref refid="classsnowballstemmer_1_1basestemmer_1_1BaseStemmer" prot="public" virt="non-virtual">snowballstemmer.basestemmer.BaseStemmer</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a627ce20312fa4982a5a31181c354c74f" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict snowballstemmer.hungarian_stemmer.HungarianStemmer::g_v</definition>
+        <argsstring></argsstring>
+        <name>g_v</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.g_v</qualifiedname>
+        <initializer>=  {u&quot;a&quot;, u&quot;e&quot;, u&quot;i&quot;, u&quot;o&quot;, u&quot;u&quot;, u&quot;á&quot;, u&quot;é&quot;, u&quot;í&quot;, u&quot;ó&quot;, u&quot;ö&quot;, u&quot;ő&quot;, u&quot;ú&quot;, u&quot;ü&quot;, u&quot;ű&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="14" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a094d61c248e75cddfd2507bd8e428363" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int snowballstemmer.hungarian_stemmer.HungarianStemmer::I_p1</definition>
+        <argsstring></argsstring>
+        <name>I_p1</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.I_p1</qualifiedname>
+        <initializer>=  0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="16" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a9c953fc4eb13aa1c4ba804e268b59fae" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.hungarian_stemmer.HungarianStemmer::a_0</definition>
+        <argsstring></argsstring>
+        <name>a_0</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.a_0</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;á&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;é&quot;, -1, 2)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="281" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a612e25ce31dc4048e8618883b6405825" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.hungarian_stemmer.HungarianStemmer::a_1</definition>
+        <argsstring></argsstring>
+        <name>a_1</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.a_1</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;bb&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;cc&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;dd&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ff&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;gg&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;jj&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;kk&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ll&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;mm&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;nn&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;pp&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;rr&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ccs&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ss&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;zzs&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;tt&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;vv&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ggy&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;lly&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;nny&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;tty&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ssz&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;zz&quot;, -1, -1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="286" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1aa8c66b93d0a32c6c17710a7359a1df81" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.hungarian_stemmer.HungarianStemmer::a_2</definition>
+        <argsstring></argsstring>
+        <name>a_2</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.a_2</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;al&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;el&quot;, -1, 1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="312" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a30d86b84027f410eaaa2b2c370f04663" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.hungarian_stemmer.HungarianStemmer::a_3</definition>
+        <argsstring></argsstring>
+        <name>a_3</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.a_3</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="317" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1aeb5dbcfcd92675e3c25a235682701b52" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.hungarian_stemmer.HungarianStemmer::a_4</definition>
+        <argsstring></argsstring>
+        <name>a_4</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.a_4</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;án&quot;, -1, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;én&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ánként&quot;, -1, 2)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="364" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="364" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1abc1ad0f356818988314b8f4e70690ba9" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.hungarian_stemmer.HungarianStemmer::a_5</definition>
+        <argsstring></argsstring>
+        <name>a_5</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.a_5</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;stul&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;astul&quot;, 0, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ástul&quot;, 0, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;stül&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;estül&quot;, 3, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;éstül&quot;, 3, 3)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="370" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="370" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a6516cc2cce7eea54e386b2fb8bece056" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.hungarian_stemmer.HungarianStemmer::a_6</definition>
+        <argsstring></argsstring>
+        <name>a_6</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.a_6</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;á&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;é&quot;, -1, 1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="379" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="379" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a0e76d941e55ef4116308f5927a91e008" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.hungarian_stemmer.HungarianStemmer::a_7</definition>
+        <argsstring></argsstring>
+        <name>a_7</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.a_7</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;k&quot;, -1, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ak&quot;, 0, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ek&quot;, 0, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ok&quot;, 0, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ák&quot;, 0, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ék&quot;, 0, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ök&quot;, 0, 3)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="384" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="384" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1ad02d7f3bdb429761575678f35f2e9c54" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.hungarian_stemmer.HungarianStemmer::a_8</definition>
+        <argsstring></argsstring>
+        <name>a_8</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.a_8</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;éi&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;áéi&quot;, 0, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ééi&quot;, 0, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;é&quot;, -1, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ké&quot;, 3, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;aké&quot;, 4, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;eké&quot;, 4, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;oké&quot;, 4, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;áké&quot;, 4, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;éké&quot;, 4, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;öké&quot;, 4, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;éé&quot;, 3, 2)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="394" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="394" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1aa4f068e490d9b40b52402ba071d01284" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.hungarian_stemmer.HungarianStemmer::a_9</definition>
+        <argsstring></argsstring>
+        <name>a_9</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.a_9</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="409" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="409" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a16d33fa9174c435fd6187248e45b81e3" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.hungarian_stemmer.HungarianStemmer::a_10</definition>
+        <argsstring></argsstring>
+        <name>a_10</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.a_10</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="443" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="443" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a34afa973843fa7689b287edb4f536e2c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.hungarian_stemmer.HungarianStemmer::I_p1</definition>
+        <argsstring></argsstring>
+        <name>I_p1</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.I_p1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="19" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a6a311b669d01c465d03d51fc46eaeea0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.hungarian_stemmer.HungarianStemmer::cursor</definition>
+        <argsstring></argsstring>
+        <name>cursor</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.cursor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="32" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a8585fd7913285db78c0ade08c0e545d9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.hungarian_stemmer.HungarianStemmer::ket</definition>
+        <argsstring></argsstring>
+        <name>ket</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.ket</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="47" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1ad595a297cf8e3a23a7dc9abbb5d29f30" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.hungarian_stemmer.HungarianStemmer::bra</definition>
+        <argsstring></argsstring>
+        <name>bra</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.bra</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="51" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a268376b8455e95960e0cd787ebc56c76" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.hungarian_stemmer.HungarianStemmer::limit_backward</definition>
+        <argsstring></argsstring>
+        <name>limit_backward</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.limit_backward</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="249" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="249" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1ac2aa3b0a74f58986870cef4c8485f344" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_mark_regions</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_mark_regions</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_mark_regions</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="18" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="18" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a4614a36ddf198567ca33c2e9f5ebeeee" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_R1</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_R1</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_R1</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="43" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="43" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1ac59da687d166a0551ce2ff91163d600e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_v_ending</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_v_ending</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_v_ending</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="46" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="46" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a5ae4f13def22dde68bc98f755639b220" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_double</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_double</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_double</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="62" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="62" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a0b9004729e7c13ce71bd630c72689d67" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_undouble</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_undouble</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_undouble</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="69" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="69" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a176424256181afddf8107e9991e62386" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_instrum</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_instrum</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_instrum</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="83" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="83" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a2f12affbc7ef3fe3982dcb6c1b350953" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_case</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_case</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_case</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="99" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="99" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a108334c7d540348547606d93a4072cb7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_case_special</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_case_special</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_case_special</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="113" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="113" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a9d3cbac9cf994cc93caaaf1aa0cc4069" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_case_other</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_case_other</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_case_other</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="129" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="129" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a1912e73d6ec5a6d9d7e29c287927f33e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_factive</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_factive</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_factive</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="149" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="149" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1adb6f78b4e2b23c9a0bf2600340731058" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_plural</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_plural</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_plural</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="165" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="165" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a694660ccf772d0e6fbfdcbd11a49172d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_owned</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_owned</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_owned</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="185" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="185" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1afadbe14e034ad6c94ede44befb7562c7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_sing_owner</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_sing_owner</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_sing_owner</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="205" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="205" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1acccb57b1f80213ec6a6c83b44d40dc22" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_plur_owner</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_plur_owner</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer.__r_plur_owner</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="225" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="225" bodyend="244"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a7abf96c0bc617d4a3c7735484d1eff2e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.hungarian_stemmer.HungarianStemmer._stem</definition>
+        <argsstring>(self)</argsstring>
+        <name>_stem</name>
+        <qualifiedname>snowballstemmer.hungarian_stemmer.HungarianStemmer._stem</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="245" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="245" bodyend="280"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>This class implements the stemming algorithm defined by a snowball script.
+Generated from hungarian.sbl by Snowball 3.0.1 - https://snowballstem.org/
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>snowballstemmer.hungarian_stemmer.HungarianStemmer</label>
+        <link refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>snowballstemmer.basestemmer.BaseStemmer</label>
+        <link refid="classsnowballstemmer_1_1basestemmer_1_1BaseStemmer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>snowballstemmer.hungarian_stemmer.HungarianStemmer</label>
+        <link refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>snowballstemmer.basestemmer.BaseStemmer</label>
+        <link refid="classsnowballstemmer_1_1basestemmer_1_1BaseStemmer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" line="8" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/hungarian_stemmer.py" bodystart="8" bodyend="488"/>
+    <listofallmembers>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a2f12affbc7ef3fe3982dcb6c1b350953" prot="private" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>__r_case</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a9d3cbac9cf994cc93caaaf1aa0cc4069" prot="private" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>__r_case_other</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a108334c7d540348547606d93a4072cb7" prot="private" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>__r_case_special</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a5ae4f13def22dde68bc98f755639b220" prot="private" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>__r_double</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a1912e73d6ec5a6d9d7e29c287927f33e" prot="private" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>__r_factive</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a176424256181afddf8107e9991e62386" prot="private" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>__r_instrum</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1ac2aa3b0a74f58986870cef4c8485f344" prot="private" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>__r_mark_regions</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a694660ccf772d0e6fbfdcbd11a49172d" prot="private" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>__r_owned</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1acccb57b1f80213ec6a6c83b44d40dc22" prot="private" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>__r_plur_owner</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1adb6f78b4e2b23c9a0bf2600340731058" prot="private" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>__r_plural</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a4614a36ddf198567ca33c2e9f5ebeeee" prot="private" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>__r_R1</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1afadbe14e034ad6c94ede44befb7562c7" prot="private" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>__r_sing_owner</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a0b9004729e7c13ce71bd630c72689d67" prot="private" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>__r_undouble</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1ac59da687d166a0551ce2ff91163d600e" prot="private" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>__r_v_ending</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a7abf96c0bc617d4a3c7735484d1eff2e" prot="protected" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>_stem</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a9c953fc4eb13aa1c4ba804e268b59fae" prot="public" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>a_0</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a612e25ce31dc4048e8618883b6405825" prot="public" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>a_1</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a16d33fa9174c435fd6187248e45b81e3" prot="public" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>a_10</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1aa8c66b93d0a32c6c17710a7359a1df81" prot="public" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>a_2</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a30d86b84027f410eaaa2b2c370f04663" prot="public" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>a_3</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1aeb5dbcfcd92675e3c25a235682701b52" prot="public" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>a_4</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1abc1ad0f356818988314b8f4e70690ba9" prot="public" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>a_5</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a6516cc2cce7eea54e386b2fb8bece056" prot="public" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>a_6</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a0e76d941e55ef4116308f5927a91e008" prot="public" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>a_7</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1ad02d7f3bdb429761575678f35f2e9c54" prot="public" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>a_8</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1aa4f068e490d9b40b52402ba071d01284" prot="public" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>a_9</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1ad595a297cf8e3a23a7dc9abbb5d29f30" prot="public" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>bra</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a6a311b669d01c465d03d51fc46eaeea0" prot="public" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>cursor</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a627ce20312fa4982a5a31181c354c74f" prot="public" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>g_v</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a094d61c248e75cddfd2507bd8e428363" prot="public" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>I_p1</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a34afa973843fa7689b287edb4f536e2c" prot="public" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>I_p1</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a8585fd7913285db78c0ade08c0e545d9" prot="public" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>ket</name></member>
+      <member refid="classsnowballstemmer_1_1hungarian__stemmer_1_1HungarianStemmer_1a268376b8455e95960e0cd787ebc56c76" prot="public" virt="non-virtual"><scope>snowballstemmer::hungarian_stemmer::HungarianStemmer</scope><name>limit_backward</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

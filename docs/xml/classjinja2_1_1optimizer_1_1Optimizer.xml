@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1optimizer_1_1Optimizer" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::optimizer::Optimizer</compoundname>
+    <basecompoundref refid="classjinja2_1_1visitor_1_1NodeTransformer" prot="public" virt="non-virtual">jinja2.visitor.NodeTransformer</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1optimizer_1_1Optimizer_1a48f0593fedc1e188bbc99400abbab10d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.optimizer.Optimizer::environment</definition>
+        <argsstring></argsstring>
+        <name>environment</name>
+        <qualifiedname>jinja2.optimizer.Optimizer.environment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/optimizer.py" line="29" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/optimizer.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjinja2_1_1optimizer_1_1Optimizer_1a6c47fce22f9831e14b87c03cd5f3fbda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.optimizer.Optimizer.__init__</definition>
+        <argsstring>(self, &quot;t.Optional[Environment]&quot; environment)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>jinja2.optimizer.Optimizer.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;t.Optional&quot;</type>
+          <declname>environment</declname>
+          <array>[Environment]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/optimizer.py" line="28" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/optimizer.py" bodystart="28" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1optimizer_1_1Optimizer_1abcfac0d346c036c692b55a107534c137" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classjinja2_1_1nodes_1_1Node" kindref="compound">nodes.Node</ref></type>
+        <definition> nodes.Node jinja2.optimizer.Optimizer.generic_visit</definition>
+        <argsstring>(self, nodes.Node node, *t.Any args, **t.Any kwargs)</argsstring>
+        <name>generic_visit</name>
+        <qualifiedname>jinja2.optimizer.Optimizer.generic_visit</qualifiedname>
+        <reimplements refid="classjinja2_1_1visitor_1_1NodeTransformer_1a508dde6856298458dc79732fa6cd6edd">generic_visit</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Node" kindref="compound">nodes.Node</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>*t.Any</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Called if no explicit visitor function exists for a node.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/optimizer.py" line="31" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/optimizer.py" bodystart="33" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.optimizer.Optimizer</label>
+        <link refid="classjinja2_1_1optimizer_1_1Optimizer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.visitor.NodeTransformer</label>
+        <link refid="classjinja2_1_1visitor_1_1NodeTransformer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.visitor.NodeVisitor</label>
+        <link refid="classjinja2_1_1visitor_1_1NodeVisitor"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>jinja2.optimizer.Optimizer</label>
+        <link refid="classjinja2_1_1optimizer_1_1Optimizer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.visitor.NodeTransformer</label>
+        <link refid="classjinja2_1_1visitor_1_1NodeTransformer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.visitor.NodeVisitor</label>
+        <link refid="classjinja2_1_1visitor_1_1NodeVisitor"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/jinja2/optimizer.py" line="27" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/optimizer.py" bodystart="27" bodyend="49"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1optimizer_1_1Optimizer_1a6c47fce22f9831e14b87c03cd5f3fbda" prot="public" virt="non-virtual"><scope>jinja2::optimizer::Optimizer</scope><name>__init__</name></member>
+      <member refid="classjinja2_1_1optimizer_1_1Optimizer_1a48f0593fedc1e188bbc99400abbab10d" prot="public" virt="non-virtual"><scope>jinja2::optimizer::Optimizer</scope><name>environment</name></member>
+      <member refid="classjinja2_1_1optimizer_1_1Optimizer_1abcfac0d346c036c692b55a107534c137" prot="public" virt="non-virtual"><scope>jinja2::optimizer::Optimizer</scope><name>generic_visit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,513 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classbabel_1_1support_1_1Format" kind="class" language="Python" prot="public">
+    <compoundname>babel::support::Format</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classbabel_1_1support_1_1Format_1a6ef2b2dd4283fa9e5067f2d34cd85dd4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel.support.Format::locale</definition>
+        <argsstring></argsstring>
+        <name>locale</name>
+        <qualifiedname>babel.support.Format.locale</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/support.py" line="66" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/support.py" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbabel_1_1support_1_1Format_1a0ac2b4e00bd57d63a12707bca7165b4a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel.support.Format::tzinfo</definition>
+        <argsstring></argsstring>
+        <name>tzinfo</name>
+        <qualifiedname>babel.support.Format.tzinfo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/support.py" line="67" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/support.py" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classbabel_1_1support_1_1Format_1a69277ac80a27a7ea4cdec09980add520" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel.support.Format::numbering_system</definition>
+        <argsstring></argsstring>
+        <name>numbering_system</name>
+        <qualifiedname>babel.support.Format.numbering_system</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/support.py" line="68" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/support.py" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classbabel_1_1support_1_1Format_1a281b48f54f33f07d36d296d67101e0ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None babel.support.Format.__init__</definition>
+        <argsstring>(self, Locale|str locale, _datetime.tzinfo|None tzinfo=None, *Literal[&quot;default&quot;]|str numbering_system=&quot;latn&quot;)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>babel.support.Format.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str</type>
+          <declname>locale</declname>
+        </param>
+        <param>
+          <type>_datetime.tzinfo|None</type>
+          <declname>tzinfo</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*Literal|str</type>
+          <declname>numbering_system</declname>
+          <array>[&quot;default&quot;]</array>
+          <defval>&quot;latn&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Initialize the formatter.
+
+:param locale: the locale identifier or `Locale` instance
+:param tzinfo: the time-zone info (a `tzinfo` instance or `None`)
+:param numbering_system: The numbering system used for formatting number symbols. Defaults to &quot;latn&quot;.
+                         The special value &quot;default&quot; will use the default numbering system of the locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/support.py" line="52" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/support.py" bodystart="58" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classbabel_1_1support_1_1Format_1a5de92da46bdd1687eb395834ac8fe689" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.support.Format.date</definition>
+        <argsstring>(self, _datetime.date|None date=None, _PredefinedTimeFormat|str format=&apos;medium&apos;)</argsstring>
+        <name>date</name>
+        <qualifiedname>babel.support.Format.date</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>_datetime.date|None</type>
+          <declname>date</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>_PredefinedTimeFormat|str</type>
+          <declname>format</declname>
+          <defval>&apos;medium&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a date formatted according to the given pattern.
+
+&gt;&gt;&gt; from datetime import date
+&gt;&gt;&gt; fmt = Format(&apos;en_US&apos;)
+&gt;&gt;&gt; fmt.date(date(2007, 4, 1))
+u&apos;Apr 1, 2007&apos;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/support.py" line="70" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/support.py" bodystart="74" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classbabel_1_1support_1_1Format_1aac8639d255e28ae731854655082b00b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.support.Format.datetime</definition>
+        <argsstring>(self, _datetime.date|None datetime=None, _PredefinedTimeFormat|str format=&apos;medium&apos;)</argsstring>
+        <name>datetime</name>
+        <qualifiedname>babel.support.Format.datetime</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>_datetime.date|None</type>
+          <declname>datetime</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>_PredefinedTimeFormat|str</type>
+          <declname>format</declname>
+          <defval>&apos;medium&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a date and time formatted according to the given pattern.
+
+&gt;&gt;&gt; from datetime import datetime
+&gt;&gt;&gt; from babel.dates import get_timezone
+&gt;&gt;&gt; fmt = Format(&apos;en_US&apos;, tzinfo=get_timezone(&apos;US/Eastern&apos;))
+&gt;&gt;&gt; fmt.datetime(datetime(2007, 4, 1, 15, 30))
+u&apos;Apr 1, 2007, 11:30:00\u202fAM&apos;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/support.py" line="84" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/support.py" bodystart="88" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classbabel_1_1support_1_1Format_1a8952ae78a7ba118a388caa5e92c0adfe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.support.Format.time</definition>
+        <argsstring>(self, _datetime.time|_datetime.datetime|None time=None, _PredefinedTimeFormat|str format=&apos;medium&apos;)</argsstring>
+        <name>time</name>
+        <qualifiedname>babel.support.Format.time</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>_datetime.time|_datetime.datetime|None</type>
+          <declname>time</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>_PredefinedTimeFormat|str</type>
+          <declname>format</declname>
+          <defval>&apos;medium&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a time formatted according to the given pattern.
+
+&gt;&gt;&gt; from datetime import datetime
+&gt;&gt;&gt; from babel.dates import get_timezone
+&gt;&gt;&gt; fmt = Format(&apos;en_US&apos;, tzinfo=get_timezone(&apos;US/Eastern&apos;))
+&gt;&gt;&gt; fmt.time(datetime(2007, 4, 1, 15, 30))
+u&apos;11:30:00\u202fAM&apos;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/support.py" line="99" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/support.py" bodystart="103" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classbabel_1_1support_1_1Format_1ad3493443cae4240ce436bb15893f0d68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.support.Format.timedelta</definition>
+        <argsstring>(self, _datetime.timedelta|int delta, Literal[&quot;year&quot;, &quot;month&quot;, &quot;week&quot;, &quot;day&quot;, &quot;hour&quot;, &quot;minute&quot;, &quot;second&quot;] granularity=&quot;second&quot;, float threshold=0.85, Literal[&quot;narrow&quot;, &quot;short&quot;, &quot;medium&quot;, &quot;long&quot;] format=&quot;long&quot;, bool add_direction=False)</argsstring>
+        <name>timedelta</name>
+        <qualifiedname>babel.support.Format.timedelta</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>_datetime.timedelta|int</type>
+          <declname>delta</declname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>granularity</declname>
+          <array>[&quot;year&quot;, &quot;month&quot;, &quot;week&quot;, &quot;day&quot;, &quot;hour&quot;, &quot;minute&quot;, &quot;second&quot;]</array>
+          <defval>&quot;second&quot;</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+          <defval>0.85</defval>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>format</declname>
+          <array>[&quot;narrow&quot;, &quot;short&quot;, &quot;medium&quot;, &quot;long&quot;]</array>
+          <defval>&quot;long&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>add_direction</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a time delta according to the rules of the given locale.
+
+&gt;&gt;&gt; from datetime import timedelta
+&gt;&gt;&gt; fmt = Format(&apos;en_US&apos;)
+&gt;&gt;&gt; fmt.timedelta(timedelta(weeks=11))
+u&apos;3 months&apos;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/support.py" line="114" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/support.py" bodystart="121" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classbabel_1_1support_1_1Format_1ae8ccc0873247c689a39aca2bd7ff9a43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.support.Format.number</definition>
+        <argsstring>(self, float|Decimal|str number)</argsstring>
+        <name>number</name>
+        <qualifiedname>babel.support.Format.number</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>float|Decimal|str</type>
+          <declname>number</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return an integer number formatted for the locale.
+
+&gt;&gt;&gt; fmt = Format(&apos;en_US&apos;)
+&gt;&gt;&gt; fmt.number(1099)
+u&apos;1,099&apos;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/support.py" line="134" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/support.py" bodystart="134" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classbabel_1_1support_1_1Format_1a1209f91c5ab2c0a48b47bbc759cf493d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.support.Format.decimal</definition>
+        <argsstring>(self, float|Decimal|str number, str|None format=None)</argsstring>
+        <name>decimal</name>
+        <qualifiedname>babel.support.Format.decimal</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>float|Decimal|str</type>
+          <declname>number</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>format</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a decimal number formatted for the locale.
+
+&gt;&gt;&gt; fmt = Format(&apos;en_US&apos;)
+&gt;&gt;&gt; fmt.decimal(1.2345)
+u&apos;1.234&apos;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/support.py" line="143" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/support.py" bodystart="143" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classbabel_1_1support_1_1Format_1a14e7aa82751dc3c230bc34dbb314c57d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.support.Format.compact_decimal</definition>
+        <argsstring>(self, float|Decimal|str number, Literal[&apos;short&apos;, &apos;long&apos;] format_type=&apos;short&apos;, int fraction_digits=0)</argsstring>
+        <name>compact_decimal</name>
+        <qualifiedname>babel.support.Format.compact_decimal</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>float|Decimal|str</type>
+          <declname>number</declname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>format_type</declname>
+          <array>[ &apos;short&apos;, &apos;long&apos;]</array>
+          <defval>&apos;short&apos;</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>fraction_digits</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a number formatted in compact form for the locale.
+
+&gt;&gt;&gt; fmt = Format(&apos;en_US&apos;)
+&gt;&gt;&gt; fmt.compact_decimal(123456789)
+u&apos;123M&apos;
+&gt;&gt;&gt; fmt.compact_decimal(1234567, format_type=&apos;long&apos;, fraction_digits=2)
+&apos;1.23 million&apos;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/support.py" line="152" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/support.py" bodystart="157" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classbabel_1_1support_1_1Format_1a0dd7797fce64e2ef65dd55e87689486f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.support.Format.currency</definition>
+        <argsstring>(self, float|Decimal|str number, str currency)</argsstring>
+        <name>currency</name>
+        <qualifiedname>babel.support.Format.currency</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>float|Decimal|str</type>
+          <declname>number</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>currency</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a number in the given currency formatted for the locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/support.py" line="174" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/support.py" bodystart="174" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classbabel_1_1support_1_1Format_1aeec204969cae7487bd0c2a78649918f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.support.Format.compact_currency</definition>
+        <argsstring>(self, float|Decimal|str number, str currency, Literal[&apos;short&apos;] format_type=&apos;short&apos;, int fraction_digits=0)</argsstring>
+        <name>compact_currency</name>
+        <qualifiedname>babel.support.Format.compact_currency</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>float|Decimal|str</type>
+          <declname>number</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>currency</declname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>format_type</declname>
+          <array>[ &apos;short&apos;]</array>
+          <defval>&apos;short&apos;</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>fraction_digits</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a number in the given currency formatted for the locale
+using the compact number format.
+
+&gt;&gt;&gt; Format(&apos;en_US&apos;).compact_currency(1234567, &quot;USD&quot;, format_type=&apos;short&apos;, fraction_digits=2)
+&apos;$1.23M&apos;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/support.py" line="179" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/support.py" bodystart="185" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classbabel_1_1support_1_1Format_1a3996011a8e77cbaa723d3189ef5186f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.support.Format.percent</definition>
+        <argsstring>(self, float|Decimal|str number, str|None format=None)</argsstring>
+        <name>percent</name>
+        <qualifiedname>babel.support.Format.percent</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>float|Decimal|str</type>
+          <declname>number</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>format</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a number formatted as percentage for the locale.
+
+&gt;&gt;&gt; fmt = Format(&apos;en_US&apos;)
+&gt;&gt;&gt; fmt.percent(0.34)
+u&apos;34%&apos;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/support.py" line="195" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/support.py" bodystart="195" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classbabel_1_1support_1_1Format_1a1f03246dbaa56484960160aeb0677637" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.support.Format.scientific</definition>
+        <argsstring>(self, float|Decimal|str number)</argsstring>
+        <name>scientific</name>
+        <qualifiedname>babel.support.Format.scientific</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>float|Decimal|str</type>
+          <declname>number</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a number formatted using scientific notation for the locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/support.py" line="204" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/support.py" bodystart="204" bodyend="209"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Wrapper class providing the various date and number formatting functions
+bound to a specific locale and time-zone.
+
+&gt;&gt;&gt; from babel.util import UTC
+&gt;&gt;&gt; from datetime import date
+&gt;&gt;&gt; fmt = Format(&apos;en_US&apos;, UTC)
+&gt;&gt;&gt; fmt.date(date(2007, 4, 1))
+u&apos;Apr 1, 2007&apos;
+&gt;&gt;&gt; fmt.decimal(1.2345)
+u&apos;1.234&apos;
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/babel/support.py" line="39" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/support.py" bodystart="39" bodyend="209"/>
+    <listofallmembers>
+      <member refid="classbabel_1_1support_1_1Format_1a281b48f54f33f07d36d296d67101e0ee" prot="public" virt="non-virtual"><scope>babel::support::Format</scope><name>__init__</name></member>
+      <member refid="classbabel_1_1support_1_1Format_1aeec204969cae7487bd0c2a78649918f5" prot="public" virt="non-virtual"><scope>babel::support::Format</scope><name>compact_currency</name></member>
+      <member refid="classbabel_1_1support_1_1Format_1a14e7aa82751dc3c230bc34dbb314c57d" prot="public" virt="non-virtual"><scope>babel::support::Format</scope><name>compact_decimal</name></member>
+      <member refid="classbabel_1_1support_1_1Format_1a0dd7797fce64e2ef65dd55e87689486f" prot="public" virt="non-virtual"><scope>babel::support::Format</scope><name>currency</name></member>
+      <member refid="classbabel_1_1support_1_1Format_1a5de92da46bdd1687eb395834ac8fe689" prot="public" virt="non-virtual"><scope>babel::support::Format</scope><name>date</name></member>
+      <member refid="classbabel_1_1support_1_1Format_1aac8639d255e28ae731854655082b00b0" prot="public" virt="non-virtual"><scope>babel::support::Format</scope><name>datetime</name></member>
+      <member refid="classbabel_1_1support_1_1Format_1a1209f91c5ab2c0a48b47bbc759cf493d" prot="public" virt="non-virtual"><scope>babel::support::Format</scope><name>decimal</name></member>
+      <member refid="classbabel_1_1support_1_1Format_1a6ef2b2dd4283fa9e5067f2d34cd85dd4" prot="public" virt="non-virtual"><scope>babel::support::Format</scope><name>locale</name></member>
+      <member refid="classbabel_1_1support_1_1Format_1ae8ccc0873247c689a39aca2bd7ff9a43" prot="public" virt="non-virtual"><scope>babel::support::Format</scope><name>number</name></member>
+      <member refid="classbabel_1_1support_1_1Format_1a69277ac80a27a7ea4cdec09980add520" prot="public" virt="non-virtual"><scope>babel::support::Format</scope><name>numbering_system</name></member>
+      <member refid="classbabel_1_1support_1_1Format_1a3996011a8e77cbaa723d3189ef5186f5" prot="public" virt="non-virtual"><scope>babel::support::Format</scope><name>percent</name></member>
+      <member refid="classbabel_1_1support_1_1Format_1a1f03246dbaa56484960160aeb0677637" prot="public" virt="non-virtual"><scope>babel::support::Format</scope><name>scientific</name></member>
+      <member refid="classbabel_1_1support_1_1Format_1a8952ae78a7ba118a388caa5e92c0adfe" prot="public" virt="non-virtual"><scope>babel::support::Format</scope><name>time</name></member>
+      <member refid="classbabel_1_1support_1_1Format_1ad3493443cae4240ce436bb15893f0d68" prot="public" virt="non-virtual"><scope>babel::support::Format</scope><name>timedelta</name></member>
+      <member refid="classbabel_1_1support_1_1Format_1a0ac2b4e00bd57d63a12707bca7165b4a" prot="public" virt="non-virtual"><scope>babel::support::Format</scope><name>tzinfo</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

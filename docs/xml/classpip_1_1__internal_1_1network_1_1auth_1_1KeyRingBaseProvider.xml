@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1network_1_1auth_1_1KeyRingBaseProvider" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::network::auth::KeyRingBaseProvider</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">ABC</basecompoundref>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1network_1_1auth_1_1KeyRingCliProvider" prot="public" virt="non-virtual">pip._internal.network.auth.KeyRingCliProvider</derivedcompoundref>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1network_1_1auth_1_1KeyRingNullProvider" prot="public" virt="non-virtual">pip._internal.network.auth.KeyRingNullProvider</derivedcompoundref>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1network_1_1auth_1_1KeyRingPythonProvider" prot="public" virt="non-virtual">pip._internal.network.auth.KeyRingPythonProvider</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1network_1_1auth_1_1KeyRingBaseProvider_1a9cca09a091879609f606de5ff0f46941" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool pip._internal.network.auth.KeyRingBaseProvider::has_keyring</definition>
+        <argsstring></argsstring>
+        <name>has_keyring</name>
+        <qualifiedname>pip._internal.network.auth.KeyRingBaseProvider.has_keyring</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/network/auth.py" line="47" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/network/auth.py" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1network_1_1auth_1_1KeyRingBaseProvider_1ab845bef4e5fe7028a590d7127f0c3248" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[AuthInfo]</type>
+        <definition> Optional[AuthInfo] pip._internal.network.auth.KeyRingBaseProvider.get_auth_info</definition>
+        <argsstring>(self, str url, Optional[str] username)</argsstring>
+        <name>get_auth_info</name>
+        <qualifiedname>pip._internal.network.auth.KeyRingBaseProvider.get_auth_info</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1network_1_1auth_1_1KeyRingNullProvider_1aa5cd13e7c0fe2299314c83290bfba96e">get_auth_info</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1network_1_1auth_1_1KeyRingPythonProvider_1a9ca184bb9e188ad21a085ab5638b5315">get_auth_info</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1network_1_1auth_1_1KeyRingCliProvider_1a592c620c5a316e35b91502452cdf7cd3">get_auth_info</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>username</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/network/auth.py" line="50" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/network/auth.py" bodystart="50" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1network_1_1auth_1_1KeyRingBaseProvider_1a90caa8be2bc51e0037fdb8ca83f0a19d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.network.auth.KeyRingBaseProvider.save_auth_info</definition>
+        <argsstring>(self, str url, str username, str password)</argsstring>
+        <name>save_auth_info</name>
+        <qualifiedname>pip._internal.network.auth.KeyRingBaseProvider.save_auth_info</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1network_1_1auth_1_1KeyRingNullProvider_1a1b20af2d990174096e4ebc39a53494ca">save_auth_info</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1network_1_1auth_1_1KeyRingPythonProvider_1a65b7a9c7186797fdf14bcb54aba653a6">save_auth_info</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1network_1_1auth_1_1KeyRingCliProvider_1a77b60baaf9e070b4e0a28b1959aaebcc">save_auth_info</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>username</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>password</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/network/auth.py" line="54" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/network/auth.py" bodystart="54" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Keyring base provider interface</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>ABC</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.network.auth.KeyRingBaseProvider</label>
+        <link refid="classpip_1_1__internal_1_1network_1_1auth_1_1KeyRingBaseProvider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.network.auth.KeyRingCliProvider</label>
+        <link refid="classpip_1_1__internal_1_1network_1_1auth_1_1KeyRingCliProvider"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._internal.network.auth.KeyRingNullProvider</label>
+        <link refid="classpip_1_1__internal_1_1network_1_1auth_1_1KeyRingNullProvider"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pip._internal.network.auth.KeyRingPythonProvider</label>
+        <link refid="classpip_1_1__internal_1_1network_1_1auth_1_1KeyRingPythonProvider"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>ABC</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.network.auth.KeyRingBaseProvider</label>
+        <link refid="classpip_1_1__internal_1_1network_1_1auth_1_1KeyRingBaseProvider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/network/auth.py" line="44" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/network/auth.py" bodystart="44" bodyend="57"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1network_1_1auth_1_1KeyRingBaseProvider_1ab845bef4e5fe7028a590d7127f0c3248" prot="public" virt="non-virtual"><scope>pip::_internal::network::auth::KeyRingBaseProvider</scope><name>get_auth_info</name></member>
+      <member refid="classpip_1_1__internal_1_1network_1_1auth_1_1KeyRingBaseProvider_1a9cca09a091879609f606de5ff0f46941" prot="public" virt="non-virtual"><scope>pip::_internal::network::auth::KeyRingBaseProvider</scope><name>has_keyring</name></member>
+      <member refid="classpip_1_1__internal_1_1network_1_1auth_1_1KeyRingBaseProvider_1a90caa8be2bc51e0037fdb8ca83f0a19d" prot="public" virt="non-virtual"><scope>pip::_internal::network::auth::KeyRingBaseProvider</scope><name>save_auth_info</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

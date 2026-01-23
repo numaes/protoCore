@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1builders_1_1linkcheck_1_1HyperlinkCollector" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::builders::linkcheck::HyperlinkCollector</compoundname>
+    <basecompoundref refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform" prot="public" virt="non-virtual">sphinx.transforms.post_transforms.SphinxPostTransform</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1linkcheck_1_1HyperlinkCollector_1ab23d494201b4aa9b477963e1035d0b18" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx.builders.linkcheck.HyperlinkCollector::builders</definition>
+        <argsstring></argsstring>
+        <name>builders</name>
+        <qualifiedname>sphinx.builders.linkcheck.HyperlinkCollector.builders</qualifiedname>
+        <initializer>=  (&apos;linkcheck&apos;,)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" line="210" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1linkcheck_1_1HyperlinkCollector_1a18b52f7a5bc5537acbaac84223f321d3" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int sphinx.builders.linkcheck.HyperlinkCollector::default_priority</definition>
+        <argsstring></argsstring>
+        <name>default_priority</name>
+        <qualifiedname>sphinx.builders.linkcheck.HyperlinkCollector.default_priority</qualifiedname>
+        <initializer>=  800</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" line="211" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" bodystart="211" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1linkcheck_1_1HyperlinkCollector_1a4cf3c95da254cbfaf512126638dd6a18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.linkcheck.HyperlinkCollector.run</definition>
+        <argsstring>(self, **Any kwargs)</argsstring>
+        <name>run</name>
+        <qualifiedname>sphinx.builders.linkcheck.HyperlinkCollector.run</qualifiedname>
+        <reimplements refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform_1abc3400574a7c87e684a8033535e8d4e2">run</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>**Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Main method of post transforms.
+
+Subclasses should override this method instead of ``apply()``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" line="213" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" bodystart="213" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1linkcheck_1_1HyperlinkCollector_1abc429b4160e1dfc3ee07e04d6b76e4cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None sphinx.builders.linkcheck.HyperlinkCollector.find_uri</definition>
+        <argsstring>(self, nodes.Element node)</argsstring>
+        <name>find_uri</name>
+        <qualifiedname>sphinx.builders.linkcheck.HyperlinkCollector.find_uri</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>nodes.Element</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Find a URI for a given node.
+
+This call can be used to retrieve a URI from a provided node. If no
+URI exists for a provided node, this call will return ``None``.
+
+This method can be useful for extension developers who wish to
+easily inject hyperlinks into a builder by only needing to override
+this method.
+
+:param node: A node class
+:returns: URI of the node
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" line="218" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" bodystart="218" bodyend="249"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1linkcheck_1_1HyperlinkCollector_1a3877dcf0de57c1b941ead830d93afa6e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.linkcheck.HyperlinkCollector._add_uri</definition>
+        <argsstring>(self, str uri, nodes.Element node)</argsstring>
+        <name>_add_uri</name>
+        <qualifiedname>sphinx.builders.linkcheck.HyperlinkCollector._add_uri</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>uri</declname>
+        </param>
+        <param>
+          <type>nodes.Element</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Registers a node&apos;s URI into a builder&apos;s collection of hyperlinks.
+
+Provides the ability to register a URI value determined from a node
+into the linkcheck&apos;s builder. URI&apos;s processed through this call can
+be manipulated through a ``linkcheck-process-uri`` event before the
+builder attempts to validate.
+
+:param uri: URI to add
+:param node: A node class where the URI was found
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" line="250" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" bodystart="250" bodyend="278"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+      <node id="1">
+        <label>sphinx.builders.linkcheck.HyperlinkCollector</label>
+        <link refid="classsphinx_1_1builders_1_1linkcheck_1_1HyperlinkCollector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.transforms.SphinxTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1SphinxTransform"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.transforms.post_transforms.SphinxPostTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+      <node id="1">
+        <label>sphinx.builders.linkcheck.HyperlinkCollector</label>
+        <link refid="classsphinx_1_1builders_1_1linkcheck_1_1HyperlinkCollector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.transforms.SphinxTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1SphinxTransform"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.transforms.post_transforms.SphinxPostTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" line="209" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/linkcheck.py" bodystart="209" bodyend="278"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1builders_1_1linkcheck_1_1HyperlinkCollector_1a3877dcf0de57c1b941ead830d93afa6e" prot="protected" virt="non-virtual"><scope>sphinx::builders::linkcheck::HyperlinkCollector</scope><name>_add_uri</name></member>
+      <member refid="classsphinx_1_1builders_1_1linkcheck_1_1HyperlinkCollector_1ab23d494201b4aa9b477963e1035d0b18" prot="public" virt="non-virtual"><scope>sphinx::builders::linkcheck::HyperlinkCollector</scope><name>builders</name></member>
+      <member refid="classsphinx_1_1builders_1_1linkcheck_1_1HyperlinkCollector_1a18b52f7a5bc5537acbaac84223f321d3" prot="public" virt="non-virtual"><scope>sphinx::builders::linkcheck::HyperlinkCollector</scope><name>default_priority</name></member>
+      <member refid="classsphinx_1_1builders_1_1linkcheck_1_1HyperlinkCollector_1abc429b4160e1dfc3ee07e04d6b76e4cd" prot="public" virt="non-virtual"><scope>sphinx::builders::linkcheck::HyperlinkCollector</scope><name>find_uri</name></member>
+      <member refid="classsphinx_1_1builders_1_1linkcheck_1_1HyperlinkCollector_1a4cf3c95da254cbfaf512126638dd6a18" prot="public" virt="non-virtual"><scope>sphinx::builders::linkcheck::HyperlinkCollector</scope><name>run</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1directives" kind="namespace" language="Python">
+    <compoundname>sphinx::directives</compoundname>
+    <innerclass refid="classsphinx_1_1directives_1_1DefaultDomain" prot="public">sphinx::directives::DefaultDomain</innerclass>
+    <innerclass refid="classsphinx_1_1directives_1_1DefaultRole" prot="public">sphinx::directives::DefaultRole</innerclass>
+    <innerclass refid="classsphinx_1_1directives_1_1ObjectDescription" prot="public">sphinx::directives::ObjectDescription</innerclass>
+    <innernamespace refid="namespacesphinx_1_1directives_1_1admonitions">sphinx::directives::admonitions</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1directives_1_1code">sphinx::directives::code</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1directives_1_1other">sphinx::directives::other</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1directives_1_1patches">sphinx::directives::patches</innernamespace>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1directives_1aaa4d751e959370401ec0679dd4181a17" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::directives.nl_escape_re</definition>
+        <argsstring></argsstring>
+        <name>nl_escape_re</name>
+        <qualifiedname>sphinx.directives.nl_escape_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;\\\n&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/directives/__init__.py" line="28" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/directives/__init__.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1directives_1af21b11434f156aba33d1cf502d772e86" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::directives.strip_backslash_re</definition>
+        <argsstring></argsstring>
+        <name>strip_backslash_re</name>
+        <qualifiedname>sphinx.directives.strip_backslash_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;\\(.)&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/directives/__init__.py" line="29" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/directives/__init__.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1directives_1ae2063b437ed23d854f9b588f9ffd7bb7" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::directives.ObjDescT</definition>
+        <argsstring></argsstring>
+        <name>ObjDescT</name>
+        <qualifiedname>sphinx.directives.ObjDescT</qualifiedname>
+        <initializer>=  TypeVar(&apos;ObjDescT&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/directives/__init__.py" line="44" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/directives/__init__.py" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1directives_1a3f8545bf0c054d4efec202c2dd228bd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int|None</type>
+        <definition> int | None sphinx.directives.optional_int</definition>
+        <argsstring>(str argument)</argsstring>
+        <name>optional_int</name>
+        <qualifiedname>sphinx.directives.optional_int</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>argument</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check for an integer argument or None value; raise ``ValueError`` if not.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/directives/__init__.py" line="32" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/directives/__init__.py" bodystart="32" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1directives_1a82cb79551b9f3f080c0050eed7d07176" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1ExtensionMetadata" kindref="compound">ExtensionMetadata</ref></type>
+        <definition> ExtensionMetadata sphinx.directives.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.directives.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/directives/__init__.py" line="366" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/directives/__init__.py" bodystart="366" bodyend="383"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Handlers for additional ReST directives.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/directives/__init__.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

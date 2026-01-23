@@ -1,0 +1,217 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1util_1_1images" kind="namespace" language="Python">
+    <compoundname>sphinx::util::images</compoundname>
+    <innerclass refid="classsphinx_1_1util_1_1images_1_1DataURI" prot="public">sphinx::util::images::DataURI</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1images_1af2e64c1f5502ad90d6a8d784f9f14759" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool sphinx::util::images::PILLOW_AVAILABLE</definition>
+        <argsstring></argsstring>
+        <name>PILLOW_AVAILABLE</name>
+        <qualifiedname>sphinx.util.images.PILLOW_AVAILABLE</qualifiedname>
+        <initializer>=  True</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/images.py" line="17" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/images.py" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1images_1aef94e5c8ae99ad5b41386a4dadddf9a9" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::util::images.mime_suffixes</definition>
+        <argsstring></argsstring>
+        <name>mime_suffixes</name>
+        <qualifiedname>sphinx.util.images.mime_suffixes</qualifiedname>
+        <initializer>=  {
+    &apos;.gif&apos;: &apos;image/gif&apos;,
+    &apos;.jpg&apos;: &apos;image/jpeg&apos;,
+    &apos;.png&apos;: &apos;image/png&apos;,
+    &apos;.pdf&apos;: &apos;application/pdf&apos;,
+    &apos;.svg&apos;: &apos;image/svg+xml&apos;,
+    &apos;.svgz&apos;: &apos;image/svg+xml&apos;,
+    &apos;.ai&apos;: &apos;application/illustrator&apos;,
+    &apos;.webp&apos;: &apos;image/webp&apos;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/images.py" line="21" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/images.py" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1images_1a67f6cf527a288f96c633f2cf0ffdfca4" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::util::images._suffix_from_mime</definition>
+        <argsstring></argsstring>
+        <name>_suffix_from_mime</name>
+        <qualifiedname>sphinx.util.images._suffix_from_mime</qualifiedname>
+        <initializer>=  {v: k for k, v in reversed(mime_suffixes.items())}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/images.py" line="31" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/images.py" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1images_1a4c724c8d746ee74b7b9ca2013a8eaf64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[int, int]|None</type>
+        <definition> tuple[int, int] | None sphinx.util.images.get_image_size</definition>
+        <argsstring>(str|PathLike[str] filename)</argsstring>
+        <name>get_image_size</name>
+        <qualifiedname>sphinx.util.images.get_image_size</qualifiedname>
+        <param>
+          <type>str|PathLike</type>
+          <declname>filename</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/images.py" line="40" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/images.py" bodystart="40" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1images_1abdb64bf255c21c3830edce9340201d12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.images.guess_mimetype</definition>
+        <argsstring>(PathLike[str]|str filename, str default)</argsstring>
+        <name>guess_mimetype</name>
+        <qualifiedname>sphinx.util.images.guess_mimetype</qualifiedname>
+        <param>
+          <type>PathLike|str</type>
+          <declname>filename</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>default</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/images.py" line="59" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/images.py" bodystart="59" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1images_1ae134993b867de1ac782f8d009e12ceaa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None sphinx.util.images.guess_mimetype</definition>
+        <argsstring>(PathLike[str]|str filename, None default=None)</argsstring>
+        <name>guess_mimetype</name>
+        <qualifiedname>sphinx.util.images.guess_mimetype</qualifiedname>
+        <param>
+          <type>PathLike|str</type>
+          <declname>filename</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>None</type>
+          <declname>default</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/images.py" line="63" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/images.py" bodystart="65" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1images_1a49d658126b2521cb188cfcd9d267c62b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None sphinx.util.images.guess_mimetype</definition>
+        <argsstring>(PathLike[str]|str filename=&apos;&apos;, str|None default=None)</argsstring>
+        <name>guess_mimetype</name>
+        <qualifiedname>sphinx.util.images.guess_mimetype</qualifiedname>
+        <param>
+          <type>PathLike|str</type>
+          <declname>filename</declname>
+          <array>[str]</array>
+          <defval>&apos;&apos;</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>default</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/images.py" line="68" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/images.py" bodystart="71" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1images_1a4a3f46235430f148443bf477a01674be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None sphinx.util.images.get_image_extension</definition>
+        <argsstring>(str mimetype)</argsstring>
+        <name>get_image_extension</name>
+        <qualifiedname>sphinx.util.images.get_image_extension</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>mimetype</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/images.py" line="86" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/images.py" bodystart="86" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1images_1ae044abb7c3465c194f75cfdb2b06ba7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1images_1_1DataURI" kindref="compound">DataURI</ref>|None</type>
+        <definition> DataURI | None sphinx.util.images.parse_data_uri</definition>
+        <argsstring>(str uri)</argsstring>
+        <name>parse_data_uri</name>
+        <qualifiedname>sphinx.util.images.parse_data_uri</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>uri</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/images.py" line="90" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/images.py" bodystart="90" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1images_1a6d1e66ce865f88bd668f2b8b888979d6" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.images._image_type_from_file</definition>
+        <argsstring>(PathLike[str]|str filename)</argsstring>
+        <name>_image_type_from_file</name>
+        <qualifiedname>sphinx.util.images._image_type_from_file</qualifiedname>
+        <param>
+          <type>PathLike|str</type>
+          <declname>filename</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/images.py" line="111" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/images.py" bodystart="111" bodyend="152"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Image utility functions for Sphinx.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/util/images.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

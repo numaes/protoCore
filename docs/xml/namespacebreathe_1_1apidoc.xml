@@ -1,0 +1,261 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacebreathe_1_1apidoc" kind="namespace" language="Python">
+    <compoundname>breathe::apidoc</compoundname>
+    <innerclass refid="classbreathe_1_1apidoc_1_1TypeAction" prot="public">breathe::apidoc::TypeAction</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacebreathe_1_1apidoc_1a5036ec9ba27b4f8c099f78e4fd713fff" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict breathe::apidoc.TYPEDICT</definition>
+        <argsstring></argsstring>
+        <name>TYPEDICT</name>
+        <qualifiedname>breathe.apidoc.TYPEDICT</qualifiedname>
+        <initializer>=  {
+    &quot;class&quot;: &quot;Class&quot;,
+    &quot;interface&quot;: &quot;Interface&quot;,
+    &quot;struct&quot;: &quot;Struct&quot;,
+    &quot;union&quot;: &quot;Union&quot;,
+    &quot;file&quot;: &quot;File&quot;,
+    &quot;namespace&quot;: &quot;Namespace&quot;,
+    &quot;group&quot;: &quot;Group&quot;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/breathe/apidoc.py" line="30" column="1" bodyfile="venv/lib/python3.12/site-packages/breathe/apidoc.py" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebreathe_1_1apidoc_1ab98352f54ab73a1da6f3530a6d3a6c8c" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list breathe::apidoc.MEMBERS_TYPES</definition>
+        <argsstring></argsstring>
+        <name>MEMBERS_TYPES</name>
+        <qualifiedname>breathe.apidoc.MEMBERS_TYPES</qualifiedname>
+        <initializer>=  [&quot;class&quot;, &quot;group&quot;, &quot;interface&quot;, &quot;namespace&quot;, &quot;struct&quot;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/breathe/apidoc.py" line="41" column="1" bodyfile="venv/lib/python3.12/site-packages/breathe/apidoc.py" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacebreathe_1_1apidoc_1ab925218a7de98186d137372efba24f75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>breathe.apidoc.print_info</definition>
+        <argsstring>(msg, args)</argsstring>
+        <name>print_info</name>
+        <qualifiedname>breathe.apidoc.print_info</qualifiedname>
+        <param>
+          <type>msg</type>
+          <defname>msg</defname>
+        </param>
+        <param>
+          <type>args</type>
+          <defname>args</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/breathe/apidoc.py" line="44" column="1" bodyfile="venv/lib/python3.12/site-packages/breathe/apidoc.py" bodystart="44" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebreathe_1_1apidoc_1ab78b031a5203541188aecda578dc40ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>breathe.apidoc.write_file</definition>
+        <argsstring>(name, text, args)</argsstring>
+        <name>write_file</name>
+        <qualifiedname>breathe.apidoc.write_file</qualifiedname>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <param>
+          <type>text</type>
+          <defname>text</defname>
+        </param>
+        <param>
+          <type>args</type>
+          <defname>args</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Write the output file for module/package &lt;name&gt;.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/breathe/apidoc.py" line="49" column="1" bodyfile="venv/lib/python3.12/site-packages/breathe/apidoc.py" bodystart="49" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebreathe_1_1apidoc_1ab2d6497b8a3fecef1267262e125a1c2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>breathe.apidoc.format_heading</definition>
+        <argsstring>(level, text)</argsstring>
+        <name>format_heading</name>
+        <qualifiedname>breathe.apidoc.format_heading</qualifiedname>
+        <param>
+          <type>level</type>
+          <defname>level</defname>
+        </param>
+        <param>
+          <type>text</type>
+          <defname>text</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create a heading of &lt;level&gt; [1, 2 or 3 supported].</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/breathe/apidoc.py" line="71" column="1" bodyfile="venv/lib/python3.12/site-packages/breathe/apidoc.py" bodystart="71" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebreathe_1_1apidoc_1ad528e8d32ae5876c1f99a948240eed06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>breathe.apidoc.format_directive</definition>
+        <argsstring>(package_type, package, args)</argsstring>
+        <name>format_directive</name>
+        <qualifiedname>breathe.apidoc.format_directive</qualifiedname>
+        <param>
+          <type>package_type</type>
+          <defname>package_type</defname>
+        </param>
+        <param>
+          <type>package</type>
+          <defname>package</defname>
+        </param>
+        <param>
+          <type>args</type>
+          <defname>args</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create the breathe directive and add the options.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/breathe/apidoc.py" line="77" column="1" bodyfile="venv/lib/python3.12/site-packages/breathe/apidoc.py" bodystart="77" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebreathe_1_1apidoc_1a007c17c97f398ca3e7c9591295742ff8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>breathe.apidoc.create_package_file</definition>
+        <argsstring>(package, package_type, package_id, args)</argsstring>
+        <name>create_package_file</name>
+        <qualifiedname>breathe.apidoc.create_package_file</qualifiedname>
+        <param>
+          <type>package</type>
+          <defname>package</defname>
+        </param>
+        <param>
+          <type>package_type</type>
+          <defname>package_type</defname>
+        </param>
+        <param>
+          <type>package_id</type>
+          <defname>package_id</defname>
+        </param>
+        <param>
+          <type>args</type>
+          <defname>args</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Build the text of the file and write the file.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/breathe/apidoc.py" line="87" column="1" bodyfile="venv/lib/python3.12/site-packages/breathe/apidoc.py" bodystart="87" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebreathe_1_1apidoc_1a15a6b764e337ba7d4f538f36d2346cd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>breathe.apidoc.create_modules_toc_file</definition>
+        <argsstring>(key, value, args)</argsstring>
+        <name>create_modules_toc_file</name>
+        <qualifiedname>breathe.apidoc.create_modules_toc_file</qualifiedname>
+        <param>
+          <type>key</type>
+          <defname>key</defname>
+        </param>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+        </param>
+        <param>
+          <type>args</type>
+          <defname>args</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create the module&apos;s index.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/breathe/apidoc.py" line="98" column="1" bodyfile="venv/lib/python3.12/site-packages/breathe/apidoc.py" bodystart="98" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebreathe_1_1apidoc_1a7216ca924eb7d8e5be4fd02afbaedc80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>breathe.apidoc.recurse_tree</definition>
+        <argsstring>(args)</argsstring>
+        <name>recurse_tree</name>
+        <qualifiedname>breathe.apidoc.recurse_tree</qualifiedname>
+        <param>
+          <type>args</type>
+          <defname>args</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Look for every file in the directory tree and create the corresponding
+ReST files.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/breathe/apidoc.py" line="110" column="1" bodyfile="venv/lib/python3.12/site-packages/breathe/apidoc.py" bodystart="110" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebreathe_1_1apidoc_1a9002fe2ae934fceed236f6bcda99efcc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>breathe.apidoc.main</definition>
+        <argsstring>()</argsstring>
+        <name>main</name>
+        <qualifiedname>breathe.apidoc.main</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse and check the command line arguments.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/breathe/apidoc.py" line="138" column="1" bodyfile="venv/lib/python3.12/site-packages/breathe/apidoc.py" bodystart="138" bodyend="229"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>breathe.apidoc
+~~~~~~~~~~~~~~
+
+Parses doxygen XML tree looking for C/C++ modules and creates ReST files
+appropriately to create code documentation with Sphinx. It also creates a
+modules index (See TYPEDICT below.).
+
+This is derived from the &quot;sphinx-autopackage&quot; script, which is:
+Copyright 2008 Société des arts technologiques (SAT),
+http://www.sat.qc.ca/
+
+:copyright: Originally by Sphinx Team, C++ modifications by Tatsuyuki Ishi
+:license: BSD, see LICENSE for details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/breathe/apidoc.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

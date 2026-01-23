@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1commands" kind="namespace" language="Python">
+    <compoundname>pip::_internal::commands</compoundname>
+    <innernamespace refid="namespacepip_1_1__internal_1_1commands_1_1cache">pip::_internal::commands::cache</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1commands_1_1check">pip::_internal::commands::check</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1commands_1_1completion">pip::_internal::commands::completion</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1commands_1_1configuration">pip::_internal::commands::configuration</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1commands_1_1debug">pip::_internal::commands::debug</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1commands_1_1download">pip::_internal::commands::download</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1commands_1_1freeze">pip::_internal::commands::freeze</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1commands_1_1hash">pip::_internal::commands::hash</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1commands_1_1help">pip::_internal::commands::help</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1commands_1_1index">pip::_internal::commands::index</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1commands_1_1inspect">pip::_internal::commands::inspect</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1commands_1_1install">pip::_internal::commands::install</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1commands_1_1list">pip::_internal::commands::list</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1commands_1_1search">pip::_internal::commands::search</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1commands_1_1show">pip::_internal::commands::show</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1commands_1_1uninstall">pip::_internal::commands::uninstall</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1commands_1_1wheel">pip::_internal::commands::wheel</innernamespace>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1commands_1aef14abe5e957641834ca4926ec925cca" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::commands.CommandInfo</definition>
+        <argsstring></argsstring>
+        <name>CommandInfo</name>
+        <qualifiedname>pip._internal.commands.CommandInfo</qualifiedname>
+        <initializer>=  namedtuple(&quot;CommandInfo&quot;, &quot;module_path, class_name, summary&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/__init__.py" line="11" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/__init__.py" bodystart="11" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1commands_1a62a4386d53f9a9e4cccc61d1c8e192b8" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict pip::_internal::commands.commands_dict</definition>
+        <argsstring></argsstring>
+        <name>commands_dict</name>
+        <qualifiedname>pip._internal.commands.commands_dict</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/__init__.py" line="20" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/__init__.py" bodystart="20" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1commands_1a1d982b188e4ef5ef7262942c5953a423" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command" kindref="compound">Command</ref></type>
+        <definition> Command pip._internal.commands.create_command</definition>
+        <argsstring>(str name, **Any kwargs)</argsstring>
+        <name>create_command</name>
+        <qualifiedname>pip._internal.commands.create_command</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>**Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create an instance of the Command class with the given name.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/__init__.py" line="109" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/__init__.py" bodystart="109" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1commands_1aa69b586719d5806282b47d5a742ec782" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._internal.commands.get_similar_commands</definition>
+        <argsstring>(str name)</argsstring>
+        <name>get_similar_commands</name>
+        <qualifiedname>pip._internal.commands.get_similar_commands</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Command name auto-correct.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/__init__.py" line="121" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/__init__.py" bodystart="121" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Package containing all pip commands
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/__init__.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

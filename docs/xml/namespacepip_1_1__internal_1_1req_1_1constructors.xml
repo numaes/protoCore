@@ -1,0 +1,604 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1req_1_1constructors" kind="namespace" language="Python">
+    <compoundname>pip::_internal::req::constructors</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1req_1_1constructors_1_1RequirementParts" prot="public">pip::_internal::req::constructors::RequirementParts</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1req_1_1constructors_1a52532cd07b8b2899629c03b82b038b44" prot="private" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_internal::req::constructors.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>pip._internal.req.constructors.__all__</qualifiedname>
+        <initializer>=  [
+    &quot;install_req_from_editable&quot;,
+    &quot;install_req_from_line&quot;,
+    &quot;parse_editable&quot;,
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" line="33" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1req_1_1constructors_1a3fa73cdce7cd1839ac123a5fea17055d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::req::constructors.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.req.constructors.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" line="39" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1req_1_1constructors_1ae91c811dff5ff188e8d6847af9823118" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::req::constructors.operators</definition>
+        <argsstring></argsstring>
+        <name>operators</name>
+        <qualifiedname>pip._internal.req.constructors.operators</qualifiedname>
+        <initializer>=  Specifier._operators.keys()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" line="40" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1constructors_1a3c93abae0634469a60bfaa241ae15e2e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[str, Optional[str]]</type>
+        <definition> Tuple[str, Optional[str]] pip._internal.req.constructors._strip_extras</definition>
+        <argsstring>(str path)</argsstring>
+        <name>_strip_extras</name>
+        <qualifiedname>pip._internal.req.constructors._strip_extras</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" line="43" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" bodystart="43" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1constructors_1aaeac0b79644f547e628408a2454c4063" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Set[str]</type>
+        <definition> Set[str] pip._internal.req.constructors.convert_extras</definition>
+        <argsstring>(Optional[str] extras)</argsstring>
+        <name>convert_extras</name>
+        <qualifiedname>pip._internal.req.constructors.convert_extras</qualifiedname>
+        <param>
+          <type>Optional</type>
+          <declname>extras</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" line="55" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" bodystart="55" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1constructors_1a202eb25bfbac5e91399370cf90970fad" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1Requirement" kindref="compound">Requirement</ref></type>
+        <definition> Requirement pip._internal.req.constructors._set_requirement_extras</definition>
+        <argsstring>(Requirement req, Set[str] new_extras)</argsstring>
+        <name>_set_requirement_extras</name>
+        <qualifiedname>pip._internal.req.constructors._set_requirement_extras</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1Requirement" kindref="compound">Requirement</ref></type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>Set</type>
+          <declname>new_extras</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a new requirement based on the given one, with the supplied extras. If the
+given requirement already has extras those are replaced (or dropped if no new extras
+are given).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" line="61" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" bodystart="61" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1constructors_1a9658618ce2c4a6ee53301cc03f2d96db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[Optional[str], str, Set[str]]</type>
+        <definition> Tuple[Optional[str], str, Set[str]] pip._internal.req.constructors.parse_editable</definition>
+        <argsstring>(str editable_req)</argsstring>
+        <name>parse_editable</name>
+        <qualifiedname>pip._internal.req.constructors.parse_editable</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>editable_req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parses an editable requirement into:
+    - a requirement name
+    - an URL
+    - extras
+    - editable options
+Accepted requirements:
+    svn+http://blahblah@rev#egg=Foobar[baz]&amp;subdirectory=version_subdir
+    .[some_extra]
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" line="86" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" bodystart="86" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1constructors_1a4e145784f41cd4a847608915f749df86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.req.constructors.check_first_requirement_in_file</definition>
+        <argsstring>(str filename)</argsstring>
+        <name>check_first_requirement_in_file</name>
+        <qualifiedname>pip._internal.req.constructors.check_first_requirement_in_file</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if file is parsable as a requirements file.
+
+This is heavily based on ``pkg_resources.parse_requirements``, but
+simplified to just check the first meaningful line.
+
+:raises InvalidRequirement: If the first meaningful line cannot be parsed
+    as an requirement.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" line="141" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" bodystart="141" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1constructors_1ab9da759887a968189277fd8400957a73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.req.constructors.deduce_helpful_msg</definition>
+        <argsstring>(str req)</argsstring>
+        <name>deduce_helpful_msg</name>
+        <qualifiedname>pip._internal.req.constructors.deduce_helpful_msg</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns helpful msg in case requirements file does not exist,
+or cannot be parsed.
+
+:params req: Requirements file path
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" line="169" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" bodystart="169" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1constructors_1af80ddcf2cb854e92828a8819f08a2eed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1req_1_1constructors_1_1RequirementParts" kindref="compound">RequirementParts</ref></type>
+        <definition> RequirementParts pip._internal.req.constructors.parse_req_from_editable</definition>
+        <argsstring>(str editable_req)</argsstring>
+        <name>parse_req_from_editable</name>
+        <qualifiedname>pip._internal.req.constructors.parse_req_from_editable</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>editable_req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" line="208" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" bodystart="208" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1constructors_1aa980dbd89eeb96336b7f49df63c0eaa4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+        <definition> InstallRequirement pip._internal.req.constructors.install_req_from_editable</definition>
+        <argsstring>(str editable_req, Optional[Union[InstallRequirement, str]] comes_from=None, *Optional[bool] use_pep517=None, bool isolated=False, Optional[List[str]] global_options=None, Optional[Dict[str, List[str]]] hash_options=None, bool constraint=False, bool user_supplied=False, bool permit_editable_wheels=False, Optional[Dict[str, Union[str, List[str]]]] config_settings=None)</argsstring>
+        <name>install_req_from_editable</name>
+        <qualifiedname>pip._internal.req.constructors.install_req_from_editable</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>editable_req</declname>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <declname>comes_from</declname>
+          <array>[Union[InstallRequirement, str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*Optional</type>
+          <declname>use_pep517</declname>
+          <array>[bool]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isolated</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <declname>global_options</declname>
+          <array>[List[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional]]</type>
+          <declname>hash_options</declname>
+          <array>[Dict[str, List[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>constraint</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>user_supplied</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>permit_editable_wheels</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Optional]]]</type>
+          <declname>config_settings</declname>
+          <array>[Dict[str, Union[str, List[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" line="227" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" bodystart="239" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1constructors_1aeab6211456b1f3e529b721dd1f8be1b6" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.req.constructors._looks_like_path</definition>
+        <argsstring>(str name)</argsstring>
+        <name>_looks_like_path</name>
+        <qualifiedname>pip._internal.req.constructors._looks_like_path</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Checks whether the string &quot;looks like&quot; a path on the filesystem.
+
+This does not check whether the target actually exists, only judge from the
+appearance.
+
+Returns true if any of the following conditions is true:
+* a path separator is found (either os.path.sep or os.path.altsep);
+* a dot is found (which represents the current directory).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" line="259" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" bodystart="259" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1constructors_1a7edcf0c8044218295b2d2cd7ad1cc345" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._internal.req.constructors._get_url_from_path</definition>
+        <argsstring>(str path, str name)</argsstring>
+        <name>_get_url_from_path</name>
+        <qualifiedname>pip._internal.req.constructors._get_url_from_path</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>First, it checks whether a provided path is an installable directory. If it
+is, returns the path.
+
+If false, check if the path is an archive file (such as a .whl).
+The function checks if the path is a file. If false, if the path has
+an @, it will treat it as a PEP 440 URL requirement and return the path.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" line="278" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" bodystart="278" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1constructors_1a413cf87ba7a1dc0c409a57e8cabded9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1req_1_1constructors_1_1RequirementParts" kindref="compound">RequirementParts</ref></type>
+        <definition> RequirementParts pip._internal.req.constructors.parse_req_from_line</definition>
+        <argsstring>(str name, Optional[str] line_source)</argsstring>
+        <name>parse_req_from_line</name>
+        <qualifiedname>pip._internal.req.constructors.parse_req_from_line</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>line_source</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" line="312" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" bodystart="312" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1constructors_1aeee60de3f1ddedb7c19156b317df83d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+        <definition> InstallRequirement pip._internal.req.constructors.install_req_from_line</definition>
+        <argsstring>(str name, Optional[Union[str, InstallRequirement]] comes_from=None, *Optional[bool] use_pep517=None, bool isolated=False, Optional[List[str]] global_options=None, Optional[Dict[str, List[str]]] hash_options=None, bool constraint=False, Optional[str] line_source=None, bool user_supplied=False, Optional[Dict[str, Union[str, List[str]]]] config_settings=None)</argsstring>
+        <name>install_req_from_line</name>
+        <qualifiedname>pip._internal.req.constructors.install_req_from_line</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <declname>comes_from</declname>
+          <array>[Union[str, InstallRequirement]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*Optional</type>
+          <declname>use_pep517</declname>
+          <array>[bool]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isolated</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <declname>global_options</declname>
+          <array>[List[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional]]</type>
+          <declname>hash_options</declname>
+          <array>[Dict[str, List[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>constraint</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>line_source</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>user_supplied</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Optional]]]</type>
+          <declname>config_settings</declname>
+          <array>[Dict[str, Union[str, List[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Creates an InstallRequirement from a name, which might be a
+requirement, directory containing &apos;setup.py&apos;, filename, or URL.
+
+:param line_source: An optional string describing where the line is from,
+    for logging purposes in case of an error.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" line="402" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" bodystart="414" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1constructors_1a15c24a6e4decb2e5e748d51121f24fa3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+        <definition> InstallRequirement pip._internal.req.constructors.install_req_from_req_string</definition>
+        <argsstring>(str req_string, Optional[InstallRequirement] comes_from=None, bool isolated=False, Optional[bool] use_pep517=None, bool user_supplied=False)</argsstring>
+        <name>install_req_from_req_string</name>
+        <qualifiedname>pip._internal.req.constructors.install_req_from_req_string</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>req_string</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>comes_from</declname>
+          <array>[InstallRequirement]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isolated</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>use_pep517</declname>
+          <array>[bool]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>user_supplied</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" line="439" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" bodystart="445" bodyend="476"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1constructors_1a6bd096290b7afdbfbacf300a90f07b5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+        <definition> InstallRequirement pip._internal.req.constructors.install_req_from_parsed_requirement</definition>
+        <argsstring>(ParsedRequirement parsed_req, bool isolated=False, Optional[bool] use_pep517=None, bool user_supplied=False, Optional[Dict[str, Union[str, List[str]]]] config_settings=None)</argsstring>
+        <name>install_req_from_parsed_requirement</name>
+        <qualifiedname>pip._internal.req.constructors.install_req_from_parsed_requirement</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1req_1_1req__file_1_1ParsedRequirement" kindref="compound">ParsedRequirement</ref></type>
+          <declname>parsed_req</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isolated</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>use_pep517</declname>
+          <array>[bool]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>user_supplied</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Optional]]]</type>
+          <declname>config_settings</declname>
+          <array>[Dict[str, Union[str, List[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" line="477" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" bodystart="483" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1constructors_1abd160b214b0f5b71848b5332890d2c71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+        <definition> InstallRequirement pip._internal.req.constructors.install_req_from_link_and_ireq</definition>
+        <argsstring>(Link link, InstallRequirement ireq)</argsstring>
+        <name>install_req_from_link_and_ireq</name>
+        <qualifiedname>pip._internal.req.constructors.install_req_from_link_and_ireq</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1models_1_1link_1_1Link" kindref="compound">Link</ref></type>
+          <declname>link</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+          <declname>ireq</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" line="517" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" bodystart="519" bodyend="534"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1constructors_1a748e4d323f8f7d1e329af830aaffdc16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+        <definition> InstallRequirement pip._internal.req.constructors.install_req_drop_extras</definition>
+        <argsstring>(InstallRequirement ireq)</argsstring>
+        <name>install_req_drop_extras</name>
+        <qualifiedname>pip._internal.req.constructors.install_req_drop_extras</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+          <declname>ireq</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Creates a new InstallationRequirement using the given template but without
+any extras. Sets the original requirement as the new one&apos;s parent
+(comes_from).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" line="535" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" bodystart="535" bodyend="560"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1req_1_1constructors_1a6a153ee22ad3aa18f9eaa54ef3a02b31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+        <definition> InstallRequirement pip._internal.req.constructors.install_req_extend_extras</definition>
+        <argsstring>(InstallRequirement ireq, Collection[str] extras)</argsstring>
+        <name>install_req_extend_extras</name>
+        <qualifiedname>pip._internal.req.constructors.install_req_extend_extras</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+          <declname>ireq</declname>
+        </param>
+        <param>
+          <type>Collection</type>
+          <declname>extras</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a copy of an installation requirement with some additional extras.
+Makes a shallow copy of the ireq object.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" line="561" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" bodystart="564" bodyend="577"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Backing implementation for InstallRequirement&apos;s various constructors
+
+The idea here is that these formed a major chunk of InstallRequirement&apos;s size
+so, moving them and support code dedicated to them outside of that class
+helps creates for better understandability for the rest of the code.
+
+These are meant to be used elsewhere within pip to create instances of
+InstallRequirement.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/req/constructors.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

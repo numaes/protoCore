@@ -1,0 +1,557 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacebabel_1_1plural" kind="namespace" language="Python">
+    <compoundname>babel::plural</compoundname>
+    <innerclass refid="classbabel_1_1plural_1_1__Compiler" prot="protected">babel::plural::_Compiler</innerclass>
+    <innerclass refid="classbabel_1_1plural_1_1__GettextCompiler" prot="protected">babel::plural::_GettextCompiler</innerclass>
+    <innerclass refid="classbabel_1_1plural_1_1__JavaScriptCompiler" prot="protected">babel::plural::_JavaScriptCompiler</innerclass>
+    <innerclass refid="classbabel_1_1plural_1_1__Parser" prot="protected">babel::plural::_Parser</innerclass>
+    <innerclass refid="classbabel_1_1plural_1_1__PythonCompiler" prot="protected">babel::plural::_PythonCompiler</innerclass>
+    <innerclass refid="classbabel_1_1plural_1_1__UnicodeCompiler" prot="protected">babel::plural::_UnicodeCompiler</innerclass>
+    <innerclass refid="classbabel_1_1plural_1_1PluralRule" prot="public">babel::plural::PluralRule</innerclass>
+    <innerclass refid="classbabel_1_1plural_1_1RuleError" prot="public">babel::plural::RuleError</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacebabel_1_1plural_1a9dc3370604769aa590676f4d2b9a85ff" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple babel::plural._plural_tags</definition>
+        <argsstring></argsstring>
+        <name>_plural_tags</name>
+        <qualifiedname>babel.plural._plural_tags</qualifiedname>
+        <initializer>=  (&apos;zero&apos;, &apos;one&apos;, &apos;two&apos;, &apos;few&apos;, &apos;many&apos;, &apos;other&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/plural.py" line="17" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/plural.py" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1plural_1a2d75b6e009328fc0137e281d9efe0279" prot="protected" static="no" mutable="no">
+        <type>str</type>
+        <definition>str babel::plural._fallback_tag</definition>
+        <argsstring></argsstring>
+        <name>_fallback_tag</name>
+        <qualifiedname>babel.plural._fallback_tag</qualifiedname>
+        <initializer>=  &apos;other&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/plural.py" line="18" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/plural.py" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1plural_1a90026152ea69d2ae2ad8bcf14b7921ac" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict babel::plural._VARS</definition>
+        <argsstring></argsstring>
+        <name>_VARS</name>
+        <qualifiedname>babel.plural._VARS</qualifiedname>
+        <initializer>=  {
+    &apos;n&apos;,  # absolute value of the source number.
+    &apos;i&apos;,  # integer digits of n.
+    &apos;v&apos;,  # number of visible fraction digits in n, with trailing zeros.*
+    &apos;w&apos;,  # number of visible fraction digits in n, without trailing zeros.*
+    &apos;f&apos;,  # visible fraction digits in n, with trailing zeros.*
+    &apos;t&apos;,  # visible fraction digits in n, without trailing zeros.*
+    &apos;c&apos;,  # compact decimal exponent value: exponent of the power of 10 used in compact decimal formatting.
+    &apos;e&apos;,  # currently, synonym for `c`. however, may be redefined in the future.
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/plural.py" line="326" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/plural.py" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1plural_1afcda76a31d802a746c6e5f33c6e5f2d9" prot="protected" static="no" mutable="no">
+        <type>list</type>
+        <definition>list babel::plural._RULES</definition>
+        <argsstring></argsstring>
+        <name>_RULES</name>
+        <qualifiedname>babel.plural._RULES</qualifiedname>
+        <initializer>=  [
+    (None, re.compile(r&apos;\s+&apos;, re.UNICODE)),
+    (&apos;word&apos;, re.compile(fr&apos;\b(and|or|is|(?:with)?in|not|mod|[{&quot;&quot;.join(<ref refid="namespacebabel_1_1plural_1a90026152ea69d2ae2ad8bcf14b7921ac" kindref="member">_VARS</ref>)}])\b&apos;)),
+    (&apos;value&apos;, re.compile(r&apos;\d+&apos;)),
+    (&apos;symbol&apos;, re.compile(r&apos;%|,|!=|=&apos;)),
+    (&apos;ellipsis&apos;, re.compile(r&apos;\.{2,3}|\u2026&apos;, re.UNICODE)),  # U+2026: ELLIPSIS
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/plural.py" line="337" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/plural.py" bodystart="337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1plural_1ab6b593c378508819fd989cb43befdf84" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str babel::plural.compile_zero</definition>
+        <argsstring></argsstring>
+        <name>compile_zero</name>
+        <qualifiedname>babel.plural.compile_zero</qualifiedname>
+        <initializer>=  lambda x: &apos;0&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/plural.py" line="528" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/plural.py" bodystart="528" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacebabel_1_1plural_1a2d2cc03976e0663db2b50eb2a9c8011d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[decimal.Decimal|int, int, int, int, int, int, Literal[0], Literal[0]]</type>
+        <definition> tuple[decimal.Decimal | int, int, int, int, int, int, Literal[0], Literal[0]] babel.plural.extract_operands</definition>
+        <argsstring>(float|decimal.Decimal source)</argsstring>
+        <name>extract_operands</name>
+        <qualifiedname>babel.plural.extract_operands</qualifiedname>
+        <param>
+          <type>float|decimal.Decimal</type>
+          <declname>source</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Extract operands from a decimal, a float or an int, according to `CLDR rules`_.
+
+The result is an 8-tuple (n, i, v, w, f, t, c, e), where those symbols are as follows:
+
+====== ===============================================================
+Symbol Value
+------ ---------------------------------------------------------------
+n      absolute value of the source number (integer and decimals).
+i      integer digits of n.
+v      number of visible fraction digits in n, with trailing zeros.
+w      number of visible fraction digits in n, without trailing zeros.
+f      visible fractional digits in n, with trailing zeros.
+t      visible fractional digits in n, without trailing zeros.
+c      compact decimal exponent value: exponent of the power of 10 used in compact decimal formatting.
+e      currently, synonym for ‘c’. however, may be redefined in the future.
+====== ===============================================================
+
+.. _`CLDR rules`: https://www.unicode.org/reports/tr35/tr35-61/tr35-numbers.html#Operands
+
+:param source: A real number
+:type source: int|float|decimal.Decimal
+:return: A n-i-v-w-f-t-c-e tuple
+:rtype: tuple[decimal.Decimal, int, int, int, int, int, int, int]
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/plural.py" line="21" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/plural.py" bodystart="21" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1plural_1ae649875f94d794777275f4cce4be0f56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.plural.to_javascript</definition>
+        <argsstring>(Mapping[str, str]|Iterable[tuple[str, str]]|PluralRule rule)</argsstring>
+        <name>to_javascript</name>
+        <qualifiedname>babel.plural.to_javascript</qualifiedname>
+        <param>
+          <type>Mapping|Iterable]|<ref refid="classbabel_1_1plural_1_1PluralRule" kindref="compound">PluralRule</ref></type>
+          <declname>rule</declname>
+          <array>[str, str][tuple[str, str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert a list/dict of rules or a `PluralRule` object into a JavaScript
+function.  This function depends on no external library:
+
+&gt;&gt;&gt; to_javascript({&apos;one&apos;: &apos;n is 1&apos;})
+&quot;(function(n) { return (n == 1) ? &apos;one&apos; : &apos;other&apos;; })&quot;
+
+Implementation detail: The function generated will probably evaluate
+expressions involved into range operations multiple times.  This has the
+advantage that external helper functions are not required and is not a
+big performance hit for these simple calculations.
+
+:param rule: the rules as list or dict, or a `PluralRule` object
+:raise RuleError: if the expression is malformed
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/plural.py" line="173" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/plural.py" bodystart="173" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1plural_1a5ed4b629e00de0a1116ab5c307cb5f25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Callable[[float|decimal.Decimal], str]</type>
+        <definition> Callable[[float | decimal.Decimal], str] babel.plural.to_python</definition>
+        <argsstring>(Mapping[str, str]|Iterable[tuple[str, str]]|PluralRule rule)</argsstring>
+        <name>to_python</name>
+        <qualifiedname>babel.plural.to_python</qualifiedname>
+        <param>
+          <type>Mapping|Iterable]|<ref refid="classbabel_1_1plural_1_1PluralRule" kindref="compound">PluralRule</ref></type>
+          <declname>rule</declname>
+          <array>[str, str][tuple[str, str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert a list/dict of rules or a `PluralRule` object into a regular
+Python function.  This is useful in situations where you need a real
+function and don&apos;t are about the actual rule object:
+
+&gt;&gt;&gt; func = to_python({&apos;one&apos;: &apos;n is 1&apos;, &apos;few&apos;: &apos;n in 2..4&apos;})
+&gt;&gt;&gt; func(1)
+&apos;one&apos;
+&gt;&gt;&gt; func(3)
+&apos;few&apos;
+&gt;&gt;&gt; func = to_python({&apos;one&apos;: &apos;n in 1,11&apos;, &apos;few&apos;: &apos;n in 3..10,13..19&apos;})
+&gt;&gt;&gt; func(11)
+&apos;one&apos;
+&gt;&gt;&gt; func(15)
+&apos;few&apos;
+
+:param rule: the rules as list or dict, or a `PluralRule` object
+:raise RuleError: if the expression is malformed
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/plural.py" line="196" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/plural.py" bodystart="196" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1plural_1aeaa439c79bf752539e34bac6d7a6a1ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.plural.to_gettext</definition>
+        <argsstring>(Mapping[str, str]|Iterable[tuple[str, str]]|PluralRule rule)</argsstring>
+        <name>to_gettext</name>
+        <qualifiedname>babel.plural.to_gettext</qualifiedname>
+        <param>
+          <type>Mapping|Iterable]|<ref refid="classbabel_1_1plural_1_1PluralRule" kindref="compound">PluralRule</ref></type>
+          <declname>rule</declname>
+          <array>[str, str][tuple[str, str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The plural rule as gettext expression.  The gettext expression is
+technically limited to integers and returns indices rather than tags.
+
+&gt;&gt;&gt; to_gettext({&apos;one&apos;: &apos;n is 1&apos;, &apos;two&apos;: &apos;n is 2&apos;})
+&apos;nplurals=3; plural=((n == 1) ? 0 : (n == 2) ? 1 : 2);&apos;
+
+:param rule: the rules as list or dict, or a `PluralRule` object
+:raise RuleError: if the expression is malformed
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/plural.py" line="236" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/plural.py" bodystart="236" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1plural_1af7b4321e6122599d51b0b34c1a0e4abf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool babel.plural.in_range_list</definition>
+        <argsstring>(float|decimal.Decimal num, Iterable[Iterable[float|decimal.Decimal]] range_list)</argsstring>
+        <name>in_range_list</name>
+        <qualifiedname>babel.plural.in_range_list</qualifiedname>
+        <param>
+          <type>float|decimal.Decimal</type>
+          <declname>num</declname>
+        </param>
+        <param>
+          <type>Iterable]</type>
+          <declname>range_list</declname>
+          <array>[Iterable[float|decimal.Decimal]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Integer range list test.  This is the callback for the &quot;in&quot; operator
+of the UTS #35 pluralization rule language:
+
+&gt;&gt;&gt; in_range_list(1, [(1, 3)])
+True
+&gt;&gt;&gt; in_range_list(3, [(1, 3)])
+True
+&gt;&gt;&gt; in_range_list(3, [(1, 3), (5, 8)])
+True
+&gt;&gt;&gt; in_range_list(1.2, [(1, 4)])
+False
+&gt;&gt;&gt; in_range_list(10, [(1, 4)])
+False
+&gt;&gt;&gt; in_range_list(10, [(1, 4), (6, 8)])
+False
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/plural.py" line="259" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/plural.py" bodystart="259" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1plural_1abbd36163b44bbbfd4ec75f0a977142b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool babel.plural.within_range_list</definition>
+        <argsstring>(float|decimal.Decimal num, Iterable[Iterable[float|decimal.Decimal]] range_list)</argsstring>
+        <name>within_range_list</name>
+        <qualifiedname>babel.plural.within_range_list</qualifiedname>
+        <param>
+          <type>float|decimal.Decimal</type>
+          <declname>num</declname>
+        </param>
+        <param>
+          <type>Iterable]</type>
+          <declname>range_list</declname>
+          <array>[Iterable[float|decimal.Decimal]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Float range test.  This is the callback for the &quot;within&quot; operator
+of the UTS #35 pluralization rule language:
+
+&gt;&gt;&gt; within_range_list(1, [(1, 3)])
+True
+&gt;&gt;&gt; within_range_list(1.0, [(1, 3)])
+True
+&gt;&gt;&gt; within_range_list(1.2, [(1, 4)])
+True
+&gt;&gt;&gt; within_range_list(8.8, [(1, 4), (7, 15)])
+True
+&gt;&gt;&gt; within_range_list(10, [(1, 4)])
+False
+&gt;&gt;&gt; within_range_list(10.5, [(1, 4), (20, 30)])
+False
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/plural.py" line="279" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/plural.py" bodystart="279" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1plural_1a81d4e8322877fff020cbf246751660e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition> float babel.plural.cldr_modulo</definition>
+        <argsstring>(float a, float b)</argsstring>
+        <name>cldr_modulo</name>
+        <qualifiedname>babel.plural.cldr_modulo</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Javaish modulo.  This modulo operator returns the value with the sign
+of the dividend rather than the divisor like Python does:
+
+&gt;&gt;&gt; cldr_modulo(-3, 5)
+-3
+&gt;&gt;&gt; cldr_modulo(-3, -5)
+-3
+&gt;&gt;&gt; cldr_modulo(3, 5)
+3
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/plural.py" line="299" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/plural.py" bodystart="299" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1plural_1ac6e85af2308b2391bd884378f47dd10d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[tuple[str, str]]</type>
+        <definition> list[tuple[str, str]] babel.plural.tokenize_rule</definition>
+        <argsstring>(str s)</argsstring>
+        <name>tokenize_rule</name>
+        <qualifiedname>babel.plural.tokenize_rule</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/plural.py" line="346" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/plural.py" bodystart="346" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1plural_1aab8e7afc84fcac341a958fc2edfa305b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[tuple[str, str]]|bool</type>
+        <definition> list[tuple[str, str]] | bool babel.plural.test_next_token</definition>
+        <argsstring>(list[tuple[str, str]] tokens, str type_, str|None value=None)</argsstring>
+        <name>test_next_token</name>
+        <qualifiedname>babel.plural.test_next_token</qualifiedname>
+        <param>
+          <type>list]</type>
+          <declname>tokens</declname>
+          <array>[tuple[str, str]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>type_</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>value</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/plural.py" line="364" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/plural.py" bodystart="368" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1plural_1a36e08f3f05aa75916e03da1c090b3c8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>babel.plural.skip_token</definition>
+        <argsstring>(list[tuple[str, str]] tokens, str type_, str|None value=None)</argsstring>
+        <name>skip_token</name>
+        <qualifiedname>babel.plural.skip_token</qualifiedname>
+        <param>
+          <type>list]</type>
+          <declname>tokens</declname>
+          <array>[tuple[str, str]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>type_</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>value</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/plural.py" line="373" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/plural.py" bodystart="373" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1plural_1a99f5d7a3d5c650c856027787b6b42af8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[Literal[ &apos;value&apos;], tuple[int]]</type>
+        <definition> tuple[Literal[&apos;value&apos;], tuple[int]] babel.plural.value_node</definition>
+        <argsstring>(int value)</argsstring>
+        <name>value_node</name>
+        <qualifiedname>babel.plural.value_node</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/plural.py" line="378" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/plural.py" bodystart="378" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1plural_1a3b99b4bcbc3e722a5b504fd1dc5c7dbd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str, tuple[()]]</type>
+        <definition> tuple[str, tuple[()]] babel.plural.ident_node</definition>
+        <argsstring>(str name)</argsstring>
+        <name>ident_node</name>
+        <qualifiedname>babel.plural.ident_node</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/plural.py" line="382" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/plural.py" bodystart="382" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1plural_1ab4b6d90915547cb30337a2dcd1aab6a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[Literal[ &apos;range_list&apos;], Iterable[Iterable[float|decimal.Decimal]]]</type>
+        <definition> tuple[Literal[&apos;range_list&apos;], Iterable[Iterable[float | decimal.Decimal]]] babel.plural.range_list_node</definition>
+        <argsstring>(Iterable[Iterable[float|decimal.Decimal]] range_list)</argsstring>
+        <name>range_list_node</name>
+        <qualifiedname>babel.plural.range_list_node</qualifiedname>
+        <param>
+          <type>Iterable]</type>
+          <declname>range_list</declname>
+          <array>[Iterable[float|decimal.Decimal]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/plural.py" line="386" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/plural.py" bodystart="388" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1plural_1af746862333e6edd24ae3466407a7fef0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[Literal[ &apos;not&apos;], tuple[tuple[Any,...]]]</type>
+        <definition> tuple[Literal[&apos;not&apos;], tuple[tuple[Any, ...]]] babel.plural.negate</definition>
+        <argsstring>(tuple[Any,...] rv)</argsstring>
+        <name>negate</name>
+        <qualifiedname>babel.plural.negate</qualifiedname>
+        <param>
+          <type>tuple</type>
+          <declname>rv</declname>
+          <array>[Any,...]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/plural.py" line="392" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/plural.py" bodystart="392" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1plural_1a22ee23836175e892c14c54adef3975ef" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>babel.plural._binary_compiler</definition>
+        <argsstring>(tmpl)</argsstring>
+        <name>_binary_compiler</name>
+        <qualifiedname>babel.plural._binary_compiler</qualifiedname>
+        <param>
+          <type>tmpl</type>
+          <defname>tmpl</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Compiler factory for the `_Compiler`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/plural.py" line="518" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/plural.py" bodystart="518" bodyend="522"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1plural_1aaa4c8b8ddd0f5f50a88fb450aa088728" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>babel.plural._unary_compiler</definition>
+        <argsstring>(tmpl)</argsstring>
+        <name>_unary_compiler</name>
+        <qualifiedname>babel.plural._unary_compiler</qualifiedname>
+        <param>
+          <type>tmpl</type>
+          <defname>tmpl</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Compiler factory for the `_Compiler`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/plural.py" line="523" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/plural.py" bodystart="523" bodyend="527"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>    babel.numbers
+    ~~~~~~~~~~~~~
+
+    CLDR Plural support.  See UTS #35.
+
+    :copyright: (c) 2013-2025 by the Babel Team.
+    :license: BSD, see LICENSE for more details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/babel/plural.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

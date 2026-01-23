@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="sphinx_2search_2da_8py" kind="file" language="Python">
+    <compoundname>da.py</compoundname>
+    <innerclass refid="classsphinx_1_1search_1_1da_1_1SearchDanish" prot="public">sphinx::search::da::SearchDanish</innerclass>
+    <innernamespace refid="namespacesphinx">sphinx</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1search">sphinx::search</innernamespace>
+    <innernamespace refid="namespacesphinx_1_1search_1_1da">sphinx::search::da</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacesphinx_1_1search_1_1da" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;Danish<sp/>search<sp/>language:<sp/>includes<sp/>the<sp/>JS<sp/>Danish<sp/>stemmer.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>__future__<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>annotations</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>snowballstemmer</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacesphinx_1_1search" kindref="compound">sphinx.search</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>SearchLanguage,<sp/>parse_stop_word</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal">danish_stopwords<sp/>=<sp/>parse_stop_word(</highlight><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="10"><highlight class="stringliteral">|<sp/>source:<sp/>https://snowball.tartarus.org/algorithms/danish/stop.txt</highlight></codeline>
+<codeline lineno="11"><highlight class="stringliteral">og<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>and</highlight></codeline>
+<codeline lineno="12"><highlight class="stringliteral">i<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>in</highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral">jeg<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>I</highlight></codeline>
+<codeline lineno="14"><highlight class="stringliteral">det<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>that<sp/>(dem.<sp/>pronoun)/it<sp/>(pers.<sp/>pronoun)</highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral">at<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>that<sp/>(in<sp/>front<sp/>of<sp/>a<sp/>sentence)/to<sp/>(with<sp/>infinitive)</highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral">en<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>a/an</highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral">den<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>it<sp/>(pers.<sp/>pronoun)/that<sp/>(dem.<sp/>pronoun)</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral">til<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>to/at/for/until/against/by/of/into,<sp/>more</highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral">er<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>present<sp/>tense<sp/>of<sp/>&quot;to<sp/>be&quot;</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral">som<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>who,<sp/>as</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral">på<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>on/upon/in/on/at/to/after/of/with/for,<sp/>on</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral">de<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>they</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral">med<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>with/by/in,<sp/>along</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral">han<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>he</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral">af<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>of/by/from/off/for/in/with/on,<sp/>off</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral">for<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>at/for/to/from/by/of/ago,<sp/>in<sp/>front/before,<sp/>because</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral">ikke<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>not</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral">der<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>who/which,<sp/>there/those</highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral">var<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>past<sp/>tense<sp/>of<sp/>&quot;to<sp/>be&quot;</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral">mig<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>me/myself</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral">sig<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>oneself/himself/herself/itself/themselves</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral">men<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>but</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral">et<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>a/an/one,<sp/>one<sp/>(number),<sp/>someone/somebody/one</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral">har<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>present<sp/>tense<sp/>of<sp/>&quot;to<sp/>have&quot;</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral">om<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>round/about/for/in/a,<sp/>about/around/down,<sp/>if</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral">vi<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>we</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral">min<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>my</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral">havde<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>past<sp/>tense<sp/>of<sp/>&quot;to<sp/>have&quot;</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral">ham<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>him</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral">hun<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>she</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral">nu<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>now</highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral">over<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>over/above/across/by/beyond/past/on/about,<sp/>over/past</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral">da<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>then,<sp/>when/as/since</highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral">fra<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>from/off/since,<sp/>off,<sp/>since</highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral">du<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>you</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral">ud<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>out</highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral">sin<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>his/her/its/one&apos;s</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral">dem<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>them</highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral">os<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>us/ourselves</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral">op<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>up</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral">man<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>you/one</highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral">hans<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>his</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral">hvor<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>where</highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral">eller<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>or</highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral">hvad<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>what</highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral">skal<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>must/shall<sp/>etc.</highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral">selv<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>myself/yourself/herself/ourselves<sp/>etc.,<sp/>even</highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral">her<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>here</highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral">alle<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>all/everyone/everybody<sp/>etc.</highlight></codeline>
+<codeline lineno="60"><highlight class="stringliteral">vil<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>will<sp/>(verb)</highlight></codeline>
+<codeline lineno="61"><highlight class="stringliteral">blev<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>past<sp/>tense<sp/>of<sp/>&quot;to<sp/>stay/to<sp/>remain/to<sp/>get/to<sp/>become&quot;</highlight></codeline>
+<codeline lineno="62"><highlight class="stringliteral">kunne<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>could</highlight></codeline>
+<codeline lineno="63"><highlight class="stringliteral">ind<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>in</highlight></codeline>
+<codeline lineno="64"><highlight class="stringliteral">når<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>when</highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral">være<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>present<sp/>tense<sp/>of<sp/>&quot;to<sp/>be&quot;</highlight></codeline>
+<codeline lineno="66"><highlight class="stringliteral">dog<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>however/yet/after<sp/>all</highlight></codeline>
+<codeline lineno="67"><highlight class="stringliteral">noget<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>something</highlight></codeline>
+<codeline lineno="68"><highlight class="stringliteral">ville<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>would</highlight></codeline>
+<codeline lineno="69"><highlight class="stringliteral">jo<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>you<sp/>know/you<sp/>see<sp/>(adv),<sp/>yes</highlight></codeline>
+<codeline lineno="70"><highlight class="stringliteral">deres<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>their/theirs</highlight></codeline>
+<codeline lineno="71"><highlight class="stringliteral">efter<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>after/behind/according<sp/>to/for/by/from,<sp/>later/afterwards</highlight></codeline>
+<codeline lineno="72"><highlight class="stringliteral">ned<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>down</highlight></codeline>
+<codeline lineno="73"><highlight class="stringliteral">skulle<sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>should</highlight></codeline>
+<codeline lineno="74"><highlight class="stringliteral">denne<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>this</highlight></codeline>
+<codeline lineno="75"><highlight class="stringliteral">end<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>than</highlight></codeline>
+<codeline lineno="76"><highlight class="stringliteral">dette<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>this</highlight></codeline>
+<codeline lineno="77"><highlight class="stringliteral">mit<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>my/mine</highlight></codeline>
+<codeline lineno="78"><highlight class="stringliteral">også<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>also</highlight></codeline>
+<codeline lineno="79"><highlight class="stringliteral">under<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>under/beneath/below/during,<sp/>below/underneath</highlight></codeline>
+<codeline lineno="80"><highlight class="stringliteral">have<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>have</highlight></codeline>
+<codeline lineno="81"><highlight class="stringliteral">dig<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>you</highlight></codeline>
+<codeline lineno="82"><highlight class="stringliteral">anden<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>other</highlight></codeline>
+<codeline lineno="83"><highlight class="stringliteral">hende<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>her</highlight></codeline>
+<codeline lineno="84"><highlight class="stringliteral">mine<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>my</highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral">alt<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>everything</highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral">meget<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>much/very,<sp/>plenty<sp/>of</highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral">sit<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>his,<sp/>her,<sp/>its,<sp/>one&apos;s</highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral">sine<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>his,<sp/>her,<sp/>its,<sp/>one&apos;s</highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral">vor<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>our</highlight></codeline>
+<codeline lineno="90"><highlight class="stringliteral">mod<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>against</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral">disse<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>these</highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral">hvis<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>if</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral">din<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>your/yours</highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral">nogle<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>some</highlight></codeline>
+<codeline lineno="95"><highlight class="stringliteral">hos<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>by/at</highlight></codeline>
+<codeline lineno="96"><highlight class="stringliteral">blive<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>be/become</highlight></codeline>
+<codeline lineno="97"><highlight class="stringliteral">mange<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>many</highlight></codeline>
+<codeline lineno="98"><highlight class="stringliteral">ad<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>by/through</highlight></codeline>
+<codeline lineno="99"><highlight class="stringliteral">bliver<sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>present<sp/>tense<sp/>of<sp/>&quot;to<sp/>be/to<sp/>become&quot;</highlight></codeline>
+<codeline lineno="100"><highlight class="stringliteral">hendes<sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>her/hers</highlight></codeline>
+<codeline lineno="101"><highlight class="stringliteral">været<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>be</highlight></codeline>
+<codeline lineno="102"><highlight class="stringliteral">thi<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>for<sp/>(conj)</highlight></codeline>
+<codeline lineno="103"><highlight class="stringliteral">jer<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>you</highlight></codeline>
+<codeline lineno="104"><highlight class="stringliteral">sådan<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>such,<sp/>like<sp/>this/like<sp/>that</highlight></codeline>
+<codeline lineno="105"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="classsphinx_1_1search_1_1da_1_1SearchDanish" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1search_1_1da_1_1SearchDanish" kindref="compound">SearchDanish</ref>(<ref refid="classsphinx_1_1search_1_1SearchLanguage" kindref="compound">SearchLanguage</ref>):</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>lang<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;da&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>language_name<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;Danish&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>js_stemmer_rawcode<sp/>=<sp/></highlight><highlight class="stringliteral">&apos;danish-stemmer.js&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>stopwords<sp/>=<sp/>danish_stopwords</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">init(self,<sp/>options:<sp/>dict[str,<sp/>str])<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classsphinx_1_1search_1_1da_1_1SearchDanish_1aa77ce30759177ce68b621fbe5ef7f7f8" kindref="member">stemmer</ref><sp/>=<sp/><ref refid="namespacesnowballstemmer_1a1bf5539d5564f56642338e1f6ed850ba" kindref="member">snowballstemmer.stemmer</ref>(</highlight><highlight class="stringliteral">&apos;danish&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classsphinx_1_1search_1_1da_1_1SearchDanish_1a00fa762f1f422d6d77f40cd653fe3132" kindref="member">stem</ref>(self,<sp/>word:<sp/>str)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.<ref refid="classsphinx_1_1search_1_1da_1_1SearchDanish_1aa77ce30759177ce68b621fbe5ef7f7f8" kindref="member">stemmer</ref>.stemWord(word.lower())</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/sphinx/search/da.py"/>
+  </compounddef>
+</doxygen>

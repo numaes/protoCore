@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1tenacity_1_1retry_1_1retry__if__exception__cause__type" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::tenacity::retry::retry_if_exception_cause_type</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1tenacity_1_1retry_1_1retry__base" prot="public" virt="non-virtual">pip._vendor.tenacity.retry.retry_base</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1tenacity_1_1retry_1_1retry__if__exception__cause__type_1a5d73dbdb16ab5e4bed6d441c88703d9c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.tenacity.retry.retry_if_exception_cause_type::exception_cause_types</definition>
+        <argsstring></argsstring>
+        <name>exception_cause_types</name>
+        <qualifiedname>pip._vendor.tenacity.retry.retry_if_exception_cause_type.exception_cause_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tenacity/retry.py" line="150" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tenacity/retry.py" bodystart="150" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1tenacity_1_1retry_1_1retry__if__exception__cause__type_1a0fbcbe6da3478fae3e6f62047006e501" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.tenacity.retry.retry_if_exception_cause_type.__init__</definition>
+        <argsstring>(self, typing.Union[typing.Type[BaseException], typing.Tuple[typing.Type[BaseException],...],] exception_types=Exception)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._vendor.tenacity.retry.retry_if_exception_cause_type.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>typing.</type>
+          <declname>Union</declname>
+          <defname>exception_types</defname>
+          <array>[typing.Type[BaseException]</array>
+        </param>
+        <param>
+          <type>typing.</type>
+          <declname>Tuple</declname>
+          <array>[typing.Type[BaseException]</array>
+        </param>
+        <param>
+          <type>...]</type>
+        </param>
+        <param>
+          <type>]</type>
+          <declname>exception_types</declname>
+          <defval>Exception</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tenacity/retry.py" line="143" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tenacity/retry.py" bodystart="149" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1tenacity_1_1retry_1_1retry__if__exception__cause__type_1acce714656ed79e9e6d912db9cc296065" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.tenacity.retry.retry_if_exception_cause_type.__call__</definition>
+        <argsstring>(self, &quot;RetryCallState&quot; retry_state)</argsstring>
+        <name>__call__</name>
+        <qualifiedname>pip._vendor.tenacity.retry.retry_if_exception_cause_type.__call__</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1tenacity_1_1retry_1_1retry__base_1a455e70c018bcf019fdca120f4f03cc90">__call__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;RetryCallState&quot;</type>
+          <declname>retry_state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/tenacity/retry.py" line="152" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tenacity/retry.py" bodystart="152" bodyend="165"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Retries if any of the causes of the raised exception is of one or more types.
+
+The check on the type of the cause of the exception is done recursively (until finding
+an exception in the chain that has no `__cause__`)
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>abc::ABC</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.tenacity.retry.retry_if_exception_cause_type</label>
+        <link refid="classpip_1_1__vendor_1_1tenacity_1_1retry_1_1retry__if__exception__cause__type"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.tenacity.retry.retry_base</label>
+        <link refid="classpip_1_1__vendor_1_1tenacity_1_1retry_1_1retry__base"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>abc::ABC</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.tenacity.retry.retry_if_exception_cause_type</label>
+        <link refid="classpip_1_1__vendor_1_1tenacity_1_1retry_1_1retry__if__exception__cause__type"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.tenacity.retry.retry_base</label>
+        <link refid="classpip_1_1__vendor_1_1tenacity_1_1retry_1_1retry__base"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/tenacity/retry.py" line="136" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/tenacity/retry.py" bodystart="136" bodyend="165"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1tenacity_1_1retry_1_1retry__if__exception__cause__type_1acce714656ed79e9e6d912db9cc296065" prot="public" virt="non-virtual"><scope>pip::_vendor::tenacity::retry::retry_if_exception_cause_type</scope><name>__call__</name></member>
+      <member refid="classpip_1_1__vendor_1_1tenacity_1_1retry_1_1retry__if__exception__cause__type_1a0fbcbe6da3478fae3e6f62047006e501" prot="public" virt="non-virtual"><scope>pip::_vendor::tenacity::retry::retry_if_exception_cause_type</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__vendor_1_1tenacity_1_1retry_1_1retry__if__exception__cause__type_1a5d73dbdb16ab5e4bed6d441c88703d9c" prot="public" virt="non-virtual"><scope>pip::_vendor::tenacity::retry::retry_if_exception_cause_type</scope><name>exception_cause_types</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

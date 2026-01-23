@@ -1,0 +1,287 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1statemachine_1_1StringList" kind="class" language="Python" prot="public">
+    <compoundname>docutils::statemachine::StringList</compoundname>
+    <basecompoundref refid="classdocutils_1_1statemachine_1_1ViewList" prot="public" virt="non-virtual">docutils.statemachine.ViewList</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1statemachine_1_1StringList_1a5fee2872e9bb45f260bdac6d3e48edfa" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.statemachine.StringList::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>docutils.statemachine.StringList.data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="1443" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="1443" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1statemachine_1_1StringList_1a894ce9ea500784b3e71fdbb151a32482" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.statemachine.StringList.trim_left</definition>
+        <argsstring>(self, length, start=0, end=sys.maxsize)</argsstring>
+        <name>trim_left</name>
+        <qualifiedname>docutils.statemachine.StringList.trim_left</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>length</type>
+          <defname>length</defname>
+        </param>
+        <param>
+          <type>start</type>
+          <defname>start</defname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>end</type>
+          <defname>end</defname>
+          <defval>sys.maxsize</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Trim `length` characters off the beginning of each item, in-place,
+from index `start` to `end`.  No whitespace-checking is done on the
+trimmed text.  Does not affect slice parent.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="1327" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="1327" bodyend="1335"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1statemachine_1_1StringList_1af37b391270998892ea4373c0057bf61a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.statemachine.StringList.get_text_block</definition>
+        <argsstring>(self, start, flush_left=False)</argsstring>
+        <name>get_text_block</name>
+        <qualifiedname>docutils.statemachine.StringList.get_text_block</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>start</type>
+          <defname>start</defname>
+        </param>
+        <param>
+          <type>flush_left</type>
+          <defname>flush_left</defname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a contiguous block of text.
+
+If `flush_left` is true, raise `UnexpectedIndentationError` if an
+indented line is encountered before the text block ends (with a blank
+line).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="1336" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="1336" bodyend="1356"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1statemachine_1_1StringList_1a0811e400817926339fd396a39677d8e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.statemachine.StringList.get_indented</definition>
+        <argsstring>(self, start=0, until_blank=False, strip_indent=True, block_indent=None, first_indent=None)</argsstring>
+        <name>get_indented</name>
+        <qualifiedname>docutils.statemachine.StringList.get_indented</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>start</type>
+          <defname>start</defname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>until_blank</type>
+          <defname>until_blank</defname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>strip_indent</type>
+          <defname>strip_indent</defname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>block_indent</type>
+          <defname>block_indent</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>first_indent</type>
+          <defname>first_indent</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Extract and return a StringList of indented lines of text.
+
+Collect all lines with indentation, determine the minimum indentation,
+remove the minimum indentation from all indented lines (unless
+`strip_indent` is false), and return them. All lines up to but not
+including the first unindented line will be returned.
+
+:Parameters:
+  - `start`: The index of the first line to examine.
+  - `until_blank`: Stop collecting at the first blank line if true.
+  - `strip_indent`: Strip common leading indent if true (default).
+  - `block_indent`: The indent of the entire block, if known.
+  - `first_indent`: The indent of the first line, if known.
+
+:Return:
+  - a StringList of indented lines with minimum indent removed;
+  - the amount of the indent;
+  - a boolean: did the indented block finish with a blank line or EOF?
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="1357" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="1358" bodyend="1416"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1statemachine_1_1StringList_1a616b6eae1ff6bebbc3de80edcf73515d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.statemachine.StringList.get_2D_block</definition>
+        <argsstring>(self, top, left, bottom, right, strip_indent=True)</argsstring>
+        <name>get_2D_block</name>
+        <qualifiedname>docutils.statemachine.StringList.get_2D_block</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>top</type>
+          <defname>top</defname>
+        </param>
+        <param>
+          <type>left</type>
+          <defname>left</defname>
+        </param>
+        <param>
+          <type>bottom</type>
+          <defname>bottom</defname>
+        </param>
+        <param>
+          <type>right</type>
+          <defname>right</defname>
+        </param>
+        <param>
+          <type>strip_indent</type>
+          <defname>strip_indent</defname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="1417" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="1417" bodyend="1437"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1statemachine_1_1StringList_1a9b118a6c6be6742d35408e4e9e4fea7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.statemachine.StringList.pad_double_width</definition>
+        <argsstring>(self, pad_char)</argsstring>
+        <name>pad_double_width</name>
+        <qualifiedname>docutils.statemachine.StringList.pad_double_width</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>pad_char</type>
+          <defname>pad_char</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Pad all double-width characters in `self` appending `pad_char`.
+
+For East Asian language support.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="1438" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="1438" bodyend="1452"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1statemachine_1_1StringList_1add8013541de6d7f8b9d0869158e657d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.statemachine.StringList.replace</definition>
+        <argsstring>(self, old, new)</argsstring>
+        <name>replace</name>
+        <qualifiedname>docutils.statemachine.StringList.replace</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>old</type>
+          <defname>old</defname>
+        </param>
+        <param>
+          <type>new</type>
+          <defname>new</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Replace all occurrences of substring `old` with `new`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="1453" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="1453" bodyend="1458"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A `ViewList` with string-specific methods.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.statemachine.StringList</label>
+        <link refid="classdocutils_1_1statemachine_1_1StringList"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.statemachine.ViewList</label>
+        <link refid="classdocutils_1_1statemachine_1_1ViewList"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>docutils.statemachine.StringList</label>
+        <link refid="classdocutils_1_1statemachine_1_1StringList"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.statemachine.ViewList</label>
+        <link refid="classdocutils_1_1statemachine_1_1ViewList"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="1323" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="1323" bodyend="1458"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1statemachine_1_1StringList_1a5fee2872e9bb45f260bdac6d3e48edfa" prot="public" virt="non-virtual"><scope>docutils::statemachine::StringList</scope><name>data</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1StringList_1a616b6eae1ff6bebbc3de80edcf73515d" prot="public" virt="non-virtual"><scope>docutils::statemachine::StringList</scope><name>get_2D_block</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1StringList_1a0811e400817926339fd396a39677d8e5" prot="public" virt="non-virtual"><scope>docutils::statemachine::StringList</scope><name>get_indented</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1StringList_1af37b391270998892ea4373c0057bf61a" prot="public" virt="non-virtual"><scope>docutils::statemachine::StringList</scope><name>get_text_block</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1StringList_1a9b118a6c6be6742d35408e4e9e4fea7d" prot="public" virt="non-virtual"><scope>docutils::statemachine::StringList</scope><name>pad_double_width</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1StringList_1add8013541de6d7f8b9d0869158e657d3" prot="public" virt="non-virtual"><scope>docutils::statemachine::StringList</scope><name>replace</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1StringList_1a894ce9ea500784b3e71fdbb151a32482" prot="public" virt="non-virtual"><scope>docutils::statemachine::StringList</scope><name>trim_left</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

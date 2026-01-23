@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="__internal_2distributions_2wheel_8py" kind="file" language="Python">
+    <compoundname>wheel.py</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1distributions_1_1wheel_1_1WheelDistribution" prot="public">pip::_internal::distributions::wheel::WheelDistribution</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal">pip::_internal</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1distributions">pip::_internal::distributions</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1distributions_1_1wheel">pip::_internal::distributions::wheel</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__internal_1_1distributions_1_1wheel" refkind="compound"><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Optional</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1packaging_1_1utils" kindref="compound">pip._vendor.packaging.utils</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>canonicalize_name</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1distributions_1_1base" kindref="compound">pip._internal.distributions.base</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>AbstractDistribution</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1index_1_1package__finder" kindref="compound">pip._internal.index.package_finder</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>PackageFinder</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1metadata" kindref="compound">pip._internal.metadata</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>(</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/>BaseDistribution,</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/>FilesystemWheel,</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/>get_wheel_distribution,</highlight></codeline>
+<codeline lineno="11"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14" refid="classpip_1_1__internal_1_1distributions_1_1wheel_1_1WheelDistribution" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1distributions_1_1wheel_1_1WheelDistribution" kindref="compound">WheelDistribution</ref>(<ref refid="classpip_1_1__internal_1_1distributions_1_1base_1_1AbstractDistribution" kindref="compound">AbstractDistribution</ref>):</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Represents<sp/>a<sp/>wheel<sp/>distribution.</highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>This<sp/>does<sp/>not<sp/>need<sp/>any<sp/>preparation<sp/>as<sp/>wheels<sp/>can<sp/>be<sp/>directly<sp/>unpacked.</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@property</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1distributions_1_1wheel_1_1WheelDistribution_1a4a61842f969272dbe8ea7c8f6999379d" kindref="member">build_tracker_id</ref>(self)<sp/>-&gt;<sp/>Optional[str]:</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">get_metadata_distribution(self)<sp/>-&gt;<sp/>BaseDistribution:</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Loads<sp/>the<sp/>metadata<sp/>from<sp/>the<sp/>wheel<sp/>file<sp/>into<sp/>memory<sp/>and<sp/>returns<sp/>a</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Distribution<sp/>that<sp/>uses<sp/>it,<sp/>not<sp/>relying<sp/>on<sp/>the<sp/>wheel<sp/>file<sp/>or</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>requirement.</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">assert</highlight><highlight class="normal"><sp/>self.<ref refid="classpip_1_1__internal_1_1distributions_1_1base_1_1AbstractDistribution_1a4e0f5834a91b4f3ab6be563959652df9" kindref="member">req</ref>.local_file_path,<sp/></highlight><highlight class="stringliteral">&quot;Set<sp/>as<sp/>part<sp/>of<sp/>preparation<sp/>during<sp/>download&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">assert</highlight><highlight class="normal"><sp/>self.<ref refid="classpip_1_1__internal_1_1distributions_1_1base_1_1AbstractDistribution_1a4e0f5834a91b4f3ab6be563959652df9" kindref="member">req</ref>.name,<sp/></highlight><highlight class="stringliteral">&quot;Wheels<sp/>are<sp/>never<sp/>unnamed&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wheel<sp/>=<sp/><ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1FilesystemWheel" kindref="compound">FilesystemWheel</ref>(self.<ref refid="classpip_1_1__internal_1_1distributions_1_1base_1_1AbstractDistribution_1a4e0f5834a91b4f3ab6be563959652df9" kindref="member">req</ref>.local_file_path)</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>get_wheel_distribution(wheel,<sp/>canonicalize_name(self.<ref refid="classpip_1_1__internal_1_1distributions_1_1base_1_1AbstractDistribution_1a4e0f5834a91b4f3ab6be563959652df9" kindref="member">req</ref>.name))</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1distributions_1_1wheel_1_1WheelDistribution_1ad372c14975adff434388c3d3c46c961d" kindref="member">prepare_distribution_metadata</ref>(</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>finder:<sp/>PackageFinder,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>build_isolation:<sp/>bool,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>check_build_deps:<sp/>bool,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">pass</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/distributions/wheel.py"/>
+  </compounddef>
+</doxygen>

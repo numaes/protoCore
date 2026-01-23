@@ -1,0 +1,542 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1statemachine_1_1StateWS" kind="class" language="Python" prot="public">
+    <compoundname>docutils::statemachine::StateWS</compoundname>
+    <basecompoundref refid="classdocutils_1_1statemachine_1_1State" prot="public" virt="non-virtual">docutils.statemachine.State</basecompoundref>
+    <derivedcompoundref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState" prot="public" virt="non-virtual">docutils.parsers.rst.states.RSTState</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1statemachine_1_1StateWS_1a0c29de2845c7370322ee786e8bbc29a9" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.statemachine.StateWS::indent_sm</definition>
+        <argsstring></argsstring>
+        <name>indent_sm</name>
+        <qualifiedname>docutils.statemachine.StateWS.indent_sm</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="899" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="899" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1statemachine_1_1StateWS_1ad746a2902d7c1c3d3319867db5afdbf8" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.statemachine.StateWS::indent_sm_kwargs</definition>
+        <argsstring></argsstring>
+        <name>indent_sm_kwargs</name>
+        <qualifiedname>docutils.statemachine.StateWS.indent_sm_kwargs</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="907" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="907" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1statemachine_1_1StateWS_1a42166c5a1ac1da296b5bfbb9faf499d4" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.statemachine.StateWS::known_indent_sm</definition>
+        <argsstring></argsstring>
+        <name>known_indent_sm</name>
+        <qualifiedname>docutils.statemachine.StateWS.known_indent_sm</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="915" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="915" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1statemachine_1_1StateWS_1ad3afee05751480f8a44396f29c752fbd" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.statemachine.StateWS::known_indent_sm_kwargs</definition>
+        <argsstring></argsstring>
+        <name>known_indent_sm_kwargs</name>
+        <qualifiedname>docutils.statemachine.StateWS.known_indent_sm_kwargs</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="923" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="923" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1statemachine_1_1StateWS_1a00d23375c4362cf12ce0a50b8001c993" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.statemachine.StateWS::ws_patterns</definition>
+        <argsstring></argsstring>
+        <name>ws_patterns</name>
+        <qualifiedname>docutils.statemachine.StateWS.ws_patterns</qualifiedname>
+        <initializer>=  {&apos;<ref refid="classdocutils_1_1statemachine_1_1StateWS_1a2db0563a9c868a20109777f99e1a0f99" kindref="member">blank</ref>&apos;: re.compile(&apos; *$&apos;),
+                   &apos;<ref refid="classdocutils_1_1statemachine_1_1StateWS_1a8cdd4b9f93640f452176c850da564642" kindref="member">indent</ref>&apos;: re.compile(&apos; +&apos;)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="931" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="931" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1statemachine_1_1StateWS_1aa7890e48b8a568669ff039fd993f2233" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.statemachine.StateWS::ws_initial_transitions</definition>
+        <argsstring></argsstring>
+        <name>ws_initial_transitions</name>
+        <qualifiedname>docutils.statemachine.StateWS.ws_initial_transitions</qualifiedname>
+        <initializer>=  (&apos;<ref refid="classdocutils_1_1statemachine_1_1StateWS_1a2db0563a9c868a20109777f99e1a0f99" kindref="member">blank</ref>&apos;, &apos;<ref refid="classdocutils_1_1statemachine_1_1StateWS_1a8cdd4b9f93640f452176c850da564642" kindref="member">indent</ref>&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="936" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="936" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1statemachine_1_1StateWS_1a6d83ef5ffd07c8cbdba5ff32fd955bb0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.statemachine.StateWS::patterns</definition>
+        <argsstring></argsstring>
+        <name>patterns</name>
+        <qualifiedname>docutils.statemachine.StateWS.patterns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="964" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="964" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1statemachine_1_1StateWS_1a521adebafa1b253c4160f0a9038825cf" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.statemachine.StateWS::ws_patterns</definition>
+        <argsstring></argsstring>
+        <name>ws_patterns</name>
+        <qualifiedname>docutils.statemachine.StateWS.ws_patterns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="965" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="965" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1statemachine_1_1StateWS_1aa9bf3ee04bcf8fc200e2fca88670806f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.statemachine.StateWS::ws_initial_transitions</definition>
+        <argsstring></argsstring>
+        <name>ws_initial_transitions</name>
+        <qualifiedname>docutils.statemachine.StateWS.ws_initial_transitions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="967" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="967" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1statemachine_1_1StateWS_1aedcda59b9a844a7cf098e50febecadde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.statemachine.StateWS.__init__</definition>
+        <argsstring>(self, state_machine, debug=False)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>docutils.statemachine.StateWS.__init__</qualifiedname>
+        <reimplements refid="classdocutils_1_1statemachine_1_1State_1a329a30ece2d9d8cf1ef2b099591e089f">__init__</reimplements>
+        <reimplementedby refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a2baca5762327f76433445e87dd7e3fc7">__init__</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1QuotedLiteralBlock_1ab3021b07bfd98eb22f0b0b8c85eefea1">__init__</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1statemachine_1_1State_1a53b7644cdad55f7cf544d7431b021571" kindref="member">state_machine</ref></type>
+          <defname>state_machine</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1statemachine_1_1State_1a21c75bc16ebc63ea1559189f1acc3802" kindref="member">debug</ref></type>
+          <defname>debug</defname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Initialize a `StateSM` object; extends `State.__init__()`.
+
+Check for indent state machine attributes, set defaults if not set.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="940" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="940" bodyend="955"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1statemachine_1_1StateWS_1ac17bffcd9eebc22d43d79972639fce3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.statemachine.StateWS.add_initial_transitions</definition>
+        <argsstring>(self)</argsstring>
+        <name>add_initial_transitions</name>
+        <qualifiedname>docutils.statemachine.StateWS.add_initial_transitions</qualifiedname>
+        <reimplements refid="classdocutils_1_1statemachine_1_1State_1af56469bf67c9f86cd01af73410635f55">add_initial_transitions</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Add whitespace-specific transitions before those defined in subclass.
+
+Extends `State.add_initial_transitions()`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="956" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="956" bodyend="969"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1statemachine_1_1StateWS_1a2db0563a9c868a20109777f99e1a0f99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.statemachine.StateWS.blank</definition>
+        <argsstring>(self, match, context, next_state)</argsstring>
+        <name>blank</name>
+        <qualifiedname>docutils.statemachine.StateWS.blank</qualifiedname>
+        <reimplementedby refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1ab4146fb10580188defa4b47ad5ea9fa1">blank</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Line_1ab85f9a7541198fae85aa32c9f235d213">blank</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1QuotedLiteralBlock_1a16a30d28dfbd14cf7ad3afba3008ce8b">blank</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>match</type>
+          <defname>match</defname>
+        </param>
+        <param>
+          <type>context</type>
+          <defname>context</defname>
+        </param>
+        <param>
+          <type>next_state</type>
+          <defname>next_state</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Handle blank lines. Does nothing. Override in subclasses.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="970" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="970" bodyend="973"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1statemachine_1_1StateWS_1a8cdd4b9f93640f452176c850da564642" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.statemachine.StateWS.indent</definition>
+        <argsstring>(self, match, context, next_state)</argsstring>
+        <name>indent</name>
+        <qualifiedname>docutils.statemachine.StateWS.indent</qualifiedname>
+        <reimplementedby refid="classbreathe_1_1renderer_1_1sphinxrenderer_1_1InlineText_1a5a606a1546c87a49ad6a5544d3fc09b1">indent</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Body_1a7372769ed42cb75d19611db576d02e73">indent</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a3b8b4f70d44e1cd0350982b967dd0be7">indent</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Definition_1ac3996fbb94053ca8c81d62088b4e01cc">indent</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1QuotedLiteralBlock_1a3cd91fb6d627c6e70f352f48eaef3ec4">indent</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>match</type>
+          <defname>match</defname>
+        </param>
+        <param>
+          <type>context</type>
+          <defname>context</defname>
+        </param>
+        <param>
+          <type>next_state</type>
+          <defname>next_state</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Handle an indented text block. Extend or override in subclasses.
+
+Recursively run the registered state machine for indented blocks
+(`self.indent_sm`).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="974" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="974" bodyend="986"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1statemachine_1_1StateWS_1ac02718eaa4933e215e52b1fb98da9cae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.statemachine.StateWS.known_indent</definition>
+        <argsstring>(self, match, context, next_state)</argsstring>
+        <name>known_indent</name>
+        <qualifiedname>docutils.statemachine.StateWS.known_indent</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>match</type>
+          <defname>match</defname>
+        </param>
+        <param>
+          <type>context</type>
+          <defname>context</defname>
+        </param>
+        <param>
+          <type>next_state</type>
+          <defname>next_state</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Handle a known-indent text block. Extend or override in subclasses.
+
+Recursively run the registered state machine for known-indent indented
+blocks (`self.known_indent_sm`). The indent is the length of the
+match, ``match.end()``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="987" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="987" bodyend="1001"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1statemachine_1_1StateWS_1adc0b6a6d3bc2a98c3b57c1c55d1b1297" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.statemachine.StateWS.first_known_indent</definition>
+        <argsstring>(self, match, context, next_state)</argsstring>
+        <name>first_known_indent</name>
+        <qualifiedname>docutils.statemachine.StateWS.first_known_indent</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>match</type>
+          <defname>match</defname>
+        </param>
+        <param>
+          <type>context</type>
+          <defname>context</defname>
+        </param>
+        <param>
+          <type>next_state</type>
+          <defname>next_state</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Handle an indented text block (first line&apos;s indent known).
+
+Extend or override in subclasses.
+
+Recursively run the registered state machine for known-indent indented
+blocks (`self.known_indent_sm`). The indent is the length of the
+match, ``match.end()``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="1002" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="1002" bodyend="1019"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>State superclass specialized for whitespace (blank lines &amp; indents).
+
+Use this class with `StateMachineWS`.  The transitions &apos;blank&apos; (for blank
+lines) and &apos;indent&apos; (for indented text blocks) are added automatically,
+before any other transitions.  The transition method `blank()` handles
+blank lines and `indent()` handles nested indented blocks.  Indented
+blocks trigger a new state machine to be created by `indent()` and run.
+The class of the state machine to be created is in `indent_sm`, and the
+constructor keyword arguments are in the dictionary `indent_sm_kwargs`.
+
+The methods `known_indent()` and `firstknown_indent()` are provided for
+indented blocks where the indent (all lines&apos; and first line&apos;s only,
+respectively) is known to the transition method, along with the attributes
+`known_indent_sm` and `known_indent_sm_kwargs`.  Neither transition method
+is triggered automatically.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="20">
+        <label>breathe.renderer.sphinxrenderer.InlineText</label>
+        <link refid="classbreathe_1_1renderer_1_1sphinxrenderer_1_1InlineText"/>
+        <childnode refid="19" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>docutils.statemachine.StateWS</label>
+        <link refid="classdocutils_1_1statemachine_1_1StateWS"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>docutils.parsers.rst.directives.misc.MetaBody</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1misc_1_1MetaBody"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.parsers.rst.states.Body</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Body"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>docutils.parsers.rst.states.BulletList</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1BulletList"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>docutils.parsers.rst.states.Definition</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Definition"/>
+        <childnode refid="21" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>docutils.parsers.rst.states.DefinitionList</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1DefinitionList"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>docutils.parsers.rst.states.EnumeratedList</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1EnumeratedList"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>docutils.parsers.rst.states.Explicit</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Explicit"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>docutils.parsers.rst.states.ExtensionOptions</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1ExtensionOptions"/>
+        <childnode refid="13" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>docutils.parsers.rst.states.FieldList</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1FieldList"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>docutils.parsers.rst.states.Line</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Line"/>
+        <childnode refid="21" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>docutils.parsers.rst.states.LineBlock</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1LineBlock"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>docutils.parsers.rst.states.OptionList</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1OptionList"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>docutils.parsers.rst.states.QuotedLiteralBlock</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1QuotedLiteralBlock"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>docutils.parsers.rst.states.RFC2822Body</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RFC2822Body"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>docutils.parsers.rst.states.RFC2822List</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RFC2822List"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.parsers.rst.states.RSTState</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>docutils.parsers.rst.states.SpecializedBody</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1SpecializedBody"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>docutils.parsers.rst.states.SpecializedText</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1SpecializedText"/>
+        <childnode refid="19" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>docutils.parsers.rst.states.SubstitutionDef</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1SubstitutionDef"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>docutils.parsers.rst.states.Text</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.statemachine.State</label>
+        <link refid="classdocutils_1_1statemachine_1_1State"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>docutils.statemachine.StateWS</label>
+        <link refid="classdocutils_1_1statemachine_1_1StateWS"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.statemachine.State</label>
+        <link refid="classdocutils_1_1statemachine_1_1State"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/docutils/statemachine.py" line="879" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/statemachine.py" bodystart="879" bodyend="1019"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1statemachine_1_1StateWS_1aedcda59b9a844a7cf098e50febecadde" prot="public" virt="non-virtual"><scope>docutils::statemachine::StateWS</scope><name>__init__</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1StateWS_1ac17bffcd9eebc22d43d79972639fce3a" prot="public" virt="non-virtual"><scope>docutils::statemachine::StateWS</scope><name>add_initial_transitions</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1StateWS_1a2db0563a9c868a20109777f99e1a0f99" prot="public" virt="non-virtual"><scope>docutils::statemachine::StateWS</scope><name>blank</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1StateWS_1adc0b6a6d3bc2a98c3b57c1c55d1b1297" prot="public" virt="non-virtual"><scope>docutils::statemachine::StateWS</scope><name>first_known_indent</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1StateWS_1a8cdd4b9f93640f452176c850da564642" prot="public" virt="non-virtual"><scope>docutils::statemachine::StateWS</scope><name>indent</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1StateWS_1a0c29de2845c7370322ee786e8bbc29a9" prot="public" virt="non-virtual"><scope>docutils::statemachine::StateWS</scope><name>indent_sm</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1StateWS_1ad746a2902d7c1c3d3319867db5afdbf8" prot="public" virt="non-virtual"><scope>docutils::statemachine::StateWS</scope><name>indent_sm_kwargs</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1StateWS_1ac02718eaa4933e215e52b1fb98da9cae" prot="public" virt="non-virtual"><scope>docutils::statemachine::StateWS</scope><name>known_indent</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1StateWS_1a42166c5a1ac1da296b5bfbb9faf499d4" prot="public" virt="non-virtual"><scope>docutils::statemachine::StateWS</scope><name>known_indent_sm</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1StateWS_1ad3afee05751480f8a44396f29c752fbd" prot="public" virt="non-virtual"><scope>docutils::statemachine::StateWS</scope><name>known_indent_sm_kwargs</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1StateWS_1a6d83ef5ffd07c8cbdba5ff32fd955bb0" prot="public" virt="non-virtual"><scope>docutils::statemachine::StateWS</scope><name>patterns</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1StateWS_1aa7890e48b8a568669ff039fd993f2233" prot="public" virt="non-virtual"><scope>docutils::statemachine::StateWS</scope><name>ws_initial_transitions</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1StateWS_1aa9bf3ee04bcf8fc200e2fca88670806f" prot="public" virt="non-virtual"><scope>docutils::statemachine::StateWS</scope><name>ws_initial_transitions</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1StateWS_1a00d23375c4362cf12ce0a50b8001c993" prot="public" virt="non-virtual"><scope>docutils::statemachine::StateWS</scope><name>ws_patterns</name></member>
+      <member refid="classdocutils_1_1statemachine_1_1StateWS_1a521adebafa1b253c4160f0a9038825cf" prot="public" virt="non-virtual"><scope>docutils::statemachine::StateWS</scope><name>ws_patterns</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpygments_1_1lexers_1_1sql_1_1PostgresBase" kind="class" language="Python" prot="public">
+    <compoundname>pygments::lexers::sql::PostgresBase</compoundname>
+    <derivedcompoundref refid="classpygments_1_1lexers_1_1sql_1_1PlPgsqlLexer" prot="public" virt="non-virtual">pygments.lexers.sql.PlPgsqlLexer</derivedcompoundref>
+    <derivedcompoundref refid="classpygments_1_1lexers_1_1sql_1_1PostgresLexer" prot="public" virt="non-virtual">pygments.lexers.sql.PostgresLexer</derivedcompoundref>
+    <derivedcompoundref refid="classpygments_1_1lexers_1_1sql_1_1PsqlRegexLexer" prot="public" virt="non-virtual">pygments.lexers.sql.PsqlRegexLexer</derivedcompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1sql_1_1PostgresBase_1af18c61d1f28e2194b07719131e3bcb5f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments.lexers.sql.PostgresBase::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>pygments.lexers.sql.PostgresBase.text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="129" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1sql_1_1PostgresBase_1acd95bb1077614fe93be0ac4f2b7ee4c3" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pygments.lexers.sql.PostgresBase::options</definition>
+        <argsstring></argsstring>
+        <name>options</name>
+        <qualifiedname>pygments.lexers.sql.PostgresBase.options</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="134" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="134" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpygments_1_1lexers_1_1sql_1_1PostgresBase_1a805f5832c4f56054378740cf503c1d37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.lexers.sql.PostgresBase.get_tokens_unprocessed</definition>
+        <argsstring>(self, text, *args)</argsstring>
+        <name>get_tokens_unprocessed</name>
+        <qualifiedname>pygments.lexers.sql.PostgresBase.get_tokens_unprocessed</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpygments_1_1lexers_1_1sql_1_1PostgresBase_1af18c61d1f28e2194b07719131e3bcb5f" kindref="member">text</ref></type>
+          <defname>text</defname>
+        </param>
+        <param>
+          <type>*</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="127" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="127" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpygments_1_1lexers_1_1sql_1_1PostgresBase_1a82b0103ff053d31cb4f8e877c8357464" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.lexers.sql.PostgresBase._get_lexer</definition>
+        <argsstring>(self, lang)</argsstring>
+        <name>_get_lexer</name>
+        <qualifiedname>pygments.lexers.sql.PostgresBase._get_lexer</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>lang</type>
+          <defname>lang</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="132" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="132" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Base class for Postgres-related lexers.
+
+This is implemented as a mixin to avoid the Lexer metaclass kicking in.
+this way the different lexer don&apos;t have a common Lexer ancestor. If they
+had, _tokens could be created on this ancestor and not updated for the
+other classes, resulting e.g. in PL/pgSQL parsed as SQL. This shortcoming
+seem to suggest that regexp lexers are not really subclassable.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pygments.lexers.sql.PostgresBase</label>
+        <link refid="classpygments_1_1lexers_1_1sql_1_1PostgresBase"/>
+      </node>
+      <node id="2">
+        <label>pygments.lexers.sql.PlPgsqlLexer</label>
+        <link refid="classpygments_1_1lexers_1_1sql_1_1PlPgsqlLexer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pygments.lexers.sql.PostgresLexer</label>
+        <link refid="classpygments_1_1lexers_1_1sql_1_1PostgresLexer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pygments.lexers.sql.PsqlRegexLexer</label>
+        <link refid="classpygments_1_1lexers_1_1sql_1_1PsqlRegexLexer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="118" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="118" bodyend="154"/>
+    <listofallmembers>
+      <member refid="classpygments_1_1lexers_1_1sql_1_1PostgresBase_1a82b0103ff053d31cb4f8e877c8357464" prot="protected" virt="non-virtual"><scope>pygments::lexers::sql::PostgresBase</scope><name>_get_lexer</name></member>
+      <member refid="classpygments_1_1lexers_1_1sql_1_1PostgresBase_1a805f5832c4f56054378740cf503c1d37" prot="public" virt="non-virtual"><scope>pygments::lexers::sql::PostgresBase</scope><name>get_tokens_unprocessed</name></member>
+      <member refid="classpygments_1_1lexers_1_1sql_1_1PostgresBase_1acd95bb1077614fe93be0ac4f2b7ee4c3" prot="public" virt="non-virtual"><scope>pygments::lexers::sql::PostgresBase</scope><name>options</name></member>
+      <member refid="classpygments_1_1lexers_1_1sql_1_1PostgresBase_1af18c61d1f28e2194b07719131e3bcb5f" prot="public" virt="non-virtual"><scope>pygments::lexers::sql::PostgresBase</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

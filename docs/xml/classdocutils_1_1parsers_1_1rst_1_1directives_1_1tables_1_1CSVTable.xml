@@ -1,0 +1,285 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable" kind="class" language="Python" prot="public">
+    <compoundname>docutils::parsers::rst::directives::tables::CSVTable</compoundname>
+    <basecompoundref refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1Table" prot="public" virt="non-virtual">docutils.parsers.rst.directives.tables.Table</basecompoundref>
+    <innerclass refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1_1DocutilsDialect" prot="public">docutils::parsers::rst::directives::tables::CSVTable::DocutilsDialect</innerclass>
+    <innerclass refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1_1HeaderDialect" prot="public">docutils::parsers::rst::directives::tables::CSVTable::HeaderDialect</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1af49a9a7d1c9f6c8ea31b22931368a465" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.parsers.rst.directives.tables.CSVTable::option_spec</definition>
+        <argsstring></argsstring>
+        <name>option_spec</name>
+        <qualifiedname>docutils.parsers.rst.directives.tables.CSVTable.option_spec</qualifiedname>
+        <initializer>=  {&apos;header-rows&apos;: <ref refid="namespacedocutils_1_1parsers_1_1rst_1_1directives_1a53e4e9a98cffb8bf2d90250a69d94817" kindref="member">directives.nonnegative_int</ref>,
+                   &apos;stub-columns&apos;: <ref refid="namespacedocutils_1_1parsers_1_1rst_1_1directives_1a53e4e9a98cffb8bf2d90250a69d94817" kindref="member">directives.nonnegative_int</ref>,
+                   &apos;header&apos;: <ref refid="namespacedocutils_1_1parsers_1_1rst_1_1directives_1a2765722edbf4c675fba9a34f36d4b863" kindref="member">directives.unchanged</ref>,
+                   &apos;width&apos;: <ref refid="namespacedocutils_1_1parsers_1_1rst_1_1directives_1ad5ea9d916a7f23f23c52467a5de980f0" kindref="member">directives.length_or_percentage_or_unitless</ref>,
+                   &apos;<ref refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1Table_1a63632c876571e568d2d34b5cff2df3bc" kindref="member">widths</ref>&apos;: <ref refid="namespacedocutils_1_1parsers_1_1rst_1_1directives_1ac7979eb452165c5ee92ee9e8919d1a2f" kindref="member">directives.value_or</ref>((&apos;auto&apos;, ),
+                                                 <ref refid="namespacedocutils_1_1parsers_1_1rst_1_1directives_1a65cb30fa5f199a473e48e8d1bcaf300b" kindref="member">directives.positive_int_list</ref>),
+                   &apos;file&apos;: <ref refid="namespacedocutils_1_1parsers_1_1rst_1_1directives_1a61b30a731901a54b6eb7916bf0eb66bd" kindref="member">directives.path</ref>,
+                   &apos;url&apos;: <ref refid="namespacedocutils_1_1parsers_1_1rst_1_1directives_1a277d4925e24a35aeb8a2dc7d68e74424" kindref="member">directives.uri</ref>,
+                   &apos;<ref refid="namespacedocutils_1_1parsers_1_1rst_1_1directives_1a307e8de01bfe0a2d1de735da44b37784" kindref="member">encoding</ref>&apos;: <ref refid="namespacedocutils_1_1parsers_1_1rst_1_1directives_1a307e8de01bfe0a2d1de735da44b37784" kindref="member">directives.encoding</ref>,
+                   &apos;class&apos;: <ref refid="namespacedocutils_1_1parsers_1_1rst_1_1directives_1ab039a3798c4334b4a5c030244c23b086" kindref="member">directives.class_option</ref>,
+                   &apos;<ref refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1ab305adf65847b5a02d7e3c0446f6cadb" kindref="member">name</ref>&apos;: <ref refid="namespacedocutils_1_1parsers_1_1rst_1_1directives_1a2765722edbf4c675fba9a34f36d4b863" kindref="member">directives.unchanged</ref>,
+                   &apos;<ref refid="namespacedocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1a820f5abc9393ae80a53b7acb9cf43a15" kindref="member">align</ref>&apos;: <ref refid="namespacedocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1a820f5abc9393ae80a53b7acb9cf43a15" kindref="member">align</ref>,
+                   # field delimiter char
+                   &apos;delim&apos;: <ref refid="namespacedocutils_1_1parsers_1_1rst_1_1directives_1a2864af8bf1f3fcfdcad77c45c078fe1e" kindref="member">directives.single_char_or_whitespace_or_unicode</ref>,
+                   # treat whitespace after delimiter as significant
+                   &apos;keepspace&apos;: <ref refid="namespacedocutils_1_1parsers_1_1rst_1_1directives_1aaaf4ecf1ffcc0085026f1850347570b1" kindref="member">directives.flag</ref>,
+                   # text field quote/unquote char:
+                   &apos;quote&apos;: <ref refid="namespacedocutils_1_1parsers_1_1rst_1_1directives_1a9261f217e4e82310965513add542a46b" kindref="member">directives.single_char_or_unicode</ref>,
+                   # char used to escape delim &amp; quote as-needed:
+                   &apos;escape&apos;: <ref refid="namespacedocutils_1_1parsers_1_1rst_1_1directives_1a9261f217e4e82310965513add542a46b" kindref="member">directives.single_char_or_unicode</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" line="176" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" bodystart="176" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1a3de63bb9de0db588dc41fd286116e4f2" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.directives.tables.CSVTable::options</definition>
+        <argsstring></argsstring>
+        <name>options</name>
+        <qualifiedname>docutils.parsers.rst.directives.tables.CSVTable.options</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" line="270" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1ab305adf65847b5a02d7e3c0446f6cadb" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.directives.tables.CSVTable::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>docutils.parsers.rst.directives.tables.CSVTable.name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" line="281" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1ad81d664318d0390e3aa9ed9e2bbe0861" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.directives.tables.CSVTable::block_text</definition>
+        <argsstring></argsstring>
+        <name>block_text</name>
+        <qualifiedname>docutils.parsers.rst.directives.tables.CSVTable.block_text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" line="282" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" bodystart="282" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1a32b13338f5936b992cd8d68a0bf2de6c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.directives.tables.CSVTable.check_requirements</definition>
+        <argsstring>()</argsstring>
+        <name>check_requirements</name>
+        <qualifiedname>docutils.parsers.rst.directives.tables.CSVTable.check_requirements</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" line="257" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" bodystart="257" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1afa4aef518ccbf16ffebd34c63a09d976" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.directives.tables.CSVTable.decode_from_csv</definition>
+        <argsstring>(s)</argsstring>
+        <name>decode_from_csv</name>
+        <qualifiedname>docutils.parsers.rst.directives.tables.CSVTable.decode_from_csv</qualifiedname>
+        <param>
+          <type>s</type>
+          <defname>s</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" line="390" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" bodystart="390" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1a45d182b0b95c474f6dd94cba9df4f71b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.directives.tables.CSVTable.encode_for_csv</definition>
+        <argsstring>(s)</argsstring>
+        <name>encode_for_csv</name>
+        <qualifiedname>docutils.parsers.rst.directives.tables.CSVTable.encode_for_csv</qualifiedname>
+        <param>
+          <type>s</type>
+          <defname>s</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" line="398" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" bodystart="398" bodyend="404"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1aba644710e6a2d6b044eac751d6148e69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.directives.tables.CSVTable.process_header_option</definition>
+        <argsstring>(self)</argsstring>
+        <name>process_header_option</name>
+        <qualifiedname>docutils.parsers.rst.directives.tables.CSVTable.process_header_option</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" line="263" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" bodystart="263" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1a0c954dd768b92b89252e371c38adfbe6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.directives.tables.CSVTable.run</definition>
+        <argsstring>(self)</argsstring>
+        <name>run</name>
+        <qualifiedname>docutils.parsers.rst.directives.tables.CSVTable.run</qualifiedname>
+        <reimplements refid="classdocutils_1_1parsers_1_1rst_1_1Directive_1a2bb88f0522bd2160dd378033b3989f09">run</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" line="275" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" bodystart="275" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1a9f1d2a6758dd6f729943abcf649d342b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.directives.tables.CSVTable.get_csv_data</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_csv_data</name>
+        <qualifiedname>docutils.parsers.rst.directives.tables.CSVTable.get_csv_data</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get CSV data from the directive content, from an external
+file, or from a URL reference.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" line="320" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" bodystart="320" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1a934bc26e9ce36a21db92edced41dec89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.directives.tables.CSVTable.parse_csv_data_into_rows</definition>
+        <argsstring>(self, csv_data, dialect, source)</argsstring>
+        <name>parse_csv_data_into_rows</name>
+        <qualifiedname>docutils.parsers.rst.directives.tables.CSVTable.parse_csv_data_into_rows</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>csv_data</type>
+          <defname>csv_data</defname>
+        </param>
+        <param>
+          <type>dialect</type>
+          <defname>dialect</defname>
+        </param>
+        <param>
+          <type>source</type>
+          <defname>source</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" line="405" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" bodystart="405" bodyend="420"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.parsers.rst.directives.tables.CSVTable</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.parsers.rst.Directive</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1Directive"/>
+      </node>
+      <node id="2">
+        <label>docutils.parsers.rst.directives.tables.Table</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1Table"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>docutils.parsers.rst.directives.tables.CSVTable</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.parsers.rst.Directive</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1Directive"/>
+      </node>
+      <node id="2">
+        <label>docutils.parsers.rst.directives.tables.Table</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1Table"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" line="174" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/directives/tables.py" bodystart="174" bodyend="420"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1ad81d664318d0390e3aa9ed9e2bbe0861" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::directives::tables::CSVTable</scope><name>block_text</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1a32b13338f5936b992cd8d68a0bf2de6c" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::directives::tables::CSVTable</scope><name>check_requirements</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1afa4aef518ccbf16ffebd34c63a09d976" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::directives::tables::CSVTable</scope><name>decode_from_csv</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1a45d182b0b95c474f6dd94cba9df4f71b" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::directives::tables::CSVTable</scope><name>encode_for_csv</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1a9f1d2a6758dd6f729943abcf649d342b" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::directives::tables::CSVTable</scope><name>get_csv_data</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1ab305adf65847b5a02d7e3c0446f6cadb" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::directives::tables::CSVTable</scope><name>name</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1af49a9a7d1c9f6c8ea31b22931368a465" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::directives::tables::CSVTable</scope><name>option_spec</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1a3de63bb9de0db588dc41fd286116e4f2" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::directives::tables::CSVTable</scope><name>options</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1a934bc26e9ce36a21db92edced41dec89" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::directives::tables::CSVTable</scope><name>parse_csv_data_into_rows</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1aba644710e6a2d6b044eac751d6148e69" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::directives::tables::CSVTable</scope><name>process_header_option</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1tables_1_1CSVTable_1a0c954dd768b92b89252e371c38adfbe6" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::directives::tables::CSVTable</scope><name>run</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

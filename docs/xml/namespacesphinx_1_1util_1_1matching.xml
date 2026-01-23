@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1util_1_1matching" kind="namespace" language="Python">
+    <compoundname>sphinx::util::matching</compoundname>
+    <innerclass refid="classsphinx_1_1util_1_1matching_1_1Matcher" prot="public">sphinx::util::matching::Matcher</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1matching_1a55967bd9a7dfd6a139f65210191be25a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::util::matching.DOTFILES</definition>
+        <argsstring></argsstring>
+        <name>DOTFILES</name>
+        <qualifiedname>sphinx.util.matching.DOTFILES</qualifiedname>
+        <initializer>=  <ref refid="classsphinx_1_1util_1_1matching_1_1Matcher" kindref="compound">Matcher</ref>([&apos;**/.*&apos;])</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/matching.py" line="88" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/matching.py" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1util_1_1matching_1acadcdf88672e99b1667e32b439240159" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::util::matching._pat_cache</definition>
+        <argsstring></argsstring>
+        <name>_pat_cache</name>
+        <qualifiedname>sphinx.util.matching._pat_cache</qualifiedname>
+        <initializer>=  {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/matching.py" line="91" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/matching.py" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1matching_1ae6c2f200609fe2552d5839c76a7adecc" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.matching._translate_pattern</definition>
+        <argsstring>(str pat)</argsstring>
+        <name>_translate_pattern</name>
+        <qualifiedname>sphinx.util.matching._translate_pattern</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>pat</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Translate a shell-style glob pattern to a regular expression.
+
+Adapted from the fnmatch module, but enhanced so that single stars don&apos;t
+match slashes.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/matching.py" line="17" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/matching.py" bodystart="17" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1matching_1aef835bc22fc7c5acb9d54db4a77553b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[Callable[[str], re.Match[str]|None]]</type>
+        <definition> list[Callable[[str], re.Match[str] | None]] sphinx.util.matching.compile_matchers</definition>
+        <argsstring>(Iterable[str] patterns)</argsstring>
+        <name>compile_matchers</name>
+        <qualifiedname>sphinx.util.matching.compile_matchers</qualifiedname>
+        <param>
+          <type>Iterable</type>
+          <declname>patterns</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/matching.py" line="63" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/matching.py" bodystart="65" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1matching_1a7735bef7350e6b64fc9c204418baf403" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>re.Match[str]|None</type>
+        <definition> re.Match[str] | None sphinx.util.matching.patmatch</definition>
+        <argsstring>(str name, str pat)</argsstring>
+        <name>patmatch</name>
+        <qualifiedname>sphinx.util.matching.patmatch</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>pat</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return if name matches the regular expression (pattern)
+``pat```. Adapted from fnmatch module.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/matching.py" line="94" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/matching.py" bodystart="94" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1matching_1aa2e5e0f90da499d32f1c28824654134b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[str]</type>
+        <definition> list[str] sphinx.util.matching.patfilter</definition>
+        <argsstring>(Iterable[str] names, str pat)</argsstring>
+        <name>patfilter</name>
+        <qualifiedname>sphinx.util.matching.patfilter</qualifiedname>
+        <param>
+          <type>Iterable</type>
+          <declname>names</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>pat</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the subset of the list ``names`` that match
+the regular expression (pattern) ``pat``.
+
+Adapted from fnmatch module.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/matching.py" line="103" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/matching.py" bodystart="103" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1matching_1a73b947e22048ee398795f5ab63c127d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[str]</type>
+        <definition> Iterator[str] sphinx.util.matching.get_matching_files</definition>
+        <argsstring>(str|os.PathLike[str] dirname, Iterable[str] include_patterns=(&apos; **&apos;,), Iterable[str] exclude_patterns=())</argsstring>
+        <name>get_matching_files</name>
+        <qualifiedname>sphinx.util.matching.get_matching_files</qualifiedname>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>dirname</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>Iterable</type>
+          <declname>include_patterns</declname>
+          <array>[str]</array>
+          <defval>(&apos; **&apos;,)</defval>
+        </param>
+        <param>
+          <type>Iterable</type>
+          <declname>exclude_patterns</declname>
+          <array>[str]</array>
+          <defval>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get all file names in a directory, recursively.
+
+Filter file names by the glob-style include_patterns and exclude_patterns.
+The default values include all files (&quot;**&quot;) and exclude nothing (&quot;&quot;).
+
+Only files matching some pattern in *include_patterns* are included, and
+exclusions from *exclude_patterns* take priority over inclusions.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/matching.py" line="115" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/matching.py" bodystart="119" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1util_1_1matching_1a1391efe9698b41f8f7ac5ac93302466a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.matching._unicode_nfc</definition>
+        <argsstring>(str s)</argsstring>
+        <name>_unicode_nfc</name>
+        <qualifiedname>sphinx.util.matching._unicode_nfc</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Normalise the string to NFC form.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/matching.py" line="176" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/matching.py" bodystart="176" bodyend="179"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Pattern-matching utility functions for Sphinx.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/util/matching.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

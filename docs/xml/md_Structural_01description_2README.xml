@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_Structural_01description_2README" kind="page">
+    <compoundname>md_Structural_01description_2README</compoundname>
+    <title>Welcome to Proto</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_Structural_01description_2README_1autotoc_md78"/> Proto is a high-performance, low-latency C++ runtime library engineered for systems where predictable, real-time performance is paramount. It achieves this through a unique combination of architectural choices that eliminate common performance bottlenecks. By providing near-zero overhead for core operations like garbage collection and attribute access, Proto allows developers to build complex systems that remain fast and responsive under concurrent load.</para>
+<sect1 id="md_Structural_01description_2README_1autotoc_md79">
+<title>Key Features</title>
+<para><itemizedlist>
+<listitem><para><bold>Aggressive Per-Thread Caching:</bold> Attribute lookups, a frequent operation in object-oriented systems, are transformed into a constant-time (<computeroutput>O(1)</computeroutput>) operation via a per-thread cache. This avoids costly prototype chain traversals and requires zero cross-thread locking.</para>
+</listitem><listitem><para><bold>Minimal Stop-The-World GC:</bold> A concurrent garbage collector that limits its &quot;stop-the-world&quot; phase to a fast, parallel cache clearing operation, making GC pauses brief and predictable.</para>
+</listitem><listitem><para><bold>Lock-Free Mutability:</bold> A novel model for handling mutable state via an atomic indirection table, which eliminates the need for mutexes on state changes and dramatically simplifies GC root scanning.</para>
+</listitem><listitem><para><bold>Efficient Immutable Data Structures:</bold> Core collections like strings and tuples are implemented as immutable tree-like structures (ropes), making operations like concatenation and slicing <computeroutput>O(log N)</computeroutput> instead of <computeroutput>O(N)</computeroutput>.</para>
+</listitem><listitem><para><bold>Prototype-Based Object Model:</bold> A flexible, dynamic object system based on prototypes, not classes.</para>
+</listitem><listitem><para><bold>Agnostic &amp; Embeddable:</bold> Designed as a library to be the backend for any language, interpreter, VM, or AOT compiler.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="md_Structural_01description_2README_1autotoc_md80">
+<title>Who is this for?</title>
+<para>Proto is designed for a wide range of developers and researchers:</para>
+<para><itemizedlist>
+<listitem><para><bold>University Students:</bold> An excellent case study for learning about advanced runtime design, garbage collection, and concurrency models.</para>
+</listitem><listitem><para><bold>Language Designers &amp; Implementers:</bold> A solid foundation for creating new dynamic languages or high-performance virtual machines.</para>
+</listitem><listitem><para><bold>Game Developers:</bold> A runtime that can help achieve smooth, stutter-free performance in game engines.</para>
+</listitem><listitem><para><bold>Fintech Engineers:</bold> For building low-latency trading and financial modeling systems where every microsecond counts.</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="md_Structural_01description_2README_1autotoc_md81">
+<title>Getting Started</title>
+<para>Ready to dive in? Our Quick Start guide will walk you through building the library and running your first &quot;Hello, Proto!&quot; application.</para>
+<para><itemizedlist>
+<listitem><para><bold><ref refid="md_Structural_01description_2guides_201__quick__start" kindref="compound">Get started now!</ref></bold></para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="md_Structural_01description_2README_1autotoc_md82">
+<title>Diving Deeper</title>
+<para>Understand the core architectural decisions that make Proto unique.</para>
+<para><itemizedlist>
+<listitem><para><bold><ref refid="md_Structural_01description_2architecture_201__garbage__collector" kindref="compound">The Low-Latency Garbage Collector</ref></bold></para>
+</listitem><listitem><para><bold><ref refid="md_Structural_01description_2architecture_202__mutability__model" kindref="compound">The Lock-Free Mutability Model</ref></bold></para>
+</listitem><listitem><para><bold><ref refid="md_Structural_01description_2architecture_203__object__model" kindref="compound">The Object and Type System</ref></bold></para>
+</listitem><listitem><para><bold><ref refid="md_Structural_01description_2architecture_204__ffi__and__integration" kindref="compound">FFI and C++ Integration</ref></bold></para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="md_Structural_01description_2README_1autotoc_md83">
+<title>Community &amp; Contribution</title>
+<para>Proto is an open-source project, and we welcome contributors of all levels.</para>
+<para><itemizedlist>
+<listitem><para><bold><ulink url="https://github.com/your-repo/proto">GitHub Repository</ulink></bold></para>
+</listitem><listitem><para><bold><ulink url="https://github.com/your-repo/proto/discussions">Join the Discussion</ulink></bold></para>
+</listitem><listitem><para><bold><ref refid="md_Structural_01description_2guides_203__contributing" kindref="compound">Contributor&apos;s Guide</ref></bold> </para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+    </detaileddescription>
+    <location file="Structural description/README.md"/>
+  </compounddef>
+</doxygen>

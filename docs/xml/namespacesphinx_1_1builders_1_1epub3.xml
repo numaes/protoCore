@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1builders_1_1epub3" kind="namespace" language="Python">
+    <compoundname>sphinx::builders::epub3</compoundname>
+    <innerclass refid="classsphinx_1_1builders_1_1epub3_1_1Epub3Builder" prot="public">sphinx::builders::epub3::Epub3Builder</innerclass>
+    <innerclass refid="classsphinx_1_1builders_1_1epub3_1_1NavPoint" prot="public">sphinx::builders::epub3::NavPoint</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1epub3_1adba3253ef7bd3d72771c40501967dc25" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::builders::epub3.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.builders.epub3.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" line="31" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1epub3_1a089d3a82768d080553ba5bd3bc573300" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::builders::epub3.PAGE_PROGRESSION_DIRECTIONS</definition>
+        <argsstring></argsstring>
+        <name>PAGE_PROGRESSION_DIRECTIONS</name>
+        <qualifiedname>sphinx.builders.epub3.PAGE_PROGRESSION_DIRECTIONS</qualifiedname>
+        <initializer>=  {
+    &apos;horizontal&apos;: &apos;ltr&apos;,
+    &apos;vertical&apos;: &apos;rtl&apos;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" line="41" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1epub3_1a06fbbb9dec69ab1bb3260b85c2970d34" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::builders::epub3.IBOOK_SCROLL_AXIS</definition>
+        <argsstring></argsstring>
+        <name>IBOOK_SCROLL_AXIS</name>
+        <qualifiedname>sphinx.builders.epub3.IBOOK_SCROLL_AXIS</qualifiedname>
+        <initializer>=  {
+    &apos;horizontal&apos;: &apos;vertical&apos;,
+    &apos;vertical&apos;: &apos;horizontal&apos;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" line="45" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1epub3_1a40860d68f521db5ab236294fe11c409d" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::builders::epub3.THEME_WRITING_MODES</definition>
+        <argsstring></argsstring>
+        <name>THEME_WRITING_MODES</name>
+        <qualifiedname>sphinx.builders.epub3.THEME_WRITING_MODES</qualifiedname>
+        <initializer>=  {
+    &apos;vertical&apos;: &apos;vertical-rl&apos;,
+    &apos;horizontal&apos;: &apos;horizontal-tb&apos;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" line="49" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1epub3_1add074068dc4c6fe4ab5455d7298d0c62" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str sphinx::builders::epub3.DOCTYPE</definition>
+        <argsstring></argsstring>
+        <name>DOCTYPE</name>
+        <qualifiedname>sphinx.builders.epub3.DOCTYPE</qualifiedname>
+        <initializer>=  &quot;&quot;&quot;&lt;!DOCTYPE html&gt;&quot;&quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" line="54" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1epub3_1a0d1af5f9a272e0cf6395a8caa0c33d67" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx::builders::epub3.HTML_TAG</definition>
+        <argsstring></argsstring>
+        <name>HTML_TAG</name>
+        <qualifiedname>sphinx.builders.epub3.HTML_TAG</qualifiedname>
+        <initializer>=  (
+    &apos;&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; &apos;
+    &apos;xmlns:epub=&quot;http://www.idpf.org/2007/ops&quot;&gt;&apos;
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" line="56" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1epub3_1af7927e534828b0ac5d494c8f134cf348" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx::builders::epub3._xml_name_start_char</definition>
+        <argsstring></argsstring>
+        <name>_xml_name_start_char</name>
+        <qualifiedname>sphinx.builders.epub3._xml_name_start_char</qualifiedname>
+        <initializer>=  (
+    &apos;:|[A-Z]|_|[a-z]|[\u00c0-\u00d6]&apos;
+    &apos;|[\u00d8-\u00f6]|[\u00f8-\u02ff]|[\u0370-\u037d]&apos;
+    &apos;|[\u037f-\u1fff]|[\u200c-\u200d]|[\u2070-\u218f]&apos;
+    &apos;|[\u2c00-\u2fef]|[\u3001-\ud7ff]|[\uf900-\ufdcf]&apos;
+    &apos;|[\ufdf0-\ufffd]|[\U00010000-\U000effff]&apos;
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" line="62" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1epub3_1a5dcd2cd8c563122ecd3327b2ce115a36" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx::builders::epub3._xml_name_char</definition>
+        <argsstring></argsstring>
+        <name>_xml_name_char</name>
+        <qualifiedname>sphinx.builders.epub3._xml_name_char</qualifiedname>
+        <initializer>=  (
+    <ref refid="namespacesphinx_1_1builders_1_1epub3_1af7927e534828b0ac5d494c8f134cf348" kindref="member">_xml_name_start_char</ref> + r&apos;\-|\.|[0-9]|\u00b7|[\u0300-\u036f]|[\u203f-\u2040]&apos;
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" line="69" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1epub3_1a2c8bb7a1fcf8e14f8c1a07c80bc7e46f" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::builders::epub3._XML_NAME_PATTERN</definition>
+        <argsstring></argsstring>
+        <name>_XML_NAME_PATTERN</name>
+        <qualifiedname>sphinx.builders.epub3._XML_NAME_PATTERN</qualifiedname>
+        <initializer>=  re.compile(f&apos;({<ref refid="namespacesphinx_1_1builders_1_1epub3_1af7927e534828b0ac5d494c8f134cf348" kindref="member">_xml_name_start_char</ref>})({<ref refid="namespacesphinx_1_1builders_1_1epub3_1a5dcd2cd8c563122ecd3327b2ce115a36" kindref="member">_xml_name_char</ref>})*&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" line="72" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1epub3_1af595740499e41e130a910b66f48a2236" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::builders::epub3.project</definition>
+        <argsstring></argsstring>
+        <name>project</name>
+        <qualifiedname>sphinx.builders.epub3.project</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" line="291" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1epub3_1a91b61951b00afd42bf2818885c177c3a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::builders::epub3.author</definition>
+        <argsstring></argsstring>
+        <name>author</name>
+        <qualifiedname>sphinx.builders.epub3.author</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" line="304" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1epub3_1a523ce2eb01ff68d4ed025f3737875812" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::builders::epub3.copyright</definition>
+        <argsstring></argsstring>
+        <name>copyright</name>
+        <qualifiedname>sphinx.builders.epub3.copyright</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" line="316" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1epub3_1a8c23d6c29a333ddf7e2b0d1a40075435" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::builders::epub3.html_use_index</definition>
+        <argsstring></argsstring>
+        <name>html_use_index</name>
+        <qualifiedname>sphinx.builders.epub3.html_use_index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" line="342" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" bodystart="342" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1epub3_1ac334393e85d65f826b99e3b3e14236e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.epub3.validate_config_values</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>validate_config_values</name>
+        <qualifiedname>sphinx.builders.epub3.validate_config_values</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" line="213" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" bodystart="213" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1epub3_1a04360ffd119c9db13e0ddbdc8a485a68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.epub3.convert_epub_css_files</definition>
+        <argsstring>(Sphinx app, Config config)</argsstring>
+        <name>convert_epub_css_files</name>
+        <qualifiedname>sphinx.builders.epub3.convert_epub_css_files</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert string styled epub_css_files to tuple styled one.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" line="268" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" bodystart="268" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1epub3_1afba61ec60405b7550285e18617612546" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1ExtensionMetadata" kindref="compound">ExtensionMetadata</ref></type>
+        <definition> ExtensionMetadata sphinx.builders.epub3.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.builders.epub3.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" line="285" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" bodystart="285" bodyend="361"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Build epub3 files.
+
+Originally derived from epub.py.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/builders/epub3.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

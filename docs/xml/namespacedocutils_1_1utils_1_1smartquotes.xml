@@ -1,0 +1,879 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacedocutils_1_1utils_1_1smartquotes" kind="namespace" language="Python">
+    <compoundname>docutils::utils::smartquotes</compoundname>
+    <innerclass refid="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions" prot="public">docutils::utils::smartquotes::RegularExpressions</innerclass>
+    <innerclass refid="classdocutils_1_1utils_1_1smartquotes_1_1smartchars" prot="public">docutils::utils::smartquotes::smartchars</innerclass>
+    <innerclass refid="classdocutils_1_1utils_1_1smartquotes_1_1TestSmartypantsAllAttributes" prot="public">docutils::utils::smartquotes::TestSmartypantsAllAttributes</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1smartquotes_1ac1c630e568a3db17dd6bd942657454f4" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str docutils::utils::smartquotes.options</definition>
+        <argsstring></argsstring>
+        <name>options</name>
+        <qualifiedname>docutils.utils.smartquotes.options</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="322" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1smartquotes_1a0fc7cae425082a5ab168dc2f0d4a1f5d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils::utils::smartquotes.regexes</definition>
+        <argsstring></argsstring>
+        <name>regexes</name>
+        <qualifiedname>docutils.utils.smartquotes.regexes</qualifiedname>
+        <initializer>=  <ref refid="classdocutils_1_1utils_1_1smartquotes_1_1RegularExpressions" kindref="compound">RegularExpressions</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="551" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="551" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1smartquotes_1a9ec466db73e6cc72e832446afc54407c" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str docutils::utils::smartquotes.default_smartypants_attr</definition>
+        <argsstring></argsstring>
+        <name>default_smartypants_attr</name>
+        <qualifiedname>docutils.utils.smartquotes.default_smartypants_attr</qualifiedname>
+        <initializer>=  &apos;1&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="554" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="554" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1smartquotes_1af61972cf8317940ab99fcc3780a4c6f2" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>str docutils::utils::smartquotes::defaultlanguage</definition>
+        <argsstring></argsstring>
+        <name>defaultlanguage</name>
+        <qualifiedname>docutils.utils.smartquotes.defaultlanguage</qualifiedname>
+        <initializer>=  locale.getlocale()[0]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="913" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="913" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1smartquotes_1a25c89edae708310bdc560880620aade2" prot="protected" static="no" mutable="no">
+        <type>list</type>
+        <definition>list docutils::utils::smartquotes._subtags</definition>
+        <argsstring></argsstring>
+        <name>_subtags</name>
+        <qualifiedname>docutils.utils.smartquotes._subtags</qualifiedname>
+        <initializer>=  [subtag for subtag in defaultlanguage.split(&apos;_&apos;)]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="921" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="921" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1smartquotes_1ab0094dc02f992c7659ec1048ac1b0728" prot="protected" static="no" mutable="no">
+        <type>list</type>
+        <definition>list docutils::utils::smartquotes._basetag</definition>
+        <argsstring></argsstring>
+        <name>_basetag</name>
+        <qualifiedname>docutils.utils.smartquotes._basetag</qualifiedname>
+        <initializer>=  _subtags.pop(0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="922" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="922" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1smartquotes_1a2574b4604b7f02f3047f842b79338d78" prot="protected" static="no" mutable="no">
+        <type>str</type>
+        <definition>str docutils::utils::smartquotes._tag</definition>
+        <argsstring></argsstring>
+        <name>_tag</name>
+        <qualifiedname>docutils.utils.smartquotes._tag</qualifiedname>
+        <initializer>=  &apos;-&apos;.join((<ref refid="namespacedocutils_1_1utils_1_1smartquotes_1ab0094dc02f992c7659ec1048ac1b0728" kindref="member">_basetag</ref>, *tags))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="926" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="926" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1smartquotes_1aa8dd279c29bddb817fa1a7b26de3609b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils::utils::smartquotes.parser</definition>
+        <argsstring></argsstring>
+        <name>parser</name>
+        <qualifiedname>docutils.utils.smartquotes.parser</qualifiedname>
+        <initializer>=  argparse.ArgumentParser(
+                description=&apos;Filter &lt;input&gt; making ASCII punctuation &quot;smart&quot;.&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="937" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="937" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1smartquotes_1a8b77b50f2afc1ff1a8f8f0452c568efa" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils::utils::smartquotes.default</definition>
+        <argsstring></argsstring>
+        <name>default</name>
+        <qualifiedname>docutils.utils.smartquotes.default</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="941" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="941" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1smartquotes_1af9ad8acca3bbc33cce139cfe499379fe" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils::utils::smartquotes.help</definition>
+        <argsstring></argsstring>
+        <name>help</name>
+        <qualifiedname>docutils.utils.smartquotes.help</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="942" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="942" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1smartquotes_1a393b6a8c50b217b821095586c05bc101" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils::utils::smartquotes.action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>docutils.utils.smartquotes.action</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="948" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="948" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1smartquotes_1aaa279c506a10e2b7dc123de0db3e09a2" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils::utils::smartquotes.args</definition>
+        <argsstring></argsstring>
+        <name>args</name>
+        <qualifiedname>docutils.utils.smartquotes.args</qualifiedname>
+        <initializer>=  parser.parse_args()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="958" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="958" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1smartquotes_1a0a3e60aaa9d4fddbd6c4bbf59021dce7" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils::utils::smartquotes.suite</definition>
+        <argsstring></argsstring>
+        <name>suite</name>
+        <qualifiedname>docutils.utils.smartquotes.suite</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="993" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="993" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1smartquotes_1a0d14ab061d81a91202988b4e93dd7522" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils::utils::smartquotes.language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>docutils.utils.smartquotes.language</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="1000" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="1000" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1smartquotes_1a5881a4abbbc823e7b161f69d5fb00dc6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils::utils::smartquotes.text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>docutils.utils.smartquotes.text</qualifiedname>
+        <initializer>=  sys.stdin.read()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="1003" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="1003" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1smartquotes_1ae49f27645aa500cd141b726db0eb4187" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.smartquotes.smartyPants</definition>
+        <argsstring>(text, attr=default_smartypants_attr, language=&apos;en&apos;)</argsstring>
+        <name>smartyPants</name>
+        <qualifiedname>docutils.utils.smartquotes.smartyPants</qualifiedname>
+        <param>
+          <type><ref refid="namespacedocutils_1_1utils_1_1smartquotes_1a5881a4abbbc823e7b161f69d5fb00dc6" kindref="member">text</ref></type>
+          <defname>text</defname>
+        </param>
+        <param>
+          <type>attr</type>
+          <defname>attr</defname>
+          <defval><ref refid="namespacedocutils_1_1utils_1_1smartquotes_1a9ec466db73e6cc72e832446afc54407c" kindref="member">default_smartypants_attr</ref></defval>
+        </param>
+        <param>
+          <type><ref refid="namespacedocutils_1_1utils_1_1smartquotes_1a0d14ab061d81a91202988b4e93dd7522" kindref="member">language</ref></type>
+          <defname>language</defname>
+          <defval>&apos;en&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Main function for &quot;traditional&quot; use.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="557" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="557" bodyend="562"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1smartquotes_1a445ac09737d3f2dd4d43faa2d24d8a1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.smartquotes.educate_tokens</definition>
+        <argsstring>(text_tokens, attr=default_smartypants_attr, language=&apos;en&apos;)</argsstring>
+        <name>educate_tokens</name>
+        <qualifiedname>docutils.utils.smartquotes.educate_tokens</qualifiedname>
+        <param>
+          <type>text_tokens</type>
+          <defname>text_tokens</defname>
+        </param>
+        <param>
+          <type>attr</type>
+          <defname>attr</defname>
+          <defval><ref refid="namespacedocutils_1_1utils_1_1smartquotes_1a9ec466db73e6cc72e832446afc54407c" kindref="member">default_smartypants_attr</ref></defval>
+        </param>
+        <param>
+          <type><ref refid="namespacedocutils_1_1utils_1_1smartquotes_1a0d14ab061d81a91202988b4e93dd7522" kindref="member">language</ref></type>
+          <defname>language</defname>
+          <defval>&apos;en&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return iterator that &quot;educates&quot; the items of `text_tokens`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="563" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="563" bodyend="675"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1smartquotes_1ab938bb4d6e8f3037a6c7b5dd0a46e63c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.smartquotes.educateQuotes</definition>
+        <argsstring>(text, language=&apos;en&apos;)</argsstring>
+        <name>educateQuotes</name>
+        <qualifiedname>docutils.utils.smartquotes.educateQuotes</qualifiedname>
+        <param>
+          <type><ref refid="namespacedocutils_1_1utils_1_1smartquotes_1a5881a4abbbc823e7b161f69d5fb00dc6" kindref="member">text</ref></type>
+          <defname>text</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacedocutils_1_1utils_1_1smartquotes_1a0d14ab061d81a91202988b4e93dd7522" kindref="member">language</ref></type>
+          <defname>language</defname>
+          <defval>&apos;en&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parameter:  - text string (unicode or bytes).
+            - language (`BCP 47` language tag.)
+Returns:    The `text`, with &quot;educated&quot; curly quote characters.
+
+Example input:  &quot;Isn&apos;t this fun?&quot;
+Example output: “Isn’t this fun?“
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="676" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="676" bodyend="735"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1smartquotes_1a349a936e4685ceb08c87a31ed39ef395" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.smartquotes.educateBackticks</definition>
+        <argsstring>(text, language=&apos;en&apos;)</argsstring>
+        <name>educateBackticks</name>
+        <qualifiedname>docutils.utils.smartquotes.educateBackticks</qualifiedname>
+        <param>
+          <type><ref refid="namespacedocutils_1_1utils_1_1smartquotes_1a5881a4abbbc823e7b161f69d5fb00dc6" kindref="member">text</ref></type>
+          <defname>text</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacedocutils_1_1utils_1_1smartquotes_1a0d14ab061d81a91202988b4e93dd7522" kindref="member">language</ref></type>
+          <defname>language</defname>
+          <defval>&apos;en&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parameter:  String (unicode or bytes).
+Returns:    The `text`, with ``backticks&apos;&apos; -style double quotes
+            translated into HTML curly quote entities.
+Example input:  ``Isn&apos;t this fun?&apos;&apos;
+Example output: “Isn&apos;t this fun?“
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="736" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="736" bodyend="750"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1smartquotes_1abda5d60f85888814a58110fade027504" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.smartquotes.educateSingleBackticks</definition>
+        <argsstring>(text, language=&apos;en&apos;)</argsstring>
+        <name>educateSingleBackticks</name>
+        <qualifiedname>docutils.utils.smartquotes.educateSingleBackticks</qualifiedname>
+        <param>
+          <type><ref refid="namespacedocutils_1_1utils_1_1smartquotes_1a5881a4abbbc823e7b161f69d5fb00dc6" kindref="member">text</ref></type>
+          <defname>text</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacedocutils_1_1utils_1_1smartquotes_1a0d14ab061d81a91202988b4e93dd7522" kindref="member">language</ref></type>
+          <defname>language</defname>
+          <defval>&apos;en&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parameter:  String (unicode or bytes).
+Returns:    The `text`, with `backticks&apos; -style single quotes
+            translated into HTML curly quote entities.
+
+Example input:  `Isn&apos;t this fun?&apos;
+Example output: ‘Isn’t this fun?’
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="751" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="751" bodyend="766"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1smartquotes_1a989183aaedef1b3e32685cb07951fc0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.smartquotes.educateDashes</definition>
+        <argsstring>(text)</argsstring>
+        <name>educateDashes</name>
+        <qualifiedname>docutils.utils.smartquotes.educateDashes</qualifiedname>
+        <param>
+          <type><ref refid="namespacedocutils_1_1utils_1_1smartquotes_1a5881a4abbbc823e7b161f69d5fb00dc6" kindref="member">text</ref></type>
+          <defname>text</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parameter:  String (unicode or bytes).
+Returns:    The `text`, with each instance of &quot;--&quot; translated to
+            an em-dash character.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="767" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="767" bodyend="778"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1smartquotes_1a554b644781b1672bf6e03846a07b793c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.smartquotes.educateDashesOldSchool</definition>
+        <argsstring>(text)</argsstring>
+        <name>educateDashesOldSchool</name>
+        <qualifiedname>docutils.utils.smartquotes.educateDashesOldSchool</qualifiedname>
+        <param>
+          <type><ref refid="namespacedocutils_1_1utils_1_1smartquotes_1a5881a4abbbc823e7b161f69d5fb00dc6" kindref="member">text</ref></type>
+          <defname>text</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parameter:  String (unicode or bytes).
+Returns:    The `text`, with each instance of &quot;--&quot; translated to
+            an en-dash character, and each &quot;---&quot; translated to
+            an em-dash character.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="779" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="779" bodyend="791"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1smartquotes_1a1b9994e8a8bf3dfcd97501c75ec57258" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.smartquotes.educateDashesOldSchoolInverted</definition>
+        <argsstring>(text)</argsstring>
+        <name>educateDashesOldSchoolInverted</name>
+        <qualifiedname>docutils.utils.smartquotes.educateDashesOldSchoolInverted</qualifiedname>
+        <param>
+          <type><ref refid="namespacedocutils_1_1utils_1_1smartquotes_1a5881a4abbbc823e7b161f69d5fb00dc6" kindref="member">text</ref></type>
+          <defname>text</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parameter:  String (unicode or bytes).
+Returns:    The `text`, with each instance of &quot;--&quot; translated to
+            an em-dash character, and each &quot;---&quot; translated to
+            an en-dash character. Two reasons why: First, unlike the
+            en- and em-dash syntax supported by
+            EducateDashesOldSchool(), it&apos;s compatible with existing
+            entries written before SmartyPants 1.1, back when &quot;--&quot; was
+            only used for em-dashes.  Second, em-dashes are more
+            common than en-dashes, and so it sort of makes sense that
+            the shortcut should be shorter to type. (Thanks to Aaron
+            Swartz for the idea.)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="792" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="792" bodyend="810"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1smartquotes_1a8700a6426501140fc2482770544a84d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.smartquotes.educateEllipses</definition>
+        <argsstring>(text)</argsstring>
+        <name>educateEllipses</name>
+        <qualifiedname>docutils.utils.smartquotes.educateEllipses</qualifiedname>
+        <param>
+          <type><ref refid="namespacedocutils_1_1utils_1_1smartquotes_1a5881a4abbbc823e7b161f69d5fb00dc6" kindref="member">text</ref></type>
+          <defname>text</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parameter:  String (unicode or bytes).
+Returns:    The `text`, with each instance of &quot;...&quot; translated to
+            an ellipsis character.
+
+Example input:  Huh...?
+Example output: Huh…?
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="811" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="811" bodyend="825"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1smartquotes_1af1f6cf7bb147de0a2a3ab53e62136e00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.smartquotes.stupefyEntities</definition>
+        <argsstring>(text, language=&apos;en&apos;)</argsstring>
+        <name>stupefyEntities</name>
+        <qualifiedname>docutils.utils.smartquotes.stupefyEntities</qualifiedname>
+        <param>
+          <type><ref refid="namespacedocutils_1_1utils_1_1smartquotes_1a5881a4abbbc823e7b161f69d5fb00dc6" kindref="member">text</ref></type>
+          <defname>text</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacedocutils_1_1utils_1_1smartquotes_1a0d14ab061d81a91202988b4e93dd7522" kindref="member">language</ref></type>
+          <defname>language</defname>
+          <defval>&apos;en&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parameter:  String (unicode or bytes).
+Returns:    The `text`, with each SmartyPants character translated to
+            its ASCII counterpart.
+
+Example input:  “Hello — world.”
+Example output: &quot;Hello -- world.&quot;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="826" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="826" bodyend="847"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1smartquotes_1a2334332b83c654f4c06191c31a09e8e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.smartquotes.processEscapes</definition>
+        <argsstring>(text, restore=False)</argsstring>
+        <name>processEscapes</name>
+        <qualifiedname>docutils.utils.smartquotes.processEscapes</qualifiedname>
+        <param>
+          <type><ref refid="namespacedocutils_1_1utils_1_1smartquotes_1a5881a4abbbc823e7b161f69d5fb00dc6" kindref="member">text</ref></type>
+          <defname>text</defname>
+        </param>
+        <param>
+          <type>restore</type>
+          <defname>restore</defname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parameter:  String (unicode or bytes).
+Returns:    The `text`, with after processing the following backslash
+            escape sequences. This is useful if you want to force a &quot;dumb&quot;
+            quote or other character to appear.
+
+            Escape  Value
+            ------  -----
+            \\      &amp;#92;
+            \&quot;      &amp;#34;
+            \&apos;      &amp;#39;
+            \.      &amp;#46;
+            \-      &amp;#45;
+            \`      &amp;#96;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="848" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="848" bodyend="879"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1smartquotes_1ab3e710276c837956280bbe958b1ff36b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.smartquotes.tokenize</definition>
+        <argsstring>(text)</argsstring>
+        <name>tokenize</name>
+        <qualifiedname>docutils.utils.smartquotes.tokenize</qualifiedname>
+        <param>
+          <type><ref refid="namespacedocutils_1_1utils_1_1smartquotes_1a5881a4abbbc823e7b161f69d5fb00dc6" kindref="member">text</ref></type>
+          <defname>text</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parameter:  String containing HTML markup.
+Returns:    An iterator that yields the tokens comprising the input
+            string. Each token is either a tag (possibly with nested,
+            tags contained therein, such as &lt;a href=&quot;&lt;MTFoo&gt;&quot;&gt;, or a
+            run of text between tags. Each yielded element is a
+            two-element tuple; the first is either &apos;tag&apos; or &apos;text&apos;;
+            the second is the actual value.
+
+Based on the _tokenize() subroutine from Brad Choate&apos;s MTRegex plugin.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="880" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" bodystart="880" bodyend="906"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>=========================
+Smart Quotes for Docutils
+=========================
+
+Synopsis
+========
+
+&quot;SmartyPants&quot; is a free web publishing plug-in for Movable Type, Blosxom, and
+BBEdit that easily translates plain ASCII punctuation characters into &quot;smart&quot;
+typographic punctuation characters.
+
+``smartquotes.py`` is an adaption of &quot;SmartyPants&quot; to Docutils_.
+
+* Using Unicode instead of HTML entities for typographic punctuation
+  characters, it works for any output format that supports Unicode.
+* Supports `language specific quote characters`__.
+
+__ https://en.wikipedia.org/wiki/Non-English_usage_of_quotation_marks
+
+
+Authors
+=======
+
+`John Gruber`_ did all of the hard work of writing this software in Perl for
+`Movable Type`_ and almost all of this useful documentation.  `Chad Miller`_
+ported it to Python to use with Pyblosxom_.
+Adapted to Docutils_ by Günter Milde.
+
+Additional Credits
+==================
+
+Portions of the SmartyPants original work are based on Brad Choate&apos;s nifty
+MTRegex plug-in.  `Brad Choate`_ also contributed a few bits of source code to
+this plug-in.  Brad Choate is a fine hacker indeed.
+
+`Jeremy Hedley`_ and `Charles Wiltgen`_ deserve mention for exemplary beta
+testing of the original SmartyPants.
+
+`Rael Dornfest`_ ported SmartyPants to Blosxom.
+
+.. _Brad Choate: http://bradchoate.com/
+.. _Jeremy Hedley: http://antipixel.com/
+.. _Charles Wiltgen: http://playbacktime.com/
+.. _Rael Dornfest: http://raelity.org/
+
+
+Copyright and License
+=====================
+
+SmartyPants_ license (3-Clause BSD license):
+
+  Copyright (c) 2003 John Gruber (http://daringfireball.net/)
+  All rights reserved.
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are
+  met:
+
+  * Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+
+  * Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the
+    distribution.
+
+  * Neither the name &quot;SmartyPants&quot; nor the names of its contributors
+    may be used to endorse or promote products derived from this
+    software without specific prior written permission.
+
+  This software is provided by the copyright holders and contributors
+  &quot;as is&quot; and any express or implied warranties, including, but not
+  limited to, the implied warranties of merchantability and fitness for
+  a particular purpose are disclaimed. In no event shall the copyright
+  owner or contributors be liable for any direct, indirect, incidental,
+  special, exemplary, or consequential damages (including, but not
+  limited to, procurement of substitute goods or services; loss of use,
+  data, or profits; or business interruption) however caused and on any
+  theory of liability, whether in contract, strict liability, or tort
+  (including negligence or otherwise) arising in any way out of the use
+  of this software, even if advised of the possibility of such damage.
+
+smartypants.py license (2-Clause BSD license):
+
+  smartypants.py is a derivative work of SmartyPants.
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are
+  met:
+
+  * Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+
+  * Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the
+    distribution.
+
+  This software is provided by the copyright holders and contributors
+  &quot;as is&quot; and any express or implied warranties, including, but not
+  limited to, the implied warranties of merchantability and fitness for
+  a particular purpose are disclaimed. In no event shall the copyright
+  owner or contributors be liable for any direct, indirect, incidental,
+  special, exemplary, or consequential damages (including, but not
+  limited to, procurement of substitute goods or services; loss of use,
+  data, or profits; or business interruption) however caused and on any
+  theory of liability, whether in contract, strict liability, or tort
+  (including negligence or otherwise) arising in any way out of the use
+  of this software, even if advised of the possibility of such damage.
+
+.. _John Gruber: http://daringfireball.net/
+.. _Chad Miller: http://web.chad.org/
+
+.. _Pyblosxom: http://pyblosxom.bluesock.org/
+.. _SmartyPants: http://daringfireball.net/projects/smartypants/
+.. _Movable Type: http://www.movabletype.org/
+.. _2-Clause BSD license: https://opensource.org/licenses/BSD-2-Clause
+.. _Docutils: https://docutils.sourceforge.io/
+
+Description
+===========
+
+SmartyPants can perform the following transformations:
+
+- Straight quotes ( &quot; and &apos; ) into &quot;curly&quot; quote characters
+- Backticks-style quotes (\`\`like this&apos;&apos;) into &quot;curly&quot; quote characters
+- Dashes (``--`` and ``---``) into en- and em-dash entities
+- Three consecutive dots (``...`` or ``. . .``) into an ellipsis ``…``.
+
+This means you can write, edit, and save your posts using plain old
+ASCII straight quotes, plain dashes, and plain dots, but your published
+posts (and final HTML output) will appear with smart quotes, em-dashes,
+and proper ellipses.
+
+Backslash Escapes
+=================
+
+If you need to use literal straight quotes (or plain hyphens and periods),
+`smartquotes` accepts the following backslash escape sequences to force
+ASCII-punctuation. Mind, that you need two backslashes in &quot;docstrings&quot;, as
+Python expands them, too.
+
+========  =========
+Escape    Character
+========  =========
+``\\``    \\
+``\\&quot;``   \\&quot;
+``\\&apos;``   \\&apos;
+``\\.``   \\.
+``\\-``   \\-
+``\\```   \\`
+========  =========
+
+This is useful, for example, when you want to use straight quotes as
+foot and inch marks: 6\\&apos;2\\&quot; tall; a 17\\&quot; iMac.
+
+
+Caveats
+=======
+
+Why You Might Not Want to Use Smart Quotes in Your Weblog
+---------------------------------------------------------
+
+For one thing, you might not care.
+
+Most normal, mentally stable individuals do not take notice of proper
+typographic punctuation. Many design and typography nerds, however, break
+out in a nasty rash when they encounter, say, a restaurant sign that uses
+a straight apostrophe to spell &quot;Joe&apos;s&quot;.
+
+If you&apos;re the sort of person who just doesn&apos;t care, you might well want to
+continue not caring. Using straight quotes -- and sticking to the 7-bit
+ASCII character set in general -- is certainly a simpler way to live.
+
+Even if you *do* care about accurate typography, you still might want to
+think twice before educating the quote characters in your weblog. One side
+effect of publishing curly quote characters is that it makes your
+weblog a bit harder for others to quote from using copy-and-paste. What
+happens is that when someone copies text from your blog, the copied text
+contains the 8-bit curly quote characters (as well as the 8-bit characters
+for em-dashes and ellipses, if you use these options). These characters
+are not standard across different text encoding methods, which is why they
+need to be encoded as characters.
+
+People copying text from your weblog, however, may not notice that you&apos;re
+using curly quotes, and they&apos;ll go ahead and paste the unencoded 8-bit
+characters copied from their browser into an email message or their own
+weblog. When pasted as raw &quot;smart quotes&quot;, these characters are likely to
+get mangled beyond recognition.
+
+That said, my own opinion is that any decent text editor or email client
+makes it easy to stupefy smart quote characters into their 7-bit
+equivalents, and I don&apos;t consider it my problem if you&apos;re using an
+indecent text editor or email client.
+
+
+Algorithmic Shortcomings
+------------------------
+
+One situation in which quotes will get curled the wrong way is when
+apostrophes are used at the start of leading contractions. For example::
+
+  &apos;Twas the night before Christmas.
+
+In the case above, SmartyPants will turn the apostrophe into an opening
+secondary quote, when in fact it should be the `RIGHT SINGLE QUOTATION MARK`
+character which is also &quot;the preferred character to use for apostrophe&quot;
+(Unicode). I don&apos;t think this problem can be solved in the general case --
+every word processor I&apos;ve tried gets this wrong as well. In such cases, it&apos;s
+best to inset the `RIGHT SINGLE QUOTATION MARK` (’) by hand.
+
+In English, the same character is used for apostrophe and  closing secondary
+quote (both plain and &quot;smart&quot; ones). For other locales (French, Italean,
+Swiss, ...) &quot;smart&quot; secondary closing quotes differ from the curly apostrophe.
+
+   .. class:: language-fr
+
+   Il dit : &quot;C&apos;est &apos;super&apos; !&quot;
+
+If the apostrophe is used at the end of a word, it cannot be distinguished
+from a secondary quote by the algorithm. Therefore, a text like::
+
+   .. class:: language-de-CH
+
+   &quot;Er sagt: &apos;Ich fass&apos; es nicht.&apos;&quot;
+
+will get a single closing guillemet instead of an apostrophe.
+
+This can be prevented by use use of the `RIGHT SINGLE QUOTATION MARK` in
+the source::
+
+   -  &quot;Er sagt: &apos;Ich fass&apos; es nicht.&apos;&quot;
+   +  &quot;Er sagt: &apos;Ich fass’ es nicht.&apos;&quot;
+
+
+Version History
+===============
+
+1.10    2023-11-18
+        - Pre-compile regexps once, not with every call of `educateQuotes()`
+          (patch #206 by Chris Sewell). Simplify regexps.
+
+1.9     2022-03-04
+        - Code cleanup. Require Python 3.
+
+1.8.1   2017-10-25
+        - Use open quote after Unicode whitespace, ZWSP, and ZWNJ.
+        - Code cleanup.
+
+1.8:    2017-04-24
+        - Command line front-end.
+
+1.7.1:  2017-03-19
+        - Update and extend language-dependent quotes.
+        - Differentiate apostrophe from single quote.
+
+1.7:    2012-11-19
+        - Internationalization: language-dependent quotes.
+
+1.6.1:  2012-11-06
+        - Refactor code, code cleanup,
+        - `educate_tokens()` generator as interface for Docutils.
+
+1.6:    2010-08-26
+        - Adaption to Docutils:
+          - Use Unicode instead of HTML entities,
+          - Remove code special to pyblosxom.
+
+1.5_1.6: Fri, 27 Jul 2007 07:06:40 -0400
+        - Fixed bug where blocks of precious unalterable text was instead
+          interpreted.  Thanks to Le Roux and Dirk van Oosterbosch.
+
+1.5_1.5: Sat, 13 Aug 2005 15:50:24 -0400
+        - Fix bogus magical quotation when there is no hint that the
+          user wants it, e.g., in &quot;21st century&quot;.  Thanks to Nathan Hamblen.
+        - Be smarter about quotes before terminating numbers in an en-dash&apos;ed
+          range.
+
+1.5_1.4: Thu, 10 Feb 2005 20:24:36 -0500
+        - Fix a date-processing bug, as reported by jacob childress.
+        - Begin a test-suite for ensuring correct output.
+        - Removed import of &quot;string&quot;, since I didn&apos;t really need it.
+          (This was my first every Python program.  Sue me!)
+
+1.5_1.3: Wed, 15 Sep 2004 18:25:58 -0400
+        - Abort processing if the flavour is in forbidden-list.  Default of
+          [ &quot;rss&quot; ]   (Idea of Wolfgang SCHNERRING.)
+        - Remove stray virgules from en-dashes.  Patch by Wolfgang SCHNERRING.
+
+1.5_1.2: Mon, 24 May 2004 08:14:54 -0400
+        - Some single quotes weren&apos;t replaced properly.  Diff-tesuji played
+          by Benjamin GEIGER.
+
+1.5_1.1: Sun, 14 Mar 2004 14:38:28 -0500
+        - Support upcoming pyblosxom 0.9 plugin verification feature.
+
+1.5_1.0: Tue, 09 Mar 2004 08:08:35 -0500
+        - Initial release
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/docutils/utils/smartquotes.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

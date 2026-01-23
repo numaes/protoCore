@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1builders_1_1latex_1_1constants" kind="namespace" language="Python">
+    <compoundname>sphinx::builders::latex::constants</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1latex_1_1constants_1a454fec2f9517a53d985e6d4e9f2c9b58" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str sphinx::builders::latex::constants.PDFLATEX_DEFAULT_FONTPKG</definition>
+        <argsstring></argsstring>
+        <name>PDFLATEX_DEFAULT_FONTPKG</name>
+        <qualifiedname>sphinx.builders.latex.constants.PDFLATEX_DEFAULT_FONTPKG</qualifiedname>
+        <initializer>=  r&quot;&quot;&quot;
+\usepackage{tgtermes}
+\usepackage{tgheros}
+\renewcommand{\ttdefault}{txtt}
+&quot;&quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/constants.py" line="10" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/constants.py" bodystart="10" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1latex_1_1constants_1a01be0c5c4b153b99de2665ee267debef" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str sphinx::builders::latex::constants.PDFLATEX_DEFAULT_FONTSUBSTITUTION</definition>
+        <argsstring></argsstring>
+        <name>PDFLATEX_DEFAULT_FONTSUBSTITUTION</name>
+        <qualifiedname>sphinx.builders.latex.constants.PDFLATEX_DEFAULT_FONTSUBSTITUTION</qualifiedname>
+        <initializer>=  r&quot;&quot;&quot;
+\expandafter\ifx\csname T@LGR\endcsname\relax
+\else
+% LGR was declared as font <ref refid="namespacesphinx_1acacf5d804f5026f7123d0ec034ef3ba0" kindref="member">encoding</ref>
+  \substitutefont{LGR}{\rmdefault}{cmr}
+  \substitutefont{LGR}{\sfdefault}{cmss}
+  \substitutefont{LGR}{\ttdefault}{cmtt}
+\fi
+\expandafter\ifx\csname T@X2\endcsname\relax
+  \expandafter\ifx\csname T@T2A\endcsname\relax
+  \else
+  % T2A was declared as font <ref refid="namespacesphinx_1acacf5d804f5026f7123d0ec034ef3ba0" kindref="member">encoding</ref>
+    \substitutefont{T2A}{\rmdefault}{cmr}
+    \substitutefont{T2A}{\sfdefault}{cmss}
+    \substitutefont{T2A}{\ttdefault}{cmtt}
+  \fi
+\else
+% X2 was declared as font <ref refid="namespacesphinx_1acacf5d804f5026f7123d0ec034ef3ba0" kindref="member">encoding</ref>
+  \substitutefont{X2}{\rmdefault}{cmr}
+  \substitutefont{X2}{\sfdefault}{cmss}
+  \substitutefont{X2}{\ttdefault}{cmtt}
+\fi
+&quot;&quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/constants.py" line="16" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/constants.py" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1latex_1_1constants_1a6bbe9de5944033349cc8800713f61fd1" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str sphinx::builders::latex::constants.XELATEX_DEFAULT_FONTPKG</definition>
+        <argsstring></argsstring>
+        <name>XELATEX_DEFAULT_FONTPKG</name>
+        <qualifiedname>sphinx.builders.latex.constants.XELATEX_DEFAULT_FONTPKG</qualifiedname>
+        <initializer>=  r&quot;&quot;&quot;
+\setmainfont{FreeSerif}[
+  Extension      = .otf,
+  UprightFont    = *,
+  ItalicFont     = *Italic,
+  BoldFont       = *Bold,
+  BoldItalicFont = *BoldItalic
+]
+\setsansfont{FreeSans}[
+  Extension      = .otf,
+  UprightFont    = *,
+  ItalicFont     = *Oblique,
+  BoldFont       = *Bold,
+  BoldItalicFont = *BoldOblique,
+]
+\setmonofont{FreeMono}[Scale=0.9,
+  Extension      = .otf,
+  UprightFont    = *,
+  ItalicFont     = *Oblique,
+  BoldFont       = *Bold,
+  BoldItalicFont = *BoldOblique,
+]
+&quot;&quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/constants.py" line="40" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/constants.py" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1latex_1_1constants_1a20eac83f143e16fdf2b4fc68555d67df" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx::builders::latex::constants.XELATEX_GREEK_DEFAULT_FONTPKG</definition>
+        <argsstring></argsstring>
+        <name>XELATEX_GREEK_DEFAULT_FONTPKG</name>
+        <qualifiedname>sphinx.builders.latex.constants.XELATEX_GREEK_DEFAULT_FONTPKG</qualifiedname>
+        <initializer>=  (
+    <ref refid="namespacesphinx_1_1builders_1_1latex_1_1constants_1a6bbe9de5944033349cc8800713f61fd1" kindref="member">XELATEX_DEFAULT_FONTPKG</ref>
+    + &apos;\n\\newfontfamily\\greekfont{FreeSerif}&apos;
+    + &apos;\n\\newfontfamily\\greekfontsf{FreeSans}&apos;
+    + &apos;\n\\newfontfamily\\greekfonttt{FreeMono}&apos;
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/constants.py" line="64" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/constants.py" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1latex_1_1constants_1ab52ea120e5dbf32ed57e6d3f4462dcf3" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str sphinx::builders::latex::constants.LUALATEX_DEFAULT_FONTPKG</definition>
+        <argsstring></argsstring>
+        <name>LUALATEX_DEFAULT_FONTPKG</name>
+        <qualifiedname>sphinx.builders.latex.constants.LUALATEX_DEFAULT_FONTPKG</qualifiedname>
+        <initializer>=  <ref refid="namespacesphinx_1_1builders_1_1latex_1_1constants_1a6bbe9de5944033349cc8800713f61fd1" kindref="member">XELATEX_DEFAULT_FONTPKG</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/constants.py" line="71" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/constants.py" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1latex_1_1constants_1a9da4115ea6695e453ce22c43cb884970" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::builders::latex::constants.DEFAULT_SETTINGS</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_SETTINGS</name>
+        <qualifiedname>sphinx.builders.latex.constants.DEFAULT_SETTINGS</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/constants.py" line="73" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/constants.py" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1latex_1_1constants_1a992280c9405b756b1bd3dac41bb40572" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::builders::latex::constants.ADDITIONAL_SETTINGS</definition>
+        <argsstring></argsstring>
+        <name>ADDITIONAL_SETTINGS</name>
+        <qualifiedname>sphinx.builders.latex.constants.ADDITIONAL_SETTINGS</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/constants.py" line="125" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/constants.py" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1latex_1_1constants_1a0b164bf2ed394592cdca3eab6e2c70e0" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str sphinx::builders::latex::constants.SHORTHANDOFF</definition>
+        <argsstring></argsstring>
+        <name>SHORTHANDOFF</name>
+        <qualifiedname>sphinx.builders.latex.constants.SHORTHANDOFF</qualifiedname>
+        <initializer>=  r&quot;&quot;&quot;
+\ifdefined\shorthandoff
+  \ifnum\catcode`\=\string=\active\shorthandoff{=}\fi
+  \ifnum\catcode`\&quot;=\active\shorthandoff{&quot;}\fi
+\fi
+&quot;&quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/constants.py" line="213" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/constants.py" bodystart="213" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>constants for LaTeX builder.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/constants.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

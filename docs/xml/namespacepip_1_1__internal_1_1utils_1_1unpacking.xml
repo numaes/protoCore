@@ -1,0 +1,255 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1utils_1_1unpacking" kind="namespace" language="Python">
+    <compoundname>pip::_internal::utils::unpacking</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1unpacking_1ab665e7a32bc6ae5cd73faa4d9990f820" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::utils::unpacking.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.utils.unpacking.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/unpacking.py" line="22" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/unpacking.py" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1unpacking_1a134a634aafbed500d5cb183a1fa6eec8" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::utils::unpacking.SUPPORTED_EXTENSIONS</definition>
+        <argsstring></argsstring>
+        <name>SUPPORTED_EXTENSIONS</name>
+        <qualifiedname>pip._internal.utils.unpacking.SUPPORTED_EXTENSIONS</qualifiedname>
+        <initializer>=  ZIP_EXTENSIONS + TAR_EXTENSIONS</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/unpacking.py" line="25" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/unpacking.py" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1unpacking_1a162ee93c81bd5b2c5e7695f3293b625f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int pip._internal.utils.unpacking.current_umask</definition>
+        <argsstring>()</argsstring>
+        <name>current_umask</name>
+        <qualifiedname>pip._internal.utils.unpacking.current_umask</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the current umask which involves having to set it temporarily.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/unpacking.py" line="43" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/unpacking.py" bodystart="43" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1unpacking_1a4faa49c8764926fdadee68dea178b969" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[str]</type>
+        <definition> List[str] pip._internal.utils.unpacking.split_leading_dir</definition>
+        <argsstring>(str path)</argsstring>
+        <name>split_leading_dir</name>
+        <qualifiedname>pip._internal.utils.unpacking.split_leading_dir</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/unpacking.py" line="50" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/unpacking.py" bodystart="50" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1unpacking_1a9d7126d623b79665a16202c11c501945" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.utils.unpacking.has_leading_dir</definition>
+        <argsstring>(Iterable[str] paths)</argsstring>
+        <name>has_leading_dir</name>
+        <qualifiedname>pip._internal.utils.unpacking.has_leading_dir</qualifiedname>
+        <param>
+          <type>Iterable</type>
+          <declname>paths</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns true if all the paths have the same leading path name
+(i.e., everything is in one subdirectory in an archive)</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/unpacking.py" line="62" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/unpacking.py" bodystart="62" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1unpacking_1a852ee2fe8117e180e8a8264678c04d44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.utils.unpacking.is_within_directory</definition>
+        <argsstring>(str directory, str target)</argsstring>
+        <name>is_within_directory</name>
+        <qualifiedname>pip._internal.utils.unpacking.is_within_directory</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>directory</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return true if the absolute path of target is within the directory
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/unpacking.py" line="77" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/unpacking.py" bodystart="77" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1unpacking_1a513fca1aef98506b7bbabb822b92c795" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.utils.unpacking.set_extracted_file_to_default_mode_plus_executable</definition>
+        <argsstring>(str path)</argsstring>
+        <name>set_extracted_file_to_default_mode_plus_executable</name>
+        <qualifiedname>pip._internal.utils.unpacking.set_extracted_file_to_default_mode_plus_executable</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Make file present at path have execute for user/group/world
+(chmod +x) is no-op on windows per python docs
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/unpacking.py" line="88" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/unpacking.py" bodystart="88" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1unpacking_1a2a781df39fbd170b002642937b659daa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.utils.unpacking.zip_item_is_executable</definition>
+        <argsstring>(ZipInfo info)</argsstring>
+        <name>zip_item_is_executable</name>
+        <qualifiedname>pip._internal.utils.unpacking.zip_item_is_executable</qualifiedname>
+        <param>
+          <type>ZipInfo</type>
+          <declname>info</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/unpacking.py" line="96" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/unpacking.py" bodystart="96" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1unpacking_1a4c6549881b5007dff4fc61b93fbf3d2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.utils.unpacking.unzip_file</definition>
+        <argsstring>(str filename, str location, bool flatten=True)</argsstring>
+        <name>unzip_file</name>
+        <qualifiedname>pip._internal.utils.unpacking.unzip_file</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>location</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>flatten</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Unzip the file (with path `filename`) to the destination `location`.  All
+files are written based on system defaults and umask (i.e. permissions are
+not preserved), except that regular file members with any execute
+permissions (user, group, or world) have &quot;chmod +x&quot; applied after being
+written. Note that for windows, any execute changes using os.chmod are
+no-ops per the python docs.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/unpacking.py" line="103" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/unpacking.py" bodystart="103" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1unpacking_1a8e9d9b354f7f8ab47c9e4cd6d08934ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.utils.unpacking.untar_file</definition>
+        <argsstring>(str filename, str location)</argsstring>
+        <name>untar_file</name>
+        <qualifiedname>pip._internal.utils.unpacking.untar_file</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>location</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Untar the file (with path `filename`) to the destination `location`.
+All files are written based on system defaults and umask (i.e. permissions
+are not preserved), except that regular file members with any execute
+permissions (user, group, or world) have &quot;chmod +x&quot; applied after being
+written.  Note that for windows, any execute changes using os.chmod are
+no-ops per the python docs.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/unpacking.py" line="149" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/unpacking.py" bodystart="149" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1unpacking_1ab71fa52a3377621b0f58533662fe0d96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.utils.unpacking.unpack_file</definition>
+        <argsstring>(str filename, str location, Optional[str] content_type=None)</argsstring>
+        <name>unpack_file</name>
+        <qualifiedname>pip._internal.utils.unpacking.unpack_file</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>location</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>content_type</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/unpacking.py" line="229" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/unpacking.py" bodystart="233" bodyend="258"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Utilities related archives.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/unpacking.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

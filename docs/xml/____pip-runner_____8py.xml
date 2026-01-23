@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="____pip-runner_____8py" kind="file" language="Python">
+    <compoundname>__pip-runner__.py</compoundname>
+    <innerclass refid="classpip_1_1____pip-runner_____1_1PipImportRedirectingFinder" prot="public">pip::__pip-runner__::PipImportRedirectingFinder</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1____pip-runner____">pip::__pip-runner__</innernamespace>
+    <innernamespace refid="namespacepip_1_1____pip">pip::__pip</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1____pip" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;Execute<sp/>exactly<sp/>this<sp/>copy<sp/>of<sp/>pip,<sp/>within<sp/>a<sp/>different<sp/>environment.</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral">This<sp/>file<sp/>is<sp/>named<sp/>as<sp/>it<sp/>is,<sp/>to<sp/>ensure<sp/>that<sp/>this<sp/>module<sp/>can&apos;t<sp/>be<sp/>imported<sp/>via</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral">an<sp/>import<sp/>statement.</highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">#<sp/>/!\<sp/>This<sp/>version<sp/>compatibility<sp/>check<sp/>section<sp/>must<sp/>be<sp/>Python<sp/>2<sp/>compatible.<sp/>/!\</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>sys</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Copied<sp/>from<sp/>setup.py</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal">PYTHON_REQUIRES<sp/>=<sp/>(3,<sp/>7)</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">version_str(version):<sp/><sp/></highlight><highlight class="comment">#<sp/>type:<sp/>ignore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal">.join(str(v)<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>v<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>version)</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>sys.version_info[:2]<sp/>&lt;<sp/>PYTHON_REQUIRES:</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>SystemExit(</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;This<sp/>version<sp/>of<sp/>pip<sp/>does<sp/>not<sp/>support<sp/>python<sp/>{}<sp/>(requires<sp/>&gt;={}).&quot;</highlight><highlight class="normal">.format(</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>version_str(sys.version_info[:2]),<sp/>version_str(PYTHON_REQUIRES)</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">#<sp/>From<sp/>here<sp/>on,<sp/>we<sp/>can<sp/>use<sp/>Python<sp/>3<sp/>features,<sp/>but<sp/>the<sp/>syntax<sp/>must<sp/>remain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">#<sp/>Python<sp/>2<sp/>compatible.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>runpy<sp/><sp/></highlight><highlight class="comment">#<sp/>noqa:<sp/>E402</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>importlib.machinery<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>PathFinder<sp/><sp/></highlight><highlight class="comment">#<sp/>noqa:<sp/>E402</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>os.path<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>dirname<sp/><sp/></highlight><highlight class="comment">#<sp/>noqa:<sp/>E402</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">PIP_SOURCES_ROOT<sp/>=<sp/>dirname(dirname(__file__))</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="classpip_1_1____pip-runner_____1_1PipImportRedirectingFinder" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1____pip-runner_____1_1PipImportRedirectingFinder" kindref="compound">PipImportRedirectingFinder</ref>:</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="preprocessor">@classmethod</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">find_spec(self,<sp/>fullname,<sp/>path=None,<sp/>target=None):<sp/><sp/></highlight><highlight class="comment">#<sp/>type:<sp/>ignore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>fullname<sp/>!=<sp/></highlight><highlight class="stringliteral">&quot;pip&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spec<sp/>=<sp/>PathFinder.find_spec(fullname,<sp/>[PIP_SOURCES_ROOT],<sp/>target)</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">assert</highlight><highlight class="normal"><sp/>spec,<sp/>(PIP_SOURCES_ROOT,<sp/>fullname)</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>spec</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal">sys.meta_path.insert(0,<sp/><ref refid="classpip_1_1____pip-runner_____1_1PipImportRedirectingFinder" kindref="compound">PipImportRedirectingFinder</ref>())</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">assert</highlight><highlight class="normal"><sp/>__name__<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;__main__&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Cannot<sp/>run<sp/>__pip-runner__.py<sp/>as<sp/>a<sp/>non-main<sp/>module&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">runpy.run_module(</highlight><highlight class="stringliteral">&quot;pip&quot;</highlight><highlight class="normal">,<sp/>run_name=</highlight><highlight class="stringliteral">&quot;__main__&quot;</highlight><highlight class="normal">,<sp/>alter_sys=</highlight><highlight class="keyword">True</highlight><highlight class="normal">)</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/pip/__pip-runner__.py"/>
+  </compounddef>
+</doxygen>

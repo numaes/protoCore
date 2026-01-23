@@ -1,0 +1,1035 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator" kind="class" language="Python" prot="public">
+    <compoundname>docutils::writers::html5_polyglot::HTMLTranslator</compoundname>
+    <basecompoundref refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator" prot="public" virt="non-virtual">docutils.writers._html_base.HTMLTranslator</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a61894e4cdbe4e963ad7ccea0b48e50aa" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.writers.html5_polyglot.HTMLTranslator::documenttag_args</definition>
+        <argsstring></argsstring>
+        <name>documenttag_args</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.documenttag_args</qualifiedname>
+        <initializer>=  {&apos;tagname&apos;: &apos;main&apos;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="123" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a941176374c56dac90c52f66ceb8d7558" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.writers.html5_polyglot.HTMLTranslator::supported_block_tags</definition>
+        <argsstring></argsstring>
+        <name>supported_block_tags</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.supported_block_tags</qualifiedname>
+        <initializer>=  {&apos;ins&apos;, &apos;del&apos;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="161" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1af0235e84da1e55c87c63835880deb29d" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.writers.html5_polyglot.HTMLTranslator::supported_inline_tags</definition>
+        <argsstring></argsstring>
+        <name>supported_inline_tags</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.supported_inline_tags</qualifiedname>
+        <initializer>=  {&apos;code&apos;, &apos;kbd&apos;, &apos;dfn&apos;, &apos;samp&apos;, &apos;var&apos;,
+                             &apos;bdi&apos;, &apos;del&apos;, &apos;ins&apos;, &apos;mark&apos;, &apos;small&apos;,
+                             &apos;b&apos;, &apos;i&apos;, &apos;q&apos;, &apos;s&apos;, &apos;u&apos;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="241" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="241" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a2e3be7c1c9d32493e8548936ead91411" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator::body</definition>
+        <argsstring></argsstring>
+        <name>body</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.body</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="216" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a680a8c39ca7a9da2722428b14abca3ad" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator::in_sidebar</definition>
+        <argsstring></argsstring>
+        <name>in_sidebar</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.in_sidebar</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="353" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="353" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1afba375e530d67705d11bd16b3e2cd666" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator::settings</definition>
+        <argsstring></argsstring>
+        <name>settings</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.settings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="388" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="388" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a2771c2452d24389761adf33ad1048421" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.__init__</definition>
+        <argsstring>(self, document)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.__init__</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1ad1310958d05603c2d41441f9b153e27d">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1NodeVisitor_1a3c594de0457219c7836d4c53d9398cdc" kindref="member">document</ref></type>
+          <defname>document</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="126" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="126" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a8d59be6303f68190a8af9322046083bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.visit_acronym</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>visit_acronym</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.visit_acronym</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a58ad60fc99620e7c703262bad40e7fda">visit_acronym</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="132" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="132" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1ac137281388912bf43e2448d872761973" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.depart_acronym</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>depart_acronym</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.depart_acronym</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1ac8ef0f9e3d8f108e7b33216eb316c8aa">depart_acronym</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="136" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="136" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1aa65550b4fe67c5674bf2c7bcf8d6e153" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.visit_authors</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>visit_authors</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.visit_authors</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1ae5401543e21812e7fbce5c80fadf922e">visit_authors</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="141" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="141" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a50daa15966aa4b335d7272b749ba6c85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.depart_authors</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>depart_authors</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.depart_authors</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a2a2c7843bd0abc71efbd381bfd2d3da5">depart_authors</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="147" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="147" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a9ffd4bffa9e3ae0e35f96e9aa21d4f34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.visit_caption</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>visit_caption</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.visit_caption</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a07434df9ed105001d6c1f8b82cf4388c">visit_caption</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="151" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="151" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a6af7d5d0e5fefec108f8758e428f662f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.depart_caption</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>depart_caption</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.depart_caption</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a18e22e1f8404a172a35e7fb2d977e1bd">depart_caption</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="156" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="156" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a5920d762446380985390ff48be2967be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.visit_container</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>visit_container</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.visit_container</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a0982d7fd34682fb77d464c8a5d6af14d">visit_container</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="163" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="163" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a928c9756da820b269a9b146121c39ce6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.depart_container</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>depart_container</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.depart_container</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a95251aa8b4fe61fdcfaddf83b1570712">depart_container</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="177" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="177" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a3e2d1e585ce7af8679fc793b3141e54a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.visit_copyright</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>visit_copyright</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.visit_copyright</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a908a4b68ad64616ef8f464451eea1836">visit_copyright</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="183" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="183" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1acd750261f372b82bacbe0336a297810c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.depart_copyright</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>depart_copyright</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.depart_copyright</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1ab676845920de53676b5c985c1e3483f1">depart_copyright</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="188" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="188" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a79b9af5a1e3a3f9b5fb12ad6ac321d5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.visit_date</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>visit_date</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.visit_date</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a44d7cdb6f07013331227c9c3be034043">visit_date</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="192" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="192" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1acabc986c60d6b4f54d0c15df1558dfd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.depart_date</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>depart_date</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.depart_date</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1ab636eabddef09fb74735e1f385efe5b3">depart_date</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="197" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="197" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a2c0da761dc2cfc0eab26888b29d954bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.visit_figure</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>visit_figure</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.visit_figure</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a382bbc97beb7375ad87ea59e88d2376e">visit_figure</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="201" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="201" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a13b6222f05ac6525b83b5e46053e0bc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.depart_figure</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>depart_figure</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.depart_figure</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a12c18b2684ac50d193cbb5ea9ddf0221">depart_figure</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="209" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="209" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a37720d6e8b01e6184a6c2dd00398167a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.visit_footer</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>visit_footer</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.visit_footer</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a71c05a9c893e358f18a620da3446a799">visit_footer</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="215" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="215" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1aa44101b4c9e3333b3c43d6f087a553ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.depart_footer</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>depart_footer</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.depart_footer</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a5b01f473db52ea9314d8b69d43535b7b">depart_footer</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="218" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="218" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1aa2f6d90c9297f0e0cc64ce81c9556dbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.visit_header</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>visit_header</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.visit_header</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a150b5b488316c1bb3ad93e15199b7de0">visit_header</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="228" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="228" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a9827800b4f5bb409c7e919e1bbd92987" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.depart_header</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>depart_header</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.depart_header</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1ace4dd355a5c332bfad59ea64dca0de31">depart_header</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="231" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="231" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a3a19cd9dc9fe3371ec43293345b91dcb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.visit_inline</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>visit_inline</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.visit_inline</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a77a84a9fdb99897f064ea888e2f80e70">visit_inline</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="246" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="246" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a48bd7fadb426baf7cc0aa483bfcbb9f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.depart_inline</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>depart_inline</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.depart_inline</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1aa6b9c5feef4f68f2d5fe9caad3cb0254">depart_inline</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="269" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="269" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1ada0235a5e87a0889e3a68f5398d89a6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.visit_legend</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>visit_legend</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.visit_legend</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1aeb85334e9df352983fc96a4fe2abbd78">visit_legend</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="277" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="277" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a4adca64003154912b0f378d1c6529d36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.depart_legend</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>depart_legend</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.depart_legend</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1afbf310c9de7cc65b6f54e149dbbf08a0">depart_legend</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="282" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="282" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a348faa048fe6643067984f17c024afe7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.visit_literal</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>visit_literal</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.visit_literal</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a2b823669cbe09b11d2247dbfc2dd44d7">visit_literal</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="287" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="287" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a45ca3b086811bc6f8c4abf441fa2a74f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.depart_literal</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>depart_literal</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.depart_literal</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a534814d0b8930836b588963f793a91ad">depart_literal</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="317" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="317" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1adabfdb4a12d0181561cef295fc8a6b1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.visit_meta</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>visit_meta</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.visit_meta</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1af457d815b8d09179250530f28d2439b3">visit_meta</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="323" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="323" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a9b0a1d6430defb2a805c10a7ae636f0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.depart_meta</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>depart_meta</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.depart_meta</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1af2ef8c53f0f700d1dc1153df1caffb02">depart_meta</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="329" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="329" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a70b28fc598b8c91b9c03c02e620503b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.visit_organization</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>visit_organization</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.visit_organization</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a1538dadd8c8e60a3acedf138f6b08a05">visit_organization</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="333" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="333" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a969f52f3f07c2d75fe967a1db54b2e5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.depart_organization</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>depart_organization</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.depart_organization</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a063e687f56314b64b53925b4454c43f0">depart_organization</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="336" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="336" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a31d6f6f4128fc3369b97b69029ccee7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.visit_section</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>visit_section</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.visit_section</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a210f1206844408a9df2d3b549f27f00d">visit_section</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="340" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="340" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a0efcff3496473e895fafee11e0c70b2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.depart_section</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>depart_section</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.depart_section</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a5166a15a8a002d22e3ecef7d4120554d">depart_section</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="345" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="345" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1aff5677deb4b7562d1d98e6e52c648d1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.visit_sidebar</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>visit_sidebar</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.visit_sidebar</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a59640aaa5d703701ab7ec3a7f338a3a0">visit_sidebar</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="350" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="350" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1ab720b00b7ef0f8a08d2cd0c38324d525" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.depart_sidebar</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>depart_sidebar</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.depart_sidebar</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a88b37d10841f6797b00c6b9864adc04b">depart_sidebar</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="355" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="355" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1aa99bc0aac1262d01ebab880b1b04c674" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.visit_topic</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>visit_topic</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.visit_topic</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a7e689bb4753833fb1e71829b8d6ee584">visit_topic</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="362" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="362" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1acc184d15923cad8fb82bed3863652777" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.depart_topic</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>depart_topic</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.depart_topic</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1ad9c91e6808f4ae5df53a53f51f267578">depart_topic</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="380" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="380" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1ae3af213c56c0976001de6f2d1816415d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.html5_polyglot.HTMLTranslator.section_title_tags</definition>
+        <argsstring>(self, node)</argsstring>
+        <name>section_title_tags</name>
+        <qualifiedname>docutils.writers.html5_polyglot.HTMLTranslator.section_title_tags</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator_1a1cbb5cf76e41da3f141226c72a589e4d">section_title_tags</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="385" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="385" bodyend="394"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>This writer generates `polyglot markup`: HTML5 that is also valid XML.
+
+Safe subclassing: when overriding, treat ``visit_*`` and ``depart_*``
+methods as a unit to prevent breaks due to internal changes. See the
+docstring of docutils.writers._html_base.HTMLTranslator for details
+and examples.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.writers.html5_polyglot.HTMLTranslator</label>
+        <link refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.nodes.NodeVisitor</label>
+        <link refid="classdocutils_1_1nodes_1_1NodeVisitor"/>
+      </node>
+      <node id="2">
+        <label>docutils.writers._html_base.HTMLTranslator</label>
+        <link refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>docutils.writers.html5_polyglot.HTMLTranslator</label>
+        <link refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.nodes.NodeVisitor</label>
+        <link refid="classdocutils_1_1nodes_1_1NodeVisitor"/>
+      </node>
+      <node id="2">
+        <label>docutils.writers._html_base.HTMLTranslator</label>
+        <link refid="classdocutils_1_1writers_1_1__html__base_1_1HTMLTranslator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>content_type</edgelabel>
+          <edgelabel>doctype</edgelabel>
+          <edgelabel>doctype_mathml</edgelabel>
+          <edgelabel>embedded_stylesheet</edgelabel>
+          <edgelabel>lang_attribute</edgelabel>
+          <edgelabel>mathjax_script</edgelabel>
+          <edgelabel>mathjax_url</edgelabel>
+          <edgelabel>stylesheet_link</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" line="112" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/html5_polyglot/__init__.py" bodystart="112" bodyend="394"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a2771c2452d24389761adf33ad1048421" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>__init__</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a2e3be7c1c9d32493e8548936ead91411" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>body</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1ac137281388912bf43e2448d872761973" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>depart_acronym</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a50daa15966aa4b335d7272b749ba6c85" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>depart_authors</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a6af7d5d0e5fefec108f8758e428f662f" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>depart_caption</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a928c9756da820b269a9b146121c39ce6" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>depart_container</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1acd750261f372b82bacbe0336a297810c" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>depart_copyright</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1acabc986c60d6b4f54d0c15df1558dfd5" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>depart_date</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a13b6222f05ac6525b83b5e46053e0bc7" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>depart_figure</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1aa44101b4c9e3333b3c43d6f087a553ff" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>depart_footer</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a9827800b4f5bb409c7e919e1bbd92987" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>depart_header</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a48bd7fadb426baf7cc0aa483bfcbb9f5" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>depart_inline</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a4adca64003154912b0f378d1c6529d36" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>depart_legend</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a45ca3b086811bc6f8c4abf441fa2a74f" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>depart_literal</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a9b0a1d6430defb2a805c10a7ae636f0e" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>depart_meta</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a969f52f3f07c2d75fe967a1db54b2e5e" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>depart_organization</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a0efcff3496473e895fafee11e0c70b2a" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>depart_section</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1ab720b00b7ef0f8a08d2cd0c38324d525" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>depart_sidebar</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1acc184d15923cad8fb82bed3863652777" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>depart_topic</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a61894e4cdbe4e963ad7ccea0b48e50aa" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>documenttag_args</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a680a8c39ca7a9da2722428b14abca3ad" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>in_sidebar</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1ae3af213c56c0976001de6f2d1816415d" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>section_title_tags</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1afba375e530d67705d11bd16b3e2cd666" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>settings</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a941176374c56dac90c52f66ceb8d7558" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>supported_block_tags</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1af0235e84da1e55c87c63835880deb29d" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>supported_inline_tags</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a8d59be6303f68190a8af9322046083bb" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>visit_acronym</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1aa65550b4fe67c5674bf2c7bcf8d6e153" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>visit_authors</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a9ffd4bffa9e3ae0e35f96e9aa21d4f34" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>visit_caption</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a5920d762446380985390ff48be2967be" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>visit_container</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a3e2d1e585ce7af8679fc793b3141e54a" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>visit_copyright</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a79b9af5a1e3a3f9b5fb12ad6ac321d5e" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>visit_date</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a2c0da761dc2cfc0eab26888b29d954bb" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>visit_figure</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a37720d6e8b01e6184a6c2dd00398167a" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>visit_footer</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1aa2f6d90c9297f0e0cc64ce81c9556dbe" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>visit_header</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a3a19cd9dc9fe3371ec43293345b91dcb" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>visit_inline</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1ada0235a5e87a0889e3a68f5398d89a6f" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>visit_legend</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a348faa048fe6643067984f17c024afe7" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>visit_literal</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1adabfdb4a12d0181561cef295fc8a6b1b" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>visit_meta</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a70b28fc598b8c91b9c03c02e620503b7" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>visit_organization</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1a31d6f6f4128fc3369b97b69029ccee7a" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>visit_section</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1aff5677deb4b7562d1d98e6e52c648d1f" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>visit_sidebar</name></member>
+      <member refid="classdocutils_1_1writers_1_1html5__polyglot_1_1HTMLTranslator_1aa99bc0aac1262d01ebab880b1b04c674" prot="public" virt="non-virtual"><scope>docutils::writers::html5_polyglot::HTMLTranslator</scope><name>visit_topic</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

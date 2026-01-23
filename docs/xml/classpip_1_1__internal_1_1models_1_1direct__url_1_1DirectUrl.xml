@@ -1,0 +1,266 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::models::direct_url::DirectUrl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1af3daefac8a753a5dfc2e24291da9bc46" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.models.direct_url.DirectUrl::url</definition>
+        <argsstring></argsstring>
+        <name>url</name>
+        <qualifiedname>pip._internal.models.direct_url.DirectUrl.url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" line="171" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1a6683787d84ccd7333752a33a0d2ec6da" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.models.direct_url.DirectUrl::info</definition>
+        <argsstring></argsstring>
+        <name>info</name>
+        <qualifiedname>pip._internal.models.direct_url.DirectUrl.info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" line="172" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1a1c2fc70919259b219121a1b3f255a5a1" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.models.direct_url.DirectUrl::subdirectory</definition>
+        <argsstring></argsstring>
+        <name>subdirectory</name>
+        <qualifiedname>pip._internal.models.direct_url.DirectUrl.subdirectory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" line="173" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" bodystart="173" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1a2e671c3be0547325df8b3eccf865e85f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.models.direct_url.DirectUrl.__init__</definition>
+        <argsstring>(self, str url, InfoType info, Optional[str] subdirectory=None)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._internal.models.direct_url.DirectUrl.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacepip_1_1__internal_1_1models_1_1direct__url_1a844c1d615f2cd943e2b0e207efe042c5" kindref="member">InfoType</ref></type>
+          <declname>info</declname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>subdirectory</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" line="165" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" bodystart="170" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1a89ea51f8e2e338b29a310b501e60ee6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.models.direct_url.DirectUrl.redacted_url</definition>
+        <argsstring>(self)</argsstring>
+        <name>redacted_url</name>
+        <qualifiedname>pip._internal.models.direct_url.DirectUrl.redacted_url</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>url with user:password part removed unless it is formed with
+environment variables as specified in PEP 610, or it is ``git``
+in the case of a git URL.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" line="190" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" bodystart="190" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1a2d3956ee708fd1d544dc581257f0a7b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.models.direct_url.DirectUrl.validate</definition>
+        <argsstring>(self)</argsstring>
+        <name>validate</name>
+        <qualifiedname>pip._internal.models.direct_url.DirectUrl.validate</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" line="202" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" bodystart="202" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1a46508cabcbe9c8d8e0d986bf8b8b4b66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;DirectUrl&quot;</type>
+        <definition> &quot;DirectUrl&quot; pip._internal.models.direct_url.DirectUrl.from_dict</definition>
+        <argsstring>(cls, Dict[str, Any] d)</argsstring>
+        <name>from_dict</name>
+        <qualifiedname>pip._internal.models.direct_url.DirectUrl.from_dict</qualifiedname>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <param>
+          <type>Dict</type>
+          <declname>d</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" line="206" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" bodystart="206" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1ab3a05143f7057bf300597cd147dadaa3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Dict[str, Any]</type>
+        <definition> Dict[str, Any] pip._internal.models.direct_url.DirectUrl.to_dict</definition>
+        <argsstring>(self)</argsstring>
+        <name>to_dict</name>
+        <qualifiedname>pip._internal.models.direct_url.DirectUrl.to_dict</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" line="219" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" bodystart="219" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1a34e5b7c435fee872704ebc752c0bc5f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;DirectUrl&quot;</type>
+        <definition> &quot;DirectUrl&quot; pip._internal.models.direct_url.DirectUrl.from_json</definition>
+        <argsstring>(cls, str s)</argsstring>
+        <name>from_json</name>
+        <qualifiedname>pip._internal.models.direct_url.DirectUrl.from_json</qualifiedname>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" line="228" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" bodystart="228" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1ab0e76538330d6b55755cb4520e8a4d00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.models.direct_url.DirectUrl.to_json</definition>
+        <argsstring>(self)</argsstring>
+        <name>to_json</name>
+        <qualifiedname>pip._internal.models.direct_url.DirectUrl.to_json</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" line="231" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" bodystart="231" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1acbbe586323346ab82ae87486b6df5530" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.models.direct_url.DirectUrl.is_local_editable</definition>
+        <argsstring>(self)</argsstring>
+        <name>is_local_editable</name>
+        <qualifiedname>pip._internal.models.direct_url.DirectUrl.is_local_editable</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" line="234" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" bodystart="234" bodyend="236"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1a67ca6b45b59c3d0c5c365e6c201f8606" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.models.direct_url.DirectUrl._remove_auth_from_netloc</definition>
+        <argsstring>(self, str netloc)</argsstring>
+        <name>_remove_auth_from_netloc</name>
+        <qualifiedname>pip._internal.models.direct_url.DirectUrl._remove_auth_from_netloc</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>netloc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" line="175" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" bodystart="175" bodyend="188"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" line="164" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/direct_url.py" bodystart="164" bodyend="236"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1a2e671c3be0547325df8b3eccf865e85f" prot="public" virt="non-virtual"><scope>pip::_internal::models::direct_url::DirectUrl</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1a67ca6b45b59c3d0c5c365e6c201f8606" prot="protected" virt="non-virtual"><scope>pip::_internal::models::direct_url::DirectUrl</scope><name>_remove_auth_from_netloc</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1a46508cabcbe9c8d8e0d986bf8b8b4b66" prot="public" virt="non-virtual"><scope>pip::_internal::models::direct_url::DirectUrl</scope><name>from_dict</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1a34e5b7c435fee872704ebc752c0bc5f0" prot="public" virt="non-virtual"><scope>pip::_internal::models::direct_url::DirectUrl</scope><name>from_json</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1a6683787d84ccd7333752a33a0d2ec6da" prot="public" virt="non-virtual"><scope>pip::_internal::models::direct_url::DirectUrl</scope><name>info</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1acbbe586323346ab82ae87486b6df5530" prot="public" virt="non-virtual"><scope>pip::_internal::models::direct_url::DirectUrl</scope><name>is_local_editable</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1a89ea51f8e2e338b29a310b501e60ee6f" prot="public" virt="non-virtual"><scope>pip::_internal::models::direct_url::DirectUrl</scope><name>redacted_url</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1a1c2fc70919259b219121a1b3f255a5a1" prot="public" virt="non-virtual"><scope>pip::_internal::models::direct_url::DirectUrl</scope><name>subdirectory</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1ab3a05143f7057bf300597cd147dadaa3" prot="public" virt="non-virtual"><scope>pip::_internal::models::direct_url::DirectUrl</scope><name>to_dict</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1ab0e76538330d6b55755cb4520e8a4d00" prot="public" virt="non-virtual"><scope>pip::_internal::models::direct_url::DirectUrl</scope><name>to_json</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1af3daefac8a753a5dfc2e24291da9bc46" prot="public" virt="non-virtual"><scope>pip::_internal::models::direct_url::DirectUrl</scope><name>url</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1direct__url_1_1DirectUrl_1a2d3956ee708fd1d544dc581257f0a7b4" prot="public" virt="non-virtual"><scope>pip::_internal::models::direct_url::DirectUrl</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

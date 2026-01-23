@@ -1,0 +1,445 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::utils::misc::ConfiguredBuildBackendHookCaller</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1pyproject__hooks_1_1__impl_1_1BuildBackendHookCaller" prot="public" virt="non-virtual">pip._vendor.pyproject_hooks._impl.BuildBackendHookCaller</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller_1a1ba91dee6368c14d0fb068378f9b1522" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.utils.misc.ConfiguredBuildBackendHookCaller::config_holder</definition>
+        <argsstring></argsstring>
+        <name>config_holder</name>
+        <qualifiedname>pip._internal.utils.misc.ConfiguredBuildBackendHookCaller.config_holder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="709" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="709" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller_1aa071953da77eb9c74ae4afb7070b2cc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._internal.utils.misc.ConfiguredBuildBackendHookCaller.__init__</definition>
+        <argsstring>(self, Any config_holder, str source_dir, str build_backend, Optional[str] backend_path=None, Optional[Callable[..., None]] runner=None, Optional[str] python_executable=None)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._internal.utils.misc.ConfiguredBuildBackendHookCaller.__init__</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyproject__hooks_1_1__impl_1_1BuildBackendHookCaller_1a4b821aaa94525861878045355929b027">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Any</type>
+          <defname>source_dir</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <defname>build_backend</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <defname>backend_path</defname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <defname>runner</defname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <defname>python_executable</defname>
+          <array>[Callable[..., None]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>python_executable</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>:param source_dir: The source directory to invoke the build backend for
+:param build_backend: The build backend spec
+:param backend_path: Additional path entries for the build backend spec
+:param runner: The :ref:`subprocess runner &lt;Subprocess Runners&gt;` to use
+:param python_executable:
+    The Python executable used to invoke the build backend
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="697" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="705" bodyend="710"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller_1a07c3b0624811a9cf3733e1838e4dc75a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.misc.ConfiguredBuildBackendHookCaller.build_wheel</definition>
+        <argsstring>(self, str wheel_directory, Optional[Dict[str, Union[str, List[str]]]] config_settings=None, Optional[str] metadata_directory=None)</argsstring>
+        <name>build_wheel</name>
+        <qualifiedname>pip._internal.utils.misc.ConfiguredBuildBackendHookCaller.build_wheel</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyproject__hooks_1_1__impl_1_1BuildBackendHookCaller_1a665d0317c50e9e8eb9264d4b7bed46af">build_wheel</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <defname>wheel_directory</defname>
+        </param>
+        <param>
+          <type>Optional]]]</type>
+          <defname>config_settings</defname>
+          <array>[Dict[str, Union[str, List[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <defname>metadata_directory</defname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Build a wheel from this project.
+
+:returns:
+    The name of the newly created wheel within ``wheel_directory``.
+
+.. admonition:: Interaction with fallback
+
+    If the ``build_wheel`` hook was called in the fallback for
+    :meth:`prepare_metadata_for_build_wheel`, the build backend would
+    not be invoked. Instead, the previously built wheel will be copied
+    to ``wheel_directory`` and the name of that file will be returned.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="711" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="716" bodyend="721"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller_1a6d254a26f0aaa12d9a61084044a19114" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.misc.ConfiguredBuildBackendHookCaller.build_sdist</definition>
+        <argsstring>(self, str sdist_directory, Optional[Dict[str, Union[str, List[str]]]] config_settings=None)</argsstring>
+        <name>build_sdist</name>
+        <qualifiedname>pip._internal.utils.misc.ConfiguredBuildBackendHookCaller.build_sdist</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyproject__hooks_1_1__impl_1_1BuildBackendHookCaller_1aa08e05a66b72f3f4bbb21f920e1b7732">build_sdist</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <defname>sdist_directory</defname>
+        </param>
+        <param>
+          <type>Optional]]]</type>
+          <defname>config_settings</defname>
+          <array>[Dict[str, Union[str, List[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Build an sdist from this project.
+
+:returns:
+    The name of the newly created sdist within ``wheel_directory``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="722" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="726" bodyend="729"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller_1ae35829505364b8ed9334a827c5d69db2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.misc.ConfiguredBuildBackendHookCaller.build_editable</definition>
+        <argsstring>(self, str wheel_directory, Optional[Dict[str, Union[str, List[str]]]] config_settings=None, Optional[str] metadata_directory=None)</argsstring>
+        <name>build_editable</name>
+        <qualifiedname>pip._internal.utils.misc.ConfiguredBuildBackendHookCaller.build_editable</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyproject__hooks_1_1__impl_1_1BuildBackendHookCaller_1aff4662d70e8f44a9b9e68b62043d68b1">build_editable</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <defname>wheel_directory</defname>
+        </param>
+        <param>
+          <type>Optional]]]</type>
+          <defname>config_settings</defname>
+          <array>[Dict[str, Union[str, List[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <defname>metadata_directory</defname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Build an editable wheel from this project.
+
+:returns:
+    The name of the newly created wheel within ``wheel_directory``.
+
+.. admonition:: Interaction with fallback
+
+    If the ``build_editable`` hook was called in the fallback for
+    :meth:`prepare_metadata_for_build_editable`, the build backend
+    would not be invoked. Instead, the previously built wheel will be
+    copied to ``wheel_directory`` and the name of that file will be
+    returned.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="730" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="735" bodyend="740"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller_1a85ee4ea124c67923d3c5c074f02fef67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[str]</type>
+        <definition> List[str] pip._internal.utils.misc.ConfiguredBuildBackendHookCaller.get_requires_for_build_wheel</definition>
+        <argsstring>(self, Optional[Dict[str, Union[str, List[str]]]] config_settings=None)</argsstring>
+        <name>get_requires_for_build_wheel</name>
+        <qualifiedname>pip._internal.utils.misc.ConfiguredBuildBackendHookCaller.get_requires_for_build_wheel</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyproject__hooks_1_1__impl_1_1BuildBackendHookCaller_1a4e1bf53ca2bd17c359fea28170e00d4e">get_requires_for_build_wheel</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Optional]]]</type>
+          <defname>config_settings</defname>
+          <array>[Dict[str, Union[str, List[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get additional dependencies required for building a wheel.
+
+:returns: A list of :pep:`dependency specifiers &lt;508&gt;`.
+:rtype: list[str]
+
+.. admonition:: Fallback
+
+    If the build backend does not defined a hook with this name, an
+    empty list will be returned.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="741" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="743" bodyend="746"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller_1a8f9c2a580a2a36022af185cd66b9d789" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[str]</type>
+        <definition> List[str] pip._internal.utils.misc.ConfiguredBuildBackendHookCaller.get_requires_for_build_sdist</definition>
+        <argsstring>(self, Optional[Dict[str, Union[str, List[str]]]] config_settings=None)</argsstring>
+        <name>get_requires_for_build_sdist</name>
+        <qualifiedname>pip._internal.utils.misc.ConfiguredBuildBackendHookCaller.get_requires_for_build_sdist</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyproject__hooks_1_1__impl_1_1BuildBackendHookCaller_1af59a4b7adb6a60ef24c1940f36606b12">get_requires_for_build_sdist</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Optional]]]</type>
+          <defname>config_settings</defname>
+          <array>[Dict[str, Union[str, List[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get additional dependencies required for building an sdist.
+
+:returns: A list of :pep:`dependency specifiers &lt;508&gt;`.
+:rtype: list[str]
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="747" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="749" bodyend="752"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller_1ae81cac6377f58ae0a5f387ffe945ce96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[str]</type>
+        <definition> List[str] pip._internal.utils.misc.ConfiguredBuildBackendHookCaller.get_requires_for_build_editable</definition>
+        <argsstring>(self, Optional[Dict[str, Union[str, List[str]]]] config_settings=None)</argsstring>
+        <name>get_requires_for_build_editable</name>
+        <qualifiedname>pip._internal.utils.misc.ConfiguredBuildBackendHookCaller.get_requires_for_build_editable</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyproject__hooks_1_1__impl_1_1BuildBackendHookCaller_1a880c4f785ccd36521e96be13939851d5">get_requires_for_build_editable</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Optional]]]</type>
+          <defname>config_settings</defname>
+          <array>[Dict[str, Union[str, List[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get additional dependencies required for building an editable wheel.
+
+:returns: A list of :pep:`dependency specifiers &lt;508&gt;`.
+:rtype: list[str]
+
+.. admonition:: Fallback
+
+    If the build backend does not defined a hook with this name, an
+    empty list will be returned.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="753" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="755" bodyend="758"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller_1a3a661ba3e274aa42b16646e956281682" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.misc.ConfiguredBuildBackendHookCaller.prepare_metadata_for_build_wheel</definition>
+        <argsstring>(self, str metadata_directory, Optional[Dict[str, Union[str, List[str]]]] config_settings=None, bool _allow_fallback=True)</argsstring>
+        <name>prepare_metadata_for_build_wheel</name>
+        <qualifiedname>pip._internal.utils.misc.ConfiguredBuildBackendHookCaller.prepare_metadata_for_build_wheel</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyproject__hooks_1_1__impl_1_1BuildBackendHookCaller_1a3db9dd66571114b72740ed7eed34fb35">prepare_metadata_for_build_wheel</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <defname>metadata_directory</defname>
+        </param>
+        <param>
+          <type>Optional]]]</type>
+          <defname>config_settings</defname>
+          <array>[Dict[str, Union[str, List[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <defname>_allow_fallback</defname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Prepare a ``*.dist-info`` folder with metadata for this project.
+
+:returns: Name of the newly created subfolder within
+          ``metadata_directory``, containing the metadata.
+:rtype: str
+
+.. admonition:: Fallback
+
+    If the build backend does not define a hook with this name and
+    ``_allow_fallback`` is truthy, the backend will be asked to build a
+    wheel via the ``build_wheel`` hook and the dist-info extracted from
+    that will be returned.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="759" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="764" bodyend="771"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller_1af2b69ad9c4a83afaf1a9b0ac357e5a8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.misc.ConfiguredBuildBackendHookCaller.prepare_metadata_for_build_editable</definition>
+        <argsstring>(self, str metadata_directory, Optional[Dict[str, Union[str, List[str]]]] config_settings=None, bool _allow_fallback=True)</argsstring>
+        <name>prepare_metadata_for_build_editable</name>
+        <qualifiedname>pip._internal.utils.misc.ConfiguredBuildBackendHookCaller.prepare_metadata_for_build_editable</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyproject__hooks_1_1__impl_1_1BuildBackendHookCaller_1a11effcd077ec9c5a0d147a537b20a650">prepare_metadata_for_build_editable</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <defname>metadata_directory</defname>
+        </param>
+        <param>
+          <type>Optional]]]</type>
+          <defname>config_settings</defname>
+          <array>[Dict[str, Union[str, List[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <defname>_allow_fallback</defname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Prepare a ``*.dist-info`` folder with metadata for this project.
+
+:returns: Name of the newly created subfolder within
+          ``metadata_directory``, containing the metadata.
+:rtype: str
+
+.. admonition:: Fallback
+
+    If the build backend does not define a hook with this name and
+    ``_allow_fallback`` is truthy, the backend will be asked to build a
+    wheel via the ``build_editable`` hook and the dist-info
+    extracted from that will be returned.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="772" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="777" bodyend="784"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._internal.utils.misc.ConfiguredBuildBackendHookCaller</label>
+        <link refid="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pyproject_hooks._impl.BuildBackendHookCaller</label>
+        <link refid="classpip_1_1__vendor_1_1pyproject__hooks_1_1__impl_1_1BuildBackendHookCaller"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>pip._internal.utils.misc.ConfiguredBuildBackendHookCaller</label>
+        <link refid="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pyproject_hooks._impl.BuildBackendHookCaller</label>
+        <link refid="classpip_1_1__vendor_1_1pyproject__hooks_1_1__impl_1_1BuildBackendHookCaller"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" line="696" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/misc.py" bodystart="696" bodyend="784"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller_1aa071953da77eb9c74ae4afb7070b2cc8" prot="public" virt="non-virtual"><scope>pip::_internal::utils::misc::ConfiguredBuildBackendHookCaller</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller_1ae35829505364b8ed9334a827c5d69db2" prot="public" virt="non-virtual"><scope>pip::_internal::utils::misc::ConfiguredBuildBackendHookCaller</scope><name>build_editable</name></member>
+      <member refid="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller_1a6d254a26f0aaa12d9a61084044a19114" prot="public" virt="non-virtual"><scope>pip::_internal::utils::misc::ConfiguredBuildBackendHookCaller</scope><name>build_sdist</name></member>
+      <member refid="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller_1a07c3b0624811a9cf3733e1838e4dc75a" prot="public" virt="non-virtual"><scope>pip::_internal::utils::misc::ConfiguredBuildBackendHookCaller</scope><name>build_wheel</name></member>
+      <member refid="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller_1a1ba91dee6368c14d0fb068378f9b1522" prot="public" virt="non-virtual"><scope>pip::_internal::utils::misc::ConfiguredBuildBackendHookCaller</scope><name>config_holder</name></member>
+      <member refid="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller_1ae81cac6377f58ae0a5f387ffe945ce96" prot="public" virt="non-virtual"><scope>pip::_internal::utils::misc::ConfiguredBuildBackendHookCaller</scope><name>get_requires_for_build_editable</name></member>
+      <member refid="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller_1a8f9c2a580a2a36022af185cd66b9d789" prot="public" virt="non-virtual"><scope>pip::_internal::utils::misc::ConfiguredBuildBackendHookCaller</scope><name>get_requires_for_build_sdist</name></member>
+      <member refid="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller_1a85ee4ea124c67923d3c5c074f02fef67" prot="public" virt="non-virtual"><scope>pip::_internal::utils::misc::ConfiguredBuildBackendHookCaller</scope><name>get_requires_for_build_wheel</name></member>
+      <member refid="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller_1af2b69ad9c4a83afaf1a9b0ac357e5a8d" prot="public" virt="non-virtual"><scope>pip::_internal::utils::misc::ConfiguredBuildBackendHookCaller</scope><name>prepare_metadata_for_build_editable</name></member>
+      <member refid="classpip_1_1__internal_1_1utils_1_1misc_1_1ConfiguredBuildBackendHookCaller_1a3a661ba3e274aa42b16646e956281682" prot="public" virt="non-virtual"><scope>pip::_internal::utils::misc::ConfiguredBuildBackendHookCaller</scope><name>prepare_metadata_for_build_wheel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

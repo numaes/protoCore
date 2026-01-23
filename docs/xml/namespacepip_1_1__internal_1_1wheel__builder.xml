@@ -1,0 +1,357 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1wheel__builder" kind="namespace" language="Python">
+    <compoundname>pip::_internal::wheel_builder</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1wheel__builder_1a84898e3516b9c46fa75845a249fc5200" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::wheel_builder.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.wheel_builder.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" line="30" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1wheel__builder_1a6eda6c4baed2364813bdf9c3e7317720" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::wheel_builder._egg_info_re</definition>
+        <argsstring></argsstring>
+        <name>_egg_info_re</name>
+        <qualifiedname>pip._internal.wheel_builder._egg_info_re</qualifiedname>
+        <initializer>=  re.compile(r&quot;([a-z0-9_.]+)-([a-z0-9_.!+-]+)&quot;, re.IGNORECASE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" line="32" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1wheel__builder_1ad8206fa8e5856a00e6283c148f53bfa6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::wheel_builder.BuildResult</definition>
+        <argsstring></argsstring>
+        <name>BuildResult</name>
+        <qualifiedname>pip._internal.wheel_builder.BuildResult</qualifiedname>
+        <initializer>=  Tuple[List[<ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref>], List[<ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref>]]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" line="34" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1wheel__builder_1a03d581fc354ea08afb996767ed353596" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.wheel_builder._contains_egg_info</definition>
+        <argsstring>(str s)</argsstring>
+        <name>_contains_egg_info</name>
+        <qualifiedname>pip._internal.wheel_builder._contains_egg_info</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Determine whether the string looks like an egg_info.
+
+:param s: The string to parse. E.g. foo-2.1
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" line="37" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" bodystart="37" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1wheel__builder_1a102c2d4c88efbc9e62ef43f7d310b6e5" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.wheel_builder._should_build</definition>
+        <argsstring>(InstallRequirement req, bool need_wheel)</argsstring>
+        <name>_should_build</name>
+        <qualifiedname>pip._internal.wheel_builder._should_build</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>need_wheel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return whether an InstallRequirement should be built into a wheel.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" line="45" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" bodystart="48" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1wheel__builder_1a5c9a3c0c4284f4c9239be20a98cd90a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.wheel_builder.should_build_for_wheel_command</definition>
+        <argsstring>(InstallRequirement req)</argsstring>
+        <name>should_build_for_wheel_command</name>
+        <qualifiedname>pip._internal.wheel_builder.should_build_for_wheel_command</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" line="78" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" bodystart="80" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1wheel__builder_1a8cfccc256f676f666f143723dcbc28a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.wheel_builder.should_build_for_install_command</definition>
+        <argsstring>(InstallRequirement req)</argsstring>
+        <name>should_build_for_install_command</name>
+        <qualifiedname>pip._internal.wheel_builder.should_build_for_install_command</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" line="84" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" bodystart="86" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1wheel__builder_1a8c969e9f60a85fb5d39db6cdae03438e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[bool]</type>
+        <definition> Optional[bool] pip._internal.wheel_builder._should_cache</definition>
+        <argsstring>(InstallRequirement req)</argsstring>
+        <name>_should_cache</name>
+        <qualifiedname>pip._internal.wheel_builder._should_cache</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return whether a built InstallRequirement can be stored in the persistent
+wheel cache, assuming the wheel cache is available, and _should_build()
+has determined a wheel needs to be built.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" line="90" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" bodystart="92" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1wheel__builder_1a66d62259ed740db675fed686c54e316b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.wheel_builder._get_cache_dir</definition>
+        <argsstring>(InstallRequirement req, WheelCache wheel_cache)</argsstring>
+        <name>_get_cache_dir</name>
+        <qualifiedname>pip._internal.wheel_builder._get_cache_dir</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1cache_1_1WheelCache" kindref="compound">WheelCache</ref></type>
+          <declname>wheel_cache</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the persistent or temporary cache directory where the built
+wheel need to be stored.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" line="122" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" bodystart="125" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1wheel__builder_1abaf7c93a749dbb7ec059c99dd4a9f933" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.wheel_builder._verify_one</definition>
+        <argsstring>(InstallRequirement req, str wheel_path)</argsstring>
+        <name>_verify_one</name>
+        <qualifiedname>pip._internal.wheel_builder._verify_one</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>wheel_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" line="138" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" bodystart="138" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1wheel__builder_1ad7066706344486ddaae2818c99870637" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._internal.wheel_builder._build_one</definition>
+        <argsstring>(InstallRequirement req, str output_dir, bool verify, List[str] build_options, List[str] global_options, bool editable)</argsstring>
+        <name>_build_one</name>
+        <qualifiedname>pip._internal.wheel_builder._build_one</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>output_dir</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>verify</declname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>build_options</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>global_options</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>editable</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Build one wheel.
+
+:return: The filename of the built wheel, or None if the build failed.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" line="167" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" bodystart="174" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1wheel__builder_1a9b357aa7fae30699be297b08b05537dd" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._internal.wheel_builder._build_one_inside_env</definition>
+        <argsstring>(InstallRequirement req, str output_dir, List[str] build_options, List[str] global_options, bool editable)</argsstring>
+        <name>_build_one_inside_env</name>
+        <qualifiedname>pip._internal.wheel_builder._build_one_inside_env</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>output_dir</declname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>build_options</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>global_options</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>editable</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" line="205" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" bodystart="211" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1wheel__builder_1a00a1d5e0c5c39881fab743158a3959ac" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.wheel_builder._clean_one_legacy</definition>
+        <argsstring>(InstallRequirement req, List[str] global_options)</argsstring>
+        <name>_clean_one_legacy</name>
+        <qualifiedname>pip._internal.wheel_builder._clean_one_legacy</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1req_1_1req__install_1_1InstallRequirement" kindref="compound">InstallRequirement</ref></type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>global_options</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" line="276" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" bodystart="276" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1wheel__builder_1a4463ec86fc47d1a51a9a543304e9613b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepip_1_1__internal_1_1wheel__builder_1ad8206fa8e5856a00e6283c148f53bfa6" kindref="member">BuildResult</ref></type>
+        <definition> BuildResult pip._internal.wheel_builder.build</definition>
+        <argsstring>(Iterable[InstallRequirement] requirements, WheelCache wheel_cache, bool verify, List[str] build_options, List[str] global_options)</argsstring>
+        <name>build</name>
+        <qualifiedname>pip._internal.wheel_builder.build</qualifiedname>
+        <param>
+          <type>Iterable</type>
+          <declname>requirements</declname>
+          <array>[InstallRequirement]</array>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1cache_1_1WheelCache" kindref="compound">WheelCache</ref></type>
+          <declname>wheel_cache</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>verify</declname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>build_options</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>global_options</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Build wheels.
+
+:return: The list of InstallRequirement that succeeded to build and
+    the list of InstallRequirement that failed to build.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" line="293" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" bodystart="299" bodyend="355"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Orchestrator for building wheels from InstallRequirements.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/wheel_builder.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

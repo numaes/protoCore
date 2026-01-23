@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1ext_1_1intersphinx_1_1__load" kind="namespace" language="Python">
+    <compoundname>sphinx::ext::intersphinx::_load</compoundname>
+    <innerclass refid="classsphinx_1_1ext_1_1intersphinx_1_1__load_1_1__InvConfig" prot="protected">sphinx::ext::intersphinx::_load::_InvConfig</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1intersphinx_1_1__load_1a45773e9174e545a601107a5c4630a4eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.intersphinx._load.validate_intersphinx_mapping</definition>
+        <argsstring>(Sphinx app, Config config)</argsstring>
+        <name>validate_intersphinx_mapping</name>
+        <qualifiedname>sphinx.ext.intersphinx._load.validate_intersphinx_mapping</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Validate and normalise :confval:`intersphinx_mapping`.
+
+Ensure that:
+
+* Keys are non-empty strings.
+* Values are two-element tuples or lists.
+* The first element of each value pair (the target URI)
+  is a non-empty string.
+* The second element of each value pair (inventory locations)
+  is a tuple of non-empty strings or None.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_load.py" line="37" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_load.py" bodystart="37" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1intersphinx_1_1__load_1a2853964e27fcb1c5271dd928fcc0ca34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.intersphinx._load.load_mappings</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>load_mappings</name>
+        <qualifiedname>sphinx.ext.intersphinx._load.load_mappings</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Load all intersphinx mappings into the environment.
+
+The intersphinx mappings are expected to be normalized.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_load.py" line="138" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_load.py" bodystart="138" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1intersphinx_1_1__load_1a1c794c254e9f1eb69e7fb0c596189399" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.ext.intersphinx._load._fetch_inventory_group</definition>
+        <argsstring>(*_IntersphinxProject project, dict[InventoryURI, InventoryCacheEntry] cache, int now, _InvConfig config, Path srcdir)</argsstring>
+        <name>_fetch_inventory_group</name>
+        <qualifiedname>sphinx.ext.intersphinx._load._fetch_inventory_group</qualifiedname>
+        <param>
+          <type>*<ref refid="classsphinx_1_1ext_1_1intersphinx_1_1__shared_1_1__IntersphinxProject" kindref="compound">_IntersphinxProject</ref></type>
+          <declname>project</declname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>cache</declname>
+          <array>[InventoryURI, InventoryCacheEntry]</array>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>now</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1ext_1_1intersphinx_1_1__load_1_1__InvConfig" kindref="compound">_InvConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>Path</type>
+          <declname>srcdir</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_load.py" line="226" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_load.py" bodystart="233" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1intersphinx_1_1__load_1abd3119ded7c15c8224cf680f4c526c0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Inventory</type>
+        <definition> Inventory sphinx.ext.intersphinx._load.fetch_inventory</definition>
+        <argsstring>(Sphinx app, InventoryURI uri, str inv)</argsstring>
+        <name>fetch_inventory</name>
+        <qualifiedname>sphinx.ext.intersphinx._load.fetch_inventory</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type>InventoryURI</type>
+          <declname>uri</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>inv</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Fetch, parse and return an intersphinx inventory file.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_load.py" line="303" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_load.py" bodystart="303" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1intersphinx_1_1__load_1a3075a3bf4a5088fa856446ef6a14cab7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1inventory_1_1__Inventory" kindref="compound">_Inventory</ref></type>
+        <definition> _Inventory sphinx.ext.intersphinx._load._fetch_inventory</definition>
+        <argsstring>(*InventoryURI target_uri, str inv_location, _InvConfig config, Path srcdir)</argsstring>
+        <name>_fetch_inventory</name>
+        <qualifiedname>sphinx.ext.intersphinx._load._fetch_inventory</qualifiedname>
+        <param>
+          <type>*InventoryURI</type>
+          <declname>target_uri</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>inv_location</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1ext_1_1intersphinx_1_1__load_1_1__InvConfig" kindref="compound">_InvConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>Path</type>
+          <declname>srcdir</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Fetch, parse and return an intersphinx inventory file.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_load.py" line="313" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_load.py" bodystart="315" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1intersphinx_1_1__load_1ad65c9a1a55e29b8f15a41cd02c85c08b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[bytes, str]</type>
+        <definition> tuple[bytes, str] sphinx.ext.intersphinx._load._fetch_inventory_url</definition>
+        <argsstring>(*InventoryURI target_uri, str inv_location, _InvConfig config)</argsstring>
+        <name>_fetch_inventory_url</name>
+        <qualifiedname>sphinx.ext.intersphinx._load._fetch_inventory_url</qualifiedname>
+        <param>
+          <type>*InventoryURI</type>
+          <declname>target_uri</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>inv_location</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1ext_1_1intersphinx_1_1__load_1_1__InvConfig" kindref="compound">_InvConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_load.py" line="338" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_load.py" bodystart="340" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1intersphinx_1_1__load_1ab2012c39b66d701b89299c8bc62d8233" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bytes</type>
+        <definition> bytes sphinx.ext.intersphinx._load._fetch_inventory_file</definition>
+        <argsstring>(*str inv_location, Path srcdir)</argsstring>
+        <name>_fetch_inventory_file</name>
+        <qualifiedname>sphinx.ext.intersphinx._load._fetch_inventory_file</qualifiedname>
+        <param>
+          <type>*str</type>
+          <declname>inv_location</declname>
+        </param>
+        <param>
+          <type>Path</type>
+          <declname>srcdir</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_load.py" line="374" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_load.py" bodystart="374" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1intersphinx_1_1__load_1a98fce22d05362af1b482d5d1930fa37c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.ext.intersphinx._load._get_safe_url</definition>
+        <argsstring>(str url)</argsstring>
+        <name>_get_safe_url</name>
+        <qualifiedname>sphinx.ext.intersphinx._load._get_safe_url</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Gets version of *url* with basic auth passwords obscured. This function
+returns results suitable for printing and logging.
+
+E.g.: https://user:12345@example.com =&gt; https://user@example.com
+
+:param url: a url
+:type url: ``str``
+
+:return: *url* with password removed
+:rtype: ``str``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_load.py" line="389" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_load.py" bodystart="389" bodyend="413"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1intersphinx_1_1__load_1aa6fe6b2681b022bf900c57de0e56ffee" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.ext.intersphinx._load._strip_basic_auth</definition>
+        <argsstring>(str url)</argsstring>
+        <name>_strip_basic_auth</name>
+        <qualifiedname>sphinx.ext.intersphinx._load._strip_basic_auth</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns *url* with basic auth credentials removed. Also returns the
+basic auth username and password if they&apos;re present in *url*.
+
+E.g.: https://user:pass@example.com =&gt; https://example.com
+
+*url* need not include basic auth credentials.
+
+:param url: url which may or may not contain basic auth credentials
+:type url: ``str``
+
+:return: *url* with any basic auth creds removed
+:rtype: ``str``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_load.py" line="414" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_load.py" bodystart="414" bodyend="433"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>This module contains the code for loading intersphinx inventories.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_load.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

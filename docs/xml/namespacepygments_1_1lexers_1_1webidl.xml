@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepygments_1_1lexers_1_1webidl" kind="namespace" language="Python">
+    <compoundname>pygments::lexers::webidl</compoundname>
+    <innerclass refid="classpygments_1_1lexers_1_1webidl_1_1WebIDLLexer" prot="public">pygments::lexers::webidl::WebIDLLexer</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1webidl_1ae49d5bf0e8fdac900e71a72d069b5306" prot="private" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pygments::lexers::webidl.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>pygments.lexers.webidl.__all__</qualifiedname>
+        <initializer>=  [&apos;<ref refid="classpygments_1_1lexers_1_1webidl_1_1WebIDLLexer" kindref="compound">WebIDLLexer</ref>&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/webidl.py" line="15" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/webidl.py" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1webidl_1a80f2b2de18a78ce0d0b394a5e11ee62e" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pygments::lexers::webidl._builtin_types</definition>
+        <argsstring></argsstring>
+        <name>_builtin_types</name>
+        <qualifiedname>pygments.lexers.webidl._builtin_types</qualifiedname>
+        <initializer>=  (
+    # primitive types
+    &apos;byte&apos;, &apos;octet&apos;, &apos;boolean&apos;,
+    r&apos;(?:unsigned\s+)?(?:short|long(?:\s+long)?)&apos;,
+    r&apos;(?:unrestricted\s+)?(?:float|double)&apos;,
+    # string types
+    &apos;DOMString&apos;, &apos;ByteString&apos;, &apos;USVString&apos;,
+    # exception types
+    &apos;Error&apos;, &apos;DOMException&apos;,
+    # typed array types
+    &apos;Uint8Array&apos;, &apos;Uint16Array&apos;, &apos;Uint32Array&apos;, &apos;Uint8ClampedArray&apos;,
+    &apos;Float32Array&apos;, &apos;Float64Array&apos;,
+    # buffer source types
+    &apos;ArrayBuffer&apos;, &apos;DataView&apos;, &apos;Int8Array&apos;, &apos;Int16Array&apos;, &apos;Int32Array&apos;,
+    # other
+    &apos;any&apos;, &apos;void&apos;, &apos;object&apos;, &apos;RegExp&apos;,
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/webidl.py" line="17" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/webidl.py" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1webidl_1ac66f6a8607b0c64d8590ffe8906fb7ef" prot="protected" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pygments::lexers::webidl._identifier</definition>
+        <argsstring></argsstring>
+        <name>_identifier</name>
+        <qualifiedname>pygments.lexers.webidl._identifier</qualifiedname>
+        <initializer>=  r&apos;_?[A-Za-z][a-zA-Z0-9_-]*&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/webidl.py" line="34" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/webidl.py" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1webidl_1a45a17003538f166196c30f4abfa7e02b" prot="protected" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pygments::lexers::webidl._keyword_suffix</definition>
+        <argsstring></argsstring>
+        <name>_keyword_suffix</name>
+        <qualifiedname>pygments.lexers.webidl._keyword_suffix</qualifiedname>
+        <initializer>=  r&apos;(?![\w-])&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/webidl.py" line="35" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/webidl.py" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepygments_1_1lexers_1_1webidl_1a8520de703443813bfc2c04c5744cf46e" prot="protected" static="no" mutable="no">
+        <type>str</type>
+        <definition>str pygments::lexers::webidl._string</definition>
+        <argsstring></argsstring>
+        <name>_string</name>
+        <qualifiedname>pygments.lexers.webidl._string</qualifiedname>
+        <initializer>=  r&apos;&quot;[^&quot;]*&quot;&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/webidl.py" line="36" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/webidl.py" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>    pygments.lexers.webidl
+    ~~~~~~~~~~~~~~~~~~~~~~
+
+    Lexers for Web IDL, including some extensions.
+
+    :copyright: Copyright 2006-2025 by the Pygments team, see AUTHORS.
+    :license: BSD, see LICENSE for details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pygments/lexers/webidl.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1071 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacedocutils_1_1core" kind="namespace" language="Python">
+    <compoundname>docutils::core</compoundname>
+    <innerclass refid="classdocutils_1_1core_1_1Publisher" prot="public">docutils::core::Publisher</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacedocutils_1_1core_1ad87867881d2fee10400c6e2b3a404292" prot="private" static="no" mutable="no">
+        <type>str</type>
+        <definition>str docutils::core.__docformat__</definition>
+        <argsstring></argsstring>
+        <name>__docformat__</name>
+        <qualifiedname>docutils.core.__docformat__</qualifiedname>
+        <initializer>=  &apos;reStructuredText&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/core.py" line="16" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/core.py" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1core_1a06c8a2ba0dd437f251b79dfd6d38c8dd" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str docutils::core.default_usage</definition>
+        <argsstring></argsstring>
+        <name>default_usage</name>
+        <qualifiedname>docutils.core.default_usage</qualifiedname>
+        <initializer>=  &apos;%prog [options] [&lt;source&gt; [&lt;destination&gt;]]&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/core.py" line="363" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/core.py" bodystart="363" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1core_1a42c5b103a66c06d01b693efddafe57c8" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils::core.default_description</definition>
+        <argsstring></argsstring>
+        <name>default_description</name>
+        <qualifiedname>docutils.core.default_description</qualifiedname>
+        <initializer>=  (
+    &apos;Reads from &lt;source&gt; (default is stdin) &apos;
+    &apos;and writes to &lt;destination&gt; (default is stdout).  &apos;
+    &apos;See https://docutils.sourceforge.io/docs/user/config.html &apos;
+    &apos;for a detailed settings reference.&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/core.py" line="364" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/core.py" bodystart="364" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacedocutils_1_1core_1a3be356cfaffba978c933743b940bb923" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.core.publish_cmdline</definition>
+        <argsstring>(reader=None, reader_name=&apos;standalone&apos;, parser=None, parser_name=&apos;restructuredtext&apos;, writer=None, writer_name=&apos;pseudoxml&apos;, settings=None, settings_spec=None, settings_overrides=None, config_section=None, enable_exit_status=True, argv=None, usage=default_usage, description=default_description)</argsstring>
+        <name>publish_cmdline</name>
+        <qualifiedname>docutils.core.publish_cmdline</qualifiedname>
+        <param>
+          <type>reader</type>
+          <defname>reader</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>reader_name</type>
+          <defname>reader_name</defname>
+          <defval>&apos;standalone&apos;</defval>
+        </param>
+        <param>
+          <type>parser</type>
+          <defname>parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>parser_name</type>
+          <defname>parser_name</defname>
+          <defval>&apos;restructuredtext&apos;</defval>
+        </param>
+        <param>
+          <type>writer</type>
+          <defname>writer</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>writer_name</type>
+          <defname>writer_name</defname>
+          <defval>&apos;pseudoxml&apos;</defval>
+        </param>
+        <param>
+          <type>settings</type>
+          <defname>settings</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>settings_spec</type>
+          <defname>settings_spec</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>settings_overrides</type>
+          <defname>settings_overrides</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_section</type>
+          <defname>config_section</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>enable_exit_status</type>
+          <defname>enable_exit_status</defname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>argv</type>
+          <defname>argv</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>usage</type>
+          <defname>usage</defname>
+          <defval><ref refid="namespacedocutils_1_1core_1a06c8a2ba0dd437f251b79dfd6d38c8dd" kindref="member">default_usage</ref></defval>
+        </param>
+        <param>
+          <type>description</type>
+          <defname>description</defname>
+          <defval><ref refid="namespacedocutils_1_1core_1a42c5b103a66c06d01b693efddafe57c8" kindref="member">default_description</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Set up &amp; run a `Publisher` for command-line-based file I/O (input and
+output file paths taken automatically from the command line).
+Also return the output as `str` or `bytes` (for binary output document
+formats).
+
+Parameters: see `publish_programmatically()` for the remainder.
+
+- `argv`: Command-line argument list to use instead of ``sys.argv[1:]``.
+- `usage`: Usage string, output if there&apos;s a problem parsing the command
+  line.
+- `description`: Program description, output for the &quot;--help&quot; option
+  (along with command-line option descriptions).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/core.py" line="379" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/core.py" bodystart="385" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1core_1a922eb9802e19fc0db7e0c897ddd9f75e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.core.publish_file</definition>
+        <argsstring>(source=None, source_path=None, destination=None, destination_path=None, reader=None, reader_name=&apos;standalone&apos;, parser=None, parser_name=&apos;restructuredtext&apos;, writer=None, writer_name=&apos;pseudoxml&apos;, settings=None, settings_spec=None, settings_overrides=None, config_section=None, enable_exit_status=False)</argsstring>
+        <name>publish_file</name>
+        <qualifiedname>docutils.core.publish_file</qualifiedname>
+        <param>
+          <type>source</type>
+          <defname>source</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>source_path</type>
+          <defname>source_path</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>destination</type>
+          <defname>destination</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>destination_path</type>
+          <defname>destination_path</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>reader</type>
+          <defname>reader</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>reader_name</type>
+          <defname>reader_name</defname>
+          <defval>&apos;standalone&apos;</defval>
+        </param>
+        <param>
+          <type>parser</type>
+          <defname>parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>parser_name</type>
+          <defname>parser_name</defname>
+          <defval>&apos;restructuredtext&apos;</defval>
+        </param>
+        <param>
+          <type>writer</type>
+          <defname>writer</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>writer_name</type>
+          <defname>writer_name</defname>
+          <defval>&apos;pseudoxml&apos;</defval>
+        </param>
+        <param>
+          <type>settings</type>
+          <defname>settings</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>settings_spec</type>
+          <defname>settings_spec</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>settings_overrides</type>
+          <defname>settings_overrides</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_section</type>
+          <defname>config_section</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>enable_exit_status</type>
+          <defname>enable_exit_status</defname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Set up &amp; run a `Publisher` for programmatic use with file-like I/O.
+Also return the output as `str` or `bytes` (for binary output document
+formats).
+
+Parameters: see `publish_programmatically()`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/core.py" line="408" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/core.py" bodystart="414" bodyend="435"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1core_1acaee9c6b0c86f8ca4437e6bb2ceb9927" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.core.publish_string</definition>
+        <argsstring>(source, source_path=None, destination_path=None, reader=None, reader_name=&apos;standalone&apos;, parser=None, parser_name=&apos;restructuredtext&apos;, writer=None, writer_name=&apos;pseudoxml&apos;, settings=None, settings_spec=None, settings_overrides=None, config_section=None, enable_exit_status=False)</argsstring>
+        <name>publish_string</name>
+        <qualifiedname>docutils.core.publish_string</qualifiedname>
+        <param>
+          <type>source</type>
+          <defname>source</defname>
+        </param>
+        <param>
+          <type>source_path</type>
+          <defname>source_path</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>destination_path</type>
+          <defname>destination_path</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>reader</type>
+          <defname>reader</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>reader_name</type>
+          <defname>reader_name</defname>
+          <defval>&apos;standalone&apos;</defval>
+        </param>
+        <param>
+          <type>parser</type>
+          <defname>parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>parser_name</type>
+          <defname>parser_name</defname>
+          <defval>&apos;restructuredtext&apos;</defval>
+        </param>
+        <param>
+          <type>writer</type>
+          <defname>writer</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>writer_name</type>
+          <defname>writer_name</defname>
+          <defval>&apos;pseudoxml&apos;</defval>
+        </param>
+        <param>
+          <type>settings</type>
+          <defname>settings</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>settings_spec</type>
+          <defname>settings_spec</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>settings_overrides</type>
+          <defname>settings_overrides</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_section</type>
+          <defname>config_section</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>enable_exit_status</type>
+          <defname>enable_exit_status</defname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Set up &amp; run a `Publisher` for programmatic use with string I/O.
+
+Accepts a `bytes` or `str` instance as `source`.
+
+The output is encoded according to the `output_encoding`_ setting;
+the return value is a `bytes` instance (unless `output_encoding`_ is
+&quot;unicode&quot;, cf. `docutils.io.StringOutput.write()`).
+
+Parameters: see `publish_programmatically()`.
+
+This function is provisional because in Python 3 name and behaviour
+no longer match.
+
+.. _output_encoding:
+    https://docutils.sourceforge.io/docs/user/config.html#output-encoding
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/core.py" line="436" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/core.py" bodystart="442" bodyend="473"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1core_1ab9a9c7bdaea2afb98eaca69f553b0b40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.core.publish_parts</definition>
+        <argsstring>(source, source_path=None, source_class=io.StringInput, destination_path=None, reader=None, reader_name=&apos;standalone&apos;, parser=None, parser_name=&apos;restructuredtext&apos;, writer=None, writer_name=&apos;pseudoxml&apos;, settings=None, settings_spec=None, settings_overrides=None, config_section=None, enable_exit_status=False)</argsstring>
+        <name>publish_parts</name>
+        <qualifiedname>docutils.core.publish_parts</qualifiedname>
+        <param>
+          <type>source</type>
+          <defname>source</defname>
+        </param>
+        <param>
+          <type>source_path</type>
+          <defname>source_path</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>source_class</type>
+          <defname>source_class</defname>
+          <defval><ref refid="classdocutils_1_1io_1_1StringInput" kindref="compound">io.StringInput</ref></defval>
+        </param>
+        <param>
+          <type>destination_path</type>
+          <defname>destination_path</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>reader</type>
+          <defname>reader</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>reader_name</type>
+          <defname>reader_name</defname>
+          <defval>&apos;standalone&apos;</defval>
+        </param>
+        <param>
+          <type>parser</type>
+          <defname>parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>parser_name</type>
+          <defname>parser_name</defname>
+          <defval>&apos;restructuredtext&apos;</defval>
+        </param>
+        <param>
+          <type>writer</type>
+          <defname>writer</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>writer_name</type>
+          <defname>writer_name</defname>
+          <defval>&apos;pseudoxml&apos;</defval>
+        </param>
+        <param>
+          <type>settings</type>
+          <defname>settings</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>settings_spec</type>
+          <defname>settings_spec</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>settings_overrides</type>
+          <defname>settings_overrides</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_section</type>
+          <defname>config_section</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>enable_exit_status</type>
+          <defname>enable_exit_status</defname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Set up &amp; run a `Publisher`, and return a dictionary of document parts.
+
+Dictionary keys are the names of parts.
+Dictionary values are `str` instances; encoding is up to the client,
+e.g.::
+
+   parts = publish_parts(...)
+   body = parts[&apos;body&apos;].encode(parts[&apos;encoding&apos;], parts[&apos;errors&apos;])
+
+See the `API documentation`__ for details on the provided parts.
+
+Parameters: see `publish_programmatically()`.
+
+__ https://docutils.sourceforge.io/docs/api/publisher.html#publish-parts
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/core.py" line="474" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/core.py" bodystart="481" bodyend="511"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1core_1ae9cd5befd2344ad1599de994f1e85364" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.core.publish_doctree</definition>
+        <argsstring>(source, source_path=None, source_class=io.StringInput, reader=None, reader_name=&apos;standalone&apos;, parser=None, parser_name=&apos;restructuredtext&apos;, settings=None, settings_spec=None, settings_overrides=None, config_section=None, enable_exit_status=False)</argsstring>
+        <name>publish_doctree</name>
+        <qualifiedname>docutils.core.publish_doctree</qualifiedname>
+        <param>
+          <type>source</type>
+          <defname>source</defname>
+        </param>
+        <param>
+          <type>source_path</type>
+          <defname>source_path</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>source_class</type>
+          <defname>source_class</defname>
+          <defval><ref refid="classdocutils_1_1io_1_1StringInput" kindref="compound">io.StringInput</ref></defval>
+        </param>
+        <param>
+          <type>reader</type>
+          <defname>reader</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>reader_name</type>
+          <defname>reader_name</defname>
+          <defval>&apos;standalone&apos;</defval>
+        </param>
+        <param>
+          <type>parser</type>
+          <defname>parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>parser_name</type>
+          <defname>parser_name</defname>
+          <defval>&apos;restructuredtext&apos;</defval>
+        </param>
+        <param>
+          <type>settings</type>
+          <defname>settings</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>settings_spec</type>
+          <defname>settings_spec</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>settings_overrides</type>
+          <defname>settings_overrides</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_section</type>
+          <defname>config_section</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>enable_exit_status</type>
+          <defname>enable_exit_status</defname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Set up &amp; run a `Publisher` for programmatic use. Return a document tree.
+
+Parameters: see `publish_programmatically()`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/core.py" line="512" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/core.py" bodystart="518" bodyend="537"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1core_1a84e7049cf7d946efc20689b08015c990" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.core.publish_from_doctree</definition>
+        <argsstring>(document, destination_path=None, writer=None, writer_name=&apos;pseudoxml&apos;, settings=None, settings_spec=None, settings_overrides=None, config_section=None, enable_exit_status=False)</argsstring>
+        <name>publish_from_doctree</name>
+        <qualifiedname>docutils.core.publish_from_doctree</qualifiedname>
+        <param>
+          <type>document</type>
+          <defname>document</defname>
+        </param>
+        <param>
+          <type>destination_path</type>
+          <defname>destination_path</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>writer</type>
+          <defname>writer</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>writer_name</type>
+          <defname>writer_name</defname>
+          <defval>&apos;pseudoxml&apos;</defval>
+        </param>
+        <param>
+          <type>settings</type>
+          <defname>settings</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>settings_spec</type>
+          <defname>settings_spec</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>settings_overrides</type>
+          <defname>settings_overrides</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_section</type>
+          <defname>config_section</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>enable_exit_status</type>
+          <defname>enable_exit_status</defname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Set up &amp; run a `Publisher` to render from an existing document tree
+data structure. For programmatic use with string output
+(`bytes` or `str`, cf. `publish_string()`).
+
+Note that ``document.settings`` is overridden; if you want to use the
+settings of the original `document`, pass ``settings=document.settings``.
+
+Also, new `document.transformer` and `document.reporter` objects are
+generated.
+
+Parameters: `document` is a `docutils.nodes.document` object, an existing
+document tree.
+
+Other parameters: see `publish_programmatically()`.
+
+This function is provisional because in Python 3 name and behaviour
+of the `io.StringOutput` class no longer match.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/core.py" line="538" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/core.py" bodystart="542" bodyend="574"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1core_1a399135451e234b8f62fec5788ed9932a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.core.publish_cmdline_to_binary</definition>
+        <argsstring>(reader=None, reader_name=&apos;standalone&apos;, parser=None, parser_name=&apos;restructuredtext&apos;, writer=None, writer_name=&apos;pseudoxml&apos;, settings=None, settings_spec=None, settings_overrides=None, config_section=None, enable_exit_status=True, argv=None, usage=default_usage, description=default_description, destination=None, destination_class=io.BinaryFileOutput)</argsstring>
+        <name>publish_cmdline_to_binary</name>
+        <qualifiedname>docutils.core.publish_cmdline_to_binary</qualifiedname>
+        <param>
+          <type>reader</type>
+          <defname>reader</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>reader_name</type>
+          <defname>reader_name</defname>
+          <defval>&apos;standalone&apos;</defval>
+        </param>
+        <param>
+          <type>parser</type>
+          <defname>parser</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>parser_name</type>
+          <defname>parser_name</defname>
+          <defval>&apos;restructuredtext&apos;</defval>
+        </param>
+        <param>
+          <type>writer</type>
+          <defname>writer</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>writer_name</type>
+          <defname>writer_name</defname>
+          <defval>&apos;pseudoxml&apos;</defval>
+        </param>
+        <param>
+          <type>settings</type>
+          <defname>settings</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>settings_spec</type>
+          <defname>settings_spec</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>settings_overrides</type>
+          <defname>settings_overrides</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>config_section</type>
+          <defname>config_section</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>enable_exit_status</type>
+          <defname>enable_exit_status</defname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>argv</type>
+          <defname>argv</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>usage</type>
+          <defname>usage</defname>
+          <defval><ref refid="namespacedocutils_1_1core_1a06c8a2ba0dd437f251b79dfd6d38c8dd" kindref="member">default_usage</ref></defval>
+        </param>
+        <param>
+          <type>description</type>
+          <defname>description</defname>
+          <defval><ref refid="namespacedocutils_1_1core_1a42c5b103a66c06d01b693efddafe57c8" kindref="member">default_description</ref></defval>
+        </param>
+        <param>
+          <type>destination</type>
+          <defname>destination</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>destination_class</type>
+          <defname>destination_class</defname>
+          <defval><ref refid="classdocutils_1_1io_1_1BinaryFileOutput" kindref="compound">io.BinaryFileOutput</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Set up &amp; run a `Publisher` for command-line-based file I/O (input and
+output file paths taken automatically from the command line).
+Also return the output as `bytes`.
+
+This is just like publish_cmdline, except that it uses
+io.BinaryFileOutput instead of io.FileOutput.
+
+Parameters: see `publish_programmatically()` for the remainder.
+
+- `argv`: Command-line argument list to use instead of ``sys.argv[1:]``.
+- `usage`: Usage string, output if there&apos;s a problem parsing the command
+  line.
+- `description`: Program description, output for the &quot;--help&quot; option
+  (along with command-line option descriptions).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/core.py" line="575" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/core.py" bodystart="587" bodyend="612"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1core_1a9ef3ca5922c518e35b6463ac152d506e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.core.publish_programmatically</definition>
+        <argsstring>(source_class, source, source_path, destination_class, destination, destination_path, reader, reader_name, parser, parser_name, writer, writer_name, settings, settings_spec, settings_overrides, config_section, enable_exit_status)</argsstring>
+        <name>publish_programmatically</name>
+        <qualifiedname>docutils.core.publish_programmatically</qualifiedname>
+        <param>
+          <type>source_class</type>
+          <defname>source_class</defname>
+        </param>
+        <param>
+          <type>source</type>
+          <defname>source</defname>
+        </param>
+        <param>
+          <type>source_path</type>
+          <defname>source_path</defname>
+        </param>
+        <param>
+          <type>destination_class</type>
+          <defname>destination_class</defname>
+        </param>
+        <param>
+          <type>destination</type>
+          <defname>destination</defname>
+        </param>
+        <param>
+          <type>destination_path</type>
+          <defname>destination_path</defname>
+        </param>
+        <param>
+          <type>reader</type>
+          <defname>reader</defname>
+        </param>
+        <param>
+          <type>reader_name</type>
+          <defname>reader_name</defname>
+        </param>
+        <param>
+          <type>parser</type>
+          <defname>parser</defname>
+        </param>
+        <param>
+          <type>parser_name</type>
+          <defname>parser_name</defname>
+        </param>
+        <param>
+          <type>writer</type>
+          <defname>writer</defname>
+        </param>
+        <param>
+          <type>writer_name</type>
+          <defname>writer_name</defname>
+        </param>
+        <param>
+          <type>settings</type>
+          <defname>settings</defname>
+        </param>
+        <param>
+          <type>settings_spec</type>
+          <defname>settings_spec</defname>
+        </param>
+        <param>
+          <type>settings_overrides</type>
+          <defname>settings_overrides</defname>
+        </param>
+        <param>
+          <type>config_section</type>
+          <defname>config_section</defname>
+        </param>
+        <param>
+          <type>enable_exit_status</type>
+          <defname>enable_exit_status</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Set up &amp; run a `Publisher` for custom programmatic use.
+
+Return the output (as `str` or `bytes`, depending on `destination_class`,
+writer, and the &quot;output_encoding&quot; setting) and the Publisher object.
+
+Applications should not need to call this function directly.  If it does
+seem to be necessary to call this function directly, please write to the
+Docutils-develop mailing list
+&lt;https://docutils.sourceforge.io/docs/user/mailing-lists.html#docutils-develop&gt;.
+
+Parameters:
+
+* `source_class` **required**: The class for dynamically created source
+  objects.  Typically `io.FileInput` or `io.StringInput`.
+
+* `source`: Type depends on `source_class`:
+
+  - If `source_class` is `io.FileInput`: Either a file-like object
+    (must have &apos;read&apos; and &apos;close&apos; methods), or ``None``
+    (`source_path` is opened).  If neither `source` nor
+    `source_path` are supplied, `sys.stdin` is used.
+
+  - If `source_class` is `io.StringInput` **required**:
+    The input as either a `bytes` object (ensure the &apos;input_encoding&apos;
+    setting matches its encoding) or a `str` object.
+
+* `source_path`: Type depends on `source_class`:
+
+  - `io.FileInput`: Path to the input file, opened if no `source`
+    supplied.
+
+  - `io.StringInput`: Optional.  Path to the file or name of the
+    object that produced `source`.  Only used for diagnostic output.
+
+* `destination_class` **required**: The class for dynamically created
+  destination objects.  Typically `io.FileOutput` or `io.StringOutput`.
+
+* `destination`: Type depends on `destination_class`:
+
+  - `io.FileOutput`: Either a file-like object (must have &apos;write&apos; and
+    &apos;close&apos; methods), or ``None`` (`destination_path` is opened).  If
+    neither `destination` nor `destination_path` are supplied,
+    `sys.stdout` is used.
+
+  - `io.StringOutput`: Not used; pass ``None``.
+
+* `destination_path`: Type depends on `destination_class`:
+
+  - `io.FileOutput`: Path to the output file.  Opened if no `destination`
+    supplied.
+
+  - `io.StringOutput`: Path to the file or object which will receive the
+    output; optional.  Used for determining relative paths (stylesheets,
+    source links, etc.).
+
+* `reader`: A `docutils.readers.Reader` object.
+
+* `reader_name`: Name or alias of the Reader class to be instantiated if
+  no `reader` supplied.
+
+* `parser`: A `docutils.parsers.Parser` object.
+
+* `parser_name`: Name or alias of the Parser class to be instantiated if
+  no `parser` supplied.
+
+* `writer`: A `docutils.writers.Writer` object.
+
+* `writer_name`: Name or alias of the Writer class to be instantiated if
+  no `writer` supplied.
+
+* `settings`: A runtime settings (`docutils.frontend.Values`) object, for
+  dotted-attribute access to runtime settings.  It&apos;s the end result of the
+  `SettingsSpec`, config file, and option processing.  If `settings` is
+  passed, it&apos;s assumed to be complete and no further setting/config/option
+  processing is done.
+
+* `settings_spec`: A `docutils.SettingsSpec` subclass or object.  Provides
+  extra application-specific settings definitions independently of
+  components.  In other words, the application becomes a component, and
+  its settings data is processed along with that of the other components.
+  Used only if no `settings` specified.
+
+* `settings_overrides`: A dictionary containing application-specific
+  settings defaults that override the defaults of other components.
+  Used only if no `settings` specified.
+
+* `config_section`: A string, the name of the configuration file section
+  for this application.  Overrides the ``config_section`` attribute
+  defined by `settings_spec`.  Used only if no `settings` specified.
+
+* `enable_exit_status`: Boolean; enable exit status at end of processing?
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/core.py" line="613" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/core.py" bodystart="620" bodyend="728"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1core_1a3589cf09bde8c057634d222d7cd9ebd9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.core.rst2something</definition>
+        <argsstring>(writer, documenttype, doc_path=&apos;&apos;)</argsstring>
+        <name>rst2something</name>
+        <qualifiedname>docutils.core.rst2something</qualifiedname>
+        <param>
+          <type>writer</type>
+          <defname>writer</defname>
+        </param>
+        <param>
+          <type>documenttype</type>
+          <defname>documenttype</defname>
+        </param>
+        <param>
+          <type>doc_path</type>
+          <defname>doc_path</defname>
+          <defval>&apos;&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/core.py" line="729" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/core.py" bodystart="729" bodyend="742"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1core_1a61b0c48948dd39b78d7783c16bef3396" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.core.rst2html</definition>
+        <argsstring>()</argsstring>
+        <name>rst2html</name>
+        <qualifiedname>docutils.core.rst2html</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/core.py" line="743" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/core.py" bodystart="743" bodyend="746"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1core_1a010e77fbf9503ec4b25c90965220decd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.core.rst2html4</definition>
+        <argsstring>()</argsstring>
+        <name>rst2html4</name>
+        <qualifiedname>docutils.core.rst2html4</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/core.py" line="747" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/core.py" bodystart="747" bodyend="750"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1core_1ae036cb44d57a49efd670a61911212eef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.core.rst2html5</definition>
+        <argsstring>()</argsstring>
+        <name>rst2html5</name>
+        <qualifiedname>docutils.core.rst2html5</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/core.py" line="751" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/core.py" bodystart="751" bodyend="754"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1core_1a4506801376dddcab540c80f555cb2236" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.core.rst2latex</definition>
+        <argsstring>()</argsstring>
+        <name>rst2latex</name>
+        <qualifiedname>docutils.core.rst2latex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/core.py" line="755" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/core.py" bodystart="755" bodyend="758"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1core_1a5047af4de5d3605ff9ef3429128b6719" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.core.rst2man</definition>
+        <argsstring>()</argsstring>
+        <name>rst2man</name>
+        <qualifiedname>docutils.core.rst2man</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/core.py" line="759" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/core.py" bodystart="759" bodyend="762"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1core_1ad339e6ef6688e09d087ed8408adaf666" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.core.rst2odt</definition>
+        <argsstring>()</argsstring>
+        <name>rst2odt</name>
+        <qualifiedname>docutils.core.rst2odt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/core.py" line="763" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/core.py" bodystart="763" bodyend="766"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1core_1af40474fb27b7ea5d5ac1c010bb743e09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.core.rst2pseudoxml</definition>
+        <argsstring>()</argsstring>
+        <name>rst2pseudoxml</name>
+        <qualifiedname>docutils.core.rst2pseudoxml</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/core.py" line="767" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/core.py" bodystart="767" bodyend="770"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1core_1ad7a7a40d9551ae709227123a76463d5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.core.rst2s5</definition>
+        <argsstring>()</argsstring>
+        <name>rst2s5</name>
+        <qualifiedname>docutils.core.rst2s5</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/core.py" line="771" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/core.py" bodystart="771" bodyend="774"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1core_1a610b6e3cd1d51e14b04f5f38b5e277bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.core.rst2xetex</definition>
+        <argsstring>()</argsstring>
+        <name>rst2xetex</name>
+        <qualifiedname>docutils.core.rst2xetex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/core.py" line="775" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/core.py" bodystart="775" bodyend="778"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1core_1ad75cf543f76d2b0cbdfa920b00f2d461" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.core.rst2xml</definition>
+        <argsstring>()</argsstring>
+        <name>rst2xml</name>
+        <qualifiedname>docutils.core.rst2xml</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/core.py" line="779" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/core.py" bodystart="779" bodyend="781"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Calling the ``publish_*`` convenience functions (or instantiating a
+`Publisher` object) with component names will result in default
+behavior.  For custom behavior (setting component options), create
+custom component objects first, and pass *them* to
+``publish_*``/`Publisher`.  See `The Docutils Publisher`_.
+
+.. _The Docutils Publisher:
+    https://docutils.sourceforge.io/docs/api/publisher.html
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/docutils/core.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

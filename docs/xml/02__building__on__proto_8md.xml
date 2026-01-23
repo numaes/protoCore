@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="02__building__on__proto_8md" kind="file" language="Markdown">
+    <compoundname>02_building_on_proto.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Guide:<sp/>Building<sp/>Your<sp/>Own<sp/>Systems<sp/>with<sp/>Proto</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Introduction</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Proto<sp/>is<sp/>not<sp/>a<sp/>standalone<sp/>language;<sp/>it&apos;s<sp/>a<sp/>library<sp/>designed<sp/>to<sp/>be<sp/>the<sp/>powerful<sp/>engine<sp/>inside<sp/>other<sp/>systems.<sp/>This<sp/>guide<sp/>outlines<sp/>the<sp/>two<sp/>primary<sp/>ways<sp/>you<sp/>can<sp/>integrate<sp/>Proto<sp/>to<sp/>build<sp/>your<sp/>own<sp/>high-performance<sp/>applications,<sp/>virtual<sp/>machines,<sp/>or<sp/>language<sp/>runtimes.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>The<sp/>Two<sp/>Integration<sp/>Paths</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">There<sp/>are<sp/>two<sp/>main<sp/>approaches<sp/>to<sp/>building<sp/>on<sp/>top<sp/>of<sp/>Proto,<sp/>each<sp/>suited<sp/>for<sp/>different<sp/>needs.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">1.<sp/><sp/>**The<sp/>`proto_python`<sp/>Transpiler<sp/>(The<sp/>Easy<sp/>Path):**<sp/>This<sp/>is<sp/>the<sp/>quickest<sp/>way<sp/>to<sp/>leverage<sp/>Proto&apos;s<sp/>performance.<sp/>You<sp/>write<sp/>code<sp/>in<sp/>a<sp/>subset<sp/>of<sp/>Python,<sp/>and<sp/>the<sp/>`proto_python`<sp/>tool<sp/>automatically<sp/>converts<sp/>it<sp/>into<sp/>highly<sp/>optimized<sp/>C++<sp/>code<sp/>that<sp/>uses<sp/>the<sp/>Proto<sp/>runtime.<sp/>This<sp/>is<sp/>ideal<sp/>for<sp/>application<sp/>development<sp/>where<sp/>you<sp/>want<sp/>the<sp/>productivity<sp/>of<sp/>Python<sp/>with<sp/>the<sp/>performance<sp/>of<sp/>a<sp/>compiled<sp/>backend.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">2.<sp/><sp/>**Direct<sp/>C++<sp/>Integration<sp/>(The<sp/>Power<sp/>Path):**<sp/>This<sp/>is<sp/>for<sp/>developers<sp/>who<sp/>want<sp/>to<sp/>build<sp/>core<sp/>systems,<sp/>like<sp/>a<sp/>new<sp/>language<sp/>VM,<sp/>a<sp/>JIT<sp/>compiler,<sp/>or<sp/>a<sp/>high-performance<sp/>game<sp/>engine<sp/>component,<sp/>directly<sp/>in<sp/>C++.<sp/>This<sp/>path<sp/>gives<sp/>you<sp/>maximum<sp/>control<sp/>and<sp/>performance.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Case<sp/>Study:<sp/>`protoDB`</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`protoDB`<sp/>project<sp/>is<sp/>a<sp/>perfect<sp/>real-world<sp/>example<sp/>of<sp/>the<sp/>transpiler<sp/>path.<sp/>It&apos;s<sp/>a<sp/>complex<sp/>object<sp/>database<sp/>written<sp/>entirely<sp/>in<sp/>Python,<sp/>but<sp/>it<sp/>uses<sp/>`proto_python`<sp/>to<sp/>transpile<sp/>its<sp/>codebase<sp/>into<sp/>a<sp/>native<sp/>executable.<sp/>This<sp/>allows<sp/>it<sp/>to<sp/>achieve<sp/>performance<sp/>that<sp/>would<sp/>be<sp/>impossible<sp/>with<sp/>a<sp/>standard<sp/>Python<sp/>interpreter,<sp/>demonstrating<sp/>the<sp/>power<sp/>of<sp/>the<sp/>transpiler<sp/>approach.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Direct<sp/>C++<sp/>Integration<sp/>Workflow</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">When<sp/>you<sp/>need<sp/>to<sp/>build<sp/>a<sp/>system<sp/>directly<sp/>in<sp/>C++,<sp/>the<sp/>workflow<sp/>is<sp/>straightforward.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">1.<sp/><sp/>**Include<sp/>`proto.h`:**<sp/>This<sp/>is<sp/>the<sp/>main<sp/>public<sp/>header<sp/>file<sp/>that<sp/>exposes<sp/>all<sp/>of<sp/>Proto&apos;s<sp/>core<sp/>functionality.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">2.<sp/><sp/>**Create<sp/>a<sp/>`ProtoContext`:**<sp/>Your<sp/>C++<sp/>application<sp/>will<sp/>create<sp/>and<sp/>hold<sp/>an<sp/>instance<sp/>of<sp/>a<sp/>`ProtoContext`.<sp/>This<sp/>object<sp/>is<sp/>your<sp/>primary<sp/>interface<sp/>to<sp/>the<sp/>runtime,<sp/>used<sp/>for<sp/>creating<sp/>objects,<sp/>calling<sp/>functions,<sp/>and<sp/>managing<sp/>memory.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">3.<sp/><sp/>**Compile<sp/>and<sp/>Link<sp/>against<sp/>`libproto.a`:**<sp/>Your<sp/>C++<sp/>code<sp/>is<sp/>compiled<sp/>as<sp/>usual,<sp/>and<sp/>you<sp/>simply<sp/>link<sp/>the<sp/>final<sp/>executable<sp/>against<sp/>the<sp/>`libproto.a`<sp/>static<sp/>library<sp/>that<sp/>you<sp/>built<sp/>in<sp/>the<sp/>Quick<sp/>Start<sp/>guide.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Example:<sp/>A<sp/>Simple<sp/>C++<sp/>Host<sp/>Application</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">Here<sp/>is<sp/>a<sp/>minimal<sp/>`main.cpp`<sp/>that<sp/>demonstrates<sp/>how<sp/>to<sp/>initialize<sp/>the<sp/>runtime,<sp/>create<sp/>a<sp/>few<sp/>objects,<sp/>and<sp/>interact<sp/>with<sp/>them.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**`main.cpp`:**</highlight></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&quot;proto.h&quot;</highlight></codeline>
+<codeline><highlight class="normal">#include<sp/>&lt;iostream&gt;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">int<sp/>main()<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>1.<sp/>Create<sp/>a<sp/>context,<sp/>which<sp/>initializes<sp/>the<sp/>runtime</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>ProtoContext*<sp/>context<sp/>=<sp/>new<sp/>ProtoContext();</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>2.<sp/>Create<sp/>some<sp/>Proto<sp/>objects</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>ProtoObject<sp/>my_int<sp/>=<sp/>context-&gt;fromInteger(42);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>ProtoObject<sp/>my_str<sp/>=<sp/>context-&gt;newString(&quot;Hello<sp/>from<sp/>C++!&quot;);</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>3.<sp/>Interact<sp/>with<sp/>the<sp/>objects<sp/>(here,<sp/>just<sp/>printing)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>In<sp/>a<sp/>real<sp/>app,<sp/>you<sp/>would<sp/>call<sp/>functions,<sp/>pass<sp/>them<sp/>to<sp/>other<sp/>objects,<sp/>etc.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>&quot;Integer<sp/>value:<sp/>&quot;<sp/>&lt;&lt;<sp/>my_int-&gt;asInteger()<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>&quot;String<sp/>value:<sp/>&quot;<sp/>&lt;&lt;<sp/>my_str-&gt;asString()-&gt;c_str()<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>//<sp/>4.<sp/>Clean<sp/>up<sp/>the<sp/>context</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>delete<sp/>context;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>0;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">**`CMakeLists.txt`:**</highlight></codeline>
+<codeline><highlight class="normal">To<sp/>build<sp/>this,<sp/>you<sp/>would<sp/>use<sp/>a<sp/>simple<sp/>`CMakeLists.txt`<sp/>file.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cmake</highlight></codeline>
+<codeline><highlight class="normal">cproject(MyProtoApp<sp/>CXX)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Find<sp/>the<sp/>Proto<sp/>library<sp/>(assuming<sp/>it<sp/>was<sp/>installed<sp/>or<sp/>is<sp/>in<sp/>a<sp/>known<sp/>path)</highlight></codeline>
+<codeline><highlight class="normal">find_library(PROTO_LIBRARY<sp/>NAMES<sp/>protoCore<sp/>PATHS<sp/>/path/to/protoCore/build)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">add_executable(my_app<sp/>main.cpp)</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">#<sp/>Link<sp/>your<sp/>application<sp/>against<sp/>libproto.a</highlight></codeline>
+<codeline><highlight class="normal">target_link_libraries(my_app<sp/>${PROTO_LIBRARY})</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Key<sp/>Concepts<sp/>for<sp/>Direct<sp/>Integration</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Object<sp/>Creation:**<sp/>Use<sp/>methods<sp/>on<sp/>the<sp/>`context`<sp/>object,<sp/>like<sp/>`fromInteger()`,<sp/>`newString()`,<sp/>`newTuple()`,<sp/>etc.,<sp/>to<sp/>create<sp/>new<sp/>Proto<sp/>values.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Calling<sp/>Proto<sp/>Functions:**<sp/>To<sp/>call<sp/>a<sp/>function<sp/>within<sp/>the<sp/>Proto<sp/>world,<sp/>you<sp/>would<sp/>first<sp/>look<sp/>up<sp/>the<sp/>function<sp/>object<sp/>(e.g.,<sp/>from<sp/>another<sp/>object&apos;s<sp/>attributes)<sp/>and<sp/>then<sp/>use<sp/>`context-&gt;call(function,<sp/>args)`.</highlight></codeline>
+<codeline><highlight class="normal">*<sp/><sp/><sp/>**Error<sp/>Handling:**<sp/>Operations<sp/>within<sp/>Proto<sp/>can<sp/>fail<sp/>(e.g.,<sp/>type<sp/>errors,<sp/>invalid<sp/>arguments).<sp/>These<sp/>failures<sp/>typically<sp/>return<sp/>a<sp/>special<sp/>error<sp/>object.<sp/>Your<sp/>C++<sp/>host<sp/>code<sp/>should<sp/>check<sp/>for<sp/>these<sp/>error<sp/>objects<sp/>and<sp/>handle<sp/>them<sp/>appropriately.</highlight></codeline>
+    </programlisting>
+    <location file="Structural description/guides/02_building_on_proto.md"/>
+  </compounddef>
+</doxygen>

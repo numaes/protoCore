@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1nodes_1_1FromImport" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::nodes::FromImport</compoundname>
+    <basecompoundref refid="classjinja2_1_1nodes_1_1Stmt" prot="public" virt="non-virtual">jinja2.nodes.Stmt</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1FromImport_1ab87e7b6965fcd36ab1ee36b8158cc3cc" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple jinja2.nodes.FromImport::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>jinja2.nodes.FromImport.fields</qualifiedname>
+        <initializer>=  (&quot;template&quot;, &quot;names&quot;, &quot;with_context&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="437" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="437" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1FromImport_1a42a213f337ec5c8ad61cbbaeca08229d" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str jinja2.nodes.FromImport::template</definition>
+        <argsstring></argsstring>
+        <name>template</name>
+        <qualifiedname>jinja2.nodes.FromImport.template</qualifiedname>
+        <initializer>: &quot;Expr&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="438" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="438" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1FromImport_1a2e979567f68c079aafd4f7528e2b34c2" prot="public" static="yes" mutable="no">
+        <type>t</type>
+        <definition>t jinja2.nodes.FromImport::names</definition>
+        <argsstring></argsstring>
+        <name>names</name>
+        <qualifiedname>jinja2.nodes.FromImport.names</qualifiedname>
+        <initializer>.<ref refid="classjinja2_1_1nodes_1_1List" kindref="compound">List</ref>[t.Union[str, t.Tuple[str, str]]]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="439" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="439" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1FromImport_1ad1b127d22f22295800dc10e07d64e846" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool jinja2.nodes.FromImport::with_context</definition>
+        <argsstring></argsstring>
+        <name>with_context</name>
+        <qualifiedname>jinja2.nodes.FromImport.with_context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="440" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="440" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A node that represents the from import tag.  It&apos;s important to not
+pass unsafe names to the name attribute.  The compiler translates the
+attribute lookups directly into getattr calls and does *not* use the
+subscript callback of the interface.  As exported variables may not
+start with double underscores (which the parser asserts) this is not a
+problem for regular Jinja code, but if this node is used in an extension
+extra care must be taken.
+
+The list of names may contain tuples if aliases are wanted.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.nodes.FromImport</label>
+        <link refid="classjinja2_1_1nodes_1_1FromImport"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.nodes.Node</label>
+        <link refid="classjinja2_1_1nodes_1_1Node"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>jinja2.nodes.NodeType</label>
+        <link refid="classjinja2_1_1nodes_1_1NodeType"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.nodes.Stmt</label>
+        <link refid="classjinja2_1_1nodes_1_1Stmt"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="7">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>jinja2.nodes.FromImport</label>
+        <link refid="classjinja2_1_1nodes_1_1FromImport"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>template</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.nodes.Node</label>
+        <link refid="classjinja2_1_1nodes_1_1Node"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>jinja2.nodes.NodeType</label>
+        <link refid="classjinja2_1_1nodes_1_1NodeType"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.nodes.Stmt</label>
+        <link refid="classjinja2_1_1nodes_1_1Stmt"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="425" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="425" bodyend="442"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1nodes_1_1FromImport_1ab87e7b6965fcd36ab1ee36b8158cc3cc" prot="public" virt="non-virtual"><scope>jinja2::nodes::FromImport</scope><name>fields</name></member>
+      <member refid="classjinja2_1_1nodes_1_1FromImport_1a2e979567f68c079aafd4f7528e2b34c2" prot="public" virt="non-virtual"><scope>jinja2::nodes::FromImport</scope><name>names</name></member>
+      <member refid="classjinja2_1_1nodes_1_1FromImport_1a42a213f337ec5c8ad61cbbaeca08229d" prot="public" virt="non-virtual"><scope>jinja2::nodes::FromImport</scope><name>template</name></member>
+      <member refid="classjinja2_1_1nodes_1_1FromImport_1ad1b127d22f22295800dc10e07d64e846" prot="public" virt="non-virtual"><scope>jinja2::nodes::FromImport</scope><name>with_context</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

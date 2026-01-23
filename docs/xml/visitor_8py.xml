@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="visitor_8py" kind="file" language="Python">
+    <compoundname>visitor.py</compoundname>
+    <innerclass refid="classjinja2_1_1visitor_1_1VisitCallable" prot="public">jinja2::visitor::VisitCallable</innerclass>
+    <innerclass refid="classjinja2_1_1visitor_1_1NodeVisitor" prot="public">jinja2::visitor::NodeVisitor</innerclass>
+    <innerclass refid="classjinja2_1_1visitor_1_1NodeTransformer" prot="public">jinja2::visitor::NodeTransformer</innerclass>
+    <innernamespace refid="namespacejinja2">jinja2</innernamespace>
+    <innernamespace refid="namespacejinja2_1_1visitor">jinja2::visitor</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacejinja2_1_1visitor" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;API<sp/>for<sp/>traversing<sp/>the<sp/>AST<sp/>nodes.<sp/>Implemented<sp/>by<sp/>the<sp/>compiler<sp/>and</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral">meta<sp/>introspection.</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>t</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.nodes<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Node</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>t.TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>typing_extensions<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>te</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12" refid="classjinja2_1_1visitor_1_1VisitCallable" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classjinja2_1_1visitor_1_1VisitCallable" kindref="compound">VisitCallable</ref>(te.Protocol):</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classjinja2_1_1visitor_1_1VisitCallable_1a06d9a0168cd2794841461120b806ca21" kindref="member">__call__</ref>(self,<sp/>node:<sp/>Node,<sp/>*args:<sp/>t.Any,<sp/>**kwargs:<sp/>t.Any)<sp/>-&gt;<sp/>t.Any:<sp/>...</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="classjinja2_1_1visitor_1_1NodeVisitor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classjinja2_1_1visitor_1_1NodeVisitor" kindref="compound">NodeVisitor</ref>:</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Walks<sp/>the<sp/>abstract<sp/>syntax<sp/>tree<sp/>and<sp/>call<sp/>visitor<sp/>functions<sp/>for<sp/>every</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>node<sp/>found.<sp/><sp/>The<sp/>visitor<sp/>functions<sp/>may<sp/>return<sp/>values<sp/>which<sp/>will<sp/>be</highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>forwarded<sp/>by<sp/>the<sp/>`visit`<sp/>method.</highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Per<sp/>default<sp/>the<sp/>visitor<sp/>functions<sp/>for<sp/>the<sp/>nodes<sp/>are<sp/>``&apos;visit_&apos;``<sp/>+</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>class<sp/>name<sp/>of<sp/>the<sp/>node.<sp/><sp/>So<sp/>a<sp/>`TryFinally`<sp/>node<sp/>visit<sp/>function<sp/>would</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>be<sp/>`visit_TryFinally`.<sp/><sp/>This<sp/>behavior<sp/>can<sp/>be<sp/>changed<sp/>by<sp/>overriding</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>the<sp/>`get_visitor`<sp/>function.<sp/><sp/>If<sp/>no<sp/>visitor<sp/>function<sp/>exists<sp/>for<sp/>a<sp/>node</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>(return<sp/>value<sp/>`None`)<sp/>the<sp/>`generic_visit`<sp/>visitor<sp/>is<sp/>used<sp/>instead.</highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classjinja2_1_1visitor_1_1NodeVisitor_1a48f14e449d8a76b3abe49109a6a1aef9" kindref="member">get_visitor</ref>(self,<sp/>node:<sp/>Node)<sp/>-&gt;<sp/></highlight><highlight class="stringliteral">&quot;t.Optional[VisitCallable]&quot;</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>the<sp/>visitor<sp/>function<sp/>for<sp/>this<sp/>node<sp/>or<sp/>`None`<sp/>if<sp/>no<sp/>visitor</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>exists<sp/>for<sp/>this<sp/>node.<sp/><sp/>In<sp/>that<sp/>case<sp/>the<sp/>generic<sp/>visit<sp/>function<sp/>is</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>used<sp/>instead.</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>getattr(self,<sp/>f</highlight><highlight class="stringliteral">&quot;visit_{type(node).__name__}&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classjinja2_1_1visitor_1_1NodeVisitor_1ac46313d5a7f643dd6b516f67e7a0e3cb" kindref="member">visit</ref>(self,<sp/>node:<sp/>Node,<sp/>*args:<sp/>t.Any,<sp/>**kwargs:<sp/>t.Any)<sp/>-&gt;<sp/>t.Any:</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Visit<sp/>a<sp/>node.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f<sp/>=<sp/>self.<ref refid="classjinja2_1_1visitor_1_1NodeVisitor_1a48f14e449d8a76b3abe49109a6a1aef9" kindref="member">get_visitor</ref>(node)</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>f<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>f(node,<sp/>*args,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.<ref refid="classjinja2_1_1visitor_1_1NodeVisitor_1a9020040a2124eaa206bd1505642fa9fa" kindref="member">generic_visit</ref>(node,<sp/>*args,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classjinja2_1_1visitor_1_1NodeVisitor_1a9020040a2124eaa206bd1505642fa9fa" kindref="member">generic_visit</ref>(self,<sp/>node:<sp/>Node,<sp/>*args:<sp/>t.Any,<sp/>**kwargs:<sp/>t.Any)<sp/>-&gt;<sp/>t.Any:</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Called<sp/>if<sp/>no<sp/>explicit<sp/>visitor<sp/>function<sp/>exists<sp/>for<sp/>a<sp/>node.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>child_node<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>node.iter_child_nodes():</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classjinja2_1_1visitor_1_1NodeVisitor_1ac46313d5a7f643dd6b516f67e7a0e3cb" kindref="member">visit</ref>(child_node,<sp/>*args,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="classjinja2_1_1visitor_1_1NodeTransformer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classjinja2_1_1visitor_1_1NodeTransformer" kindref="compound">NodeTransformer</ref>(<ref refid="classjinja2_1_1visitor_1_1NodeVisitor" kindref="compound">NodeVisitor</ref>):</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Walks<sp/>the<sp/>abstract<sp/>syntax<sp/>tree<sp/>and<sp/>allows<sp/>modifications<sp/>of<sp/>nodes.</highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>The<sp/>`NodeTransformer`<sp/>will<sp/>walk<sp/>the<sp/>AST<sp/>and<sp/>use<sp/>the<sp/>return<sp/>value<sp/>of<sp/>the</highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>visitor<sp/>functions<sp/>to<sp/>replace<sp/>or<sp/>remove<sp/>the<sp/>old<sp/>node.<sp/><sp/>If<sp/>the<sp/>return</highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>value<sp/>of<sp/>the<sp/>visitor<sp/>function<sp/>is<sp/>`None`<sp/>the<sp/>node<sp/>will<sp/>be<sp/>removed</highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>from<sp/>the<sp/>previous<sp/>location<sp/>otherwise<sp/>it&apos;s<sp/>replaced<sp/>with<sp/>the<sp/>return</highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>value.<sp/><sp/>The<sp/>return<sp/>value<sp/>may<sp/>be<sp/>the<sp/>original<sp/>node<sp/>in<sp/>which<sp/>case<sp/>no</highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>replacement<sp/>takes<sp/>place.</highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classjinja2_1_1visitor_1_1NodeTransformer_1a508dde6856298458dc79732fa6cd6edd" kindref="member">generic_visit</ref>(self,<sp/>node:<sp/>Node,<sp/>*args:<sp/>t.Any,<sp/>**kwargs:<sp/>t.Any)<sp/>-&gt;<sp/>Node:</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>field,<sp/>old_value<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>node.iter_fields():</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>isinstance(old_value,<sp/>list):</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>new_values<sp/>=<sp/>[]</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>value<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>old_value:</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>isinstance(value,<sp/>Node):</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>value<sp/>=<sp/>self.<ref refid="classjinja2_1_1visitor_1_1NodeVisitor_1ac46313d5a7f643dd6b516f67e7a0e3cb" kindref="member">visit</ref>(value,<sp/>*args,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>value<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>isinstance(value,<sp/>Node):</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>new_values.extend(value)</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>new_values.append(value)</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>old_value[:]<sp/>=<sp/>new_values</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/>isinstance(old_value,<sp/>Node):</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>new_node<sp/>=<sp/>self.<ref refid="classjinja2_1_1visitor_1_1NodeVisitor_1ac46313d5a7f643dd6b516f67e7a0e3cb" kindref="member">visit</ref>(old_value,<sp/>*args,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>new_node<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>delattr(node,<sp/>field)</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>setattr(node,<sp/>field,<sp/>new_node)</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>node</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classjinja2_1_1visitor_1_1NodeTransformer_1a8ba9377d53492af432cdf4fd80169d36" kindref="member">visit_list</ref>(self,<sp/>node:<sp/>Node,<sp/>*args:<sp/>t.Any,<sp/>**kwargs:<sp/>t.Any)<sp/>-&gt;<sp/>t.List[Node]:</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;As<sp/>transformers<sp/>may<sp/>return<sp/>lists<sp/>in<sp/>some<sp/>places<sp/>this<sp/>method</highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>can<sp/>be<sp/>used<sp/>to<sp/>enforce<sp/>a<sp/>list<sp/>as<sp/>return<sp/>value.</highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rv<sp/>=<sp/>self.<ref refid="classjinja2_1_1visitor_1_1NodeVisitor_1ac46313d5a7f643dd6b516f67e7a0e3cb" kindref="member">visit</ref>(node,<sp/>*args,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>isinstance(rv,<sp/>list):</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>[rv]</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rv</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/jinja2/visitor.py"/>
+  </compounddef>
+</doxygen>

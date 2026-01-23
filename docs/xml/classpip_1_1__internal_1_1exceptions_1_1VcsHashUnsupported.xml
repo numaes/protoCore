@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1exceptions_1_1VcsHashUnsupported" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::exceptions::VcsHashUnsupported</compoundname>
+    <basecompoundref refid="classpip_1_1__internal_1_1exceptions_1_1HashError" prot="public" virt="non-virtual">pip._internal.exceptions.HashError</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1exceptions_1_1VcsHashUnsupported_1ab5a23c3bb66053ed4505d1a212242bd8" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int pip._internal.exceptions.VcsHashUnsupported::order</definition>
+        <argsstring></argsstring>
+        <name>order</name>
+        <qualifiedname>pip._internal.exceptions.VcsHashUnsupported.order</qualifiedname>
+        <initializer>=  0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="494" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="494" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1exceptions_1_1VcsHashUnsupported_1aff1bba3e5ad50fdc01f2a1e777f08b73" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pip._internal.exceptions.VcsHashUnsupported::head</definition>
+        <argsstring></argsstring>
+        <name>head</name>
+        <qualifiedname>pip._internal.exceptions.VcsHashUnsupported.head</qualifiedname>
+        <initializer>=  (
+        &quot;Can&apos;t verify hashes for these requirements because we don&apos;t &quot;
+        &quot;have a way to hash version control repositories:&quot;
+    )</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="495" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="495" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A hash was provided for a version-control-system-based requirement, but
+we don&apos;t have a method for hashing those.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="5">
+        <label>Exception</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.exceptions.VcsHashUnsupported</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1VcsHashUnsupported"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.exceptions.HashError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1HashError"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.exceptions.InstallationError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1InstallationError"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._internal.exceptions.PipError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1PipError"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>Exception</label>
+      </node>
+      <node id="7">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.exceptions.VcsHashUnsupported</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1VcsHashUnsupported"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.exceptions.HashError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1HashError"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>req</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>head</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.exceptions.InstallationError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1InstallationError"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._internal.exceptions.PipError</label>
+        <link refid="classpip_1_1__internal_1_1exceptions_1_1PipError"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Optional</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" line="490" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/exceptions.py" bodystart="490" bodyend="500"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1exceptions_1_1VcsHashUnsupported_1aff1bba3e5ad50fdc01f2a1e777f08b73" prot="public" virt="non-virtual"><scope>pip::_internal::exceptions::VcsHashUnsupported</scope><name>head</name></member>
+      <member refid="classpip_1_1__internal_1_1exceptions_1_1VcsHashUnsupported_1ab5a23c3bb66053ed4505d1a212242bd8" prot="public" virt="non-virtual"><scope>pip::_internal::exceptions::VcsHashUnsupported</scope><name>order</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

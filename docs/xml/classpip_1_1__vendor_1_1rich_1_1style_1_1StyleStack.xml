@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1rich_1_1style_1_1StyleStack" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::rich::style::StyleStack</compoundname>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1rich_1_1style_1_1StyleStack_1a8529a763bfb77d062dc3b4f1f05525dd" prot="private" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list pip._vendor.rich.style.StyleStack::__slots__</definition>
+        <argsstring></argsstring>
+        <name>__slots__</name>
+        <qualifiedname>pip._vendor.rich.style.StyleStack.__slots__</qualifiedname>
+        <initializer>=  [&quot;_stack&quot;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/style.py" line="768" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/style.py" bodystart="768" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1rich_1_1style_1_1StyleStack_1a03f2b43f8f0835c4ad6ff8c45ce6b254" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.rich.style.StyleStack.__init__</definition>
+        <argsstring>(self, &quot;Style&quot; default_style)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._vendor.rich.style.StyleStack.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;Style&quot;</type>
+          <declname>default_style</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/style.py" line="770" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/style.py" bodystart="770" bodyend="772"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1rich_1_1style_1_1StyleStack_1a595b24b960b64eefd20d8af42d530018" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.rich.style.StyleStack.__repr__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__repr__</name>
+        <qualifiedname>pip._vendor.rich.style.StyleStack.__repr__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/style.py" line="773" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/style.py" bodystart="773" bodyend="775"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1rich_1_1style_1_1StyleStack_1aa4beeae4892068a1b439287e927525af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1rich_1_1style_1_1Style" kindref="compound">Style</ref></type>
+        <definition> Style pip._vendor.rich.style.StyleStack.current</definition>
+        <argsstring>(self)</argsstring>
+        <name>current</name>
+        <qualifiedname>pip._vendor.rich.style.StyleStack.current</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the Style at the top of the stack.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/style.py" line="777" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/style.py" bodystart="777" bodyend="780"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1rich_1_1style_1_1StyleStack_1afc0b8cb154d9f89402462959098dec1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.rich.style.StyleStack.push</definition>
+        <argsstring>(self, Style style)</argsstring>
+        <name>push</name>
+        <qualifiedname>pip._vendor.rich.style.StyleStack.push</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1rich_1_1style_1_1Style" kindref="compound">Style</ref></type>
+          <declname>style</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Push a new style on to the stack.
+
+Args:
+    style (Style): New style to combine with current style.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/style.py" line="781" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/style.py" bodystart="781" bodyend="788"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1rich_1_1style_1_1StyleStack_1a788f74fcc1a3ffc298069ac13e43574a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1rich_1_1style_1_1Style" kindref="compound">Style</ref></type>
+        <definition> Style pip._vendor.rich.style.StyleStack.pop</definition>
+        <argsstring>(self)</argsstring>
+        <name>pop</name>
+        <qualifiedname>pip._vendor.rich.style.StyleStack.pop</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Pop last style and discard.
+
+Returns:
+    Style: New current style (also available as stack.current)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/style.py" line="789" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/style.py" bodystart="789" bodyend="797"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A stack of styles.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/style.py" line="765" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/style.py" bodystart="765" bodyend="797"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1rich_1_1style_1_1StyleStack_1a03f2b43f8f0835c4ad6ff8c45ce6b254" prot="public" virt="non-virtual"><scope>pip::_vendor::rich::style::StyleStack</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__vendor_1_1rich_1_1style_1_1StyleStack_1a595b24b960b64eefd20d8af42d530018" prot="public" virt="non-virtual"><scope>pip::_vendor::rich::style::StyleStack</scope><name>__repr__</name></member>
+      <member refid="classpip_1_1__vendor_1_1rich_1_1style_1_1StyleStack_1a8529a763bfb77d062dc3b4f1f05525dd" prot="private" virt="non-virtual"><scope>pip::_vendor::rich::style::StyleStack</scope><name>__slots__</name></member>
+      <member refid="classpip_1_1__vendor_1_1rich_1_1style_1_1StyleStack_1aa4beeae4892068a1b439287e927525af" prot="public" virt="non-virtual"><scope>pip::_vendor::rich::style::StyleStack</scope><name>current</name></member>
+      <member refid="classpip_1_1__vendor_1_1rich_1_1style_1_1StyleStack_1a788f74fcc1a3ffc298069ac13e43574a" prot="public" virt="non-virtual"><scope>pip::_vendor::rich::style::StyleStack</scope><name>pop</name></member>
+      <member refid="classpip_1_1__vendor_1_1rich_1_1style_1_1StyleStack_1afc0b8cb154d9f89402462959098dec1c" prot="public" virt="non-virtual"><scope>pip::_vendor::rich::style::StyleStack</scope><name>push</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

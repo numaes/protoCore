@@ -1,0 +1,808 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::ext::autodoc::ClassDocumenter</compoundname>
+    <basecompoundref refid="classsphinx_1_1ext_1_1autodoc_1_1DocstringSignatureMixin" prot="public" virt="non-virtual">sphinx.ext.autodoc.DocstringSignatureMixin</basecompoundref>
+    <basecompoundref refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleLevelDocumenter" prot="public" virt="non-virtual">sphinx.ext.autodoc.ModuleLevelDocumenter</basecompoundref>
+    <derivedcompoundref refid="classsphinx_1_1ext_1_1autodoc_1_1ExceptionDocumenter" prot="public" virt="non-virtual">sphinx.ext.autodoc.ExceptionDocumenter</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a497980866cf8b0c504f4d08603a900a7" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str sphinx.ext.autodoc.ClassDocumenter::objtype</definition>
+        <argsstring></argsstring>
+        <name>objtype</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.objtype</qualifiedname>
+        <initializer>=  &apos;class&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1651" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1651" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a05b02964b93dfa88426fe8812a330302" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int sphinx.ext.autodoc.ClassDocumenter::member_order</definition>
+        <argsstring></argsstring>
+        <name>member_order</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.member_order</qualifiedname>
+        <initializer>=  20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1652" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1652" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1acfe19850a7a50d0189ca5c9a0b070394" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx.ext.autodoc.ClassDocumenter::option_spec</definition>
+        <argsstring></argsstring>
+        <name>option_spec</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.option_spec</qualifiedname>
+        <initializer>=  {
+        &apos;members&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1a9e05a08d7b6276dc6180fd0fdaa10b45" kindref="member">members_option</ref>,
+        &apos;undoc-members&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1ae4b6d3e485a3bd65778487a2c7ca1888" kindref="member">bool_option</ref>,
+        &apos;no-index&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1ae4b6d3e485a3bd65778487a2c7ca1888" kindref="member">bool_option</ref>,
+        &apos;no-index-entry&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1ae4b6d3e485a3bd65778487a2c7ca1888" kindref="member">bool_option</ref>,
+        &apos;inherited-members&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1a4941bc17619992c250dcc9e2311cc94a" kindref="member">inherited_members_option</ref>,
+        &apos;show-inheritance&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1ae4b6d3e485a3bd65778487a2c7ca1888" kindref="member">bool_option</ref>,
+        &apos;member-order&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1a02cf9f9601307f75ffaccf61fc6ae59f" kindref="member">member_order_option</ref>,
+        &apos;exclude-members&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1a3a45a78fa33022a248cf1d678cc4ff58" kindref="member">exclude_members_option</ref>,
+        &apos;private-members&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1a9e05a08d7b6276dc6180fd0fdaa10b45" kindref="member">members_option</ref>,
+        &apos;special-members&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1a9e05a08d7b6276dc6180fd0fdaa10b45" kindref="member">members_option</ref>,
+        &apos;class-doc-from&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1aa45c5f5d146549c3eac99a484983f141" kindref="member">class_doc_from_option</ref>,
+        &apos;noindex&apos;: <ref refid="namespacesphinx_1_1ext_1_1autodoc_1ae4b6d3e485a3bd65778487a2c7ca1888" kindref="member">bool_option</ref>,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1653" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1653" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a805cf0874e71ab82d3269ba9f610374d" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int sphinx.ext.autodoc.ClassDocumenter::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.priority</qualifiedname>
+        <initializer>=  15</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1671" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1671" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a0918bfe57cc11a9d9882ed4a6bb48150" prot="protected" static="yes" mutable="no">
+        <type>Any</type>
+        <definition>Any sphinx.ext.autodoc.ClassDocumenter::_signature_class</definition>
+        <argsstring></argsstring>
+        <name>_signature_class</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter._signature_class</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1673" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1673" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1aaa212a056e93f3a3032944a00baba88a" prot="protected" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str sphinx.ext.autodoc.ClassDocumenter::_signature_method_name</definition>
+        <argsstring></argsstring>
+        <name>_signature_method_name</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter._signature_method_name</qualifiedname>
+        <initializer>=  &apos;&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1674" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1674" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a20210f74a8f8e647af33b3cb42d75c08" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.ext.autodoc.ClassDocumenter::options</definition>
+        <argsstring></argsstring>
+        <name>options</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.options</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1680" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1680" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a235d781bba45ffa6b8ad334343d603c0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.ext.autodoc.ClassDocumenter::object</definition>
+        <argsstring></argsstring>
+        <name>object</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.object</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1704" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1704" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1aff5a1664555d56d8d8d046af21e362ca" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.ext.autodoc.ClassDocumenter::doc_as_attr</definition>
+        <argsstring></argsstring>
+        <name>doc_as_attr</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.doc_as_attr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1705" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1705" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a6304883a620a51634e5281e074fd8186" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.ext.autodoc.ClassDocumenter::objpath</definition>
+        <argsstring></argsstring>
+        <name>objpath</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.objpath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1712" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1712" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1abef0aa0c7365eb78396a82ccc53a5865" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.ext.autodoc.ClassDocumenter::modname</definition>
+        <argsstring></argsstring>
+        <name>modname</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.modname</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1713" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1713" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a9f65d9cec8c3d9c71d4edd03d2f6a657" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.ext.autodoc.ClassDocumenter::fullname</definition>
+        <argsstring></argsstring>
+        <name>fullname</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.fullname</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1829" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1829" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1ab2a9f930e66b31af84ced934ae0bb6a9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.ext.autodoc.ClassDocumenter::directivetype</definition>
+        <argsstring></argsstring>
+        <name>directivetype</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.directivetype</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1927" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1927" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1ac7857dfe24a254d8ff381c5f1e9bb7ec" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.ext.autodoc.ClassDocumenter::get_attr</definition>
+        <argsstring></argsstring>
+        <name>get_attr</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.get_attr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1972" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1972" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1ac213b60c499ad860b52befec6655845d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.ext.autodoc.ClassDocumenter::analyzer</definition>
+        <argsstring></argsstring>
+        <name>analyzer</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.analyzer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="2102" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="2102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1af2aef6c105c9b36795ce101b2b6492ad" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.ext.autodoc.ClassDocumenter::_signature_class</definition>
+        <argsstring></argsstring>
+        <name>_signature_class</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter._signature_class</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1824" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1824" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1ae7ca3250fa92a7f3474d053634f947ae" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.ext.autodoc.ClassDocumenter::_signature_method_name</definition>
+        <argsstring></argsstring>
+        <name>_signature_method_name</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter._signature_method_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1833" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1833" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a513f8bad0bc5ad2fde5e0815c333c159" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.ext.autodoc.ClassDocumenter::_signatures</definition>
+        <argsstring></argsstring>
+        <name>_signatures</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter._signatures</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1846" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1846" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a1e6766d448958bf16ed86a1c46ff4a9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.autodoc.ClassDocumenter.__init__</definition>
+        <argsstring>(self, *Any args)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.__init__</qualifiedname>
+        <reimplements refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter_1a10aa6e0d86d6d48a75fec6b9c0b3f37e">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>*Any</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1676" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1676" bodyend="1690"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1aadc7bfcc6ad249cac9f5937837abb175" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.ext.autodoc.ClassDocumenter.can_document_member</definition>
+        <argsstring>(type[Documenter] cls, Any member, str membername, bool isattr, Any parent)</argsstring>
+        <name>can_document_member</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.can_document_member</qualifiedname>
+        <reimplements refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter_1a83f949484ec5569f95428fa1dfc510ce">can_document_member</reimplements>
+        <reimplementedby refid="classsphinx_1_1ext_1_1autodoc_1_1ExceptionDocumenter_1aa16153fbd066bd4b57a0bb551dab602b">can_document_member</reimplementedby>
+        <param>
+          <type>type</type>
+          <declname>cls</declname>
+          <array>[Documenter]</array>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>member</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>membername</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isattr</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>parent</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Called to see if a member can be documented by this Documenter.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1692" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1694" bodyend="1698"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a38a0ad428679c408a7d2b39986c16d02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.ext.autodoc.ClassDocumenter.import_object</definition>
+        <argsstring>(self, bool raiseerror=False)</argsstring>
+        <name>import_object</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.import_object</qualifiedname>
+        <reimplements refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter_1add874882800890e991f433322594286c">import_object</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>raiseerror</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Import the object given by *self.modname* and *self.objpath* and set
+it as *self.object*.
+
+Returns True if successful, False if an error occurred.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1699" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1699" bodyend="1715"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a380145533afc456a662d91e439bc8815" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.ext.autodoc.ClassDocumenter.format_args</definition>
+        <argsstring>(self, **Any kwargs)</argsstring>
+        <name>format_args</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.format_args</qualifiedname>
+        <reimplements refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter_1acb16b5732a03ba76e4e90bca7cf149a2">format_args</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>**Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Format the argument signature of *self.object*.
+
+Should return None if the object does not have a signature.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1815" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1815" bodyend="1839"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1ae6c7c3e7ef15260973f1ebf49af91a87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.ext.autodoc.ClassDocumenter.format_signature</definition>
+        <argsstring>(self, **Any kwargs)</argsstring>
+        <name>format_signature</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.format_signature</qualifiedname>
+        <reimplements refid="classsphinx_1_1ext_1_1autodoc_1_1DocstringSignatureMixin_1a5b3559e62580b16a9ab2bc2afe8f108a">format_signature</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>**Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1854" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1854" bodyend="1891"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a44f4a0101cf18a5695d806d9aed02484" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[Signature]</type>
+        <definition> list[Signature] sphinx.ext.autodoc.ClassDocumenter.get_overloaded_signatures</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_overloaded_signatures</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.get_overloaded_signatures</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1892" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1892" bodyend="1908"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a0e0746b3776e3e1b2209a685a3e27d30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None sphinx.ext.autodoc.ClassDocumenter.get_canonical_fullname</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_canonical_fullname</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.get_canonical_fullname</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1909" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1909" bodyend="1922"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a0bfbc210223ecbb7b6acf21fd0d0de72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.autodoc.ClassDocumenter.add_directive_header</definition>
+        <argsstring>(self, str sig)</argsstring>
+        <name>add_directive_header</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.add_directive_header</qualifiedname>
+        <reimplements refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter_1aadb6c97647542111e66ca35b98b965c7">add_directive_header</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>sig</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Add the directive header and options to the generated content.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1923" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1923" bodyend="1967"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a47d62bbb2bea42e8a9faa3f2f4fad012" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[bool, list[<ref refid="classsphinx_1_1ext_1_1autodoc_1_1ObjectMember" kindref="compound">ObjectMember</ref>]]</type>
+        <definition> tuple[bool, list[ObjectMember]] sphinx.ext.autodoc.ClassDocumenter.get_object_members</definition>
+        <argsstring>(self, bool want_all)</argsstring>
+        <name>get_object_members</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.get_object_members</qualifiedname>
+        <reimplements refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter_1a02a9f379b77d433ee45c7dd296b182f4">get_object_members</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>want_all</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return `(members_check_module, members)` where `members` is a
+list of `(membername, member)` pairs of the members of *self.object*.
+
+If *want_all* is True, return all members.  Else, only return those
+members given by *self.options.members* (which may also be None).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1968" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1968" bodyend="1995"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a509712f1d1d31416b9da8fb975a54e10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[list[str]]|None</type>
+        <definition> list[list[str]] | None sphinx.ext.autodoc.ClassDocumenter.get_doc</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_doc</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.get_doc</qualifiedname>
+        <reimplements refid="classsphinx_1_1ext_1_1autodoc_1_1DocstringSignatureMixin_1a24b4dbc8add018357a40c3e73c3667b9">get_doc</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1996" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1996" bodyend="2061"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a22bb7ff6faab75e0e913f10ac0856dd3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[str]|None</type>
+        <definition> list[str] | None sphinx.ext.autodoc.ClassDocumenter.get_variable_comment</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_variable_comment</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.get_variable_comment</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="2062" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="2062" bodyend="2073"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a512cfc844e44bf08763accdaa1f5e159" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.autodoc.ClassDocumenter.add_content</definition>
+        <argsstring>(self, StringList|None more_content)</argsstring>
+        <name>add_content</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.add_content</qualifiedname>
+        <reimplements refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter_1a5d75b66e853d49c4578ee7f25477f110">add_content</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1statemachine_1_1StringList" kindref="compound">StringList</ref>|None</type>
+          <declname>more_content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Add content from docstrings, attribute documentation and user.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="2074" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="2074" bodyend="2115"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a90cbea10da74ec888dc09839e5773054" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.autodoc.ClassDocumenter.document_members</definition>
+        <argsstring>(self, bool all_members=False)</argsstring>
+        <name>document_members</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.document_members</qualifiedname>
+        <reimplements refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter_1a4de4a22d0a5bdb974e97474916cf977f">document_members</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>all_members</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Generate reST for member documentation.
+
+If *all_members* is True, document all members, else those given by
+*self.options.members*.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="2116" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="2116" bodyend="2120"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a1011afd30fdf1b1ab78cb0f3c0df9841" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.autodoc.ClassDocumenter.generate</definition>
+        <argsstring>(self, StringList|None more_content=None, str|None real_modname=None, bool check_module=False, bool all_members=False)</argsstring>
+        <name>generate</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter.generate</qualifiedname>
+        <reimplements refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter_1a83b0da359a442574b9ec1f5482fb3d9a">generate</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1statemachine_1_1StringList" kindref="compound">StringList</ref>|None</type>
+          <declname>more_content</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>real_modname</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>check_module</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>all_members</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Generate reST for the object given by *self.name*, and possibly for
+its members.
+
+If *more_content* is given, include that content. If *real_modname* is
+given, use that module name to find attribute docs. If *check_module* is
+True, only generate if the object is defined in the module name it is
+imported from. If *all_members* is True, document all members.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="2121" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="2127" bodyend="2139"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1afb5f2640e619aec74d1e185fa30f09b4" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[Any|None, str|None, Signature|None]</type>
+        <definition> tuple[Any | None, str | None, Signature | None] sphinx.ext.autodoc.ClassDocumenter._get_signature</definition>
+        <argsstring>(self)</argsstring>
+        <name>_get_signature</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter._get_signature</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1716" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1716" bodyend="1814"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1ad3a824ff236eee591bd4d191725eff8b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str|None, str|None]|None</type>
+        <definition> tuple[str | None, str | None] | None sphinx.ext.autodoc.ClassDocumenter._find_signature</definition>
+        <argsstring>(self)</argsstring>
+        <name>_find_signature</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassDocumenter._find_signature</qualifiedname>
+        <reimplements refid="classsphinx_1_1ext_1_1autodoc_1_1DocstringSignatureMixin_1a087db00c81e392a828ea83ace3ef13e7">_find_signature</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1840" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1840" bodyend="1853"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Specialized Documenter subclass for classes.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>sphinx.ext.autodoc.ClassDocumenter</label>
+        <link refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.ext.autodoc.DocstringSignatureMixin</label>
+        <link refid="classsphinx_1_1ext_1_1autodoc_1_1DocstringSignatureMixin"/>
+      </node>
+      <node id="4">
+        <label>sphinx.ext.autodoc.Documenter</label>
+        <link refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter"/>
+      </node>
+      <node id="5">
+        <label>sphinx.ext.autodoc.ExceptionDocumenter</label>
+        <link refid="classsphinx_1_1ext_1_1autodoc_1_1ExceptionDocumenter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.ext.autodoc.ModuleLevelDocumenter</label>
+        <link refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleLevelDocumenter"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>sphinx.ext.autodoc.ClassDocumenter</label>
+        <link refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>_signature_method_name</edgelabel>
+          <edgelabel>objtype</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>_signature_class</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.ext.autodoc.DocstringSignatureMixin</label>
+        <link refid="classsphinx_1_1ext_1_1autodoc_1_1DocstringSignatureMixin"/>
+      </node>
+      <node id="4">
+        <label>sphinx.ext.autodoc.Documenter</label>
+        <link refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter"/>
+        <childnode refid="5" relation="usage">
+          <edgelabel>content_indent</edgelabel>
+          <edgelabel>objtype</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.ext.autodoc.ModuleLevelDocumenter</label>
+        <link refid="classsphinx_1_1ext_1_1autodoc_1_1ModuleLevelDocumenter"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Any</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1648" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1648" bodyend="2139"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a1e6766d448958bf16ed86a1c46ff4a9a" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>__init__</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1ad3a824ff236eee591bd4d191725eff8b" prot="protected" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>_find_signature</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1afb5f2640e619aec74d1e185fa30f09b4" prot="protected" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>_get_signature</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a0918bfe57cc11a9d9882ed4a6bb48150" prot="protected" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>_signature_class</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1af2aef6c105c9b36795ce101b2b6492ad" prot="protected" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>_signature_class</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1aaa212a056e93f3a3032944a00baba88a" prot="protected" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>_signature_method_name</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1ae7ca3250fa92a7f3474d053634f947ae" prot="protected" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>_signature_method_name</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a513f8bad0bc5ad2fde5e0815c333c159" prot="protected" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>_signatures</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a512cfc844e44bf08763accdaa1f5e159" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>add_content</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a0bfbc210223ecbb7b6acf21fd0d0de72" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>add_directive_header</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1ac213b60c499ad860b52befec6655845d" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>analyzer</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1aadc7bfcc6ad249cac9f5937837abb175" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>can_document_member</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1ab2a9f930e66b31af84ced934ae0bb6a9" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>directivetype</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1aff5a1664555d56d8d8d046af21e362ca" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>doc_as_attr</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a90cbea10da74ec888dc09839e5773054" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>document_members</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a380145533afc456a662d91e439bc8815" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>format_args</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1ae6c7c3e7ef15260973f1ebf49af91a87" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>format_signature</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a9f65d9cec8c3d9c71d4edd03d2f6a657" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>fullname</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a1011afd30fdf1b1ab78cb0f3c0df9841" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>generate</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1ac7857dfe24a254d8ff381c5f1e9bb7ec" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>get_attr</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a0e0746b3776e3e1b2209a685a3e27d30" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>get_canonical_fullname</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a509712f1d1d31416b9da8fb975a54e10" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>get_doc</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a47d62bbb2bea42e8a9faa3f2f4fad012" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>get_object_members</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a44f4a0101cf18a5695d806d9aed02484" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>get_overloaded_signatures</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a22bb7ff6faab75e0e913f10ac0856dd3" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>get_variable_comment</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a38a0ad428679c408a7d2b39986c16d02" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>import_object</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a05b02964b93dfa88426fe8812a330302" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>member_order</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1abef0aa0c7365eb78396a82ccc53a5865" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>modname</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a235d781bba45ffa6b8ad334343d603c0" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>object</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a6304883a620a51634e5281e074fd8186" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>objpath</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a497980866cf8b0c504f4d08603a900a7" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>objtype</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1acfe19850a7a50d0189ca5c9a0b070394" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>option_spec</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a20210f74a8f8e647af33b3cb42d75c08" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>options</name></member>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassDocumenter_1a805cf0874e71ab82d3269ba9f610374d" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassDocumenter</scope><name>priority</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

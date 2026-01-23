@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1loaders_1_1DictLoader" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::loaders::DictLoader</compoundname>
+    <basecompoundref refid="classjinja2_1_1loaders_1_1BaseLoader" prot="public" virt="non-virtual">jinja2.loaders.BaseLoader</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1loaders_1_1DictLoader_1a326a319dc198c5826606005853208547" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.loaders.DictLoader::mapping</definition>
+        <argsstring></argsstring>
+        <name>mapping</name>
+        <qualifiedname>jinja2.loaders.DictLoader.mapping</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/loaders.py" line="446" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/loaders.py" bodystart="446" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjinja2_1_1loaders_1_1DictLoader_1ad3f67c63b900fce368274756553ee458" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.loaders.DictLoader.__init__</definition>
+        <argsstring>(self, t.Mapping[str, str] mapping)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>jinja2.loaders.DictLoader.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Mapping</type>
+          <declname>mapping</declname>
+          <array>[str, str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/loaders.py" line="445" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/loaders.py" bodystart="445" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1loaders_1_1DictLoader_1acdd8253765c2a14f81e07bed523b520a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Tuple[str, None, t.Callable[[], bool]]</type>
+        <definition> t.Tuple[str, None, t.Callable[[], bool]] jinja2.loaders.DictLoader.get_source</definition>
+        <argsstring>(self, &quot;Environment&quot; environment, str template)</argsstring>
+        <name>get_source</name>
+        <qualifiedname>jinja2.loaders.DictLoader.get_source</qualifiedname>
+        <reimplements refid="classjinja2_1_1loaders_1_1BaseLoader_1a7e222ad2ab60e2cfd58c11822b0c4951">get_source</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>template</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the template source, filename and reload helper for a template.
+It&apos;s passed the environment and template name and has to return a
+tuple in the form ``(source, filename, uptodate)`` or raise a
+`TemplateNotFound` error if it can&apos;t locate the template.
+
+The source part of the returned tuple must be the source of the
+template as a string. The filename should be the name of the
+file on the filesystem if it was loaded from there, otherwise
+``None``. The filename is used by Python for the tracebacks
+if no loader extension is used.
+
+The last item in the tuple is the `uptodate` function.  If auto
+reloading is enabled it&apos;s always called to check if the template
+changed.  No arguments are passed so the function must store the
+old state somewhere (for example in a closure).  If it returns `False`
+the template will be reloaded.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/loaders.py" line="448" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/loaders.py" bodystart="450" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1loaders_1_1DictLoader_1ab61da2f2154eb2ce12af8668b0dafc94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.List[str]</type>
+        <definition> t.List[str] jinja2.loaders.DictLoader.list_templates</definition>
+        <argsstring>(self)</argsstring>
+        <name>list_templates</name>
+        <qualifiedname>jinja2.loaders.DictLoader.list_templates</qualifiedname>
+        <reimplements refid="classjinja2_1_1loaders_1_1BaseLoader_1acb576631d9b98370780cf622e2433992">list_templates</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Iterates over all templates.  If the loader does not support that
+it should raise a :exc:`TypeError` which is the default behavior.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/loaders.py" line="456" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/loaders.py" bodystart="456" bodyend="459"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Loads a template from a Python dict mapping template names to
+template source.  This loader is useful for unittesting:
+
+&gt;&gt;&gt; loader = DictLoader({&apos;index.html&apos;: &apos;source here&apos;})
+
+Because auto reloading is rarely useful this is disabled by default.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.loaders.DictLoader</label>
+        <link refid="classjinja2_1_1loaders_1_1DictLoader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.loaders.BaseLoader</label>
+        <link refid="classjinja2_1_1loaders_1_1BaseLoader"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>jinja2.loaders.DictLoader</label>
+        <link refid="classjinja2_1_1loaders_1_1DictLoader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.loaders.BaseLoader</label>
+        <link refid="classjinja2_1_1loaders_1_1BaseLoader"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/jinja2/loaders.py" line="436" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/loaders.py" bodystart="436" bodyend="459"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1loaders_1_1DictLoader_1ad3f67c63b900fce368274756553ee458" prot="public" virt="non-virtual"><scope>jinja2::loaders::DictLoader</scope><name>__init__</name></member>
+      <member refid="classjinja2_1_1loaders_1_1DictLoader_1acdd8253765c2a14f81e07bed523b520a" prot="public" virt="non-virtual"><scope>jinja2::loaders::DictLoader</scope><name>get_source</name></member>
+      <member refid="classjinja2_1_1loaders_1_1DictLoader_1ab61da2f2154eb2ce12af8668b0dafc94" prot="public" virt="non-virtual"><scope>jinja2::loaders::DictLoader</scope><name>list_templates</name></member>
+      <member refid="classjinja2_1_1loaders_1_1DictLoader_1a326a319dc198c5826606005853208547" prot="public" virt="non-virtual"><scope>jinja2::loaders::DictLoader</scope><name>mapping</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

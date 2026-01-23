@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1transforms_1_1post__transforms_1_1images" kind="namespace" language="Python">
+    <compoundname>sphinx::transforms::post_transforms::images</compoundname>
+    <innerclass refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1BaseImageConverter" prot="public">sphinx::transforms::post_transforms::images::BaseImageConverter</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1DataURIExtractor" prot="public">sphinx::transforms::post_transforms::images::DataURIExtractor</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1ImageConverter" prot="public">sphinx::transforms::post_transforms::images::ImageConverter</innerclass>
+    <innerclass refid="classsphinx_1_1transforms_1_1post__transforms_1_1images_1_1ImageDownloader" prot="public">sphinx::transforms::post_transforms::images::ImageDownloader</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1transforms_1_1post__transforms_1_1images_1a4c6b7638188ad087c349c3e728f710d4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::transforms::post_transforms::images.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.transforms.post_transforms.images.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/images.py" line="28" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/images.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1transforms_1_1post__transforms_1_1images_1a2c2871827072038684c3fd83cdaf0766" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int sphinx::transforms::post_transforms::images.MAX_FILENAME_LEN</definition>
+        <argsstring></argsstring>
+        <name>MAX_FILENAME_LEN</name>
+        <qualifiedname>sphinx.transforms.post_transforms.images.MAX_FILENAME_LEN</qualifiedname>
+        <initializer>=  32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/images.py" line="30" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/images.py" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1transforms_1_1post__transforms_1_1images_1a89f5f1f0a416617ba06b23cb0705635c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::transforms::post_transforms::images.CRITICAL_PATH_CHAR_RE</definition>
+        <argsstring></argsstring>
+        <name>CRITICAL_PATH_CHAR_RE</name>
+        <qualifiedname>sphinx.transforms.post_transforms.images.CRITICAL_PATH_CHAR_RE</qualifiedname>
+        <initializer>=  re.compile(&apos;[:;&lt;&gt;|*&quot; ]&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/images.py" line="31" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/images.py" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1transforms_1_1post__transforms_1_1images_1a4b984e6f5428f65a8f8ef5a3e1a2068e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.transforms.post_transforms.images.get_filename_for</definition>
+        <argsstring>(str filename, str mimetype)</argsstring>
+        <name>get_filename_for</name>
+        <qualifiedname>sphinx.transforms.post_transforms.images.get_filename_for</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>mimetype</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/images.py" line="162" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/images.py" bodystart="162" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1transforms_1_1post__transforms_1_1images_1aa9e483b7899fcb0a8f3248da316e06f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1ExtensionMetadata" kindref="compound">ExtensionMetadata</ref></type>
+        <definition> ExtensionMetadata sphinx.transforms.post_transforms.images.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.transforms.post_transforms.images.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/images.py" line="294" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/images.py" bodystart="294" bodyend="303"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Docutils transforms used by Sphinx.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/transforms/post_transforms/images.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1parsers_1_1rst_1_1states_1_1SubstitutionDef" kind="class" language="Python" prot="public">
+    <compoundname>docutils::parsers::rst::states::SubstitutionDef</compoundname>
+    <basecompoundref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Body" prot="public" virt="non-virtual">docutils.parsers.rst.states.Body</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1SubstitutionDef_1a5e164ca393c5fda3ac7eec560caf592c" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.parsers.rst.states.SubstitutionDef::patterns</definition>
+        <argsstring></argsstring>
+        <name>patterns</name>
+        <qualifiedname>docutils.parsers.rst.states.SubstitutionDef.patterns</qualifiedname>
+        <initializer>=  {
+          &apos;<ref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1SubstitutionDef_1adcff7feeeb4982718b49edddb498b15a" kindref="member">embedded_directive</ref>&apos;: re.compile(r&apos;(%s)::( +|$)&apos;
+                                           % <ref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Inliner_1a6c253b44e4ec09379aebf02bea579693" kindref="member">Inliner.simplename</ref>),
+          &apos;<ref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1SubstitutionDef_1a3d8cb53002261ec07b0366fa32388665" kindref="member">text</ref>&apos;: r&apos;&apos;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2683" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2683" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1SubstitutionDef_1a1aab974ad3f1cde72aa8c3fe7a113383" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list docutils.parsers.rst.states.SubstitutionDef::initial_transitions</definition>
+        <argsstring></argsstring>
+        <name>initial_transitions</name>
+        <qualifiedname>docutils.parsers.rst.states.SubstitutionDef.initial_transitions</qualifiedname>
+        <initializer>=  [&apos;<ref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1SubstitutionDef_1adcff7feeeb4982718b49edddb498b15a" kindref="member">embedded_directive</ref>&apos;, &apos;<ref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1SubstitutionDef_1a3d8cb53002261ec07b0366fa32388665" kindref="member">text</ref>&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2687" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2687" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1SubstitutionDef_1a28dbea6089c053076fe38b49560ca82b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.states.SubstitutionDef::blank_finish</definition>
+        <argsstring></argsstring>
+        <name>blank_finish</name>
+        <qualifiedname>docutils.parsers.rst.states.SubstitutionDef.blank_finish</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2694" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2694" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1SubstitutionDef_1adcff7feeeb4982718b49edddb498b15a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.SubstitutionDef.embedded_directive</definition>
+        <argsstring>(self, match, context, next_state)</argsstring>
+        <name>embedded_directive</name>
+        <qualifiedname>docutils.parsers.rst.states.SubstitutionDef.embedded_directive</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>match</type>
+          <defname>match</defname>
+        </param>
+        <param>
+          <type>context</type>
+          <defname>context</defname>
+        </param>
+        <param>
+          <type>next_state</type>
+          <defname>next_state</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2689" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2689" bodyend="2696"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1SubstitutionDef_1a3d8cb53002261ec07b0366fa32388665" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.SubstitutionDef.text</definition>
+        <argsstring>(self, match, context, next_state)</argsstring>
+        <name>text</name>
+        <qualifiedname>docutils.parsers.rst.states.SubstitutionDef.text</qualifiedname>
+        <reimplements refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Body_1a654ad0b1cd6845d4e1d6f81dae6969dd">text</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>match</type>
+          <defname>match</defname>
+        </param>
+        <param>
+          <type>context</type>
+          <defname>context</defname>
+        </param>
+        <param>
+          <type>next_state</type>
+          <defname>next_state</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Titles, definition lists, paragraphs.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2697" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2697" bodyend="2702"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Parser for the contents of a substitution_definition element.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.parsers.rst.states.SubstitutionDef</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1SubstitutionDef"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.parsers.rst.states.Body</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Body"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.parsers.rst.states.RSTState</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>docutils.statemachine.State</label>
+        <link refid="classdocutils_1_1statemachine_1_1State"/>
+      </node>
+      <node id="4">
+        <label>docutils.statemachine.StateWS</label>
+        <link refid="classdocutils_1_1statemachine_1_1StateWS"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>docutils.parsers.rst.states.SubstitutionDef</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1SubstitutionDef"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.parsers.rst.states.Body</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Body"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.parsers.rst.states.RSTState</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>docutils.statemachine.State</label>
+        <link refid="classdocutils_1_1statemachine_1_1State"/>
+      </node>
+      <node id="4">
+        <label>docutils.statemachine.StateWS</label>
+        <link refid="classdocutils_1_1statemachine_1_1StateWS"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2677" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2677" bodyend="2702"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1SubstitutionDef_1a28dbea6089c053076fe38b49560ca82b" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::SubstitutionDef</scope><name>blank_finish</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1SubstitutionDef_1adcff7feeeb4982718b49edddb498b15a" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::SubstitutionDef</scope><name>embedded_directive</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1SubstitutionDef_1a1aab974ad3f1cde72aa8c3fe7a113383" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::SubstitutionDef</scope><name>initial_transitions</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1SubstitutionDef_1a5e164ca393c5fda3ac7eec560caf592c" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::SubstitutionDef</scope><name>patterns</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1SubstitutionDef_1a3d8cb53002261ec07b0366fa32388665" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::SubstitutionDef</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

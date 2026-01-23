@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="providers_8py" kind="file" language="Python">
+    <compoundname>providers.py</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractProvider" prot="public">pip::_vendor::resolvelib::providers::AbstractProvider</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractResolver" prot="public">pip::_vendor::resolvelib::providers::AbstractResolver</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1resolvelib">pip::_vendor::resolvelib</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1resolvelib_1_1providers">pip::_vendor::resolvelib::providers</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractProvider" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractProvider" kindref="compound">AbstractProvider</ref>(object):</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Delegate<sp/>class<sp/>to<sp/>provide<sp/>the<sp/>required<sp/>interface<sp/>for<sp/>the<sp/>resolver.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractProvider_1a79914e735681ad072e0cef80325c9bd8" kindref="member">identify</ref>(self,<sp/>requirement_or_candidate):</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Given<sp/>a<sp/>requirement,<sp/>return<sp/>an<sp/>identifier<sp/>for<sp/>it.</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>This<sp/>is<sp/>used<sp/>to<sp/>identify<sp/>a<sp/>requirement,<sp/>e.g.<sp/>whether<sp/>two<sp/>requirements</highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>should<sp/>have<sp/>their<sp/>specifier<sp/>parts<sp/>merged.</highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>NotImplementedError</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractProvider_1ada34dd8e785b95f164932a149d79831a" kindref="member">get_preference</ref>(</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>identifier,</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resolutions,</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>candidates,</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>information,</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>backtrack_causes,</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>):</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Produce<sp/>a<sp/>sort<sp/>key<sp/>for<sp/>given<sp/>requirement<sp/>based<sp/>on<sp/>preference.</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>preference<sp/>is<sp/>defined<sp/>as<sp/>&quot;I<sp/>think<sp/>this<sp/>requirement<sp/>should<sp/>be</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resolved<sp/>first&quot;.<sp/>The<sp/>lower<sp/>the<sp/>return<sp/>value<sp/>is,<sp/>the<sp/>more<sp/>preferred</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this<sp/>group<sp/>of<sp/>arguments<sp/>is.</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>identifier:<sp/>An<sp/>identifier<sp/>as<sp/>returned<sp/>by<sp/>``identify()``.<sp/>This</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>identifies<sp/>the<sp/>dependency<sp/>matches<sp/>which<sp/>should<sp/>be<sp/>returned.</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>resolutions:<sp/>Mapping<sp/>of<sp/>candidates<sp/>currently<sp/>pinned<sp/>by<sp/>the</highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resolver.<sp/>Each<sp/>key<sp/>is<sp/>an<sp/>identifier,<sp/>and<sp/>the<sp/>value<sp/>is<sp/>a<sp/>candidate.</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>candidate<sp/>may<sp/>conflict<sp/>with<sp/>requirements<sp/>from<sp/>``information``.</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>candidates:<sp/>Mapping<sp/>of<sp/>each<sp/>dependency&apos;s<sp/>possible<sp/>candidates.</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Each<sp/>value<sp/>is<sp/>an<sp/>iterator<sp/>of<sp/>candidates.</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>information:<sp/>Mapping<sp/>of<sp/>requirement<sp/>information<sp/>of<sp/>each<sp/>package.</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Each<sp/>value<sp/>is<sp/>an<sp/>iterator<sp/>of<sp/>*requirement<sp/>information*.</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>backtrack_causes:<sp/>Sequence<sp/>of<sp/>requirement<sp/>information<sp/>that<sp/>were</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>the<sp/>requirements<sp/>that<sp/>caused<sp/>the<sp/>resolver<sp/>to<sp/>most<sp/>recently<sp/>backtrack.</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>A<sp/>*requirement<sp/>information*<sp/>instance<sp/>is<sp/>a<sp/>named<sp/>tuple<sp/>with<sp/>two<sp/>members:</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>``requirement``<sp/>specifies<sp/>a<sp/>requirement<sp/>contributing<sp/>to<sp/>the<sp/>current</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>list<sp/>of<sp/>candidates.</highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>``parent``<sp/>specifies<sp/>the<sp/>candidate<sp/>that<sp/>provides<sp/>(depended<sp/>on)<sp/>the</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>requirement,<sp/>or<sp/>``None``<sp/>to<sp/>indicate<sp/>a<sp/>root<sp/>requirement.</highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>preference<sp/>could<sp/>depend<sp/>on<sp/>various<sp/>issues,<sp/>including<sp/>(not</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>necessarily<sp/>in<sp/>this<sp/>order):</highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Is<sp/>this<sp/>package<sp/>pinned<sp/>in<sp/>the<sp/>current<sp/>resolution<sp/>result?</highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>How<sp/>relaxed<sp/>is<sp/>the<sp/>requirement?<sp/>Stricter<sp/>ones<sp/>should<sp/>probably<sp/>be</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>worked<sp/>on<sp/>first?<sp/>(I<sp/>don&apos;t<sp/>know,<sp/>actually.)</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>How<sp/>many<sp/>possibilities<sp/>are<sp/>there<sp/>to<sp/>satisfy<sp/>this<sp/>requirement?<sp/>Those</highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>with<sp/>few<sp/>left<sp/>should<sp/>likely<sp/>be<sp/>worked<sp/>on<sp/>first,<sp/>I<sp/>guess?</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Are<sp/>there<sp/>any<sp/>known<sp/>conflicts<sp/>for<sp/>this<sp/>requirement?<sp/>We<sp/>should</highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>probably<sp/>work<sp/>on<sp/>those<sp/>with<sp/>the<sp/>most<sp/>known<sp/>conflicts.</highlight></codeline>
+<codeline lineno="55"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="56"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>A<sp/>sortable<sp/>value<sp/>should<sp/>be<sp/>returned<sp/>(this<sp/>will<sp/>be<sp/>used<sp/>as<sp/>the<sp/>``key``</highlight></codeline>
+<codeline lineno="57"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>parameter<sp/>of<sp/>the<sp/>built-in<sp/>sorting<sp/>function).<sp/>The<sp/>smaller<sp/>the<sp/>value<sp/>is,</highlight></codeline>
+<codeline lineno="58"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>the<sp/>more<sp/>preferred<sp/>this<sp/>requirement<sp/>is<sp/>(i.e.<sp/>the<sp/>sorting<sp/>function</highlight></codeline>
+<codeline lineno="59"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>is<sp/>called<sp/>with<sp/>``reverse=False``).</highlight></codeline>
+<codeline lineno="60"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>NotImplementedError</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractProvider_1a5b2c9ea46890ed5603080151a2b4e329" kindref="member">find_matches</ref>(self,<sp/>identifier,<sp/>requirements,<sp/>incompatibilities):</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Find<sp/>all<sp/>possible<sp/>candidates<sp/>that<sp/>satisfy<sp/>the<sp/>given<sp/>constraints.</highlight></codeline>
+<codeline lineno="65"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="66"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>identifier:<sp/>An<sp/>identifier<sp/>as<sp/>returned<sp/>by<sp/>``identify()``.<sp/>This</highlight></codeline>
+<codeline lineno="67"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>identifies<sp/>the<sp/>dependency<sp/>matches<sp/>of<sp/>which<sp/>should<sp/>be<sp/>returned.</highlight></codeline>
+<codeline lineno="68"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>requirements:<sp/>A<sp/>mapping<sp/>of<sp/>requirements<sp/>that<sp/>all<sp/>returned</highlight></codeline>
+<codeline lineno="69"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>candidates<sp/>must<sp/>satisfy.<sp/>Each<sp/>key<sp/>is<sp/>an<sp/>identifier,<sp/>and<sp/>the<sp/>value</highlight></codeline>
+<codeline lineno="70"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>an<sp/>iterator<sp/>of<sp/>requirements<sp/>for<sp/>that<sp/>dependency.</highlight></codeline>
+<codeline lineno="71"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>incompatibilities:<sp/>A<sp/>mapping<sp/>of<sp/>known<sp/>incompatibilities<sp/>of</highlight></codeline>
+<codeline lineno="72"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>each<sp/>dependency.<sp/>Each<sp/>key<sp/>is<sp/>an<sp/>identifier,<sp/>and<sp/>the<sp/>value<sp/>an</highlight></codeline>
+<codeline lineno="73"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iterator<sp/>of<sp/>incompatibilities<sp/>known<sp/>to<sp/>the<sp/>resolver.<sp/>All</highlight></codeline>
+<codeline lineno="74"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>incompatibilities<sp/>*must*<sp/>be<sp/>excluded<sp/>from<sp/>the<sp/>return<sp/>value.</highlight></codeline>
+<codeline lineno="75"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="76"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>This<sp/>should<sp/>try<sp/>to<sp/>get<sp/>candidates<sp/>based<sp/>on<sp/>the<sp/>requirements&apos;<sp/>types.</highlight></codeline>
+<codeline lineno="77"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>For<sp/>VCS,<sp/>local,<sp/>and<sp/>archive<sp/>requirements,<sp/>the<sp/>one-and-only<sp/>match<sp/>is</highlight></codeline>
+<codeline lineno="78"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>returned,<sp/>and<sp/>for<sp/>a<sp/>&quot;named&quot;<sp/>requirement,<sp/>the<sp/>index(es)<sp/>should<sp/>be</highlight></codeline>
+<codeline lineno="79"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>consulted<sp/>to<sp/>find<sp/>concrete<sp/>candidates<sp/>for<sp/>this<sp/>requirement.</highlight></codeline>
+<codeline lineno="80"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="81"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>return<sp/>value<sp/>should<sp/>produce<sp/>candidates<sp/>ordered<sp/>by<sp/>preference;<sp/>the</highlight></codeline>
+<codeline lineno="82"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>most<sp/>preferred<sp/>candidate<sp/>should<sp/>come<sp/>first.<sp/>The<sp/>return<sp/>type<sp/>may<sp/>be<sp/>one</highlight></codeline>
+<codeline lineno="83"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>of<sp/>the<sp/>following:</highlight></codeline>
+<codeline lineno="84"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="85"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>A<sp/>callable<sp/>that<sp/>returns<sp/>an<sp/>iterator<sp/>that<sp/>yields<sp/>candidates.</highlight></codeline>
+<codeline lineno="86"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>An<sp/>collection<sp/>of<sp/>candidates.</highlight></codeline>
+<codeline lineno="87"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>An<sp/>iterable<sp/>of<sp/>candidates.<sp/>This<sp/>will<sp/>be<sp/>consumed<sp/>immediately<sp/>into<sp/>a</highlight></codeline>
+<codeline lineno="88"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>list<sp/>of<sp/>candidates.</highlight></codeline>
+<codeline lineno="89"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>NotImplementedError</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractProvider_1ad4982e8b6087713429c248a442c751a9" kindref="member">is_satisfied_by</ref>(self,<sp/>requirement,<sp/>candidate):</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Whether<sp/>the<sp/>given<sp/>requirement<sp/>can<sp/>be<sp/>satisfied<sp/>by<sp/>a<sp/>candidate.</highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="95"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>candidate<sp/>is<sp/>guaranteed<sp/>to<sp/>have<sp/>been<sp/>generated<sp/>from<sp/>the</highlight></codeline>
+<codeline lineno="96"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>requirement.</highlight></codeline>
+<codeline lineno="97"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="98"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>A<sp/>boolean<sp/>should<sp/>be<sp/>returned<sp/>to<sp/>indicate<sp/>whether<sp/>``candidate``<sp/>is<sp/>a</highlight></codeline>
+<codeline lineno="99"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>viable<sp/>solution<sp/>to<sp/>the<sp/>requirement.</highlight></codeline>
+<codeline lineno="100"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>NotImplementedError</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractProvider_1ae8dac4d9e8ca1a96ae7d7a7d9dc3f363" kindref="member">get_dependencies</ref>(self,<sp/>candidate):</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Get<sp/>dependencies<sp/>of<sp/>a<sp/>candidate.</highlight></codeline>
+<codeline lineno="105"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="106"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>This<sp/>should<sp/>return<sp/>a<sp/>collection<sp/>of<sp/>requirements<sp/>that<sp/>`candidate`</highlight></codeline>
+<codeline lineno="107"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>specifies<sp/>as<sp/>its<sp/>dependencies.</highlight></codeline>
+<codeline lineno="108"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>NotImplementedError</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractResolver" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractResolver" kindref="compound">AbstractResolver</ref>(object):</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;The<sp/>thing<sp/>that<sp/>performs<sp/>the<sp/>actual<sp/>resolution<sp/>work.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>base_exception<sp/>=<sp/>Exception</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractResolver_1afaa8ed212bb99e73a24775a475e60cfc" kindref="member">__init__</ref>(self,<sp/>provider,<sp/>reporter):</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractResolver_1a149d96dde7301b4b17321db453730ca1" kindref="member">provider</ref><sp/>=<sp/>provider</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractResolver_1a73fb1c2ece138e2b6af9c424118e24d2" kindref="member">reporter</ref><sp/>=<sp/>reporter</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1resolvelib_1_1providers_1_1AbstractResolver_1afc654fcd81b8c2544aa200a7923159f5" kindref="member">resolve</ref>(self,<sp/>requirements,<sp/>**kwargs):</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Take<sp/>a<sp/>collection<sp/>of<sp/>constraints,<sp/>spit<sp/>out<sp/>the<sp/>resolution<sp/>result.</highlight></codeline>
+<codeline lineno="123"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="124"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>This<sp/>returns<sp/>a<sp/>representation<sp/>of<sp/>the<sp/>final<sp/>resolution<sp/>state,<sp/>with<sp/>one</highlight></codeline>
+<codeline lineno="125"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>guarenteed<sp/>attribute<sp/>``mapping``<sp/>that<sp/>contains<sp/>resolved<sp/>candidates<sp/>as</highlight></codeline>
+<codeline lineno="126"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>values.<sp/>The<sp/>keys<sp/>are<sp/>their<sp/>respective<sp/>identifiers.</highlight></codeline>
+<codeline lineno="127"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="128"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>requirements:<sp/>A<sp/>collection<sp/>of<sp/>constraints.</highlight></codeline>
+<codeline lineno="129"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>kwargs:<sp/>Additional<sp/>keyword<sp/>arguments<sp/>that<sp/>subclasses<sp/>may<sp/>accept.</highlight></codeline>
+<codeline lineno="130"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="131"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:raises:<sp/>``self.base_exception``<sp/>or<sp/>its<sp/>subclass.</highlight></codeline>
+<codeline lineno="132"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>NotImplementedError</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/providers.py"/>
+  </compounddef>
+</doxygen>

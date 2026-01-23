@@ -1,0 +1,233 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1domains_1_1rst_1_1ReSTDirective" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::domains::rst::ReSTDirective</compoundname>
+    <basecompoundref refid="classsphinx_1_1domains_1_1rst_1_1ReSTMarkup" prot="public" virt="non-virtual">sphinx.domains.rst.ReSTMarkup</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1rst_1_1ReSTDirective_1a72e7fdfd87eb695dac8cedbf0b23fec0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.domains.rst.ReSTDirective.handle_signature</definition>
+        <argsstring>(self, str sig, desc_signature signode)</argsstring>
+        <name>handle_signature</name>
+        <qualifiedname>sphinx.domains.rst.ReSTDirective.handle_signature</qualifiedname>
+        <reimplements refid="classsphinx_1_1directives_1_1ObjectDescription_1ae1e5e2560890e3a5b9dda0cbb813eaff">handle_signature</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>sig</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1desc__signature" kindref="compound">desc_signature</ref></type>
+          <declname>signode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse the signature *sig*.
+
+The individual nodes are then appended to *signode*.
+If ValueError is raised, parsing is aborted and the whole
+*sig* is put into a single desc_name node.
+
+The return value should be a value that identifies the object.  It is
+passed to :meth:`add_target_and_index()` unchanged, and otherwise only
+used to skip duplicates.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/domains/rst.py" line="121" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/domains/rst.py" bodystart="121" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1rst_1_1ReSTDirective_1a70d2ee04be96c79fa4648c850ea06d57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.domains.rst.ReSTDirective.get_index_text</definition>
+        <argsstring>(self, str objectname, str name)</argsstring>
+        <name>get_index_text</name>
+        <qualifiedname>sphinx.domains.rst.ReSTDirective.get_index_text</qualifiedname>
+        <reimplements refid="classsphinx_1_1domains_1_1rst_1_1ReSTMarkup_1a1b01abb46575c8626bb78cb8ffb2cded">get_index_text</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>objectname</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/domains/rst.py" line="130" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/domains/rst.py" bodystart="130" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1rst_1_1ReSTDirective_1a02b638cf1ab7076f675c657f5780f9c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.domains.rst.ReSTDirective.before_content</definition>
+        <argsstring>(self)</argsstring>
+        <name>before_content</name>
+        <qualifiedname>sphinx.domains.rst.ReSTDirective.before_content</qualifiedname>
+        <reimplements refid="classsphinx_1_1directives_1_1ObjectDescription_1a4dd402143ece0e9628e8dbf8aa988500">before_content</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Called before parsing content.
+
+Used to set information about the current directive context
+on the build environment.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/domains/rst.py" line="133" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/domains/rst.py" bodystart="133" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1rst_1_1ReSTDirective_1a78d3d753a0281ab2132884c4cb8f9c1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.domains.rst.ReSTDirective.after_content</definition>
+        <argsstring>(self)</argsstring>
+        <name>after_content</name>
+        <qualifiedname>sphinx.domains.rst.ReSTDirective.after_content</qualifiedname>
+        <reimplements refid="classsphinx_1_1directives_1_1ObjectDescription_1abef07b093de07958d22676edd7517ba8">after_content</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Called after parsing content.
+
+Used to reset information about the current directive context
+on the build environment.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/domains/rst.py" line="138" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/domains/rst.py" bodystart="138" bodyend="143"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Description of a reST directive.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="7">
+        <label>ObjDescT</label>
+      </node>
+      <node id="8">
+        <label>str</label>
+      </node>
+      <node id="5">
+        <label>docutils.parsers.rst.Directive</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1Directive"/>
+      </node>
+      <node id="1">
+        <label>sphinx.domains.rst.ReSTDirective</label>
+        <link refid="classsphinx_1_1domains_1_1rst_1_1ReSTDirective"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.directives.ObjectDescription</label>
+        <link refid="classsphinx_1_1directives_1_1ObjectDescription"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.domains.rst.ReSTMarkup</label>
+        <link refid="classsphinx_1_1domains_1_1rst_1_1ReSTMarkup"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>sphinx.util.docutils.SphinxDirective</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Generic</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="7">
+        <label>ObjDescT</label>
+      </node>
+      <node id="8">
+        <label>str</label>
+      </node>
+      <node id="5">
+        <label>docutils.parsers.rst.Directive</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1Directive"/>
+      </node>
+      <node id="1">
+        <label>sphinx.domains.rst.ReSTDirective</label>
+        <link refid="classsphinx_1_1domains_1_1rst_1_1ReSTDirective"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>addnodes</label>
+      </node>
+      <node id="3">
+        <label>sphinx.directives.ObjectDescription</label>
+        <link refid="classsphinx_1_1directives_1_1ObjectDescription"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>domain</edgelabel>
+          <edgelabel>objtype</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>indexnode</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.domains.rst.ReSTMarkup</label>
+        <link refid="classsphinx_1_1domains_1_1rst_1_1ReSTMarkup"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>sphinx.util.docutils.SphinxDirective</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxDirective"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Generic</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/domains/rst.py" line="118" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/domains/rst.py" bodystart="118" bodyend="143"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1domains_1_1rst_1_1ReSTDirective_1a78d3d753a0281ab2132884c4cb8f9c1c" prot="public" virt="non-virtual"><scope>sphinx::domains::rst::ReSTDirective</scope><name>after_content</name></member>
+      <member refid="classsphinx_1_1domains_1_1rst_1_1ReSTDirective_1a02b638cf1ab7076f675c657f5780f9c2" prot="public" virt="non-virtual"><scope>sphinx::domains::rst::ReSTDirective</scope><name>before_content</name></member>
+      <member refid="classsphinx_1_1domains_1_1rst_1_1ReSTDirective_1a70d2ee04be96c79fa4648c850ea06d57" prot="public" virt="non-virtual"><scope>sphinx::domains::rst::ReSTDirective</scope><name>get_index_text</name></member>
+      <member refid="classsphinx_1_1domains_1_1rst_1_1ReSTDirective_1a72e7fdfd87eb695dac8cedbf0b23fec0" prot="public" virt="non-virtual"><scope>sphinx::domains::rst::ReSTDirective</scope><name>handle_signature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

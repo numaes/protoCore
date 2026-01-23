@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_Structural_01description_2architecture_204__ffi__and__integration" kind="page">
+    <compoundname>md_Structural_01description_2architecture_204__ffi__and__integration</compoundname>
+    <title>Architecture Deep Dive: The Foreign Function Interface (FFI)</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_Structural_01description_2architecture_204__ffi__and__integration_1autotoc_md46"/> </para>
+<sect1 id="md_Structural_01description_2architecture_204__ffi__and__integration_1autotoc_md47">
+<title>Introduction</title>
+<para>No system is an island. For a runtime like Proto to be useful in the real world, it must be able to integrate seamlessly with existing C and C++ libraries. The Foreign Function Interface (FFI) is the mechanism that allows code running inside Proto to call native C/C++ functions and for native code to interact with Proto objects.</para>
+</sect1>
+<sect1 id="md_Structural_01description_2architecture_204__ffi__and__integration_1autotoc_md48">
+<title>Proto&apos;s FFI Advantage: No Memory Compaction</title>
+<para>The single biggest challenge when building an FFI for a garbage-collected language is dealing with memory movement. In many GCs, objects can be moved in memory during a compaction phase. This means native C++ code cannot safely hold a direct pointer to an object, as it could be invalidated at any moment. This usually requires a complex and slow &quot;handle&quot; system.</para>
+<para>Proto&apos;s GC <bold>does not move or compact memory</bold>. This provides a massive advantage for FFI integration. Since an object&apos;s address is stable for its entire lifetime, C++ code can hold direct pointers to Proto objects. This makes the FFI simpler, faster, and more natural to work with.</para>
+</sect1>
+<sect1 id="md_Structural_01description_2architecture_204__ffi__and__integration_1autotoc_md49">
+<title>The Safe FFI Pattern</title>
+<sect2 id="md_Structural_01description_2architecture_204__ffi__and__integration_1autotoc_md50">
+<title>The Challenge</title>
+<para>While pointers are stable, we still need to coordinate with the garbage collector. If you call a long-running native function, the GC&apos;s background thread might run while the native code is executing. The GC needs to know that the Proto objects passed to the native function are still alive, but it cannot scan the native function&apos;s stack.</para>
+</sect2>
+<sect2 id="md_Structural_01description_2architecture_204__ffi__and__integration_1autotoc_md51">
+<title>The Solution: The &lt;tt&gt;setManaged()&lt;/tt&gt; / &lt;tt&gt;setUnmanaged()&lt;/tt&gt; Protocol</title>
+<para>Proto solves this with a simple, explicit protocol. Before calling a native function that might take a long time to execute, the thread must tell the GC that it is entering an &quot;unmanaged&quot; state. When the native function returns, the thread must tell the GC it is back in a &quot;managed&quot; state.</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>setUnmanaged()</computeroutput>: Signals to the GC that this thread&apos;s stack is now opaque and should not be scanned for roots. The thread is temporarily detached from the GC&apos;s control.</para>
+</listitem><listitem><para><computeroutput>setManaged()</computeroutput>: Signals that the thread is back under GC control. This will trigger a GC cycle if one was requested while the thread was unmanaged.</para>
+</listitem></itemizedlist>
+</para>
+<para>This protocol ensures that the GC will not run while native code is executing, preventing any possibility of an object being collected while it&apos;s still being used by the C++ code.</para>
+</sect2>
+<sect2 id="md_Structural_01description_2architecture_204__ffi__and__integration_1autotoc_md52">
+<title>RAII Guard for Safety</title>
+<para>Manually calling <computeroutput>setManaged()</computeroutput> and <computeroutput>setUnmanaged()</computeroutput> can be error-prone, especially in the face of C++ exceptions. The best practice is to wrap the FFI call in a simple RAII (Resource Acquisition Is Initialization) guard class.</para>
+<para>Here is an example of what such a guard might look like:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>Illustrative<sp/>FFIGuard<sp/>class</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">FFIGuard<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>FFIGuard(Thread*<sp/>thread)<sp/>:<sp/>p_thread(thread)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p_thread-&gt;setUnmanaged();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>~FFIGuard()<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>p_thread-&gt;setManaged();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>Thread*<sp/>p_thread;</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Usage:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>my_native_wrapper(Thread*<sp/>thread,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProtoObject<sp/>arg)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>FFIGuard<sp/>guard(thread);<sp/></highlight><highlight class="comment">//<sp/>Enters<sp/>unmanaged<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Now<sp/>it&apos;s<sp/>safe<sp/>to<sp/>call<sp/>long-running<sp/>C/C++<sp/>code</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>native_library_function(arg-&gt;as_string()-&gt;c_str());</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>guard<sp/>goes<sp/>out<sp/>of<sp/>scope<sp/>here,<sp/>automatically<sp/>re-enters<sp/>managed<sp/>mode</highlight></codeline>
+</programlisting></para>
+</sect2>
+</sect1>
+<sect1 id="md_Structural_01description_2architecture_204__ffi__and__integration_1autotoc_md53">
+<title>Marshalling Data</title>
+<para>&quot;Marshalling&quot; is the process of converting data between the Proto world and the native C++ world. This typically involves creating a C++ wrapper function that handles the conversion.</para>
+<para>Here is a simple example of a wrapper that exposes a C function <computeroutput>count_characters</computeroutput> to the Proto runtime.</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>A<sp/>native<sp/>C<sp/>function<sp/>we<sp/>want<sp/>to<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count_characters(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>str)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>strlen(str);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>C++<sp/>wrapper<sp/>function<sp/>exposed<sp/>to<sp/>Proto</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProtoObject<sp/>proto_count_characters(Thread*<sp/>thread,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProtoObject<sp/>p_str)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Use<sp/>a<sp/>guard<sp/>for<sp/>GC<sp/>safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>FFIGuard<sp/>guard(thread);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>Marshall<sp/>the<sp/>arguments<sp/>from<sp/>Proto<sp/>to<sp/>C++</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>includes<sp/>type<sp/>checking.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!p_str-&gt;is_string())<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>a<sp/>real<sp/>implementation,<sp/>you<sp/>would<sp/>throw<sp/>a<sp/>Proto<sp/>exception<sp/>here</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>thread-&gt;runtime-&gt;new_nil();</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>native_str<sp/>=<sp/>p_str-&gt;as_string()-&gt;c_str();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>Call<sp/>the<sp/>actual<sp/>native<sp/>function</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1rich_1_1prompt_1ae8c100ce7b4b02ef7ce94d7581f2ac82" kindref="member">result</ref><sp/>=<sp/>count_characters(native_str);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>Marshall<sp/>the<sp/>return<sp/>value<sp/>from<sp/>C++<sp/>back<sp/>to<sp/>Proto</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>thread-&gt;runtime-&gt;from_integer(result);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+</sect1>
+    </detaileddescription>
+    <location file="Structural description/architecture/04_ffi_and_integration.md"/>
+  </compounddef>
+</doxygen>

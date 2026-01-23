@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1typing__extensions_1_1Annotated" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::typing_extensions::Annotated</compoundname>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1typing__extensions_1_1Annotated_1a1e415ab46747bc24a76dcc03e0e3ed7d" prot="private" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pip._vendor.typing_extensions.Annotated::__slots__</definition>
+        <argsstring></argsstring>
+        <name>__slots__</name>
+        <qualifiedname>pip._vendor.typing_extensions.Annotated.__slots__</qualifiedname>
+        <initializer>=  ()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/typing_extensions.py" line="1356" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/typing_extensions.py" bodystart="1356" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1typing__extensions_1_1Annotated_1a29016386777b4c0fbaf5a2bfd674d613" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.typing_extensions.Annotated.__new__</definition>
+        <argsstring>(cls, *args, **kwargs)</argsstring>
+        <name>__new__</name>
+        <qualifiedname>pip._vendor.typing_extensions.Annotated.__new__</qualifiedname>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <param>
+          <type>*</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/typing_extensions.py" line="1358" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/typing_extensions.py" bodystart="1358" bodyend="1360"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1typing__extensions_1_1Annotated_1ad0e5d09a7416a2a4d6e810c7d531facc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.typing_extensions.Annotated.__class_getitem__</definition>
+        <argsstring>(cls, params)</argsstring>
+        <name>__class_getitem__</name>
+        <qualifiedname>pip._vendor.typing_extensions.Annotated.__class_getitem__</qualifiedname>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <param>
+          <type>params</type>
+          <defname>params</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/typing_extensions.py" line="1362" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/typing_extensions.py" bodystart="1362" bodyend="1375"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1typing__extensions_1_1Annotated_1ab6f248cd29304ad32178d4b063edd713" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.typing_extensions.Annotated.__init_subclass__</definition>
+        <argsstring>(cls, *args, **kwargs)</argsstring>
+        <name>__init_subclass__</name>
+        <qualifiedname>pip._vendor.typing_extensions.Annotated.__init_subclass__</qualifiedname>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <param>
+          <type>*</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/typing_extensions.py" line="1376" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/typing_extensions.py" bodystart="1376" bodyend="1383"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Add context specific metadata to a type.
+
+Example: Annotated[int, runtime_check.Unsigned] indicates to the
+hypothetical runtime_check module that this type is an unsigned int.
+Every other consumer of this type can ignore this metadata and treat
+this type as int.
+
+The first argument to Annotated must be a valid type (and will be in
+the __origin__ field), the remaining arguments are kept as a tuple in
+the __extra__ field.
+
+Details:
+
+- It&apos;s an error to call `Annotated` with less than two arguments.
+- Nested Annotated are flattened::
+
+    Annotated[Annotated[T, Ann1, Ann2], Ann3] == Annotated[T, Ann1, Ann2, Ann3]
+
+- Instantiating an annotated type is equivalent to instantiating the
+underlying type::
+
+    Annotated[C, Ann1](5) == C(5)
+
+- Annotated can be used as a generic type alias::
+
+    Optimized = Annotated[T, runtime.Optimize()]
+    Optimized[int] == Annotated[int, runtime.Optimize()]
+
+    OptimizedList = Annotated[List[T], runtime.Optimize()]
+    OptimizedList[int] == Annotated[List[int], runtime.Optimize()]
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/typing_extensions.py" line="1323" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/typing_extensions.py" bodystart="1323" bodyend="1383"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1typing__extensions_1_1Annotated_1ad0e5d09a7416a2a4d6e810c7d531facc" prot="public" virt="non-virtual"><scope>pip::_vendor::typing_extensions::Annotated</scope><name>__class_getitem__</name></member>
+      <member refid="classpip_1_1__vendor_1_1typing__extensions_1_1Annotated_1ab6f248cd29304ad32178d4b063edd713" prot="public" virt="non-virtual"><scope>pip::_vendor::typing_extensions::Annotated</scope><name>__init_subclass__</name></member>
+      <member refid="classpip_1_1__vendor_1_1typing__extensions_1_1Annotated_1a29016386777b4c0fbaf5a2bfd674d613" prot="public" virt="non-virtual"><scope>pip::_vendor::typing_extensions::Annotated</scope><name>__new__</name></member>
+      <member refid="classpip_1_1__vendor_1_1typing__extensions_1_1Annotated_1a1e415ab46747bc24a76dcc03e0e3ed7d" prot="private" virt="non-virtual"><scope>pip::_vendor::typing_extensions::Annotated</scope><name>__slots__</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1sandbox_1_1ImmutableSandboxedEnvironment" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::sandbox::ImmutableSandboxedEnvironment</compoundname>
+    <basecompoundref refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment" prot="public" virt="non-virtual">jinja2.sandbox.SandboxedEnvironment</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjinja2_1_1sandbox_1_1ImmutableSandboxedEnvironment_1a5b06f2c1df95c92cf0fc156ec02620ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool jinja2.sandbox.ImmutableSandboxedEnvironment.is_safe_attribute</definition>
+        <argsstring>(self, t.Any obj, str attr, t.Any value)</argsstring>
+        <name>is_safe_attribute</name>
+        <qualifiedname>jinja2.sandbox.ImmutableSandboxedEnvironment.is_safe_attribute</qualifiedname>
+        <reimplements refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment_1af61c048f4a82d470d97d009b59a56a9a">is_safe_attribute</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Any</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>attr</declname>
+        </param>
+        <param>
+          <type>t.Any</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The sandboxed environment will call this method to check if the
+attribute of an object is safe to access.  Per default all attributes
+starting with an underscore are considered private as well as the
+special attributes of internal python objects as returned by the
+:func:`is_internal_attribute` function.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/sandbox.py" line="410" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/sandbox.py" bodystart="410" bodyend="416"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Works exactly like the regular `SandboxedEnvironment` but does not
+permit modifications on the builtin mutable objects `list`, `set`, and
+`dict` by using the :func:`modifies_known_mutable` function.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.sandbox.ImmutableSandboxedEnvironment</label>
+        <link refid="classjinja2_1_1sandbox_1_1ImmutableSandboxedEnvironment"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.environment.Environment</label>
+        <link refid="classjinja2_1_1environment_1_1Environment"/>
+      </node>
+      <node id="2">
+        <label>jinja2.sandbox.SandboxedEnvironment</label>
+        <link refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>jinja2.sandbox.ImmutableSandboxedEnvironment</label>
+        <link refid="classjinja2_1_1sandbox_1_1ImmutableSandboxedEnvironment"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.environment.Environment</label>
+        <link refid="classjinja2_1_1environment_1_1Environment"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>concat</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.sandbox.SandboxedEnvironment</label>
+        <link refid="classjinja2_1_1sandbox_1_1SandboxedEnvironment"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/jinja2/sandbox.py" line="404" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/sandbox.py" bodystart="404" bodyend="416"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1sandbox_1_1ImmutableSandboxedEnvironment_1a5b06f2c1df95c92cf0fc156ec02620ab" prot="public" virt="non-virtual"><scope>jinja2::sandbox::ImmutableSandboxedEnvironment</scope><name>is_safe_attribute</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

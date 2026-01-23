@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1builders_1_1gettext" kind="namespace" language="Python">
+    <compoundname>sphinx::builders::gettext</compoundname>
+    <innerclass refid="classsphinx_1_1builders_1_1gettext_1_1Catalog" prot="public">sphinx::builders::gettext::Catalog</innerclass>
+    <innerclass refid="classsphinx_1_1builders_1_1gettext_1_1GettextRenderer" prot="public">sphinx::builders::gettext::GettextRenderer</innerclass>
+    <innerclass refid="classsphinx_1_1builders_1_1gettext_1_1I18nBuilder" prot="public">sphinx::builders::gettext::I18nBuilder</innerclass>
+    <innerclass refid="classsphinx_1_1builders_1_1gettext_1_1I18nTags" prot="public">sphinx::builders::gettext::I18nTags</innerclass>
+    <innerclass refid="classsphinx_1_1builders_1_1gettext_1_1Message" prot="public">sphinx::builders::gettext::Message</innerclass>
+    <innerclass refid="classsphinx_1_1builders_1_1gettext_1_1MessageCatalogBuilder" prot="public">sphinx::builders::gettext::MessageCatalogBuilder</innerclass>
+    <innerclass refid="classsphinx_1_1builders_1_1gettext_1_1MsgOrigin" prot="public">sphinx::builders::gettext::MsgOrigin</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1gettext_1a3129d927238d4f89ea2f396044517219" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::builders::gettext.DEFAULT_TEMPLATE_PATH</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_TEMPLATE_PATH</name>
+        <qualifiedname>sphinx.builders.gettext.DEFAULT_TEMPLATE_PATH</qualifiedname>
+        <initializer>=  package_dir.joinpath(&apos;templates&apos;, &apos;gettext&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/gettext.py" line="42" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/gettext.py" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1gettext_1a375002f0c348f8613ff9ccba9c33cf12" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::builders::gettext.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.builders.gettext.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/gettext.py" line="44" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/gettext.py" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1gettext_1a8e4ac1a1f9ba4ac57e02d1ba00fee12a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::builders::gettext.timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>sphinx.builders.gettext.timestamp</qualifiedname>
+        <initializer>=  time.gmtime(float(source_date_epoch))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/gettext.py" line="204" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/gettext.py" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1builders_1_1gettext_1a9e2fb71decad6922574168ef57ea1c59" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::builders::gettext.ctime</definition>
+        <argsstring></argsstring>
+        <name>ctime</name>
+        <qualifiedname>sphinx.builders.gettext.ctime</qualifiedname>
+        <initializer>=  time.strftime(&apos;%Y-%m-%d %H:%M%z&apos;, <ref refid="namespacesphinx_1_1builders_1_1gettext_1a8e4ac1a1f9ba4ac57e02d1ba00fee12a" kindref="member">timestamp</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/gettext.py" line="208" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/gettext.py" bodystart="208" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1gettext_1a6e60a0870f7a9778a37968934169d4ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.builders.gettext.should_write</definition>
+        <argsstring>(Path filepath, str new_content)</argsstring>
+        <name>should_write</name>
+        <qualifiedname>sphinx.builders.gettext.should_write</qualifiedname>
+        <param>
+          <type>Path</type>
+          <declname>filepath</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>new_content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/gettext.py" line="211" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/gettext.py" bodystart="211" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1gettext_1af3acb49b9c520f3eb79d424ead7aaa54" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.builders.gettext._is_node_in_substitution_definition</definition>
+        <argsstring>(nodes.Node node)</argsstring>
+        <name>_is_node_in_substitution_definition</name>
+        <qualifiedname>sphinx.builders.gettext._is_node_in_substitution_definition</qualifiedname>
+        <param>
+          <type>nodes.Node</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check &quot;node&quot; to test if it is in a substitution definition.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/gettext.py" line="231" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/gettext.py" bodystart="231" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1builders_1_1gettext_1a2cb9845d17a6c0736091af126c9e6ca4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1ExtensionMetadata" kindref="compound">ExtensionMetadata</ref></type>
+        <definition> ExtensionMetadata sphinx.builders.gettext.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.builders.gettext.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/gettext.py" line="329" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/gettext.py" bodystart="329" bodyend="362"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>The MessageCatalogBuilder class.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/builders/gettext.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

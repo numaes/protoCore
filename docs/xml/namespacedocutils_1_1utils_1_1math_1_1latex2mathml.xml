@@ -1,0 +1,911 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml" kind="namespace" language="Python">
+    <compoundname>docutils::utils::math::latex2mathml</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1ac50445d89abe32f94e8ee8ad1557bd9d" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::utils::math::latex2mathml.letters</definition>
+        <argsstring></argsstring>
+        <name>letters</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.letters</qualifiedname>
+        <initializer>=  {&apos;hbar&apos;: &apos;ℏ&apos;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="45" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a60e9b4b14dd0d479365551cb73d56969" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils::utils::math::latex2mathml.ordinary</definition>
+        <argsstring></argsstring>
+        <name>ordinary</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.ordinary</qualifiedname>
+        <initializer>=  tex2unichar.mathord</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="49" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a2ffc779e6e3837a9b0ece515b34a00be" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::utils::math::latex2mathml.greek_capitals</definition>
+        <argsstring></argsstring>
+        <name>greek_capitals</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.greek_capitals</qualifiedname>
+        <initializer>=  {
+    &apos;Phi&apos;: &apos;\u03a6&apos;, &apos;Xi&apos;: &apos;\u039e&apos;, &apos;Sigma&apos;: &apos;\u03a3&apos;,
+    &apos;Psi&apos;: &apos;\u03a8&apos;, &apos;Delta&apos;: &apos;\u0394&apos;, &apos;Theta&apos;: &apos;\u0398&apos;,
+    &apos;Upsilon&apos;: &apos;\u03d2&apos;, &apos;Pi&apos;: &apos;\u03a0&apos;, &apos;Omega&apos;: &apos;\u03a9&apos;,
+    &apos;Gamma&apos;: &apos;\u0393&apos;, &apos;Lambda&apos;: &apos;\u039b&apos;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="52" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1afe9f9d3726257e0f373bbd6ce81cac41" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::utils::math::latex2mathml.functions</definition>
+        <argsstring></argsstring>
+        <name>functions</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.functions</qualifiedname>
+        <initializer>=  {
+    # functions with a space in the name
+    &apos;liminf&apos;: &apos;lim\u202finf&apos;,
+    &apos;limsup&apos;: &apos;lim\u202fsup&apos;,
+    &apos;injlim&apos;: &apos;inj\u202flim&apos;,
+    &apos;projlim&apos;: &apos;proj\u202flim&apos;,
+    # embellished function names (see <ref refid="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1ae5c7ada3a1b7cda5cecaf857676b80e8" kindref="member">handle_cmd</ref>() below)
+    &apos;varlimsup&apos;: &apos;lim&apos;,
+    &apos;varliminf&apos;: &apos;lim&apos;,
+    &apos;varprojlim&apos;: &apos;lim&apos;,
+    &apos;varinjlim&apos;: &apos;lim&apos;,
+    # custom function name
+    &apos;operatorname&apos;: None,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="59" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a7e22170b46d3aab37b754baea9d3b246" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::utils::math::latex2mathml.modulo_functions</definition>
+        <argsstring></argsstring>
+        <name>modulo_functions</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.modulo_functions</qualifiedname>
+        <initializer>=  {
+    # cmdname: (binary, named, parentheses, padding)
+    &apos;bmod&apos;: (True,  True,  False, &apos;0.278em&apos;),  # a mod n
+    &apos;pmod&apos;: (False, True,  True,  &apos;0.444em&apos;),  # a  (mod n)
+    &apos;mod&apos;:  (False, True,  False, &apos;0.667em&apos;),  # a  mod n
+    &apos;pod&apos;:  (False, False, True,  &apos;0.444em&apos;),  # a  (n)
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="83" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a98ed03d113a33a387cde998244182e5e" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::utils::math::latex2mathml.math_alphabets</definition>
+        <argsstring></argsstring>
+        <name>math_alphabets</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.math_alphabets</qualifiedname>
+        <initializer>=  {
+    # &apos;cmdname&apos;:  &apos;mathvariant value&apos;        # package
+    &apos;<ref refid="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a40634b9ec2733b0f0b26d008b257df8b" kindref="member">mathbb</ref>&apos;:     &apos;double-struck&apos;,           # amssymb
+    &apos;mathbf&apos;:     &apos;bold&apos;,
+    &apos;mathbfit&apos;:   &apos;bold-italic&apos;,             # isomath
+    &apos;mathcal&apos;:    &apos;script&apos;,
+    &apos;mathfrak&apos;:   &apos;fraktur&apos;,                 # amssymb
+    &apos;mathit&apos;:     &apos;italic&apos;,
+    &apos;mathrm&apos;:     &apos;normal&apos;,
+    &apos;mathscr&apos;:    &apos;script&apos;,                  # mathrsfs et al
+    &apos;mathsf&apos;:     &apos;sans-serif&apos;,
+    &apos;mathbfsfit&apos;: &apos;sans-serif-bold-italic&apos;,  # unicode-<ref refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1math" kindref="compound">math</ref>
+    &apos;mathsfbfit&apos;: &apos;sans-serif-bold-italic&apos;,  # isomath
+    &apos;mathsfit&apos;:   &apos;sans-serif-italic&apos;,       # isomath
+    &apos;mathtt&apos;:     &apos;monospace&apos;,
+    # unsupported: bold-fraktur
+    #              bold-script
+    #              bold-sans-serif
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="94" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1ad2be68cd3c67dc7cbe9b7e98fb89d3a1" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::utils::math::latex2mathml.stretchables</definition>
+        <argsstring></argsstring>
+        <name>stretchables</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.stretchables</qualifiedname>
+        <initializer>=  {
+    # extensible delimiters allowed in left/right cmds
+    &apos;backslash&apos;:   &apos;\\&apos;,
+    &apos;uparrow&apos;:     &apos;\u2191&apos;,  # ↑ UPWARDS ARROW
+    &apos;downarrow&apos;:   &apos;\u2193&apos;,  # ↓ DOWNWARDS ARROW
+    &apos;updownarrow&apos;: &apos;\u2195&apos;,  # ↕ UP DOWN ARROW
+    &apos;Uparrow&apos;:     &apos;\u21d1&apos;,  # ⇑ UPWARDS DOUBLE ARROW
+    &apos;Downarrow&apos;:   &apos;\u21d3&apos;,  # ⇓ DOWNWARDS DOUBLE ARROW
+    &apos;Updownarrow&apos;: &apos;\u21d5&apos;,  # ⇕ UP DOWN DOUBLE ARROW
+    &apos;lmoustache&apos;:  &apos;\u23b0&apos;,  # ⎰ … CURLY BRACKET SECTION
+    &apos;rmoustache&apos;:  &apos;\u23b1&apos;,  # ⎱ … LEFT CURLY BRACKET SECTION
+    &apos;arrowvert&apos;:   &apos;\u23d0&apos;,  # ⏐ VERTICAL LINE EXTENSION
+    &apos;bracevert&apos;:   &apos;\u23aa&apos;,  # ⎪ CURLY BRACKET EXTENSION
+    &apos;lvert&apos;:      &apos;|&apos;,        # left  |
+    &apos;lVert&apos;:      &apos;\u2016&apos;,   # left  ‖
+    &apos;rvert&apos;:      &apos;|&apos;,        # right |
+    &apos;rVert&apos;:      &apos;\u2016&apos;,   # right ‖
+    &apos;Arrowvert&apos;:  &apos;\u2016&apos;,   # ‖
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="116" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a49632059a506b27ba98a8aae1644a8d5" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::utils::math::latex2mathml.operators</definition>
+        <argsstring></argsstring>
+        <name>operators</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.operators</qualifiedname>
+        <initializer>=  {
+    # negated symbols without pre-composed Unicode character
+    &apos;nleqq&apos;:      &apos;\u2266\u0338&apos;,  # ≦̸
+    &apos;ngeqq&apos;:      &apos;\u2267\u0338&apos;,  # ≧̸
+    &apos;nleqslant&apos;:  &apos;\u2a7d\u0338&apos;,  # ⩽̸
+    &apos;ngeqslant&apos;:  &apos;\u2a7e\u0338&apos;,  # ⩾̸
+    &apos;ngtrless&apos;:   &apos;\u2277\u0338&apos;,  # txfonts
+    &apos;nlessgtr&apos;:   &apos;\u2276\u0338&apos;,  # txfonts
+    &apos;nsubseteqq&apos;: &apos;\u2AC5\u0338&apos;,  # ⫅̸
+    &apos;nsupseteqq&apos;: &apos;\u2AC6\u0338&apos;,  # ⫆̸
+    # compatibility definitions:
+    &apos;centerdot&apos;: &apos;\u2B1D&apos;,  # BLACK VERY SMALL SQUARE | mathbin
+    &apos;varnothing&apos;: &apos;\u2300&apos;,  # ⌀ DIAMETER SIGN | empty set
+    &apos;varpropto&apos;: &apos;\u221d&apos;,  # ∝ PROPORTIONAL TO | sans serif
+    &apos;triangle&apos;: &apos;\u25B3&apos;,  # WHITE UP-POINTING TRIANGLE | mathord
+    &apos;triangledown&apos;: &apos;\u25BD&apos;,  # WHITE DOWN-POINTING TRIANGLE | mathord
+    # alias commands:
+    &apos;dotsb&apos;: &apos;\u22ef&apos;,  # ⋯ with binary operators/relations
+    &apos;dotsc&apos;: &apos;\u2026&apos;,  # … with commas
+    &apos;dotsi&apos;: &apos;\u22ef&apos;,  # ⋯ with integrals
+    &apos;dotsm&apos;: &apos;\u22ef&apos;,  # ⋯ multiplication dots
+    &apos;dotso&apos;: &apos;\u2026&apos;,  # … other dots
+    # <ref refid="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1afe9f9d3726257e0f373bbd6ce81cac41" kindref="member">functions</ref> with movable limits (requires &lt;<ref refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1mo" kindref="compound">mo</ref>&gt;)
+    &apos;lim&apos;: &apos;lim&apos;,
+    &apos;sup&apos;: &apos;sup&apos;,
+    &apos;inf&apos;: &apos;inf&apos;,
+    &apos;max&apos;: &apos;max&apos;,
+    &apos;min&apos;: &apos;min&apos;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="142" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1ae3f3c2f4acf0e81752df1170ac2669f8" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::utils::math::latex2mathml.thick_operators</definition>
+        <argsstring></argsstring>
+        <name>thick_operators</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.thick_operators</qualifiedname>
+        <initializer>=  {
+    # style=&apos;font-weight: bold;&apos;
+    &apos;thicksim&apos;:       &apos;\u223C&apos;,  # ∼
+    &apos;thickapprox&apos;:    &apos;\u2248&apos;,  # ≈
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="180" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a386e094d36784e79d7be46734974d21c" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::utils::math::latex2mathml.small_operators</definition>
+        <argsstring></argsstring>
+        <name>small_operators</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.small_operators</qualifiedname>
+        <initializer>=  {
+    # mathsize=&apos;75%&apos;
+    &apos;shortmid&apos;:       &apos;\u2223&apos;,  # ∣
+    &apos;shortparallel&apos;:  &apos;\u2225&apos;,  # ∥
+    &apos;nshortmid&apos;:      &apos;\u2224&apos;,  # ∤
+    &apos;nshortparallel&apos;: &apos;\u2226&apos;,  # ∦
+    &apos;smallfrown&apos;:     &apos;\u2322&apos;,  # ⌢ FROWN
+    &apos;smallsmile&apos;:     &apos;\u2323&apos;,  # ⌣ SMILE
+    &apos;smallint&apos;:       &apos;\u222b&apos;,  # ∫ INTEGRAL
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="186" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a28994b3161d31591ff71a6dbce52b2d5" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils::utils::math::latex2mathml.movablelimits</definition>
+        <argsstring></argsstring>
+        <name>movablelimits</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.movablelimits</qualifiedname>
+        <initializer>=  (&apos;bigcap&apos;, &apos;bigcup&apos;, &apos;bigodot&apos;, &apos;bigoplus&apos;, &apos;bigotimes&apos;,
+                 &apos;bigsqcup&apos;, &apos;biguplus&apos;, &apos;bigvee&apos;, &apos;bigwedge&apos;,
+                 &apos;coprod&apos;, &apos;intop&apos;, &apos;ointop&apos;, &apos;prod&apos;, &apos;sum&apos;,
+                 &apos;lim&apos;, &apos;max&apos;, &apos;min&apos;, &apos;sup&apos;, &apos;inf&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="199" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a6756f34a4003efab5a2b0c0ec308e415" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::utils::math::latex2mathml.spaces</definition>
+        <argsstring></argsstring>
+        <name>spaces</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.spaces</qualifiedname>
+        <initializer>=  {&apos;qquad&apos;:         &apos;2em&apos;,        # two \quad
+          &apos;quad&apos;:          &apos;1em&apos;,        # 18 mu
+          &apos;thickspace&apos;:    &apos;0.2778em&apos;,   # 5mu = 5/18em
+          &apos;;&apos;:             &apos;0.2778em&apos;,   # 5mu thickspace
+          &apos; &apos;:             &apos;0.25em&apos;,     # inter word space
+          &apos;\n&apos;:            &apos;0.25em&apos;,     # inter word space
+          &apos;medspace&apos;:      &apos;0.2222em&apos;,   # 4mu = 2/9em
+          &apos;:&apos;:             &apos;0.2222em&apos;,   # 4mu medspace
+          &apos;thinspace&apos;:     &apos;0.1667em&apos;,   # 3mu = 1/6em
+          &apos;,&apos;:             &apos;0.1667em&apos;,   # 3mu thinspace
+          &apos;negthinspace&apos;:  &apos;-0.1667em&apos;,  # -3mu = -1/6em
+          &apos;!&apos;:             &apos;-0.1667em&apos;,  # negthinspace
+          &apos;negmedspace&apos;:   &apos;-0.2222em&apos;,  # -4mu = -2/9em
+          &apos;negthickspace&apos;: &apos;-0.2778em&apos;,  # -5mu = -5/18em
+          }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="212" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a329e05325f3c1281a3d3ba114a5e5b05" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::utils::math::latex2mathml.accents</definition>
+        <argsstring></argsstring>
+        <name>accents</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.accents</qualifiedname>
+        <initializer>=  {
+    # TeX:      spacing    combining
+    &apos;acute&apos;:    &apos;´&apos;,     # &apos;\u0301&apos;
+    &apos;bar&apos;:      &apos;ˉ&apos;,     # &apos;\u0304&apos;
+    &apos;breve&apos;:    &apos;˘&apos;,     # &apos;\u0306&apos;
+    &apos;check&apos;:    &apos;ˇ&apos;,     # &apos;\u030C&apos;
+    &apos;dot&apos;:      &apos;˙&apos;,     # &apos;\u0307&apos;
+    &apos;ddot&apos;:     &apos;¨&apos;,     # &apos;\u0308&apos;
+    &apos;dddot&apos;:    &apos;˙˙˙&apos;,   # &apos;\u20DB&apos;  # or … ?
+    &apos;ddddot&apos;:   &apos;˙˙˙˙&apos;,  # &apos;\u20DC&apos;  # or ¨¨ ?
+    &apos;grave&apos;:    &apos;`&apos;,     # &apos;\u0300&apos;
+    &apos;hat&apos;:      &apos;ˆ&apos;,     # &apos;\u0302&apos;
+    &apos;mathring&apos;: &apos;˚&apos;,     # &apos;\u030A&apos;
+    &apos;tilde&apos;:    &apos;~&apos;,     # &apos;\u0303&apos;  # tilde ~ or small tilde ˜?
+    &apos;vec&apos;:      &apos;→&apos;,     # &apos;\u20d7&apos;  # → too heavy, use scriptlevel=&quot;+1&quot;
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="229" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1aa6b0cf11bb1a9f6a115b26d55d21f27f" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::utils::math::latex2mathml.over</definition>
+        <argsstring></argsstring>
+        <name>over</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.over</qualifiedname>
+        <initializer>=  {
+    # TeX:                  (char,     offset-correction/em)
+    &apos;overbrace&apos;:            (&apos;\u23DE&apos;, -0.2),  # DejaVu Math -0.6
+    &apos;overleftarrow&apos;:        (&apos;\u2190&apos;, -0.2),
+    &apos;overleftrightarrow&apos;:   (&apos;\u2194&apos;, -0.2),
+    &apos;overline&apos;:             (&apos;_&apos;,      -0.2),  # \u2012 does not stretch
+    &apos;overrightarrow&apos;:       (&apos;\u2192&apos;, -0.2),
+    &apos;widehat&apos;:              (&apos;^&apos;,      -0.5),
+    &apos;widetilde&apos;:            (&apos;~&apos;,      -0.3),
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="247" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a33b93f8b69cebd93ebf2a53797de13e1" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::utils::math::latex2mathml.under</definition>
+        <argsstring></argsstring>
+        <name>under</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.under</qualifiedname>
+        <initializer>=  {&apos;underbrace&apos;:          (&apos;\u23DF&apos;,  0.1),  # DejaVu Math -0.7
+         &apos;underleftarrow&apos;:      (&apos;\u2190&apos;, -0.2),
+         &apos;underleftrightarrow&apos;: (&apos;\u2194&apos;, -0.2),
+         &apos;underline&apos;:           (&apos;_&apos;,      -0.8),
+         &apos;underrightarrow&apos;:     (&apos;\u2192&apos;, -0.2),
+         }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="257" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a7a9388652936f7b93f110260f10a11fe" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::utils::math::latex2mathml.anomalous_chars</definition>
+        <argsstring></argsstring>
+        <name>anomalous_chars</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.anomalous_chars</qualifiedname>
+        <initializer>=  {&apos;-&apos;: &apos;\u2212&apos;,  # HYPHEN-MINUS -&gt; MINUS SIGN
+                   &apos;:&apos;: &apos;\u2236&apos;,  # COLON -&gt; RATIO
+                   &apos;~&apos;: &apos;\u00a0&apos;,  # NO-BREAK SPACE
+                   }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="268" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a40634b9ec2733b0f0b26d008b257df8b" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::utils::math::latex2mathml.mathbb</definition>
+        <argsstring></argsstring>
+        <name>mathbb</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.mathbb</qualifiedname>
+        <initializer>=  {&apos;Γ&apos;: &apos;\u213E&apos;,    # ℾ
+          &apos;Π&apos;: &apos;\u213F&apos;,    # ℿ
+          &apos;Σ&apos;: &apos;\u2140&apos;,    # ⅀
+          &apos;γ&apos;: &apos;\u213D&apos;,    # ℽ
+          &apos;π&apos;: &apos;\u213C&apos;,    # ℼ
+          }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="274" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1adf4266adf9b71c9df052f352534c1d12" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::utils::math::latex2mathml.matrices</definition>
+        <argsstring></argsstring>
+        <name>matrices</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.matrices</qualifiedname>
+        <initializer>=  {
+    # name:    fences
+    &apos;matrix&apos;:  (&apos;&apos;, &apos;&apos;),
+    &apos;smallmatrix&apos;:  (&apos;&apos;, &apos;&apos;),  # smaller, see <ref refid="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a3a06d4a9bb8de1031447a715d94c79b8" kindref="member">begin_environment</ref>()!
+    &apos;pmatrix&apos;: (&apos;(&apos;, &apos;)&apos;),
+    &apos;bmatrix&apos;: (&apos;[&apos;, &apos;]&apos;),
+    &apos;Bmatrix&apos;: (&apos;{&apos;, &apos;}&apos;),
+    &apos;vmatrix&apos;: (&apos;|&apos;, &apos;|&apos;),
+    &apos;Vmatrix&apos;: (&apos;\u2016&apos;, &apos;\u2016&apos;),  # ‖
+    &apos;aligned&apos;: (&apos;&apos;, &apos;&apos;),
+    &apos;cases&apos;:   (&apos;{&apos;, &apos;&apos;),
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="282" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a862347902734fc5e79ff072280e82e87" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::utils::math::latex2mathml.layout_styles</definition>
+        <argsstring></argsstring>
+        <name>layout_styles</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.layout_styles</qualifiedname>
+        <initializer>=  {
+    &apos;displaystyle&apos;:      {&apos;displaystyle&apos;: True,  &apos;scriptlevel&apos;: 0},
+    &apos;textstyle&apos;:         {&apos;displaystyle&apos;: False, &apos;scriptlevel&apos;: 0},
+    &apos;scriptstyle&apos;:       {&apos;displaystyle&apos;: False, &apos;scriptlevel&apos;: 1},
+    &apos;scriptscriptstyle&apos;: {&apos;displaystyle&apos;: False, &apos;scriptlevel&apos;: 2},
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="295" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a59b36d0115456aaa5c6fd52283417c96" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::utils::math::latex2mathml.fractions</definition>
+        <argsstring></argsstring>
+        <name>fractions</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.fractions</qualifiedname>
+        <initializer>=  {
+    # name:   attributes
+    &apos;frac&apos;:   {},
+    &apos;cfrac&apos;:  {&apos;displaystyle&apos;: True,  &apos;scriptlevel&apos;: 0,
+               &apos;class&apos;: &apos;cfrac&apos;},  # in LaTeX with padding
+    &apos;dfrac&apos;:  <ref refid="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a862347902734fc5e79ff072280e82e87" kindref="member">layout_styles</ref>[&apos;displaystyle&apos;],
+    &apos;tfrac&apos;:  <ref refid="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a862347902734fc5e79ff072280e82e87" kindref="member">layout_styles</ref>[&apos;textstyle&apos;],
+    &apos;binom&apos;:  {&apos;linethickness&apos;: 0},
+    &apos;dbinom&apos;: <ref refid="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a862347902734fc5e79ff072280e82e87" kindref="member">layout_styles</ref>[&apos;displaystyle&apos;] | {&apos;linethickness&apos;: 0},
+    &apos;tbinom&apos;: <ref refid="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a862347902734fc5e79ff072280e82e87" kindref="member">layout_styles</ref>[&apos;textstyle&apos;] | {&apos;linethickness&apos;: 0},
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="303" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1ab9d106f5c387630fd637c0a5e6d3cd30" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list docutils::utils::math::latex2mathml.delimiter_sizes</definition>
+        <argsstring></argsstring>
+        <name>delimiter_sizes</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.delimiter_sizes</qualifiedname>
+        <initializer>=  [&apos;&apos;, &apos;1.2em&apos;, &apos;1.623em&apos;, &apos;2.047em&apos;, &apos;2.470em&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="315" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a95143c4297a21c8219d9890a701c7791" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils::utils::math::latex2mathml.bigdelimiters</definition>
+        <argsstring></argsstring>
+        <name>bigdelimiters</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.bigdelimiters</qualifiedname>
+        <initializer>=  {&apos;left&apos;:  0,
+                 &apos;right&apos;: 0,
+                 &apos;bigl&apos;:  1,
+                 &apos;bigr&apos;:  1,
+                 &apos;Bigl&apos;:  2,
+                 &apos;Bigr&apos;:  2,
+                 &apos;biggl&apos;: 3,
+                 &apos;biggr&apos;: 3,
+                 &apos;Biggl&apos;: 4,
+                 &apos;Biggr&apos;: 4,
+                 }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="316" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="316" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1ae0e3f9d0f331db71a3df93f365626cef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.latex2mathml.tex_cmdname</definition>
+        <argsstring>(string)</argsstring>
+        <name>tex_cmdname</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.tex_cmdname</qualifiedname>
+        <param>
+          <type>string</type>
+          <defname>string</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return leading TeX command name and remainder of `string`.
+
+&gt;&gt;&gt; tex_cmdname(&apos;mymacro2&apos;) # up to first non-letter
+(&apos;mymacro&apos;, &apos;2&apos;)
+&gt;&gt;&gt; tex_cmdname(&apos;name 2&apos;) # strip trailing whitespace
+(&apos;name&apos;, &apos;2&apos;)
+&gt;&gt;&gt; tex_cmdname(&apos;_2&apos;) # single non-letter character
+(&apos;_&apos;, &apos;2&apos;)</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="335" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="335" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1afad1c837eed2349231c208cfa1a41a7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.latex2mathml.tex_number</definition>
+        <argsstring>(string)</argsstring>
+        <name>tex_number</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.tex_number</qualifiedname>
+        <param>
+          <type>string</type>
+          <defname>string</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return leading number literal and remainder of `string`.
+
+&gt;&gt;&gt; tex_number(&apos;123.4&apos;)
+(&apos;123.4&apos;, &apos;&apos;)</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="370" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="370" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1aa99a36903913d43461af5eb0c3bb4869" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.latex2mathml.tex_token</definition>
+        <argsstring>(string)</argsstring>
+        <name>tex_token</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.tex_token</qualifiedname>
+        <param>
+          <type>string</type>
+          <defname>string</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return first simple TeX token and remainder of `string`.
+
+&gt;&gt;&gt; tex_token(&apos;\\command{without argument}&apos;)
+(&apos;\\command&apos;, &apos;{without argument}&apos;)
+&gt;&gt;&gt; tex_token(&apos;or first character&apos;)
+(&apos;o&apos;, &apos;r first character&apos;)</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="397" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="397" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a512641230f99674ce6efc1cc7b719c1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.latex2mathml.tex_group</definition>
+        <argsstring>(string)</argsstring>
+        <name>tex_group</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.tex_group</qualifiedname>
+        <param>
+          <type>string</type>
+          <defname>string</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return first TeX group or token and remainder of `string`.
+
+&gt;&gt;&gt; tex_group(&apos;{first group} returned without brackets&apos;)
+(&apos;first group&apos;, &apos; returned without brackets&apos;)</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="428" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="428" bodyend="476"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1aa3c983d5453dcf653966807c0d9b3c8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.latex2mathml.tex_token_or_group</definition>
+        <argsstring>(string)</argsstring>
+        <name>tex_token_or_group</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.tex_token_or_group</qualifiedname>
+        <param>
+          <type>string</type>
+          <defname>string</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return first TeX group or token and remainder of `string`.
+
+&gt;&gt;&gt; tex_token_or_group(&apos;\\command{without argument}&apos;)
+(&apos;\\command&apos;, &apos;{without argument}&apos;)
+&gt;&gt;&gt; tex_token_or_group(&apos;first character&apos;)
+(&apos;f&apos;, &apos;irst character&apos;)
+&gt;&gt;&gt; tex_token_or_group(&apos; also whitespace&apos;)
+(&apos; &apos;, &apos;also whitespace&apos;)
+&gt;&gt;&gt; tex_token_or_group(&apos;{first group} keep rest&apos;)
+(&apos;first group&apos;, &apos; keep rest&apos;)</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="477" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="477" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1aa756a7532dc8c1e9b816e9b019f6b5d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.latex2mathml.tex_optarg</definition>
+        <argsstring>(string)</argsstring>
+        <name>tex_optarg</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.tex_optarg</qualifiedname>
+        <param>
+          <type>string</type>
+          <defname>string</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return optional argument and remainder.
+
+&gt;&gt;&gt; tex_optarg(&apos;[optional argument] returned without brackets&apos;)
+(&apos;optional argument&apos;, &apos; returned without brackets&apos;)
+&gt;&gt;&gt; tex_optarg(&apos;{empty string, if there is no optional arg}&apos;)
+(&apos;&apos;, &apos;{empty string, if there is no optional arg}&apos;)</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="499" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="499" bodyend="531"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a20b78ac051a0019eac9eb5c4cd6dffa8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.latex2mathml.parse_latex_math</definition>
+        <argsstring>(root, source)</argsstring>
+        <name>parse_latex_math</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.parse_latex_math</qualifiedname>
+        <param>
+          <type>root</type>
+          <defname>root</defname>
+        </param>
+        <param>
+          <type>source</type>
+          <defname>source</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Append MathML conversion of `string` to `node` and return it.
+
+&gt;&gt;&gt; parse_latex_math(math(), r&apos;\alpha&apos;)
+math(mi(&apos;α&apos;))
+&gt;&gt;&gt; parse_latex_math(mrow(), r&apos;x_{n}&apos;)
+mrow(msub(mi(&apos;x&apos;), mi(&apos;n&apos;)))</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="532" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="532" bodyend="638"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1ae5c7ada3a1b7cda5cecaf857676b80e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.latex2mathml.handle_cmd</definition>
+        <argsstring>(name, node, string)</argsstring>
+        <name>handle_cmd</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.handle_cmd</qualifiedname>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <param>
+          <type>string</type>
+          <defname>string</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Process LaTeX command `name` followed by `string`.
+
+Append result to `node`.
+If needed, parse `string` for command argument.
+Return new current node and remainder of `string`:
+
+&gt;&gt;&gt; handle_cmd(&apos;hbar&apos;, math(), r&apos; \frac&apos;)
+(math(mi(&apos;ℏ&apos;)), &apos; \\frac&apos;)
+&gt;&gt;&gt; handle_cmd(&apos;hspace&apos;, math(), r&apos;{1ex} (x)&apos;)
+(math(mspace(width=&apos;1ex&apos;)), &apos; (x)&apos;)</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="639" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="639" bodyend="986"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1ac67796156830ada309e0f23209caa648" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.latex2mathml.handle_math_alphabet</definition>
+        <argsstring>(name, node, string)</argsstring>
+        <name>handle_math_alphabet</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.handle_math_alphabet</qualifiedname>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <param>
+          <type>string</type>
+          <defname>string</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="987" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="987" bodyend="1026"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a091dc98567e76fae52e8b13590a9caba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.latex2mathml.handle_script_or_limit</definition>
+        <argsstring>(node, c, limits=&apos;&apos;)</argsstring>
+        <name>handle_script_or_limit</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.handle_script_or_limit</qualifiedname>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <param>
+          <type>c</type>
+          <defname>c</defname>
+        </param>
+        <param>
+          <type>limits</type>
+          <defname>limits</defname>
+          <defval>&apos;&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Append script or limit element to `node`.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="1027" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="1027" bodyend="1059"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a3a06d4a9bb8de1031447a715d94c79b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.latex2mathml.begin_environment</definition>
+        <argsstring>(node, string)</argsstring>
+        <name>begin_environment</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.begin_environment</qualifiedname>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <param>
+          <type>string</type>
+          <defname>string</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="1060" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="1060" bodyend="1087"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a112ed13c5642dce7815501434b84da4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.latex2mathml.end_environment</definition>
+        <argsstring>(node, string)</argsstring>
+        <name>end_environment</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.end_environment</qualifiedname>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <param>
+          <type>string</type>
+          <defname>string</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="1088" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="1088" bodyend="1104"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a7dd4ccda5e96ae14474709fceda30f8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.latex2mathml.tex_equation_columns</definition>
+        <argsstring>(rows)</argsstring>
+        <name>tex_equation_columns</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.tex_equation_columns</qualifiedname>
+        <param>
+          <type>rows</type>
+          <defname>rows</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="1105" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="1105" bodyend="1123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1a48d3b58e630dce06af59644e6ea73da3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.latex2mathml.align_attributes</definition>
+        <argsstring>(rows)</argsstring>
+        <name>align_attributes</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.align_attributes</qualifiedname>
+        <param>
+          <type>rows</type>
+          <defname>rows</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="1124" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="1124" bodyend="1149"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1math_1_1latex2mathml_1ae8b6fb317b0f393bc94b110e50fcd5eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.latex2mathml.tex2mathml</definition>
+        <argsstring>(tex_math, as_block=False)</argsstring>
+        <name>tex2mathml</name>
+        <qualifiedname>docutils.utils.math.latex2mathml.tex2mathml</qualifiedname>
+        <param>
+          <type>tex_math</type>
+          <defname>tex_math</defname>
+        </param>
+        <param>
+          <type>as_block</type>
+          <defname>as_block</defname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return string with MathML code corresponding to `tex_math`.
+
+Set `as_block` to ``True`` for displayed formulas.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="1150" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" bodystart="1150" bodyend="1253"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Convert LaTex maths code into presentational MathML.
+
+This module is provisional:
+the API is not settled and may change with any minor Docutils version.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/docutils/utils/math/latex2mathml.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

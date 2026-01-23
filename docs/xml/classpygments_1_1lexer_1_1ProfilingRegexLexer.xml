@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpygments_1_1lexer_1_1ProfilingRegexLexer" kind="class" language="Python" prot="public">
+    <compoundname>pygments::lexer::ProfilingRegexLexer</compoundname>
+    <basecompoundref refid="classpygments_1_1lexer_1_1RegexLexer" prot="public" virt="non-virtual">pygments.lexer.RegexLexer</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">metaclass</basecompoundref>
+    <basecompoundref refid="classpygments_1_1lexer_1_1ProfilingRegexLexerMeta" prot="public" virt="non-virtual">pygments.lexer.ProfilingRegexLexerMeta</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classpygments_1_1lexer_1_1ProfilingRegexLexer_1a155d37504b2763a92c1379387af1319f" prot="protected" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list pygments.lexer.ProfilingRegexLexer::_prof_data</definition>
+        <argsstring></argsstring>
+        <name>_prof_data</name>
+        <qualifiedname>pygments.lexer.ProfilingRegexLexer._prof_data</qualifiedname>
+        <initializer>=  []</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexer.py" line="938" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexer.py" bodystart="938" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexer_1_1ProfilingRegexLexer_1afffcb45a84ec01928b3ba863ba81f8fb" prot="protected" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int pygments.lexer.ProfilingRegexLexer::_prof_sort_index</definition>
+        <argsstring></argsstring>
+        <name>_prof_sort_index</name>
+        <qualifiedname>pygments.lexer.ProfilingRegexLexer._prof_sort_index</qualifiedname>
+        <initializer>=  4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexer.py" line="939" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexer.py" bodystart="939" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpygments_1_1lexer_1_1ProfilingRegexLexer_1ad88b56b02a60b1b2febfac51111fb2a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pygments.lexer.ProfilingRegexLexer.get_tokens_unprocessed</definition>
+        <argsstring>(self, text, stack=(&apos;root&apos;,))</argsstring>
+        <name>get_tokens_unprocessed</name>
+        <qualifiedname>pygments.lexer.ProfilingRegexLexer.get_tokens_unprocessed</qualifiedname>
+        <reimplements refid="classpygments_1_1lexer_1_1RegexLexer_1a56bd1a609a7e589293afd2d71637f91a">get_tokens_unprocessed</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>text</type>
+          <defname>text</defname>
+        </param>
+        <param>
+          <type>stack</type>
+          <defname>stack</defname>
+          <defval>(&apos;root&apos;,)</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Split ``text`` into (tokentype, text) pairs.
+
+``stack`` is the initial stack (default: ``[&apos;root&apos;]``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexer.py" line="941" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexer.py" bodystart="941" bodyend="962"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Drop-in replacement for RegexLexer that does profiling of its regexes.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.lexer.ProfilingRegexLexer</label>
+        <link refid="classpygments_1_1lexer_1_1ProfilingRegexLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>pygments.lexer.ProfilingRegexLexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1ProfilingRegexLexerMeta"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexer.RegexLexer</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>pygments.lexer.RegexLexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.lexer.ProfilingRegexLexer</label>
+        <link refid="classpygments_1_1lexer_1_1ProfilingRegexLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>pygments.lexer.ProfilingRegexLexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1ProfilingRegexLexerMeta"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexer.RegexLexer</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>pygments.lexer.RegexLexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexerMeta"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pygments/lexer.py" line="935" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexer.py" bodystart="935" bodyend="962"/>
+    <listofallmembers>
+      <member refid="classpygments_1_1lexer_1_1ProfilingRegexLexer_1a155d37504b2763a92c1379387af1319f" prot="protected" virt="non-virtual"><scope>pygments::lexer::ProfilingRegexLexer</scope><name>_prof_data</name></member>
+      <member refid="classpygments_1_1lexer_1_1ProfilingRegexLexer_1afffcb45a84ec01928b3ba863ba81f8fb" prot="protected" virt="non-virtual"><scope>pygments::lexer::ProfilingRegexLexer</scope><name>_prof_sort_index</name></member>
+      <member refid="classpygments_1_1lexer_1_1ProfilingRegexLexer_1ad88b56b02a60b1b2febfac51111fb2a2" prot="public" virt="non-virtual"><scope>pygments::lexer::ProfilingRegexLexer</scope><name>get_tokens_unprocessed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

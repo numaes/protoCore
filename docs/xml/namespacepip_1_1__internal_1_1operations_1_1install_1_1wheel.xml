@@ -1,0 +1,481 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1operations_1_1install_1_1wheel" kind="namespace" language="Python">
+    <compoundname>pip::_internal::operations::install::wheel</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1operations_1_1install_1_1wheel_1_1File" prot="public">pip::_internal::operations::install::wheel::File</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1operations_1_1install_1_1wheel_1_1MissingCallableSuffix" prot="public">pip::_internal::operations::install::wheel::MissingCallableSuffix</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1operations_1_1install_1_1wheel_1_1PipScriptMaker" prot="public">pip::_internal::operations::install::wheel::PipScriptMaker</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1operations_1_1install_1_1wheel_1_1ScriptFile" prot="public">pip::_internal::operations::install::wheel::ScriptFile</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1operations_1_1install_1_1wheel_1_1ZipBackedFile" prot="public">pip::_internal::operations::install::wheel::ZipBackedFile</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1operations_1_1install_1_1wheel_1a7ea6a5636c15a59204a7f90ab0a5bd3f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::operations::install::wheel.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.operations.install.wheel.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" line="74" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1operations_1_1install_1_1wheel_1aa83c7ecb8dd69b844ed57ed1fa3a7209" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::operations::install::wheel.RecordPath</definition>
+        <argsstring></argsstring>
+        <name>RecordPath</name>
+        <qualifiedname>pip._internal.operations.install.wheel.RecordPath</qualifiedname>
+        <initializer>=  NewType(&quot;RecordPath&quot;, str)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" line="76" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1operations_1_1install_1_1wheel_1abc61841c3e2aeebdb596030b6f827a62" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::operations::install::wheel.InstalledCSVRow</definition>
+        <argsstring></argsstring>
+        <name>InstalledCSVRow</name>
+        <qualifiedname>pip._internal.operations.install.wheel.InstalledCSVRow</qualifiedname>
+        <initializer>=  Tuple[<ref refid="namespacepip_1_1__internal_1_1operations_1_1install_1_1wheel_1aa83c7ecb8dd69b844ed57ed1fa3a7209" kindref="member">RecordPath</ref>, str, Union[int, str]]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" line="77" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1install_1_1wheel_1a478b91aed8c1980f16157946dbb6be5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[str, str]</type>
+        <definition> Tuple[str, str] pip._internal.operations.install.wheel.rehash</definition>
+        <argsstring>(str path, int blocksize=1&lt;&lt; 20)</argsstring>
+        <name>rehash</name>
+        <qualifiedname>pip._internal.operations.install.wheel.rehash</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>blocksize</declname>
+          <defval>1&lt;&lt; 20</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return (encoded_digest, length) for path using hashlib.sha256()</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" line="80" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" bodystart="80" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1install_1_1wheel_1a763c68f9a0f9d551f44896ba9fdfdfdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Dict[str, Any]</type>
+        <definition> Dict[str, Any] pip._internal.operations.install.wheel.csv_io_kwargs</definition>
+        <argsstring>(str mode)</argsstring>
+        <name>csv_io_kwargs</name>
+        <qualifiedname>pip._internal.operations.install.wheel.csv_io_kwargs</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return keyword arguments to properly open a CSV file
+in the given mode.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" line="87" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" bodystart="87" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1install_1_1wheel_1a162267d52f24ff2f69a2dc9d7ba23d93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.operations.install.wheel.fix_script</definition>
+        <argsstring>(str path)</argsstring>
+        <name>fix_script</name>
+        <qualifiedname>pip._internal.operations.install.wheel.fix_script</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Replace #!python with #!/path/to/python
+Return True if file was changed.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" line="94" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" bodystart="94" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1install_1_1wheel_1a29b7362189c5c93f98180d204ac834dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.operations.install.wheel.wheel_root_is_purelib</definition>
+        <argsstring>(Message metadata)</argsstring>
+        <name>wheel_root_is_purelib</name>
+        <qualifiedname>pip._internal.operations.install.wheel.wheel_root_is_purelib</qualifiedname>
+        <param>
+          <type>Message</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" line="114" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" bodystart="114" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1install_1_1wheel_1a9bce2ed414094aa3b8c601f1e7d24e9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[Dict[str, str], Dict[str, str]]</type>
+        <definition> Tuple[Dict[str, str], Dict[str, str]] pip._internal.operations.install.wheel.get_entrypoints</definition>
+        <argsstring>(BaseDistribution dist)</argsstring>
+        <name>get_entrypoints</name>
+        <qualifiedname>pip._internal.operations.install.wheel.get_entrypoints</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" kindref="compound">BaseDistribution</ref></type>
+          <declname>dist</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" line="118" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" bodystart="118" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1install_1_1wheel_1a093087ca804547d24b0b892878e01532" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._internal.operations.install.wheel.message_about_scripts_not_on_PATH</definition>
+        <argsstring>(Sequence[str] scripts)</argsstring>
+        <name>message_about_scripts_not_on_PATH</name>
+        <qualifiedname>pip._internal.operations.install.wheel.message_about_scripts_not_on_PATH</qualifiedname>
+        <param>
+          <type>Sequence</type>
+          <declname>scripts</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Determine if any scripts are not on PATH and format a warning.
+Returns a warning message if one or more scripts are not on PATH,
+otherwise None.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" line="129" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" bodystart="129" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1install_1_1wheel_1ad9bc6930e2208e3550bfc6f38c34e339" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[Tuple[str, str, str]]</type>
+        <definition> List[Tuple[str, str, str]] pip._internal.operations.install.wheel._normalized_outrows</definition>
+        <argsstring>(Iterable[InstalledCSVRow] outrows)</argsstring>
+        <name>_normalized_outrows</name>
+        <qualifiedname>pip._internal.operations.install.wheel._normalized_outrows</qualifiedname>
+        <param>
+          <type>Iterable</type>
+          <declname>outrows</declname>
+          <array>[InstalledCSVRow]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Normalize the given rows of a RECORD file.
+
+Items in each row are converted into str. Rows are then sorted to make
+the value more predictable for tests.
+
+Each row is a 3-tuple (path, hash, size) and corresponds to a record of
+a RECORD file (see PEP 376 and PEP 427 for details).  For the rows
+passed to this function, the size can be an integer as an int or string,
+or the empty string.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" line="201" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" bodystart="203" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1install_1_1wheel_1ad8889703316f088749dca4346d4d8798" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.operations.install.wheel._record_to_fs_path</definition>
+        <argsstring>(RecordPath record_path, str lib_dir)</argsstring>
+        <name>_record_to_fs_path</name>
+        <qualifiedname>pip._internal.operations.install.wheel._record_to_fs_path</qualifiedname>
+        <param>
+          <type><ref refid="namespacepip_1_1__internal_1_1operations_1_1install_1_1wheel_1aa83c7ecb8dd69b844ed57ed1fa3a7209" kindref="member">RecordPath</ref></type>
+          <declname>record_path</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>lib_dir</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" line="227" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" bodystart="227" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1install_1_1wheel_1a596e6d7128eebf1c7516faafa3058d31" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepip_1_1__internal_1_1operations_1_1install_1_1wheel_1aa83c7ecb8dd69b844ed57ed1fa3a7209" kindref="member">RecordPath</ref></type>
+        <definition> RecordPath pip._internal.operations.install.wheel._fs_to_record_path</definition>
+        <argsstring>(str path, str lib_dir)</argsstring>
+        <name>_fs_to_record_path</name>
+        <qualifiedname>pip._internal.operations.install.wheel._fs_to_record_path</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>lib_dir</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" line="231" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" bodystart="231" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1install_1_1wheel_1a91c7cea95617ac2f2ca12fc52c040a4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[<ref refid="namespacepip_1_1__internal_1_1operations_1_1install_1_1wheel_1abc61841c3e2aeebdb596030b6f827a62" kindref="member">InstalledCSVRow</ref>]</type>
+        <definition> List[InstalledCSVRow] pip._internal.operations.install.wheel.get_csv_rows_for_installed</definition>
+        <argsstring>(List[List[str]] old_csv_rows, Dict[RecordPath, RecordPath] installed, Set[RecordPath] changed, List[str] generated, str lib_dir)</argsstring>
+        <name>get_csv_rows_for_installed</name>
+        <qualifiedname>pip._internal.operations.install.wheel.get_csv_rows_for_installed</qualifiedname>
+        <param>
+          <type>List]</type>
+          <declname>old_csv_rows</declname>
+          <array>[List[str]</array>
+        </param>
+        <param>
+          <type>Dict</type>
+          <declname>installed</declname>
+          <array>[RecordPath, RecordPath]</array>
+        </param>
+        <param>
+          <type>Set</type>
+          <declname>changed</declname>
+          <array>[RecordPath]</array>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>generated</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>lib_dir</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>:param installed: A map from archive RECORD path to installation RECORD
+    path.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" line="241" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" bodystart="247" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1install_1_1wheel_1ae5b5343be5f3f3c9b4b708a681647227" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[str]</type>
+        <definition> List[str] pip._internal.operations.install.wheel.get_console_script_specs</definition>
+        <argsstring>(Dict[str, str] console)</argsstring>
+        <name>get_console_script_specs</name>
+        <qualifiedname>pip._internal.operations.install.wheel.get_console_script_specs</qualifiedname>
+        <param>
+          <type>Dict</type>
+          <declname>console</declname>
+          <array>[str, str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Given the mapping from entrypoint name to callable, return the relevant
+console script specs.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" line="273" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" bodystart="273" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1install_1_1wheel_1ab5eb8df0f2cba4d318c1c23e2ba49d21" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.operations.install.wheel._raise_for_invalid_entrypoint</definition>
+        <argsstring>(str specification)</argsstring>
+        <name>_raise_for_invalid_entrypoint</name>
+        <qualifiedname>pip._internal.operations.install.wheel._raise_for_invalid_entrypoint</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>specification</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" line="412" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" bodystart="412" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1install_1_1wheel_1a52407186588cf17b322f2c3479986164" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.operations.install.wheel._install_wheel</definition>
+        <argsstring>(str name, ZipFile wheel_zip, str wheel_path, Scheme scheme, bool pycompile=True, bool warn_script_location=True, Optional[DirectUrl] direct_url=None, bool requested=False)</argsstring>
+        <name>_install_wheel</name>
+        <qualifiedname>pip._internal.operations.install.wheel._install_wheel</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>ZipFile</type>
+          <declname>wheel_zip</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>wheel_path</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1models_1_1scheme_1_1Scheme" kindref="compound">Scheme</ref></type>
+          <declname>scheme</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>pycompile</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>warn_script_location</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>direct_url</declname>
+          <array>[DirectUrl]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>requested</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Install a wheel.
+
+:param name: Name of the project to install
+:param wheel_zip: open ZipFile for wheel being installed
+:param scheme: Distutils scheme dictating the install directories
+:param req_description: String used in place of the requirement, for
+    logging
+:param pycompile: Whether to byte-compile installed Python files
+:param warn_script_location: Whether to check that scripts are installed
+    into a directory on PATH
+:raises UnsupportedWheel:
+    * when the directory holds an unpacked wheel with incompatible
+      Wheel-Version
+    * when the .dist-info dir does not match the wheel
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" line="426" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" bodystart="435" bodyend="704"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1install_1_1wheel_1a03c95f6229c87c89e57187766bd63b5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Generator[None, None, None]</type>
+        <definition> Generator[None, None, None] pip._internal.operations.install.wheel.req_error_context</definition>
+        <argsstring>(str req_description)</argsstring>
+        <name>req_error_context</name>
+        <qualifiedname>pip._internal.operations.install.wheel.req_error_context</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>req_description</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" line="705" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" bodystart="705" bodyend="712"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1operations_1_1install_1_1wheel_1a6af9aebeddf288d227a465092696b9c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.operations.install.wheel.install_wheel</definition>
+        <argsstring>(str name, str wheel_path, Scheme scheme, str req_description, bool pycompile=True, bool warn_script_location=True, Optional[DirectUrl] direct_url=None, bool requested=False)</argsstring>
+        <name>install_wheel</name>
+        <qualifiedname>pip._internal.operations.install.wheel.install_wheel</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>wheel_path</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1models_1_1scheme_1_1Scheme" kindref="compound">Scheme</ref></type>
+          <declname>scheme</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>req_description</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>pycompile</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>warn_script_location</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>direct_url</declname>
+          <array>[DirectUrl]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>requested</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" line="713" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" bodystart="722" bodyend="735"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Support for installing and building the &quot;wheel&quot; binary package format.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/operations/install/wheel.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

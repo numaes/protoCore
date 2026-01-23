@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacedocutils_1_1utils_1_1math_1_1tex2mathml__extern" kind="namespace" language="Python">
+    <compoundname>docutils::utils::math::tex2mathml_extern</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1tex2mathml__extern_1a6032c94335a814487bfa460104878d3b" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str docutils::utils::math::tex2mathml_extern.document_template</definition>
+        <argsstring></argsstring>
+        <name>document_template</name>
+        <qualifiedname>docutils.utils.math.tex2mathml_extern.document_template</qualifiedname>
+        <initializer>=  r&quot;&quot;&quot;\documentclass{article}
+\begin{document}
+%s
+\end{document}
+&quot;&quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/tex2mathml_extern.py" line="24" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/tex2mathml_extern.py" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1tex2mathml__extern_1a18bf4acbf50cda658b641f44a390af35" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils::utils::math::tex2mathml_extern.example</definition>
+        <argsstring></argsstring>
+        <name>example</name>
+        <qualifiedname>docutils.utils.math.tex2mathml_extern.example</qualifiedname>
+        <initializer>=  (r&apos;\frac{\partial \sin^2(\alpha)}{\partial \vec r}&apos;
+               r&apos;\varpi \mathbb{R} \, \text{Grüße}&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/tex2mathml_extern.py" line="221" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/tex2mathml_extern.py" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacedocutils_1_1utils_1_1math_1_1tex2mathml__extern_1a6790cec8acf3792fb7f6c98187f8d78f" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str docutils::utils::math::tex2mathml_extern.buggy</definition>
+        <argsstring></argsstring>
+        <name>buggy</name>
+        <qualifiedname>docutils.utils.math.tex2mathml_extern.buggy</qualifiedname>
+        <initializer>=  r&apos;\sinc \phy&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/tex2mathml_extern.py" line="250" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/tex2mathml_extern.py" bodystart="250" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1math_1_1tex2mathml__extern_1a1190ca95e51df38bcee72f24e9a584e3" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.tex2mathml_extern._check_result</definition>
+        <argsstring>(result, details=[])</argsstring>
+        <name>_check_result</name>
+        <qualifiedname>docutils.utils.math.tex2mathml_extern._check_result</qualifiedname>
+        <param>
+          <type>result</type>
+          <defname>result</defname>
+        </param>
+        <param>
+          <type>details</type>
+          <defname>details</defname>
+          <defval>[]</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/tex2mathml_extern.py" line="31" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/tex2mathml_extern.py" bodystart="31" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1math_1_1tex2mathml__extern_1a51354415a263e909e336eb67543d87e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.tex2mathml_extern.blahtexml</definition>
+        <argsstring>(math_code, as_block=False)</argsstring>
+        <name>blahtexml</name>
+        <qualifiedname>docutils.utils.math.tex2mathml_extern.blahtexml</qualifiedname>
+        <param>
+          <type>math_code</type>
+          <defname>math_code</defname>
+        </param>
+        <param>
+          <type>as_block</type>
+          <defname>as_block</defname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert LaTeX math code to MathML with blahtexml__.
+
+__ http://gva.noekeon.org/blahtexml/
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/tex2mathml_extern.py" line="48" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/tex2mathml_extern.py" bodystart="48" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1math_1_1tex2mathml__extern_1ae6e3b4a245ed109f244670e699dc4209" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.tex2mathml_extern.latexml</definition>
+        <argsstring>(math_code, as_block=False)</argsstring>
+        <name>latexml</name>
+        <qualifiedname>docutils.utils.math.tex2mathml_extern.latexml</qualifiedname>
+        <param>
+          <type>math_code</type>
+          <defname>math_code</defname>
+        </param>
+        <param>
+          <type>as_block</type>
+          <defname>as_block</defname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert LaTeX math code to MathML with LaTeXML__.
+
+Comprehensive macro support but **very** slow.
+
+__ http://dlmf.nist.gov/LaTeXML/
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/tex2mathml_extern.py" line="84" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/tex2mathml_extern.py" bodystart="84" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1math_1_1tex2mathml__extern_1a8642ec69f108d0335b9a610090ade3ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.tex2mathml_extern.pandoc</definition>
+        <argsstring>(math_code, as_block=False)</argsstring>
+        <name>pandoc</name>
+        <qualifiedname>docutils.utils.math.tex2mathml_extern.pandoc</qualifiedname>
+        <param>
+          <type>math_code</type>
+          <defname>math_code</defname>
+        </param>
+        <param>
+          <type>as_block</type>
+          <defname>as_block</defname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert LaTeX math code to MathML with pandoc__.
+
+__ https://pandoc.org/
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/tex2mathml_extern.py" line="153" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/tex2mathml_extern.py" bodystart="153" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1math_1_1tex2mathml__extern_1adbc1fd64af6dcc191bae55a906b6a973" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.tex2mathml_extern.ttm</definition>
+        <argsstring>(math_code, as_block=False)</argsstring>
+        <name>ttm</name>
+        <qualifiedname>docutils.utils.math.tex2mathml_extern.ttm</qualifiedname>
+        <param>
+          <type>math_code</type>
+          <defname>math_code</defname>
+        </param>
+        <param>
+          <type>as_block</type>
+          <defname>as_block</defname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert LaTeX math code to MathML with TtM__.
+
+Aged, limited, but fast.
+
+__ http://silas.psfc.mit.edu/tth/mml/
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/tex2mathml_extern.py" line="185" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/tex2mathml_extern.py" bodystart="185" bodyend="219"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Wrappers for TeX-&gt;MathML conversion by external tools
+
+This module is provisional:
+the API is not settled and may change with any minor Docutils version.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/docutils/utils/math/tex2mathml_extern.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

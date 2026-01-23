@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1application_1_1TemplateBridge" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::application::TemplateBridge</compoundname>
+    <derivedcompoundref refid="classsphinx_1_1jinja2glue_1_1BuiltinTemplateLoader" prot="public" virt="non-virtual">sphinx.jinja2glue.BuiltinTemplateLoader</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1application_1_1TemplateBridge_1a2d054c4a6ef5aa227fe72f3f088450b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.application.TemplateBridge.init</definition>
+        <argsstring>(self, Builder builder, Theme|None theme=None, list[str]|None dirs=None)</argsstring>
+        <name>init</name>
+        <qualifiedname>sphinx.application.TemplateBridge.init</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1jinja2glue_1_1BuiltinTemplateLoader_1a871c1ce79da8c17476d1cfd43af7e05c">init</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1builders_1_1Builder" kindref="compound">Builder</ref></type>
+          <declname>builder</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1theming_1_1Theme" kindref="compound">Theme</ref>|None</type>
+          <declname>theme</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>list|None</type>
+          <declname>dirs</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Called by the builder to initialize the template system.
+
+*builder* is the builder object; you&apos;ll probably want to look at the
+value of ``builder.config.templates_path``.
+
+*theme* is a :class:`sphinx.theming.Theme` object or None; in the latter
+case, *dirs* can be list of fixed directories to look for templates.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/application.py" line="1820" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/application.py" bodystart="1825" bodyend="1836"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1application_1_1TemplateBridge_1ae35e332919adf688ca290f0957c5deeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition> float sphinx.application.TemplateBridge.newest_template_mtime</definition>
+        <argsstring>(self)</argsstring>
+        <name>newest_template_mtime</name>
+        <qualifiedname>sphinx.application.TemplateBridge.newest_template_mtime</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1jinja2glue_1_1BuiltinTemplateLoader_1a4c330f9ea19431f2613c4ebcde5c938d">newest_template_mtime</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Called by the builder to determine if output files are outdated
+because of template changes.  Return the mtime of the newest template
+file that was changed.  The default implementation returns ``0``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/application.py" line="1837" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/application.py" bodystart="1837" bodyend="1843"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1application_1_1TemplateBridge_1a98905403a6b45a97dda798d792d13f1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.application.TemplateBridge.render</definition>
+        <argsstring>(self, str template, dict[str, Any] context)</argsstring>
+        <name>render</name>
+        <qualifiedname>sphinx.application.TemplateBridge.render</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1jinja2glue_1_1BuiltinTemplateLoader_1a558f7872c32d2481f935304cf107d4e5">render</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>template</declname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>context</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Called by the builder to render a template given as a filename with
+a specified context (a Python dictionary).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/application.py" line="1844" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/application.py" bodystart="1844" bodyend="1850"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1application_1_1TemplateBridge_1abeb3280094e147d0febde9febf255f7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.application.TemplateBridge.render_string</definition>
+        <argsstring>(self, str template, dict[str, Any] context)</argsstring>
+        <name>render_string</name>
+        <qualifiedname>sphinx.application.TemplateBridge.render_string</qualifiedname>
+        <reimplementedby refid="classsphinx_1_1jinja2glue_1_1BuiltinTemplateLoader_1a9c5d3e2141b76288bfe88ce94436471e">render_string</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>template</declname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>context</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Called by the builder to render a template given as a string with a
+specified context (a Python dictionary).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/application.py" line="1851" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/application.py" bodystart="1851" bodyend="1857"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>This class defines the interface for a &quot;template bridge&quot;, that is, a class
+that renders templates given a template name and a context.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>sphinx.application.TemplateBridge</label>
+        <link refid="classsphinx_1_1application_1_1TemplateBridge"/>
+      </node>
+      <node id="2">
+        <label>sphinx.jinja2glue.BuiltinTemplateLoader</label>
+        <link refid="classsphinx_1_1jinja2glue_1_1BuiltinTemplateLoader"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/application.py" line="1815" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/application.py" bodystart="1815" bodyend="1857"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1application_1_1TemplateBridge_1a2d054c4a6ef5aa227fe72f3f088450b3" prot="public" virt="non-virtual"><scope>sphinx::application::TemplateBridge</scope><name>init</name></member>
+      <member refid="classsphinx_1_1application_1_1TemplateBridge_1ae35e332919adf688ca290f0957c5deeb" prot="public" virt="non-virtual"><scope>sphinx::application::TemplateBridge</scope><name>newest_template_mtime</name></member>
+      <member refid="classsphinx_1_1application_1_1TemplateBridge_1a98905403a6b45a97dda798d792d13f1a" prot="public" virt="non-virtual"><scope>sphinx::application::TemplateBridge</scope><name>render</name></member>
+      <member refid="classsphinx_1_1application_1_1TemplateBridge_1abeb3280094e147d0febde9febf255f7d" prot="public" virt="non-virtual"><scope>sphinx::application::TemplateBridge</scope><name>render_string</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

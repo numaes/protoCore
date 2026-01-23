@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classurllib3_1_1contrib_1_1socks_1_1SOCKSHTTPSConnection" kind="class" language="Python" prot="public">
+    <compoundname>urllib3::contrib::socks::SOCKSHTTPSConnection</compoundname>
+    <basecompoundref refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSConnection" prot="public" virt="non-virtual">urllib3.contrib.socks.SOCKSConnection</basecompoundref>
+    <basecompoundref refid="classurllib3_1_1connection_1_1HTTPSConnection" prot="public" virt="non-virtual">urllib3.connection.HTTPSConnection</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>_HTTPConnection</label>
+      </node>
+      <node id="1">
+        <label>urllib3.contrib.socks.SOCKSHTTPSConnection</label>
+        <link refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSHTTPSConnection"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>urllib3.connection.HTTPConnection</label>
+        <link refid="classurllib3_1_1connection_1_1HTTPConnection"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>urllib3.connection.HTTPSConnection</label>
+        <link refid="classurllib3_1_1connection_1_1HTTPSConnection"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>urllib3.contrib.socks.SOCKSConnection</label>
+        <link refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSConnection"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>_HTTPConnection</label>
+      </node>
+      <node id="9">
+        <label>str</label>
+      </node>
+      <node id="5">
+        <label>typing</label>
+      </node>
+      <node id="8">
+        <label>typing.NamedTuple</label>
+      </node>
+      <node id="1">
+        <label>urllib3.contrib.socks.SOCKSHTTPSConnection</label>
+        <link refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSHTTPSConnection"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="10" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>urllib3._base_connection._ResponseOptions</label>
+        <link refid="classurllib3_1_1__base__connection_1_1__ResponseOptions"/>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>request_method</edgelabel>
+          <edgelabel>request_url</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>urllib3.connection.HTTPConnection</label>
+        <link refid="classurllib3_1_1connection_1_1HTTPConnection"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>default_port</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>socket_options</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>_response_options</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>_tunnel_host</edgelabel>
+          <edgelabel>_tunnel_scheme</edgelabel>
+        </childnode>
+      </node>
+      <node id="10">
+        <label>urllib3.connection.HTTPSConnection</label>
+        <link refid="classurllib3_1_1connection_1_1HTTPSConnection"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>assert_fingerprint</edgelabel>
+          <edgelabel>ca_cert_dir</edgelabel>
+          <edgelabel>ca_certs</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>_connect_callback</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>urllib3.contrib.socks.SOCKSConnection</label>
+        <link refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSConnection"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>connection</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/urllib3/contrib/socks.py" line="161" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/socks.py" bodystart="161" bodyend="164"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

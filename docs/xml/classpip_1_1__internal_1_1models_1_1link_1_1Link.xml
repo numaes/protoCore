@@ -1,0 +1,953 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1models_1_1link_1_1Link" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::models::link::Link</compoundname>
+    <basecompoundref refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin" prot="public" virt="non-virtual">pip._internal.utils.models.KeyBasedCompareMixin</basecompoundref>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1ab93d887d8a5822435a2fd30f4299898e" prot="private" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list pip._internal.models.link.Link::__slots__</definition>
+        <argsstring></argsstring>
+        <name>__slots__</name>
+        <qualifiedname>pip._internal.models.link.Link.__slots__</qualifiedname>
+        <initializer>=  [
+        &quot;_parsed_url&quot;,
+        &quot;_url&quot;,
+        &quot;_hashes&quot;,
+        &quot;comes_from&quot;,
+        &quot;requires_python&quot;,
+        &quot;yanked_reason&quot;,
+        &quot;metadata_file_data&quot;,
+        &quot;cache_link_parsing&quot;,
+        &quot;egg_fragment&quot;,
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="185" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="185" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a95651e61aa9f23805824835c9d4c086e" prot="protected" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._internal.models.link.Link::_egg_fragment_re</definition>
+        <argsstring></argsstring>
+        <name>_egg_fragment_re</name>
+        <qualifiedname>pip._internal.models.link.Link._egg_fragment_re</qualifiedname>
+        <initializer>=  re.compile(r&quot;[#&amp;]egg=([^&amp;]*)&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="427" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="427" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a28a8618d3d7451a8becd34ec8fead66d" prot="protected" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._internal.models.link.Link::_project_name_re</definition>
+        <argsstring></argsstring>
+        <name>_project_name_re</name>
+        <qualifiedname>pip._internal.models.link.Link._project_name_re</qualifiedname>
+        <initializer>=  re.compile(
+        r&quot;^([A-Z0-9]|[A-Z0-9][A-Z0-9._-]*[A-Z0-9])$&quot;, re.IGNORECASE
+    )</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="430" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="430" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1ab54813b8c61bc78b931e0df07be306da" prot="protected" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._internal.models.link.Link::_subdirectory_fragment_re</definition>
+        <argsstring></argsstring>
+        <name>_subdirectory_fragment_re</name>
+        <qualifiedname>pip._internal.models.link.Link._subdirectory_fragment_re</qualifiedname>
+        <initializer>=  re.compile(r&quot;[#&amp;]subdirectory=([^&amp;]*)&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="452" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="452" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a2bc6f4e878cb4031b3e1a0da05f7c982" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.models.link.Link::_parsed_url</definition>
+        <argsstring></argsstring>
+        <name>_parsed_url</name>
+        <qualifiedname>pip._internal.models.link.Link._parsed_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="240" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1aec0519677d734b7e5c29ba9218da689d" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.models.link.Link::_url</definition>
+        <argsstring></argsstring>
+        <name>_url</name>
+        <qualifiedname>pip._internal.models.link.Link._url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="243" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a48c0d230c340a21fd28050d07c3dcc5c" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.models.link.Link::_hashes</definition>
+        <argsstring></argsstring>
+        <name>_hashes</name>
+        <qualifiedname>pip._internal.models.link.Link._hashes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="248" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="248" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1aed0fb4d4320bf51a309c719ef452ec7f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.models.link.Link::comes_from</definition>
+        <argsstring></argsstring>
+        <name>comes_from</name>
+        <qualifiedname>pip._internal.models.link.Link.comes_from</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="252" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1afbf7631c356c23c439f39b35407161dd" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.models.link.Link::requires_python</definition>
+        <argsstring></argsstring>
+        <name>requires_python</name>
+        <qualifiedname>pip._internal.models.link.Link.requires_python</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="253" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1af68edcd6a5a6f4c22ea34802fbd83e9c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.models.link.Link::yanked_reason</definition>
+        <argsstring></argsstring>
+        <name>yanked_reason</name>
+        <qualifiedname>pip._internal.models.link.Link.yanked_reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="254" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1abac655fca8b079dae2a59e2c721bdd48" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.models.link.Link::metadata_file_data</definition>
+        <argsstring></argsstring>
+        <name>metadata_file_data</name>
+        <qualifiedname>pip._internal.models.link.Link.metadata_file_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="255" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a67c7b7d876a4d8531d504aca2238202e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.models.link.Link::cache_link_parsing</definition>
+        <argsstring></argsstring>
+        <name>cache_link_parsing</name>
+        <qualifiedname>pip._internal.models.link.Link.cache_link_parsing</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="259" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a769d8eec219cd78b2717dc057699d74a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.models.link.Link::egg_fragment</definition>
+        <argsstring></argsstring>
+        <name>egg_fragment</name>
+        <qualifiedname>pip._internal.models.link.Link.egg_fragment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="260" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1af67004cdb29d12b7420984c694262af3" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.models.link.Link::url</definition>
+        <argsstring></argsstring>
+        <name>url</name>
+        <qualifiedname>pip._internal.models.link.Link.url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="398" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="398" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1afdca198c0e56ff076b7d7eaef8be922e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.models.link.Link::scheme</definition>
+        <argsstring></argsstring>
+        <name>scheme</name>
+        <qualifiedname>pip._internal.models.link.Link.scheme</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="487" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="487" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a6542bec4aeec14279b094156837dedea" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.models.link.Link::file_path</definition>
+        <argsstring></argsstring>
+        <name>file_path</name>
+        <qualifiedname>pip._internal.models.link.Link.file_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="490" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="490" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a638d7375efa13338c3579494c34ed159" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.models.link.Link::ext</definition>
+        <argsstring></argsstring>
+        <name>ext</name>
+        <qualifiedname>pip._internal.models.link.Link.ext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="494" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="494" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a6aba3315fe8ca6a3d7326281ee97e499" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.models.link.Link.__init__</definition>
+        <argsstring>(self, str url, Optional[Union[str, &quot;IndexContent&quot;]] comes_from=None, Optional[str] requires_python=None, Optional[str] yanked_reason=None, Optional[MetadataFile] metadata_file_data=None, bool cache_link_parsing=True, Optional[Mapping[str, str]] hashes=None)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._internal.models.link.Link.__init__</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin_1a950e91d92415e612eb35fc20abea380a">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <declname>comes_from</declname>
+          <array>[Union[str, &quot;IndexContent&quot;]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>requires_python</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>yanked_reason</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>metadata_file_data</declname>
+          <array>[MetadataFile]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>cache_link_parsing</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <declname>hashes</declname>
+          <array>[Mapping[str, str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>:param url: url of the resource pointed to (href of the link)
+:param comes_from: instance of IndexContent where the link was found,
+    or string.
+:param requires_python: String containing the `Requires-Python`
+    metadata field, specified in PEP 345. This may be specified by
+    a data-requires-python attribute in the HTML link tag, as
+    described in PEP 503.
+:param yanked_reason: the reason the file has been yanked, if the
+    file has been yanked, or None if the file hasn&apos;t been yanked.
+    This is the value of the &quot;data-yanked&quot; attribute, if present, in
+    a simple repository HTML link. If the file has been yanked but
+    no reason was provided, this should be the empty string. See
+    PEP 592 for more information and the specification.
+:param metadata_file_data: the metadata attached to the file, or None if
+    no such metadata is provided. This argument, if not None, indicates
+    that a separate metadata file exists, and also optionally supplies
+    hashes for that file.
+:param cache_link_parsing: A flag that is used elsewhere to determine
+    whether resources retrieved from this link should be cached. PyPI
+    URLs should generally have this set to False, for example.
+:param hashes: A mapping of hash names to digests to allow us to
+    determine the validity of a download.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="197" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="206" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a176cf9f2364e023e9135d8fe51e95c49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[&quot;Link&quot;]</type>
+        <definition> Optional[&quot;Link&quot;] pip._internal.models.link.Link.from_json</definition>
+        <argsstring>(cls, Dict[str, Any] file_data, str page_url)</argsstring>
+        <name>from_json</name>
+        <qualifiedname>pip._internal.models.link.Link.from_json</qualifiedname>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <param>
+          <type>Dict</type>
+          <declname>file_data</declname>
+          <array>[str, Any]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>page_url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert an pypi json document from a simple repository page into a Link.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="263" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="267" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a1fc31c4f621feeb80e2e54ba874131fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[&quot;Link&quot;]</type>
+        <definition> Optional[&quot;Link&quot;] pip._internal.models.link.Link.from_element</definition>
+        <argsstring>(cls, Dict[str, Optional[str]] anchor_attribs, str page_url, str base_url)</argsstring>
+        <name>from_element</name>
+        <qualifiedname>pip._internal.models.link.Link.from_element</qualifiedname>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <param>
+          <type>Dict]</type>
+          <declname>anchor_attribs</declname>
+          <array>[str, Optional[str]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>page_url</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>base_url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert an anchor element&apos;s attributes in a simple repository page to a Link.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="314" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="319" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1aea9fc235d37d639ac167cdeac53ba308" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.models.link.Link.__str__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__str__</name>
+        <qualifiedname>pip._internal.models.link.Link.__str__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="365" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="365" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a851368df15250db2c52515f1e46a1f5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.models.link.Link.__repr__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__repr__</name>
+        <qualifiedname>pip._internal.models.link.Link.__repr__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="375" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="375" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a6a4e9c09f8076390a11cc9b3fe51aede" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.models.link.Link.url</definition>
+        <argsstring>(self)</argsstring>
+        <name>url</name>
+        <qualifiedname>pip._internal.models.link.Link.url</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="379" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="379" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a5fb02f5a5a42909c89a18745b74cf998" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.models.link.Link.filename</definition>
+        <argsstring>(self)</argsstring>
+        <name>filename</name>
+        <qualifiedname>pip._internal.models.link.Link.filename</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="383" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="383" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a72e9faf9a2a5f838cfdce89db07e3150" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.models.link.Link.file_path</definition>
+        <argsstring>(self)</argsstring>
+        <name>file_path</name>
+        <qualifiedname>pip._internal.models.link.Link.file_path</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="397" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="397" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a0086cb599d01ffeffa03c0c35ab85a42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.models.link.Link.scheme</definition>
+        <argsstring>(self)</argsstring>
+        <name>scheme</name>
+        <qualifiedname>pip._internal.models.link.Link.scheme</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="401" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="401" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a3b75bb1dffe191f8f61239e8af2135cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.models.link.Link.netloc</definition>
+        <argsstring>(self)</argsstring>
+        <name>netloc</name>
+        <qualifiedname>pip._internal.models.link.Link.netloc</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This can contain auth information.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="405" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="405" bodyend="410"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a30f454216dcb615e3ed986238490f180" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.models.link.Link.path</definition>
+        <argsstring>(self)</argsstring>
+        <name>path</name>
+        <qualifiedname>pip._internal.models.link.Link.path</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="412" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="412" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a3da1e2b2ae97e76a77b134b6024b2aa9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[str, str]</type>
+        <definition> Tuple[str, str] pip._internal.models.link.Link.splitext</definition>
+        <argsstring>(self)</argsstring>
+        <name>splitext</name>
+        <qualifiedname>pip._internal.models.link.Link.splitext</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="415" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="415" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a800ca5662fff90f5fbc245e1218a5528" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.models.link.Link.ext</definition>
+        <argsstring>(self)</argsstring>
+        <name>ext</name>
+        <qualifiedname>pip._internal.models.link.Link.ext</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="419" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="419" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a1453871423228f04baaa00bb3ecc2594" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.models.link.Link.url_without_fragment</definition>
+        <argsstring>(self)</argsstring>
+        <name>url_without_fragment</name>
+        <qualifiedname>pip._internal.models.link.Link.url_without_fragment</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="423" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="423" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a5fe3059afe6ce0a3328abab5624a0d4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._internal.models.link.Link.subdirectory_fragment</definition>
+        <argsstring>(self)</argsstring>
+        <name>subdirectory_fragment</name>
+        <qualifiedname>pip._internal.models.link.Link.subdirectory_fragment</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="455" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="455" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1afb36c84135153eb76dddf326ab95e783" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[&quot;Link&quot;]</type>
+        <definition> Optional[&quot;Link&quot;] pip._internal.models.link.Link.metadata_link</definition>
+        <argsstring>(self)</argsstring>
+        <name>metadata_link</name>
+        <qualifiedname>pip._internal.models.link.Link.metadata_link</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a link to the associated core metadata file (if any).</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="461" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="461" bodyend="469"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1adc3aa52207f953fd0e556419536aab35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1utils_1_1hashes_1_1Hashes" kindref="compound">Hashes</ref></type>
+        <definition> Hashes pip._internal.models.link.Link.as_hashes</definition>
+        <argsstring>(self)</argsstring>
+        <name>as_hashes</name>
+        <qualifiedname>pip._internal.models.link.Link.as_hashes</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="470" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="470" bodyend="472"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a9d79621efd16f7c320ee3fdd6d8585b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._internal.models.link.Link.hash</definition>
+        <argsstring>(self)</argsstring>
+        <name>hash</name>
+        <qualifiedname>pip._internal.models.link.Link.hash</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="474" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="474" bodyend="476"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a5dc7a1b7027fc46fd6ed6b697233ce1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._internal.models.link.Link.hash_name</definition>
+        <argsstring>(self)</argsstring>
+        <name>hash_name</name>
+        <qualifiedname>pip._internal.models.link.Link.hash_name</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="478" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="478" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a18ca3abeab4eb436d6cfab79d7e54da9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.models.link.Link.show_url</definition>
+        <argsstring>(self)</argsstring>
+        <name>show_url</name>
+        <qualifiedname>pip._internal.models.link.Link.show_url</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="482" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="482" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a78868a5dc936bd6f4ddc425ccbc11c99" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.models.link.Link.is_file</definition>
+        <argsstring>(self)</argsstring>
+        <name>is_file</name>
+        <qualifiedname>pip._internal.models.link.Link.is_file</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="486" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="486" bodyend="488"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a5cffdd4be3ce3949a92df10e51976841" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.models.link.Link.is_existing_dir</definition>
+        <argsstring>(self)</argsstring>
+        <name>is_existing_dir</name>
+        <qualifiedname>pip._internal.models.link.Link.is_existing_dir</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="489" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="489" bodyend="491"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a5dd1bbaac3ddd31fcbd9581c2be36a69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.models.link.Link.is_wheel</definition>
+        <argsstring>(self)</argsstring>
+        <name>is_wheel</name>
+        <qualifiedname>pip._internal.models.link.Link.is_wheel</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="493" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="493" bodyend="495"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a476ab6666a9c80e29394f429d4e9eb77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.models.link.Link.is_vcs</definition>
+        <argsstring>(self)</argsstring>
+        <name>is_vcs</name>
+        <qualifiedname>pip._internal.models.link.Link.is_vcs</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="497" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="497" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1ad5a9983dc2842d8b51f43f26345ea672" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.models.link.Link.is_yanked</definition>
+        <argsstring>(self)</argsstring>
+        <name>is_yanked</name>
+        <qualifiedname>pip._internal.models.link.Link.is_yanked</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="503" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="503" bodyend="505"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1aa12e1776af173c655789509d5e8cfb43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.models.link.Link.has_hash</definition>
+        <argsstring>(self)</argsstring>
+        <name>has_hash</name>
+        <qualifiedname>pip._internal.models.link.Link.has_hash</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="507" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="507" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a64e9674633663980e1fd39dc35994d16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.models.link.Link.is_hash_allowed</definition>
+        <argsstring>(self, Optional[Hashes] hashes)</argsstring>
+        <name>is_hash_allowed</name>
+        <qualifiedname>pip._internal.models.link.Link.is_hash_allowed</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>hashes</declname>
+          <array>[Hashes]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return True if the link has a hash and it is allowed by `hashes`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="510" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="510" bodyend="518"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1Link_1ac92716c3f3ae7898cd2b9c8879c40875" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._internal.models.link.Link._egg_fragment</definition>
+        <argsstring>(self)</argsstring>
+        <name>_egg_fragment</name>
+        <qualifiedname>pip._internal.models.link.Link._egg_fragment</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="434" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="434" bodyend="451"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Represents a parsed link from a Package Index&apos;s simple URL</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._internal.models.link.Link</label>
+        <link refid="classpip_1_1__internal_1_1models_1_1link_1_1Link"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.utils.models.KeyBasedCompareMixin</label>
+        <link refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>pip._internal.models.link.Link</label>
+        <link refid="classpip_1_1__internal_1_1models_1_1link_1_1Link"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.utils.models.KeyBasedCompareMixin</label>
+        <link refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="182" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="182" bodyend="518"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a6aba3315fe8ca6a3d7326281ee97e499" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a851368df15250db2c52515f1e46a1f5f" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>__repr__</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1ab93d887d8a5822435a2fd30f4299898e" prot="private" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>__slots__</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1aea9fc235d37d639ac167cdeac53ba308" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>__str__</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1ac92716c3f3ae7898cd2b9c8879c40875" prot="protected" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>_egg_fragment</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a95651e61aa9f23805824835c9d4c086e" prot="protected" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>_egg_fragment_re</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a48c0d230c340a21fd28050d07c3dcc5c" prot="protected" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>_hashes</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a2bc6f4e878cb4031b3e1a0da05f7c982" prot="protected" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>_parsed_url</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a28a8618d3d7451a8becd34ec8fead66d" prot="protected" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>_project_name_re</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1ab54813b8c61bc78b931e0df07be306da" prot="protected" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>_subdirectory_fragment_re</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1aec0519677d734b7e5c29ba9218da689d" prot="protected" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>_url</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1adc3aa52207f953fd0e556419536aab35" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>as_hashes</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a67c7b7d876a4d8531d504aca2238202e" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>cache_link_parsing</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1aed0fb4d4320bf51a309c719ef452ec7f" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>comes_from</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a769d8eec219cd78b2717dc057699d74a" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>egg_fragment</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a638d7375efa13338c3579494c34ed159" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>ext</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a800ca5662fff90f5fbc245e1218a5528" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>ext</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a6542bec4aeec14279b094156837dedea" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>file_path</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a72e9faf9a2a5f838cfdce89db07e3150" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>file_path</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a5fb02f5a5a42909c89a18745b74cf998" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>filename</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a1fc31c4f621feeb80e2e54ba874131fd" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>from_element</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a176cf9f2364e023e9135d8fe51e95c49" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>from_json</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1aa12e1776af173c655789509d5e8cfb43" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>has_hash</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a9d79621efd16f7c320ee3fdd6d8585b5" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>hash</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a5dc7a1b7027fc46fd6ed6b697233ce1a" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>hash_name</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a5cffdd4be3ce3949a92df10e51976841" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>is_existing_dir</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a78868a5dc936bd6f4ddc425ccbc11c99" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>is_file</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a64e9674633663980e1fd39dc35994d16" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>is_hash_allowed</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a476ab6666a9c80e29394f429d4e9eb77" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>is_vcs</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a5dd1bbaac3ddd31fcbd9581c2be36a69" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>is_wheel</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1ad5a9983dc2842d8b51f43f26345ea672" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>is_yanked</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1abac655fca8b079dae2a59e2c721bdd48" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>metadata_file_data</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1afb36c84135153eb76dddf326ab95e783" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>metadata_link</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a3b75bb1dffe191f8f61239e8af2135cc" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>netloc</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a30f454216dcb615e3ed986238490f180" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>path</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1afbf7631c356c23c439f39b35407161dd" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>requires_python</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1afdca198c0e56ff076b7d7eaef8be922e" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>scheme</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a0086cb599d01ffeffa03c0c35ab85a42" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>scheme</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a18ca3abeab4eb436d6cfab79d7e54da9" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>show_url</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a3da1e2b2ae97e76a77b134b6024b2aa9" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>splitext</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a5fe3059afe6ce0a3328abab5624a0d4a" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>subdirectory_fragment</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1af67004cdb29d12b7420984c694262af3" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>url</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a6a4e9c09f8076390a11cc9b3fe51aede" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>url</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1a1453871423228f04baaa00bb3ecc2594" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>url_without_fragment</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1Link_1af68edcd6a5a6f4c22ea34802fbd83e9c" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::Link</scope><name>yanked_reason</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,485 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1ext_1_1imgmath" kind="namespace" language="Python">
+    <compoundname>sphinx::ext::imgmath</compoundname>
+    <innerclass refid="classsphinx_1_1ext_1_1imgmath_1_1InvokeError" prot="public">sphinx::ext::imgmath::InvokeError</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1imgmath_1_1MathExtError" prot="public">sphinx::ext::imgmath::MathExtError</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1imgmath_1a0d175fb04f97dc145d6809e20bef1ddb" prot="private" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx::ext::imgmath.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>sphinx.ext.imgmath.__all__</qualifiedname>
+        <initializer>=  ()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" line="5" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" bodystart="5" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1imgmath_1af3e73d4c17874382bb3f31131993c568" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::imgmath.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.ext.imgmath.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" line="41" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1imgmath_1af6aea93fbd8d3f00867e2f21eba8a3a0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::imgmath.templates_path</definition>
+        <argsstring></argsstring>
+        <name>templates_path</name>
+        <qualifiedname>sphinx.ext.imgmath.templates_path</qualifiedname>
+        <initializer>=  package_dir.joinpath(&apos;templates&apos;, &apos;imgmath&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" line="43" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1imgmath_1ad3e30e10581f6b3b37352aefec507438" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx::ext::imgmath.SUPPORT_FORMAT</definition>
+        <argsstring></argsstring>
+        <name>SUPPORT_FORMAT</name>
+        <qualifiedname>sphinx.ext.imgmath.SUPPORT_FORMAT</qualifiedname>
+        <initializer>=  (&apos;png&apos;, &apos;svg&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" line="63" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1imgmath_1a51222376e31b83b1b0d289f580d83c6e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::imgmath.depth_re</definition>
+        <argsstring></argsstring>
+        <name>depth_re</name>
+        <qualifiedname>sphinx.ext.imgmath.depth_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;\[\d+ depth=(-?\d+)\]&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" line="65" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1imgmath_1a5b0a35abbd2acea8400e3363468ea8c7" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::imgmath.depthsvg_re</definition>
+        <argsstring></argsstring>
+        <name>depthsvg_re</name>
+        <qualifiedname>sphinx.ext.imgmath.depthsvg_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;.*, depth=(.*)pt&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" line="66" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1imgmath_1ab0c9ad63b902c621cebe257d511c2e03" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::imgmath.depthsvgcomment_re</definition>
+        <argsstring></argsstring>
+        <name>depthsvgcomment_re</name>
+        <qualifiedname>sphinx.ext.imgmath.depthsvgcomment_re</qualifiedname>
+        <initializer>=  re.compile(r&apos;&lt;!-- DEPTH=(-?\d+) --&gt;&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" line="67" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1imgmath_1a072e0440e7310e52b2a01df9389bb8c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int|None</type>
+        <definition> int | None sphinx.ext.imgmath.read_svg_depth</definition>
+        <argsstring>(str|os.PathLike[str] filename)</argsstring>
+        <name>read_svg_depth</name>
+        <qualifiedname>sphinx.ext.imgmath.read_svg_depth</qualifiedname>
+        <param>
+          <type>str|os.PathLike</type>
+          <declname>filename</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Read the depth from comment at last line of SVG file</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" line="70" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" bodystart="70" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1imgmath_1a7214b9f47ef15a446b3bfc215faf3ec2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.imgmath.write_svg_depth</definition>
+        <argsstring>(Path filename, int depth)</argsstring>
+        <name>write_svg_depth</name>
+        <qualifiedname>sphinx.ext.imgmath.write_svg_depth</qualifiedname>
+        <param>
+          <type>Path</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>depth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Write the depth to SVG file as a comment at end of file</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" line="82" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" bodystart="82" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1imgmath_1ac12c02492f0a19f65934d00ce73f09d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.ext.imgmath.generate_latex_macro</definition>
+        <argsstring>(str image_format, str math, Config config, _StrPath confdir)</argsstring>
+        <name>generate_latex_macro</name>
+        <qualifiedname>sphinx.ext.imgmath.generate_latex_macro</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>image_format</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>math</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1config_1_1Config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1util_1_1__pathlib_1_1__StrPath" kindref="compound">_StrPath</ref></type>
+          <declname>confdir</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Generate LaTeX macro.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" line="88" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" bodystart="93" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1imgmath_1a6942b8f18aecafe3b9201af42afbc5cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Path</type>
+        <definition> Path sphinx.ext.imgmath.ensure_tempdir</definition>
+        <argsstring>(Builder builder)</argsstring>
+        <name>ensure_tempdir</name>
+        <qualifiedname>sphinx.ext.imgmath.ensure_tempdir</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1builders_1_1Builder" kindref="compound">Builder</ref></type>
+          <declname>builder</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create temporary directory.
+
+use only one tempdir per build -- the use of a directory is cleaner
+than using temporary files, since we can clean up everything at once
+just removing the whole directory (see cleanup_tempdir)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" line="119" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" bodystart="119" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1imgmath_1a154a58dfd159408d350fe3d11f43f3f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Path</type>
+        <definition> Path sphinx.ext.imgmath.compile_math</definition>
+        <argsstring>(str latex, Builder builder)</argsstring>
+        <name>compile_math</name>
+        <qualifiedname>sphinx.ext.imgmath.compile_math</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>latex</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1builders_1_1Builder" kindref="compound">Builder</ref></type>
+          <declname>builder</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Compile LaTeX macros for math to DVI.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" line="132" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" bodystart="132" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1imgmath_1a007cdebf0100faf3afbb6ed0c29402af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str, str]</type>
+        <definition> tuple[str, str] sphinx.ext.imgmath.convert_dvi_to_image</definition>
+        <argsstring>(list[str] command, str name)</argsstring>
+        <name>convert_dvi_to_image</name>
+        <qualifiedname>sphinx.ext.imgmath.convert_dvi_to_image</qualifiedname>
+        <param>
+          <type>list</type>
+          <declname>command</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert DVI file to specific image format.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" line="173" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" bodystart="173" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1imgmath_1a1b6e2bb8c3ff372b102ecb97948b7a4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int|None</type>
+        <definition> int | None sphinx.ext.imgmath.convert_dvi_to_png</definition>
+        <argsstring>(Path dvipath, Builder builder, Path out_path)</argsstring>
+        <name>convert_dvi_to_png</name>
+        <qualifiedname>sphinx.ext.imgmath.convert_dvi_to_png</qualifiedname>
+        <param>
+          <type>Path</type>
+          <declname>dvipath</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1builders_1_1Builder" kindref="compound">Builder</ref></type>
+          <declname>builder</declname>
+        </param>
+        <param>
+          <type>Path</type>
+          <declname>out_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert DVI file to PNG image.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" line="194" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" bodystart="194" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1imgmath_1afaf56603470b0e83b1851724ffea38ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int|None</type>
+        <definition> int | None sphinx.ext.imgmath.convert_dvi_to_svg</definition>
+        <argsstring>(Path dvipath, Builder builder, Path out_path)</argsstring>
+        <name>convert_dvi_to_svg</name>
+        <qualifiedname>sphinx.ext.imgmath.convert_dvi_to_svg</qualifiedname>
+        <param>
+          <type>Path</type>
+          <declname>dvipath</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1builders_1_1Builder" kindref="compound">Builder</ref></type>
+          <declname>builder</declname>
+        </param>
+        <param>
+          <type>Path</type>
+          <declname>out_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert DVI file to SVG image.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" line="217" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" bodystart="217" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1imgmath_1abecaf1174bfc9e5edbb009989921a6a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[<ref refid="classsphinx_1_1util_1_1__pathlib_1_1__StrPath" kindref="compound">_StrPath</ref>|None, int|None]</type>
+        <definition> tuple[_StrPath | None, int | None] sphinx.ext.imgmath.render_math</definition>
+        <argsstring>(HTML5Translator self, str math)</argsstring>
+        <name>render_math</name>
+        <qualifiedname>sphinx.ext.imgmath.render_math</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1writers_1_1html5_1_1HTML5Translator" kindref="compound">HTML5Translator</ref></type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>math</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Render the LaTeX math expression *math* using latex and dvipng or
+dvisvgm.
+
+Return the image absolute filename and the &quot;depth&quot;,
+that is, the distance of image bottom and baseline in pixels, if the
+option to use preview_latex is switched on.
+
+Error handling may seem strange, but follows a pattern: if LaTeX or dvipng
+(dvisvgm) aren&apos;t available, only a warning is generated (since that enables
+people on machines without these programs to at least build the rest of the
+docs successfully).  If the programs are there, however, they may not fail
+since that indicates a problem in the math source.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" line="238" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" bodystart="241" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1imgmath_1a02c5a48010ff50700e18afa8023870f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.ext.imgmath.render_maths_to_base64</definition>
+        <argsstring>(str image_format, Path generated_path)</argsstring>
+        <name>render_maths_to_base64</name>
+        <qualifiedname>sphinx.ext.imgmath.render_maths_to_base64</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>image_format</declname>
+        </param>
+        <param>
+          <type>Path</type>
+          <declname>generated_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" line="302" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" bodystart="302" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1imgmath_1a7363e9c7b47189d696aa7e3ffc36ada9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.imgmath.clean_up_files</definition>
+        <argsstring>(Sphinx app, Exception exc)</argsstring>
+        <name>clean_up_files</name>
+        <qualifiedname>sphinx.ext.imgmath.clean_up_files</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type>Exception</type>
+          <declname>exc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" line="314" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" bodystart="314" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1imgmath_1af6ae2a5e9333dc238ff253deebadcf45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.ext.imgmath.get_tooltip</definition>
+        <argsstring>(HTML5Translator self, Element node)</argsstring>
+        <name>get_tooltip</name>
+        <qualifiedname>sphinx.ext.imgmath.get_tooltip</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1writers_1_1html5_1_1HTML5Translator" kindref="compound">HTML5Translator</ref></type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" line="329" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" bodystart="329" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1imgmath_1a20509d96f399920e675cedde11c41fd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.imgmath.html_visit_math</definition>
+        <argsstring>(HTML5Translator self, nodes.math node)</argsstring>
+        <name>html_visit_math</name>
+        <qualifiedname>sphinx.ext.imgmath.html_visit_math</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1writers_1_1html5_1_1HTML5Translator" kindref="compound">HTML5Translator</ref></type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type>nodes.math</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" line="335" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" bodystart="335" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1imgmath_1a6235a5ea55edc11d22b2479564b3b5e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.imgmath.html_visit_displaymath</definition>
+        <argsstring>(HTML5Translator self, nodes.math_block node)</argsstring>
+        <name>html_visit_displaymath</name>
+        <qualifiedname>sphinx.ext.imgmath.html_visit_displaymath</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1writers_1_1html5_1_1HTML5Translator" kindref="compound">HTML5Translator</ref></type>
+          <declname>self</declname>
+        </param>
+        <param>
+          <type>nodes.math_block</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" line="367" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" bodystart="367" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1imgmath_1a46da81928c9f3621108038178c537b73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1ExtensionMetadata" kindref="compound">ExtensionMetadata</ref></type>
+        <definition> ExtensionMetadata sphinx.ext.imgmath.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.ext.imgmath.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" line="407" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" bodystart="407" bodyend="440"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Render math in HTML via dvipng or dvisvgm.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/ext/imgmath.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1events" kind="namespace" language="Python">
+    <compoundname>sphinx::events</compoundname>
+    <innerclass refid="classsphinx_1_1events_1_1EventListener" prot="public">sphinx::events::EventListener</innerclass>
+    <innerclass refid="classsphinx_1_1events_1_1EventManager" prot="public">sphinx::events::EventManager</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1events_1acebcbf0504a0289e7f42e51225b21668" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::events.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.events.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="34" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1events_1a7eebf6767101efd0ad5a6514c093ed85" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::events.core_events</definition>
+        <argsstring></argsstring>
+        <name>core_events</name>
+        <qualifiedname>sphinx.events.core_events</qualifiedname>
+        <initializer>=  {
+    &apos;config-inited&apos;: &apos;config&apos;,
+    &apos;builder-inited&apos;: &apos;&apos;,
+    &apos;env-get-outdated&apos;: &apos;env, added, changed, removed&apos;,
+    &apos;env-before-read-docs&apos;: &apos;env, docnames&apos;,
+    &apos;env-purge-doc&apos;: &apos;env, docname&apos;,
+    &apos;source-read&apos;: &apos;docname, source text&apos;,
+    &apos;include-read&apos;: &apos;relative path, parent docname, source text&apos;,
+    &apos;doctree-read&apos;: &apos;the doctree before being pickled&apos;,
+    &apos;env-merge-info&apos;: &apos;env, read docnames, other env instance&apos;,
+    &apos;env-updated&apos;: &apos;env&apos;,
+    &apos;env-get-updated&apos;: &apos;env&apos;,
+    &apos;env-<ref refid="namespacesphinx_1afcb8fe6962f0c51b51877e41b032bbbc" kindref="member">check</ref>-consistency&apos;: &apos;env&apos;,
+    &apos;write-started&apos;: &apos;builder&apos;,
+    &apos;doctree-resolved&apos;: &apos;doctree, docname&apos;,
+    &apos;missing-reference&apos;: &apos;env, node, contnode&apos;,
+    &apos;warn-missing-reference&apos;: &apos;domain, node&apos;,
+    &apos;build-finished&apos;: &apos;exception&apos;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="44" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/events.py" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Sphinx core events.
+
+Gracefully adapted from the TextPress system by Armin.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/events.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

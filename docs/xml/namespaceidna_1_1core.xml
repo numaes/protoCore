@@ -1,0 +1,466 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceidna_1_1core" kind="namespace" language="Python">
+    <compoundname>idna::core</compoundname>
+    <innerclass refid="classidna_1_1core_1_1IDNABidiError" prot="public">idna::core::IDNABidiError</innerclass>
+    <innerclass refid="classidna_1_1core_1_1IDNAError" prot="public">idna::core::IDNAError</innerclass>
+    <innerclass refid="classidna_1_1core_1_1InvalidCodepoint" prot="public">idna::core::InvalidCodepoint</innerclass>
+    <innerclass refid="classidna_1_1core_1_1InvalidCodepointContext" prot="public">idna::core::InvalidCodepointContext</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceidna_1_1core_1a57aad8eec1170b60e299d09a76397e36" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int idna::core._virama_combining_class</definition>
+        <argsstring></argsstring>
+        <name>_virama_combining_class</name>
+        <qualifiedname>idna.core._virama_combining_class</qualifiedname>
+        <initializer>=  9</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/idna/core.py" line="9" column="1" bodyfile="venv/lib/python3.12/site-packages/idna/core.py" bodystart="9" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceidna_1_1core_1a7a65bc0a7fc00c36039d16c5586dfdfd" prot="protected" static="no" mutable="no">
+        <type>str</type>
+        <definition>str idna::core._alabel_prefix</definition>
+        <argsstring></argsstring>
+        <name>_alabel_prefix</name>
+        <qualifiedname>idna.core._alabel_prefix</qualifiedname>
+        <initializer>=  b&quot;xn--&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/idna/core.py" line="10" column="1" bodyfile="venv/lib/python3.12/site-packages/idna/core.py" bodystart="10" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceidna_1_1core_1a00765efcf0b7ac21f70164da6bff294c" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>idna::core._unicode_dots_re</definition>
+        <argsstring></argsstring>
+        <name>_unicode_dots_re</name>
+        <qualifiedname>idna.core._unicode_dots_re</qualifiedname>
+        <initializer>=  re.compile(&quot;[\u002e\u3002\uff0e\uff61]&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/idna/core.py" line="11" column="1" bodyfile="venv/lib/python3.12/site-packages/idna/core.py" bodystart="11" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceidna_1_1core_1a05915bce0ec435d72957c20dfaba9938" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int idna.core._combining_class</definition>
+        <argsstring>(int cp)</argsstring>
+        <name>_combining_class</name>
+        <qualifiedname>idna.core._combining_class</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>cp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/idna/core.py" line="38" column="1" bodyfile="venv/lib/python3.12/site-packages/idna/core.py" bodystart="38" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceidna_1_1core_1aa1187983fcf0ec94a34148fad0e98f92" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool idna.core._is_script</definition>
+        <argsstring>(str cp, str script)</argsstring>
+        <name>_is_script</name>
+        <qualifiedname>idna.core._is_script</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>cp</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>script</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/idna/core.py" line="46" column="1" bodyfile="venv/lib/python3.12/site-packages/idna/core.py" bodystart="46" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceidna_1_1core_1a470e05247369e9821aa94ad99ee51eed" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bytes</type>
+        <definition> bytes idna.core._punycode</definition>
+        <argsstring>(str s)</argsstring>
+        <name>_punycode</name>
+        <qualifiedname>idna.core._punycode</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/idna/core.py" line="50" column="1" bodyfile="venv/lib/python3.12/site-packages/idna/core.py" bodystart="50" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceidna_1_1core_1aa868fd5d940b6f9c95ed7203b505ff45" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str idna.core._unot</definition>
+        <argsstring>(int s)</argsstring>
+        <name>_unot</name>
+        <qualifiedname>idna.core._unot</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/idna/core.py" line="54" column="1" bodyfile="venv/lib/python3.12/site-packages/idna/core.py" bodystart="54" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceidna_1_1core_1ae477ff3cb924813d2e192457c18a612e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool idna.core.valid_label_length</definition>
+        <argsstring>(Union[bytes, str] label)</argsstring>
+        <name>valid_label_length</name>
+        <qualifiedname>idna.core.valid_label_length</qualifiedname>
+        <param>
+          <type>Union</type>
+          <declname>label</declname>
+          <array>[bytes, str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/idna/core.py" line="58" column="1" bodyfile="venv/lib/python3.12/site-packages/idna/core.py" bodystart="58" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceidna_1_1core_1a1ed46fc907538e236368225bc8fefeff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool idna.core.valid_string_length</definition>
+        <argsstring>(Union[bytes, str] label, bool trailing_dot)</argsstring>
+        <name>valid_string_length</name>
+        <qualifiedname>idna.core.valid_string_length</qualifiedname>
+        <param>
+          <type>Union</type>
+          <declname>label</declname>
+          <array>[bytes, str]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trailing_dot</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/idna/core.py" line="64" column="1" bodyfile="venv/lib/python3.12/site-packages/idna/core.py" bodystart="64" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceidna_1_1core_1a21ab79641194313f059c72a072d9c793" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool idna.core.check_bidi</definition>
+        <argsstring>(str label, bool check_ltr=False)</argsstring>
+        <name>check_bidi</name>
+        <qualifiedname>idna.core.check_bidi</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>label</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>check_ltr</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/idna/core.py" line="70" column="1" bodyfile="venv/lib/python3.12/site-packages/idna/core.py" bodystart="70" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceidna_1_1core_1a252834e1840e1acbc11aff382cebade6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool idna.core.check_initial_combiner</definition>
+        <argsstring>(str label)</argsstring>
+        <name>check_initial_combiner</name>
+        <qualifiedname>idna.core.check_initial_combiner</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>label</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/idna/core.py" line="140" column="1" bodyfile="venv/lib/python3.12/site-packages/idna/core.py" bodystart="140" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceidna_1_1core_1ab51e8b986a4c1ca7d7587d235a901017" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool idna.core.check_hyphen_ok</definition>
+        <argsstring>(str label)</argsstring>
+        <name>check_hyphen_ok</name>
+        <qualifiedname>idna.core.check_hyphen_ok</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>label</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/idna/core.py" line="146" column="1" bodyfile="venv/lib/python3.12/site-packages/idna/core.py" bodystart="146" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceidna_1_1core_1abe386a27ffe987939d2e85c3c473dd70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None idna.core.check_nfc</definition>
+        <argsstring>(str label)</argsstring>
+        <name>check_nfc</name>
+        <qualifiedname>idna.core.check_nfc</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>label</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/idna/core.py" line="154" column="1" bodyfile="venv/lib/python3.12/site-packages/idna/core.py" bodystart="154" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceidna_1_1core_1a62925fce719083d073230550f193cbb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool idna.core.valid_contextj</definition>
+        <argsstring>(str label, int pos)</argsstring>
+        <name>valid_contextj</name>
+        <qualifiedname>idna.core.valid_contextj</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>label</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>pos</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/idna/core.py" line="159" column="1" bodyfile="venv/lib/python3.12/site-packages/idna/core.py" bodystart="159" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceidna_1_1core_1ae6625a1a17f4d6bd3ddaa6e57d0aa4a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool idna.core.valid_contexto</definition>
+        <argsstring>(str label, int pos, bool exception=False)</argsstring>
+        <name>valid_contexto</name>
+        <qualifiedname>idna.core.valid_contexto</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>label</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>pos</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>exception</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/idna/core.py" line="203" column="1" bodyfile="venv/lib/python3.12/site-packages/idna/core.py" bodystart="203" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceidna_1_1core_1a0e2ed8146dfe391d90d9547006414af2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None idna.core.check_label</definition>
+        <argsstring>(Union[str, bytes, bytearray] label)</argsstring>
+        <name>check_label</name>
+        <qualifiedname>idna.core.check_label</qualifiedname>
+        <param>
+          <type>Union</type>
+          <declname>label</declname>
+          <array>[str, bytes, bytearray]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/idna/core.py" line="245" column="1" bodyfile="venv/lib/python3.12/site-packages/idna/core.py" bodystart="245" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceidna_1_1core_1ae7083b70c72c1b7d6c259fe866f5c3cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bytes</type>
+        <definition> bytes idna.core.alabel</definition>
+        <argsstring>(str label)</argsstring>
+        <name>alabel</name>
+        <qualifiedname>idna.core.alabel</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>label</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/idna/core.py" line="284" column="1" bodyfile="venv/lib/python3.12/site-packages/idna/core.py" bodystart="284" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceidna_1_1core_1a27a7946c0a83dfd9970adf21456999aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str idna.core.ulabel</definition>
+        <argsstring>(Union[str, bytes, bytearray] label)</argsstring>
+        <name>ulabel</name>
+        <qualifiedname>idna.core.ulabel</qualifiedname>
+        <param>
+          <type>Union</type>
+          <declname>label</declname>
+          <array>[str, bytes, bytearray]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/idna/core.py" line="303" column="1" bodyfile="venv/lib/python3.12/site-packages/idna/core.py" bodystart="303" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceidna_1_1core_1af0bb4dfa31cc276b9da528c7ce63bd5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str idna.core.uts46_remap</definition>
+        <argsstring>(str domain, bool std3_rules=True, bool transitional=False)</argsstring>
+        <name>uts46_remap</name>
+        <qualifiedname>idna.core.uts46_remap</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>domain</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>std3_rules</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>transitional</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Re-map the characters in the string according to UTS46 processing.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/idna/core.py" line="332" column="1" bodyfile="venv/lib/python3.12/site-packages/idna/core.py" bodystart="332" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceidna_1_1core_1a2f735dbc4c5b5235d69d3eece324a6a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bytes</type>
+        <definition> bytes idna.core.encode</definition>
+        <argsstring>(Union[str, bytes, bytearray] s, bool strict=False, bool uts46=False, bool std3_rules=False, bool transitional=False)</argsstring>
+        <name>encode</name>
+        <qualifiedname>idna.core.encode</qualifiedname>
+        <param>
+          <type>Union</type>
+          <declname>s</declname>
+          <array>[str, bytes, bytearray]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>strict</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>uts46</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>std3_rules</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>transitional</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/idna/core.py" line="366" column="1" bodyfile="venv/lib/python3.12/site-packages/idna/core.py" bodystart="372" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceidna_1_1core_1a0989c4efda27998698dc13e4c2993fca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str idna.core.decode</definition>
+        <argsstring>(Union[str, bytes, bytearray] s, bool strict=False, bool uts46=False, bool std3_rules=False)</argsstring>
+        <name>decode</name>
+        <qualifiedname>idna.core.decode</qualifiedname>
+        <param>
+          <type>Union</type>
+          <declname>s</declname>
+          <array>[str, bytes, bytearray]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>strict</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>uts46</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>std3_rules</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/idna/core.py" line="405" column="1" bodyfile="venv/lib/python3.12/site-packages/idna/core.py" bodystart="410" bodyend="438"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/idna/core.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

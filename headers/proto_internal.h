@@ -369,7 +369,13 @@ namespace proto {
         inline void setNext(Cell* n) {
             uintptr_t current = next_and_flags.load();
             uintptr_t flags = current & 0x3FUL;
-            next_and_flags.store(reinterpret_cast<uintptr_t>(n) | flags);
+            // Crucial: Mask 'n' to avoid leaking flags from the successor into 'this'
+            next_and_flags.store((reinterpret_cast<uintptr_t>(n) & ~0x3FUL) | flags);
+        }
+        // Use this for uninitialized memory or to reset everything
+        inline void internalSetNextRaw(Cell* n) {
+            // Even in raw mode, we should ensure the pointer part is clean if it carries flags
+            next_and_flags.store(reinterpret_cast<uintptr_t>(n) & ~0x3FUL);
         }
     };
 

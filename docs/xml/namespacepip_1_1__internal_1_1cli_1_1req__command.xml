@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1cli_1_1req__command" kind="namespace" language="Python">
+    <compoundname>pip::_internal::cli::req_command</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1IndexGroupCommand" prot="public">pip::_internal::cli::req_command::IndexGroupCommand</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1RequirementCommand" prot="public">pip::_internal::cli::req_command::RequirementCommand</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1cli_1_1req__command_1_1SessionCommandMixin" prot="public">pip::_internal::cli::req_command::SessionCommandMixin</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1req__command_1ab18cc0612f20d821fa933b64f3a1b605" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::cli::req_command.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.cli.req_command.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" line="47" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1req__command_1a47e81bdfa7bae2de3748cfa7f57a748d" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_internal::cli::req_command.KEEPABLE_TEMPDIR_TYPES</definition>
+        <argsstring></argsstring>
+        <name>KEEPABLE_TEMPDIR_TYPES</name>
+        <qualifiedname>pip._internal.cli.req_command.KEEPABLE_TEMPDIR_TYPES</qualifiedname>
+        <initializer>=  [
+    tempdir_kinds.BUILD_ENV,
+    tempdir_kinds.EPHEM_WHEEL_CACHE,
+    tempdir_kinds.REQ_BUILD,
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" line="191" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1cli_1_1req__command_1a603c7d6de73dceb1951bf859b4b7e254" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::cli::req_command.tempdir_registry</definition>
+        <argsstring></argsstring>
+        <name>tempdir_registry</name>
+        <qualifiedname>pip._internal.cli.req_command.tempdir_registry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" line="242" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" bodystart="242" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1req__command_1a33000e7c8a1b08b3ee113a2b6e1adbdf" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[&quot;SSLContext&quot;]</type>
+        <definition> Optional[&quot;SSLContext&quot;] pip._internal.cli.req_command._create_truststore_ssl_context</definition>
+        <argsstring>()</argsstring>
+        <name>_create_truststore_ssl_context</name>
+        <qualifiedname>pip._internal.cli.req_command._create_truststore_ssl_context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" line="50" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" bodystart="50" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1req__command_1addb371a0a15d8ec48143c570030cd702" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.cli.req_command.warn_if_run_as_root</definition>
+        <argsstring>()</argsstring>
+        <name>warn_if_run_as_root</name>
+        <qualifiedname>pip._internal.cli.req_command.warn_if_run_as_root</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Output a warning for sudo users on Unix.
+
+In a virtual environment, sudo pip still writes to virtualenv.
+On Windows, users may run pip as Administrator without issues.
+This warning only applies to Unix root users outside of virtualenv.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" line="198" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" bodystart="198" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1cli_1_1req__command_1a98685e16ebccc37eb520af4ac6175958" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Any</type>
+        <definition> Any pip._internal.cli.req_command.with_cleanup</definition>
+        <argsstring>(Any func)</argsstring>
+        <name>with_cleanup</name>
+        <qualifiedname>pip._internal.cli.req_command.with_cleanup</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Decorator for common logic related to managing temporary
+directories.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" line="228" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" bodystart="228" bodyend="255"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Contains the Command base classes that depend on PipSession.
+
+The classes in this module are in a separate module so the commands not
+needing download / PackageFinder capability don&apos;t unnecessarily import the
+PackageFinder machinery and all its vendored dependencies, etc.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/cli/req_command.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

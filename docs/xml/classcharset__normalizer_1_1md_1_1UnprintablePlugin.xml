@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classcharset__normalizer_1_1md_1_1UnprintablePlugin" kind="class" language="Python" prot="public">
+    <compoundname>charset_normalizer::md::UnprintablePlugin</compoundname>
+    <basecompoundref refid="classcharset__normalizer_1_1md_1_1MessDetectorPlugin" prot="public" virt="non-virtual">charset_normalizer.md.MessDetectorPlugin</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classcharset__normalizer_1_1md_1_1UnprintablePlugin_1ac937d241c61ad2340daf462698721f73" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>charset_normalizer.md.UnprintablePlugin::_unprintable_count</definition>
+        <argsstring></argsstring>
+        <name>_unprintable_count</name>
+        <qualifiedname>charset_normalizer.md.UnprintablePlugin._unprintable_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/charset_normalizer/md.py" line="155" column="1" bodyfile="venv/lib/python3.12/site-packages/charset_normalizer/md.py" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classcharset__normalizer_1_1md_1_1UnprintablePlugin_1a5b3e1f8ba6369754faf87ecb63a9ed1b" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>charset_normalizer.md.UnprintablePlugin::_character_count</definition>
+        <argsstring></argsstring>
+        <name>_character_count</name>
+        <qualifiedname>charset_normalizer.md.UnprintablePlugin._character_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/charset_normalizer/md.py" line="159" column="1" bodyfile="venv/lib/python3.12/site-packages/charset_normalizer/md.py" bodystart="159" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcharset__normalizer_1_1md_1_1UnprintablePlugin_1a7cb003f028abf796fd89a17428947e5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None charset_normalizer.md.UnprintablePlugin.__init__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>charset_normalizer.md.UnprintablePlugin.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/charset_normalizer/md.py" line="142" column="1" bodyfile="venv/lib/python3.12/site-packages/charset_normalizer/md.py" bodystart="142" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classcharset__normalizer_1_1md_1_1UnprintablePlugin_1af2bfe940b4aa5f7cb5ac7c47d292086c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool charset_normalizer.md.UnprintablePlugin.eligible</definition>
+        <argsstring>(self, str character)</argsstring>
+        <name>eligible</name>
+        <qualifiedname>charset_normalizer.md.UnprintablePlugin.eligible</qualifiedname>
+        <reimplements refid="classcharset__normalizer_1_1md_1_1MessDetectorPlugin_1a6c90e20b89fb11f27a99c4bb1b7b4aeb">eligible</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>character</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Determine if given character should be fed in.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/charset_normalizer/md.py" line="146" column="1" bodyfile="venv/lib/python3.12/site-packages/charset_normalizer/md.py" bodystart="146" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classcharset__normalizer_1_1md_1_1UnprintablePlugin_1ae7b4e7f6d4bd593a8bbf51ffde13a107" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None charset_normalizer.md.UnprintablePlugin.feed</definition>
+        <argsstring>(self, str character)</argsstring>
+        <name>feed</name>
+        <qualifiedname>charset_normalizer.md.UnprintablePlugin.feed</qualifiedname>
+        <reimplements refid="classcharset__normalizer_1_1md_1_1MessDetectorPlugin_1a1d7b6ef49fad244c8841e7dacf4a1bdb">feed</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>character</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The main routine to be executed upon character.
+Insert the logic in witch the text would be considered chaotic.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/charset_normalizer/md.py" line="149" column="1" bodyfile="venv/lib/python3.12/site-packages/charset_normalizer/md.py" bodystart="149" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classcharset__normalizer_1_1md_1_1UnprintablePlugin_1a7199ced83f17206ce23e0f92b914c1f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None charset_normalizer.md.UnprintablePlugin.reset</definition>
+        <argsstring>(self)</argsstring>
+        <name>reset</name>
+        <qualifiedname>charset_normalizer.md.UnprintablePlugin.reset</qualifiedname>
+        <reimplements refid="classcharset__normalizer_1_1md_1_1MessDetectorPlugin_1a82ba1b462302d9374e38614cd8a918b9">reset</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Permit to reset the plugin to the initial state.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/charset_normalizer/md.py" line="154" column="1" bodyfile="venv/lib/python3.12/site-packages/charset_normalizer/md.py" bodystart="154" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classcharset__normalizer_1_1md_1_1UnprintablePlugin_1a9a206ff868d74fa62ceab4b50ba7190d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition> float charset_normalizer.md.UnprintablePlugin.ratio</definition>
+        <argsstring>(self)</argsstring>
+        <name>ratio</name>
+        <qualifiedname>charset_normalizer.md.UnprintablePlugin.ratio</qualifiedname>
+        <reimplements refid="classcharset__normalizer_1_1md_1_1MessDetectorPlugin_1ac8f7c272b946d769ca5d6c478b6dd8a1">ratio</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Compute the chaos ratio based on what your feed() has seen.
+Must NOT be lower than 0.; No restriction gt 0.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/charset_normalizer/md.py" line="158" column="1" bodyfile="venv/lib/python3.12/site-packages/charset_normalizer/md.py" bodystart="158" bodyend="164"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>charset_normalizer.md.UnprintablePlugin</label>
+        <link refid="classcharset__normalizer_1_1md_1_1UnprintablePlugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>charset_normalizer.md.MessDetectorPlugin</label>
+        <link refid="classcharset__normalizer_1_1md_1_1MessDetectorPlugin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>charset_normalizer.md.UnprintablePlugin</label>
+        <link refid="classcharset__normalizer_1_1md_1_1UnprintablePlugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>charset_normalizer.md.MessDetectorPlugin</label>
+        <link refid="classcharset__normalizer_1_1md_1_1MessDetectorPlugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/charset_normalizer/md.py" line="141" column="1" bodyfile="venv/lib/python3.12/site-packages/charset_normalizer/md.py" bodystart="141" bodyend="164"/>
+    <listofallmembers>
+      <member refid="classcharset__normalizer_1_1md_1_1UnprintablePlugin_1a7cb003f028abf796fd89a17428947e5a" prot="public" virt="non-virtual"><scope>charset_normalizer::md::UnprintablePlugin</scope><name>__init__</name></member>
+      <member refid="classcharset__normalizer_1_1md_1_1UnprintablePlugin_1a5b3e1f8ba6369754faf87ecb63a9ed1b" prot="protected" virt="non-virtual"><scope>charset_normalizer::md::UnprintablePlugin</scope><name>_character_count</name></member>
+      <member refid="classcharset__normalizer_1_1md_1_1UnprintablePlugin_1ac937d241c61ad2340daf462698721f73" prot="protected" virt="non-virtual"><scope>charset_normalizer::md::UnprintablePlugin</scope><name>_unprintable_count</name></member>
+      <member refid="classcharset__normalizer_1_1md_1_1UnprintablePlugin_1af2bfe940b4aa5f7cb5ac7c47d292086c" prot="public" virt="non-virtual"><scope>charset_normalizer::md::UnprintablePlugin</scope><name>eligible</name></member>
+      <member refid="classcharset__normalizer_1_1md_1_1UnprintablePlugin_1ae7b4e7f6d4bd593a8bbf51ffde13a107" prot="public" virt="non-virtual"><scope>charset_normalizer::md::UnprintablePlugin</scope><name>feed</name></member>
+      <member refid="classcharset__normalizer_1_1md_1_1UnprintablePlugin_1a9a206ff868d74fa62ceab4b50ba7190d" prot="public" virt="non-virtual"><scope>charset_normalizer::md::UnprintablePlugin</scope><name>ratio</name></member>
+      <member refid="classcharset__normalizer_1_1md_1_1UnprintablePlugin_1a7199ced83f17206ce23e0f92b914c1f4" prot="public" virt="non-virtual"><scope>charset_normalizer::md::UnprintablePlugin</scope><name>reset</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

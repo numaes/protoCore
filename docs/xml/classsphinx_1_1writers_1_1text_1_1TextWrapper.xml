@@ -1,0 +1,200 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1writers_1_1text_1_1TextWrapper" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::writers::text::TextWrapper</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">textwrap.TextWrapper</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1writers_1_1text_1_1TextWrapper_1ad09b17bc1a358b807328d1da5ebc3724" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>sphinx.writers.text.TextWrapper::wordsep_re</definition>
+        <argsstring></argsstring>
+        <name>wordsep_re</name>
+        <qualifiedname>sphinx.writers.text.TextWrapper.wordsep_re</qualifiedname>
+        <initializer>=  re.compile(
+        r&apos;(\s+|&apos;                                  # any whitespace
+        r&apos;(?&lt;=\s)(?::[a-z-]+:)?`\S+|&apos;             # interpreted text start
+        r&apos;[^\s\w]*\w+[a-zA-Z]-(?=\w+[a-zA-Z])|&apos;   # hyphenated words
+        r&apos;(?&lt;=[\w\!\&quot;\&apos;\&amp;\.\,\?])-{2,}(?=\w))&apos;    # em-dash
+    )</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/text.py" line="268" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/text.py" bodystart="268" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1writers_1_1text_1_1TextWrapper_1accad51e1a0fed2455ebedf89bba9da44" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.writers.text.TextWrapper::width</definition>
+        <argsstring></argsstring>
+        <name>width</name>
+        <qualifiedname>sphinx.writers.text.TextWrapper.width</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/text.py" line="282" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/text.py" bodystart="282" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1text_1_1TextWrapper_1a3ae13e7ccfd94fed438f46a5646606e4" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[str]</type>
+        <definition> list[str] sphinx.writers.text.TextWrapper._wrap_chunks</definition>
+        <argsstring>(self, list[str] chunks)</argsstring>
+        <name>_wrap_chunks</name>
+        <qualifiedname>sphinx.writers.text.TextWrapper._wrap_chunks</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>chunks</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The original _wrap_chunks uses len() to calculate width.
+
+This method respects wide/fullwidth characters for width adjustment.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/text.py" line="275" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/text.py" bodystart="275" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1text_1_1TextWrapper_1a775040f12a9301708c172eecc5115953" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str, str]</type>
+        <definition> tuple[str, str] sphinx.writers.text.TextWrapper._break_word</definition>
+        <argsstring>(self, str word, int space_left)</argsstring>
+        <name>_break_word</name>
+        <qualifiedname>sphinx.writers.text.TextWrapper._break_word</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>word</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>space_left</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Break line by unicode width instead of len(word).</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/text.py" line="321" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/text.py" bodystart="321" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1text_1_1TextWrapper_1a11302b10bd158ec39df932524d24ac64" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[str]</type>
+        <definition> list[str] sphinx.writers.text.TextWrapper._split</definition>
+        <argsstring>(self, str text)</argsstring>
+        <name>_split</name>
+        <qualifiedname>sphinx.writers.text.TextWrapper._split</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Override original method that only split by &apos;wordsep_re&apos;.
+
+This &apos;_split&apos; splits wide-characters into chunks by one character.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/text.py" line="330" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/text.py" bodystart="330" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1text_1_1TextWrapper_1a15726a219e4bb5f82ae10ab7ef985c30" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.text.TextWrapper._handle_long_word</definition>
+        <argsstring>(self, list[str] reversed_chunks, list[str] cur_line, int cur_len, int width)</argsstring>
+        <name>_handle_long_word</name>
+        <qualifiedname>sphinx.writers.text.TextWrapper._handle_long_word</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>reversed_chunks</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>cur_line</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>cur_len</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>width</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Override original method for using self._break_word() instead of slice.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/text.py" line="348" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/text.py" bodystart="350" bodyend="361"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Custom subclass that uses a different word separator regex.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>sphinx.writers.text.TextWrapper</label>
+        <link refid="classsphinx_1_1writers_1_1text_1_1TextWrapper"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>textwrap.TextWrapper</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>sphinx.writers.text.TextWrapper</label>
+        <link refid="classsphinx_1_1writers_1_1text_1_1TextWrapper"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>textwrap.TextWrapper</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/writers/text.py" line="265" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/text.py" bodystart="265" bodyend="361"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1writers_1_1text_1_1TextWrapper_1a775040f12a9301708c172eecc5115953" prot="protected" virt="non-virtual"><scope>sphinx::writers::text::TextWrapper</scope><name>_break_word</name></member>
+      <member refid="classsphinx_1_1writers_1_1text_1_1TextWrapper_1a15726a219e4bb5f82ae10ab7ef985c30" prot="protected" virt="non-virtual"><scope>sphinx::writers::text::TextWrapper</scope><name>_handle_long_word</name></member>
+      <member refid="classsphinx_1_1writers_1_1text_1_1TextWrapper_1a11302b10bd158ec39df932524d24ac64" prot="protected" virt="non-virtual"><scope>sphinx::writers::text::TextWrapper</scope><name>_split</name></member>
+      <member refid="classsphinx_1_1writers_1_1text_1_1TextWrapper_1a3ae13e7ccfd94fed438f46a5646606e4" prot="protected" virt="non-virtual"><scope>sphinx::writers::text::TextWrapper</scope><name>_wrap_chunks</name></member>
+      <member refid="classsphinx_1_1writers_1_1text_1_1TextWrapper_1accad51e1a0fed2455ebedf89bba9da44" prot="public" virt="non-virtual"><scope>sphinx::writers::text::TextWrapper</scope><name>width</name></member>
+      <member refid="classsphinx_1_1writers_1_1text_1_1TextWrapper_1ad09b17bc1a358b807328d1da5ebc3724" prot="public" virt="non-virtual"><scope>sphinx::writers::text::TextWrapper</scope><name>wordsep_re</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

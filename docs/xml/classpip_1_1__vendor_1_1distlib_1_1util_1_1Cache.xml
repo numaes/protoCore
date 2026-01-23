@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1distlib_1_1util_1_1Cache" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::distlib::util::Cache</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">object</basecompoundref>
+    <derivedcompoundref refid="classpip_1_1__vendor_1_1distlib_1_1resources_1_1ResourceCache" prot="public" virt="non-virtual">pip._vendor.distlib.resources.ResourceCache</derivedcompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1distlib_1_1util_1_1Cache_1a8c4d3c27a776a3caeb0efa0db1b1d7da" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.distlib.util.Cache::base</definition>
+        <argsstring></argsstring>
+        <name>base</name>
+        <qualifiedname>pip._vendor.distlib.util.Cache.base</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/util.py" line="1004" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/util.py" bodystart="1004" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1util_1_1Cache_1a06cf8bbeafed3bdc548edfad8e45c989" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.util.Cache.__init__</definition>
+        <argsstring>(self, base)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._vendor.distlib.util.Cache.__init__</qualifiedname>
+        <reimplementedby refid="classpip_1_1__vendor_1_1distlib_1_1resources_1_1ResourceCache_1ace3e5689ef97b456e38736cf201dde02">__init__</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1distlib_1_1util_1_1Cache_1a8c4d3c27a776a3caeb0efa0db1b1d7da" kindref="member">base</ref></type>
+          <defname>base</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Initialise an instance.
+
+:param base: The base directory where the cache should be located.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/util.py" line="992" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/util.py" bodystart="992" bodyend="1005"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1util_1_1Cache_1a3aedeaa8ec0ed7383aed89fe1450a9c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.util.Cache.prefix_to_dir</definition>
+        <argsstring>(self, prefix)</argsstring>
+        <name>prefix_to_dir</name>
+        <qualifiedname>pip._vendor.distlib.util.Cache.prefix_to_dir</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>prefix</type>
+          <defname>prefix</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Converts a resource prefix to a directory name in the cache.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/util.py" line="1006" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/util.py" bodystart="1006" bodyend="1011"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1util_1_1Cache_1a18b1028244493764ba547e8b2eddfd15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.util.Cache.clear</definition>
+        <argsstring>(self)</argsstring>
+        <name>clear</name>
+        <qualifiedname>pip._vendor.distlib.util.Cache.clear</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Clear the cache.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/util.py" line="1012" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/util.py" bodystart="1012" bodyend="1028"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A class implementing a cache for resources that need to live in the file system
+e.g. shared libraries. This class was moved from resources to here because it
+could be used by other modules, e.g. the wheel module.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.distlib.util.Cache</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1util_1_1Cache"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.distlib.resources.ResourceCache</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1resources_1_1ResourceCache"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.distlib.util.Cache</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1util_1_1Cache"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/util.py" line="985" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/util.py" bodystart="985" bodyend="1028"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1util_1_1Cache_1a06cf8bbeafed3bdc548edfad8e45c989" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::util::Cache</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1util_1_1Cache_1a8c4d3c27a776a3caeb0efa0db1b1d7da" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::util::Cache</scope><name>base</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1util_1_1Cache_1a18b1028244493764ba547e8b2eddfd15" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::util::Cache</scope><name>clear</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1util_1_1Cache_1a3aedeaa8ec0ed7383aed89fe1450a9c7" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::util::Cache</scope><name>prefix_to_dir</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

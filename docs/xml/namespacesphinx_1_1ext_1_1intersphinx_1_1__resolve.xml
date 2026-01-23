@@ -1,0 +1,373 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1ext_1_1intersphinx_1_1__resolve" kind="namespace" language="Python">
+    <compoundname>sphinx::ext::intersphinx::_resolve</compoundname>
+    <innerclass refid="classsphinx_1_1ext_1_1intersphinx_1_1__resolve_1_1IntersphinxDispatcher" prot="public">sphinx::ext::intersphinx::_resolve::IntersphinxDispatcher</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1intersphinx_1_1__resolve_1_1IntersphinxRole" prot="public">sphinx::ext::intersphinx::_resolve::IntersphinxRole</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1intersphinx_1_1__resolve_1_1IntersphinxRoleResolver" prot="public">sphinx::ext::intersphinx::_resolve::IntersphinxRoleResolver</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1intersphinx_1_1__resolve_1a38ce181d7d7e1082fde47368b7278c20" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nodes.reference</type>
+        <definition> nodes.reference sphinx.ext.intersphinx._resolve._create_element_from_result</definition>
+        <argsstring>(str domain_name, InventoryName|None inv_name, _InventoryItem inv_item, pending_xref node, TextElement contnode)</argsstring>
+        <name>_create_element_from_result</name>
+        <qualifiedname>sphinx.ext.intersphinx._resolve._create_element_from_result</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>domain_name</declname>
+        </param>
+        <param>
+          <type>InventoryName|None</type>
+          <declname>inv_name</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1util_1_1inventory_1_1__InventoryItem" kindref="compound">_InventoryItem</ref></type>
+          <declname>inv_item</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1pending__xref" kindref="compound">pending_xref</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1TextElement" kindref="compound">TextElement</ref></type>
+          <declname>contnode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_resolve.py" line="37" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_resolve.py" bodystart="43" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1intersphinx_1_1__resolve_1afca8abec209b4284c5be8e5b4655993b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nodes.reference|None</type>
+        <definition> nodes.reference | None sphinx.ext.intersphinx._resolve._resolve_reference_in_domain_by_target</definition>
+        <argsstring>(InventoryName|None inv_name, Inventory inventory, str domain_name, Iterable[str] objtypes, str target, pending_xref node, TextElement contnode)</argsstring>
+        <name>_resolve_reference_in_domain_by_target</name>
+        <qualifiedname>sphinx.ext.intersphinx._resolve._resolve_reference_in_domain_by_target</qualifiedname>
+        <param>
+          <type>InventoryName|None</type>
+          <declname>inv_name</declname>
+        </param>
+        <param>
+          <type>Inventory</type>
+          <declname>inventory</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>domain_name</declname>
+        </param>
+        <param>
+          <type>Iterable</type>
+          <declname>objtypes</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1pending__xref" kindref="compound">pending_xref</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1TextElement" kindref="compound">TextElement</ref></type>
+          <declname>contnode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_resolve.py" line="76" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_resolve.py" bodystart="84" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1intersphinx_1_1__resolve_1a6d4a84c1a76b260a937133a7ece51c52" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nodes.reference|None</type>
+        <definition> nodes.reference | None sphinx.ext.intersphinx._resolve._resolve_reference_in_domain</definition>
+        <argsstring>(InventoryName|None inv_name, Inventory inventory, bool honor_disabled_refs, Set[str] disabled_reftypes, Domain domain, Iterable[str] objtypes, pending_xref node, TextElement contnode)</argsstring>
+        <name>_resolve_reference_in_domain</name>
+        <qualifiedname>sphinx.ext.intersphinx._resolve._resolve_reference_in_domain</qualifiedname>
+        <param>
+          <type>InventoryName|None</type>
+          <declname>inv_name</declname>
+        </param>
+        <param>
+          <type>Inventory</type>
+          <declname>inventory</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>honor_disabled_refs</declname>
+        </param>
+        <param>
+          <type>Set</type>
+          <declname>disabled_reftypes</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1domains_1_1Domain" kindref="compound">Domain</ref></type>
+          <declname>domain</declname>
+        </param>
+        <param>
+          <type>Iterable</type>
+          <declname>objtypes</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1pending__xref" kindref="compound">pending_xref</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1TextElement" kindref="compound">TextElement</ref></type>
+          <declname>contnode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_resolve.py" line="140" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_resolve.py" bodystart="149" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1intersphinx_1_1__resolve_1ac6e4f3abec2c86cfda5a833b25f827b7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nodes.reference|None</type>
+        <definition> nodes.reference | None sphinx.ext.intersphinx._resolve._resolve_reference</definition>
+        <argsstring>(InventoryName|None inv_name, _DomainsContainer domains, Inventory inventory, bool honor_disabled_refs, Set[str] disabled_reftypes, pending_xref node, TextElement contnode)</argsstring>
+        <name>_resolve_reference</name>
+        <qualifiedname>sphinx.ext.intersphinx._resolve._resolve_reference</qualifiedname>
+        <param>
+          <type>InventoryName|None</type>
+          <declname>inv_name</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1domains_1_1__domains__container_1_1__DomainsContainer" kindref="compound">_DomainsContainer</ref></type>
+          <declname>domains</declname>
+        </param>
+        <param>
+          <type>Inventory</type>
+          <declname>inventory</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>honor_disabled_refs</declname>
+        </param>
+        <param>
+          <type>Set</type>
+          <declname>disabled_reftypes</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1pending__xref" kindref="compound">pending_xref</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1TextElement" kindref="compound">TextElement</ref></type>
+          <declname>contnode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_resolve.py" line="190" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_resolve.py" bodystart="198" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1intersphinx_1_1__resolve_1a65ef877d558de1e100f63c188895d156" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool sphinx.ext.intersphinx._resolve.inventory_exists</definition>
+        <argsstring>(BuildEnvironment env, InventoryName inv_name)</argsstring>
+        <name>inventory_exists</name>
+        <qualifiedname>sphinx.ext.intersphinx._resolve.inventory_exists</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>InventoryName</type>
+          <declname>inv_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_resolve.py" line="252" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_resolve.py" bodystart="252" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1intersphinx_1_1__resolve_1abfbe8310975d15493af67f2146713ef8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nodes.reference|None</type>
+        <definition> nodes.reference | None sphinx.ext.intersphinx._resolve.resolve_reference_in_inventory</definition>
+        <argsstring>(BuildEnvironment env, InventoryName inv_name, pending_xref node, TextElement contnode)</argsstring>
+        <name>resolve_reference_in_inventory</name>
+        <qualifiedname>sphinx.ext.intersphinx._resolve.resolve_reference_in_inventory</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>InventoryName</type>
+          <declname>inv_name</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1pending__xref" kindref="compound">pending_xref</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1TextElement" kindref="compound">TextElement</ref></type>
+          <declname>contnode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Attempt to resolve a missing reference via intersphinx references.
+
+Resolution is tried in the given inventory with the target as is.
+
+Requires ``inventory_exists(env, inv_name)``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_resolve.py" line="256" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_resolve.py" bodystart="261" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1intersphinx_1_1__resolve_1a28313d12b6415e9e74c1537643d7e73c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nodes.reference|None</type>
+        <definition> nodes.reference | None sphinx.ext.intersphinx._resolve.resolve_reference_any_inventory</definition>
+        <argsstring>(BuildEnvironment env, bool honor_disabled_refs, pending_xref node, TextElement contnode)</argsstring>
+        <name>resolve_reference_any_inventory</name>
+        <qualifiedname>sphinx.ext.intersphinx._resolve.resolve_reference_any_inventory</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>honor_disabled_refs</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1pending__xref" kindref="compound">pending_xref</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1TextElement" kindref="compound">TextElement</ref></type>
+          <declname>contnode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Attempt to resolve a missing reference via intersphinx references.
+
+Resolution is tried with the target as is in any inventory.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_resolve.py" line="280" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_resolve.py" bodystart="285" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1intersphinx_1_1__resolve_1acd3ac6d19e53cdb425fbe3ab963a2d65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nodes.reference|None</type>
+        <definition> nodes.reference | None sphinx.ext.intersphinx._resolve.resolve_reference_detect_inventory</definition>
+        <argsstring>(BuildEnvironment env, pending_xref node, TextElement contnode)</argsstring>
+        <name>resolve_reference_detect_inventory</name>
+        <qualifiedname>sphinx.ext.intersphinx._resolve.resolve_reference_detect_inventory</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1pending__xref" kindref="compound">pending_xref</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1TextElement" kindref="compound">TextElement</ref></type>
+          <declname>contnode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Attempt to resolve a missing reference via intersphinx references.
+
+Resolution is tried first with the target as is in any inventory.
+If this does not succeed, then the target is split by the first ``:``,
+to form ``inv_name:new_target``. If ``inv_name`` is a named inventory, then resolution
+is tried in that inventory with the new target.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_resolve.py" line="301" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_resolve.py" bodystart="303" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1intersphinx_1_1__resolve_1a6bb96fac3c10efa387b4ae4f06ae6370" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nodes.reference|None</type>
+        <definition> nodes.reference | None sphinx.ext.intersphinx._resolve.missing_reference</definition>
+        <argsstring>(Sphinx app, BuildEnvironment env, pending_xref node, TextElement contnode)</argsstring>
+        <name>missing_reference</name>
+        <qualifiedname>sphinx.ext.intersphinx._resolve.missing_reference</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1addnodes_1_1pending__xref" kindref="compound">pending_xref</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1TextElement" kindref="compound">TextElement</ref></type>
+          <declname>contnode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Attempt to resolve a missing reference via intersphinx references.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_resolve.py" line="339" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_resolve.py" bodystart="341" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1intersphinx_1_1__resolve_1a1e46451d6d5c245e640d1af0bd3f9860" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.intersphinx._resolve.install_dispatcher</definition>
+        <argsstring>(Sphinx app, str docname, list[str] source)</argsstring>
+        <name>install_dispatcher</name>
+        <qualifiedname>sphinx.ext.intersphinx._resolve.install_dispatcher</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>source</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Enable IntersphinxDispatcher.
+
+.. note:: The installed dispatcher will be uninstalled on disabling sphinx_domain
+          automatically.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_resolve.py" line="630" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_resolve.py" bodystart="630" bodyend="638"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>This module provides logic for resolving references to intersphinx targets.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/ext/intersphinx/_resolve.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,462 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classurllib3_1_1__request__methods_1_1RequestMethods" kind="class" language="Python" prot="public">
+    <compoundname>urllib3::_request_methods::RequestMethods</compoundname>
+    <derivedcompoundref refid="classurllib3_1_1connectionpool_1_1HTTPConnectionPool" prot="public" virt="non-virtual">urllib3.connectionpool.HTTPConnectionPool</derivedcompoundref>
+    <derivedcompoundref refid="classurllib3_1_1poolmanager_1_1PoolManager" prot="public" virt="non-virtual">urllib3.poolmanager.PoolManager</derivedcompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classurllib3_1_1__request__methods_1_1RequestMethods_1a195694a8cf6f1b78f20bd84f20b530c0" prot="protected" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict urllib3._request_methods.RequestMethods::_encode_url_methods</definition>
+        <argsstring></argsstring>
+        <name>_encode_url_methods</name>
+        <qualifiedname>urllib3._request_methods.RequestMethods._encode_url_methods</qualifiedname>
+        <initializer>=  {&quot;DELETE&quot;, &quot;GET&quot;, &quot;HEAD&quot;, &quot;OPTIONS&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/_request_methods.py" line="49" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/_request_methods.py" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classurllib3_1_1__request__methods_1_1RequestMethods_1a1c6141ddb4fc0b12bfa19fa6a6be8aa8" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3._request_methods.RequestMethods::headers</definition>
+        <argsstring></argsstring>
+        <name>headers</name>
+        <qualifiedname>urllib3._request_methods.RequestMethods.headers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/_request_methods.py" line="52" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/_request_methods.py" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classurllib3_1_1__request__methods_1_1RequestMethods_1a46a69c3766cbeba2bfd3948ab6c19de0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3._request_methods.RequestMethods.__init__</definition>
+        <argsstring>(self, typing.Mapping[str, str]|None headers=None)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>urllib3._request_methods.RequestMethods.__init__</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1poolmanager_1_1PoolManager_1a608960257bba0fb191764be1307e97ff">__init__</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1connectionpool_1_1HTTPConnectionPool_1ae0d35c9e28754e8f50e8d4c8b08bcea2">__init__</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1connectionpool_1_1HTTPSConnectionPool_1a6b0d11d8f87745c6ab9d39332b04851a">__init__</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1poolmanager_1_1ProxyManager_1afe983a744d40888f41fad3e339bf9dc0">__init__</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSProxyManager_1a38a7c2e5b2c7749f08342a7dfd2ef0c1">__init__</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>typing.Mapping|None</type>
+          <declname>headers</declname>
+          <array>[str, str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/_request_methods.py" line="51" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/_request_methods.py" bodystart="51" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1__request__methods_1_1RequestMethods_1ad5023faee921d03e65491abf8c804c14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1response_1_1BaseHTTPResponse" kindref="compound">BaseHTTPResponse</ref></type>
+        <definition> BaseHTTPResponse urllib3._request_methods.RequestMethods.urlopen</definition>
+        <argsstring>(self, str method, str url, _TYPE_BODY|None body=None, typing.Mapping[str, str]|None headers=None, bool encode_multipart=True, str|None multipart_boundary=None, **typing.Any kw)</argsstring>
+        <name>urlopen</name>
+        <qualifiedname>urllib3._request_methods.RequestMethods.urlopen</qualifiedname>
+        <reimplementedby refid="classurllib3_1_1connectionpool_1_1HTTPConnectionPool_1a6b3e823eb76e87d1e8e8723660634e6f">urlopen</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1poolmanager_1_1PoolManager_1a3a3a71c8c2c6adf3b0ee663c983b5998">urlopen</reimplementedby>
+        <reimplementedby refid="classurllib3_1_1poolmanager_1_1ProxyManager_1aa8c68c746a94a6a08a444564d466148c">urlopen</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>_TYPE_BODY|None</type>
+          <declname>body</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>typing.Mapping|None</type>
+          <declname>headers</declname>
+          <array>[str, str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>encode_multipart</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>multipart_boundary</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>**typing.Any</type>
+          <declname>kw</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/_request_methods.py" line="54" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/_request_methods.py" bodystart="63" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1__request__methods_1_1RequestMethods_1aa960469d9fbd20c86ae018e8b1c22eda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1response_1_1BaseHTTPResponse" kindref="compound">BaseHTTPResponse</ref></type>
+        <definition> BaseHTTPResponse urllib3._request_methods.RequestMethods.request</definition>
+        <argsstring>(self, str method, str url, _TYPE_BODY|None body=None, _TYPE_FIELDS|None fields=None, typing.Mapping[str, str]|None headers=None, typing.Any|None json=None, **typing.Any urlopen_kw)</argsstring>
+        <name>request</name>
+        <qualifiedname>urllib3._request_methods.RequestMethods.request</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>_TYPE_BODY|None</type>
+          <declname>body</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>_TYPE_FIELDS|None</type>
+          <declname>fields</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>typing.Mapping|None</type>
+          <declname>headers</declname>
+          <array>[str, str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>typing.Any|None</type>
+          <declname>json</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>**typing.Any</type>
+          <declname>urlopen_kw</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Make a request using :meth:`urlopen` with the appropriate encoding of
+``fields`` based on the ``method`` used.
+
+This is a convenience method that requires the least amount of manual
+effort. It can be used in most situations, while still having the
+option to drop down to more specific methods when necessary, such as
+:meth:`request_encode_url`, :meth:`request_encode_body`,
+or even the lowest level :meth:`urlopen`.
+
+:param method:
+    HTTP request method (such as GET, POST, PUT, etc.)
+
+:param url:
+    The URL to perform the request on.
+
+:param body:
+    Data to send in the request body, either :class:`str`, :class:`bytes`,
+    an iterable of :class:`str`/:class:`bytes`, or a file-like object.
+
+:param fields:
+    Data to encode and send in the URL or request body, depending on ``method``.
+
+:param headers:
+    Dictionary of custom headers to send, such as User-Agent,
+    If-None-Match, etc. If None, pool headers are used. If provided,
+    these headers completely replace any pool-specific headers.
+
+:param json:
+    Data to encode and send as JSON with UTF-encoded in the request body.
+    The ``&quot;Content-Type&quot;`` header will be set to ``&quot;application/json&quot;``
+    unless specified otherwise.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/_request_methods.py" line="69" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/_request_methods.py" bodystart="78" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1__request__methods_1_1RequestMethods_1a07da4bf2f77104c62b660d671c1c1d5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1response_1_1BaseHTTPResponse" kindref="compound">BaseHTTPResponse</ref></type>
+        <definition> BaseHTTPResponse urllib3._request_methods.RequestMethods.request_encode_url</definition>
+        <argsstring>(self, str method, str url, _TYPE_ENCODE_URL_FIELDS|None fields=None, typing.Mapping[str, str]|None headers=None, **str urlopen_kw)</argsstring>
+        <name>request_encode_url</name>
+        <qualifiedname>urllib3._request_methods.RequestMethods.request_encode_url</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type><ref refid="namespaceurllib3_1_1__request__methods_1aa155b09bc9810481745ca4d09de90a1d" kindref="member">_TYPE_ENCODE_URL_FIELDS</ref>|None</type>
+          <declname>fields</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>typing.Mapping|None</type>
+          <declname>headers</declname>
+          <array>[str, str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>**str</type>
+          <declname>urlopen_kw</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Make a request using :meth:`urlopen` with the ``fields`` encoded in
+the url. This is useful for request methods like GET, HEAD, DELETE, etc.
+
+:param method:
+    HTTP request method (such as GET, POST, PUT, etc.)
+
+:param url:
+    The URL to perform the request on.
+
+:param fields:
+    Data to encode and send in the URL.
+
+:param headers:
+    Dictionary of custom headers to send, such as User-Agent,
+    If-None-Match, etc. If None, pool headers are used. If provided,
+    these headers completely replace any pool-specific headers.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/_request_methods.py" line="147" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/_request_methods.py" bodystart="154" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classurllib3_1_1__request__methods_1_1RequestMethods_1aa106f3922a0986cc8ae9f63ed4c2dd80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1response_1_1BaseHTTPResponse" kindref="compound">BaseHTTPResponse</ref></type>
+        <definition> BaseHTTPResponse urllib3._request_methods.RequestMethods.request_encode_body</definition>
+        <argsstring>(self, str method, str url, _TYPE_FIELDS|None fields=None, typing.Mapping[str, str]|None headers=None, bool encode_multipart=True, str|None multipart_boundary=None, **str urlopen_kw)</argsstring>
+        <name>request_encode_body</name>
+        <qualifiedname>urllib3._request_methods.RequestMethods.request_encode_body</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>_TYPE_FIELDS|None</type>
+          <declname>fields</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>typing.Mapping|None</type>
+          <declname>headers</declname>
+          <array>[str, str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>encode_multipart</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>multipart_boundary</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>**str</type>
+          <declname>urlopen_kw</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Make a request using :meth:`urlopen` with the ``fields`` encoded in
+the body. This is useful for request methods like POST, PUT, PATCH, etc.
+
+When ``encode_multipart=True`` (default), then
+:func:`urllib3.encode_multipart_formdata` is used to encode
+the payload with the appropriate content type. Otherwise
+:func:`urllib.parse.urlencode` is used with the
+&apos;application/x-www-form-urlencoded&apos; content type.
+
+Multipart encoding must be used when posting files, and it&apos;s reasonably
+safe to use it in other times too. However, it may break request
+signing, such as with OAuth.
+
+Supports an optional ``fields`` parameter of key/value strings AND
+key/filetuple. A filetuple is a (filename, data, MIME type) tuple where
+the MIME type is optional. For example::
+
+    fields = {
+        &apos;foo&apos;: &apos;bar&apos;,
+        &apos;fakefile&apos;: (&apos;foofile.txt&apos;, &apos;contents of foofile&apos;),
+        &apos;realfile&apos;: (&apos;barfile.txt&apos;, open(&apos;realfile&apos;).read()),
+        &apos;typedfile&apos;: (&apos;bazfile.bin&apos;, open(&apos;bazfile&apos;).read(),
+                      &apos;image/jpeg&apos;),
+        &apos;nonamefile&apos;: &apos;contents of nonamefile field&apos;,
+    }
+
+When uploading a file, providing a filename (the first parameter of the
+tuple) is optional but recommended to best mimic behavior of browsers.
+
+Note that if ``headers`` are supplied, the &apos;Content-Type&apos; header will
+be overwritten because it depends on the dynamic random boundary string
+which is used to compose the body of the request. The random boundary
+string can be explicitly set with the ``multipart_boundary`` parameter.
+
+:param method:
+    HTTP request method (such as GET, POST, PUT, etc.)
+
+:param url:
+    The URL to perform the request on.
+
+:param fields:
+    Data to encode and send in the request body.
+
+:param headers:
+    Dictionary of custom headers to send, such as User-Agent,
+    If-None-Match, etc. If None, pool headers are used. If provided,
+    these headers completely replace any pool-specific headers.
+
+:param encode_multipart:
+    If True, encode the ``fields`` using the multipart/form-data MIME
+    format.
+
+:param multipart_boundary:
+    If not specified, then a random boundary will be generated using
+    :func:`urllib3.filepost.choose_boundary`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/_request_methods.py" line="184" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/_request_methods.py" bodystart="193" bodyend="279"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Convenience mixin for classes who implement a :meth:`urlopen` method, such
+as :class:`urllib3.HTTPConnectionPool` and
+:class:`urllib3.PoolManager`.
+
+Provides behavior for making common types of HTTP request methods and
+decides which type of request field encoding to use.
+
+Specifically,
+
+:meth:`.request_encode_url` is for sending requests whose fields are
+encoded in the URL (such as GET, HEAD, DELETE).
+
+:meth:`.request_encode_body` is for sending requests whose fields are
+encoded in the *body* of the request using multipart or www-form-urlencoded
+(such as for POST, PUT, PATCH).
+
+:meth:`.request` is for making any kind of request, it will look up the
+appropriate encoding format and use one of the above two methods to make
+the request.
+
+Initializer parameters:
+
+:param headers:
+    Headers to include with all requests, unless other headers are given
+    explicitly.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>urllib3._request_methods.RequestMethods</label>
+        <link refid="classurllib3_1_1__request__methods_1_1RequestMethods"/>
+      </node>
+      <node id="2">
+        <label>urllib3.connectionpool.HTTPConnectionPool</label>
+        <link refid="classurllib3_1_1connectionpool_1_1HTTPConnectionPool"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>urllib3.connectionpool.HTTPSConnectionPool</label>
+        <link refid="classurllib3_1_1connectionpool_1_1HTTPSConnectionPool"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>urllib3.contrib.socks.SOCKSHTTPConnectionPool</label>
+        <link refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSHTTPConnectionPool"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>urllib3.contrib.socks.SOCKSHTTPSConnectionPool</label>
+        <link refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSHTTPSConnectionPool"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>urllib3.contrib.socks.SOCKSProxyManager</label>
+        <link refid="classurllib3_1_1contrib_1_1socks_1_1SOCKSProxyManager"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>urllib3.poolmanager.PoolManager</label>
+        <link refid="classurllib3_1_1poolmanager_1_1PoolManager"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>urllib3.poolmanager.ProxyManager</label>
+        <link refid="classurllib3_1_1poolmanager_1_1ProxyManager"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="venv/lib/python3.12/site-packages/urllib3/_request_methods.py" line="20" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/_request_methods.py" bodystart="20" bodyend="279"/>
+    <listofallmembers>
+      <member refid="classurllib3_1_1__request__methods_1_1RequestMethods_1a46a69c3766cbeba2bfd3948ab6c19de0" prot="public" virt="non-virtual"><scope>urllib3::_request_methods::RequestMethods</scope><name>__init__</name></member>
+      <member refid="classurllib3_1_1__request__methods_1_1RequestMethods_1a195694a8cf6f1b78f20bd84f20b530c0" prot="protected" virt="non-virtual"><scope>urllib3::_request_methods::RequestMethods</scope><name>_encode_url_methods</name></member>
+      <member refid="classurllib3_1_1__request__methods_1_1RequestMethods_1a1c6141ddb4fc0b12bfa19fa6a6be8aa8" prot="public" virt="non-virtual"><scope>urllib3::_request_methods::RequestMethods</scope><name>headers</name></member>
+      <member refid="classurllib3_1_1__request__methods_1_1RequestMethods_1aa960469d9fbd20c86ae018e8b1c22eda" prot="public" virt="non-virtual"><scope>urllib3::_request_methods::RequestMethods</scope><name>request</name></member>
+      <member refid="classurllib3_1_1__request__methods_1_1RequestMethods_1aa106f3922a0986cc8ae9f63ed4c2dd80" prot="public" virt="non-virtual"><scope>urllib3::_request_methods::RequestMethods</scope><name>request_encode_body</name></member>
+      <member refid="classurllib3_1_1__request__methods_1_1RequestMethods_1a07da4bf2f77104c62b660d671c1c1d5f" prot="public" virt="non-virtual"><scope>urllib3::_request_methods::RequestMethods</scope><name>request_encode_url</name></member>
+      <member refid="classurllib3_1_1__request__methods_1_1RequestMethods_1ad5023faee921d03e65491abf8c804c14" prot="public" virt="non-virtual"><scope>urllib3::_request_methods::RequestMethods</scope><name>urlopen</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

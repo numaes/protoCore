@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1CaselessKeyword" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::pyparsing::core::CaselessKeyword</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Keyword" prot="public" virt="non-virtual">pip._vendor.pyparsing.core.Keyword</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1CaselessKeyword_1a53998c0e2c5b425ac7c086cde7f736af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.core.CaselessKeyword.__init__</definition>
+        <argsstring>(self, str match_string=&quot;&quot;, typing.Optional[str] ident_chars=None, *str matchString=&quot;&quot;, typing.Optional[str] identChars=None)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._vendor.pyparsing.core.CaselessKeyword.__init__</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Keyword_1a0ab5607f0c57fd71d2277dd50dbfb28f">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>match_string</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>typing.Optional</type>
+          <declname>ident_chars</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*str</type>
+          <declname>matchString</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>typing.Optional</type>
+          <declname>identChars</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="2636" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="2643" bodyend="2648"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Caseless version of :class:`Keyword`.
+
+Example::
+
+    CaselessKeyword(&quot;CMD&quot;)[1, ...].parse_string(&quot;cmd CMD Cmd10&quot;)
+    # -&gt; [&apos;CMD&apos;, &apos;CMD&apos;]
+
+(Contrast with example for :class:`CaselessLiteral`.)
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="5">
+        <label>ABC</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.pyparsing.core.CaselessKeyword</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1CaselessKeyword"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pyparsing.core.Keyword</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Keyword"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._vendor.pyparsing.core.ParserElement</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.pyparsing.core.Token</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Token"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>ABC</label>
+      </node>
+      <node id="6">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.pyparsing.core.CaselessKeyword</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1CaselessKeyword"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pyparsing.core.Keyword</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Keyword"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>DEFAULT_KEYWORD_CHARS</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._vendor.pyparsing.core.ParserElement</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>DEFAULT_WHITE_CHARS</edgelabel>
+          <edgelabel>defaultName</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>_parse</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.pyparsing.core.Token</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Token"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>Tuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="2624" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="2624" bodyend="2648"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1CaselessKeyword_1a53998c0e2c5b425ac7c086cde7f736af" prot="public" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::CaselessKeyword</scope><name>__init__</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

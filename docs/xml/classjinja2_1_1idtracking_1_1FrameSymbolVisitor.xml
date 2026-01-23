@@ -1,0 +1,500 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1idtracking_1_1FrameSymbolVisitor" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::idtracking::FrameSymbolVisitor</compoundname>
+    <basecompoundref refid="classjinja2_1_1visitor_1_1NodeVisitor" prot="public" virt="non-virtual">jinja2.visitor.NodeVisitor</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1addeb49ecf83bb216404860b9f3426559" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.idtracking.FrameSymbolVisitor::symbols</definition>
+        <argsstring></argsstring>
+        <name>symbols</name>
+        <qualifiedname>jinja2.idtracking.FrameSymbolVisitor.symbols</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/idtracking.py" line="236" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/idtracking.py" bodystart="236" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1a841f0de2f3c6c89f8214fc1984f91de1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.idtracking.FrameSymbolVisitor.__init__</definition>
+        <argsstring>(self, &quot;Symbols&quot; symbols)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>jinja2.idtracking.FrameSymbolVisitor.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;Symbols&quot;</type>
+          <declname>symbols</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/idtracking.py" line="235" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/idtracking.py" bodystart="235" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1a5f3af3b3eec49ec5e49d31e502aa2ced" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.idtracking.FrameSymbolVisitor.visit_Name</definition>
+        <argsstring>(self, nodes.Name node, bool store_as_param=False, **t.Any kwargs)</argsstring>
+        <name>visit_Name</name>
+        <qualifiedname>jinja2.idtracking.FrameSymbolVisitor.visit_Name</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Name" kindref="compound">nodes.Name</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>store_as_param</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>All assignments to names go through this function.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/idtracking.py" line="238" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/idtracking.py" bodystart="240" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1a78978b2fdad5fe8e1a362c77965b9d95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.idtracking.FrameSymbolVisitor.visit_NSRef</definition>
+        <argsstring>(self, nodes.NSRef node, **t.Any kwargs)</argsstring>
+        <name>visit_NSRef</name>
+        <qualifiedname>jinja2.idtracking.FrameSymbolVisitor.visit_NSRef</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1NSRef" kindref="compound">nodes.NSRef</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/idtracking.py" line="249" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/idtracking.py" bodystart="249" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1a55bf38f806418d487bcf1a26e391ee65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.idtracking.FrameSymbolVisitor.visit_If</definition>
+        <argsstring>(self, nodes.If node, **t.Any kwargs)</argsstring>
+        <name>visit_If</name>
+        <qualifiedname>jinja2.idtracking.FrameSymbolVisitor.visit_If</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1If" kindref="compound">nodes.If</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/idtracking.py" line="252" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/idtracking.py" bodystart="252" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1aa5b96bf075bd311306910d21bfb77e34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.idtracking.FrameSymbolVisitor.visit_Macro</definition>
+        <argsstring>(self, nodes.Macro node, **t.Any kwargs)</argsstring>
+        <name>visit_Macro</name>
+        <qualifiedname>jinja2.idtracking.FrameSymbolVisitor.visit_Macro</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Macro" kindref="compound">nodes.Macro</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/idtracking.py" line="270" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/idtracking.py" bodystart="270" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1aa45b49d75e3c6fa24a3b333b8c1fe05b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.idtracking.FrameSymbolVisitor.visit_Import</definition>
+        <argsstring>(self, nodes.Import node, **t.Any kwargs)</argsstring>
+        <name>visit_Import</name>
+        <qualifiedname>jinja2.idtracking.FrameSymbolVisitor.visit_Import</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Import" kindref="compound">nodes.Import</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/idtracking.py" line="273" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/idtracking.py" bodystart="273" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1a53bde14db5d677a3f8d0197ad8afaa82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.idtracking.FrameSymbolVisitor.visit_FromImport</definition>
+        <argsstring>(self, nodes.FromImport node, **t.Any kwargs)</argsstring>
+        <name>visit_FromImport</name>
+        <qualifiedname>jinja2.idtracking.FrameSymbolVisitor.visit_FromImport</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1FromImport" kindref="compound">nodes.FromImport</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/idtracking.py" line="277" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/idtracking.py" bodystart="277" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1ab3241588488e6d886bef51564a55ed38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.idtracking.FrameSymbolVisitor.visit_Assign</definition>
+        <argsstring>(self, nodes.Assign node, **t.Any kwargs)</argsstring>
+        <name>visit_Assign</name>
+        <qualifiedname>jinja2.idtracking.FrameSymbolVisitor.visit_Assign</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Assign" kindref="compound">nodes.Assign</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Visit assignments in the correct order.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/idtracking.py" line="286" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/idtracking.py" bodystart="286" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1a67386af3fc0647bc43c9b30b1a6fb744" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.idtracking.FrameSymbolVisitor.visit_For</definition>
+        <argsstring>(self, nodes.For node, **t.Any kwargs)</argsstring>
+        <name>visit_For</name>
+        <qualifiedname>jinja2.idtracking.FrameSymbolVisitor.visit_For</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1For" kindref="compound">nodes.For</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Visiting stops at for blocks.  However the block sequence
+is visited as part of the outer scope.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/idtracking.py" line="291" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/idtracking.py" bodystart="291" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1a188b6f444b7d2a6999c1a68dacc9a828" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.idtracking.FrameSymbolVisitor.visit_CallBlock</definition>
+        <argsstring>(self, nodes.CallBlock node, **t.Any kwargs)</argsstring>
+        <name>visit_CallBlock</name>
+        <qualifiedname>jinja2.idtracking.FrameSymbolVisitor.visit_CallBlock</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1CallBlock" kindref="compound">nodes.CallBlock</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/idtracking.py" line="297" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/idtracking.py" bodystart="297" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1af59f2addd3325d9fbf2d762c303217ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.idtracking.FrameSymbolVisitor.visit_FilterBlock</definition>
+        <argsstring>(self, nodes.FilterBlock node, **t.Any kwargs)</argsstring>
+        <name>visit_FilterBlock</name>
+        <qualifiedname>jinja2.idtracking.FrameSymbolVisitor.visit_FilterBlock</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1FilterBlock" kindref="compound">nodes.FilterBlock</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/idtracking.py" line="300" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/idtracking.py" bodystart="300" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1a5b80da28d04b542e2b82a908fb6aedc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.idtracking.FrameSymbolVisitor.visit_With</definition>
+        <argsstring>(self, nodes.With node, **t.Any kwargs)</argsstring>
+        <name>visit_With</name>
+        <qualifiedname>jinja2.idtracking.FrameSymbolVisitor.visit_With</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1With" kindref="compound">nodes.With</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/idtracking.py" line="303" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/idtracking.py" bodystart="303" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1abab33c0aa9d17b523cd80b9d4bc25f11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.idtracking.FrameSymbolVisitor.visit_AssignBlock</definition>
+        <argsstring>(self, nodes.AssignBlock node, **t.Any kwargs)</argsstring>
+        <name>visit_AssignBlock</name>
+        <qualifiedname>jinja2.idtracking.FrameSymbolVisitor.visit_AssignBlock</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1AssignBlock" kindref="compound">nodes.AssignBlock</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Stop visiting at block assigns.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/idtracking.py" line="307" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/idtracking.py" bodystart="307" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1a259fd6a4fe18fc4eba0b7de1d86da097" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.idtracking.FrameSymbolVisitor.visit_Scope</definition>
+        <argsstring>(self, nodes.Scope node, **t.Any kwargs)</argsstring>
+        <name>visit_Scope</name>
+        <qualifiedname>jinja2.idtracking.FrameSymbolVisitor.visit_Scope</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Scope" kindref="compound">nodes.Scope</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Stop visiting at scopes.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/idtracking.py" line="311" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/idtracking.py" bodystart="311" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1a3f2da903334ca900d3eb903976a5f7df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.idtracking.FrameSymbolVisitor.visit_Block</definition>
+        <argsstring>(self, nodes.Block node, **t.Any kwargs)</argsstring>
+        <name>visit_Block</name>
+        <qualifiedname>jinja2.idtracking.FrameSymbolVisitor.visit_Block</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1Block" kindref="compound">nodes.Block</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Stop visiting at blocks.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/idtracking.py" line="314" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/idtracking.py" bodystart="314" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1a50563021e6d408dd033daa5580187b05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.idtracking.FrameSymbolVisitor.visit_OverlayScope</definition>
+        <argsstring>(self, nodes.OverlayScope node, **t.Any kwargs)</argsstring>
+        <name>visit_OverlayScope</name>
+        <qualifiedname>jinja2.idtracking.FrameSymbolVisitor.visit_OverlayScope</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1nodes_1_1OverlayScope" kindref="compound">nodes.OverlayScope</ref></type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Do not visit into overlay scopes.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/idtracking.py" line="317" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/idtracking.py" bodystart="317" bodyend="319"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A visitor for `Frame.inspect`.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.idtracking.FrameSymbolVisitor</label>
+        <link refid="classjinja2_1_1idtracking_1_1FrameSymbolVisitor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.visitor.NodeVisitor</label>
+        <link refid="classjinja2_1_1visitor_1_1NodeVisitor"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>jinja2.idtracking.FrameSymbolVisitor</label>
+        <link refid="classjinja2_1_1idtracking_1_1FrameSymbolVisitor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.visitor.NodeVisitor</label>
+        <link refid="classjinja2_1_1visitor_1_1NodeVisitor"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/jinja2/idtracking.py" line="232" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/idtracking.py" bodystart="232" bodyend="319"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1a841f0de2f3c6c89f8214fc1984f91de1" prot="public" virt="non-virtual"><scope>jinja2::idtracking::FrameSymbolVisitor</scope><name>__init__</name></member>
+      <member refid="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1addeb49ecf83bb216404860b9f3426559" prot="public" virt="non-virtual"><scope>jinja2::idtracking::FrameSymbolVisitor</scope><name>symbols</name></member>
+      <member refid="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1ab3241588488e6d886bef51564a55ed38" prot="public" virt="non-virtual"><scope>jinja2::idtracking::FrameSymbolVisitor</scope><name>visit_Assign</name></member>
+      <member refid="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1abab33c0aa9d17b523cd80b9d4bc25f11" prot="public" virt="non-virtual"><scope>jinja2::idtracking::FrameSymbolVisitor</scope><name>visit_AssignBlock</name></member>
+      <member refid="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1a3f2da903334ca900d3eb903976a5f7df" prot="public" virt="non-virtual"><scope>jinja2::idtracking::FrameSymbolVisitor</scope><name>visit_Block</name></member>
+      <member refid="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1a188b6f444b7d2a6999c1a68dacc9a828" prot="public" virt="non-virtual"><scope>jinja2::idtracking::FrameSymbolVisitor</scope><name>visit_CallBlock</name></member>
+      <member refid="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1af59f2addd3325d9fbf2d762c303217ed" prot="public" virt="non-virtual"><scope>jinja2::idtracking::FrameSymbolVisitor</scope><name>visit_FilterBlock</name></member>
+      <member refid="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1a67386af3fc0647bc43c9b30b1a6fb744" prot="public" virt="non-virtual"><scope>jinja2::idtracking::FrameSymbolVisitor</scope><name>visit_For</name></member>
+      <member refid="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1a53bde14db5d677a3f8d0197ad8afaa82" prot="public" virt="non-virtual"><scope>jinja2::idtracking::FrameSymbolVisitor</scope><name>visit_FromImport</name></member>
+      <member refid="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1a55bf38f806418d487bcf1a26e391ee65" prot="public" virt="non-virtual"><scope>jinja2::idtracking::FrameSymbolVisitor</scope><name>visit_If</name></member>
+      <member refid="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1aa45b49d75e3c6fa24a3b333b8c1fe05b" prot="public" virt="non-virtual"><scope>jinja2::idtracking::FrameSymbolVisitor</scope><name>visit_Import</name></member>
+      <member refid="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1aa5b96bf075bd311306910d21bfb77e34" prot="public" virt="non-virtual"><scope>jinja2::idtracking::FrameSymbolVisitor</scope><name>visit_Macro</name></member>
+      <member refid="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1a5f3af3b3eec49ec5e49d31e502aa2ced" prot="public" virt="non-virtual"><scope>jinja2::idtracking::FrameSymbolVisitor</scope><name>visit_Name</name></member>
+      <member refid="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1a78978b2fdad5fe8e1a362c77965b9d95" prot="public" virt="non-virtual"><scope>jinja2::idtracking::FrameSymbolVisitor</scope><name>visit_NSRef</name></member>
+      <member refid="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1a50563021e6d408dd033daa5580187b05" prot="public" virt="non-virtual"><scope>jinja2::idtracking::FrameSymbolVisitor</scope><name>visit_OverlayScope</name></member>
+      <member refid="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1a259fd6a4fe18fc4eba0b7de1d86da097" prot="public" virt="non-virtual"><scope>jinja2::idtracking::FrameSymbolVisitor</scope><name>visit_Scope</name></member>
+      <member refid="classjinja2_1_1idtracking_1_1FrameSymbolVisitor_1a5b80da28d04b542e2b82a908fb6aedc9" prot="public" virt="non-virtual"><scope>jinja2::idtracking::FrameSymbolVisitor</scope><name>visit_With</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

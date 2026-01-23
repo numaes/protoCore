@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="__internal_2utils_2wheel_8py" kind="file" language="Python">
+    <compoundname>wheel.py</compoundname>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal">pip::_internal</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1utils">pip::_internal::utils</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1utils_1_1wheel">pip::_internal::utils::wheel</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__internal_1_1utils_1_1wheel" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;Support<sp/>functions<sp/>for<sp/>working<sp/>with<sp/>wheel<sp/>files.</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>logging</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>email.message<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Message</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>email.parser<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Parser</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Tuple</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>zipfile<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>BadZipFile,<sp/>ZipFile</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1packaging_1_1utils" kindref="compound">pip._vendor.packaging.utils</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>canonicalize_name</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1exceptions" kindref="compound">pip._internal.exceptions</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>UnsupportedWheel</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal">VERSION_COMPATIBLE<sp/>=<sp/>(1,<sp/>0)</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal">logger<sp/>=<sp/>logging.getLogger(__name__)</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">parse_wheel(wheel_zip:<sp/>ZipFile,<sp/>name:<sp/>str)<sp/>-&gt;<sp/>Tuple[str,<sp/>Message]:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Extract<sp/>information<sp/>from<sp/>the<sp/>provided<sp/>wheel,<sp/>ensuring<sp/>it<sp/>meets<sp/>basic</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>standards.</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Returns<sp/>the<sp/>name<sp/>of<sp/>the<sp/>.dist-info<sp/>directory<sp/>and<sp/>the<sp/>parsed<sp/>WHEEL<sp/>metadata.</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>info_dir<sp/>=<sp/><ref refid="namespacepip_1_1__internal_1_1utils_1_1wheel_1a40eb793d49659ebdb513975664dc7b70" kindref="member">wheel_dist_info_dir</ref>(wheel_zip,<sp/>name)</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metadata<sp/>=<sp/><ref refid="namespacepip_1_1__internal_1_1utils_1_1wheel_1a08ede3e6ea9b6ac98256e28a093a9f91" kindref="member">wheel_metadata</ref>(wheel_zip,<sp/>info_dir)</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>version<sp/>=<sp/><ref refid="namespacepip_1_1__internal_1_1utils_1_1wheel_1a9521182afc9065561f75abe4f99e403d" kindref="member">wheel_version</ref>(metadata)</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>UnsupportedWheel<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>e:</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__internal_1_1exceptions_1_1UnsupportedWheel" kindref="compound">UnsupportedWheel</ref>(f</highlight><highlight class="stringliteral">&quot;{name}<sp/>has<sp/>an<sp/>invalid<sp/>wheel,<sp/>{str(e)}&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacepip_1_1__internal_1_1utils_1_1wheel_1abd3f7bfc3ff88273c5c36651f2174945" kindref="member">check_compatibility</ref>(version,<sp/>name)</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>info_dir,<sp/>metadata</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1utils_1_1wheel_1a40eb793d49659ebdb513975664dc7b70" kindref="member">wheel_dist_info_dir</ref>(source:<sp/>ZipFile,<sp/>name:<sp/>str)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Returns<sp/>the<sp/>name<sp/>of<sp/>the<sp/>contained<sp/>.dist-info<sp/>directory.</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Raises<sp/>AssertionError<sp/>or<sp/>UnsupportedWheel<sp/>if<sp/>not<sp/>found,<sp/>&gt;1<sp/>found,<sp/>or</highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>it<sp/>doesn&apos;t<sp/>match<sp/>the<sp/>provided<sp/>name.</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Zip<sp/>file<sp/>path<sp/>separators<sp/>must<sp/>be<sp/>/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>subdirs<sp/>=<sp/>{p.split(</highlight><highlight class="stringliteral">&quot;/&quot;</highlight><highlight class="normal">,<sp/>1)[0]<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>p<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>source.namelist()}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>info_dirs<sp/>=<sp/>[s<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>s<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>subdirs<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>s.endswith(</highlight><highlight class="stringliteral">&quot;.dist-info&quot;</highlight><highlight class="normal">)]</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>info_dirs:</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__internal_1_1exceptions_1_1UnsupportedWheel" kindref="compound">UnsupportedWheel</ref>(</highlight><highlight class="stringliteral">&quot;.dist-info<sp/>directory<sp/>not<sp/>found&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>len(info_dirs)<sp/>&gt;<sp/>1:</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__internal_1_1exceptions_1_1UnsupportedWheel" kindref="compound">UnsupportedWheel</ref>(</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;multiple<sp/>.dist-info<sp/>directories<sp/>found:<sp/>{}&quot;</highlight><highlight class="normal">.format(</highlight><highlight class="stringliteral">&quot;,<sp/>&quot;</highlight><highlight class="normal">.join(info_dirs))</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>info_dir<sp/>=<sp/>info_dirs[0]</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>info_dir_name<sp/>=<sp/>canonicalize_name(info_dir)</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>canonical_name<sp/>=<sp/>canonicalize_name(name)</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>info_dir_name.startswith(canonical_name):</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__internal_1_1exceptions_1_1UnsupportedWheel" kindref="compound">UnsupportedWheel</ref>(</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f</highlight><highlight class="stringliteral">&quot;.dist-info<sp/>directory<sp/>{info_dir!r}<sp/>does<sp/>not<sp/>start<sp/>with<sp/>{canonical_name!r}&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>info_dir</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">read_wheel_metadata_file(source:<sp/>ZipFile,<sp/>path:<sp/>str)<sp/>-&gt;<sp/>bytes:</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>source.read(path)</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>BadZipFile<sp/>for<sp/>general<sp/>corruption,<sp/>KeyError<sp/>for<sp/>missing<sp/>entry,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>and<sp/>RuntimeError<sp/>for<sp/>password-protected<sp/>files</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>(BadZipFile,<sp/>KeyError,<sp/>RuntimeError)<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>e:</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__internal_1_1exceptions_1_1UnsupportedWheel" kindref="compound">UnsupportedWheel</ref>(f</highlight><highlight class="stringliteral">&quot;could<sp/>not<sp/>read<sp/>{path!r}<sp/>file:<sp/>{e!r}&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1utils_1_1wheel_1a08ede3e6ea9b6ac98256e28a093a9f91" kindref="member">wheel_metadata</ref>(source:<sp/>ZipFile,<sp/>dist_info_dir:<sp/>str)<sp/>-&gt;<sp/>Message:</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>the<sp/>WHEEL<sp/>metadata<sp/>of<sp/>an<sp/>extracted<sp/>wheel,<sp/>if<sp/>possible.</highlight></codeline>
+<codeline lineno="80"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Otherwise,<sp/>raise<sp/>UnsupportedWheel.</highlight></codeline>
+<codeline lineno="81"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>path<sp/>=<sp/>f</highlight><highlight class="stringliteral">&quot;{dist_info_dir}/WHEEL&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Zip<sp/>file<sp/>path<sp/>separators<sp/>must<sp/>be<sp/>/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>wheel_contents<sp/>=<sp/>read_wheel_metadata_file(source,<sp/>path)</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wheel_text<sp/>=<sp/>wheel_contents.decode()</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>UnicodeDecodeError<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>e:</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__internal_1_1exceptions_1_1UnsupportedWheel" kindref="compound">UnsupportedWheel</ref>(f</highlight><highlight class="stringliteral">&quot;error<sp/>decoding<sp/>{path!r}:<sp/>{e!r}&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>FeedParser<sp/>(used<sp/>by<sp/>Parser)<sp/>does<sp/>not<sp/>raise<sp/>any<sp/>exceptions.<sp/>The<sp/>returned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>message<sp/>may<sp/>have<sp/>.defects<sp/>populated,<sp/>but<sp/>for<sp/>backwards-compatibility<sp/>we</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>currently<sp/>ignore<sp/>them.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Parser().parsestr(wheel_text)</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1utils_1_1wheel_1a9521182afc9065561f75abe4f99e403d" kindref="member">wheel_version</ref>(wheel_data:<sp/>Message)<sp/>-&gt;<sp/>Tuple[int,<sp/>...]:</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Given<sp/>WHEEL<sp/>metadata,<sp/>return<sp/>the<sp/>parsed<sp/>Wheel-Version.</highlight></codeline>
+<codeline lineno="99"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Otherwise,<sp/>raise<sp/>UnsupportedWheel.</highlight></codeline>
+<codeline lineno="100"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>version_text<sp/>=<sp/>wheel_data[</highlight><highlight class="stringliteral">&quot;Wheel-Version&quot;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>version_text<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__internal_1_1exceptions_1_1UnsupportedWheel" kindref="compound">UnsupportedWheel</ref>(</highlight><highlight class="stringliteral">&quot;WHEEL<sp/>is<sp/>missing<sp/>Wheel-Version&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>version<sp/>=<sp/>version_text.strip()</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tuple(map(int,<sp/>version.split(</highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal">)))</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>ValueError:</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__internal_1_1exceptions_1_1UnsupportedWheel" kindref="compound">UnsupportedWheel</ref>(f</highlight><highlight class="stringliteral">&quot;invalid<sp/>Wheel-Version:<sp/>{version!r}&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__internal_1_1utils_1_1wheel_1abd3f7bfc3ff88273c5c36651f2174945" kindref="member">check_compatibility</ref>(version:<sp/>Tuple[int,<sp/>...],<sp/>name:<sp/>str)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Raises<sp/>errors<sp/>or<sp/>warns<sp/>if<sp/>called<sp/>with<sp/>an<sp/>incompatible<sp/>Wheel-Version.</highlight></codeline>
+<codeline lineno="115"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="116"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>pip<sp/>should<sp/>refuse<sp/>to<sp/>install<sp/>a<sp/>Wheel-Version<sp/>that&apos;s<sp/>a<sp/>major<sp/>series</highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ahead<sp/>of<sp/>what<sp/>it&apos;s<sp/>compatible<sp/>with<sp/>(e.g<sp/>2.0<sp/>&gt;<sp/>1.1);<sp/>and<sp/>warn<sp/>when</highlight></codeline>
+<codeline lineno="118"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>installing<sp/>a<sp/>version<sp/>only<sp/>minor<sp/>version<sp/>ahead<sp/>(e.g<sp/>1.2<sp/>&gt;<sp/>1.1).</highlight></codeline>
+<codeline lineno="119"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="120"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>version:<sp/>a<sp/>2-tuple<sp/>representing<sp/>a<sp/>Wheel-Version<sp/>(Major,<sp/>Minor)</highlight></codeline>
+<codeline lineno="121"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>name:<sp/>name<sp/>of<sp/>wheel<sp/>or<sp/>package<sp/>to<sp/>raise<sp/>exception<sp/>about</highlight></codeline>
+<codeline lineno="122"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="123"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>:raises<sp/>UnsupportedWheel:<sp/>when<sp/>an<sp/>incompatible<sp/>Wheel-Version<sp/>is<sp/>given</highlight></codeline>
+<codeline lineno="124"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>version[0]<sp/>&gt;<sp/>VERSION_COMPATIBLE[0]:</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__internal_1_1exceptions_1_1UnsupportedWheel" kindref="compound">UnsupportedWheel</ref>(</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;{}&apos;s<sp/>Wheel-Version<sp/>({})<sp/>is<sp/>not<sp/>compatible<sp/>with<sp/>this<sp/>version<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;of<sp/>pip&quot;</highlight><highlight class="normal">.format(name,<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal">.join(map(str,<sp/>version)))</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">elif</highlight><highlight class="normal"><sp/>version<sp/>&gt;<sp/>VERSION_COMPATIBLE:</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>logger.warning(</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Installing<sp/>from<sp/>a<sp/>newer<sp/>Wheel-Version<sp/>(%s)&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal">.join(map(str,<sp/>version)),</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/wheel.py"/>
+  </compounddef>
+</doxygen>

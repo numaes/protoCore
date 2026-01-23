@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="win32_8py" kind="file" language="Python">
+    <compoundname>win32.py</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1colorama_1_1win32_1_1CONSOLE__SCREEN__BUFFER__INFO" prot="public">pip::_vendor::colorama::win32::CONSOLE_SCREEN_BUFFER_INFO</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1colorama">pip::_vendor::colorama</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1colorama_1_1win32">pip::_vendor::colorama::win32</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1colorama_1_1win32" refkind="compound"><highlight class="comment">#<sp/>Copyright<sp/>Jonathan<sp/>Hartley<sp/>2013.<sp/>BSD<sp/>3-Clause<sp/>license,<sp/>see<sp/>LICENSE<sp/>file.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">#<sp/>from<sp/>winbase.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal">STDOUT<sp/>=<sp/>-11</highlight></codeline>
+<codeline lineno="5"><highlight class="normal">STDERR<sp/>=<sp/>-12</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal">ENABLE_VIRTUAL_TERMINAL_PROCESSING<sp/>=<sp/>0x0004</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>ctypes</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>ctypes<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>LibraryLoader</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>windll<sp/>=<sp/>LibraryLoader(ctypes.WinDLL)</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>ctypes<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>wintypes</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/>(AttributeError,<sp/>ImportError):</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>windll<sp/>=<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>SetConsoleTextAttribute<sp/>=<sp/></highlight><highlight class="keyword">lambda</highlight><highlight class="normal"><sp/>*_:<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>winapi_test<sp/>=<sp/></highlight><highlight class="keyword">lambda</highlight><highlight class="normal"><sp/>*_:<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>ctypes<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>byref,<sp/>Structure,<sp/>c_char,<sp/>POINTER</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>COORD<sp/>=<sp/>wintypes._COORD</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="classpip_1_1__vendor_1_1colorama_1_1win32_1_1CONSOLE__SCREEN__BUFFER__INFO" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1win32_1_1CONSOLE__SCREEN__BUFFER__INFO" kindref="compound">CONSOLE_SCREEN_BUFFER_INFO</ref>(Structure):</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;struct<sp/>in<sp/>wincon.h.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_fields_<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;dwSize&quot;</highlight><highlight class="normal">,<sp/>COORD),</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;dwCursorPosition&quot;</highlight><highlight class="normal">,<sp/>COORD),</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;wAttributes&quot;</highlight><highlight class="normal">,<sp/>wintypes.WORD),</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;srWindow&quot;</highlight><highlight class="normal">,<sp/>wintypes.SMALL_RECT),</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;dwMaximumWindowSize&quot;</highlight><highlight class="normal">,<sp/>COORD),</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1colorama_1_1win32_1_1CONSOLE__SCREEN__BUFFER__INFO_1ab525ba0a6bdacf4d434a356c386f1c25" kindref="member">__str__</ref>(self):</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&apos;(%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d)&apos;</highlight><highlight class="normal"><sp/>%<sp/>(</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.dwSize.Y,<sp/>self.dwSize.X</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>self.dwCursorPosition.Y,<sp/>self.dwCursorPosition.X</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>self.wAttributes</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>self.srWindow.Top,<sp/>self.srWindow.Left,<sp/>self.srWindow.Bottom,<sp/>self.srWindow.Right</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>self.dwMaximumWindowSize.Y,<sp/>self.dwMaximumWindowSize.X</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>_GetStdHandle<sp/>=<sp/>windll.kernel32.GetStdHandle</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>_GetStdHandle.argtypes<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wintypes.DWORD,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>_GetStdHandle.restype<sp/>=<sp/>wintypes.HANDLE</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>_GetConsoleScreenBufferInfo<sp/>=<sp/>windll.kernel32.GetConsoleScreenBufferInfo</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>_GetConsoleScreenBufferInfo.argtypes<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wintypes.HANDLE,</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>POINTER(CONSOLE_SCREEN_BUFFER_INFO),</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>_GetConsoleScreenBufferInfo.restype<sp/>=<sp/>wintypes.BOOL</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>_SetConsoleTextAttribute<sp/>=<sp/>windll.kernel32.SetConsoleTextAttribute</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>_SetConsoleTextAttribute.argtypes<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wintypes.HANDLE,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wintypes.WORD,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>_SetConsoleTextAttribute.restype<sp/>=<sp/>wintypes.BOOL</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>_SetConsoleCursorPosition<sp/>=<sp/>windll.kernel32.SetConsoleCursorPosition</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>_SetConsoleCursorPosition.argtypes<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wintypes.HANDLE,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>COORD,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>_SetConsoleCursorPosition.restype<sp/>=<sp/>wintypes.BOOL</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>_FillConsoleOutputCharacterA<sp/>=<sp/>windll.kernel32.FillConsoleOutputCharacterA</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>_FillConsoleOutputCharacterA.argtypes<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wintypes.HANDLE,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c_char,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wintypes.DWORD,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>COORD,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>POINTER(wintypes.DWORD),</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>_FillConsoleOutputCharacterA.restype<sp/>=<sp/>wintypes.BOOL</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>_FillConsoleOutputAttribute<sp/>=<sp/>windll.kernel32.FillConsoleOutputAttribute</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>_FillConsoleOutputAttribute.argtypes<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wintypes.HANDLE,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wintypes.WORD,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wintypes.DWORD,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>COORD,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>POINTER(wintypes.DWORD),</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>_FillConsoleOutputAttribute.restype<sp/>=<sp/>wintypes.BOOL</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>_SetConsoleTitleW<sp/>=<sp/>windll.kernel32.SetConsoleTitleW</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>_SetConsoleTitleW.argtypes<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wintypes.LPCWSTR</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>_SetConsoleTitleW.restype<sp/>=<sp/>wintypes.BOOL</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>_GetConsoleMode<sp/>=<sp/>windll.kernel32.GetConsoleMode</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>_GetConsoleMode.argtypes<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wintypes.HANDLE,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>POINTER(wintypes.DWORD)</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>_GetConsoleMode.restype<sp/>=<sp/>wintypes.BOOL</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>_SetConsoleMode<sp/>=<sp/>windll.kernel32.SetConsoleMode</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>_SetConsoleMode.argtypes<sp/>=<sp/>[</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wintypes.HANDLE,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>wintypes.DWORD</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>]</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>_SetConsoleMode.restype<sp/>=<sp/>wintypes.BOOL</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1a0e19c22b06e246b59516a9e61946f6ac" kindref="member">_winapi_test</ref>(handle):</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>csbi<sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1colorama_1_1win32_1_1CONSOLE__SCREEN__BUFFER__INFO" kindref="compound">CONSOLE_SCREEN_BUFFER_INFO</ref>()</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>success<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1a2917d33f2c5b0564d83162682e3cd732" kindref="member">_GetConsoleScreenBufferInfo</ref>(</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle,<sp/>byref(csbi))</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>bool(success)</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1ae5cd2886f6c3c8aca00126b4af8c753c" kindref="member">winapi_test</ref>():</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>any(<ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1a0e19c22b06e246b59516a9e61946f6ac" kindref="member">_winapi_test</ref>(h)<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>h<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(<ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1a020b1ce7ddfe4ec6aacdfc2cfd939974" kindref="member">_GetStdHandle</ref>(STDOUT),<sp/><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1a020b1ce7ddfe4ec6aacdfc2cfd939974" kindref="member">_GetStdHandle</ref>(STDERR)))</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1a9f582620384298d290781b93e4fbb5db" kindref="member">GetConsoleScreenBufferInfo</ref>(stream_id=STDOUT):</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1a020b1ce7ddfe4ec6aacdfc2cfd939974" kindref="member">_GetStdHandle</ref>(stream_id)</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>csbi<sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1colorama_1_1win32_1_1CONSOLE__SCREEN__BUFFER__INFO" kindref="compound">CONSOLE_SCREEN_BUFFER_INFO</ref>()</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>success<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1a2917d33f2c5b0564d83162682e3cd732" kindref="member">_GetConsoleScreenBufferInfo</ref>(</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle,<sp/>byref(csbi))</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>csbi</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1a9dfde55a2cf15aa0b95dfcb08c3eb7e6" kindref="member">SetConsoleTextAttribute</ref>(stream_id,<sp/>attrs):</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1a020b1ce7ddfe4ec6aacdfc2cfd939974" kindref="member">_GetStdHandle</ref>(stream_id)</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1a1f914f0235727f1d3f0c0341974775dd" kindref="member">_SetConsoleTextAttribute</ref>(handle,<sp/>attrs)</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1a22f06010f7cc8c424e8f369561b4e025" kindref="member">SetConsoleCursorPosition</ref>(stream_id,<sp/>position,<sp/>adjust=True):</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>position<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1afc2e2673fd8218862c4ed0320c84855a" kindref="member">COORD</ref>(*position)</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>If<sp/>the<sp/>position<sp/>is<sp/>out<sp/>of<sp/>range,<sp/>do<sp/>nothing.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>position.Y<sp/>&lt;=<sp/>0<sp/></highlight><highlight class="keywordflow">or</highlight><highlight class="normal"><sp/>position.X<sp/>&lt;=<sp/>0:</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Adjust<sp/>for<sp/>Windows&apos;<sp/>SetConsoleCursorPosition:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/>1.<sp/>being<sp/>0-based,<sp/>while<sp/>ANSI<sp/>is<sp/>1-based.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/><sp/><sp/><sp/>2.<sp/>expecting<sp/>(x,y),<sp/>while<sp/>ANSI<sp/>uses<sp/>(y,x).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adjusted_position<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1afc2e2673fd8218862c4ed0320c84855a" kindref="member">COORD</ref>(position.Y<sp/>-<sp/>1,<sp/>position.X<sp/>-<sp/>1)</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>adjust:</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Adjust<sp/>for<sp/>viewport&apos;s<sp/>scroll<sp/>position</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sr<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1a9f582620384298d290781b93e4fbb5db" kindref="member">GetConsoleScreenBufferInfo</ref>(STDOUT).srWindow</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adjusted_position.Y<sp/>+=<sp/>sr.Top</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adjusted_position.X<sp/>+=<sp/>sr.Left</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Resume<sp/>normal<sp/>processing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1a020b1ce7ddfe4ec6aacdfc2cfd939974" kindref="member">_GetStdHandle</ref>(stream_id)</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1a30d2c76a2b6bbfddf1d9a5fdcec88bde" kindref="member">_SetConsoleCursorPosition</ref>(handle,<sp/>adjusted_position)</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1a4c707352f05a3ff4755c8bf57a4c3e1e" kindref="member">FillConsoleOutputCharacter</ref>(stream_id,<sp/>char,<sp/>length,<sp/>start):</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1a020b1ce7ddfe4ec6aacdfc2cfd939974" kindref="member">_GetStdHandle</ref>(stream_id)</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>char<sp/>=<sp/>c_char(char.encode())</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>length<sp/>=<sp/>wintypes.DWORD(length)</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>num_written<sp/>=<sp/>wintypes.DWORD(0)</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Note<sp/>that<sp/>this<sp/>is<sp/>hard-coded<sp/>for<sp/>ANSI<sp/>(vs<sp/>wide)<sp/>bytes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>success<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1a18f6e2d9d95965a0e67b12a24b0c91dd" kindref="member">_FillConsoleOutputCharacterA</ref>(</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle,<sp/>char,<sp/>length,<sp/>start,<sp/>byref(num_written))</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>num_written.value</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1a2beb8bc96bcfae0e39a65f510305ab9f" kindref="member">FillConsoleOutputAttribute</ref>(stream_id,<sp/>attr,<sp/>length,<sp/>start):</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&apos;&apos;&apos;<sp/>FillConsoleOutputAttribute(<sp/>hConsole,<sp/>csbi.wAttributes,<sp/>dwConSize,<sp/>coordScreen,<sp/>&amp;cCharsWritten<sp/>)&apos;&apos;&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1a020b1ce7ddfe4ec6aacdfc2cfd939974" kindref="member">_GetStdHandle</ref>(stream_id)</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>attribute<sp/>=<sp/>wintypes.WORD(attr)</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>length<sp/>=<sp/>wintypes.DWORD(length)</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>num_written<sp/>=<sp/>wintypes.DWORD(0)</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Note<sp/>that<sp/>this<sp/>is<sp/>hard-coded<sp/>for<sp/>ANSI<sp/>(vs<sp/>wide)<sp/>bytes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1ad475fcfdf4fb812890ec099cce17789a" kindref="member">_FillConsoleOutputAttribute</ref>(</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handle,<sp/>attribute,<sp/>length,<sp/>start,<sp/>byref(num_written))</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1aaef1a08ba71bc5860bbd378bfa6d0615" kindref="member">SetConsoleTitle</ref>(title):</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1ae4b0ade1128217815b842be29a53a199" kindref="member">_SetConsoleTitleW</ref>(title)</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1aef1c3f0d420b927a86d083b9d7450b02" kindref="member">GetConsoleMode</ref>(handle):</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mode<sp/>=<sp/>wintypes.DWORD()</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>success<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1af0fbe0a19bed5859403bb2d24bc1c4f7" kindref="member">_GetConsoleMode</ref>(handle,<sp/>byref(mode))</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>success:</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>ctypes.WinError()</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>mode.value</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1a379415f1a6e820d45118ad9d9c6e2473" kindref="member">SetConsoleMode</ref>(handle,<sp/>mode):</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>success<sp/>=<sp/><ref refid="namespacepip_1_1__vendor_1_1colorama_1_1win32_1add53d3e1f77a397926bc489f817423b1" kindref="member">_SetConsoleMode</ref>(handle,<sp/>mode)</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">not</highlight><highlight class="normal"><sp/>success:</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>ctypes.WinError()</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/colorama/win32.py"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="GarbageCollector_8md" kind="file" language="Markdown">
+    <compoundname>GarbageCollector.md</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline><highlight class="normal">#<sp/>Garbage<sp/>Collector<sp/>Implementation<sp/>in<sp/>protoCore</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">This<sp/>document<sp/>describes<sp/>the<sp/>design<sp/>and<sp/>implementation<sp/>of<sp/>the<sp/>Garbage<sp/>Collector<sp/>(GC)<sp/>in<sp/>the<sp/>`protoCore`<sp/>project.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Overview</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>`protoCore`<sp/>GC<sp/>is<sp/>a<sp/>concurrent<sp/>Mark<sp/>&amp;<sp/>Sweep<sp/>collector<sp/>with<sp/>a<sp/>Stop-The-World<sp/>(STW)<sp/>phase<sp/>for<sp/>root<sp/>collection.<sp/>It<sp/>is<sp/>designed<sp/>to<sp/>work<sp/>in<sp/>a<sp/>multi-threaded<sp/>environment<sp/>where<sp/>each<sp/>thread<sp/>manages<sp/>its<sp/>own<sp/>&quot;young<sp/>generation&quot;<sp/>of<sp/>objects<sp/>before<sp/>submitting<sp/>them<sp/>to<sp/>the<sp/>global<sp/>heap.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Key<sp/>Components</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>1.<sp/>ProtoSpace</highlight></codeline>
+<codeline><highlight class="normal">The<sp/>`ProtoSpace`<sp/>manages<sp/>the<sp/>global<sp/>heap,<sp/>the<sp/>free<sp/>list,<sp/>and<sp/>the<sp/>GC<sp/>thread.<sp/>It<sp/>coordinates<sp/>the<sp/>Stop-The-World<sp/>synchronization<sp/>and<sp/>the<sp/>mark-and-sweep<sp/>cycle.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>2.<sp/>ProtoContext</highlight></codeline>
+<codeline><highlight class="normal">Each<sp/>`ProtoContext`<sp/>(representing<sp/>a<sp/>call<sp/>stack<sp/>frame)<sp/>tracks<sp/>objects<sp/>allocated<sp/>within<sp/>its<sp/>execution<sp/>scope.<sp/>It<sp/>maintains<sp/>a<sp/>linked<sp/>list<sp/>of<sp/>&quot;young&quot;<sp/>cells<sp/>(`lastAllocatedCell`).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>3.<sp/>DirtySegment</highlight></codeline>
+<codeline><highlight class="normal">When<sp/>a<sp/>context<sp/>is<sp/>destroyed<sp/>or<sp/>upon<sp/>request,<sp/>its<sp/>&quot;young<sp/>generation&quot;<sp/>chain<sp/>is<sp/>submitted<sp/>to<sp/>`ProtoSpace`<sp/>as<sp/>a<sp/>`DirtySegment`.<sp/>These<sp/>segments<sp/>form<sp/>the<sp/>pool<sp/>of<sp/>objects<sp/>that<sp/>the<sp/>GC<sp/>will<sp/>examine.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>The<sp/>GC<sp/>Cycle</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>GC<sp/>runs<sp/>in<sp/>a<sp/>dedicated<sp/>background<sp/>thread<sp/>(`gcThreadLoop`)<sp/>and<sp/>follows<sp/>these<sp/>phases:</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Phase<sp/>1:<sp/>Stop-The-World<sp/>(STW)</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Sets<sp/>the<sp/>`stwFlag`<sp/>to<sp/>`true`.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Waits<sp/>for<sp/>all<sp/>application<sp/>threads<sp/>to<sp/>reach<sp/>a<sp/>&quot;parked&quot;<sp/>state<sp/>(synchronization<sp/>points).</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Application<sp/>threads<sp/>check<sp/>this<sp/>flag<sp/>during<sp/>memory<sp/>allocation<sp/>or<sp/>explicit<sp/>synchronization<sp/>calls<sp/>(`synchToGC`).</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Phase<sp/>2:<sp/>Root<sp/>Collection</highlight></codeline>
+<codeline><highlight class="normal">While<sp/>the<sp/>world<sp/>is<sp/>stopped,<sp/>the<sp/>GC<sp/>identifies<sp/>all<sp/>root<sp/>objects:</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Global<sp/>Roots**:<sp/>Key<sp/>prototypes<sp/>and<sp/>global<sp/>objects<sp/>in<sp/>`ProtoSpace`.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Thread<sp/>Stacks**:<sp/>Automatic<sp/>locals<sp/>and<sp/>closure<sp/>locals<sp/>in<sp/>all<sp/>active<sp/>`ProtoContext`<sp/>objects<sp/>across<sp/>all<sp/>threads.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Young<sp/>Generations**:<sp/>Any<sp/>outstanding<sp/>`lastAllocatedCell`<sp/>chains<sp/>in<sp/>active<sp/>contexts<sp/>are<sp/>flushed<sp/>to<sp/>`DirtySegments`.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Heap<sp/>Snapshot**:<sp/>The<sp/>list<sp/>of<sp/>`DirtySegments`<sp/>to<sp/>be<sp/>analyzed<sp/>is<sp/>captured<sp/>and<sp/>cleared<sp/>from<sp/>the<sp/>global<sp/>pool.<sp/>This<sp/>ensures<sp/>the<sp/>GC<sp/>works<sp/>on<sp/>a<sp/>consistent<sp/>snapshot<sp/>of<sp/>objects<sp/>that<sp/>existed<sp/>at<sp/>the<sp/>start<sp/>of<sp/>the<sp/>cycle.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Phase<sp/>3:<sp/>Resume<sp/>The<sp/>World</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Once<sp/>roots<sp/>are<sp/>safely<sp/>collected<sp/>into<sp/>a<sp/>work-list,<sp/>the<sp/>`stwFlag`<sp/>is<sp/>cleared.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Application<sp/>threads<sp/>are<sp/>resumed<sp/>and<sp/>can<sp/>continue<sp/>execution<sp/>and<sp/>allocation<sp/>while<sp/>the<sp/>GC<sp/>proceeds<sp/>to<sp/>marking.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Phase<sp/>4:<sp/>Mark</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Performs<sp/>a<sp/>depth-first<sp/>traversal<sp/>starting<sp/>from<sp/>the<sp/>roots.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Uses<sp/>the<sp/>`processReferences`<sp/>virtual<sp/>method<sp/>on<sp/>`Cell`<sp/>implementations<sp/>to<sp/>discover<sp/>reachable<sp/>objects.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Reachable<sp/>objects<sp/>are<sp/>marked<sp/>using<sp/>a<sp/>bit-flag<sp/>in<sp/>the<sp/>`Cell::next_and_flags`<sp/>atomic<sp/>member<sp/>(bit<sp/>0).<sp/>This<sp/>is<sp/>highly<sp/>efficient<sp/>as<sp/>it<sp/>avoids<sp/>the<sp/>allocation<sp/>and<sp/>hashing<sp/>overhead<sp/>of<sp/>a<sp/>separate<sp/>set.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">###<sp/>Phase<sp/>5:<sp/>Sweep</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Iterates<sp/>through<sp/>the<sp/>**captured<sp/>snapshot**<sp/>of<sp/>`DirtySegments`.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>For<sp/>each<sp/>cell<sp/>in<sp/>a<sp/>segment:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>-<sp/>If<sp/>it<sp/>was<sp/>**not**<sp/>marked,<sp/>it<sp/>is<sp/>finalized<sp/>(`finalize()`)<sp/>and<sp/>returned<sp/>to<sp/>the<sp/>global<sp/>`freeCells`<sp/>list.</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>-<sp/>If<sp/>it<sp/>was<sp/>marked,<sp/>the<sp/>flag<sp/>is<sp/>cleared<sp/>(`unmark()`),<sp/>and<sp/>it<sp/>remains<sp/>in<sp/>the<sp/>heap<sp/>for<sp/>the<sp/>next<sp/>cycle.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>Cleans<sp/>up<sp/>processed<sp/>`DirtySegments`<sp/>from<sp/>the<sp/>snapshot.<sp/>New<sp/>segments<sp/>added<sp/>by<sp/>threads<sp/>during<sp/>the<sp/>Mark<sp/>phase<sp/>are<sp/>ignored<sp/>and<sp/>will<sp/>be<sp/>processed<sp/>in<sp/>the<sp/>next<sp/>cycle.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Optimization<sp/>Features</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Inline<sp/>Caching**:<sp/>Per-thread<sp/>attribute<sp/>caches<sp/>(`ProtoThreadExtension::attributeCache`)<sp/>speed<sp/>up<sp/>prototype<sp/>chain<sp/>traversals.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Bit-Marking**:<sp/>Efficient<sp/>marking<sp/>using<sp/>the<sp/>lower<sp/>bits<sp/>of<sp/>aligned<sp/>pointers<sp/>in<sp/>the<sp/>cell<sp/>chain.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Atomic<sp/>References**:<sp/>Thread-safe<sp/>`mutable_ref`<sp/>generation<sp/>using<sp/>an<sp/>atomic<sp/>counter<sp/>in<sp/>`ProtoSpace`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Future<sp/>Improvements</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>**Multi-threaded<sp/>Marking**:<sp/>Parallelize<sp/>the<sp/>mark<sp/>phase<sp/>to<sp/>handle<sp/>very<sp/>large<sp/>heaps.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Synchronization<sp/>Mechanisms</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>`globalMutex`:<sp/>Protects<sp/>access<sp/>to<sp/>shared<sp/>memory<sp/>structures<sp/>like<sp/>`freeCells`,<sp/>`dirtySegments`,<sp/>and<sp/>the<sp/>thread<sp/>list.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>`stwFlag`<sp/>&amp;<sp/>`parkedThreads`:<sp/>Manage<sp/>the<sp/>Stop-The-World<sp/>synchronization.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>`gcCV`:<sp/>Condition<sp/>variable<sp/>to<sp/>trigger<sp/>the<sp/>GC<sp/>thread<sp/>and<sp/>coordinate<sp/>parked<sp/>threads.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>Memory<sp/>Allocation</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">-<sp/>Threads<sp/>request<sp/>batches<sp/>of<sp/>cells<sp/>from<sp/>`ProtoSpace`<sp/>(`getFreeCells`).</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>If<sp/>the<sp/>free<sp/>list<sp/>is<sp/>low,<sp/>the<sp/>GC<sp/>is<sp/>triggered.</highlight></codeline>
+<codeline><highlight class="normal">-<sp/>If<sp/>no<sp/>free<sp/>cells<sp/>are<sp/>available<sp/>even<sp/>after<sp/>a<sp/>GC,<sp/>`ProtoSpace`<sp/>allocates<sp/>a<sp/>new<sp/>chunk<sp/>of<sp/>memory<sp/>from<sp/>the<sp/>OS<sp/>using<sp/>`posix_memalign`.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">##<sp/>How<sp/>to<sp/>use</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">The<sp/>GC<sp/>is<sp/>mostly<sp/>automatic.<sp/>However,<sp/>threads<sp/>must<sp/>be<sp/>&quot;managed&quot;<sp/>by<sp/>`ProtoSpace`<sp/>to<sp/>participate<sp/>in<sp/>the<sp/>STW<sp/>protocol.<sp/>Use<sp/>`ProtoThread`<sp/>and<sp/>its<sp/>synchronization<sp/>methods<sp/>to<sp/>ensure<sp/>proper<sp/>GC<sp/>behavior<sp/>in<sp/>custom<sp/>threading<sp/>scenarios.</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">```cpp</highlight></codeline>
+<codeline><highlight class="normal">//<sp/>Example<sp/>of<sp/>manual<sp/>synchronization<sp/>if<sp/>needed</highlight></codeline>
+<codeline><highlight class="normal">thread-&gt;synchToGC();</highlight></codeline>
+<codeline><highlight class="normal">```</highlight></codeline>
+    </programlisting>
+    <location file="GarbageCollector.md"/>
+  </compounddef>
+</doxygen>

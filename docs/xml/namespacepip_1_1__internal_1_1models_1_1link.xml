@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1models_1_1link" kind="namespace" language="Python">
+    <compoundname>pip::_internal::models::link</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1models_1_1link_1_1__CleanResult" prot="protected">pip::_internal::models::link::_CleanResult</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1models_1_1link_1_1Link" prot="public">pip::_internal::models::link::Link</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1models_1_1link_1_1LinkHash" prot="public">pip::_internal::models::link::LinkHash</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1models_1_1link_1_1MetadataFile" prot="public">pip::_internal::models::link::MetadataFile</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1models_1_1link_1a0f4a689cace1d684305d6d5f7b30d653" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::models::link.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.models.link.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="36" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1models_1_1link_1a0a54bc522d14ce046a3e71f5d0ff0bff" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple pip::_internal::models::link._SUPPORTED_HASHES</definition>
+        <argsstring></argsstring>
+        <name>_SUPPORTED_HASHES</name>
+        <qualifiedname>pip._internal.models.link._SUPPORTED_HASHES</qualifiedname>
+        <initializer>=  (&quot;sha512&quot;, &quot;sha384&quot;, &quot;sha256&quot;, &quot;sha224&quot;, &quot;sha1&quot;, &quot;md5&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="41" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1models_1_1link_1a275257d94cb3666c5fa942fcda5998e4" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::models::link._reserved_chars_re</definition>
+        <argsstring></argsstring>
+        <name>_reserved_chars_re</name>
+        <qualifiedname>pip._internal.models.link._reserved_chars_re</qualifiedname>
+        <initializer>=  re.compile(&quot;(@|%2F)&quot;, re.IGNORECASE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="142" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="142" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1models_1_1link_1a95dbd2f26684fe069e0056cefce51e8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[Dict[str, str]]</type>
+        <definition> Optional[Dict[str, str]] pip._internal.models.link.supported_hashes</definition>
+        <argsstring>(Optional[Dict[str, str]] hashes)</argsstring>
+        <name>supported_hashes</name>
+        <qualifiedname>pip._internal.models.link.supported_hashes</qualifiedname>
+        <param>
+          <type>Optional]</type>
+          <declname>hashes</declname>
+          <array>[Dict[str, str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="109" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="109" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1models_1_1link_1aeb32ba6be9858d9263cd47bec1170d0a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.models.link._clean_url_path_part</definition>
+        <argsstring>(str part)</argsstring>
+        <name>_clean_url_path_part</name>
+        <qualifiedname>pip._internal.models.link._clean_url_path_part</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>part</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Clean a &quot;part&quot; of a URL path (i.e. after splitting on &quot;@&quot; characters).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="120" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="120" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1models_1_1link_1acdb254c172d1ea3fcbfac3d5b226181a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.models.link._clean_file_url_path</definition>
+        <argsstring>(str part)</argsstring>
+        <name>_clean_file_url_path</name>
+        <qualifiedname>pip._internal.models.link._clean_file_url_path</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>part</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Clean the first part of a URL path that corresponds to a local
+filesystem path (i.e. the first part after splitting on &quot;@&quot; characters).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="128" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="128" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1models_1_1link_1a6f9dedf4481baa466267b78aab3151eb" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.models.link._clean_url_path</definition>
+        <argsstring>(str path, bool is_local_path)</argsstring>
+        <name>_clean_url_path</name>
+        <qualifiedname>pip._internal.models.link._clean_url_path</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_local_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Clean the path portion of a URL.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="145" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="145" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1models_1_1link_1af0b1df16dc5dad28788b3e499ec150b8" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.models.link._ensure_quoted_url</definition>
+        <argsstring>(str url)</argsstring>
+        <name>_ensure_quoted_url</name>
+        <qualifiedname>pip._internal.models.link._ensure_quoted_url</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Make sure a link is fully quoted.
+For example, if &apos; &apos; occurs in the URL, it will be replaced with &quot;%20&quot;,
+and without double-quoting other characters.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="167" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="167" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1models_1_1link_1a5685cb8f7335852cc530c280f5901371" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1models_1_1link_1_1__CleanResult" kindref="compound">_CleanResult</ref></type>
+        <definition> _CleanResult pip._internal.models.link._clean_link</definition>
+        <argsstring>(Link link)</argsstring>
+        <name>_clean_link</name>
+        <qualifiedname>pip._internal.models.link._clean_link</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1models_1_1link_1_1Link" kindref="compound">Link</ref></type>
+          <declname>link</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="551" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="551" bodyend="577"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1models_1_1link_1a9e326ccc725959049f6d226cd584f6d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.models.link.links_equivalent</definition>
+        <argsstring>(Link link1, Link link2)</argsstring>
+        <name>links_equivalent</name>
+        <qualifiedname>pip._internal.models.link.links_equivalent</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1models_1_1link_1_1Link" kindref="compound">Link</ref></type>
+          <declname>link1</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1models_1_1link_1_1Link" kindref="compound">Link</ref></type>
+          <declname>link2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="578" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="578" bodyend="580"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

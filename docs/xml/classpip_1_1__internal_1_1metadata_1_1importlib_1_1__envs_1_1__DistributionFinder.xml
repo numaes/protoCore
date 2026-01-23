@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1__DistributionFinder" kind="class" language="Python" prot="protected">
+    <compoundname>pip::_internal::metadata::importlib::_envs::_DistributionFinder</compoundname>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1__DistributionFinder_1ad13433382fb38b6519d1bd05f16d868c" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._internal.metadata.importlib._envs._DistributionFinder::FoundResult</definition>
+        <argsstring></argsstring>
+        <name>FoundResult</name>
+        <qualifiedname>pip._internal.metadata.importlib._envs._DistributionFinder.FoundResult</qualifiedname>
+        <initializer>=  Tuple[importlib.metadata.Distribution, Optional[<ref refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__compat_1_1BasePath" kindref="compound">BasePath</ref>]]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_envs.py" line="47" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_envs.py" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1__DistributionFinder_1af8c70c00b48e32546f0ef30a592798dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.metadata.importlib._envs._DistributionFinder.__init__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._internal.metadata.importlib._envs._DistributionFinder.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_envs.py" line="49" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_envs.py" bodystart="49" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1__DistributionFinder_1a04f1bc30a1250caeb06c114fbbdeda33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[<ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" kindref="compound">BaseDistribution</ref>]</type>
+        <definition> Iterator[BaseDistribution] pip._internal.metadata.importlib._envs._DistributionFinder.find</definition>
+        <argsstring>(self, str location)</argsstring>
+        <name>find</name>
+        <qualifiedname>pip._internal.metadata.importlib._envs._DistributionFinder.find</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>location</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Find distributions in a location.
+
+The path can be either a directory, or a ZIP archive.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_envs.py" line="74" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_envs.py" bodystart="74" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1__DistributionFinder_1ad3e09bc74d9e788d3d71afecb51b5d33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[<ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" kindref="compound">BaseDistribution</ref>]</type>
+        <definition> Iterator[BaseDistribution] pip._internal.metadata.importlib._envs._DistributionFinder.find_linked</definition>
+        <argsstring>(self, str location)</argsstring>
+        <name>find_linked</name>
+        <qualifiedname>pip._internal.metadata.importlib._envs._DistributionFinder.find_linked</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>location</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Read location in egg-link files and return distributions in there.
+
+The path should be a directory; otherwise this returns nothing. This
+follows how setuptools does this for compatibility. The first non-empty
+line in the egg-link is read as a path (resolved against the egg-link&apos;s
+containing directory if relative). Distributions found at that linked
+location are returned.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_envs.py" line="86" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_envs.py" bodystart="86" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1__DistributionFinder_1a0d5625167a26251a8bd9cf190773d74b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[<ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" kindref="compound">BaseDistribution</ref>]</type>
+        <definition> Iterator[BaseDistribution] pip._internal.metadata.importlib._envs._DistributionFinder.find_eggs</definition>
+        <argsstring>(self, str location)</argsstring>
+        <name>find_eggs</name>
+        <qualifiedname>pip._internal.metadata.importlib._envs._DistributionFinder.find_eggs</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>location</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Find eggs in a location.
+
+This actually uses the old *pkg_resources* backend. We likely want to
+deprecate this so we can eventually remove the *pkg_resources*
+dependency entirely. Before that, this should first emit a deprecation
+warning for some versions when using the fallback since importing
+*pkg_resources* is slow for those who don&apos;t need it.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_envs.py" line="134" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_envs.py" bodystart="134" bodyend="149"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1__DistributionFinder_1a24fb06e61a80948be13e53e01f138f01" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[<ref refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1__DistributionFinder_1ad13433382fb38b6519d1bd05f16d868c" kindref="member">FoundResult</ref>]</type>
+        <definition> Iterator[FoundResult] pip._internal.metadata.importlib._envs._DistributionFinder._find_impl</definition>
+        <argsstring>(self, str location)</argsstring>
+        <name>_find_impl</name>
+        <qualifiedname>pip._internal.metadata.importlib._envs._DistributionFinder._find_impl</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>location</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Find distributions in a location.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_envs.py" line="52" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_envs.py" bodystart="52" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1__DistributionFinder_1aa16347df946980d34058432be3d2d498" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[<ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" kindref="compound">BaseDistribution</ref>]</type>
+        <definition> Iterator[BaseDistribution] pip._internal.metadata.importlib._envs._DistributionFinder._find_eggs_in_dir</definition>
+        <argsstring>(self, str location)</argsstring>
+        <name>_find_eggs_in_dir</name>
+        <qualifiedname>pip._internal.metadata.importlib._envs._DistributionFinder._find_eggs_in_dir</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>location</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_envs.py" line="110" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_envs.py" bodystart="110" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1__DistributionFinder_1a1fcafa630abecdd34d431f1ffd75831b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[<ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" kindref="compound">BaseDistribution</ref>]</type>
+        <definition> Iterator[BaseDistribution] pip._internal.metadata.importlib._envs._DistributionFinder._find_eggs_in_zip</definition>
+        <argsstring>(self, str location)</argsstring>
+        <name>_find_eggs_in_zip</name>
+        <qualifiedname>pip._internal.metadata.importlib._envs._DistributionFinder._find_eggs_in_zip</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>location</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_envs.py" line="122" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_envs.py" bodystart="122" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Finder to locate distributions.
+
+The main purpose of this class is to memoize found distributions&apos; names, so
+only one distribution is returned for each package name. At lot of pip code
+assumes this (because it is setuptools&apos;s behavior), and not doing the same
+can potentially cause a distribution in lower precedence path to override a
+higher precedence one if the caller is not careful.
+
+Eventually we probably want to make it possible to see lower precedence
+installations as well. It&apos;s useful feature, after all.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_envs.py" line="34" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/importlib/_envs.py" bodystart="34" bodyend="149"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1__DistributionFinder_1af8c70c00b48e32546f0ef30a592798dc" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::importlib::_envs::_DistributionFinder</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1__DistributionFinder_1aa16347df946980d34058432be3d2d498" prot="protected" virt="non-virtual"><scope>pip::_internal::metadata::importlib::_envs::_DistributionFinder</scope><name>_find_eggs_in_dir</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1__DistributionFinder_1a1fcafa630abecdd34d431f1ffd75831b" prot="protected" virt="non-virtual"><scope>pip::_internal::metadata::importlib::_envs::_DistributionFinder</scope><name>_find_eggs_in_zip</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1__DistributionFinder_1a24fb06e61a80948be13e53e01f138f01" prot="protected" virt="non-virtual"><scope>pip::_internal::metadata::importlib::_envs::_DistributionFinder</scope><name>_find_impl</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1__DistributionFinder_1a04f1bc30a1250caeb06c114fbbdeda33" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::importlib::_envs::_DistributionFinder</scope><name>find</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1__DistributionFinder_1a0d5625167a26251a8bd9cf190773d74b" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::importlib::_envs::_DistributionFinder</scope><name>find_eggs</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1__DistributionFinder_1ad3e09bc74d9e788d3d71afecb51b5d33" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::importlib::_envs::_DistributionFinder</scope><name>find_linked</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1importlib_1_1__envs_1_1__DistributionFinder_1ad13433382fb38b6519d1bd05f16d868c" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::importlib::_envs::_DistributionFinder</scope><name>FoundResult</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

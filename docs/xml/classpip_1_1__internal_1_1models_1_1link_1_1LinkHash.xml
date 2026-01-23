@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1models_1_1link_1_1LinkHash" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::models::link::LinkHash</compoundname>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1link_1_1LinkHash_1a89d973000707c1fd036c7e7f113d5eb3" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pip._internal.models.link.LinkHash::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>pip._internal.models.link.LinkHash.name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="55" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1link_1_1LinkHash_1a66810525adac1c665dae6403c5e9a9ec" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pip._internal.models.link.LinkHash::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>pip._internal.models.link.LinkHash.value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="56" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1link_1_1LinkHash_1a497fedf6a44a206d343081bd97ca9a83" prot="protected" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._internal.models.link.LinkHash::_hash_url_fragment_re</definition>
+        <argsstring></argsstring>
+        <name>_hash_url_fragment_re</name>
+        <qualifiedname>pip._internal.models.link.LinkHash._hash_url_fragment_re</qualifiedname>
+        <initializer>=  re.compile(
+        # NB: we do not validate that the second group (.*) is a valid hex
+        # digest. Instead, we simply keep that string in this class, and then check it
+        # against <ref refid="classpip_1_1__internal_1_1utils_1_1hashes_1_1Hashes" kindref="compound">Hashes</ref> when hash-checking is needed. This is easier to debug than
+        # proactively discarding an invalid hex digest, as we handle incorrect hashes
+        # and malformed hashes in the same place.
+        r&quot;[#&amp;]({choices})=([^&amp;]*)&quot;.format(
+            choices=&quot;|&quot;.join(re.escape(hash_name) for hash_name in <ref refid="namespacepip_1_1__internal_1_1models_1_1link_1a0a54bc522d14ce046a3e71f5d0ff0bff" kindref="member">_SUPPORTED_HASHES</ref>)
+        ),
+    )</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="58" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1models_1_1link_1_1LinkHash_1a248d0825354df4795b6bc84aa697316e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.models.link.LinkHash::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>pip._internal.models.link.LinkHash.name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="95" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1LinkHash_1ab5f65bc8f56bb0c7792cd375989032bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.models.link.LinkHash.__post_init__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__post_init__</name>
+        <qualifiedname>pip._internal.models.link.LinkHash.__post_init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="69" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="69" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1LinkHash_1aa6000508e7283fcebb9d5c6598f4f54f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[&quot;LinkHash&quot;]</type>
+        <definition> Optional[&quot;LinkHash&quot;] pip._internal.models.link.LinkHash.find_hash_url_fragment</definition>
+        <argsstring>(cls, str url)</argsstring>
+        <name>find_hash_url_fragment</name>
+        <qualifiedname>pip._internal.models.link.LinkHash.find_hash_url_fragment</qualifiedname>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Search a string for a checksum algorithm name and encoded output value.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="74" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="74" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1LinkHash_1a7fc07b51732dfa238d0cfb9e6180e2b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Dict[str, str]</type>
+        <definition> Dict[str, str] pip._internal.models.link.LinkHash.as_dict</definition>
+        <argsstring>(self)</argsstring>
+        <name>as_dict</name>
+        <qualifiedname>pip._internal.models.link.LinkHash.as_dict</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="82" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="82" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1LinkHash_1a7ad4ea270534955d3a4e031076e8d3c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1utils_1_1hashes_1_1Hashes" kindref="compound">Hashes</ref></type>
+        <definition> Hashes pip._internal.models.link.LinkHash.as_hashes</definition>
+        <argsstring>(self)</argsstring>
+        <name>as_hashes</name>
+        <qualifiedname>pip._internal.models.link.LinkHash.as_hashes</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a Hashes instance which checks only for the current hash.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="85" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="85" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1models_1_1link_1_1LinkHash_1a95bfc303b2f9bd554e89861fde71d819" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.models.link.LinkHash.is_hash_allowed</definition>
+        <argsstring>(self, Optional[Hashes] hashes)</argsstring>
+        <name>is_hash_allowed</name>
+        <qualifiedname>pip._internal.models.link.LinkHash.is_hash_allowed</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>hashes</declname>
+          <array>[Hashes]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return True if the current hash is allowed by `hashes`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="89" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="89" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Links to content may have embedded hash values. This class parses those.
+
+`name` must be any member of `_SUPPORTED_HASHES`.
+
+This class can be converted to and from `ArchiveInfo`. While ArchiveInfo intends to
+be JSON-serializable to conform to PEP 610, this class contains the logic for
+parsing a hash name and value for correctness, and then checking whether that hash
+conforms to a schema with `.is_hash_allowed()`.</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.models.link.LinkHash</label>
+        <link refid="classpip_1_1__internal_1_1models_1_1link_1_1LinkHash"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>name</edgelabel>
+          <edgelabel>value</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" line="45" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/models/link.py" bodystart="45" bodyend="98"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1LinkHash_1ab5f65bc8f56bb0c7792cd375989032bc" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::LinkHash</scope><name>__post_init__</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1LinkHash_1a497fedf6a44a206d343081bd97ca9a83" prot="protected" virt="non-virtual"><scope>pip::_internal::models::link::LinkHash</scope><name>_hash_url_fragment_re</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1LinkHash_1a7fc07b51732dfa238d0cfb9e6180e2b9" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::LinkHash</scope><name>as_dict</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1LinkHash_1a7ad4ea270534955d3a4e031076e8d3c7" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::LinkHash</scope><name>as_hashes</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1LinkHash_1aa6000508e7283fcebb9d5c6598f4f54f" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::LinkHash</scope><name>find_hash_url_fragment</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1LinkHash_1a95bfc303b2f9bd554e89861fde71d819" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::LinkHash</scope><name>is_hash_allowed</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1LinkHash_1a89d973000707c1fd036c7e7f113d5eb3" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::LinkHash</scope><name>name</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1LinkHash_1a248d0825354df4795b6bc84aa697316e" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::LinkHash</scope><name>name</name></member>
+      <member refid="classpip_1_1__internal_1_1models_1_1link_1_1LinkHash_1a66810525adac1c665dae6403c5e9a9ec" prot="public" virt="non-virtual"><scope>pip::_internal::models::link::LinkHash</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

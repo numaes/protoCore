@@ -1,0 +1,345 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1testing_1_1fixtures" kind="namespace" language="Python">
+    <compoundname>sphinx::testing::fixtures</compoundname>
+    <innerclass refid="classsphinx_1_1testing_1_1fixtures_1_1SharedResult" prot="public">sphinx::testing::fixtures::SharedResult</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1testing_1_1fixtures_1afef5936948ad27efe5f5a091a74fbf4a" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list sphinx::testing::fixtures.DEFAULT_ENABLED_MARKERS</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_ENABLED_MARKERS</name>
+        <qualifiedname>sphinx.testing.fixtures.DEFAULT_ENABLED_MARKERS</qualifiedname>
+        <initializer>=  [
+    # The marker signature differs from the constructor signature
+    # since the way it is processed assumes keyword arguments for
+    # the &apos;testroot&apos; and &apos;srcdir&apos;.
+    (
+        &apos;sphinx(&apos;
+        &apos;buildername=&quot;html&quot;, *, &apos;
+        &apos;testroot=&quot;root&quot;, srcdir=None, &apos;
+        &apos;confoverrides=None, freshenv=False, &apos;
+        &apos;warningiserror=False, tags=None, verbosity=0, parallel=0, &apos;
+        &apos;builddir=None, docutils_conf=None&apos;
+        &apos;): arguments to initialize the sphinx test application.&apos;
+    ),
+    &apos;<ref refid="namespacesphinx_1_1testing_1_1fixtures_1adb12097721076be4cc26112b2855bd75" kindref="member">test_params</ref>(<ref refid="namespacesphinx_1_1testing_1_1fixtures_1a699ac6aeb978427cf56aeadc364e8c81" kindref="member">shared_result</ref>=...): test parameters.&apos;,
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" line="21" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1testing_1_1fixtures_1a90e13ab9a827dcb0b4b0bf87bdca98eb" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::testing::fixtures._app_params</definition>
+        <argsstring></argsstring>
+        <name>_app_params</name>
+        <qualifiedname>sphinx.testing.fixtures._app_params</qualifiedname>
+        <initializer>=  namedtuple(&apos;_app_params&apos;, &apos;args,kwargs&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" line="124" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1testing_1_1fixtures_1a2b066410d069e7d4bfa0464da1880e97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.testing.fixtures.pytest_configure</definition>
+        <argsstring>(pytest.Config config)</argsstring>
+        <name>pytest_configure</name>
+        <qualifiedname>sphinx.testing.fixtures.pytest_configure</qualifiedname>
+        <param>
+          <type>pytest.Config</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Register custom markers</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" line="38" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" bodystart="38" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1testing_1_1fixtures_1ade69af433819625879e69b5672b148f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Path|None</type>
+        <definition> Path | None sphinx.testing.fixtures.rootdir</definition>
+        <argsstring>()</argsstring>
+        <name>rootdir</name>
+        <qualifiedname>sphinx.testing.fixtures.rootdir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" line="45" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" bodystart="45" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1testing_1_1fixtures_1a26794e1af912f0d49ae922ead080ae9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacesphinx_1_1testing_1_1fixtures_1a90e13ab9a827dcb0b4b0bf87bdca98eb" kindref="member">_app_params</ref></type>
+        <definition> _app_params sphinx.testing.fixtures.app_params</definition>
+        <argsstring>(Any request, dict[str, Any] test_params, SharedResult shared_result, Path sphinx_test_tempdir, Path|None rootdir)</argsstring>
+        <name>app_params</name>
+        <qualifiedname>sphinx.testing.fixtures.app_params</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>dict</type>
+          <declname>test_params</declname>
+          <array>[str, Any]</array>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1testing_1_1fixtures_1_1SharedResult" kindref="compound">SharedResult</ref></type>
+          <declname>shared_result</declname>
+        </param>
+        <param>
+          <type>Path</type>
+          <declname>sphinx_test_tempdir</declname>
+        </param>
+        <param>
+          <type>Path|None</type>
+          <declname>rootdir</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parameters that are specified by &apos;pytest.mark.sphinx&apos; for
+sphinx.application.Sphinx initialization
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" line="72" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" bodystart="78" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1testing_1_1fixtures_1adb12097721076be4cc26112b2855bd75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dict[str, Any]</type>
+        <definition> dict[str, Any] sphinx.testing.fixtures.test_params</definition>
+        <argsstring>(Any request)</argsstring>
+        <name>test_params</name>
+        <qualifiedname>sphinx.testing.fixtures.test_params</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Test parameters that are specified by &apos;pytest.mark.test_params&apos;
+
+:param Union[str] shared_result:
+   If the value is provided, app._status and app._warning objects will be
+   shared in the parametrized test functions and/or test functions that
+   have same &apos;shared_result&apos; value.
+   **NOTE**: You can not specify both shared_result and srcdir.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" line="128" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" bodystart="128" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1testing_1_1fixtures_1ac503badc627cd026d083729809341c7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[<ref refid="classsphinx_1_1testing_1_1util_1_1SphinxTestApp" kindref="compound">SphinxTestApp</ref>]</type>
+        <definition> Iterator[SphinxTestApp] sphinx.testing.fixtures.app</definition>
+        <argsstring>(dict[str, Any] test_params, _app_params app_params, Callable[[], SphinxTestApp] make_app, SharedResult shared_result)</argsstring>
+        <name>app</name>
+        <qualifiedname>sphinx.testing.fixtures.app</qualifiedname>
+        <param>
+          <type>dict</type>
+          <declname>test_params</declname>
+          <array>[str, Any]</array>
+        </param>
+        <param>
+          <type><ref refid="namespacesphinx_1_1testing_1_1fixtures_1a90e13ab9a827dcb0b4b0bf87bdca98eb" kindref="member">_app_params</ref></type>
+          <declname>app_params</declname>
+        </param>
+        <param>
+          <type>Callable</type>
+          <defname>make_app</defname>
+          <array>[[]</array>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1testing_1_1util_1_1SphinxTestApp" kindref="compound">SphinxTestApp</ref>]</type>
+          <declname>make_app</declname>
+          <defname>shared_result</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1testing_1_1fixtures_1_1SharedResult" kindref="compound">SharedResult</ref></type>
+          <declname>shared_result</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Provides the &apos;sphinx.application.Sphinx&apos; object</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" line="151" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" bodystart="156" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1testing_1_1fixtures_1a3ed97b1b0c9c0d133745bd240ba1191f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>StringIO</type>
+        <definition> StringIO sphinx.testing.fixtures.status</definition>
+        <argsstring>(SphinxTestApp app)</argsstring>
+        <name>status</name>
+        <qualifiedname>sphinx.testing.fixtures.status</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1testing_1_1util_1_1SphinxTestApp" kindref="compound">SphinxTestApp</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Back-compatibility for testing with previous @with_app decorator</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" line="174" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" bodystart="174" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1testing_1_1fixtures_1a80805c7a7f2e3a0bf39c8b418e2656b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>StringIO</type>
+        <definition> StringIO sphinx.testing.fixtures.warning</definition>
+        <argsstring>(SphinxTestApp app)</argsstring>
+        <name>warning</name>
+        <qualifiedname>sphinx.testing.fixtures.warning</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1testing_1_1util_1_1SphinxTestApp" kindref="compound">SphinxTestApp</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Back-compatibility for testing with previous @with_app decorator</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" line="180" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" bodystart="180" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1testing_1_1fixtures_1a6c8c2b775c053ece61c52474668a60b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[Callable[[], <ref refid="classsphinx_1_1testing_1_1util_1_1SphinxTestApp" kindref="compound">SphinxTestApp</ref>]]</type>
+        <definition> Iterator[Callable[[], SphinxTestApp]] sphinx.testing.fixtures.make_app</definition>
+        <argsstring>(dict[str, Any] test_params)</argsstring>
+        <name>make_app</name>
+        <qualifiedname>sphinx.testing.fixtures.make_app</qualifiedname>
+        <param>
+          <type>dict</type>
+          <declname>test_params</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Provides make_app function to initialize SphinxTestApp instance.
+if you want to initialize &apos;app&apos; in your test function. please use this
+instead of using SphinxTestApp class directory.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" line="186" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" bodystart="186" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1testing_1_1fixtures_1a699ac6aeb978427cf56aeadc364e8c81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1testing_1_1fixtures_1_1SharedResult" kindref="compound">SharedResult</ref></type>
+        <definition> SharedResult sphinx.testing.fixtures.shared_result</definition>
+        <argsstring>()</argsstring>
+        <name>shared_result</name>
+        <qualifiedname>sphinx.testing.fixtures.shared_result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" line="214" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" bodystart="214" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1testing_1_1fixtures_1aee90d2f2605a3388efbca014b3d6c975" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.testing.fixtures._shared_result_cache</definition>
+        <argsstring>()</argsstring>
+        <name>_shared_result_cache</name>
+        <qualifiedname>sphinx.testing.fixtures._shared_result_cache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" line="219" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" bodystart="219" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1testing_1_1fixtures_1a6f4a99dbd08ff19edc2104fff72008d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.testing.fixtures.if_graphviz_found</definition>
+        <argsstring>(SphinxTestApp app)</argsstring>
+        <name>if_graphviz_found</name>
+        <qualifiedname>sphinx.testing.fixtures.if_graphviz_found</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1testing_1_1util_1_1SphinxTestApp" kindref="compound">SphinxTestApp</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>The test will be skipped when using &apos;if_graphviz_found&apos; fixture and graphviz
+dot command is not found.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" line="224" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" bodystart="224" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1testing_1_1fixtures_1a5ff196c63c62a84c60b87d9f13e4c01f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Path</type>
+        <definition> Path sphinx.testing.fixtures.sphinx_test_tempdir</definition>
+        <argsstring>(pytest.TempPathFactory tmp_path_factory)</argsstring>
+        <name>sphinx_test_tempdir</name>
+        <qualifiedname>sphinx.testing.fixtures.sphinx_test_tempdir</qualifiedname>
+        <param>
+          <type>pytest.TempPathFactory</type>
+          <declname>tmp_path_factory</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Temporary directory.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" line="241" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" bodystart="241" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1testing_1_1fixtures_1a13f779316c6dc344a7a747f6454fc628" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[None]</type>
+        <definition> Iterator[None] sphinx.testing.fixtures.rollback_sysmodules</definition>
+        <argsstring>()</argsstring>
+        <name>rollback_sysmodules</name>
+        <qualifiedname>sphinx.testing.fixtures.rollback_sysmodules</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Rollback sys.modules to its value before testing to unload modules
+during tests.
+
+For example, used in test_ext_autosummary.py to permit unloading the
+target module to clear its cache.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" line="247" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" bodystart="247" bodyend="261"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Sphinx test fixtures for pytest</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/testing/fixtures.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

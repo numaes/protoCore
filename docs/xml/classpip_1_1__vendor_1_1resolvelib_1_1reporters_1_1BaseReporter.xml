@@ -1,0 +1,278 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::resolvelib::reporters::BaseReporter</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">object</basecompoundref>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1reporter_1_1PipDebuggingReporter" prot="public" virt="non-virtual">pip._internal.resolution.resolvelib.reporter.PipDebuggingReporter</derivedcompoundref>
+    <derivedcompoundref refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1reporter_1_1PipReporter" prot="public" virt="non-virtual">pip._internal.resolution.resolvelib.reporter.PipReporter</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1adca070461852d42acc0e24c05df09b86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.resolvelib.reporters.BaseReporter.starting</definition>
+        <argsstring>(self)</argsstring>
+        <name>starting</name>
+        <qualifiedname>pip._vendor.resolvelib.reporters.BaseReporter.starting</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1reporter_1_1PipDebuggingReporter_1af5fb246c3a4605b4f6939f2a85d0d94c">starting</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Called before the resolution actually starts.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/reporters.py" line="4" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/reporters.py" bodystart="4" bodyend="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1a283c83e7a6a94b0dc0fe407c4d787b51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.resolvelib.reporters.BaseReporter.starting_round</definition>
+        <argsstring>(self, index)</argsstring>
+        <name>starting_round</name>
+        <qualifiedname>pip._vendor.resolvelib.reporters.BaseReporter.starting_round</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1reporter_1_1PipDebuggingReporter_1aa1de0e68891b340d3beebbad5ef1e114">starting_round</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>index</type>
+          <defname>index</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Called before each round of resolution starts.
+
+The index is zero-based.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/reporters.py" line="7" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/reporters.py" bodystart="7" bodyend="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1a945b959ca76854efc8bc4b5f3bc3308f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.resolvelib.reporters.BaseReporter.ending_round</definition>
+        <argsstring>(self, index, state)</argsstring>
+        <name>ending_round</name>
+        <qualifiedname>pip._vendor.resolvelib.reporters.BaseReporter.ending_round</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1reporter_1_1PipDebuggingReporter_1a6ed50b9a1a66243e2c71c4fde03ecb9f">ending_round</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>index</type>
+          <defname>index</defname>
+        </param>
+        <param>
+          <type>state</type>
+          <defname>state</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Called before each round of resolution ends.
+
+This is NOT called if the resolution ends at this round. Use `ending`
+if you want to report finalization. The index is zero-based.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/reporters.py" line="13" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/reporters.py" bodystart="13" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1abba6a25ea1cad072f5bb494bddc925f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.resolvelib.reporters.BaseReporter.ending</definition>
+        <argsstring>(self, state)</argsstring>
+        <name>ending</name>
+        <qualifiedname>pip._vendor.resolvelib.reporters.BaseReporter.ending</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1reporter_1_1PipDebuggingReporter_1a1d2f08b304c4a5d06bd925a4ac93a6e1">ending</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>state</type>
+          <defname>state</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Called before the resolution ends successfully.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/reporters.py" line="20" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/reporters.py" bodystart="20" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1a4fdef0e6f2d3ec470ccdcb8e36ca6249" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.resolvelib.reporters.BaseReporter.adding_requirement</definition>
+        <argsstring>(self, requirement, parent)</argsstring>
+        <name>adding_requirement</name>
+        <qualifiedname>pip._vendor.resolvelib.reporters.BaseReporter.adding_requirement</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1reporter_1_1PipDebuggingReporter_1a263a8d4569d11f0750172d8dbd47a699">adding_requirement</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>requirement</type>
+          <defname>requirement</defname>
+        </param>
+        <param>
+          <type>parent</type>
+          <defname>parent</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Called when adding a new requirement into the resolve criteria.
+
+:param requirement: The additional requirement to be applied to filter
+    the available candidaites.
+:param parent: The candidate that requires ``requirement`` as a
+    dependency, or None if ``requirement`` is one of the root
+    requirements passed in from ``Resolver.resolve()``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/reporters.py" line="23" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/reporters.py" bodystart="23" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1afddc650c8a78ce9fcef5803347b6e2c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.resolvelib.reporters.BaseReporter.resolving_conflicts</definition>
+        <argsstring>(self, causes)</argsstring>
+        <name>resolving_conflicts</name>
+        <qualifiedname>pip._vendor.resolvelib.reporters.BaseReporter.resolving_conflicts</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>causes</type>
+          <defname>causes</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Called when starting to attempt requirement conflict resolution.
+
+:param causes: The information on the collision that caused the backtracking.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/reporters.py" line="33" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/reporters.py" bodystart="33" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1a3976be64608abc742da3a1d43d25e944" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.resolvelib.reporters.BaseReporter.rejecting_candidate</definition>
+        <argsstring>(self, criterion, candidate)</argsstring>
+        <name>rejecting_candidate</name>
+        <qualifiedname>pip._vendor.resolvelib.reporters.BaseReporter.rejecting_candidate</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1reporter_1_1PipReporter_1a94606c7b9b1ac3908b0579ee4a9a318f">rejecting_candidate</reimplementedby>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1reporter_1_1PipDebuggingReporter_1a31a45da7f27b60389d7559590ec2c887">rejecting_candidate</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>criterion</type>
+          <defname>criterion</defname>
+        </param>
+        <param>
+          <type>candidate</type>
+          <defname>candidate</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Called when rejecting a candidate during backtracking.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/reporters.py" line="39" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/reporters.py" bodystart="39" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1ad804ef8d7243d8300d8fb520ccc1ad31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.resolvelib.reporters.BaseReporter.pinning</definition>
+        <argsstring>(self, candidate)</argsstring>
+        <name>pinning</name>
+        <qualifiedname>pip._vendor.resolvelib.reporters.BaseReporter.pinning</qualifiedname>
+        <reimplementedby refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1reporter_1_1PipDebuggingReporter_1ac5102908f73462d246da0700b83bb7f3">pinning</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>candidate</type>
+          <defname>candidate</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Called when adding a candidate to the potential solution.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/reporters.py" line="42" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/reporters.py" bodystart="42" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Delegate class to provider progress reporting for the resolver.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.resolvelib.reporters.BaseReporter</label>
+        <link refid="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.resolution.resolvelib.reporter.PipDebuggingReporter</label>
+        <link refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1reporter_1_1PipDebuggingReporter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._internal.resolution.resolvelib.reporter.PipReporter</label>
+        <link refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1reporter_1_1PipReporter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.resolvelib.reporters.BaseReporter</label>
+        <link refid="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/reporters.py" line="1" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/reporters.py" bodystart="1" bodyend="44"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1a4fdef0e6f2d3ec470ccdcb8e36ca6249" prot="public" virt="non-virtual"><scope>pip::_vendor::resolvelib::reporters::BaseReporter</scope><name>adding_requirement</name></member>
+      <member refid="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1abba6a25ea1cad072f5bb494bddc925f3" prot="public" virt="non-virtual"><scope>pip::_vendor::resolvelib::reporters::BaseReporter</scope><name>ending</name></member>
+      <member refid="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1a945b959ca76854efc8bc4b5f3bc3308f" prot="public" virt="non-virtual"><scope>pip::_vendor::resolvelib::reporters::BaseReporter</scope><name>ending_round</name></member>
+      <member refid="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1ad804ef8d7243d8300d8fb520ccc1ad31" prot="public" virt="non-virtual"><scope>pip::_vendor::resolvelib::reporters::BaseReporter</scope><name>pinning</name></member>
+      <member refid="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1a3976be64608abc742da3a1d43d25e944" prot="public" virt="non-virtual"><scope>pip::_vendor::resolvelib::reporters::BaseReporter</scope><name>rejecting_candidate</name></member>
+      <member refid="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1afddc650c8a78ce9fcef5803347b6e2c6" prot="public" virt="non-virtual"><scope>pip::_vendor::resolvelib::reporters::BaseReporter</scope><name>resolving_conflicts</name></member>
+      <member refid="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1adca070461852d42acc0e24c05df09b86" prot="public" virt="non-virtual"><scope>pip::_vendor::resolvelib::reporters::BaseReporter</scope><name>starting</name></member>
+      <member refid="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1a283c83e7a6a94b0dc0fe407c4d787b51" prot="public" virt="non-virtual"><scope>pip::_vendor::resolvelib::reporters::BaseReporter</scope><name>starting_round</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

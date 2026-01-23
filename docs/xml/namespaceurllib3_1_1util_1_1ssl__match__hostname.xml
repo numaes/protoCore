@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceurllib3_1_1util_1_1ssl__match__hostname" kind="namespace" language="Python">
+    <compoundname>urllib3::util::ssl_match_hostname</compoundname>
+    <innerclass refid="classurllib3_1_1util_1_1ssl__match__hostname_1_1CertificateError" prot="public">urllib3::util::ssl_match_hostname::CertificateError</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceurllib3_1_1util_1_1ssl__match__hostname_1ae0e62e428994a2b17185856e176e8785" prot="private" static="no" mutable="no">
+        <type>str</type>
+        <definition>str urllib3::util::ssl_match_hostname.__version__</definition>
+        <argsstring></argsstring>
+        <name>__version__</name>
+        <qualifiedname>urllib3.util.ssl_match_hostname.__version__</qualifiedname>
+        <initializer>=  &quot;3.5.0.1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/util/ssl_match_hostname.py" line="17" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/util/ssl_match_hostname.py" bodystart="17" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1ssl__match__hostname_1a0b9bc208ecd8c1aa6260e7d0e865510c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>typing.Match[str]|None|bool</type>
+        <definition> typing.Match[str] | None | bool urllib3.util.ssl_match_hostname._dnsname_match</definition>
+        <argsstring>(typing.Any dn, str hostname, int max_wildcards=1)</argsstring>
+        <name>_dnsname_match</name>
+        <qualifiedname>urllib3.util.ssl_match_hostname._dnsname_match</qualifiedname>
+        <param>
+          <type>typing.Any</type>
+          <declname>dn</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>hostname</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_wildcards</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Matching according to RFC 6125, section 6.4.3
+
+http://tools.ietf.org/html/rfc6125#section-6.4.3
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/util/ssl_match_hostname.py" line="24" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/util/ssl_match_hostname.py" bodystart="26" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1ssl__match__hostname_1a3cc132d1c50d0ce473ce756edcaed09b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.util.ssl_match_hostname._ipaddress_match</definition>
+        <argsstring>(str ipname, IPv4Address|IPv6Address host_ip)</argsstring>
+        <name>_ipaddress_match</name>
+        <qualifiedname>urllib3.util.ssl_match_hostname._ipaddress_match</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>ipname</declname>
+        </param>
+        <param>
+          <type>IPv4Address|IPv6Address</type>
+          <declname>host_ip</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Exact matching of IP addresses.
+
+RFC 9110 section 4.3.5: &quot;A reference identity of IP-ID contains the decoded
+bytes of the IP address. An IP version 4 address is 4 octets, and an IP
+version 6 address is 16 octets. [...] A reference identity of type IP-ID
+matches if the address is identical to an iPAddress value of the
+subjectAltName extension of the certificate.&quot;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/util/ssl_match_hostname.py" line="80" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/util/ssl_match_hostname.py" bodystart="80" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1util_1_1ssl__match__hostname_1ae95f045d0f3b40a2853bb7e3136eacef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.util.ssl_match_hostname.match_hostname</definition>
+        <argsstring>(_TYPE_PEER_CERT_RET_DICT|None cert, str hostname, bool hostname_checks_common_name=False)</argsstring>
+        <name>match_hostname</name>
+        <qualifiedname>urllib3.util.ssl_match_hostname.match_hostname</qualifiedname>
+        <param>
+          <type><ref refid="classurllib3_1_1util_1_1ssl___1_1__TYPE__PEER__CERT__RET__DICT" kindref="compound">_TYPE_PEER_CERT_RET_DICT</ref>|None</type>
+          <declname>cert</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>hostname</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>hostname_checks_common_name</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Verify that *cert* (in decoded format as returned by
+SSLSocket.getpeercert()) matches the *hostname*.  RFC 2818 and RFC 6125
+rules are followed, but IP addresses are not accepted for *hostname*.
+
+CertificateError is raised on failure. On success, the function
+returns nothing.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/util/ssl_match_hostname.py" line="95" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/util/ssl_match_hostname.py" bodystart="99" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>The match_hostname() function from Python 3.5, essential when using SSL.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/urllib3/util/ssl_match_hostname.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

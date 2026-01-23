@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="optimizer_8py" kind="file" language="Python">
+    <compoundname>optimizer.py</compoundname>
+    <innerclass refid="classjinja2_1_1optimizer_1_1Optimizer" prot="public">jinja2::optimizer::Optimizer</innerclass>
+    <innernamespace refid="namespacejinja2">jinja2</innernamespace>
+    <innernamespace refid="namespacejinja2_1_1optimizer">jinja2::optimizer</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacejinja2_1_1optimizer" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;The<sp/>optimizer<sp/>tries<sp/>to<sp/>constant<sp/>fold<sp/>expressions<sp/>and<sp/>modify<sp/>the<sp/>AST</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral">in<sp/>place<sp/>so<sp/>that<sp/>it<sp/>should<sp/>be<sp/>faster<sp/>to<sp/>evaluate.</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral">Because<sp/>the<sp/>AST<sp/>does<sp/>not<sp/>contain<sp/>all<sp/>the<sp/>scoping<sp/>information<sp/>and<sp/>the</highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral">compiler<sp/>has<sp/>to<sp/>find<sp/>that<sp/>out,<sp/>we<sp/>cannot<sp/>do<sp/>all<sp/>the<sp/>optimizations<sp/>we</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral">want.<sp/>For<sp/>example,<sp/>loop<sp/>unrolling<sp/>doesn&apos;t<sp/>work<sp/>because<sp/>unrolled<sp/>loops</highlight></codeline>
+<codeline lineno="7"><highlight class="stringliteral">would<sp/>have<sp/>a<sp/>different<sp/>scope.<sp/>The<sp/>solution<sp/>would<sp/>be<sp/>a<sp/>second<sp/>syntax<sp/>tree</highlight></codeline>
+<codeline lineno="8"><highlight class="stringliteral">that<sp/>stored<sp/>the<sp/>scoping<sp/>rules.</highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>t</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>nodes</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.visitor<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>NodeTransformer</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>t.TYPE_CHECKING:</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.environment<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Environment</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="namespacejinja2_1_1optimizer_1ad4eb7c63e569e911a3491d8e3cc04c77" kindref="member">optimize</ref>(node:<sp/>nodes.Node,<sp/>environment:<sp/></highlight><highlight class="stringliteral">&quot;Environment&quot;</highlight><highlight class="normal">)<sp/>-&gt;<sp/><ref refid="classjinja2_1_1nodes_1_1Node" kindref="compound">nodes.Node</ref>:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;The<sp/>context<sp/>hint<sp/>can<sp/>be<sp/>used<sp/>to<sp/>perform<sp/>an<sp/>static<sp/>optimization</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>based<sp/>on<sp/>the<sp/>context<sp/>given.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>optimizer<sp/>=<sp/><ref refid="classjinja2_1_1optimizer_1_1Optimizer" kindref="compound">Optimizer</ref>(environment)</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>t.cast(<ref refid="classjinja2_1_1nodes_1_1Node" kindref="compound">nodes.Node</ref>,<sp/>optimizer.visit(node))</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="classjinja2_1_1optimizer_1_1Optimizer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classjinja2_1_1optimizer_1_1Optimizer" kindref="compound">Optimizer</ref>(<ref refid="classjinja2_1_1visitor_1_1NodeTransformer" kindref="compound">NodeTransformer</ref>):</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classjinja2_1_1optimizer_1_1Optimizer_1a6c47fce22f9831e14b87c03cd5f3fbda" kindref="member">__init__</ref>(self,<sp/>environment:<sp/></highlight><highlight class="stringliteral">&quot;t.Optional[Environment]&quot;</highlight><highlight class="normal">)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classjinja2_1_1optimizer_1_1Optimizer_1a48f0593fedc1e188bbc99400abbab10d" kindref="member">environment</ref><sp/>=<sp/>environment</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classjinja2_1_1optimizer_1_1Optimizer_1abcfac0d346c036c692b55a107534c137" kindref="member">generic_visit</ref>(</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,<sp/>node:<sp/>nodes.Node,<sp/>*args:<sp/>t.Any,<sp/>**kwargs:<sp/>t.Any</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/><ref refid="classjinja2_1_1nodes_1_1Node" kindref="compound">nodes.Node</ref>:</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node<sp/>=<sp/>super().<ref refid="classjinja2_1_1optimizer_1_1Optimizer_1abcfac0d346c036c692b55a107534c137" kindref="member">generic_visit</ref>(node,<sp/>*args,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Do<sp/>constant<sp/>folding.<sp/>Some<sp/>other<sp/>nodes<sp/>besides<sp/>Expr<sp/>have</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>as_const,<sp/>but<sp/>folding<sp/>them<sp/>causes<sp/>errors<sp/>later<sp/>on.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>isinstance(node,<sp/><ref refid="classjinja2_1_1nodes_1_1Expr" kindref="compound">nodes.Expr</ref>):</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>nodes.Const.from_untrusted(</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>node.as_const(args[0]<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>args<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lineno=node.lineno,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>environment=self.<ref refid="classjinja2_1_1optimizer_1_1Optimizer_1a48f0593fedc1e188bbc99400abbab10d" kindref="member">environment</ref>,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">except</highlight><highlight class="normal"><sp/><ref refid="classjinja2_1_1nodes_1_1Impossible" kindref="compound">nodes.Impossible</ref>:</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">pass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>node</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/jinja2/optimizer.py"/>
+  </compounddef>
+</doxygen>

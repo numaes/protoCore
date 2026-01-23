@@ -1,0 +1,1492 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::pyparsing::helpers</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1pyparsing_1_1helpers_1_1OpAssoc" prot="public">pip::_vendor::pyparsing::helpers::OpAssoc</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a460f0647fe9b9c8ff6d932c6b87aa97f" prot="public" static="no" mutable="no">
+        <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+        <definition>pip::_vendor::pyparsing::helpers.any_open_tag</definition>
+        <argsstring></argsstring>
+        <name>any_open_tag</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.any_open_tag</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="637" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="637" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1afb6d823d89c985d6eb5844bf3c392461" prot="public" static="no" mutable="no">
+        <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+        <definition>pip::_vendor::pyparsing::helpers.any_close_tag</definition>
+        <argsstring></argsstring>
+        <name>any_close_tag</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.any_close_tag</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="638" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="638" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1ac0441ceb5d11e8591472a7bd49884add" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict pip::_vendor::pyparsing::helpers._htmlEntityMap</definition>
+        <argsstring></argsstring>
+        <name>_htmlEntityMap</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers._htmlEntityMap</qualifiedname>
+        <initializer>=  {k.rstrip(&quot;;&quot;): v for k, v in html.entities.html5.items()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="643" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="643" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1aa473d45526861b39472f279f77af0b82" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::pyparsing::helpers.common_html_entity</definition>
+        <argsstring></argsstring>
+        <name>common_html_entity</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.common_html_entity</qualifiedname>
+        <initializer>=  <ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Regex" kindref="compound">Regex</ref>(&quot;&amp;(?P&lt;entity&gt;&quot; + &quot;|&quot;.join(<ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1ac0441ceb5d11e8591472a7bd49884add" kindref="member">_htmlEntityMap</ref>) + &quot;);&quot;).set_name(
+    &quot;common HTML entity&quot;
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="644" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="644" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1af630720db79e860ba14b571d2f1505f5" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::pyparsing::helpers.InfixNotationOperatorArgType</definition>
+        <argsstring></argsstring>
+        <name>InfixNotationOperatorArgType</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.InfixNotationOperatorArgType</qualifiedname>
+        <initializer>=  Union[
+    <ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref>, str, Tuple[Union[<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref>, str], Union[<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref>, str]]
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="662" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="662" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a73acd92071b7616af146fe0d441dd19f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::pyparsing::helpers.InfixNotationOperatorSpec</definition>
+        <argsstring></argsstring>
+        <name>InfixNotationOperatorSpec</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.InfixNotationOperatorSpec</qualifiedname>
+        <initializer>=  Union[
+    Tuple[
+        <ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1af630720db79e860ba14b571d2f1505f5" kindref="member">InfixNotationOperatorArgType</ref>,
+        int,
+        <ref refid="classpip_1_1__vendor_1_1pyparsing_1_1helpers_1_1OpAssoc" kindref="compound">OpAssoc</ref>,
+        typing.Optional[<ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1core_1ac409308e06088459b5bca2491b9935f8" kindref="member">ParseAction</ref>],
+    ],
+    Tuple[
+        <ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1af630720db79e860ba14b571d2f1505f5" kindref="member">InfixNotationOperatorArgType</ref>,
+        int,
+        <ref refid="classpip_1_1__vendor_1_1pyparsing_1_1helpers_1_1OpAssoc" kindref="compound">OpAssoc</ref>,
+    ],
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="665" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="665" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1afde8783d3d12aef3a91c3af2d9f8f2ee" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::pyparsing::helpers.c_style_comment</definition>
+        <argsstring></argsstring>
+        <name>c_style_comment</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.c_style_comment</qualifiedname>
+        <initializer>=  <ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Combine" kindref="compound">Combine</ref>(<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Regex" kindref="compound">Regex</ref>(r&quot;/\*(?:[^*]|\*(?!/))*&quot;) + &quot;*/&quot;).set_name(
+    &quot;C style comment&quot;
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1001" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1001" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1ad818ab5f2ce8f21afc9d9f64503c142d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::pyparsing::helpers.html_comment</definition>
+        <argsstring></argsstring>
+        <name>html_comment</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.html_comment</qualifiedname>
+        <initializer>=  <ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Regex" kindref="compound">Regex</ref>(r&quot;&lt;!--[\s\S]*?--&gt;&quot;).set_name(&quot;HTML comment&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1006" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1006" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1aa5561b3c7556028d68ee136532633161" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::pyparsing::helpers.rest_of_line</definition>
+        <argsstring></argsstring>
+        <name>rest_of_line</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.rest_of_line</qualifiedname>
+        <initializer>=  <ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Regex" kindref="compound">Regex</ref>(r&quot;.*&quot;).leave_whitespace().set_name(&quot;rest of line&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1009" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1009" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1ac88e792d92d931b2f95d696deb09ea75" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::pyparsing::helpers.dbl_slash_comment</definition>
+        <argsstring></argsstring>
+        <name>dbl_slash_comment</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.dbl_slash_comment</qualifiedname>
+        <initializer>=  <ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Regex" kindref="compound">Regex</ref>(r&quot;//(?:\\\n|[^\n])*&quot;).set_name(&quot;// comment&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1010" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1010" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a33e5819e14aa6f3a163a544134c0666a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::pyparsing::helpers.cpp_style_comment</definition>
+        <argsstring></argsstring>
+        <name>cpp_style_comment</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.cpp_style_comment</qualifiedname>
+        <initializer>=  <ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Combine" kindref="compound">Combine</ref>(
+    <ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Regex" kindref="compound">Regex</ref>(r&quot;/\*(?:[^*]|\*(?!/))*&quot;) + &quot;*/&quot; | dbl_slash_comment
+).set_name(&quot;C++ style comment&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1013" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1013" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1aa90e5525631de8d8093b72405b02851e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::pyparsing::helpers.java_style_comment</definition>
+        <argsstring></argsstring>
+        <name>java_style_comment</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.java_style_comment</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a33e5819e14aa6f3a163a544134c0666a" kindref="member">cpp_style_comment</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1018" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1018" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1ac51274dcc733b2b26c30ae06152ae206" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::pyparsing::helpers.python_style_comment</definition>
+        <argsstring></argsstring>
+        <name>python_style_comment</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.python_style_comment</qualifiedname>
+        <initializer>=  <ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Regex" kindref="compound">Regex</ref>(r&quot;#.*&quot;).set_name(&quot;Python style comment&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1021" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1021" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a0eb159c28d200e4e567c0b1a935b484f" prot="protected" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_vendor::pyparsing::helpers._builtin_exprs</definition>
+        <argsstring></argsstring>
+        <name>_builtin_exprs</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers._builtin_exprs</qualifiedname>
+        <initializer>=  [
+    v for v in vars().values() if isinstance(v, <ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref>)
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1027" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1027" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1acf2a686a70ed86ba0f5a58b337cc638c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::pyparsing::helpers.opAssoc</definition>
+        <argsstring></argsstring>
+        <name>opAssoc</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.opAssoc</qualifiedname>
+        <initializer>=  <ref refid="classpip_1_1__vendor_1_1pyparsing_1_1helpers_1_1OpAssoc" kindref="compound">OpAssoc</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1050" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1050" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a1e53e35a43e93a881ddaef2b4ecb636e" prot="public" static="no" mutable="no">
+        <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+        <definition>ParserElement pip::_vendor::pyparsing::helpers.anyOpenTag</definition>
+        <argsstring></argsstring>
+        <name>anyOpenTag</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.anyOpenTag</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a460f0647fe9b9c8ff6d932c6b87aa97f" kindref="member">any_open_tag</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1051" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1051" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a6bf1a1a48bfc029f28a5a5f891efb417" prot="public" static="no" mutable="no">
+        <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+        <definition>ParserElement pip::_vendor::pyparsing::helpers.anyCloseTag</definition>
+        <argsstring></argsstring>
+        <name>anyCloseTag</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.anyCloseTag</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1afb6d823d89c985d6eb5844bf3c392461" kindref="member">any_close_tag</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1052" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1052" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a27caf3603904c303f266283514fa0662" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::pyparsing::helpers.commonHTMLEntity</definition>
+        <argsstring></argsstring>
+        <name>commonHTMLEntity</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.commonHTMLEntity</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1aa473d45526861b39472f279f77af0b82" kindref="member">common_html_entity</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1053" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1053" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a8c2b821238d62be92ffde8ad0f963284" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::pyparsing::helpers.cStyleComment</definition>
+        <argsstring></argsstring>
+        <name>cStyleComment</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.cStyleComment</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1afde8783d3d12aef3a91c3af2d9f8f2ee" kindref="member">c_style_comment</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1054" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1054" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1afc5dabe28d5d82649e43d8b09d8547d6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::pyparsing::helpers.htmlComment</definition>
+        <argsstring></argsstring>
+        <name>htmlComment</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.htmlComment</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1ad818ab5f2ce8f21afc9d9f64503c142d" kindref="member">html_comment</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1055" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1055" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1ad4c547f458e9b7ce1ca245138981d445" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::pyparsing::helpers.restOfLine</definition>
+        <argsstring></argsstring>
+        <name>restOfLine</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.restOfLine</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1aa5561b3c7556028d68ee136532633161" kindref="member">rest_of_line</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1056" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1056" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1aabb007511852bba7709a97fc1bcf2d58" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::pyparsing::helpers.dblSlashComment</definition>
+        <argsstring></argsstring>
+        <name>dblSlashComment</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.dblSlashComment</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1ac88e792d92d931b2f95d696deb09ea75" kindref="member">dbl_slash_comment</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1057" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1057" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a7cd7ea845f400fc8b13b2d7bd687e5b6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::pyparsing::helpers.cppStyleComment</definition>
+        <argsstring></argsstring>
+        <name>cppStyleComment</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.cppStyleComment</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a33e5819e14aa6f3a163a544134c0666a" kindref="member">cpp_style_comment</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1058" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1058" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a63bbeea04f3bdc56ad7404d14499bd7c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::pyparsing::helpers.javaStyleComment</definition>
+        <argsstring></argsstring>
+        <name>javaStyleComment</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.javaStyleComment</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1aa90e5525631de8d8093b72405b02851e" kindref="member">java_style_comment</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1059" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1059" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a6a0d66f56c313ce5bcbedac5569971f8" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::pyparsing::helpers.pythonStyleComment</definition>
+        <argsstring></argsstring>
+        <name>pythonStyleComment</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.pythonStyleComment</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1ac51274dcc733b2b26c30ae06152ae206" kindref="member">python_style_comment</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1060" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1060" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a5c1e9b6e95d02479491c5cfcbd1c492c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+        <definition> ParserElement pip._vendor.pyparsing.helpers.counted_array</definition>
+        <argsstring>(ParserElement expr, typing.Optional[ParserElement] int_expr=None, *typing.Optional[ParserElement] intExpr=None)</argsstring>
+        <name>counted_array</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.counted_array</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+          <declname>expr</declname>
+        </param>
+        <param>
+          <type>typing.Optional</type>
+          <declname>int_expr</declname>
+          <array>[ParserElement]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*typing.Optional</type>
+          <declname>intExpr</declname>
+          <array>[ParserElement]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Helper to define a counted list of expressions.
+
+This helper defines a pattern of the form::
+
+    integer expr expr expr...
+
+where the leading integer tells how many expr expressions follow.
+The matched tokens returns the array of expr tokens as a list - the
+leading count token is suppressed.
+
+If ``int_expr`` is specified, it should be a pyparsing expression
+that produces an integer value.
+
+Example::
+
+    counted_array(Word(alphas)).parse_string(&apos;2 ab cd ef&apos;)  # -&gt; [&apos;ab&apos;, &apos;cd&apos;]
+
+    # in this parser, the leading integer value is given in binary,
+    # &apos;10&apos; indicating that 2 values are in the array
+    binary_constant = Word(&apos;01&apos;).set_parse_action(lambda t: int(t[0], 2))
+    counted_array(Word(alphas), int_expr=binary_constant).parse_string(&apos;10 ab cd ef&apos;)  # -&gt; [&apos;ab&apos;, &apos;cd&apos;]
+
+    # if other fields must be parsed after the count but before the
+    # list items, give the fields results names and they will
+    # be preserved in the returned ParseResults:
+    count_with_metadata = integer + Word(alphas)(&quot;type&quot;)
+    typed_array = counted_array(Word(alphanums), int_expr=count_with_metadata)(&quot;items&quot;)
+    result = typed_array.parse_string(&quot;3 bool True True False&quot;)
+    print(result.dump())
+
+    # prints
+    # [&apos;True&apos;, &apos;True&apos;, &apos;False&apos;]
+    # - items: [&apos;True&apos;, &apos;True&apos;, &apos;False&apos;]
+    # - type: &apos;bool&apos;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="20" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="25" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1adb968ebcacfe44b4244ed91ac7cacc9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+        <definition> ParserElement pip._vendor.pyparsing.helpers.match_previous_literal</definition>
+        <argsstring>(ParserElement expr)</argsstring>
+        <name>match_previous_literal</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.match_previous_literal</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+          <declname>expr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Helper to define an expression that is indirectly defined from
+the tokens matched in a previous expression, that is, it looks for
+a &apos;repeat&apos; of a previous expression.  For example::
+
+    first = Word(nums)
+    second = match_previous_literal(first)
+    match_expr = first + &quot;:&quot; + second
+
+will match ``&quot;1:1&quot;``, but not ``&quot;1:2&quot;``.  Because this
+matches a previous literal, will also match the leading
+``&quot;1:1&quot;`` in ``&quot;1:10&quot;``. If this is not desired, use
+:class:`match_previous_expr`. Do *not* use with packrat parsing
+enabled.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="80" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="80" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a438c41fa1f0c6527f98d870a38249903" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+        <definition> ParserElement pip._vendor.pyparsing.helpers.match_previous_expr</definition>
+        <argsstring>(ParserElement expr)</argsstring>
+        <name>match_previous_expr</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.match_previous_expr</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+          <declname>expr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Helper to define an expression that is indirectly defined from
+the tokens matched in a previous expression, that is, it looks for
+a &apos;repeat&apos; of a previous expression.  For example::
+
+    first = Word(nums)
+    second = match_previous_expr(first)
+    match_expr = first + &quot;:&quot; + second
+
+will match ``&quot;1:1&quot;``, but not ``&quot;1:2&quot;``.  Because this
+matches by expressions, will *not* match the leading ``&quot;1:1&quot;``
+in ``&quot;1:10&quot;``; the expressions are evaluated first, and then
+compared, so ``&quot;1&quot;`` is compared with ``&quot;10&quot;``. Do *not* use
+with packrat parsing enabled.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="113" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="113" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a836ea91b5900cf58c6a29228a3a7cf2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+        <definition> ParserElement pip._vendor.pyparsing.helpers.one_of</definition>
+        <argsstring>(Union[typing.Iterable[str], str] strs, bool caseless=False, bool use_regex=True, bool as_keyword=False, *bool useRegex=True, bool asKeyword=False)</argsstring>
+        <name>one_of</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.one_of</qualifiedname>
+        <param>
+          <type>Union</type>
+          <defname>strs</defname>
+          <array>[typing.Iterable[str]</array>
+        </param>
+        <param>
+          <type>str]</type>
+          <declname>strs</declname>
+          <defname>caseless</defname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>caseless</declname>
+          <defname>use_regex</defname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>use_regex</declname>
+          <defname>as_keyword</defname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>as_keyword</declname>
+          <defname>useRegex</defname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>*bool</type>
+          <declname>useRegex</declname>
+          <defname>asKeyword</defname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>asKeyword</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Helper to quickly define a set of alternative :class:`Literal` s,
+and makes sure to do longest-first testing when there is a conflict,
+regardless of the input order, but returns
+a :class:`MatchFirst` for best performance.
+
+Parameters:
+
+- ``strs`` - a string of space-delimited literals, or a collection of
+  string literals
+- ``caseless`` - treat all literals as caseless - (default= ``False``)
+- ``use_regex`` - as an optimization, will
+  generate a :class:`Regex` object; otherwise, will generate
+  a :class:`MatchFirst` object (if ``caseless=True`` or ``as_keyword=True``, or if
+  creating a :class:`Regex` raises an exception) - (default= ``True``)
+- ``as_keyword`` - enforce :class:`Keyword`-style matching on the
+  generated expressions - (default= ``False``)
+- ``asKeyword`` and ``useRegex`` are retained for pre-PEP8 compatibility,
+  but will be removed in a future release
+
+Example::
+
+    comp_oper = one_of(&quot;&lt; = &gt; &lt;= &gt;= !=&quot;)
+    var = Word(alphas)
+    number = Word(nums)
+    term = var | number
+    comparison_expr = term + comp_oper + term
+    print(comparison_expr.search_string(&quot;B = 12  AA=23 B&lt;=AA AA&gt;12&quot;))
+
+prints::
+
+    [[&apos;B&apos;, &apos;=&apos;, &apos;12&apos;], [&apos;AA&apos;, &apos;=&apos;, &apos;23&apos;], [&apos;B&apos;, &apos;&lt;=&apos;, &apos;AA&apos;], [&apos;AA&apos;, &apos;&gt;&apos;, &apos;12&apos;]]
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="149" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="157" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a3d762878645b68b3d5bd78e317b1224c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+        <definition> ParserElement pip._vendor.pyparsing.helpers.dict_of</definition>
+        <argsstring>(ParserElement key, ParserElement value)</argsstring>
+        <name>dict_of</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.dict_of</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Helper to easily and clearly define a dictionary by specifying
+the respective patterns for the key and value.  Takes care of
+defining the :class:`Dict`, :class:`ZeroOrMore`, and
+:class:`Group` tokens in the proper order.  The key pattern
+can include delimiting markers or punctuation, as long as they are
+suppressed, thereby leaving the significant key text.  The value
+pattern can include named results, so that the :class:`Dict` results
+can include named token fields.
+
+Example::
+
+    text = &quot;shape: SQUARE posn: upper left color: light blue texture: burlap&quot;
+    attr_expr = (label + Suppress(&apos;:&apos;) + OneOrMore(data_word, stop_on=label).set_parse_action(&apos; &apos;.join))
+    print(attr_expr[1, ...].parse_string(text).dump())
+
+    attr_label = label
+    attr_value = Suppress(&apos;:&apos;) + OneOrMore(data_word, stop_on=label).set_parse_action(&apos; &apos;.join)
+
+    # similar to Dict, but simpler call format
+    result = dict_of(attr_label, attr_value).parse_string(text)
+    print(result.dump())
+    print(result[&apos;shape&apos;])
+    print(result.shape)  # object attribute access works too
+    print(result.as_dict())
+
+prints::
+
+    [[&apos;shape&apos;, &apos;SQUARE&apos;], [&apos;posn&apos;, &apos;upper left&apos;], [&apos;color&apos;, &apos;light blue&apos;], [&apos;texture&apos;, &apos;burlap&apos;]]
+    - color: &apos;light blue&apos;
+    - posn: &apos;upper left&apos;
+    - shape: &apos;SQUARE&apos;
+    - texture: &apos;burlap&apos;
+    SQUARE
+    SQUARE
+    {&apos;color&apos;: &apos;light blue&apos;, &apos;shape&apos;: &apos;SQUARE&apos;, &apos;posn&apos;: &apos;upper left&apos;, &apos;texture&apos;: &apos;burlap&apos;}
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="275" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="275" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1acf6285562936927c61905ffbb96d9e81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+        <definition> ParserElement pip._vendor.pyparsing.helpers.original_text_for</definition>
+        <argsstring>(ParserElement expr, bool as_string=True, *bool asString=True)</argsstring>
+        <name>original_text_for</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.original_text_for</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+          <declname>expr</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>as_string</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>*bool</type>
+          <declname>asString</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Helper to return the original, untokenized text for a given
+expression.  Useful to restore the parsed fields of an HTML start
+tag into the raw tag text itself, or to revert separate tokens with
+intervening whitespace back to the original matching input text. By
+default, returns a string containing the original parsed text.
+
+If the optional ``as_string`` argument is passed as
+``False``, then the return value is
+a :class:`ParseResults` containing any results names that
+were originally matched, and a single token containing the original
+matched text from the input string.  So if the expression passed to
+:class:`original_text_for` contains expressions with defined
+results names, you must set ``as_string`` to ``False`` if you
+want to preserve those results name values.
+
+The ``asString`` pre-PEP8 argument is retained for compatibility,
+but will be removed in a future release.
+
+Example::
+
+    src = &quot;this is test &lt;b&gt; bold &lt;i&gt;text&lt;/i&gt; &lt;/b&gt; normal text &quot;
+    for tag in (&quot;b&quot;, &quot;i&quot;):
+        opener, closer = make_html_tags(tag)
+        patt = original_text_for(opener + ... + closer)
+        print(patt.search_string(src)[0])
+
+prints::
+
+    [&apos;&lt;b&gt; bold &lt;i&gt;text&lt;/i&gt; &lt;/b&gt;&apos;]
+    [&apos;&lt;i&gt;text&lt;/i&gt;&apos;]
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="315" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="317" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1ab89a1d3e64d14a3a00c010ed19ff70d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+        <definition> ParserElement pip._vendor.pyparsing.helpers.ungroup</definition>
+        <argsstring>(ParserElement expr)</argsstring>
+        <name>ungroup</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.ungroup</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+          <declname>expr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Helper to undo pyparsing&apos;s default grouping of And expressions,
+even if all but one are non-empty.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="368" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="368" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a51fca90faa1499463bfc1cc3e10af264" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+        <definition> ParserElement pip._vendor.pyparsing.helpers.locatedExpr</definition>
+        <argsstring>(ParserElement expr)</argsstring>
+        <name>locatedExpr</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.locatedExpr</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+          <declname>expr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>(DEPRECATED - future code should use the :class:`Located` class)
+Helper to decorate a returned token with its starting and ending
+locations in the input string.
+
+This helper adds the following results names:
+
+- ``locn_start`` - location where matched expression begins
+- ``locn_end`` - location where matched expression ends
+- ``value`` - the actual parsed results
+
+Be careful if the input text contains ``&lt;TAB&gt;`` characters, you
+may want to call :class:`ParserElement.parse_with_tabs`
+
+Example::
+
+    wd = Word(alphas)
+    for match in locatedExpr(wd).search_string(&quot;ljsdf123lksdjjf123lkkjj1222&quot;):
+        print(match)
+
+prints::
+
+    [[0, &apos;ljsdf&apos;, 5]]
+    [[8, &apos;lksdjjf&apos;, 15]]
+    [[18, &apos;lkkjj&apos;, 23]]
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="375" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="375" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1ae2d4f00f2eb9409c3deb00458dc1a205" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+        <definition> ParserElement pip._vendor.pyparsing.helpers.nested_expr</definition>
+        <argsstring>(Union[str, ParserElement] opener=&quot;(&quot;, Union[str, ParserElement] closer=&quot;)&quot;, typing.Optional[ParserElement] content=None, ParserElement ignore_expr=quoted_string(), *ParserElement ignoreExpr=quoted_string())</argsstring>
+        <name>nested_expr</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.nested_expr</qualifiedname>
+        <param>
+          <type>Union</type>
+          <declname>opener</declname>
+          <array>[str, ParserElement]</array>
+          <defval>&quot;(&quot;</defval>
+        </param>
+        <param>
+          <type>Union</type>
+          <declname>closer</declname>
+          <array>[str, ParserElement]</array>
+          <defval>&quot;)&quot;</defval>
+        </param>
+        <param>
+          <type>typing.Optional</type>
+          <declname>content</declname>
+          <array>[ParserElement]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+          <declname>ignore_expr</declname>
+          <defval><ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1core_1a7c4be0c5ad14b3485704bf969dae0a18" kindref="member">quoted_string</ref>()</defval>
+        </param>
+        <param>
+          <type>*<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+          <declname>ignoreExpr</declname>
+          <defval><ref refid="namespacepip_1_1__vendor_1_1pyparsing_1_1core_1a7c4be0c5ad14b3485704bf969dae0a18" kindref="member">quoted_string</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Helper method for defining nested lists enclosed in opening and
+closing delimiters (``&quot;(&quot;`` and ``&quot;)&quot;`` are the default).
+
+Parameters:
+
+- ``opener`` - opening character for a nested list
+  (default= ``&quot;(&quot;``); can also be a pyparsing expression
+- ``closer`` - closing character for a nested list
+  (default= ``&quot;)&quot;``); can also be a pyparsing expression
+- ``content`` - expression for items within the nested lists
+  (default= ``None``)
+- ``ignore_expr`` - expression for ignoring opening and closing delimiters
+  (default= :class:`quoted_string`)
+- ``ignoreExpr`` - this pre-PEP8 argument is retained for compatibility
+  but will be removed in a future release
+
+If an expression is not provided for the content argument, the
+nested expression will capture all whitespace-delimited content
+between delimiters as a list of separate values.
+
+Use the ``ignore_expr`` argument to define expressions that may
+contain opening or closing characters that should not be treated as
+opening or closing characters for nesting, such as quoted_string or
+a comment expression.  Specify multiple expressions using an
+:class:`Or` or :class:`MatchFirst`. The default is
+:class:`quoted_string`, but if no expressions are to be ignored, then
+pass ``None`` for this argument.
+
+Example::
+
+    data_type = one_of(&quot;void int short long char float double&quot;)
+    decl_data_type = Combine(data_type + Opt(Word(&apos;*&apos;)))
+    ident = Word(alphas+&apos;_&apos;, alphanums+&apos;_&apos;)
+    number = pyparsing_common.number
+    arg = Group(decl_data_type + ident)
+    LPAR, RPAR = map(Suppress, &quot;()&quot;)
+
+    code_body = nested_expr(&apos;{&apos;, &apos;}&apos;, ignore_expr=(quoted_string | c_style_comment))
+
+    c_function = (decl_data_type(&quot;type&quot;)
+                  + ident(&quot;name&quot;)
+                  + LPAR + Opt(DelimitedList(arg), [])(&quot;args&quot;) + RPAR
+                  + code_body(&quot;body&quot;))
+    c_function.ignore(c_style_comment)
+
+    source_code = &apos;&apos;&apos;
+        int is_odd(int x) {
+            return (x%2);
+        }
+
+        int dec_to_hex(char hchar) {
+            if (hchar &gt;= &apos;0&apos; &amp;&amp; hchar &lt;= &apos;9&apos;) {
+                return (ord(hchar)-ord(&apos;0&apos;));
+            } else {
+                return (10+ord(hchar)-ord(&apos;A&apos;));
+            }
+        }
+    &apos;&apos;&apos;
+    for func in c_function.search_string(source_code):
+        print(&quot;%(name)s (%(type)s) args: %(args)s&quot; % func)
+
+
+prints::
+
+    is_odd (int) args: [[&apos;int&apos;, &apos;x&apos;]]
+    dec_to_hex (int) args: [[&apos;char&apos;, &apos;hchar&apos;]]
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="410" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="417" bodyend="540"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a709674510927b7ceb5590291bbc62cb8" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.helpers._makeTags</definition>
+        <argsstring>(tagStr, xml, suppress_LT=Suppress(&quot;&lt;&quot;), suppress_GT=Suppress(&quot;&gt;&quot;))</argsstring>
+        <name>_makeTags</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers._makeTags</qualifiedname>
+        <param>
+          <type>tagStr</type>
+          <defname>tagStr</defname>
+        </param>
+        <param>
+          <type>xml</type>
+          <defname>xml</defname>
+        </param>
+        <param>
+          <type>suppress_LT</type>
+          <defname>suppress_LT</defname>
+          <defval><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Suppress" kindref="compound">Suppress</ref>(&quot;&lt;&quot;)</defval>
+        </param>
+        <param>
+          <type>suppress_GT</type>
+          <defname>suppress_GT</defname>
+          <defval><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Suppress" kindref="compound">Suppress</ref>(&quot;&gt;&quot;)</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Internal helper to construct opening and closing tag expressions, given a tag name</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="541" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="541" bodyend="598"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a0303231df984ebfe6a6cf42b46c87253" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref>, <ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref>]</type>
+        <definition> Tuple[ParserElement, ParserElement] pip._vendor.pyparsing.helpers.make_html_tags</definition>
+        <argsstring>(Union[str, ParserElement] tag_str)</argsstring>
+        <name>make_html_tags</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.make_html_tags</qualifiedname>
+        <param>
+          <type>Union</type>
+          <declname>tag_str</declname>
+          <array>[str, ParserElement]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Helper to construct opening and closing tag expressions for HTML,
+given a tag name. Matches tags in either upper or lower case,
+attributes with namespaces and with quoted or unquoted values.
+
+Example::
+
+    text = &apos;&lt;td&gt;More info at the &lt;a href=&quot;https://github.com/pyparsing/pyparsing/wiki&quot;&gt;pyparsing&lt;/a&gt; wiki page&lt;/td&gt;&apos;
+    # make_html_tags returns pyparsing expressions for the opening and
+    # closing tags as a 2-tuple
+    a, a_end = make_html_tags(&quot;A&quot;)
+    link_expr = a + SkipTo(a_end)(&quot;link_text&quot;) + a_end
+
+    for link in link_expr.search_string(text):
+        # attributes in the &lt;A&gt; tag (like &quot;href&quot; shown here) are
+        # also accessible as named results
+        print(link.link_text, &apos;-&gt;&apos;, link.href)
+
+prints::
+
+    pyparsing -&gt; https://github.com/pyparsing/pyparsing/wiki
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="599" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="601" bodyend="625"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1ae9aad43f16e78ad90509361da8c9719d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref>, <ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref>]</type>
+        <definition> Tuple[ParserElement, ParserElement] pip._vendor.pyparsing.helpers.make_xml_tags</definition>
+        <argsstring>(Union[str, ParserElement] tag_str)</argsstring>
+        <name>make_xml_tags</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.make_xml_tags</qualifiedname>
+        <param>
+          <type>Union</type>
+          <declname>tag_str</declname>
+          <array>[str, ParserElement]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Helper to construct opening and closing tag expressions for XML,
+given a tag name. Matches tags only in the given upper/lower case.
+
+Example: similar to :class:`make_html_tags`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="626" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="628" bodyend="636"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a543efa0c1304cb33b0526f60e8b269a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.helpers.replace_html_entity</definition>
+        <argsstring>(s, l, t)</argsstring>
+        <name>replace_html_entity</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.replace_html_entity</qualifiedname>
+        <param>
+          <type>s</type>
+          <defname>s</defname>
+        </param>
+        <param>
+          <type>l</type>
+          <defname>l</defname>
+        </param>
+        <param>
+          <type>t</type>
+          <defname>t</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Helper parser action to replace common HTML entities with their special characters</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="649" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="649" bodyend="653"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a87ddde742526258dee7d555361fd9c38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+        <definition> ParserElement pip._vendor.pyparsing.helpers.infix_notation</definition>
+        <argsstring>(ParserElement base_expr, List[InfixNotationOperatorSpec] op_list, Union[str, ParserElement] lpar=Suppress(&quot;(&quot;), Union[str, ParserElement] rpar=Suppress(&quot;)&quot;))</argsstring>
+        <name>infix_notation</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.infix_notation</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+          <declname>base_expr</declname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>op_list</declname>
+          <array>[InfixNotationOperatorSpec]</array>
+        </param>
+        <param>
+          <type>Union</type>
+          <declname>lpar</declname>
+          <array>[str, ParserElement]</array>
+          <defval><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Suppress" kindref="compound">Suppress</ref>(&quot;(&quot;), Union[str, <ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref>] rpar=<ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Suppress" kindref="compound">Suppress</ref>(&quot;)&quot;)</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Helper method for constructing grammars of expressions made up of
+operators working in a precedence hierarchy.  Operators may be unary
+or binary, left- or right-associative.  Parse actions can also be
+attached to operator expressions. The generated parser will also
+recognize the use of parentheses to override operator precedences
+(see example below).
+
+Note: if you define a deep operator list, you may see performance
+issues when using infix_notation. See
+:class:`ParserElement.enable_packrat` for a mechanism to potentially
+improve your parser performance.
+
+Parameters:
+
+- ``base_expr`` - expression representing the most basic operand to
+  be used in the expression
+- ``op_list`` - list of tuples, one for each operator precedence level
+  in the expression grammar; each tuple is of the form ``(op_expr,
+  num_operands, right_left_assoc, (optional)parse_action)``, where:
+
+  - ``op_expr`` is the pyparsing expression for the operator; may also
+    be a string, which will be converted to a Literal; if ``num_operands``
+    is 3, ``op_expr`` is a tuple of two expressions, for the two
+    operators separating the 3 terms
+  - ``num_operands`` is the number of terms for this operator (must be 1,
+    2, or 3)
+  - ``right_left_assoc`` is the indicator whether the operator is right
+    or left associative, using the pyparsing-defined constants
+    ``OpAssoc.RIGHT`` and ``OpAssoc.LEFT``.
+  - ``parse_action`` is the parse action to be associated with
+    expressions matching this operator expression (the parse action
+    tuple member may be omitted); if the parse action is passed
+    a tuple or list of functions, this is equivalent to calling
+    ``set_parse_action(*fn)``
+    (:class:`ParserElement.set_parse_action`)
+- ``lpar`` - expression for matching left-parentheses; if passed as a
+  str, then will be parsed as ``Suppress(lpar)``. If lpar is passed as
+  an expression (such as ``Literal(&apos;(&apos;)``), then it will be kept in
+  the parsed results, and grouped with them. (default= ``Suppress(&apos;(&apos;)``)
+- ``rpar`` - expression for matching right-parentheses; if passed as a
+  str, then will be parsed as ``Suppress(rpar)``. If rpar is passed as
+  an expression (such as ``Literal(&apos;)&apos;)``), then it will be kept in
+  the parsed results, and grouped with them. (default= ``Suppress(&apos;)&apos;)``)
+
+Example::
+
+    # simple example of four-function arithmetic with ints and
+    # variable names
+    integer = pyparsing_common.signed_integer
+    varname = pyparsing_common.identifier
+
+    arith_expr = infix_notation(integer | varname,
+        [
+        (&apos;-&apos;, 1, OpAssoc.RIGHT),
+        (one_of(&apos;* /&apos;), 2, OpAssoc.LEFT),
+        (one_of(&apos;+ -&apos;), 2, OpAssoc.LEFT),
+        ])
+
+    arith_expr.run_tests(&apos;&apos;&apos;
+        5+3*6
+        (5+3)*6
+        -2--11
+        &apos;&apos;&apos;, full_dump=False)
+
+prints::
+
+    5+3*6
+    [[5, &apos;+&apos;, [3, &apos;*&apos;, 6]]]
+
+    (5+3)*6
+    [[[5, &apos;+&apos;, 3], &apos;*&apos;, 6]]
+
+    (5+x)*y
+    [[[5, &apos;+&apos;, &apos;x&apos;], &apos;*&apos;, &apos;y&apos;]]
+
+    -2--11
+    [[[&apos;-&apos;, 2], &apos;-&apos;, [&apos;-&apos;, 11]]]
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="680" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="685" bodyend="856"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a7ed90227f9637002619a79fbe37e1e61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.helpers.indentedBlock</definition>
+        <argsstring>(blockStatementExpr, indentStack, indent=True, backup_stacks=[])</argsstring>
+        <name>indentedBlock</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.indentedBlock</qualifiedname>
+        <param>
+          <type>blockStatementExpr</type>
+          <defname>blockStatementExpr</defname>
+        </param>
+        <param>
+          <type>indentStack</type>
+          <defname>indentStack</defname>
+        </param>
+        <param>
+          <type>indent</type>
+          <defname>indent</defname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>backup_stacks</type>
+          <defname>backup_stacks</defname>
+          <defval>[]</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>(DEPRECATED - use :class:`IndentedBlock` class instead)
+Helper method for defining space-delimited indentation blocks,
+such as those used to define block statements in Python source code.
+
+Parameters:
+
+- ``blockStatementExpr`` - expression defining syntax of statement that
+  is repeated within the indented block
+- ``indentStack`` - list created by caller to manage indentation stack
+  (multiple ``statementWithIndentedBlock`` expressions within a single
+  grammar should share a common ``indentStack``)
+- ``indent`` - boolean indicating whether block must be indented beyond
+  the current level; set to ``False`` for block of left-most statements
+  (default= ``True``)
+
+A valid block must contain at least one ``blockStatement``.
+
+(Note that indentedBlock uses internal parse actions which make it
+incompatible with packrat parsing.)
+
+Example::
+
+    data = &apos;&apos;&apos;
+    def A(z):
+      A1
+      B = 100
+      G = A2
+      A2
+      A3
+    B
+    def BB(a,b,c):
+      BB1
+      def BBA():
+        bba1
+        bba2
+        bba3
+    C
+    D
+    def spam(x,y):
+         def eggs(z):
+             pass
+    &apos;&apos;&apos;
+
+
+    indentStack = [1]
+    stmt = Forward()
+
+    identifier = Word(alphas, alphanums)
+    funcDecl = (&quot;def&quot; + identifier + Group(&quot;(&quot; + Opt(delimitedList(identifier)) + &quot;)&quot;) + &quot;:&quot;)
+    func_body = indentedBlock(stmt, indentStack)
+    funcDef = Group(funcDecl + func_body)
+
+    rvalue = Forward()
+    funcCall = Group(identifier + &quot;(&quot; + Opt(delimitedList(rvalue)) + &quot;)&quot;)
+    rvalue &lt;&lt; (funcCall | identifier | Word(nums))
+    assignment = Group(identifier + &quot;=&quot; + rvalue)
+    stmt &lt;&lt; (funcDef | assignment | identifier)
+
+    module_body = stmt[1, ...]
+
+    parseTree = module_body.parseString(data)
+    parseTree.pprint()
+
+prints::
+
+    [[&apos;def&apos;,
+      &apos;A&apos;,
+      [&apos;(&apos;, &apos;z&apos;, &apos;)&apos;],
+      &apos;:&apos;,
+      [[&apos;A1&apos;], [[&apos;B&apos;, &apos;=&apos;, &apos;100&apos;]], [[&apos;G&apos;, &apos;=&apos;, &apos;A2&apos;]], [&apos;A2&apos;], [&apos;A3&apos;]]],
+     &apos;B&apos;,
+     [&apos;def&apos;,
+      &apos;BB&apos;,
+      [&apos;(&apos;, &apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;)&apos;],
+      &apos;:&apos;,
+      [[&apos;BB1&apos;], [[&apos;def&apos;, &apos;BBA&apos;, [&apos;(&apos;, &apos;)&apos;], &apos;:&apos;, [[&apos;bba1&apos;], [&apos;bba2&apos;], [&apos;bba3&apos;]]]]]],
+     &apos;C&apos;,
+     &apos;D&apos;,
+     [&apos;def&apos;,
+      &apos;spam&apos;,
+      [&apos;(&apos;, &apos;x&apos;, &apos;y&apos;, &apos;)&apos;],
+      &apos;:&apos;,
+      [[[&apos;def&apos;, &apos;eggs&apos;, [&apos;(&apos;, &apos;z&apos;, &apos;)&apos;], &apos;:&apos;, [[&apos;pass&apos;]]]]]]]
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="857" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="857" bodyend="1000"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a14dbafb416fc4cff6d744260c9b89234" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+        <definition> ParserElement pip._vendor.pyparsing.helpers.delimited_list</definition>
+        <argsstring>(Union[str, ParserElement] expr, Union[str, ParserElement] delim=&quot;,&quot;, bool combine=False, typing.Optional[int] min=None, typing.Optional[int] max=None, *bool allow_trailing_delim=False)</argsstring>
+        <name>delimited_list</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.delimited_list</qualifiedname>
+        <param>
+          <type>Union</type>
+          <declname>expr</declname>
+          <array>[str, ParserElement]</array>
+        </param>
+        <param>
+          <type>Union</type>
+          <declname>delim</declname>
+          <array>[str, ParserElement]</array>
+          <defval>&quot;,&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>combine</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>typing.Optional</type>
+          <declname>min</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>typing.Optional</type>
+          <declname>max</declname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*bool</type>
+          <declname>allow_trailing_delim</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>(DEPRECATED - use :class:`DelimitedList` class)</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1033" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1041" bodyend="1049"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1aa2c1a5e925cfe7e7e3cf00b6f56660cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.helpers.delimitedList</definition>
+        <argsstring>()</argsstring>
+        <name>delimitedList</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.delimitedList</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1063" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1063" bodyend="1065"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1ae74218d829f4d853c021f906d045faca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.helpers.delimited_list</definition>
+        <argsstring>()</argsstring>
+        <name>delimited_list</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.delimited_list</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1066" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1066" bodyend="1068"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a6cbacbf1153a919fb7597a4021bf15e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.helpers.countedArray</definition>
+        <argsstring>()</argsstring>
+        <name>countedArray</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.countedArray</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1069" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1069" bodyend="1071"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1ac91885f36c5fce3d1e48a5853ef12a55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.helpers.matchPreviousLiteral</definition>
+        <argsstring>()</argsstring>
+        <name>matchPreviousLiteral</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.matchPreviousLiteral</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1072" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1072" bodyend="1074"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1af19b6d768c9e11d167c75d43e8ca696d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.helpers.matchPreviousExpr</definition>
+        <argsstring>()</argsstring>
+        <name>matchPreviousExpr</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.matchPreviousExpr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1075" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1075" bodyend="1077"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a593285566d27b44bf7b79ae129695176" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.helpers.oneOf</definition>
+        <argsstring>()</argsstring>
+        <name>oneOf</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.oneOf</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1078" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1078" bodyend="1080"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a1665bd025ade78b7cb9a87fd3c18685a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.helpers.dictOf</definition>
+        <argsstring>()</argsstring>
+        <name>dictOf</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.dictOf</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1081" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1081" bodyend="1083"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a4557b528a40071ae6f1d7d6976f0281e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.helpers.originalTextFor</definition>
+        <argsstring>()</argsstring>
+        <name>originalTextFor</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.originalTextFor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1084" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1084" bodyend="1086"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a5090e128e385e35fab3bc75b704b6ea2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.helpers.nestedExpr</definition>
+        <argsstring>()</argsstring>
+        <name>nestedExpr</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.nestedExpr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1087" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1087" bodyend="1089"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a9bab5e2c8afa563f59ebc6d9904da99e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.helpers.makeHTMLTags</definition>
+        <argsstring>()</argsstring>
+        <name>makeHTMLTags</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.makeHTMLTags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1090" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1090" bodyend="1092"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1aafe59eace72c2bdf0fcdf6fc8bd0ed9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.helpers.makeXMLTags</definition>
+        <argsstring>()</argsstring>
+        <name>makeXMLTags</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.makeXMLTags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1093" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1093" bodyend="1095"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1ad493b46ac8acacd4f74485ae63685e33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.helpers.replaceHTMLEntity</definition>
+        <argsstring>()</argsstring>
+        <name>replaceHTMLEntity</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.replaceHTMLEntity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1096" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1096" bodyend="1098"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1pyparsing_1_1helpers_1a13e745d35b723276ec9cb98c52eed0b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.helpers.infixNotation</definition>
+        <argsstring>()</argsstring>
+        <name>infixNotation</name>
+        <qualifiedname>pip._vendor.pyparsing.helpers.infixNotation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1099" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" bodystart="1099" bodyend="1101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/helpers.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

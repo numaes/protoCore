@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1roles" kind="namespace" language="Python">
+    <compoundname>sphinx::roles</compoundname>
+    <innerclass refid="classsphinx_1_1roles_1_1Abbreviation" prot="public">sphinx::roles::Abbreviation</innerclass>
+    <innerclass refid="classsphinx_1_1roles_1_1AnyXRefRole" prot="public">sphinx::roles::AnyXRefRole</innerclass>
+    <innerclass refid="classsphinx_1_1roles_1_1CVE" prot="public">sphinx::roles::CVE</innerclass>
+    <innerclass refid="classsphinx_1_1roles_1_1CWE" prot="public">sphinx::roles::CWE</innerclass>
+    <innerclass refid="classsphinx_1_1roles_1_1EmphasizedLiteral" prot="public">sphinx::roles::EmphasizedLiteral</innerclass>
+    <innerclass refid="classsphinx_1_1roles_1_1GUILabel" prot="public">sphinx::roles::GUILabel</innerclass>
+    <innerclass refid="classsphinx_1_1roles_1_1Keyboard" prot="public">sphinx::roles::Keyboard</innerclass>
+    <innerclass refid="classsphinx_1_1roles_1_1Manpage" prot="public">sphinx::roles::Manpage</innerclass>
+    <innerclass refid="classsphinx_1_1roles_1_1MenuSelection" prot="public">sphinx::roles::MenuSelection</innerclass>
+    <innerclass refid="classsphinx_1_1roles_1_1PEP" prot="public">sphinx::roles::PEP</innerclass>
+    <innerclass refid="classsphinx_1_1roles_1_1RFC" prot="public">sphinx::roles::RFC</innerclass>
+    <innerclass refid="classsphinx_1_1roles_1_1XRefRole" prot="public">sphinx::roles::XRefRole</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1roles_1a1d81bc618979611ea0df47dc2a093274" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::roles.generic_docroles</definition>
+        <argsstring></argsstring>
+        <name>generic_docroles</name>
+        <qualifiedname>sphinx.roles.generic_docroles</qualifiedname>
+        <initializer>=  {
+    &apos;command&apos;: <ref refid="classsphinx_1_1addnodes_1_1literal__strong" kindref="compound">addnodes.literal_strong</ref>,
+    &apos;dfn&apos;: nodes.emphasis,
+    &apos;mailheader&apos;: <ref refid="classsphinx_1_1addnodes_1_1literal__emphasis" kindref="compound">addnodes.literal_emphasis</ref>,
+    &apos;makevar&apos;: <ref refid="classsphinx_1_1addnodes_1_1literal__strong" kindref="compound">addnodes.literal_strong</ref>,
+    &apos;mimetype&apos;: <ref refid="classsphinx_1_1addnodes_1_1literal__emphasis" kindref="compound">addnodes.literal_emphasis</ref>,
+    &apos;newsgroup&apos;: <ref refid="classsphinx_1_1addnodes_1_1literal__emphasis" kindref="compound">addnodes.literal_emphasis</ref>,
+    &apos;program&apos;: <ref refid="classsphinx_1_1addnodes_1_1literal__strong" kindref="compound">addnodes.literal_strong</ref>,  # XXX should be an x-ref
+    &apos;regexp&apos;: nodes.literal,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/roles.py" line="29" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/roles.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1roles_1ac0b6e55d2f3c58aa145d9cc2b1bd1995" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::roles.options</definition>
+        <argsstring></argsstring>
+        <name>options</name>
+        <qualifiedname>sphinx.roles.options</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/roles.py" line="606" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/roles.py" bodystart="606" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacesphinx_1_1roles_1a7c0d02ff36de0248dab4bad3f58b5e51" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict sphinx::roles.specific_docroles</definition>
+        <argsstring></argsstring>
+        <name>specific_docroles</name>
+        <qualifiedname>sphinx.roles.specific_docroles</qualifiedname>
+        <initializer>=  {
+    # links to download references
+    &apos;download&apos;: <ref refid="classsphinx_1_1roles_1_1XRefRole" kindref="compound">XRefRole</ref>(nodeclass=<ref refid="classsphinx_1_1addnodes_1_1download__reference" kindref="compound">addnodes.download_reference</ref>),
+    # links to anything
+    &apos;any&apos;: <ref refid="classsphinx_1_1roles_1_1AnyXRefRole" kindref="compound">AnyXRefRole</ref>(warn_dangling=True),
+    # external links
+    &apos;cve&apos;: <ref refid="classsphinx_1_1roles_1_1CVE" kindref="compound">CVE</ref>(),
+    &apos;cwe&apos;: <ref refid="classsphinx_1_1roles_1_1CWE" kindref="compound">CWE</ref>(),
+    &apos;pep&apos;: <ref refid="classsphinx_1_1roles_1_1PEP" kindref="compound">PEP</ref>(),
+    &apos;rfc&apos;: <ref refid="classsphinx_1_1roles_1_1RFC" kindref="compound">RFC</ref>(),
+    # emphasised things
+    &apos;guilabel&apos;: <ref refid="classsphinx_1_1roles_1_1GUILabel" kindref="compound">GUILabel</ref>(),
+    &apos;menuselection&apos;: <ref refid="classsphinx_1_1roles_1_1MenuSelection" kindref="compound">MenuSelection</ref>(),
+    &apos;file&apos;: <ref refid="classsphinx_1_1roles_1_1EmphasizedLiteral" kindref="compound">EmphasizedLiteral</ref>(),
+    &apos;samp&apos;: <ref refid="classsphinx_1_1roles_1_1EmphasizedLiteral" kindref="compound">EmphasizedLiteral</ref>(),
+    # other
+    &apos;abbr&apos;: <ref refid="classsphinx_1_1roles_1_1Abbreviation" kindref="compound">Abbreviation</ref>(),
+    &apos;kbd&apos;: <ref refid="classsphinx_1_1roles_1_1Keyboard" kindref="compound">Keyboard</ref>(),
+    &apos;manpage&apos;: <ref refid="classsphinx_1_1roles_1_1Manpage" kindref="compound">Manpage</ref>(),
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/roles.py" line="612" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/roles.py" bodystart="612" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1roles_1a5fb14b55853d1e269705d40eac03a5b1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.roles._format_rfc_target</definition>
+        <argsstring>(str target)</argsstring>
+        <name>_format_rfc_target</name>
+        <qualifiedname>sphinx.roles._format_rfc_target</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Takes an RFC number with an optional anchor (like ``123#section-2.5.3``)
+and attempts to produce a human-friendly title for it.
+
+We have a set of known anchors that we format nicely,
+everything else we leave alone.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/roles.py" line="371" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/roles.py" bodystart="371" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1roles_1a2078a62abbbbe52abc48762a94d170d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[list[<ref refid="classdocutils_1_1nodes_1_1Node" kindref="compound">Node</ref>], list[<ref refid="classdocutils_1_1nodes_1_1system__message" kindref="compound">system_message</ref>]]</type>
+        <definition> tuple[list[Node], list[system_message]] sphinx.roles.code_role</definition>
+        <argsstring>(str name, str rawtext, str text, int lineno, docutils.parsers.rst.states.Inliner inliner, dict[str, Any]|None options=None, Sequence[str] content=())</argsstring>
+        <name>code_role</name>
+        <qualifiedname>sphinx.roles.code_role</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>rawtext</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>lineno</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Inliner" kindref="compound">docutils.parsers.rst.states.Inliner</ref></type>
+          <declname>inliner</declname>
+        </param>
+        <param>
+          <type>dict|None</type>
+          <declname>options</declname>
+          <array>[str, Any]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Sequence</type>
+          <declname>content</declname>
+          <array>[str]</array>
+          <defval>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/roles.py" line="578" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/roles.py" bodystart="586" bodyend="605"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1roles_1ab16aa1d185986bb64acaf89f5dd4fa02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classsphinx_1_1util_1_1typing_1_1ExtensionMetadata" kindref="compound">ExtensionMetadata</ref></type>
+        <definition> ExtensionMetadata sphinx.roles.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.roles.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/roles.py" line="634" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/roles.py" bodystart="634" bodyend="654"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Handlers for additional ReST roles.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/roles.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

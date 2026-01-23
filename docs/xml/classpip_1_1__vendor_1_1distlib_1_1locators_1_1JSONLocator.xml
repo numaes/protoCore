@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1JSONLocator" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::distlib::locators::JSONLocator</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1Locator" prot="public" virt="non-virtual">pip._vendor.distlib.locators.Locator</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1JSONLocator_1aa136e4c2a86ea01931d3716c10e4a7f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.JSONLocator.get_distribution_names</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_distribution_names</name>
+        <qualifiedname>pip._vendor.distlib.locators.JSONLocator.get_distribution_names</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1Locator_1a6716616ed2fe1a1a9d97c07c8a0f2a15">get_distribution_names</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return all the distribution names known to this locator.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="909" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="909" bodyend="914"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1distlib_1_1locators_1_1JSONLocator_1a2ffa82f76de442f30729a4d6bf70db86" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.distlib.locators.JSONLocator._get_project</definition>
+        <argsstring>(self, name)</argsstring>
+        <name>_get_project</name>
+        <qualifiedname>pip._vendor.distlib.locators.JSONLocator._get_project</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1Locator_1ad2635a6a42c128cf108492e9cd33fb89">_get_project</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>For a given project, get a dictionary mapping available versions to Distribution
+instances.
+
+This should be implemented in subclasses.
+
+If called from a locate() request, self.matcher will be set to a
+matcher for the requirement to satisfy, otherwise it will be None.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="915" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="915" bodyend="940"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>This locator uses special extended metadata (not available on PyPI) and is
+the basis of performant dependency resolution in distlib. Other locators
+require archive downloads before dependencies can be determined! As you
+might imagine, that can be slow.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.distlib.locators.JSONLocator</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1JSONLocator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.distlib.locators.Locator</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1Locator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.distlib.locators.JSONLocator</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1JSONLocator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.distlib.locators.Locator</label>
+        <link refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1Locator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" line="902" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/distlib/locators.py" bodystart="902" bodyend="940"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1JSONLocator_1a2ffa82f76de442f30729a4d6bf70db86" prot="protected" virt="non-virtual"><scope>pip::_vendor::distlib::locators::JSONLocator</scope><name>_get_project</name></member>
+      <member refid="classpip_1_1__vendor_1_1distlib_1_1locators_1_1JSONLocator_1aa136e4c2a86ea01931d3716c10e4a7f6" prot="public" virt="non-virtual"><scope>pip::_vendor::distlib::locators::JSONLocator</scope><name>get_distribution_names</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

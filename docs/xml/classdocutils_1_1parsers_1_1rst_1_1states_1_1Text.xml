@@ -1,0 +1,404 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text" kind="class" language="Python" prot="public">
+    <compoundname>docutils::parsers::rst::states::Text</compoundname>
+    <basecompoundref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState" prot="public" virt="non-virtual">docutils.parsers.rst.states.RSTState</basecompoundref>
+    <derivedcompoundref refid="classbreathe_1_1renderer_1_1sphinxrenderer_1_1InlineText" prot="public" virt="non-virtual">breathe.renderer.sphinxrenderer.InlineText</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1SpecializedText" prot="public" virt="non-virtual">docutils.parsers.rst.states.SpecializedText</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a5ad030c1e10ae061b657ae7e840f0e7e" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.parsers.rst.states.Text::patterns</definition>
+        <argsstring></argsstring>
+        <name>patterns</name>
+        <qualifiedname>docutils.parsers.rst.states.Text.patterns</qualifiedname>
+        <initializer>=  {&apos;<ref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a53688a7805027eb37cd74df114c27be8" kindref="member">underline</ref>&apos;: Body.patterns[&apos;line&apos;],
+                &apos;<ref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a5dd1a034ebbefc14d10d0e9a8b50a78f" kindref="member">text</ref>&apos;: r&apos;&apos;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2711" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2711" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1ad558eb43ed85e6e6157536c8d1e7f86d" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list docutils.parsers.rst.states.Text::initial_transitions</definition>
+        <argsstring></argsstring>
+        <name>initial_transitions</name>
+        <qualifiedname>docutils.parsers.rst.states.Text.initial_transitions</qualifiedname>
+        <initializer>=  [(&apos;<ref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a53688a7805027eb37cd74df114c27be8" kindref="member">underline</ref>&apos;, &apos;<ref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Body" kindref="compound">Body</ref>&apos;), (&apos;<ref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a5dd1a034ebbefc14d10d0e9a8b50a78f" kindref="member">text</ref>&apos;, &apos;<ref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Body" kindref="compound">Body</ref>&apos;)]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2713" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2713" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a8df9f3f8cacdda4110b6aa7fd6a18285" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.states.Text::classifier_delimiter</definition>
+        <argsstring></argsstring>
+        <name>classifier_delimiter</name>
+        <qualifiedname>docutils.parsers.rst.states.Text.classifier_delimiter</qualifiedname>
+        <initializer>=  re.compile(&apos; +: +&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2870" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2870" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1ab4146fb10580188defa4b47ad5ea9fa1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.Text.blank</definition>
+        <argsstring>(self, match, context, next_state)</argsstring>
+        <name>blank</name>
+        <qualifiedname>docutils.parsers.rst.states.Text.blank</qualifiedname>
+        <reimplements refid="classdocutils_1_1statemachine_1_1StateWS_1a2db0563a9c868a20109777f99e1a0f99">blank</reimplements>
+        <reimplementedby refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Line_1ab85f9a7541198fae85aa32c9f235d213">blank</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>match</type>
+          <defname>match</defname>
+        </param>
+        <param>
+          <type>context</type>
+          <defname>context</defname>
+        </param>
+        <param>
+          <type>next_state</type>
+          <defname>next_state</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>End of paragraph.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2715" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2715" bodyend="2724"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a0800dd94a11174ad3c500e9fee215b48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.Text.eof</definition>
+        <argsstring>(self, context)</argsstring>
+        <name>eof</name>
+        <qualifiedname>docutils.parsers.rst.states.Text.eof</qualifiedname>
+        <reimplements refid="classdocutils_1_1statemachine_1_1State_1a18d3688aab84c3a85bdbb90cf2973571">eof</reimplements>
+        <reimplementedby refid="classbreathe_1_1renderer_1_1sphinxrenderer_1_1InlineText_1a9caf61404fd3fc22e3f2296433ac68fb">eof</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1SpecializedText_1ab886270193bb78077515bdb62528f083">eof</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Definition_1ad3ebd1794c051c835ff40d79a155a78f">eof</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Line_1ac7195cad5fe0a562b3b03a7120974ee4">eof</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>context</type>
+          <defname>context</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Handle end-of-file. Return empty result.
+
+Override in subclasses.
+
+Parameter `context`: application-defined storage.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2725" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2725" bodyend="2729"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a3b8b4f70d44e1cd0350982b967dd0be7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.Text.indent</definition>
+        <argsstring>(self, match, context, next_state)</argsstring>
+        <name>indent</name>
+        <qualifiedname>docutils.parsers.rst.states.Text.indent</qualifiedname>
+        <reimplements refid="classdocutils_1_1statemachine_1_1StateWS_1a8cdd4b9f93640f452176c850da564642">indent</reimplements>
+        <reimplementedby refid="classbreathe_1_1renderer_1_1sphinxrenderer_1_1InlineText_1a5a606a1546c87a49ad6a5544d3fc09b1">indent</reimplementedby>
+        <reimplementedby refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Definition_1ac3996fbb94053ca8c81d62088b4e01cc">indent</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>match</type>
+          <defname>match</defname>
+        </param>
+        <param>
+          <type>context</type>
+          <defname>context</defname>
+        </param>
+        <param>
+          <type>next_state</type>
+          <defname>next_state</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Definition list item.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2730" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2730" bodyend="2749"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a53688a7805027eb37cd74df114c27be8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.Text.underline</definition>
+        <argsstring>(self, match, context, next_state)</argsstring>
+        <name>underline</name>
+        <qualifiedname>docutils.parsers.rst.states.Text.underline</qualifiedname>
+        <reimplementedby refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Line_1afacf1f7fea2ebec77d46821116430f46">underline</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>match</type>
+          <defname>match</defname>
+        </param>
+        <param>
+          <type>context</type>
+          <defname>context</defname>
+        </param>
+        <param>
+          <type>next_state</type>
+          <defname>next_state</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Section title.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2750" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2750" bodyend="2792"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a5dd1a034ebbefc14d10d0e9a8b50a78f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.Text.text</definition>
+        <argsstring>(self, match, context, next_state)</argsstring>
+        <name>text</name>
+        <qualifiedname>docutils.parsers.rst.states.Text.text</qualifiedname>
+        <reimplementedby refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Line_1a8f4963153a241e3d7c3cad3454a32ac1">text</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>match</type>
+          <defname>match</defname>
+        </param>
+        <param>
+          <type>context</type>
+          <defname>context</defname>
+        </param>
+        <param>
+          <type>next_state</type>
+          <defname>next_state</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Paragraph.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2793" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2793" bodyend="2814"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a14781dcdab7d72f6e170f53fa5a53a2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.Text.literal_block</definition>
+        <argsstring>(self)</argsstring>
+        <name>literal_block</name>
+        <qualifiedname>docutils.parsers.rst.states.Text.literal_block</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a list of nodes.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2815" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2815" bodyend="2831"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a3125af66302e633a736bad68063d8b28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.Text.quoted_literal_block</definition>
+        <argsstring>(self)</argsstring>
+        <name>quoted_literal_block</name>
+        <qualifiedname>docutils.parsers.rst.states.Text.quoted_literal_block</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2832" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2832" bodyend="2843"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a53ab2181cf23dc44d739f2e87846f1d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.Text.definition_list_item</definition>
+        <argsstring>(self, termline)</argsstring>
+        <name>definition_list_item</name>
+        <qualifiedname>docutils.parsers.rst.states.Text.definition_list_item</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>termline</type>
+          <defname>termline</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2844" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2844" bodyend="2869"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1aebc50ac5973fcd6a7780f6753227e5d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.Text.term</definition>
+        <argsstring>(self, lines, lineno)</argsstring>
+        <name>term</name>
+        <qualifiedname>docutils.parsers.rst.states.Text.term</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>lines</type>
+          <defname>lines</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacedocutils_1_1parsers_1_1rst_1ae9fd95584c96566be7dc095b64e7c26b" kindref="member">lineno</ref></type>
+          <defname>lineno</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a definition_list&apos;s term and optional classifiers.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2872" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2872" bodyend="2896"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Classifier of second line of a text block.
+
+Could be a paragraph, a definition list item, or a title.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="5">
+        <label>breathe.renderer.sphinxrenderer.InlineText</label>
+        <link refid="classbreathe_1_1renderer_1_1sphinxrenderer_1_1InlineText"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>docutils.parsers.rst.states.Text</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>docutils.parsers.rst.states.Definition</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Definition"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>docutils.parsers.rst.states.Line</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Line"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.parsers.rst.states.RSTState</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>docutils.parsers.rst.states.SpecializedText</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1SpecializedText"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.statemachine.State</label>
+        <link refid="classdocutils_1_1statemachine_1_1State"/>
+      </node>
+      <node id="3">
+        <label>docutils.statemachine.StateWS</label>
+        <link refid="classdocutils_1_1statemachine_1_1StateWS"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>docutils.parsers.rst.states.Text</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.parsers.rst.states.RSTState</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.statemachine.State</label>
+        <link refid="classdocutils_1_1statemachine_1_1State"/>
+      </node>
+      <node id="3">
+        <label>docutils.statemachine.StateWS</label>
+        <link refid="classdocutils_1_1statemachine_1_1StateWS"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="2703" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="2703" bodyend="2896"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1ab4146fb10580188defa4b47ad5ea9fa1" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::Text</scope><name>blank</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a8df9f3f8cacdda4110b6aa7fd6a18285" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::Text</scope><name>classifier_delimiter</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a53ab2181cf23dc44d739f2e87846f1d7" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::Text</scope><name>definition_list_item</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a0800dd94a11174ad3c500e9fee215b48" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::Text</scope><name>eof</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a3b8b4f70d44e1cd0350982b967dd0be7" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::Text</scope><name>indent</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1ad558eb43ed85e6e6157536c8d1e7f86d" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::Text</scope><name>initial_transitions</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a14781dcdab7d72f6e170f53fa5a53a2a" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::Text</scope><name>literal_block</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a5ad030c1e10ae061b657ae7e840f0e7e" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::Text</scope><name>patterns</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a3125af66302e633a736bad68063d8b28" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::Text</scope><name>quoted_literal_block</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1aebc50ac5973fcd6a7780f6753227e5d5" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::Text</scope><name>term</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a5dd1a034ebbefc14d10d0e9a8b50a78f" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::Text</scope><name>text</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text_1a53688a7805027eb37cd74df114c27be8" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::Text</scope><name>underline</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

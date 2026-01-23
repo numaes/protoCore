@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1commands_1_1help_1_1HelpCommand" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::commands::help::HelpCommand</compoundname>
+    <basecompoundref refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command" prot="public" virt="non-virtual">pip._internal.cli.base_command.Command</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1commands_1_1help_1_1HelpCommand_1a476a9944b98dd0da68697a7444f61bd8" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pip._internal.commands.help.HelpCommand::usage</definition>
+        <argsstring></argsstring>
+        <name>usage</name>
+        <qualifiedname>pip._internal.commands.help.HelpCommand.usage</qualifiedname>
+        <initializer>=  &quot;&quot;&quot;
+      %prog &lt;command&gt;&quot;&quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/help.py" line="12" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/help.py" bodystart="12" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1commands_1_1help_1_1HelpCommand_1a29912dff78b1c88bfc86724db1e709d5" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool pip._internal.commands.help.HelpCommand::ignore_require_venv</definition>
+        <argsstring></argsstring>
+        <name>ignore_require_venv</name>
+        <qualifiedname>pip._internal.commands.help.HelpCommand.ignore_require_venv</qualifiedname>
+        <initializer>=  True</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/help.py" line="14" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/help.py" bodystart="14" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1commands_1_1help_1_1HelpCommand_1a42d55ea22ffe4629cb79f2ea28e579fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int pip._internal.commands.help.HelpCommand.run</definition>
+        <argsstring>(self, Values options, List[str] args)</argsstring>
+        <name>run</name>
+        <qualifiedname>pip._internal.commands.help.HelpCommand.run</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command_1abfb817417c4522bde2e2eb6141126aba">run</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Values</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>List</type>
+          <declname>args</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/help.py" line="16" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/help.py" bodystart="16" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Show help for commands</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._internal.commands.help.HelpCommand</label>
+        <link refid="classpip_1_1__internal_1_1commands_1_1help_1_1HelpCommand"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.cli.base_command.Command</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.cli.command_context.CommandContextMixIn</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1command__context_1_1CommandContextMixIn"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._internal.commands.help.HelpCommand</label>
+        <link refid="classpip_1_1__internal_1_1commands_1_1help_1_1HelpCommand"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>usage</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.cli.base_command.Command</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1base__command_1_1Command"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>usage</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._internal.cli.command_context.CommandContextMixIn</label>
+        <link refid="classpip_1_1__internal_1_1cli_1_1command__context_1_1CommandContextMixIn"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/commands/help.py" line="9" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/commands/help.py" bodystart="9" bodyend="42"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1commands_1_1help_1_1HelpCommand_1a29912dff78b1c88bfc86724db1e709d5" prot="public" virt="non-virtual"><scope>pip::_internal::commands::help::HelpCommand</scope><name>ignore_require_venv</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1help_1_1HelpCommand_1a42d55ea22ffe4629cb79f2ea28e579fa" prot="public" virt="non-virtual"><scope>pip::_internal::commands::help::HelpCommand</scope><name>run</name></member>
+      <member refid="classpip_1_1__internal_1_1commands_1_1help_1_1HelpCommand_1a476a9944b98dd0da68697a7444f61bd8" prot="public" virt="non-virtual"><scope>pip::_internal::commands::help::HelpCommand</scope><name>usage</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

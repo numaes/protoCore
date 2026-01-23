@@ -1,0 +1,229 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1utils_1_1filesystem" kind="namespace" language="Python">
+    <compoundname>pip::_internal::utils::filesystem</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1filesystem_1a60481c2dcdde19881c4e2c6179794ce8" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::utils::filesystem._replace_retry</definition>
+        <argsstring></argsstring>
+        <name>_replace_retry</name>
+        <qualifiedname>pip._internal.utils.filesystem._replace_retry</qualifiedname>
+        <initializer>=  retry(reraise=True, stop=<ref refid="classpip_1_1__vendor_1_1tenacity_1_1stop_1_1stop__after__delay" kindref="compound">stop_after_delay</ref>(1), wait=<ref refid="classpip_1_1__vendor_1_1tenacity_1_1wait_1_1wait__fixed" kindref="compound">wait_fixed</ref>(0.25))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/filesystem.py" line="69" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/filesystem.py" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1utils_1_1filesystem_1a2fc3733bb724a9f843d542afc5a19055" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::utils::filesystem.replace</definition>
+        <argsstring></argsstring>
+        <name>replace</name>
+        <qualifiedname>pip._internal.utils.filesystem.replace</qualifiedname>
+        <initializer>=  <ref refid="namespacepip_1_1__internal_1_1utils_1_1filesystem_1a60481c2dcdde19881c4e2c6179794ce8" kindref="member">_replace_retry</ref>(os.replace)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/filesystem.py" line="71" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/filesystem.py" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1filesystem_1ab95eb37f6ac7b866a56dabed6d287b8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.utils.filesystem.check_path_owner</definition>
+        <argsstring>(str path)</argsstring>
+        <name>check_path_owner</name>
+        <qualifiedname>pip._internal.utils.filesystem.check_path_owner</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/filesystem.py" line="16" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/filesystem.py" bodystart="16" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1filesystem_1a827155074ff467e8de2ec58c7407b380" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Generator[BinaryIO, None, None]</type>
+        <definition> Generator[BinaryIO, None, None] pip._internal.utils.filesystem.adjacent_tmp_file</definition>
+        <argsstring>(str path, **Any kwargs)</argsstring>
+        <name>adjacent_tmp_file</name>
+        <qualifiedname>pip._internal.utils.filesystem.adjacent_tmp_file</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>**Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a file-like object pointing to a tmp file next to path.
+
+The file is created securely and is ensured to be written to disk
+after the context reaches its end.
+
+kwargs will be passed to tempfile.NamedTemporaryFile to control
+the way the temporary file will be opened.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/filesystem.py" line="44" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/filesystem.py" bodystart="44" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1filesystem_1ad3b187b7493402252ec25dbad99b6760" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.utils.filesystem.test_writable_dir</definition>
+        <argsstring>(str path)</argsstring>
+        <name>test_writable_dir</name>
+        <qualifiedname>pip._internal.utils.filesystem.test_writable_dir</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if a directory is writable.
+
+Uses os.access() on POSIX, tries creating files on Windows.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/filesystem.py" line="76" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/filesystem.py" bodystart="76" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1filesystem_1af4e069a57709750090024f7e75e1961a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.utils.filesystem._test_writable_dir_win</definition>
+        <argsstring>(str path)</argsstring>
+        <name>_test_writable_dir_win</name>
+        <qualifiedname>pip._internal.utils.filesystem._test_writable_dir_win</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/filesystem.py" line="94" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/filesystem.py" bodystart="94" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1filesystem_1a05622ec5e7f3efb69cb490bc41c90d53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[str]</type>
+        <definition> List[str] pip._internal.utils.filesystem.find_files</definition>
+        <argsstring>(str path, str pattern)</argsstring>
+        <name>find_files</name>
+        <qualifiedname>pip._internal.utils.filesystem.find_files</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a list of absolute paths of files beneath path, recursively,
+with filenames which match the UNIX-style shell glob pattern.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/filesystem.py" line="122" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/filesystem.py" bodystart="122" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1filesystem_1a7e47a7c6f9033fe2743331b83ce2e31b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Union[int, float]</type>
+        <definition> Union[int, float] pip._internal.utils.filesystem.file_size</definition>
+        <argsstring>(str path)</argsstring>
+        <name>file_size</name>
+        <qualifiedname>pip._internal.utils.filesystem.file_size</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/filesystem.py" line="132" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/filesystem.py" bodystart="132" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1filesystem_1acbdf609d31ba3e9792e22532e8822ff6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.filesystem.format_file_size</definition>
+        <argsstring>(str path)</argsstring>
+        <name>format_file_size</name>
+        <qualifiedname>pip._internal.utils.filesystem.format_file_size</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/filesystem.py" line="139" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/filesystem.py" bodystart="139" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1filesystem_1aa0aeca55b4df400f1121547530eb782f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Union[int, float]</type>
+        <definition> Union[int, float] pip._internal.utils.filesystem.directory_size</definition>
+        <argsstring>(str path)</argsstring>
+        <name>directory_size</name>
+        <qualifiedname>pip._internal.utils.filesystem.directory_size</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/filesystem.py" line="143" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/filesystem.py" bodystart="143" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1utils_1_1filesystem_1a02573fdcf87b88a94b53f68f3a0f0c60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.utils.filesystem.format_directory_size</definition>
+        <argsstring>(str path)</argsstring>
+        <name>format_directory_size</name>
+        <qualifiedname>pip._internal.utils.filesystem.format_directory_size</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/filesystem.py" line="152" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/utils/filesystem.py" bodystart="152" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/filesystem.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

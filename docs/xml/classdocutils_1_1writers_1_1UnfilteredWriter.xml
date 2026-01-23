@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1writers_1_1UnfilteredWriter" kind="class" language="Python" prot="public">
+    <compoundname>docutils::writers::UnfilteredWriter</compoundname>
+    <basecompoundref refid="classdocutils_1_1writers_1_1Writer" prot="public" virt="non-virtual">docutils.writers.Writer</basecompoundref>
+    <derivedcompoundref refid="classdocutils_1_1writers_1_1null_1_1Writer" prot="public" virt="non-virtual">docutils.writers.null.Writer</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1io_1_1SphinxDummyWriter" prot="public" virt="non-virtual">sphinx.io.SphinxDummyWriter</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1UnfilteredWriter_1abd35e847e708cc7b301131aa44860523" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.UnfilteredWriter.get_transforms</definition>
+        <argsstring>(self)</argsstring>
+        <name>get_transforms</name>
+        <qualifiedname>docutils.writers.UnfilteredWriter.get_transforms</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1Writer_1aa91c382eea21f649d5a1e2399bc06568">get_transforms</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Transforms required by this class.  Override in subclasses.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/__init__.py" line="119" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/__init__.py" bodystart="119" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A writer that passes the document tree on unchanged (e.g. a
+serializer.)
+
+Documents written by UnfilteredWriters are typically reused at a
+later date using a subclass of `readers.ReReader`.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.writers.UnfilteredWriter</label>
+        <link refid="classdocutils_1_1writers_1_1UnfilteredWriter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.Component</label>
+        <link refid="classdocutils_1_1Component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+      </node>
+      <node id="5">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+      </node>
+      <node id="2">
+        <label>docutils.writers.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1Writer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>docutils.writers.null.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1null_1_1Writer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>sphinx.io.SphinxDummyWriter</label>
+        <link refid="classsphinx_1_1io_1_1SphinxDummyWriter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="6">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>docutils.writers.UnfilteredWriter</label>
+        <link refid="classdocutils_1_1writers_1_1UnfilteredWriter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.Component</label>
+        <link refid="classdocutils_1_1Component"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+      </node>
+      <node id="5">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+      </node>
+      <node id="2">
+        <label>docutils.writers.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1Writer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>component_type</edgelabel>
+          <edgelabel>config_section</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/docutils/writers/__init__.py" line="109" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/__init__.py" bodystart="109" bodyend="125"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1writers_1_1UnfilteredWriter_1abd35e847e708cc7b301131aa44860523" prot="public" virt="non-virtual"><scope>docutils::writers::UnfilteredWriter</scope><name>get_transforms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

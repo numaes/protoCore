@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1nodes_1_1CondExpr" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::nodes::CondExpr</compoundname>
+    <basecompoundref refid="classjinja2_1_1nodes_1_1Expr" prot="public" virt="non-virtual">jinja2.nodes.Expr</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1CondExpr_1ab19ee3a2efb04fac29ed82fae8922e70" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple jinja2.nodes.CondExpr::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>jinja2.nodes.CondExpr.fields</qualifiedname>
+        <initializer>=  (&quot;test&quot;, &quot;expr1&quot;, &quot;expr2&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="701" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="701" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1CondExpr_1a789ef3bb938e783def30175126d8ad96" prot="public" static="yes" mutable="no">
+        <type><ref refid="classjinja2_1_1nodes_1_1Expr" kindref="compound">Expr</ref></type>
+        <definition>Expr jinja2.nodes.CondExpr::test</definition>
+        <argsstring></argsstring>
+        <name>test</name>
+        <qualifiedname>jinja2.nodes.CondExpr.test</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="702" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="702" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1CondExpr_1a080070f3e0e1caab9dc7b0f65ee92216" prot="public" static="yes" mutable="no">
+        <type><ref refid="classjinja2_1_1nodes_1_1Expr" kindref="compound">Expr</ref></type>
+        <definition>Expr jinja2.nodes.CondExpr::expr1</definition>
+        <argsstring></argsstring>
+        <name>expr1</name>
+        <qualifiedname>jinja2.nodes.CondExpr.expr1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="703" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="703" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1CondExpr_1a4dbc75e5813df88fe3b62bc56c3e3ab4" prot="public" static="yes" mutable="no">
+        <type>t</type>
+        <definition>t jinja2.nodes.CondExpr::expr2</definition>
+        <argsstring></argsstring>
+        <name>expr2</name>
+        <qualifiedname>jinja2.nodes.CondExpr.expr2</qualifiedname>
+        <initializer>.Optional[<ref refid="classjinja2_1_1nodes_1_1Expr" kindref="compound">Expr</ref>]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="704" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="704" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjinja2_1_1nodes_1_1CondExpr_1a5f1e9c9d1c41fb0d49ae1657b5847f0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Any</type>
+        <definition> t.Any jinja2.nodes.CondExpr.as_const</definition>
+        <argsstring>(self, t.Optional[EvalContext] eval_ctx=None)</argsstring>
+        <name>as_const</name>
+        <qualifiedname>jinja2.nodes.CondExpr.as_const</qualifiedname>
+        <reimplements refid="classjinja2_1_1nodes_1_1Expr_1afc3c83d61cdf1d87d4a3f54637efb194">as_const</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>eval_ctx</declname>
+          <array>[EvalContext]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the value of the expression as constant or raise
+:exc:`Impossible` if this was not possible.
+
+An :class:`EvalContext` can be provided, if none is given
+a default context is created which requires the nodes to have
+an attached environment.
+
+.. versionchanged:: 2.4
+   the `eval_ctx` parameter was added.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="706" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="706" bodyend="717"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>A conditional expression (inline if expression).  (``{{
+foo if bar else baz }}``)
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.nodes.CondExpr</label>
+        <link refid="classjinja2_1_1nodes_1_1CondExpr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.nodes.Expr</label>
+        <link refid="classjinja2_1_1nodes_1_1Expr"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.nodes.Node</label>
+        <link refid="classjinja2_1_1nodes_1_1Node"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>jinja2.nodes.NodeType</label>
+        <link refid="classjinja2_1_1nodes_1_1NodeType"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>jinja2.nodes.CondExpr</label>
+        <link refid="classjinja2_1_1nodes_1_1CondExpr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="usage">
+          <edgelabel>expr1</edgelabel>
+          <edgelabel>test</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.nodes.Expr</label>
+        <link refid="classjinja2_1_1nodes_1_1Expr"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.nodes.Node</label>
+        <link refid="classjinja2_1_1nodes_1_1Node"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>jinja2.nodes.NodeType</label>
+        <link refid="classjinja2_1_1nodes_1_1NodeType"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="696" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="696" bodyend="717"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1nodes_1_1CondExpr_1a5f1e9c9d1c41fb0d49ae1657b5847f0c" prot="public" virt="non-virtual"><scope>jinja2::nodes::CondExpr</scope><name>as_const</name></member>
+      <member refid="classjinja2_1_1nodes_1_1CondExpr_1a080070f3e0e1caab9dc7b0f65ee92216" prot="public" virt="non-virtual"><scope>jinja2::nodes::CondExpr</scope><name>expr1</name></member>
+      <member refid="classjinja2_1_1nodes_1_1CondExpr_1a4dbc75e5813df88fe3b62bc56c3e3ab4" prot="public" virt="non-virtual"><scope>jinja2::nodes::CondExpr</scope><name>expr2</name></member>
+      <member refid="classjinja2_1_1nodes_1_1CondExpr_1ab19ee3a2efb04fac29ed82fae8922e70" prot="public" virt="non-virtual"><scope>jinja2::nodes::CondExpr</scope><name>fields</name></member>
+      <member refid="classjinja2_1_1nodes_1_1CondExpr_1a789ef3bb938e783def30175126d8ad96" prot="public" virt="non-virtual"><scope>jinja2::nodes::CondExpr</scope><name>test</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

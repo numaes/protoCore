@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="reporters_8py" kind="file" language="Python">
+    <compoundname>reporters.py</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter" prot="public">pip::_vendor::resolvelib::reporters::BaseReporter</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1resolvelib">pip::_vendor::resolvelib</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1resolvelib_1_1reporters">pip::_vendor::resolvelib::reporters</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter" refkind="compound"><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter" kindref="compound">BaseReporter</ref>(object):</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Delegate<sp/>class<sp/>to<sp/>provider<sp/>progress<sp/>reporting<sp/>for<sp/>the<sp/>resolver.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1adca070461852d42acc0e24c05df09b86" kindref="member">starting</ref>(self):</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Called<sp/>before<sp/>the<sp/>resolution<sp/>actually<sp/>starts.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1a283c83e7a6a94b0dc0fe407c4d787b51" kindref="member">starting_round</ref>(self,<sp/>index):</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Called<sp/>before<sp/>each<sp/>round<sp/>of<sp/>resolution<sp/>starts.</highlight></codeline>
+<codeline lineno="9"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="10"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>The<sp/>index<sp/>is<sp/>zero-based.</highlight></codeline>
+<codeline lineno="11"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1a945b959ca76854efc8bc4b5f3bc3308f" kindref="member">ending_round</ref>(self,<sp/>index,<sp/>state):</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Called<sp/>before<sp/>each<sp/>round<sp/>of<sp/>resolution<sp/>ends.</highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>This<sp/>is<sp/>NOT<sp/>called<sp/>if<sp/>the<sp/>resolution<sp/>ends<sp/>at<sp/>this<sp/>round.<sp/>Use<sp/>`ending`</highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>if<sp/>you<sp/>want<sp/>to<sp/>report<sp/>finalization.<sp/>The<sp/>index<sp/>is<sp/>zero-based.</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1abba6a25ea1cad072f5bb494bddc925f3" kindref="member">ending</ref>(self,<sp/>state):</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Called<sp/>before<sp/>the<sp/>resolution<sp/>ends<sp/>successfully.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1a4fdef0e6f2d3ec470ccdcb8e36ca6249" kindref="member">adding_requirement</ref>(self,<sp/>requirement,<sp/>parent):</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Called<sp/>when<sp/>adding<sp/>a<sp/>new<sp/>requirement<sp/>into<sp/>the<sp/>resolve<sp/>criteria.</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>requirement:<sp/>The<sp/>additional<sp/>requirement<sp/>to<sp/>be<sp/>applied<sp/>to<sp/>filter</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>the<sp/>available<sp/>candidaites.</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>parent:<sp/>The<sp/>candidate<sp/>that<sp/>requires<sp/>``requirement``<sp/>as<sp/>a</highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dependency,<sp/>or<sp/>None<sp/>if<sp/>``requirement``<sp/>is<sp/>one<sp/>of<sp/>the<sp/>root</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>requirements<sp/>passed<sp/>in<sp/>from<sp/>``Resolver.resolve()``.</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1afddc650c8a78ce9fcef5803347b6e2c6" kindref="member">resolving_conflicts</ref>(self,<sp/>causes):</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Called<sp/>when<sp/>starting<sp/>to<sp/>attempt<sp/>requirement<sp/>conflict<sp/>resolution.</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:param<sp/>causes:<sp/>The<sp/>information<sp/>on<sp/>the<sp/>collision<sp/>that<sp/>caused<sp/>the<sp/>backtracking.</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1a3976be64608abc742da3a1d43d25e944" kindref="member">rejecting_candidate</ref>(self,<sp/>criterion,<sp/>candidate):</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Called<sp/>when<sp/>rejecting<sp/>a<sp/>candidate<sp/>during<sp/>backtracking.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1resolvelib_1_1reporters_1_1BaseReporter_1ad804ef8d7243d8300d8fb520ccc1ad31" kindref="member">pinning</ref>(self,<sp/>candidate):</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Called<sp/>when<sp/>adding<sp/>a<sp/>candidate<sp/>to<sp/>the<sp/>potential<sp/>solution.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/resolvelib/reporters.py"/>
+  </compounddef>
+</doxygen>

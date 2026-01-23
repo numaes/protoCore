@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1build__env" kind="namespace" language="Python">
+    <compoundname>pip::_internal::build_env</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1build__env_1_1__Prefix" prot="protected">pip::_internal::build_env::_Prefix</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1build__env_1_1BuildEnvironment" prot="public">pip::_internal::build_env::BuildEnvironment</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1build__env_1_1NoOpBuildEnvironment" prot="public">pip::_internal::build_env::NoOpBuildEnvironment</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1build__env_1aae2dc16c5b17802b287cd03d2af818d5" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::build_env.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.build_env.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/build_env.py" line="28" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/build_env.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1build__env_1ab321a2cde1a8de3d8bb0033f6d8580a3" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Union[Tuple[str], Tuple[str, str]]</type>
+        <definition> Union[Tuple[str], Tuple[str, str]] pip._internal.build_env._dedup</definition>
+        <argsstring>(str a, str b)</argsstring>
+        <name>_dedup</name>
+        <qualifiedname>pip._internal.build_env._dedup</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/build_env.py" line="31" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/build_env.py" bodystart="31" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1build__env_1a9e9d0079b05671efe451f45b2fd953e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.build_env.get_runnable_pip</definition>
+        <argsstring>()</argsstring>
+        <name>get_runnable_pip</name>
+        <qualifiedname>pip._internal.build_env.get_runnable_pip</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get a file to pass to a Python executable, to run the currently-running pip.
+
+This is used to run a pip subprocess, for installing requirements into the build
+environment.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/build_env.py" line="44" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/build_env.py" bodystart="44" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1build__env_1ab088571af40110d58aac5019a76cad7d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Set[str]</type>
+        <definition> Set[str] pip._internal.build_env._get_system_sitepackages</definition>
+        <argsstring>()</argsstring>
+        <name>_get_system_sitepackages</name>
+        <qualifiedname>pip._internal.build_env._get_system_sitepackages</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get system site packages
+
+Usually from site.getsitepackages,
+but fallback on `get_purelib()/get_platlib()` if unavailable
+(e.g. in a virtualenv created by virtualenv&lt;20)
+
+Returns normalized set of strings.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/build_env.py" line="60" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/build_env.py" bodystart="60" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Build Environment used for isolation during sdist building
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/build_env.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

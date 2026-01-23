@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1writers_1_1manpage_1_1ManualPageWriter" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::writers::manpage::ManualPageWriter</compoundname>
+    <basecompoundref refid="classdocutils_1_1writers_1_1manpage_1_1Writer" prot="public" virt="non-virtual">docutils.writers.manpage.Writer</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageWriter_1af9472a59c2da14b243c1d3a554e4f169" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.writers.manpage.ManualPageWriter::builder</definition>
+        <argsstring></argsstring>
+        <name>builder</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageWriter.builder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="32" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageWriter_1a6dcf934e93cb101b19477a907e2e1fbd" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.writers.manpage.ManualPageWriter::visitor</definition>
+        <argsstring></argsstring>
+        <name>visitor</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageWriter.visitor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="38" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageWriter_1a9cd173c25f374ce1f00f1592d0c7924d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.writers.manpage.ManualPageWriter::output</definition>
+        <argsstring></argsstring>
+        <name>output</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageWriter.output</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="40" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageWriter_1ad73ef076b2a4d1089dd35715d61f5790" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageWriter.__init__</definition>
+        <argsstring>(self, Builder builder)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageWriter.__init__</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1manpage_1_1Writer_1a3dacb93b3870843ebfd6baa8075c639f">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1builders_1_1Builder" kindref="compound">Builder</ref></type>
+          <declname>builder</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="30" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="30" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1writers_1_1manpage_1_1ManualPageWriter_1a46145e1f49ac8510e576e2db0c8c7d2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.writers.manpage.ManualPageWriter.translate</definition>
+        <argsstring>(self)</argsstring>
+        <name>translate</name>
+        <qualifiedname>sphinx.writers.manpage.ManualPageWriter.translate</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1manpage_1_1Writer_1abcaf740ff08de2fde50a666542eba29c">translate</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Do final translation of `self.document` into `self.output`.  Called
+from `write`.  Override in subclasses.
+
+Usually done with a `docutils.nodes.NodeVisitor` subclass, in
+combination with a call to `docutils.nodes.Node.walk()` or
+`docutils.nodes.Node.walkabout()`.  The ``NodeVisitor`` subclass must
+support all standard elements (listed in
+`docutils.nodes.node_class_names`) and possibly non-standard elements
+used by the current Reader as well.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="34" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="34" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>docutils.Component</label>
+        <link refid="classdocutils_1_1Component"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+      </node>
+      <node id="6">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+      </node>
+      <node id="3">
+        <label>docutils.writers.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1Writer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.writers.manpage.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1manpage_1_1Writer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>sphinx.writers.manpage.ManualPageWriter</label>
+        <link refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageWriter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="7">
+        <label>str</label>
+      </node>
+      <node id="4">
+        <label>docutils.Component</label>
+        <link refid="classdocutils_1_1Component"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+      </node>
+      <node id="6">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+      </node>
+      <node id="3">
+        <label>docutils.writers.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1Writer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>component_type</edgelabel>
+          <edgelabel>config_section</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.writers.manpage.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1manpage_1_1Writer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>sphinx.writers.manpage.ManualPageWriter</label>
+        <link refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageWriter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" line="29" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/writers/manpage.py" bodystart="29" bodyend="42"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageWriter_1ad73ef076b2a4d1089dd35715d61f5790" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageWriter</scope><name>__init__</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageWriter_1af9472a59c2da14b243c1d3a554e4f169" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageWriter</scope><name>builder</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageWriter_1a9cd173c25f374ce1f00f1592d0c7924d" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageWriter</scope><name>output</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageWriter_1a46145e1f49ac8510e576e2db0c8c7d2c" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageWriter</scope><name>translate</name></member>
+      <member refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageWriter_1a6dcf934e93cb101b19477a907e2e1fbd" prot="public" virt="non-virtual"><scope>sphinx::writers::manpage::ManualPageWriter</scope><name>visitor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="pip_2__vendor_2requests_2structures_8py" kind="file" language="Python">
+    <compoundname>structures.py</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1CaseInsensitiveDict" prot="public">pip::_vendor::requests::structures::CaseInsensitiveDict</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1LookupDict" prot="public">pip::_vendor::requests::structures::LookupDict</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor">pip::_vendor</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1requests">pip::_vendor::requests</innernamespace>
+    <innernamespace refid="namespacepip_1_1__vendor_1_1requests_1_1structures">pip::_vendor::requests::structures</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__vendor_1_1requests_1_1structures" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral">requests.structures</highlight></codeline>
+<codeline lineno="3"><highlight class="stringliteral">~~~~~~~~~~~~~~~~~~~</highlight></codeline>
+<codeline lineno="4"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="5"><highlight class="stringliteral">Data<sp/>structures<sp/>that<sp/>power<sp/>Requests.</highlight></codeline>
+<codeline lineno="6"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>collections<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>OrderedDict</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>.compat<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Mapping,<sp/>MutableMapping</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13" refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1CaseInsensitiveDict" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1CaseInsensitiveDict" kindref="compound">CaseInsensitiveDict</ref>(MutableMapping):</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;A<sp/>case-insensitive<sp/>``dict``-like<sp/>object.</highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>Implements<sp/>all<sp/>methods<sp/>and<sp/>operations<sp/>of</highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>``MutableMapping``<sp/>as<sp/>well<sp/>as<sp/>dict&apos;s<sp/>``copy``.<sp/>Also</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>provides<sp/>``lower_items``.</highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="20"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>All<sp/>keys<sp/>are<sp/>expected<sp/>to<sp/>be<sp/>strings.<sp/>The<sp/>structure<sp/>remembers<sp/>the</highlight></codeline>
+<codeline lineno="21"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>case<sp/>of<sp/>the<sp/>last<sp/>key<sp/>to<sp/>be<sp/>set,<sp/>and<sp/>``iter(instance)``,</highlight></codeline>
+<codeline lineno="22"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>``keys()``,<sp/>``items()``,<sp/>``iterkeys()``,<sp/>and<sp/>``iteritems()``</highlight></codeline>
+<codeline lineno="23"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>will<sp/>contain<sp/>case-sensitive<sp/>keys.<sp/>However,<sp/>querying<sp/>and<sp/>contains</highlight></codeline>
+<codeline lineno="24"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>testing<sp/>is<sp/>case<sp/>insensitive::</highlight></codeline>
+<codeline lineno="25"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="26"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cid<sp/>=<sp/>CaseInsensitiveDict()</highlight></codeline>
+<codeline lineno="27"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cid[&apos;Accept&apos;]<sp/>=<sp/>&apos;application/json&apos;</highlight></codeline>
+<codeline lineno="28"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cid[&apos;aCCEPT&apos;]<sp/>==<sp/>&apos;application/json&apos;<sp/><sp/>#<sp/>True</highlight></codeline>
+<codeline lineno="29"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>list(cid)<sp/>==<sp/>[&apos;Accept&apos;]<sp/><sp/>#<sp/>True</highlight></codeline>
+<codeline lineno="30"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>For<sp/>example,<sp/>``headers[&apos;content-encoding&apos;]``<sp/>will<sp/>return<sp/>the</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>value<sp/>of<sp/>a<sp/>``&apos;Content-Encoding&apos;``<sp/>response<sp/>header,<sp/>regardless</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>of<sp/>how<sp/>the<sp/>header<sp/>name<sp/>was<sp/>originally<sp/>stored.</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>If<sp/>the<sp/>constructor,<sp/>``.update``,<sp/>or<sp/>equality<sp/>comparison</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>operations<sp/>are<sp/>given<sp/>keys<sp/>that<sp/>have<sp/>equal<sp/>``.lower()``s,<sp/>the</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>behavior<sp/>is<sp/>undefined.</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1CaseInsensitiveDict_1aff66f4fead911f65000f0dbb6b9aece8" kindref="member">__init__</ref>(self,<sp/>data=None,<sp/>**kwargs):</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1CaseInsensitiveDict_1acb0827bd5879c0ba4ca381e217d79ab7" kindref="member">_store</ref><sp/>=<sp/>OrderedDict()</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>data<sp/></highlight><highlight class="keywordflow">is</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.update(data,<sp/>**kwargs)</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1CaseInsensitiveDict_1a422179baadab5debf8bed8c4bcce045c" kindref="member">__setitem__</ref>(self,<sp/>key,<sp/>value):</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Use<sp/>the<sp/>lowercased<sp/>key<sp/>for<sp/>lookups,<sp/>but<sp/>store<sp/>the<sp/>actual</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>key<sp/>alongside<sp/>the<sp/>value.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1CaseInsensitiveDict_1acb0827bd5879c0ba4ca381e217d79ab7" kindref="member">_store</ref>[key.lower()]<sp/>=<sp/>(key,<sp/>value)</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1CaseInsensitiveDict_1aec826b01ca5c3adf1b21d1bd9cc42478" kindref="member">__getitem__</ref>(self,<sp/>key):</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.<ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1CaseInsensitiveDict_1acb0827bd5879c0ba4ca381e217d79ab7" kindref="member">_store</ref>[key.lower()][1]</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1CaseInsensitiveDict_1acdf679708a5532460a6189bd69fbd117" kindref="member">__delitem__</ref>(self,<sp/>key):</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>del<sp/>self.<ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1CaseInsensitiveDict_1acb0827bd5879c0ba4ca381e217d79ab7" kindref="member">_store</ref>[key.lower()]</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1CaseInsensitiveDict_1aeb19d423c889e251495dd0a636ca97fe" kindref="member">__iter__</ref>(self):</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(casedkey<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>casedkey,<sp/>mappedvalue<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>self.<ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1CaseInsensitiveDict_1acb0827bd5879c0ba4ca381e217d79ab7" kindref="member">_store</ref>.values())</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1CaseInsensitiveDict_1a372008a9a9918959698a3b1adc14ba33" kindref="member">__len__</ref>(self):</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>len(self.<ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1CaseInsensitiveDict_1acb0827bd5879c0ba4ca381e217d79ab7" kindref="member">_store</ref>)</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1CaseInsensitiveDict_1ad7ed68245f8f83b7f281569842abd2fe" kindref="member">lower_items</ref>(self):</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Like<sp/>iteritems(),<sp/>but<sp/>with<sp/>all<sp/>lowercase<sp/>keys.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>((lowerkey,<sp/>keyval[1])<sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(lowerkey,<sp/>keyval)<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>self.<ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1CaseInsensitiveDict_1acb0827bd5879c0ba4ca381e217d79ab7" kindref="member">_store</ref>.items())</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1CaseInsensitiveDict_1a92f92fd5c3d387e0cfc433ec74847f17" kindref="member">__eq__</ref>(self,<sp/>other):</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>isinstance(other,<sp/>Mapping):</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>other<sp/>=<sp/><ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1CaseInsensitiveDict" kindref="compound">CaseInsensitiveDict</ref>(other)</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NotImplemented</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Compare<sp/>insensitively</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dict(self.<ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1CaseInsensitiveDict_1ad7ed68245f8f83b7f281569842abd2fe" kindref="member">lower_items</ref>())<sp/>==<sp/>dict(other.lower_items())</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>Copy<sp/>is<sp/>required</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">copy(self):</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1CaseInsensitiveDict" kindref="compound">CaseInsensitiveDict</ref>(self.<ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1CaseInsensitiveDict_1acb0827bd5879c0ba4ca381e217d79ab7" kindref="member">_store</ref>.values())</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1CaseInsensitiveDict_1a37843053389f2e664cefb1f2a4c245ce" kindref="member">__repr__</ref>(self):</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>str(dict(self.items()))</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1LookupDict" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1LookupDict" kindref="compound">LookupDict</ref>(dict):</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Dictionary<sp/>lookup<sp/>object.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1LookupDict_1a339626fbfb880de6556090b8e9193d53" kindref="member">__init__</ref>(self,<sp/>name=None):</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1LookupDict_1a7ca3c1a94915e595049a0e1673041848" kindref="member">name</ref><sp/>=<sp/>name</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>super().<ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1LookupDict_1a339626fbfb880de6556090b8e9193d53" kindref="member">__init__</ref>()</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1LookupDict_1a3b52e3bda35ba148b10db504327c923b" kindref="member">__repr__</ref>(self):</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>f</highlight><highlight class="stringliteral">&quot;&lt;lookup<sp/>&apos;{self.name}&apos;&gt;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__vendor_1_1requests_1_1structures_1_1LookupDict_1aa79801dad3eea385cb4f46388af27acd" kindref="member">__getitem__</ref>(self,<sp/>key):</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">#<sp/>We<sp/>allow<sp/>fall-through<sp/>here,<sp/>so<sp/>values<sp/>default<sp/>to<sp/>None</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.__dict__.get(key,<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">get(self,<sp/>key,<sp/>default=None):</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>self.__dict__.get(key,<sp/>default)</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/structures.py"/>
+  </compounddef>
+</doxygen>

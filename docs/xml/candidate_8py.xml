@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="candidate_8py" kind="file" language="Python">
+    <compoundname>candidate.py</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1models_1_1candidate_1_1InstallationCandidate" prot="public">pip::_internal::models::candidate::InstallationCandidate</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal">pip::_internal</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1models">pip::_internal::models</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1models_1_1candidate">pip::_internal::models::candidate</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__internal_1_1models_1_1candidate" refkind="compound"><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__vendor_1_1packaging_1_1version" kindref="compound">pip._vendor.packaging.version</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>parse<sp/></highlight><highlight class="keyword">as</highlight><highlight class="normal"><sp/>parse_version</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1models_1_1link" kindref="compound">pip._internal.models.link</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Link</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1utils_1_1models" kindref="compound">pip._internal.utils.models</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>KeyBasedCompareMixin</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7" refid="classpip_1_1__internal_1_1models_1_1candidate_1_1InstallationCandidate" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1models_1_1candidate_1_1InstallationCandidate" kindref="compound">InstallationCandidate</ref>(<ref refid="classpip_1_1__internal_1_1utils_1_1models_1_1KeyBasedCompareMixin" kindref="compound">KeyBasedCompareMixin</ref>):</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Represents<sp/>a<sp/>potential<sp/>&quot;candidate&quot;<sp/>for<sp/>installation.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/>__slots__<sp/>=<sp/>[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;link&quot;</highlight><highlight class="normal">]</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1models_1_1candidate_1_1InstallationCandidate_1acde9849a74f9161856e9324db528295d" kindref="member">__init__</ref>(self,<sp/>name:<sp/>str,<sp/>version:<sp/>str,<sp/>link:<sp/>Link)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">None</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__internal_1_1models_1_1candidate_1_1InstallationCandidate_1a155b4f5f9ae914a9451bf98d3ab26cec" kindref="member">name</ref><sp/>=<sp/>name</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__internal_1_1models_1_1candidate_1_1InstallationCandidate_1a04152db2b5bdf963fe67256b4a6063f5" kindref="member">version</ref><sp/>=<sp/>parse_version(version)</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__internal_1_1models_1_1candidate_1_1InstallationCandidate_1a2a1e4af90089d1226a21295ee5d8c270" kindref="member">link</ref><sp/>=<sp/>link</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>super().<ref refid="classpip_1_1__internal_1_1models_1_1candidate_1_1InstallationCandidate_1acde9849a74f9161856e9324db528295d" kindref="member">__init__</ref>(</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>key=(self.<ref refid="classpip_1_1__internal_1_1models_1_1candidate_1_1InstallationCandidate_1a155b4f5f9ae914a9451bf98d3ab26cec" kindref="member">name</ref>,<sp/>self.<ref refid="classpip_1_1__internal_1_1models_1_1candidate_1_1InstallationCandidate_1a04152db2b5bdf963fe67256b4a6063f5" kindref="member">version</ref>,<sp/>self.<ref refid="classpip_1_1__internal_1_1models_1_1candidate_1_1InstallationCandidate_1a2a1e4af90089d1226a21295ee5d8c270" kindref="member">link</ref>),</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>defining_class=InstallationCandidate,</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1models_1_1candidate_1_1InstallationCandidate_1a49ee1c1d2c89b1877a103e615b0b1d0b" kindref="member">__repr__</ref>(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&lt;InstallationCandidate({!r},<sp/>{!r},<sp/>{!r})&gt;&quot;</highlight><highlight class="normal">.format(</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__internal_1_1models_1_1candidate_1_1InstallationCandidate_1a155b4f5f9ae914a9451bf98d3ab26cec" kindref="member">name</ref>,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__internal_1_1models_1_1candidate_1_1InstallationCandidate_1a04152db2b5bdf963fe67256b4a6063f5" kindref="member">version</ref>,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self.<ref refid="classpip_1_1__internal_1_1models_1_1candidate_1_1InstallationCandidate_1a2a1e4af90089d1226a21295ee5d8c270" kindref="member">link</ref>,</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>)</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1models_1_1candidate_1_1InstallationCandidate_1a210b2c6da3274e8ebcb668745da7a75d" kindref="member">__str__</ref>(self)<sp/>-&gt;<sp/>str:</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>f</highlight><highlight class="stringliteral">&quot;{self.name!r}<sp/>candidate<sp/>(version<sp/>{self.version}<sp/>at<sp/>{self.link})&quot;</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/models/candidate.py"/>
+  </compounddef>
+</doxygen>

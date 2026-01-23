@@ -1,0 +1,910 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1nodes_1_1Node" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::nodes::Node</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">metaclass</basecompoundref>
+    <basecompoundref refid="classjinja2_1_1nodes_1_1NodeType" prot="public" virt="non-virtual">jinja2.nodes.NodeType</basecompoundref>
+    <derivedcompoundref refid="classjinja2_1_1nodes_1_1Expr" prot="public" virt="non-virtual">jinja2.nodes.Expr</derivedcompoundref>
+    <derivedcompoundref refid="classjinja2_1_1nodes_1_1Helper" prot="public" virt="non-virtual">jinja2.nodes.Helper</derivedcompoundref>
+    <derivedcompoundref refid="classjinja2_1_1nodes_1_1Stmt" prot="public" virt="non-virtual">jinja2.nodes.Stmt</derivedcompoundref>
+    <derivedcompoundref refid="classjinja2_1_1nodes_1_1Template" prot="public" virt="non-virtual">jinja2.nodes.Template</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1Node_1acb8bf0a9a47a8ef654804a8fd39c5121" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple jinja2.nodes.Node::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>jinja2.nodes.Node.fields</qualifiedname>
+        <initializer>=  ()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="122" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1Node_1a6c236f66f153f42b8c2bbf0cd811bbca" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple jinja2.nodes.Node::attributes</definition>
+        <argsstring></argsstring>
+        <name>attributes</name>
+        <qualifiedname>jinja2.nodes.Node.attributes</qualifiedname>
+        <initializer>=  (&quot;lineno&quot;, &quot;environment&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="123" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1Node_1afff01f14d0a31db298cc5de81d552c28" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool jinja2.nodes.Node::abstract</definition>
+        <argsstring></argsstring>
+        <name>abstract</name>
+        <qualifiedname>jinja2.nodes.Node.abstract</qualifiedname>
+        <initializer>=  True</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="124" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1Node_1a50a1be0afd8fe48bddbacda6c9891580" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int jinja2.nodes.Node::lineno</definition>
+        <argsstring></argsstring>
+        <name>lineno</name>
+        <qualifiedname>jinja2.nodes.Node.lineno</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="126" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1Node_1a0546f7abf37fa645b3a3aba8fb1dbd76" prot="public" static="yes" mutable="no">
+        <type>t</type>
+        <definition>t jinja2.nodes.Node::environment</definition>
+        <argsstring></argsstring>
+        <name>environment</name>
+        <qualifiedname>jinja2.nodes.Node.environment</qualifiedname>
+        <initializer>.Optional[&quot;Environment&quot;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="127" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1Node_1a966c9275361132244def98e4bb0a0f93" prot="private" static="yes" mutable="no">
+        <type></type>
+        <definition>jinja2.nodes.Node::__hash__</definition>
+        <argsstring></argsstring>
+        <name>__hash__</name>
+        <qualifiedname>jinja2.nodes.Node.__hash__</qualifiedname>
+        <initializer>=  object.__hash__</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="246" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="246" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1Node_1a9b29b8c34eb6142a6665558b37764692" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.nodes.Node::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>jinja2.nodes.Node.fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="140" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="140" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjinja2_1_1nodes_1_1Node_1a55f65a29365e6f92d9c4600a7c2c6906" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.nodes.Node.__init__</definition>
+        <argsstring>(self, *t.Any fields, **t.Any attributes)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>jinja2.nodes.Node.__init__</qualifiedname>
+        <reimplementedby refid="classjinja2_1_1nodes_1_1InternalName_1a4a9d6c07a2443835ef7147185adb80c9">__init__</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>*t.Any</type>
+          <declname>fields</declname>
+        </param>
+        <param>
+          <type>**t.Any</type>
+          <declname>attributes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="129" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="129" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1nodes_1_1Node_1a6b24daf58f09e9df4fc24092c4ac873e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Iterator[t.Tuple[str, t.Any]]</type>
+        <definition> t.Iterator[t.Tuple[str, t.Any]] jinja2.nodes.Node.iter_fields</definition>
+        <argsstring>(self, t.Optional[t.Container[str]] exclude=None, t.Optional[t.Container[str]] only=None)</argsstring>
+        <name>iter_fields</name>
+        <qualifiedname>jinja2.nodes.Node.iter_fields</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>exclude</declname>
+          <array>[t.Container[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>only</declname>
+          <array>[t.Container[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>This method iterates over all fields that are defined and yields
+``(key, value)`` tuples.  Per default all fields are returned, but
+it&apos;s possible to limit that to some fields by providing the `only`
+parameter or to exclude some using the `exclude` parameter.  Both
+should be sets or tuples of field names.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="147" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="151" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1nodes_1_1Node_1aa81ac19a94849d8a56718763c775c86d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Iterator[&quot;Node&quot;]</type>
+        <definition> t.Iterator[&quot;Node&quot;] jinja2.nodes.Node.iter_child_nodes</definition>
+        <argsstring>(self, t.Optional[t.Container[str]] exclude=None, t.Optional[t.Container[str]] only=None)</argsstring>
+        <name>iter_child_nodes</name>
+        <qualifiedname>jinja2.nodes.Node.iter_child_nodes</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>exclude</declname>
+          <array>[t.Container[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>only</declname>
+          <array>[t.Container[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Iterates over all direct child nodes of the node.  This iterates
+over all fields and yields the values of they are nodes.  If the value
+of a field is a list all the nodes in that list are returned.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="169" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="173" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1nodes_1_1Node_1ae60af82d0a5291018756ea4f756433ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Optional[<ref refid="namespacejinja2_1_1nodes_1a3806ba37aee0bb28e9c09da367205023" kindref="member">_NodeBound</ref>]</type>
+        <definition> t.Optional[_NodeBound] jinja2.nodes.Node.find</definition>
+        <argsstring>(self, t.Type[_NodeBound] node_type)</argsstring>
+        <name>find</name>
+        <qualifiedname>jinja2.nodes.Node.find</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Type</type>
+          <declname>node_type</declname>
+          <array>[_NodeBound]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Find the first node of a given type.  If no such node exists the
+return value is `None`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="186" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="186" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1nodes_1_1Node_1a333c0fe3d4f0dd75e97ee4ed411ea0a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Iterator[<ref refid="namespacejinja2_1_1nodes_1a3806ba37aee0bb28e9c09da367205023" kindref="member">_NodeBound</ref>]</type>
+        <definition> t.Iterator[_NodeBound] jinja2.nodes.Node.find_all</definition>
+        <argsstring>(self, t.Union[t.Type[_NodeBound], t.Tuple[t.Type[_NodeBound],...]] node_type)</argsstring>
+        <name>find_all</name>
+        <qualifiedname>jinja2.nodes.Node.find_all</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.</type>
+          <declname>Union</declname>
+          <defname>node_type</defname>
+          <array>[t.Type[_NodeBound]</array>
+        </param>
+        <param>
+          <type>t.</type>
+          <declname>Tuple</declname>
+          <array>[t.Type[_NodeBound]</array>
+        </param>
+        <param>
+          <type>...]]</type>
+          <declname>node_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Find all the nodes of a given type.  If the type is a tuple,
+the check is performed for any of the tuple items.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="195" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="197" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1nodes_1_1Node_1a0f5f063c50c12e7fbaabc3b12cc8f46a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;Node&quot;</type>
+        <definition> &quot;Node&quot; jinja2.nodes.Node.set_ctx</definition>
+        <argsstring>(self, str ctx)</argsstring>
+        <name>set_ctx</name>
+        <qualifiedname>jinja2.nodes.Node.set_ctx</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Reset the context of a node and all child nodes.  Per default the
+parser will all generate nodes that have a &apos;load&apos; context as it&apos;s the
+most common one.  This method is used in the parser to set assignment
+targets and other nodes to a store context.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="206" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="206" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1nodes_1_1Node_1abede1ed14e5a50a071ff56262ba1ce9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;Node&quot;</type>
+        <definition> &quot;Node&quot; jinja2.nodes.Node.set_lineno</definition>
+        <argsstring>(self, int lineno, bool override=False)</argsstring>
+        <name>set_lineno</name>
+        <qualifiedname>jinja2.nodes.Node.set_lineno</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>lineno</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>override</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Set the line numbers of the node and children.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="220" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="220" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1nodes_1_1Node_1ade9f4277271759e15de5555e936727e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;Node&quot;</type>
+        <definition> &quot;Node&quot; jinja2.nodes.Node.set_environment</definition>
+        <argsstring>(self, &quot;Environment&quot; environment)</argsstring>
+        <name>set_environment</name>
+        <qualifiedname>jinja2.nodes.Node.set_environment</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Set the environment for all nodes.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="231" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="231" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1nodes_1_1Node_1a107a59e5bfbc1451a602d2299d3d80f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool jinja2.nodes.Node.__eq__</definition>
+        <argsstring>(self, t.Any other)</argsstring>
+        <name>__eq__</name>
+        <qualifiedname>jinja2.nodes.Node.__eq__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Any</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="240" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="240" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1nodes_1_1Node_1a45315940cf6ae867b9990ea91717454a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.nodes.Node.__repr__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__repr__</name>
+        <qualifiedname>jinja2.nodes.Node.__repr__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="248" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="248" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1nodes_1_1Node_1ad46e2debd92cb0196d0ee2367d5c6444" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str jinja2.nodes.Node.dump</definition>
+        <argsstring>(self)</argsstring>
+        <name>dump</name>
+        <qualifiedname>jinja2.nodes.Node.dump</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="252" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="252" bodyend="281"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Baseclass for all Jinja nodes.  There are a number of nodes available
+of different types.  There are four major types:
+
+-   :class:`Stmt`: statements
+-   :class:`Expr`: expressions
+-   :class:`Helper`: helper nodes
+-   :class:`Template`: the outermost wrapper node
+
+All nodes have fields and attributes.  Fields may be other nodes, lists,
+or arbitrary values.  Fields are passed to the constructor as regular
+positional arguments, attributes as keyword arguments.  Each node has
+two attributes: `lineno` (the line number of the node) and `environment`.
+The `environment` attribute is set at the end of the parsing process for
+all nodes automatically.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.nodes.Node</label>
+        <link refid="classjinja2_1_1nodes_1_1Node"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>jinja2.nodes.Add</label>
+        <link refid="classjinja2_1_1nodes_1_1Add"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>jinja2.nodes.And</label>
+        <link refid="classjinja2_1_1nodes_1_1And"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="51">
+        <label>jinja2.nodes.Assign</label>
+        <link refid="classjinja2_1_1nodes_1_1Assign"/>
+        <childnode refid="50" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="52">
+        <label>jinja2.nodes.AssignBlock</label>
+        <link refid="classjinja2_1_1nodes_1_1AssignBlock"/>
+        <childnode refid="50" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>jinja2.nodes.BinExpr</label>
+        <link refid="classjinja2_1_1nodes_1_1BinExpr"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="53">
+        <label>jinja2.nodes.Block</label>
+        <link refid="classjinja2_1_1nodes_1_1Block"/>
+        <childnode refid="50" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="54">
+        <label>jinja2.nodes.Break</label>
+        <link refid="classjinja2_1_1nodes_1_1Break"/>
+        <childnode refid="50" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>jinja2.nodes.Call</label>
+        <link refid="classjinja2_1_1nodes_1_1Call"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="55">
+        <label>jinja2.nodes.CallBlock</label>
+        <link refid="classjinja2_1_1nodes_1_1CallBlock"/>
+        <childnode refid="50" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>jinja2.nodes.Compare</label>
+        <link refid="classjinja2_1_1nodes_1_1Compare"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>jinja2.nodes.Concat</label>
+        <link refid="classjinja2_1_1nodes_1_1Concat"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>jinja2.nodes.CondExpr</label>
+        <link refid="classjinja2_1_1nodes_1_1CondExpr"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>jinja2.nodes.Const</label>
+        <link refid="classjinja2_1_1nodes_1_1Const"/>
+        <childnode refid="28" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>jinja2.nodes.ContextReference</label>
+        <link refid="classjinja2_1_1nodes_1_1ContextReference"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="56">
+        <label>jinja2.nodes.Continue</label>
+        <link refid="classjinja2_1_1nodes_1_1Continue"/>
+        <childnode refid="50" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>jinja2.nodes.DerivedContextReference</label>
+        <link refid="classjinja2_1_1nodes_1_1DerivedContextReference"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>jinja2.nodes.Dict</label>
+        <link refid="classjinja2_1_1nodes_1_1Dict"/>
+        <childnode refid="28" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>jinja2.nodes.Div</label>
+        <link refid="classjinja2_1_1nodes_1_1Div"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>jinja2.nodes.EnvironmentAttribute</label>
+        <link refid="classjinja2_1_1nodes_1_1EnvironmentAttribute"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="57">
+        <label>jinja2.nodes.EvalContextModifier</label>
+        <link refid="classjinja2_1_1nodes_1_1EvalContextModifier"/>
+        <childnode refid="50" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>jinja2.nodes.Expr</label>
+        <link refid="classjinja2_1_1nodes_1_1Expr"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="59">
+        <label>jinja2.nodes.ExprStmt</label>
+        <link refid="classjinja2_1_1nodes_1_1ExprStmt"/>
+        <childnode refid="50" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="60">
+        <label>jinja2.nodes.Extends</label>
+        <link refid="classjinja2_1_1nodes_1_1Extends"/>
+        <childnode refid="50" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>jinja2.nodes.ExtensionAttribute</label>
+        <link refid="classjinja2_1_1nodes_1_1ExtensionAttribute"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>jinja2.nodes.Filter</label>
+        <link refid="classjinja2_1_1nodes_1_1Filter"/>
+        <childnode refid="43" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="61">
+        <label>jinja2.nodes.FilterBlock</label>
+        <link refid="classjinja2_1_1nodes_1_1FilterBlock"/>
+        <childnode refid="50" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>jinja2.nodes.FloorDiv</label>
+        <link refid="classjinja2_1_1nodes_1_1FloorDiv"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="62">
+        <label>jinja2.nodes.For</label>
+        <link refid="classjinja2_1_1nodes_1_1For"/>
+        <childnode refid="50" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="63">
+        <label>jinja2.nodes.FromImport</label>
+        <link refid="classjinja2_1_1nodes_1_1FromImport"/>
+        <childnode refid="50" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>jinja2.nodes.Getattr</label>
+        <link refid="classjinja2_1_1nodes_1_1Getattr"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>jinja2.nodes.Getitem</label>
+        <link refid="classjinja2_1_1nodes_1_1Getitem"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>jinja2.nodes.Helper</label>
+        <link refid="classjinja2_1_1nodes_1_1Helper"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="64">
+        <label>jinja2.nodes.If</label>
+        <link refid="classjinja2_1_1nodes_1_1If"/>
+        <childnode refid="50" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="65">
+        <label>jinja2.nodes.Import</label>
+        <link refid="classjinja2_1_1nodes_1_1Import"/>
+        <childnode refid="50" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>jinja2.nodes.ImportedName</label>
+        <link refid="classjinja2_1_1nodes_1_1ImportedName"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="66">
+        <label>jinja2.nodes.Include</label>
+        <link refid="classjinja2_1_1nodes_1_1Include"/>
+        <childnode refid="50" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>jinja2.nodes.InternalName</label>
+        <link refid="classjinja2_1_1nodes_1_1InternalName"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>jinja2.nodes.Keyword</label>
+        <link refid="classjinja2_1_1nodes_1_1Keyword"/>
+        <childnode refid="46" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>jinja2.nodes.List</label>
+        <link refid="classjinja2_1_1nodes_1_1List"/>
+        <childnode refid="28" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>jinja2.nodes.Literal</label>
+        <link refid="classjinja2_1_1nodes_1_1Literal"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="67">
+        <label>jinja2.nodes.Macro</label>
+        <link refid="classjinja2_1_1nodes_1_1Macro"/>
+        <childnode refid="50" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>jinja2.nodes.MarkSafe</label>
+        <link refid="classjinja2_1_1nodes_1_1MarkSafe"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>jinja2.nodes.MarkSafeIfAutoescape</label>
+        <link refid="classjinja2_1_1nodes_1_1MarkSafeIfAutoescape"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>jinja2.nodes.Mod</label>
+        <link refid="classjinja2_1_1nodes_1_1Mod"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>jinja2.nodes.Mul</label>
+        <link refid="classjinja2_1_1nodes_1_1Mul"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>jinja2.nodes.NSRef</label>
+        <link refid="classjinja2_1_1nodes_1_1NSRef"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>jinja2.nodes.Name</label>
+        <link refid="classjinja2_1_1nodes_1_1Name"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>jinja2.nodes.Neg</label>
+        <link refid="classjinja2_1_1nodes_1_1Neg"/>
+        <childnode refid="39" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.nodes.NodeType</label>
+        <link refid="classjinja2_1_1nodes_1_1NodeType"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>jinja2.nodes.Not</label>
+        <link refid="classjinja2_1_1nodes_1_1Not"/>
+        <childnode refid="39" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="48">
+        <label>jinja2.nodes.Operand</label>
+        <link refid="classjinja2_1_1nodes_1_1Operand"/>
+        <childnode refid="46" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>jinja2.nodes.Or</label>
+        <link refid="classjinja2_1_1nodes_1_1Or"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="68">
+        <label>jinja2.nodes.Output</label>
+        <link refid="classjinja2_1_1nodes_1_1Output"/>
+        <childnode refid="50" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="69">
+        <label>jinja2.nodes.OverlayScope</label>
+        <link refid="classjinja2_1_1nodes_1_1OverlayScope"/>
+        <childnode refid="50" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>jinja2.nodes.Pair</label>
+        <link refid="classjinja2_1_1nodes_1_1Pair"/>
+        <childnode refid="46" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="42">
+        <label>jinja2.nodes.Pos</label>
+        <link refid="classjinja2_1_1nodes_1_1Pos"/>
+        <childnode refid="39" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>jinja2.nodes.Pow</label>
+        <link refid="classjinja2_1_1nodes_1_1Pow"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="70">
+        <label>jinja2.nodes.Scope</label>
+        <link refid="classjinja2_1_1nodes_1_1Scope"/>
+        <childnode refid="50" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="58">
+        <label>jinja2.nodes.ScopedEvalContextModifier</label>
+        <link refid="classjinja2_1_1nodes_1_1ScopedEvalContextModifier"/>
+        <childnode refid="57" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>jinja2.nodes.Slice</label>
+        <link refid="classjinja2_1_1nodes_1_1Slice"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="50">
+        <label>jinja2.nodes.Stmt</label>
+        <link refid="classjinja2_1_1nodes_1_1Stmt"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>jinja2.nodes.Sub</label>
+        <link refid="classjinja2_1_1nodes_1_1Sub"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="72">
+        <label>jinja2.nodes.Template</label>
+        <link refid="classjinja2_1_1nodes_1_1Template"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>jinja2.nodes.TemplateData</label>
+        <link refid="classjinja2_1_1nodes_1_1TemplateData"/>
+        <childnode refid="28" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>jinja2.nodes.Test</label>
+        <link refid="classjinja2_1_1nodes_1_1Test"/>
+        <childnode refid="43" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>jinja2.nodes.Tuple</label>
+        <link refid="classjinja2_1_1nodes_1_1Tuple"/>
+        <childnode refid="28" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>jinja2.nodes.UnaryExpr</label>
+        <link refid="classjinja2_1_1nodes_1_1UnaryExpr"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="71">
+        <label>jinja2.nodes.With</label>
+        <link refid="classjinja2_1_1nodes_1_1With"/>
+        <childnode refid="50" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="43">
+        <label>jinja2.nodes._FilterTestCommon</label>
+        <link refid="classjinja2_1_1nodes_1_1__FilterTestCommon"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>metaclass</label>
+      </node>
+      <node id="4">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>jinja2.nodes.Node</label>
+        <link refid="classjinja2_1_1nodes_1_1Node"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.nodes.NodeType</label>
+        <link refid="classjinja2_1_1nodes_1_1NodeType"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>metaclass</label>
+      </node>
+      <node id="4">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="105" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="105" bodyend="281"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1nodes_1_1Node_1a107a59e5bfbc1451a602d2299d3d80f4" prot="public" virt="non-virtual"><scope>jinja2::nodes::Node</scope><name>__eq__</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Node_1a966c9275361132244def98e4bb0a0f93" prot="private" virt="non-virtual"><scope>jinja2::nodes::Node</scope><name>__hash__</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Node_1a55f65a29365e6f92d9c4600a7c2c6906" prot="public" virt="non-virtual"><scope>jinja2::nodes::Node</scope><name>__init__</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Node_1a45315940cf6ae867b9990ea91717454a" prot="public" virt="non-virtual"><scope>jinja2::nodes::Node</scope><name>__repr__</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Node_1afff01f14d0a31db298cc5de81d552c28" prot="public" virt="non-virtual"><scope>jinja2::nodes::Node</scope><name>abstract</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Node_1a6c236f66f153f42b8c2bbf0cd811bbca" prot="public" virt="non-virtual"><scope>jinja2::nodes::Node</scope><name>attributes</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Node_1ad46e2debd92cb0196d0ee2367d5c6444" prot="public" virt="non-virtual"><scope>jinja2::nodes::Node</scope><name>dump</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Node_1a0546f7abf37fa645b3a3aba8fb1dbd76" prot="public" virt="non-virtual"><scope>jinja2::nodes::Node</scope><name>environment</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Node_1acb8bf0a9a47a8ef654804a8fd39c5121" prot="public" virt="non-virtual"><scope>jinja2::nodes::Node</scope><name>fields</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Node_1a9b29b8c34eb6142a6665558b37764692" prot="public" virt="non-virtual"><scope>jinja2::nodes::Node</scope><name>fields</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Node_1ae60af82d0a5291018756ea4f756433ba" prot="public" virt="non-virtual"><scope>jinja2::nodes::Node</scope><name>find</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Node_1a333c0fe3d4f0dd75e97ee4ed411ea0a0" prot="public" virt="non-virtual"><scope>jinja2::nodes::Node</scope><name>find_all</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Node_1aa81ac19a94849d8a56718763c775c86d" prot="public" virt="non-virtual"><scope>jinja2::nodes::Node</scope><name>iter_child_nodes</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Node_1a6b24daf58f09e9df4fc24092c4ac873e" prot="public" virt="non-virtual"><scope>jinja2::nodes::Node</scope><name>iter_fields</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Node_1a50a1be0afd8fe48bddbacda6c9891580" prot="public" virt="non-virtual"><scope>jinja2::nodes::Node</scope><name>lineno</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Node_1a0f5f063c50c12e7fbaabc3b12cc8f46a" prot="public" virt="non-virtual"><scope>jinja2::nodes::Node</scope><name>set_ctx</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Node_1ade9f4277271759e15de5555e936727e0" prot="public" virt="non-virtual"><scope>jinja2::nodes::Node</scope><name>set_environment</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Node_1abede1ed14e5a50a071ff56262ba1ce9b" prot="public" virt="non-virtual"><scope>jinja2::nodes::Node</scope><name>set_lineno</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

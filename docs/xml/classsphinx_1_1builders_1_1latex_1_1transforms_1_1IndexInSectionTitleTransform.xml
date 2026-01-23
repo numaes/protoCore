@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1builders_1_1latex_1_1transforms_1_1IndexInSectionTitleTransform" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::builders::latex::transforms::IndexInSectionTitleTransform</compoundname>
+    <basecompoundref refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform" prot="public" virt="non-virtual">sphinx.transforms.post_transforms.SphinxPostTransform</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1latex_1_1transforms_1_1IndexInSectionTitleTransform_1a69a26be59cb076eaeb3a9a156c53c8b1" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int sphinx.builders.latex.transforms.IndexInSectionTitleTransform::default_priority</definition>
+        <argsstring></argsstring>
+        <name>default_priority</name>
+        <qualifiedname>sphinx.builders.latex.transforms.IndexInSectionTitleTransform.default_priority</qualifiedname>
+        <initializer>=  400</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" line="633" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" bodystart="633" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1builders_1_1latex_1_1transforms_1_1IndexInSectionTitleTransform_1a728ad599e7f487413509829ed78c45bb" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple sphinx.builders.latex.transforms.IndexInSectionTitleTransform::formats</definition>
+        <argsstring></argsstring>
+        <name>formats</name>
+        <qualifiedname>sphinx.builders.latex.transforms.IndexInSectionTitleTransform.formats</qualifiedname>
+        <initializer>=  (&apos;latex&apos;,)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" line="634" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" bodystart="634" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1builders_1_1latex_1_1transforms_1_1IndexInSectionTitleTransform_1a6cb09034efbc28e75b0696824ab96d82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.builders.latex.transforms.IndexInSectionTitleTransform.run</definition>
+        <argsstring>(self, **Any kwargs)</argsstring>
+        <name>run</name>
+        <qualifiedname>sphinx.builders.latex.transforms.IndexInSectionTitleTransform.run</qualifiedname>
+        <reimplements refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform_1abc3400574a7c87e684a8033535e8d4e2">run</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>**Any</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Main method of post transforms.
+
+Subclasses should override this method instead of ``apply()``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" line="636" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" bodystart="636" bodyend="644"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Move index nodes in section title to outside of the title.
+
+LaTeX index macro is not compatible with some handling of section titles
+such as uppercasing done on LaTeX side (cf. fncychap handling of ``\chapter``).
+Moving the index node to after the title node fixes that.
+
+Before::
+
+    &lt;section&gt;
+        &lt;title&gt;
+            blah blah &lt;index entries=[...]/&gt;blah
+        &lt;paragraph&gt;
+            blah blah blah
+        ...
+
+After::
+
+    &lt;section&gt;
+        &lt;title&gt;
+            blah blah blah
+        &lt;index entries=[...]/&gt;
+        &lt;paragraph&gt;
+            blah blah blah
+        ...
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+      <node id="1">
+        <label>sphinx.builders.latex.transforms.IndexInSectionTitleTransform</label>
+        <link refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1IndexInSectionTitleTransform"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.transforms.SphinxTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1SphinxTransform"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.transforms.post_transforms.SphinxPostTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>docutils.transforms.Transform</label>
+        <link refid="classdocutils_1_1transforms_1_1Transform"/>
+      </node>
+      <node id="1">
+        <label>sphinx.builders.latex.transforms.IndexInSectionTitleTransform</label>
+        <link refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1IndexInSectionTitleTransform"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.transforms.SphinxTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1SphinxTransform"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.transforms.post_transforms.SphinxPostTransform</label>
+        <link refid="classsphinx_1_1transforms_1_1post__transforms_1_1SphinxPostTransform"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" line="606" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/builders/latex/transforms.py" bodystart="606" bodyend="644"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1IndexInSectionTitleTransform_1a69a26be59cb076eaeb3a9a156c53c8b1" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::transforms::IndexInSectionTitleTransform</scope><name>default_priority</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1IndexInSectionTitleTransform_1a728ad599e7f487413509829ed78c45bb" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::transforms::IndexInSectionTitleTransform</scope><name>formats</name></member>
+      <member refid="classsphinx_1_1builders_1_1latex_1_1transforms_1_1IndexInSectionTitleTransform_1a6cb09034efbc28e75b0696824ab96d82" prot="public" virt="non-virtual"><scope>sphinx::builders::latex::transforms::IndexInSectionTitleTransform</scope><name>run</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

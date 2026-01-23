@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1cachecontrol_1_1heuristics_1_1OneDayCache" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::cachecontrol::heuristics::OneDayCache</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1cachecontrol_1_1heuristics_1_1BaseHeuristic" prot="public" virt="non-virtual">pip._vendor.cachecontrol.heuristics.BaseHeuristic</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1cachecontrol_1_1heuristics_1_1OneDayCache_1aa031ba7cfcff718200daf5472d24aa78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dict[str, str]</type>
+        <definition> dict[str, str] pip._vendor.cachecontrol.heuristics.OneDayCache.update_headers</definition>
+        <argsstring>(self, HTTPResponse response)</argsstring>
+        <name>update_headers</name>
+        <qualifiedname>pip._vendor.cachecontrol.heuristics.OneDayCache.update_headers</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1cachecontrol_1_1heuristics_1_1BaseHeuristic_1a1f7943cf14f0f45ed8065bae2e052c66">update_headers</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1urllib3_1_1response_1_1HTTPResponse" kindref="compound">HTTPResponse</ref></type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Update the response headers with any new headers.
+
+NOTE: This SHOULD always include some Warning header to
+      signify that the response was cached by the client, not
+      by way of the provided headers.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/heuristics.py" line="66" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/heuristics.py" bodystart="66" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Cache the response by providing an expires 1 day in the
+future.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._vendor.cachecontrol.heuristics.OneDayCache</label>
+        <link refid="classpip_1_1__vendor_1_1cachecontrol_1_1heuristics_1_1OneDayCache"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.cachecontrol.heuristics.BaseHeuristic</label>
+        <link refid="classpip_1_1__vendor_1_1cachecontrol_1_1heuristics_1_1BaseHeuristic"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>pip._vendor.cachecontrol.heuristics.OneDayCache</label>
+        <link refid="classpip_1_1__vendor_1_1cachecontrol_1_1heuristics_1_1OneDayCache"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.cachecontrol.heuristics.BaseHeuristic</label>
+        <link refid="classpip_1_1__vendor_1_1cachecontrol_1_1heuristics_1_1BaseHeuristic"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/heuristics.py" line="60" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/cachecontrol/heuristics.py" bodystart="60" bodyend="76"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1cachecontrol_1_1heuristics_1_1OneDayCache_1aa031ba7cfcff718200daf5472d24aa78" prot="public" virt="non-virtual"><scope>pip::_vendor::cachecontrol::heuristics::OneDayCache</scope><name>update_headers</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

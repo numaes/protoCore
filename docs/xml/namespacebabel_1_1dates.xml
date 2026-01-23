@@ -1,0 +1,1838 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacebabel_1_1dates" kind="namespace" language="Python">
+    <compoundname>babel::dates</compoundname>
+    <innerclass refid="classbabel_1_1dates_1_1DateTimeFormat" prot="public">babel::dates::DateTimeFormat</innerclass>
+    <innerclass refid="classbabel_1_1dates_1_1DateTimePattern" prot="public">babel::dates::DateTimePattern</innerclass>
+    <innerclass refid="classbabel_1_1dates_1_1ParseError" prot="public">babel::dates::ParseError</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacebabel_1_1dates_1ac5a4c95fa79e0b0fa4f69a0c1cc18700" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::dates.pytz</definition>
+        <argsstring></argsstring>
+        <name>pytz</name>
+        <qualifiedname>babel.dates.pytz</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="29" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1dates_1ad7581e6a1973eee9c864c892879852b2" prot="protected" static="no" mutable="no">
+        <type>TypeAlias</type>
+        <definition>TypeAlias babel::dates._Instant</definition>
+        <argsstring></argsstring>
+        <name>_Instant</name>
+        <qualifiedname>babel.dates._Instant</qualifiedname>
+        <initializer>=  datetime.date | datetime.time | float | None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="41" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1dates_1ac9ca5381c0bc2702c9be7d0f4ddb7866" prot="protected" static="no" mutable="no">
+        <type>TypeAlias</type>
+        <definition>TypeAlias babel::dates._PredefinedTimeFormat</definition>
+        <argsstring></argsstring>
+        <name>_PredefinedTimeFormat</name>
+        <qualifiedname>babel.dates._PredefinedTimeFormat</qualifiedname>
+        <initializer>=  Literal[&apos;full&apos;, &apos;long&apos;, &apos;medium&apos;, &apos;short&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="42" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1dates_1a3d8fe0430b3f3ed03457e881c80692fc" prot="protected" static="no" mutable="no">
+        <type>TypeAlias</type>
+        <definition>TypeAlias babel::dates._Context</definition>
+        <argsstring></argsstring>
+        <name>_Context</name>
+        <qualifiedname>babel.dates._Context</qualifiedname>
+        <initializer>=  Literal[&apos;format&apos;, &apos;stand-alone&apos;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="43" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1dates_1aa432752c02a1273b22c6491d2451ef47" prot="protected" static="no" mutable="no">
+        <type>TypeAlias</type>
+        <definition>TypeAlias babel::dates._DtOrTzinfo</definition>
+        <argsstring></argsstring>
+        <name>_DtOrTzinfo</name>
+        <qualifiedname>babel.dates._DtOrTzinfo</qualifiedname>
+        <initializer>=  datetime.datetime | datetime.tzinfo | str | int | datetime.time | None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="44" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1dates_1abbf4621fd1bad05a34862714d00d6937" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str babel::dates.NO_INHERITANCE_MARKER</definition>
+        <argsstring></argsstring>
+        <name>NO_INHERITANCE_MARKER</name>
+        <qualifiedname>babel.dates.NO_INHERITANCE_MARKER</qualifiedname>
+        <initializer>=  &apos;\u2205\u2205\u2205&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="53" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1dates_1ad8e9dd9e58e870fbfc6683e289e203d3" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::dates.UTC</definition>
+        <argsstring></argsstring>
+        <name>UTC</name>
+        <qualifiedname>babel.dates.UTC</qualifiedname>
+        <initializer>=  datetime.timezone.utc</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="55" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1dates_1a335d0c228f02e63620fbadca5964e027" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::dates.LOCALTZ</definition>
+        <argsstring></argsstring>
+        <name>LOCALTZ</name>
+        <qualifiedname>babel.dates.LOCALTZ</qualifiedname>
+        <initializer>=  localtime.LOCALTZ</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="56" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1dates_1a336e52750f264312a9b3f6ec0c8f9188" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>babel::dates.LC_TIME</definition>
+        <argsstring></argsstring>
+        <name>LC_TIME</name>
+        <qualifiedname>babel.dates.LC_TIME</qualifiedname>
+        <initializer>=  default_locale(&apos;LC_TIME&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="58" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1dates_1adb993cca8414b24aae1dbe2b99ec5f69" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple babel::dates.TIMEDELTA_UNITS</definition>
+        <argsstring></argsstring>
+        <name>TIMEDELTA_UNITS</name>
+        <qualifiedname>babel.dates.TIMEDELTA_UNITS</qualifiedname>
+        <initializer>=  (
+    (&apos;year&apos;, 3600 * 24 * 365),
+    (&apos;month&apos;, 3600 * 24 * 30),
+    (&apos;week&apos;, 3600 * 24 * 7),
+    (&apos;day&apos;, 3600 * 24),
+    (&apos;hour&apos;, 3600),
+    (&apos;minute&apos;, 60),
+    (&apos;second&apos;, 1),
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="878" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="878" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1dates_1aef4ef420c17f3865de64e8d94bf91a47" prot="public" static="no" mutable="no">
+        <type>str</type>
+        <definition>str babel::dates.PATTERN_CHAR_ORDER</definition>
+        <argsstring></argsstring>
+        <name>PATTERN_CHAR_ORDER</name>
+        <qualifiedname>babel.dates.PATTERN_CHAR_ORDER</qualifiedname>
+        <initializer>=  &quot;GyYuUQqMLlwWdDFgEecabBChHKkjJmsSAzZOvVXx&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="1745" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="1745" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacebabel_1_1dates_1a6e1051cdda62c685c1d0b51143bdb4a9" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>datetime.datetime</type>
+        <definition> datetime.datetime babel.dates._localize</definition>
+        <argsstring>(datetime.tzinfo tz, datetime.datetime dt)</argsstring>
+        <name>_localize</name>
+        <qualifiedname>babel.dates._localize</qualifiedname>
+        <param>
+          <type>datetime.tzinfo</type>
+          <declname>tz</declname>
+        </param>
+        <param>
+          <type>datetime.datetime</type>
+          <declname>dt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="61" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="61" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1a86f1f9b22dc646cae5c34227fb32336c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[datetime.datetime|None, datetime.tzinfo]</type>
+        <definition> tuple[datetime.datetime | None, datetime.tzinfo] babel.dates._get_dt_and_tzinfo</definition>
+        <argsstring>(_DtOrTzinfo dt_or_tzinfo)</argsstring>
+        <name>_get_dt_and_tzinfo</name>
+        <qualifiedname>babel.dates._get_dt_and_tzinfo</qualifiedname>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1aa432752c02a1273b22c6491d2451ef47" kindref="member">_DtOrTzinfo</ref></type>
+          <declname>dt_or_tzinfo</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse a `dt_or_tzinfo` value into a datetime and a tzinfo.
+
+See the docs for this function&apos;s callers for semantics.
+
+:rtype: tuple[datetime, tzinfo]
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="78" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="78" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1a130d734216fa29b2b59a3caae1c336c3" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.dates._get_tz_name</definition>
+        <argsstring>(_DtOrTzinfo dt_or_tzinfo)</argsstring>
+        <name>_get_tz_name</name>
+        <qualifiedname>babel.dates._get_tz_name</qualifiedname>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1aa432752c02a1273b22c6491d2451ef47" kindref="member">_DtOrTzinfo</ref></type>
+          <declname>dt_or_tzinfo</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the timezone name out of a time, datetime, or tzinfo object.
+
+:rtype: str
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="104" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="104" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1a84c66651209c0cb9845e745d8fd78e5e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>datetime.datetime</type>
+        <definition> datetime.datetime babel.dates._get_datetime</definition>
+        <argsstring>(_Instant instant)</argsstring>
+        <name>_get_datetime</name>
+        <qualifiedname>babel.dates._get_datetime</qualifiedname>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1ad7581e6a1973eee9c864c892879852b2" kindref="member">_Instant</ref></type>
+          <declname>instant</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get a datetime out of an &quot;instant&quot; (date, time, datetime, number).
+
+.. warning:: The return values of this function may depend on the system clock.
+
+If the instant is None, the current moment is used.
+If the instant is a time, it&apos;s augmented with today&apos;s date.
+
+Dates are converted to naive datetimes with midnight as the time component.
+
+&gt;&gt;&gt; from datetime import date, datetime
+&gt;&gt;&gt; _get_datetime(date(2015, 1, 1))
+datetime.datetime(2015, 1, 1, 0, 0)
+
+UNIX timestamps are converted to datetimes.
+
+&gt;&gt;&gt; _get_datetime(1400000000)
+datetime.datetime(2014, 5, 13, 16, 53, 20)
+
+Other values are passed through as-is.
+
+&gt;&gt;&gt; x = datetime(2015, 1, 1)
+&gt;&gt;&gt; _get_datetime(x) is x
+True
+
+:param instant: date, time, datetime, integer, float or None
+:type instant: date|time|datetime|int|float|None
+:return: a datetime
+:rtype: datetime
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="119" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="119" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1aa5c7de1d3bab04ae2f1cc2e90891b886" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>datetime.datetime</type>
+        <definition> datetime.datetime babel.dates._ensure_datetime_tzinfo</definition>
+        <argsstring>(datetime.datetime dt, datetime.tzinfo|None tzinfo=None)</argsstring>
+        <name>_ensure_datetime_tzinfo</name>
+        <qualifiedname>babel.dates._ensure_datetime_tzinfo</qualifiedname>
+        <param>
+          <type>datetime.datetime</type>
+          <declname>dt</declname>
+        </param>
+        <param>
+          <type>datetime.tzinfo|None</type>
+          <declname>tzinfo</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Ensure the datetime passed has an attached tzinfo.
+
+If the datetime is tz-naive to begin with, UTC is attached.
+
+If a tzinfo is passed in, the datetime is normalized to that timezone.
+
+&gt;&gt;&gt; from datetime import datetime
+&gt;&gt;&gt; _get_tz_name(_ensure_datetime_tzinfo(datetime(2015, 1, 1)))
+&apos;UTC&apos;
+
+&gt;&gt;&gt; tz = get_timezone(&quot;Europe/Stockholm&quot;)
+&gt;&gt;&gt; _ensure_datetime_tzinfo(datetime(2015, 1, 1, 13, 15, tzinfo=UTC), tzinfo=tz).hour
+14
+
+:param datetime: Datetime to augment.
+:param tzinfo: optional tzinfo
+:return: datetime with tzinfo
+:rtype: datetime
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="162" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="162" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1af1204074fcccf651153352af067457d3" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>datetime.time</type>
+        <definition> datetime.time babel.dates._get_time</definition>
+        <argsstring>(datetime.time|datetime.datetime|None time, datetime.tzinfo|None tzinfo=None)</argsstring>
+        <name>_get_time</name>
+        <qualifiedname>babel.dates._get_time</qualifiedname>
+        <param>
+          <type>datetime.time|datetime.datetime|None</type>
+          <declname>time</declname>
+        </param>
+        <param>
+          <type>datetime.tzinfo|None</type>
+          <declname>tzinfo</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get a timezoned time from a given instant.
+
+.. warning:: The return values of this function may depend on the system clock.
+
+:param time: time, datetime or None
+:rtype: time
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="192" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="195" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1a1721466dae219c091d90c1fe763015f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>datetime.tzinfo</type>
+        <definition> datetime.tzinfo babel.dates.get_timezone</definition>
+        <argsstring>(str|datetime.tzinfo|None zone=None)</argsstring>
+        <name>get_timezone</name>
+        <qualifiedname>babel.dates.get_timezone</qualifiedname>
+        <param>
+          <type>str|datetime.tzinfo|None</type>
+          <declname>zone</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Looks up a timezone by name and returns it.  The timezone object
+returned comes from ``pytz`` or ``zoneinfo``, whichever is available.
+It corresponds to the `tzinfo` interface and can be used with all of
+the functions of Babel that operate with dates.
+
+If a timezone is not known a :exc:`LookupError` is raised.  If `zone`
+is ``None`` a local zone object is returned.
+
+:param zone: the name of the timezone to look up.  If a timezone object
+             itself is passed in, it&apos;s returned unchanged.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="223" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="223" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1aa117500f6c448452c1a81ce5af8a900b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbabel_1_1localedata_1_1LocaleDataDict" kindref="compound">LocaleDataDict</ref></type>
+        <definition> LocaleDataDict babel.dates.get_period_names</definition>
+        <argsstring>(Literal[&apos;abbreviated&apos;, &apos;narrow&apos;, &apos;wide&apos;] width=&apos;wide&apos;, _Context context=&apos;stand-alone&apos;, Locale|str|None locale=None)</argsstring>
+        <name>get_period_names</name>
+        <qualifiedname>babel.dates.get_period_names</qualifiedname>
+        <param>
+          <type>Literal</type>
+          <declname>width</declname>
+          <array>[ &apos;abbreviated&apos;, &apos;narrow&apos;, &apos;wide&apos;]</array>
+          <defval>&apos;wide&apos;</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1a3d8fe0430b3f3ed03457e881c80692fc" kindref="member">_Context</ref></type>
+          <declname>context</declname>
+          <defval>&apos;stand-alone&apos;</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the names for day periods (AM/PM) used by the locale.
+
+&gt;&gt;&gt; get_period_names(locale=&apos;en_US&apos;)[&apos;am&apos;]
+u&apos;AM&apos;
+
+:param width: the width to use, one of &quot;abbreviated&quot;, &quot;narrow&quot;, or &quot;wide&quot;
+:param context: the context, either &quot;format&quot; or &quot;stand-alone&quot;
+:param locale: the `Locale` object, or a locale string. Defaults to the system time locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="255" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="259" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1a395a215ad1dae6f9d645a7596f39ea62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbabel_1_1localedata_1_1LocaleDataDict" kindref="compound">LocaleDataDict</ref></type>
+        <definition> LocaleDataDict babel.dates.get_day_names</definition>
+        <argsstring>(Literal[&apos;abbreviated&apos;, &apos;narrow&apos;, &apos;short&apos;, &apos;wide&apos;] width=&apos;wide&apos;, _Context context=&apos;format&apos;, Locale|str|None locale=None)</argsstring>
+        <name>get_day_names</name>
+        <qualifiedname>babel.dates.get_day_names</qualifiedname>
+        <param>
+          <type>Literal</type>
+          <declname>width</declname>
+          <array>[ &apos;abbreviated&apos;, &apos;narrow&apos;, &apos;short&apos;, &apos;wide&apos;]</array>
+          <defval>&apos;wide&apos;</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1a3d8fe0430b3f3ed03457e881c80692fc" kindref="member">_Context</ref></type>
+          <declname>context</declname>
+          <defval>&apos;format&apos;</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the day names used by the locale for the specified format.
+
+&gt;&gt;&gt; get_day_names(&apos;wide&apos;, locale=&apos;en_US&apos;)[1]
+u&apos;Tuesday&apos;
+&gt;&gt;&gt; get_day_names(&apos;short&apos;, locale=&apos;en_US&apos;)[1]
+u&apos;Tu&apos;
+&gt;&gt;&gt; get_day_names(&apos;abbreviated&apos;, locale=&apos;es&apos;)[1]
+u&apos;mar&apos;
+&gt;&gt;&gt; get_day_names(&apos;narrow&apos;, context=&apos;stand-alone&apos;, locale=&apos;de_DE&apos;)[1]
+u&apos;D&apos;
+
+:param width: the width to use, one of &quot;wide&quot;, &quot;abbreviated&quot;, &quot;short&quot; or &quot;narrow&quot;
+:param context: the context, either &quot;format&quot; or &quot;stand-alone&quot;
+:param locale: the `Locale` object, or a locale string. Defaults to the system time locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="272" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="276" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1a21923691cc4daea17f1efe6069d30e95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbabel_1_1localedata_1_1LocaleDataDict" kindref="compound">LocaleDataDict</ref></type>
+        <definition> LocaleDataDict babel.dates.get_month_names</definition>
+        <argsstring>(Literal[&apos;abbreviated&apos;, &apos;narrow&apos;, &apos;wide&apos;] width=&apos;wide&apos;, _Context context=&apos;format&apos;, Locale|str|None locale=None)</argsstring>
+        <name>get_month_names</name>
+        <qualifiedname>babel.dates.get_month_names</qualifiedname>
+        <param>
+          <type>Literal</type>
+          <declname>width</declname>
+          <array>[ &apos;abbreviated&apos;, &apos;narrow&apos;, &apos;wide&apos;]</array>
+          <defval>&apos;wide&apos;</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1a3d8fe0430b3f3ed03457e881c80692fc" kindref="member">_Context</ref></type>
+          <declname>context</declname>
+          <defval>&apos;format&apos;</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the month names used by the locale for the specified format.
+
+&gt;&gt;&gt; get_month_names(&apos;wide&apos;, locale=&apos;en_US&apos;)[1]
+u&apos;January&apos;
+&gt;&gt;&gt; get_month_names(&apos;abbreviated&apos;, locale=&apos;es&apos;)[1]
+u&apos;ene&apos;
+&gt;&gt;&gt; get_month_names(&apos;narrow&apos;, context=&apos;stand-alone&apos;, locale=&apos;de_DE&apos;)[1]
+u&apos;J&apos;
+
+:param width: the width to use, one of &quot;wide&quot;, &quot;abbreviated&quot;, or &quot;narrow&quot;
+:param context: the context, either &quot;format&quot; or &quot;stand-alone&quot;
+:param locale: the `Locale` object, or a locale string. Defaults to the system time locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="295" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="299" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1a8c68f6a2a3e62b9e90722f362e64c4cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbabel_1_1localedata_1_1LocaleDataDict" kindref="compound">LocaleDataDict</ref></type>
+        <definition> LocaleDataDict babel.dates.get_quarter_names</definition>
+        <argsstring>(Literal[&apos;abbreviated&apos;, &apos;narrow&apos;, &apos;wide&apos;] width=&apos;wide&apos;, _Context context=&apos;format&apos;, Locale|str|None locale=None)</argsstring>
+        <name>get_quarter_names</name>
+        <qualifiedname>babel.dates.get_quarter_names</qualifiedname>
+        <param>
+          <type>Literal</type>
+          <declname>width</declname>
+          <array>[ &apos;abbreviated&apos;, &apos;narrow&apos;, &apos;wide&apos;]</array>
+          <defval>&apos;wide&apos;</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1a3d8fe0430b3f3ed03457e881c80692fc" kindref="member">_Context</ref></type>
+          <declname>context</declname>
+          <defval>&apos;format&apos;</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the quarter names used by the locale for the specified format.
+
+&gt;&gt;&gt; get_quarter_names(&apos;wide&apos;, locale=&apos;en_US&apos;)[1]
+u&apos;1st quarter&apos;
+&gt;&gt;&gt; get_quarter_names(&apos;abbreviated&apos;, locale=&apos;de_DE&apos;)[1]
+u&apos;Q1&apos;
+&gt;&gt;&gt; get_quarter_names(&apos;narrow&apos;, locale=&apos;de_DE&apos;)[1]
+u&apos;1&apos;
+
+:param width: the width to use, one of &quot;wide&quot;, &quot;abbreviated&quot;, or &quot;narrow&quot;
+:param context: the context, either &quot;format&quot; or &quot;stand-alone&quot;
+:param locale: the `Locale` object, or a locale string. Defaults to the system time locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="316" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="320" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1ac5d893476af13fefe1fcb4f2a3966bf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbabel_1_1localedata_1_1LocaleDataDict" kindref="compound">LocaleDataDict</ref></type>
+        <definition> LocaleDataDict babel.dates.get_era_names</definition>
+        <argsstring>(Literal[&apos;abbreviated&apos;, &apos;narrow&apos;, &apos;wide&apos;] width=&apos;wide&apos;, Locale|str|None locale=None)</argsstring>
+        <name>get_era_names</name>
+        <qualifiedname>babel.dates.get_era_names</qualifiedname>
+        <param>
+          <type>Literal</type>
+          <declname>width</declname>
+          <array>[ &apos;abbreviated&apos;, &apos;narrow&apos;, &apos;wide&apos;]</array>
+          <defval>&apos;wide&apos;</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the era names used by the locale for the specified format.
+
+&gt;&gt;&gt; get_era_names(&apos;wide&apos;, locale=&apos;en_US&apos;)[1]
+u&apos;Anno Domini&apos;
+&gt;&gt;&gt; get_era_names(&apos;abbreviated&apos;, locale=&apos;de_DE&apos;)[1]
+u&apos;n. Chr.&apos;
+
+:param width: the width to use, either &quot;wide&quot;, &quot;abbreviated&quot;, or &quot;narrow&quot;
+:param locale: the `Locale` object, or a locale string. Defaults to the system time locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="337" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="340" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1a645b1c05222ef1ec13eaa2254cfcbbdb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbabel_1_1dates_1_1DateTimePattern" kindref="compound">DateTimePattern</ref></type>
+        <definition> DateTimePattern babel.dates.get_date_format</definition>
+        <argsstring>(_PredefinedTimeFormat format=&apos;medium&apos;, Locale|str|None locale=None)</argsstring>
+        <name>get_date_format</name>
+        <qualifiedname>babel.dates.get_date_format</qualifiedname>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1ac9ca5381c0bc2702c9be7d0f4ddb7866" kindref="member">_PredefinedTimeFormat</ref></type>
+          <declname>format</declname>
+          <defval>&apos;medium&apos;</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the date formatting patterns used by the locale for the specified
+format.
+
+&gt;&gt;&gt; get_date_format(locale=&apos;en_US&apos;)
+&lt;DateTimePattern u&apos;MMM d, y&apos;&gt;
+&gt;&gt;&gt; get_date_format(&apos;full&apos;, locale=&apos;de_DE&apos;)
+&lt;DateTimePattern u&apos;EEEE, d. MMMM y&apos;&gt;
+
+:param format: the format to use, one of &quot;full&quot;, &quot;long&quot;, &quot;medium&quot;, or
+               &quot;short&quot;
+:param locale: the `Locale` object, or a locale string. Defaults to the system time locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="354" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="357" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1a45bcac04e81ea778a736f3e8e196da50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbabel_1_1dates_1_1DateTimePattern" kindref="compound">DateTimePattern</ref></type>
+        <definition> DateTimePattern babel.dates.get_datetime_format</definition>
+        <argsstring>(_PredefinedTimeFormat format=&apos;medium&apos;, Locale|str|None locale=None)</argsstring>
+        <name>get_datetime_format</name>
+        <qualifiedname>babel.dates.get_datetime_format</qualifiedname>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1ac9ca5381c0bc2702c9be7d0f4ddb7866" kindref="member">_PredefinedTimeFormat</ref></type>
+          <declname>format</declname>
+          <defval>&apos;medium&apos;</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the datetime formatting patterns used by the locale for the
+specified format.
+
+&gt;&gt;&gt; get_datetime_format(locale=&apos;en_US&apos;)
+u&apos;{1}, {0}&apos;
+
+:param format: the format to use, one of &quot;full&quot;, &quot;long&quot;, &quot;medium&quot;, or
+               &quot;short&quot;
+:param locale: the `Locale` object, or a locale string. Defaults to the system time locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="373" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="376" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1a9dd3873dc3bc0e8c4a685e92d1fb25ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbabel_1_1dates_1_1DateTimePattern" kindref="compound">DateTimePattern</ref></type>
+        <definition> DateTimePattern babel.dates.get_time_format</definition>
+        <argsstring>(_PredefinedTimeFormat format=&apos;medium&apos;, Locale|str|None locale=None)</argsstring>
+        <name>get_time_format</name>
+        <qualifiedname>babel.dates.get_time_format</qualifiedname>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1ac9ca5381c0bc2702c9be7d0f4ddb7866" kindref="member">_PredefinedTimeFormat</ref></type>
+          <declname>format</declname>
+          <defval>&apos;medium&apos;</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the time formatting patterns used by the locale for the specified
+format.
+
+&gt;&gt;&gt; get_time_format(locale=&apos;en_US&apos;)
+&lt;DateTimePattern u&apos;h:mm:ss\u202fa&apos;&gt;
+&gt;&gt;&gt; get_time_format(&apos;full&apos;, locale=&apos;de_DE&apos;)
+&lt;DateTimePattern u&apos;HH:mm:ss zzzz&apos;&gt;
+
+:param format: the format to use, one of &quot;full&quot;, &quot;long&quot;, &quot;medium&quot;, or
+               &quot;short&quot;
+:param locale: the `Locale` object, or a locale string. Defaults to the system time locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="393" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="396" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1aee87d2abbe038d7b414c4f7b1643f5ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.dates.get_timezone_gmt</definition>
+        <argsstring>(_Instant datetime=None, Literal[&apos;long&apos;, &apos;short&apos;, &apos;iso8601&apos;, &apos;iso8601_short&apos;] width=&apos;long&apos;, Locale|str|None locale=None, bool return_z=False)</argsstring>
+        <name>get_timezone_gmt</name>
+        <qualifiedname>babel.dates.get_timezone_gmt</qualifiedname>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1ad7581e6a1973eee9c864c892879852b2" kindref="member">_Instant</ref></type>
+          <declname>datetime</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>width</declname>
+          <array>[ &apos;long&apos;, &apos;short&apos;, &apos;iso8601&apos;, &apos;iso8601_short&apos;]</array>
+          <defval>&apos;long&apos;</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>return_z</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the timezone associated with the given `datetime` object formatted
+as string indicating the offset from GMT.
+
+&gt;&gt;&gt; from datetime import datetime
+&gt;&gt;&gt; dt = datetime(2007, 4, 1, 15, 30)
+&gt;&gt;&gt; get_timezone_gmt(dt, locale=&apos;en&apos;)
+u&apos;GMT+00:00&apos;
+&gt;&gt;&gt; get_timezone_gmt(dt, locale=&apos;en&apos;, return_z=True)
+&apos;Z&apos;
+&gt;&gt;&gt; get_timezone_gmt(dt, locale=&apos;en&apos;, width=&apos;iso8601_short&apos;)
+u&apos;+00&apos;
+&gt;&gt;&gt; tz = get_timezone(&apos;America/Los_Angeles&apos;)
+&gt;&gt;&gt; dt = _localize(tz, datetime(2007, 4, 1, 15, 30))
+&gt;&gt;&gt; get_timezone_gmt(dt, locale=&apos;en&apos;)
+u&apos;GMT-07:00&apos;
+&gt;&gt;&gt; get_timezone_gmt(dt, &apos;short&apos;, locale=&apos;en&apos;)
+u&apos;-0700&apos;
+&gt;&gt;&gt; get_timezone_gmt(dt, locale=&apos;en&apos;, width=&apos;iso8601_short&apos;)
+u&apos;-07&apos;
+
+The long format depends on the locale, for example in France the acronym
+UTC string is used instead of GMT:
+
+&gt;&gt;&gt; get_timezone_gmt(dt, &apos;long&apos;, locale=&apos;fr_FR&apos;)
+u&apos;UTC-07:00&apos;
+
+.. versionadded:: 0.9
+
+:param datetime: the ``datetime`` object; if `None`, the current date and
+                 time in UTC is used
+:param width: either &quot;long&quot; or &quot;short&quot; or &quot;iso8601&quot; or &quot;iso8601_short&quot;
+:param locale: the `Locale` object, or a locale string. Defaults to the system time locale.
+:param return_z: True or False; Function returns indicator &quot;Z&quot;
+                 when local time offset is 0
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="412" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="417" bodyend="471"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1aefab7c8a6b4d5e37360000d13acd8ab9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.dates.get_timezone_location</definition>
+        <argsstring>(_DtOrTzinfo dt_or_tzinfo=None, Locale|str|None locale=None, bool return_city=False)</argsstring>
+        <name>get_timezone_location</name>
+        <qualifiedname>babel.dates.get_timezone_location</qualifiedname>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1aa432752c02a1273b22c6491d2451ef47" kindref="member">_DtOrTzinfo</ref></type>
+          <declname>dt_or_tzinfo</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>return_city</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a representation of the given timezone using &quot;location format&quot;.
+
+The result depends on both the local display name of the country and the
+city associated with the time zone:
+
+&gt;&gt;&gt; tz = get_timezone(&apos;America/St_Johns&apos;)
+&gt;&gt;&gt; print(get_timezone_location(tz, locale=&apos;de_DE&apos;))
+Kanada (St. John’s) (Ortszeit)
+&gt;&gt;&gt; print(get_timezone_location(tz, locale=&apos;en&apos;))
+Canada (St. John’s) Time
+&gt;&gt;&gt; print(get_timezone_location(tz, locale=&apos;en&apos;, return_city=True))
+St. John’s
+&gt;&gt;&gt; tz = get_timezone(&apos;America/Mexico_City&apos;)
+&gt;&gt;&gt; get_timezone_location(tz, locale=&apos;de_DE&apos;)
+u&apos;Mexiko (Mexiko-Stadt) (Ortszeit)&apos;
+
+If the timezone is associated with a country that uses only a single
+timezone, just the localized country name is returned:
+
+&gt;&gt;&gt; tz = get_timezone(&apos;Europe/Berlin&apos;)
+&gt;&gt;&gt; get_timezone_name(tz, locale=&apos;de_DE&apos;)
+u&apos;Mitteleurop\\xe4ische Zeit&apos;
+
+.. versionadded:: 0.9
+
+:param dt_or_tzinfo: the ``datetime`` or ``tzinfo`` object that determines
+                     the timezone; if `None`, the current date and time in
+                     UTC is assumed
+:param locale: the `Locale` object, or a locale string. Defaults to the system time locale.
+:param return_city: True or False, if True then return exemplar city (location)
+                    for the time zone
+:return: the localized timezone name using location format</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="472" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="476" bodyend="551"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1ac67b851ce68e62c2de85911577cc2980" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.dates.get_timezone_name</definition>
+        <argsstring>(_DtOrTzinfo dt_or_tzinfo=None, Literal[&apos;long&apos;, &apos;short&apos;] width=&apos;long&apos;, bool uncommon=False, Locale|str|None locale=None, Literal[&apos;generic&apos;, &apos;daylight&apos;, &apos;standard&apos;]|None zone_variant=None, bool return_zone=False)</argsstring>
+        <name>get_timezone_name</name>
+        <qualifiedname>babel.dates.get_timezone_name</qualifiedname>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1aa432752c02a1273b22c6491d2451ef47" kindref="member">_DtOrTzinfo</ref></type>
+          <declname>dt_or_tzinfo</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>width</declname>
+          <array>[ &apos;long&apos;, &apos;short&apos;]</array>
+          <defval>&apos;long&apos;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>uncommon</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Literal|None</type>
+          <declname>zone_variant</declname>
+          <array>[ &apos;generic&apos;, &apos;daylight&apos;, &apos;standard&apos;]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>return_zone</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the localized display name for the given timezone. The timezone
+may be specified using a ``datetime`` or `tzinfo` object.
+
+&gt;&gt;&gt; from datetime import time
+&gt;&gt;&gt; dt = time(15, 30, tzinfo=get_timezone(&apos;America/Los_Angeles&apos;))
+&gt;&gt;&gt; get_timezone_name(dt, locale=&apos;en_US&apos;)  # doctest: +SKIP
+u&apos;Pacific Standard Time&apos;
+&gt;&gt;&gt; get_timezone_name(dt, locale=&apos;en_US&apos;, return_zone=True)
+&apos;America/Los_Angeles&apos;
+&gt;&gt;&gt; get_timezone_name(dt, width=&apos;short&apos;, locale=&apos;en_US&apos;)  # doctest: +SKIP
+u&apos;PST&apos;
+
+If this function gets passed only a `tzinfo` object and no concrete
+`datetime`,  the returned display name is independent of daylight savings
+time. This can be used for example for selecting timezones, or to set the
+time of events that recur across DST changes:
+
+&gt;&gt;&gt; tz = get_timezone(&apos;America/Los_Angeles&apos;)
+&gt;&gt;&gt; get_timezone_name(tz, locale=&apos;en_US&apos;)
+u&apos;Pacific Time&apos;
+&gt;&gt;&gt; get_timezone_name(tz, &apos;short&apos;, locale=&apos;en_US&apos;)
+u&apos;PT&apos;
+
+If no localized display name for the timezone is available, and the timezone
+is associated with a country that uses only a single timezone, the name of
+that country is returned, formatted according to the locale:
+
+&gt;&gt;&gt; tz = get_timezone(&apos;Europe/Berlin&apos;)
+&gt;&gt;&gt; get_timezone_name(tz, locale=&apos;de_DE&apos;)
+u&apos;Mitteleurop\xe4ische Zeit&apos;
+&gt;&gt;&gt; get_timezone_name(tz, locale=&apos;pt_BR&apos;)
+u&apos;Hor\xe1rio da Europa Central&apos;
+
+On the other hand, if the country uses multiple timezones, the city is also
+included in the representation:
+
+&gt;&gt;&gt; tz = get_timezone(&apos;America/St_Johns&apos;)
+&gt;&gt;&gt; get_timezone_name(tz, locale=&apos;de_DE&apos;)
+u&apos;Neufundland-Zeit&apos;
+
+Note that short format is currently not supported for all timezones and
+all locales.  This is partially because not every timezone has a short
+code in every locale.  In that case it currently falls back to the long
+format.
+
+For more information see `LDML Appendix J: Time Zone Display Names
+&lt;https://www.unicode.org/reports/tr35/#Time_Zone_Fallback&gt;`_
+
+.. versionadded:: 0.9
+
+.. versionchanged:: 1.0
+   Added `zone_variant` support.
+
+:param dt_or_tzinfo: the ``datetime`` or ``tzinfo`` object that determines
+                     the timezone; if a ``tzinfo`` object is used, the
+                     resulting display name will be generic, i.e.
+                     independent of daylight savings time; if `None`, the
+                     current date in UTC is assumed
+:param width: either &quot;long&quot; or &quot;short&quot;
+:param uncommon: deprecated and ignored
+:param zone_variant: defines the zone variation to return.  By default the
+                       variation is defined from the datetime object
+                       passed in.  If no datetime object is passed in, the
+                       ``&apos;generic&apos;`` variation is assumed.  The following
+                       values are valid: ``&apos;generic&apos;``, ``&apos;daylight&apos;`` and
+                       ``&apos;standard&apos;``.
+:param locale: the `Locale` object, or a locale string. Defaults to the system time locale.
+:param return_zone: True or False. If true then function
+                    returns long time zone ID
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="552" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="559" bodyend="673"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1a5fb2ecebf1bc9929236e0ff73d6823f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.dates.format_date</definition>
+        <argsstring>(datetime.date|None date=None, _PredefinedTimeFormat|str format=&apos;medium&apos;, Locale|str|None locale=None)</argsstring>
+        <name>format_date</name>
+        <qualifiedname>babel.dates.format_date</qualifiedname>
+        <param>
+          <type>datetime.date|None</type>
+          <declname>date</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1ac9ca5381c0bc2702c9be7d0f4ddb7866" kindref="member">_PredefinedTimeFormat</ref>|str</type>
+          <declname>format</declname>
+          <defval>&apos;medium&apos;</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a date formatted according to the given pattern.
+
+&gt;&gt;&gt; from datetime import date
+&gt;&gt;&gt; d = date(2007, 4, 1)
+&gt;&gt;&gt; format_date(d, locale=&apos;en_US&apos;)
+u&apos;Apr 1, 2007&apos;
+&gt;&gt;&gt; format_date(d, format=&apos;full&apos;, locale=&apos;de_DE&apos;)
+u&apos;Sonntag, 1. April 2007&apos;
+
+If you don&apos;t want to use the locale default formats, you can specify a
+custom date pattern:
+
+&gt;&gt;&gt; format_date(d, &quot;EEE, MMM d, &apos;&apos;yy&quot;, locale=&apos;en&apos;)
+u&quot;Sun, Apr 1, &apos;07&quot;
+
+:param date: the ``date`` or ``datetime`` object; if `None`, the current
+             date is used
+:param format: one of &quot;full&quot;, &quot;long&quot;, &quot;medium&quot;, or &quot;short&quot;, or a custom
+               date/time pattern
+:param locale: a `Locale` object or a locale identifier. Defaults to the system time locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="674" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="678" bodyend="711"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1a3ee77e48d427975c263ccb8b0a417504" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.dates.format_datetime</definition>
+        <argsstring>(_Instant datetime=None, _PredefinedTimeFormat|str format=&apos;medium&apos;, datetime.tzinfo|None tzinfo=None, Locale|str|None locale=None)</argsstring>
+        <name>format_datetime</name>
+        <qualifiedname>babel.dates.format_datetime</qualifiedname>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1ad7581e6a1973eee9c864c892879852b2" kindref="member">_Instant</ref></type>
+          <declname>datetime</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1ac9ca5381c0bc2702c9be7d0f4ddb7866" kindref="member">_PredefinedTimeFormat</ref>|str</type>
+          <declname>format</declname>
+          <defval>&apos;medium&apos;</defval>
+        </param>
+        <param>
+          <type>datetime.tzinfo|None</type>
+          <declname>tzinfo</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a date formatted according to the given pattern.
+
+&gt;&gt;&gt; from datetime import datetime
+&gt;&gt;&gt; dt = datetime(2007, 4, 1, 15, 30)
+&gt;&gt;&gt; format_datetime(dt, locale=&apos;en_US&apos;)
+u&apos;Apr 1, 2007, 3:30:00\u202fPM&apos;
+
+For any pattern requiring the display of the timezone:
+
+&gt;&gt;&gt; format_datetime(dt, &apos;full&apos;, tzinfo=get_timezone(&apos;Europe/Paris&apos;),
+...                 locale=&apos;fr_FR&apos;)
+&apos;dimanche 1 avril 2007, 17:30:00 heure d’été d’Europe centrale&apos;
+&gt;&gt;&gt; format_datetime(dt, &quot;yyyy.MM.dd G &apos;at&apos; HH:mm:ss zzz&quot;,
+...                 tzinfo=get_timezone(&apos;US/Eastern&apos;), locale=&apos;en&apos;)
+u&apos;2007.04.01 AD at 11:30:00 EDT&apos;
+
+:param datetime: the `datetime` object; if `None`, the current date and
+                 time is used
+:param format: one of &quot;full&quot;, &quot;long&quot;, &quot;medium&quot;, or &quot;short&quot;, or a custom
+               date/time pattern
+:param tzinfo: the timezone to apply to the time for display
+:param locale: a `Locale` object or a locale identifier. Defaults to the system time locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="712" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="717" bodyend="753"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1aa668e218a511afea49940713b60777e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.dates.format_time</definition>
+        <argsstring>(datetime.time|datetime.datetime|float|None time=None, _PredefinedTimeFormat|str format=&apos;medium&apos;, datetime.tzinfo|None tzinfo=None, Locale|str|None locale=None)</argsstring>
+        <name>format_time</name>
+        <qualifiedname>babel.dates.format_time</qualifiedname>
+        <param>
+          <type>datetime.time|datetime.datetime|float|None</type>
+          <declname>time</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1ac9ca5381c0bc2702c9be7d0f4ddb7866" kindref="member">_PredefinedTimeFormat</ref>|str</type>
+          <declname>format</declname>
+          <defval>&apos;medium&apos;</defval>
+        </param>
+        <param>
+          <type>datetime.tzinfo|None</type>
+          <declname>tzinfo</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a time formatted according to the given pattern.
+
+&gt;&gt;&gt; from datetime import datetime, time
+&gt;&gt;&gt; t = time(15, 30)
+&gt;&gt;&gt; format_time(t, locale=&apos;en_US&apos;)
+u&apos;3:30:00\u202fPM&apos;
+&gt;&gt;&gt; format_time(t, format=&apos;short&apos;, locale=&apos;de_DE&apos;)
+u&apos;15:30&apos;
+
+If you don&apos;t want to use the locale default formats, you can specify a
+custom time pattern:
+
+&gt;&gt;&gt; format_time(t, &quot;hh &apos;o&apos;&apos;clock&apos; a&quot;, locale=&apos;en&apos;)
+u&quot;03 o&apos;clock PM&quot;
+
+For any pattern requiring the display of the time-zone a
+timezone has to be specified explicitly:
+
+&gt;&gt;&gt; t = datetime(2007, 4, 1, 15, 30)
+&gt;&gt;&gt; tzinfo = get_timezone(&apos;Europe/Paris&apos;)
+&gt;&gt;&gt; t = _localize(tzinfo, t)
+&gt;&gt;&gt; format_time(t, format=&apos;full&apos;, tzinfo=tzinfo, locale=&apos;fr_FR&apos;)
+&apos;15:30:00 heure d’été d’Europe centrale&apos;
+&gt;&gt;&gt; format_time(t, &quot;hh &apos;o&apos;&apos;clock&apos; a, zzzz&quot;, tzinfo=get_timezone(&apos;US/Eastern&apos;),
+...             locale=&apos;en&apos;)
+u&quot;09 o&apos;clock AM, Eastern Daylight Time&quot;
+
+As that example shows, when this function gets passed a
+``datetime.datetime`` value, the actual time in the formatted string is
+adjusted to the timezone specified by the `tzinfo` parameter. If the
+``datetime`` is &quot;naive&quot; (i.e. it has no associated timezone information),
+it is assumed to be in UTC.
+
+These timezone calculations are **not** performed if the value is of type
+``datetime.time``, as without date information there&apos;s no way to determine
+what a given time would translate to in a different timezone without
+information about whether daylight savings time is in effect or not. This
+means that time values are left as-is, and the value of the `tzinfo`
+parameter is only used to display the timezone name if needed:
+
+&gt;&gt;&gt; t = time(15, 30)
+&gt;&gt;&gt; format_time(t, format=&apos;full&apos;, tzinfo=get_timezone(&apos;Europe/Paris&apos;),
+...             locale=&apos;fr_FR&apos;)  # doctest: +SKIP
+u&apos;15:30:00 heure normale d\u2019Europe centrale&apos;
+&gt;&gt;&gt; format_time(t, format=&apos;full&apos;, tzinfo=get_timezone(&apos;US/Eastern&apos;),
+...             locale=&apos;en_US&apos;)  # doctest: +SKIP
+u&apos;3:30:00\u202fPM Eastern Standard Time&apos;
+
+:param time: the ``time`` or ``datetime`` object; if `None`, the current
+     time in UTC is used
+:param format: one of &quot;full&quot;, &quot;long&quot;, &quot;medium&quot;, or &quot;short&quot;, or a custom
+       date/time pattern
+:param tzinfo: the time-zone to apply to the time for display
+:param locale: a `Locale` object or a locale identifier. Defaults to the system time locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="754" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="759" bodyend="827"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1a6d06ecfc3b322fa6ff4b86aad7c114a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.dates.format_skeleton</definition>
+        <argsstring>(str skeleton, _Instant datetime=None, datetime.tzinfo|None tzinfo=None, bool fuzzy=True, Locale|str|None locale=None)</argsstring>
+        <name>format_skeleton</name>
+        <qualifiedname>babel.dates.format_skeleton</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>skeleton</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1ad7581e6a1973eee9c864c892879852b2" kindref="member">_Instant</ref></type>
+          <declname>datetime</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>datetime.tzinfo|None</type>
+          <declname>tzinfo</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>fuzzy</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a time and/or date formatted according to the given pattern.
+
+The skeletons are defined in the CLDR data and provide more flexibility
+than the simple short/long/medium formats, but are a bit harder to use.
+The are defined using the date/time symbols without order or punctuation
+and map to a suitable format for the given locale.
+
+&gt;&gt;&gt; from datetime import datetime
+&gt;&gt;&gt; t = datetime(2007, 4, 1, 15, 30)
+&gt;&gt;&gt; format_skeleton(&apos;MMMEd&apos;, t, locale=&apos;fr&apos;)
+u&apos;dim. 1 avr.&apos;
+&gt;&gt;&gt; format_skeleton(&apos;MMMEd&apos;, t, locale=&apos;en&apos;)
+u&apos;Sun, Apr 1&apos;
+&gt;&gt;&gt; format_skeleton(&apos;yMMd&apos;, t, locale=&apos;fi&apos;)  # yMMd is not in the Finnish locale; yMd gets used
+u&apos;1.4.2007&apos;
+&gt;&gt;&gt; format_skeleton(&apos;yMMd&apos;, t, fuzzy=False, locale=&apos;fi&apos;)  # yMMd is not in the Finnish locale, an error is thrown
+Traceback (most recent call last):
+    ...
+KeyError: yMMd
+&gt;&gt;&gt; format_skeleton(&apos;GH&apos;, t, fuzzy=True, locale=&apos;fi_FI&apos;)  # GH is not in the Finnish locale and there is no close match, an error is thrown
+Traceback (most recent call last):
+    ...
+KeyError: None
+
+After the skeleton is resolved to a pattern `format_datetime` is called so
+all timezone processing etc is the same as for that.
+
+:param skeleton: A date time skeleton as defined in the cldr data.
+:param datetime: the ``time`` or ``datetime`` object; if `None`, the current
+             time in UTC is used
+:param tzinfo: the time-zone to apply to the time for display
+:param fuzzy: If the skeleton is not found, allow choosing a skeleton that&apos;s
+              close enough to it. If there is no close match, a `KeyError`
+              is thrown.
+:param locale: a `Locale` object or a locale identifier. Defaults to the system time locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="828" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="834" bodyend="877"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1a4a9ccf53989123f0399e38b8f7cbee96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.dates.format_timedelta</definition>
+        <argsstring>(datetime.timedelta|int delta, Literal[&apos;year&apos;, &apos;month&apos;, &apos;week&apos;, &apos;day&apos;, &apos;hour&apos;, &apos;minute&apos;, &apos;second&apos;] granularity=&apos;second&apos;, float threshold=.85, bool add_direction=False, Literal[&apos;narrow&apos;, &apos;short&apos;, &apos;medium&apos;, &apos;long&apos;] format=&apos;long&apos;, Locale|str|None locale=None)</argsstring>
+        <name>format_timedelta</name>
+        <qualifiedname>babel.dates.format_timedelta</qualifiedname>
+        <param>
+          <type>datetime.timedelta|int</type>
+          <declname>delta</declname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>granularity</declname>
+          <array>[ &apos;year&apos;, &apos;month&apos;, &apos;week&apos;, &apos;day&apos;, &apos;hour&apos;, &apos;minute&apos;, &apos;second&apos;]</array>
+          <defval>&apos;second&apos;</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+          <defval>.85</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>add_direction</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>format</declname>
+          <array>[ &apos;narrow&apos;, &apos;short&apos;, &apos;medium&apos;, &apos;long&apos;]</array>
+          <defval>&apos;long&apos;</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a time delta according to the rules of the given locale.
+
+&gt;&gt;&gt; from datetime import timedelta
+&gt;&gt;&gt; format_timedelta(timedelta(weeks=12), locale=&apos;en_US&apos;)
+u&apos;3 months&apos;
+&gt;&gt;&gt; format_timedelta(timedelta(seconds=1), locale=&apos;es&apos;)
+u&apos;1 segundo&apos;
+
+The granularity parameter can be provided to alter the lowest unit
+presented, which defaults to a second.
+
+&gt;&gt;&gt; format_timedelta(timedelta(hours=3), granularity=&apos;day&apos;, locale=&apos;en_US&apos;)
+u&apos;1 day&apos;
+
+The threshold parameter can be used to determine at which value the
+presentation switches to the next higher unit. A higher threshold factor
+means the presentation will switch later. For example:
+
+&gt;&gt;&gt; format_timedelta(timedelta(hours=23), threshold=0.9, locale=&apos;en_US&apos;)
+u&apos;1 day&apos;
+&gt;&gt;&gt; format_timedelta(timedelta(hours=23), threshold=1.1, locale=&apos;en_US&apos;)
+u&apos;23 hours&apos;
+
+In addition directional information can be provided that informs
+the user if the date is in the past or in the future:
+
+&gt;&gt;&gt; format_timedelta(timedelta(hours=1), add_direction=True, locale=&apos;en&apos;)
+u&apos;in 1 hour&apos;
+&gt;&gt;&gt; format_timedelta(timedelta(hours=-1), add_direction=True, locale=&apos;en&apos;)
+u&apos;1 hour ago&apos;
+
+The format parameter controls how compact or wide the presentation is:
+
+&gt;&gt;&gt; format_timedelta(timedelta(hours=3), format=&apos;short&apos;, locale=&apos;en&apos;)
+u&apos;3 hr&apos;
+&gt;&gt;&gt; format_timedelta(timedelta(hours=3), format=&apos;narrow&apos;, locale=&apos;en&apos;)
+u&apos;3h&apos;
+
+:param delta: a ``timedelta`` object representing the time difference to
+              format, or the delta in seconds as an `int` value
+:param granularity: determines the smallest unit that should be displayed,
+                    the value can be one of &quot;year&quot;, &quot;month&quot;, &quot;week&quot;, &quot;day&quot;,
+                    &quot;hour&quot;, &quot;minute&quot; or &quot;second&quot;
+:param threshold: factor that determines at which point the presentation
+                  switches to the next higher unit
+:param add_direction: if this flag is set to `True` the return value will
+                      include directional information.  For instance a
+                      positive timedelta will include the information about
+                      it being in the future, a negative will be information
+                      about the value being in the past.
+:param format: the format, can be &quot;narrow&quot;, &quot;short&quot; or &quot;long&quot;. (
+               &quot;medium&quot; is deprecated, currently converted to &quot;long&quot; to
+               maintain compatibility)
+:param locale: a `Locale` object or a locale identifier. Defaults to the system time locale.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="889" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="896" bodyend="1009"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1a30f2d34c9b413ea11e32a654e21331aa" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.dates._format_fallback_interval</definition>
+        <argsstring>(_Instant start, _Instant end, str|None skeleton, datetime.tzinfo|None tzinfo, Locale locale)</argsstring>
+        <name>_format_fallback_interval</name>
+        <qualifiedname>babel.dates._format_fallback_interval</qualifiedname>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1ad7581e6a1973eee9c864c892879852b2" kindref="member">_Instant</ref></type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1ad7581e6a1973eee9c864c892879852b2" kindref="member">_Instant</ref></type>
+          <declname>end</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>skeleton</declname>
+        </param>
+        <param>
+          <type>datetime.tzinfo|None</type>
+          <declname>tzinfo</declname>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref></type>
+          <declname>locale</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="1010" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="1016" bodyend="1038"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1af1676ead9bfc733aa0e5ce7e59e055d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.dates.format_interval</definition>
+        <argsstring>(_Instant start, _Instant end, str|None skeleton=None, datetime.tzinfo|None tzinfo=None, bool fuzzy=True, Locale|str|None locale=None)</argsstring>
+        <name>format_interval</name>
+        <qualifiedname>babel.dates.format_interval</qualifiedname>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1ad7581e6a1973eee9c864c892879852b2" kindref="member">_Instant</ref></type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1ad7581e6a1973eee9c864c892879852b2" kindref="member">_Instant</ref></type>
+          <declname>end</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>skeleton</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>datetime.tzinfo|None</type>
+          <declname>tzinfo</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>fuzzy</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Format an interval between two instants according to the locale&apos;s rules.
+
+&gt;&gt;&gt; from datetime import date, time
+&gt;&gt;&gt; format_interval(date(2016, 1, 15), date(2016, 1, 17), &quot;yMd&quot;, locale=&quot;fi&quot;)
+u&apos;15.\u201317.1.2016&apos;
+
+&gt;&gt;&gt; format_interval(time(12, 12), time(16, 16), &quot;Hm&quot;, locale=&quot;en_GB&quot;)
+&apos;12:12\u201316:16&apos;
+
+&gt;&gt;&gt; format_interval(time(5, 12), time(16, 16), &quot;hm&quot;, locale=&quot;en_US&quot;)
+&apos;5:12\u202fAM\u2009–\u20094:16\u202fPM&apos;
+
+&gt;&gt;&gt; format_interval(time(16, 18), time(16, 24), &quot;Hm&quot;, locale=&quot;it&quot;)
+&apos;16:18\u201316:24&apos;
+
+If the start instant equals the end instant, the interval is formatted like the instant.
+
+&gt;&gt;&gt; format_interval(time(16, 18), time(16, 18), &quot;Hm&quot;, locale=&quot;it&quot;)
+&apos;16:18&apos;
+
+Unknown skeletons fall back to &quot;default&quot; formatting.
+
+&gt;&gt;&gt; format_interval(date(2015, 1, 1), date(2017, 1, 1), &quot;wzq&quot;, locale=&quot;ja&quot;)
+&apos;2015/01/01\uff5e2017/01/01&apos;
+
+&gt;&gt;&gt; format_interval(time(16, 18), time(16, 24), &quot;xxx&quot;, locale=&quot;ja&quot;)
+&apos;16:18:00\uff5e16:24:00&apos;
+
+&gt;&gt;&gt; format_interval(date(2016, 1, 15), date(2016, 1, 17), &quot;xxx&quot;, locale=&quot;de&quot;)
+&apos;15.01.2016\u2009–\u200917.01.2016&apos;
+
+:param start: First instant (datetime/date/time)
+:param end: Second instant (datetime/date/time)
+:param skeleton: The &quot;skeleton format&quot; to use for formatting.
+:param tzinfo: tzinfo to use (if none is already attached)
+:param fuzzy: If the skeleton is not found, allow choosing a skeleton that&apos;s
+              close enough to it.
+:param locale: A locale object or identifier. Defaults to the system time locale.
+:return: Formatted interval
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="1039" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="1046" bodyend="1143"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1a858dd8171700dc59ff52e5028e3fdb5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.dates.get_period_id</definition>
+        <argsstring>(_Instant time, datetime.tzinfo|None tzinfo=None, Literal[&apos;selection&apos;]|None type=None, Locale|str|None locale=None)</argsstring>
+        <name>get_period_id</name>
+        <qualifiedname>babel.dates.get_period_id</qualifiedname>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1ad7581e6a1973eee9c864c892879852b2" kindref="member">_Instant</ref></type>
+          <declname>time</declname>
+        </param>
+        <param>
+          <type>datetime.tzinfo|None</type>
+          <declname>tzinfo</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Literal|None</type>
+          <declname>type</declname>
+          <array>[ &apos;selection&apos;]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the day period ID for a given time.
+
+This ID can be used as a key for the period name dictionary.
+
+&gt;&gt;&gt; from datetime import time
+&gt;&gt;&gt; get_period_names(locale=&quot;de&quot;)[get_period_id(time(7, 42), locale=&quot;de&quot;)]
+u&apos;Morgen&apos;
+
+&gt;&gt;&gt; get_period_id(time(0), locale=&quot;en_US&quot;)
+u&apos;midnight&apos;
+
+&gt;&gt;&gt; get_period_id(time(0), type=&quot;selection&quot;, locale=&quot;en_US&quot;)
+u&apos;night1&apos;
+
+:param time: The time to inspect.
+:param tzinfo: The timezone for the time. See ``format_time``.
+:param type: The period type to use. Either &quot;selection&quot; or None.
+             The selection type is used for selecting among phrases such as
+             “Your email arrived yesterday evening” or “Your email arrived last night”.
+:param locale: the `Locale` object, or a locale string. Defaults to the system time locale.
+:return: period ID. Something is always returned -- even if it&apos;s just &quot;am&quot; or &quot;pm&quot;.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="1144" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="1149" bodyend="1219"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1add740ddca339dae930105a6c47df399e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>datetime.date</type>
+        <definition> datetime.date babel.dates.parse_date</definition>
+        <argsstring>(str string, Locale|str|None locale=None, _PredefinedTimeFormat|str format=&apos;medium&apos;)</argsstring>
+        <name>parse_date</name>
+        <qualifiedname>babel.dates.parse_date</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1ac9ca5381c0bc2702c9be7d0f4ddb7866" kindref="member">_PredefinedTimeFormat</ref>|str</type>
+          <declname>format</declname>
+          <defval>&apos;medium&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse a date from a string.
+
+If an explicit format is provided, it is used to parse the date.
+
+&gt;&gt;&gt; parse_date(&apos;01.04.2004&apos;, format=&apos;dd.MM.yyyy&apos;)
+datetime.date(2004, 4, 1)
+
+If no format is given, or if it is one of &quot;full&quot;, &quot;long&quot;, &quot;medium&quot;,
+or &quot;short&quot;, the function first tries to interpret the string as
+ISO-8601 date format and then uses the date format for the locale
+as a hint to determine the order in which the date fields appear in
+the string.
+
+&gt;&gt;&gt; parse_date(&apos;4/1/04&apos;, locale=&apos;en_US&apos;)
+datetime.date(2004, 4, 1)
+&gt;&gt;&gt; parse_date(&apos;01.04.2004&apos;, locale=&apos;de_DE&apos;)
+datetime.date(2004, 4, 1)
+&gt;&gt;&gt; parse_date(&apos;2004-04-01&apos;, locale=&apos;en_US&apos;)
+datetime.date(2004, 4, 1)
+&gt;&gt;&gt; parse_date(&apos;2004-04-01&apos;, locale=&apos;de_DE&apos;)
+datetime.date(2004, 4, 1)
+&gt;&gt;&gt; parse_date(&apos;01.04.04&apos;, locale=&apos;de_DE&apos;, format=&apos;short&apos;)
+datetime.date(2004, 4, 1)
+
+:param string: the string containing the date
+:param locale: a `Locale` object or a locale identifier
+:param locale: a `Locale` object or a locale identifier. Defaults to the system time locale.
+:param format: the format to use, either an explicit date format,
+               or one of &quot;full&quot;, &quot;long&quot;, &quot;medium&quot;, or &quot;short&quot;
+               (see ``get_time_format``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="1224" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="1228" bodyend="1300"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1a7fc8bfde5ebb3a215831c3cc7bbeeb43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>datetime.time</type>
+        <definition> datetime.time babel.dates.parse_time</definition>
+        <argsstring>(str string, Locale|str|None locale=None, _PredefinedTimeFormat|str format=&apos;medium&apos;)</argsstring>
+        <name>parse_time</name>
+        <qualifiedname>babel.dates.parse_time</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>string</declname>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1core_1_1Locale" kindref="compound">Locale</ref>|str|None</type>
+          <declname>locale</declname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type><ref refid="namespacebabel_1_1dates_1ac9ca5381c0bc2702c9be7d0f4ddb7866" kindref="member">_PredefinedTimeFormat</ref>|str</type>
+          <declname>format</declname>
+          <defval>&apos;medium&apos;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse a time from a string.
+
+This function uses the time format for the locale as a hint to determine
+the order in which the time fields appear in the string.
+
+If an explicit format is provided, the function will use it to parse
+the time instead.
+
+&gt;&gt;&gt; parse_time(&apos;15:30:00&apos;, locale=&apos;en_US&apos;)
+datetime.time(15, 30)
+&gt;&gt;&gt; parse_time(&apos;15:30:00&apos;, format=&apos;H:mm:ss&apos;)
+datetime.time(15, 30)
+
+:param string: the string containing the time
+:param locale: a `Locale` object or a locale identifier. Defaults to the system time locale.
+:param format: the format to use, either an explicit time format,
+               or one of &quot;full&quot;, &quot;long&quot;, &quot;medium&quot;, or &quot;short&quot;
+               (see ``get_time_format``)
+:return: the parsed time
+:rtype: `time`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="1301" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="1305" bodyend="1365"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1a62b87b9dc3f67c4e9733de0659973b65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbabel_1_1dates_1_1DateTimePattern" kindref="compound">DateTimePattern</ref></type>
+        <definition> DateTimePattern babel.dates.parse_pattern</definition>
+        <argsstring>(str|DateTimePattern pattern)</argsstring>
+        <name>parse_pattern</name>
+        <qualifiedname>babel.dates.parse_pattern</qualifiedname>
+        <param>
+          <type>str|<ref refid="classbabel_1_1dates_1_1DateTimePattern" kindref="compound">DateTimePattern</ref></type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse date, time, and datetime format patterns.
+
+&gt;&gt;&gt; parse_pattern(&quot;MMMMd&quot;).format
+u&apos;%(MMMM)s%(d)s&apos;
+&gt;&gt;&gt; parse_pattern(&quot;MMM d, yyyy&quot;).format
+u&apos;%(MMM)s %(d)s, %(yyyy)s&apos;
+
+Pattern can contain literal strings in single quotes:
+
+&gt;&gt;&gt; parse_pattern(&quot;H:mm&apos; Uhr &apos;z&quot;).format
+u&apos;%(H)s:%(mm)s Uhr %(z)s&apos;
+
+An actual single quote can be used by using two adjacent single quote
+characters:
+
+&gt;&gt;&gt; parse_pattern(&quot;hh&apos; o&apos;&apos;clock&apos;&quot;).format
+u&quot;%(hh)s o&apos;clock&quot;
+
+:param pattern: the formatting pattern to parse
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="1748" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="1748" bodyend="1774"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1a78320d19476c088b5012044e783a1bfb" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classbabel_1_1dates_1_1DateTimePattern" kindref="compound">DateTimePattern</ref></type>
+        <definition> DateTimePattern babel.dates._cached_parse_pattern</definition>
+        <argsstring>(str pattern)</argsstring>
+        <name>_cached_parse_pattern</name>
+        <qualifiedname>babel.dates._cached_parse_pattern</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="1775" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="1775" bodyend="1791"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1a86b4cfcdbca778b4f64f24d9497e2cab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[tuple[str, str|tuple[str, int]]]</type>
+        <definition> list[tuple[str, str | tuple[str, int]]] babel.dates.tokenize_pattern</definition>
+        <argsstring>(str pattern)</argsstring>
+        <name>tokenize_pattern</name>
+        <qualifiedname>babel.dates.tokenize_pattern</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Tokenize date format patterns.
+
+Returns a list of (token_type, token_value) tuples.
+
+``token_type`` may be either &quot;chars&quot; or &quot;field&quot;.
+
+For &quot;chars&quot; tokens, the value is the literal value.
+
+For &quot;field&quot; tokens, the value is a tuple of (field character, repetition count).
+
+:param pattern: Pattern string
+:type pattern: str
+:rtype: list[tuple]
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="1792" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="1792" bodyend="1860"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1a15465772a406023a340b7bdc9b964543" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.dates.untokenize_pattern</definition>
+        <argsstring>(Iterable[tuple[str, str|tuple[str, int]]] tokens)</argsstring>
+        <name>untokenize_pattern</name>
+        <qualifiedname>babel.dates.untokenize_pattern</qualifiedname>
+        <param>
+          <type>Iterable]]</type>
+          <declname>tokens</declname>
+          <array>[tuple[str, str|tuple[str, int]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Turn a date format pattern token stream back into a string.
+
+This is the reverse operation of ``tokenize_pattern``.
+
+:type tokens: Iterable[tuple]
+:rtype: str
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="1861" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="1861" bodyend="1881"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1a19d0696813a7755fdb15a3aa09f89623" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[str]</type>
+        <definition> list[str] babel.dates.split_interval_pattern</definition>
+        <argsstring>(str pattern)</argsstring>
+        <name>split_interval_pattern</name>
+        <qualifiedname>babel.dates.split_interval_pattern</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Split an interval-describing datetime pattern into multiple pieces.
+
+&gt; The pattern is then designed to be broken up into two pieces by determining the first repeating field.
+- https://www.unicode.org/reports/tr35/tr35-dates.html#intervalFormats
+
+&gt;&gt;&gt; split_interval_pattern(u&apos;E d.M. \u2013 E d.M.&apos;)
+[u&apos;E d.M. \u2013 &apos;, &apos;E d.M.&apos;]
+&gt;&gt;&gt; split_interval_pattern(&quot;Y &apos;text&apos; Y &apos;more text&apos;&quot;)
+[&quot;Y &apos;text &apos;&quot;, &quot;Y &apos;more text&apos;&quot;]
+&gt;&gt;&gt; split_interval_pattern(u&quot;E, MMM d \u2013 E&quot;)
+[u&apos;E, MMM d \u2013 &apos;, u&apos;E&apos;]
+&gt;&gt;&gt; split_interval_pattern(&quot;MMM d&quot;)
+[&apos;MMM d&apos;]
+&gt;&gt;&gt; split_interval_pattern(&quot;y G&quot;)
+[&apos;y G&apos;]
+&gt;&gt;&gt; split_interval_pattern(u&quot;MMM d \u2013 d&quot;)
+[u&apos;MMM d \u2013 &apos;, u&apos;d&apos;]
+
+:param pattern: Interval pattern string
+:return: list of &quot;subpatterns&quot;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="1882" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="1882" bodyend="1919"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1dates_1af84adbc0ef56c4d54ce66146e867f965" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None babel.dates.match_skeleton</definition>
+        <argsstring>(str skeleton, Iterable[str] options, bool allow_different_fields=False)</argsstring>
+        <name>match_skeleton</name>
+        <qualifiedname>babel.dates.match_skeleton</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>skeleton</declname>
+        </param>
+        <param>
+          <type>Iterable</type>
+          <declname>options</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>allow_different_fields</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Find the closest match for the given datetime skeleton among the options given.
+
+This uses the rules outlined in the TR35 document.
+
+&gt;&gt;&gt; match_skeleton(&apos;yMMd&apos;, (&apos;yMd&apos;, &apos;yMMMd&apos;))
+&apos;yMd&apos;
+
+&gt;&gt;&gt; match_skeleton(&apos;yMMd&apos;, (&apos;jyMMd&apos;,), allow_different_fields=True)
+&apos;jyMMd&apos;
+
+&gt;&gt;&gt; match_skeleton(&apos;yMMd&apos;, (&apos;qyMMd&apos;,), allow_different_fields=False)
+
+&gt;&gt;&gt; match_skeleton(&apos;hmz&apos;, (&apos;hmv&apos;,))
+&apos;hmv&apos;
+
+:param skeleton: The skeleton to match
+:type skeleton: str
+:param options: An iterable of other skeletons to match against
+:type options: Iterable[str]
+:param allow_different_fields: Whether to allow a match that uses different fields
+                               than the skeleton requested.
+:type allow_different_fields: bool
+
+:return: The closest skeleton match, or if no match was found, None.
+:rtype: str|None
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="1920" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/dates.py" bodystart="1920" bodyend="2000"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>    babel.dates
+    ~~~~~~~~~~~
+
+    Locale dependent formatting and parsing of dates and times.
+
+    The default locale for the functions in this module is determined by the
+    following environment variables, in that order:
+
+     * ``LC_TIME``,
+     * ``LC_ALL``, and
+     * ``LANG``
+
+    :copyright: (c) 2013-2025 by the Babel Team.
+    :license: BSD, see LICENSE for more details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/babel/dates.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,411 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1writers_1_1pep__html_1_1Writer" kind="class" language="Python" prot="public">
+    <compoundname>docutils::writers::pep_html::Writer</compoundname>
+    <basecompoundref refid="classdocutils_1_1writers_1_1html4css1_1_1Writer" prot="public" virt="non-virtual">docutils.writers.html4css1.Writer</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a8477ccc4e3003ace1e17fb9a988252e2" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.writers.pep_html.Writer::default_stylesheet</definition>
+        <argsstring></argsstring>
+        <name>default_stylesheet</name>
+        <qualifiedname>docutils.writers.pep_html.Writer.default_stylesheet</qualifiedname>
+        <initializer>=  &apos;pep.css&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" line="21" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a4b068554e6e50609dc19a318d1439c6c" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.writers.pep_html.Writer::default_stylesheet_path</definition>
+        <argsstring></argsstring>
+        <name>default_stylesheet_path</name>
+        <qualifiedname>docutils.writers.pep_html.Writer.default_stylesheet_path</qualifiedname>
+        <initializer>=  <ref refid="namespacedocutils_1_1utils_1a65498eec10c3a8dd12abc6bebd0f2ba0" kindref="member">utils.relative_path</ref>(
+        os.path.join(os.getcwd(), &apos;dummy&apos;),
+        os.path.join(os.path.dirname(__file__), <ref refid="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a8477ccc4e3003ace1e17fb9a988252e2" kindref="member">default_stylesheet</ref>))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" line="23" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a4dfcb4c2ed9abe21af98f66d312d1114" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.writers.pep_html.Writer::default_template</definition>
+        <argsstring></argsstring>
+        <name>default_template</name>
+        <qualifiedname>docutils.writers.pep_html.Writer.default_template</qualifiedname>
+        <initializer>=  &apos;template.txt&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" line="27" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a929a998b00978e6c218f29378d794610" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.writers.pep_html.Writer::default_template_path</definition>
+        <argsstring></argsstring>
+        <name>default_template_path</name>
+        <qualifiedname>docutils.writers.pep_html.Writer.default_template_path</qualifiedname>
+        <initializer>=  <ref refid="namespacedocutils_1_1utils_1a65498eec10c3a8dd12abc6bebd0f2ba0" kindref="member">utils.relative_path</ref>(
+        os.path.join(os.getcwd(), &apos;dummy&apos;),
+        os.path.join(os.path.dirname(__file__), <ref refid="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a4dfcb4c2ed9abe21af98f66d312d1114" kindref="member">default_template</ref>))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" line="29" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a93e58a8b732e61f8315851b25b11480e" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.writers.pep_html.Writer::settings_spec</definition>
+        <argsstring></argsstring>
+        <name>settings_spec</name>
+        <qualifiedname>docutils.writers.pep_html.Writer.settings_spec</qualifiedname>
+        <initializer>=  html4css1.Writer.settings_spec + (
+        &apos;PEP/HTML <ref refid="classdocutils_1_1writers_1_1pep__html_1_1Writer" kindref="compound">Writer</ref> Options&apos;,
+        &apos;For the PEP/HTML writer, the default value for the --stylesheet-path &apos;
+        &apos;option is &quot;%s&quot;, and the default value for --template is &quot;%s&quot;. &apos;
+        &apos;See HTML <ref refid="classdocutils_1_1writers_1_1pep__html_1_1Writer" kindref="compound">Writer</ref> Options above.&apos;
+        % (<ref refid="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a4b068554e6e50609dc19a318d1439c6c" kindref="member">default_stylesheet_path</ref>, <ref refid="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a929a998b00978e6c218f29378d794610" kindref="member">default_template_path</ref>),
+        ((&apos;Python\&apos;s home URL.  Default is &quot;https://www.python.org&quot;.&apos;,
+          [&apos;--python-home&apos;],
+          {&apos;default&apos;: &apos;https://www.python.org&apos;, &apos;metavar&apos;: &apos;&lt;URL&gt;&apos;}),
+         (&apos;Home URL prefix for PEPs.  Default is &quot;.&quot; (current directory).&apos;,
+          [&apos;--pep-home&apos;],
+          {&apos;default&apos;: &apos;.&apos;, &apos;metavar&apos;: &apos;&lt;URL&gt;&apos;}),
+         # For testing.
+         (frontend.SUPPRESS_HELP,
+          [&apos;--no-random&apos;],
+          {&apos;action&apos;: &apos;store_true&apos;, &apos;validator&apos;: <ref refid="namespacedocutils_1_1frontend_1ae5594316055412787dd4264f1acb26dd" kindref="member">frontend.validate_boolean</ref>}),))</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" line="33" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a3fa205cd5cb229d8f2537d4f25d1b693" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict docutils.writers.pep_html.Writer::settings_default_overrides</definition>
+        <argsstring></argsstring>
+        <name>settings_default_overrides</name>
+        <qualifiedname>docutils.writers.pep_html.Writer.settings_default_overrides</qualifiedname>
+        <initializer>=  {&apos;stylesheet_path&apos;: <ref refid="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a4b068554e6e50609dc19a318d1439c6c" kindref="member">default_stylesheet_path</ref>,
+                                  &apos;template&apos;: <ref refid="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a929a998b00978e6c218f29378d794610" kindref="member">default_template_path</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" line="50" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a9aefdd7972423d5e45a1886b3d874392" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.writers.pep_html.Writer::relative_path_settings</definition>
+        <argsstring></argsstring>
+        <name>relative_path_settings</name>
+        <qualifiedname>docutils.writers.pep_html.Writer.relative_path_settings</qualifiedname>
+        <initializer>=  (&apos;template&apos;,)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" line="52" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1pep__html_1_1Writer_1ab12694ae8aa273d0bfd394123f444698" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str docutils.writers.pep_html.Writer::config_section</definition>
+        <argsstring></argsstring>
+        <name>config_section</name>
+        <qualifiedname>docutils.writers.pep_html.Writer.config_section</qualifiedname>
+        <initializer>=  &apos;pep_html writer&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" line="53" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a581ec058dcaf0746c54b95ffc00df6a8" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.writers.pep_html.Writer::config_section_dependencies</definition>
+        <argsstring></argsstring>
+        <name>config_section_dependencies</name>
+        <qualifiedname>docutils.writers.pep_html.Writer.config_section_dependencies</qualifiedname>
+        <initializer>=  (&apos;writers&apos;, &apos;html writers&apos;,
+                                   &apos;html4css1 writer&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" line="54" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a1d682bd3d9f2548de02249abdfb4de59" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.pep_html.Writer::translator_class</definition>
+        <argsstring></argsstring>
+        <name>translator_class</name>
+        <qualifiedname>docutils.writers.pep_html.Writer.translator_class</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" line="59" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1pep__html_1_1Writer_1ad7784c494f35ef2dd3651b69496bc30c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.pep_html.Writer::pepnum</definition>
+        <argsstring></argsstring>
+        <name>pepnum</name>
+        <qualifiedname>docutils.writers.pep_html.Writer.pepnum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" line="73" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1pep__html_1_1Writer_1ab50fcaf7e638b99edde92960477c9681" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.pep_html.Writer::title</definition>
+        <argsstring></argsstring>
+        <name>title</name>
+        <qualifiedname>docutils.writers.pep_html.Writer.title</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" line="84" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a3b827fa5f87fe1a0d22d201105da8af3" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.writers.pep_html.Writer::body</definition>
+        <argsstring></argsstring>
+        <name>body</name>
+        <qualifiedname>docutils.writers.pep_html.Writer.body</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" line="87" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1pep__html_1_1Writer_1abf3c317619ca6c416785f3533c38eb00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.pep_html.Writer.__init__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>docutils.writers.pep_html.Writer.__init__</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1html4css1_1_1Writer_1a6bb7780bfec0fa6ee3cf8f6661924ab2">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" line="57" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" bodystart="57" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a696f81073649850b5643b70a8b1f02ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.pep_html.Writer.interpolation_dict</definition>
+        <argsstring>(self)</argsstring>
+        <name>interpolation_dict</name>
+        <qualifiedname>docutils.writers.pep_html.Writer.interpolation_dict</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1Writer_1ae8856d7adc7db4d80fc6ca812e218832">interpolation_dict</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" line="61" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" bodystart="61" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1writers_1_1pep__html_1_1Writer_1afb40fb57de2a9d2e8c2b8af0cc5467f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.writers.pep_html.Writer.assemble_parts</definition>
+        <argsstring>(self)</argsstring>
+        <name>assemble_parts</name>
+        <qualifiedname>docutils.writers.pep_html.Writer.assemble_parts</qualifiedname>
+        <reimplements refid="classdocutils_1_1writers_1_1__html__base_1_1Writer_1a81ede528f4bd6b38a64c538d334ea4fe">assemble_parts</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Assemble the `self.parts` dictionary.  Extend in subclasses.
+
+See &lt;https://docutils.sourceforge.io/docs/api/publisher.html&gt;.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" line="90" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" bodystart="90" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.writers.pep_html.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1pep__html_1_1Writer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>docutils.Component</label>
+        <link refid="classdocutils_1_1Component"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+      </node>
+      <node id="7">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+      </node>
+      <node id="4">
+        <label>docutils.writers.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1Writer"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.writers._html_base.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1__html__base_1_1Writer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.writers.html4css1.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1html4css1_1_1Writer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="8">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>docutils.writers.pep_html.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1pep__html_1_1Writer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>config_section</edgelabel>
+          <edgelabel>default_stylesheet</edgelabel>
+          <edgelabel>default_template</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>docutils.Component</label>
+        <link refid="classdocutils_1_1Component"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+      </node>
+      <node id="7">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+      </node>
+      <node id="4">
+        <label>docutils.writers.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1Writer"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>component_type</edgelabel>
+          <edgelabel>config_section</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.writers._html_base.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1__html__base_1_1Writer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>config_section</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.writers.html4css1.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1html4css1_1_1Writer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>config_section</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" line="19" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/writers/pep_html/__init__.py" bodystart="19" bodyend="95"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1writers_1_1pep__html_1_1Writer_1abf3c317619ca6c416785f3533c38eb00" prot="public" virt="non-virtual"><scope>docutils::writers::pep_html::Writer</scope><name>__init__</name></member>
+      <member refid="classdocutils_1_1writers_1_1pep__html_1_1Writer_1afb40fb57de2a9d2e8c2b8af0cc5467f2" prot="public" virt="non-virtual"><scope>docutils::writers::pep_html::Writer</scope><name>assemble_parts</name></member>
+      <member refid="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a3b827fa5f87fe1a0d22d201105da8af3" prot="public" virt="non-virtual"><scope>docutils::writers::pep_html::Writer</scope><name>body</name></member>
+      <member refid="classdocutils_1_1writers_1_1pep__html_1_1Writer_1ab12694ae8aa273d0bfd394123f444698" prot="public" virt="non-virtual"><scope>docutils::writers::pep_html::Writer</scope><name>config_section</name></member>
+      <member refid="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a581ec058dcaf0746c54b95ffc00df6a8" prot="public" virt="non-virtual"><scope>docutils::writers::pep_html::Writer</scope><name>config_section_dependencies</name></member>
+      <member refid="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a8477ccc4e3003ace1e17fb9a988252e2" prot="public" virt="non-virtual"><scope>docutils::writers::pep_html::Writer</scope><name>default_stylesheet</name></member>
+      <member refid="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a4b068554e6e50609dc19a318d1439c6c" prot="public" virt="non-virtual"><scope>docutils::writers::pep_html::Writer</scope><name>default_stylesheet_path</name></member>
+      <member refid="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a4dfcb4c2ed9abe21af98f66d312d1114" prot="public" virt="non-virtual"><scope>docutils::writers::pep_html::Writer</scope><name>default_template</name></member>
+      <member refid="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a929a998b00978e6c218f29378d794610" prot="public" virt="non-virtual"><scope>docutils::writers::pep_html::Writer</scope><name>default_template_path</name></member>
+      <member refid="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a696f81073649850b5643b70a8b1f02ab" prot="public" virt="non-virtual"><scope>docutils::writers::pep_html::Writer</scope><name>interpolation_dict</name></member>
+      <member refid="classdocutils_1_1writers_1_1pep__html_1_1Writer_1ad7784c494f35ef2dd3651b69496bc30c" prot="public" virt="non-virtual"><scope>docutils::writers::pep_html::Writer</scope><name>pepnum</name></member>
+      <member refid="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a9aefdd7972423d5e45a1886b3d874392" prot="public" virt="non-virtual"><scope>docutils::writers::pep_html::Writer</scope><name>relative_path_settings</name></member>
+      <member refid="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a3fa205cd5cb229d8f2537d4f25d1b693" prot="public" virt="non-virtual"><scope>docutils::writers::pep_html::Writer</scope><name>settings_default_overrides</name></member>
+      <member refid="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a93e58a8b732e61f8315851b25b11480e" prot="public" virt="non-virtual"><scope>docutils::writers::pep_html::Writer</scope><name>settings_spec</name></member>
+      <member refid="classdocutils_1_1writers_1_1pep__html_1_1Writer_1ab50fcaf7e638b99edde92960477c9681" prot="public" virt="non-virtual"><scope>docutils::writers::pep_html::Writer</scope><name>title</name></member>
+      <member refid="classdocutils_1_1writers_1_1pep__html_1_1Writer_1a1d682bd3d9f2548de02249abdfb4de59" prot="public" virt="non-virtual"><scope>docutils::writers::pep_html::Writer</scope><name>translator_class</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

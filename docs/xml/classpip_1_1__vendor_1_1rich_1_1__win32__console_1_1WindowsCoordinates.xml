@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1rich_1_1__win32__console_1_1WindowsCoordinates" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::rich::_win32_console::WindowsCoordinates</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">NamedTuple</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1rich_1_1__win32__console_1_1WindowsCoordinates_1a623bcd3a6a0d833707ae1e613fcbb2b3" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int pip._vendor.rich._win32_console.WindowsCoordinates::row</definition>
+        <argsstring></argsstring>
+        <name>row</name>
+        <qualifiedname>pip._vendor.rich._win32_console.WindowsCoordinates.row</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/_win32_console.py" line="39" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/_win32_console.py" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1rich_1_1__win32__console_1_1WindowsCoordinates_1a54e3827f1024525b21f26099ef5a93dc" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int pip._vendor.rich._win32_console.WindowsCoordinates::col</definition>
+        <argsstring></argsstring>
+        <name>col</name>
+        <qualifiedname>pip._vendor.rich._win32_console.WindowsCoordinates.col</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/_win32_console.py" line="40" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/_win32_console.py" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1rich_1_1__win32__console_1_1WindowsCoordinates_1a46289cdf53f594cfa1490e3d276e1793" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacepip_1_1__vendor_1_1rich_1_1__win32__console_1a32500a23878978ce57604683b0b61227" kindref="member">COORD</ref></type>
+        <definition> COORD pip._vendor.rich._win32_console.WindowsCoordinates.from_param</definition>
+        <argsstring>(cls, &quot;WindowsCoordinates&quot; value)</argsstring>
+        <name>from_param</name>
+        <qualifiedname>pip._vendor.rich._win32_console.WindowsCoordinates.from_param</qualifiedname>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <param>
+          <type>&quot;WindowsCoordinates&quot;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Converts a WindowsCoordinates into a wintypes _COORD structure.
+This classmethod is internally called by ctypes to perform the conversion.
+
+Args:
+    value (WindowsCoordinates): The input coordinates to convert.
+
+Returns:
+    wintypes._COORD: The converted coordinates struct.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/_win32_console.py" line="43" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/_win32_console.py" bodystart="43" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Coordinates in the Windows Console API are (y, x), not (x, y).
+This class is intended to prevent that confusion.
+Rows and columns are indexed from 0.
+This class can be used in place of wintypes._COORD in arguments and argtypes.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._vendor.rich._win32_console.WindowsCoordinates</label>
+        <link refid="classpip_1_1__vendor_1_1rich_1_1__win32__console_1_1WindowsCoordinates"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>NamedTuple</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>pip._vendor.rich._win32_console.WindowsCoordinates</label>
+        <link refid="classpip_1_1__vendor_1_1rich_1_1__win32__console_1_1WindowsCoordinates"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>NamedTuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/_win32_console.py" line="32" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/_win32_console.py" bodystart="32" bodyend="55"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1rich_1_1__win32__console_1_1WindowsCoordinates_1a54e3827f1024525b21f26099ef5a93dc" prot="public" virt="non-virtual"><scope>pip::_vendor::rich::_win32_console::WindowsCoordinates</scope><name>col</name></member>
+      <member refid="classpip_1_1__vendor_1_1rich_1_1__win32__console_1_1WindowsCoordinates_1a46289cdf53f594cfa1490e3d276e1793" prot="public" virt="non-virtual"><scope>pip::_vendor::rich::_win32_console::WindowsCoordinates</scope><name>from_param</name></member>
+      <member refid="classpip_1_1__vendor_1_1rich_1_1__win32__console_1_1WindowsCoordinates_1a623bcd3a6a0d833707ae1e613fcbb2b3" prot="public" virt="non-virtual"><scope>pip::_vendor::rich::_win32_console::WindowsCoordinates</scope><name>row</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

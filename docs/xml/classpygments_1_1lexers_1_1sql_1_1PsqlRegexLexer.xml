@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpygments_1_1lexers_1_1sql_1_1PsqlRegexLexer" kind="class" language="Python" prot="public">
+    <compoundname>pygments::lexers::sql::PsqlRegexLexer</compoundname>
+    <basecompoundref refid="classpygments_1_1lexers_1_1sql_1_1PostgresBase" prot="public" virt="non-virtual">pygments.lexers.sql.PostgresBase</basecompoundref>
+    <basecompoundref refid="classpygments_1_1lexer_1_1RegexLexer" prot="public" virt="non-virtual">pygments.lexer.RegexLexer</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1sql_1_1PsqlRegexLexer_1ac857a04514844321e9f7ed39b57df805" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pygments.lexers.sql.PsqlRegexLexer::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>pygments.lexers.sql.PsqlRegexLexer.name</qualifiedname>
+        <initializer>=  &apos;PostgreSQL console - regexp based lexer&apos;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="255" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1sql_1_1PsqlRegexLexer_1a02698a8ad82f7a7c3c9e523f8abf215e" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list pygments.lexers.sql.PsqlRegexLexer::aliases</definition>
+        <argsstring></argsstring>
+        <name>aliases</name>
+        <qualifiedname>pygments.lexers.sql.PsqlRegexLexer.aliases</qualifiedname>
+        <initializer>=  []</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="256" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1sql_1_1PsqlRegexLexer_1a227838d7a05a2d0179985919c3568c96" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>pygments.lexers.sql.PsqlRegexLexer::flags</definition>
+        <argsstring></argsstring>
+        <name>flags</name>
+        <qualifiedname>pygments.lexers.sql.PsqlRegexLexer.flags</qualifiedname>
+        <initializer>=  re.IGNORECASE</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="258" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpygments_1_1lexers_1_1sql_1_1PsqlRegexLexer_1ad419f3b618a85ede62b688f9636ffb94" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pygments.lexers.sql.PsqlRegexLexer::tokens</definition>
+        <argsstring></argsstring>
+        <name>tokens</name>
+        <qualifiedname>pygments.lexers.sql.PsqlRegexLexer.tokens</qualifiedname>
+        <initializer>=  {name: state[:] for (<ref refid="classpygments_1_1lexers_1_1sql_1_1PsqlRegexLexer_1ac857a04514844321e9f7ed39b57df805" kindref="member">name</ref>, state) in PostgresLexer.tokens.items()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="259" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="259" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Extend the PostgresLexer adding support specific for psql commands.
+
+This is not a complete psql lexer yet as it lacks prompt support
+and output rendering.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="5">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.lexers.sql.PsqlRegexLexer</label>
+        <link refid="classpygments_1_1lexers_1_1sql_1_1PsqlRegexLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pygments.lexer.RegexLexer</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>pygments.lexer.RegexLexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexerMeta"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexers.sql.PostgresBase</label>
+        <link refid="classpygments_1_1lexers_1_1sql_1_1PostgresBase"/>
+      </node>
+      <node id="7">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="9">
+        <label>str</label>
+      </node>
+      <node id="5">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pygments.lexers.sql.PsqlRegexLexer</label>
+        <link refid="classpygments_1_1lexers_1_1sql_1_1PsqlRegexLexer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>name</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pygments.lexer.Lexer</label>
+        <link refid="classpygments_1_1lexer_1_1Lexer"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>pygments.lexer.LexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1LexerMeta"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pygments.lexer.RegexLexer</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexer"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>pygments.lexer.RegexLexerMeta</label>
+        <link refid="classpygments_1_1lexer_1_1RegexLexerMeta"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pygments.lexers.sql.PostgresBase</label>
+        <link refid="classpygments_1_1lexers_1_1sql_1_1PostgresBase"/>
+      </node>
+      <node id="7">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" line="247" column="1" bodyfile="venv/lib/python3.12/site-packages/pygments/lexers/sql.py" bodystart="247" bodyend="273"/>
+    <listofallmembers>
+      <member refid="classpygments_1_1lexers_1_1sql_1_1PsqlRegexLexer_1a02698a8ad82f7a7c3c9e523f8abf215e" prot="public" virt="non-virtual"><scope>pygments::lexers::sql::PsqlRegexLexer</scope><name>aliases</name></member>
+      <member refid="classpygments_1_1lexers_1_1sql_1_1PsqlRegexLexer_1a227838d7a05a2d0179985919c3568c96" prot="public" virt="non-virtual"><scope>pygments::lexers::sql::PsqlRegexLexer</scope><name>flags</name></member>
+      <member refid="classpygments_1_1lexers_1_1sql_1_1PsqlRegexLexer_1ac857a04514844321e9f7ed39b57df805" prot="public" virt="non-virtual"><scope>pygments::lexers::sql::PsqlRegexLexer</scope><name>name</name></member>
+      <member refid="classpygments_1_1lexers_1_1sql_1_1PsqlRegexLexer_1ad419f3b618a85ede62b688f9636ffb94" prot="public" virt="non-virtual"><scope>pygments::lexers::sql::PsqlRegexLexer</scope><name>tokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

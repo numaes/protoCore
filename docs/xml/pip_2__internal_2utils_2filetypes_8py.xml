@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="pip_2__internal_2utils_2filetypes_8py" kind="file" language="Python">
+    <compoundname>filetypes.py</compoundname>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal">pip::_internal</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1utils">pip::_internal::utils</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1utils_1_1filetypes">pip::_internal::utils::filetypes</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__internal_1_1utils_1_1filetypes" refkind="compound"><highlight class="stringliteral">&quot;&quot;&quot;Filetype<sp/>information.</highlight></codeline>
+<codeline lineno="2"><highlight class="stringliteral">&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Tuple</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1utils_1_1misc" kindref="compound">pip._internal.utils.misc</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>splitext</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal">WHEEL_EXTENSION<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;.whl&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal">BZ2_EXTENSIONS:<sp/>Tuple[str,<sp/>...]<sp/>=<sp/>(</highlight><highlight class="stringliteral">&quot;.tar.bz2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;.tbz&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="10"><highlight class="normal">XZ_EXTENSIONS:<sp/>Tuple[str,<sp/>...]<sp/>=<sp/>(</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;.tar.xz&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;.txz&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;.tlz&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;.tar.lz&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;.tar.lzma&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="16"><highlight class="normal">)</highlight></codeline>
+<codeline lineno="17"><highlight class="normal">ZIP_EXTENSIONS:<sp/>Tuple[str,<sp/>...]<sp/>=<sp/>(</highlight><highlight class="stringliteral">&quot;.zip&quot;</highlight><highlight class="normal">,<sp/>WHEEL_EXTENSION)</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">TAR_EXTENSIONS:<sp/>Tuple[str,<sp/>...]<sp/>=<sp/>(</highlight><highlight class="stringliteral">&quot;.tar.gz&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;.tgz&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;.tar&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="19"><highlight class="normal">ARCHIVE_EXTENSIONS<sp/>=<sp/>ZIP_EXTENSIONS<sp/>+<sp/>BZ2_EXTENSIONS<sp/>+<sp/>TAR_EXTENSIONS<sp/>+<sp/>XZ_EXTENSIONS</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal">is_archive_file(name:<sp/>str)<sp/>-&gt;<sp/>bool:</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;&quot;Return<sp/>True<sp/>if<sp/>`name`<sp/>is<sp/>a<sp/>considered<sp/>as<sp/>an<sp/>archive<sp/>file.&quot;&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>ext<sp/>=<sp/>splitext(name)[1].lower()</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>ext<sp/></highlight><highlight class="keywordflow">in</highlight><highlight class="normal"><sp/>ARCHIVE_EXTENSIONS:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">True</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">False</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/utils/filetypes.py"/>
+  </compounddef>
+</doxygen>

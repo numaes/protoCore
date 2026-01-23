@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacedocutils_1_1utils_1_1math" kind="namespace" language="Python">
+    <compoundname>docutils::utils::math</compoundname>
+    <innerclass refid="classdocutils_1_1utils_1_1math_1_1MathError" prot="public">docutils::utils::math::MathError</innerclass>
+    <innernamespace refid="namespacedocutils_1_1utils_1_1math_1_1latex2mathml">docutils::utils::math::latex2mathml</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1utils_1_1math_1_1math2html">docutils::utils::math::math2html</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1utils_1_1math_1_1mathalphabet2unichar">docutils::utils::math::mathalphabet2unichar</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1utils_1_1math_1_1mathml__elements">docutils::utils::math::mathml_elements</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1utils_1_1math_1_1tex2mathml__extern">docutils::utils::math::tex2mathml_extern</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1utils_1_1math_1_1tex2unichar">docutils::utils::math::tex2unichar</innernamespace>
+    <innernamespace refid="namespacedocutils_1_1utils_1_1math_1_1unichar2tex">docutils::utils::math::unichar2tex</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1math_1a2cf4e821df0b73c63bb076cfe5c16c95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.toplevel_code</definition>
+        <argsstring>(code)</argsstring>
+        <name>toplevel_code</name>
+        <qualifiedname>docutils.utils.math.toplevel_code</qualifiedname>
+        <param>
+          <type>code</type>
+          <defname>code</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return string (LaTeX math) `code` with environments stripped out.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/__init__.py" line="41" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/__init__.py" bodystart="41" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1math_1a59cd9a6f99b643547743f225518b7baf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.pick_math_environment</definition>
+        <argsstring>(code, numbered=False)</argsstring>
+        <name>pick_math_environment</name>
+        <qualifiedname>docutils.utils.math.pick_math_environment</qualifiedname>
+        <param>
+          <type>code</type>
+          <defname>code</defname>
+        </param>
+        <param>
+          <type>numbered</type>
+          <defname>numbered</defname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the right math environment to display `code`.
+
+The test simply looks for line-breaks (``\\``) outside environments.
+Multi-line formulae are set with ``align``, one-liners with
+``equation``.
+
+If `numbered` evaluates to ``False``, the &quot;starred&quot; versions are used
+to suppress numbering.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/__init__.py" line="48" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/__init__.py" bodystart="48" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacedocutils_1_1utils_1_1math_1a76cc758b6d01043095cd16d1b9d7be77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.wrap_math_code</definition>
+        <argsstring>(code, as_block)</argsstring>
+        <name>wrap_math_code</name>
+        <qualifiedname>docutils.utils.math.wrap_math_code</qualifiedname>
+        <param>
+          <type>code</type>
+          <defname>code</defname>
+        </param>
+        <param>
+          <type>as_block</type>
+          <defname>as_block</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/__init__.py" line="67" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/__init__.py" bodystart="67" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>This is the Docutils (Python Documentation Utilities) &quot;math&quot; sub-package.
+
+It contains various modules for conversion between different math formats
+(LaTeX, MathML, HTML).
+
+:math2html:    LaTeX math -&gt; HTML conversion from eLyXer
+:latex2mathml: LaTeX math -&gt; presentational MathML
+:unichar2tex:  Unicode character to LaTeX math translation table
+:tex2unichar:  LaTeX math to Unicode character translation dictionaries
+:mathalphabet2unichar:  LaTeX math alphabets to Unicode character translation
+:tex2mathml_extern: Wrapper for 3rd party TeX -&gt; MathML converters
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/docutils/utils/math/__init__.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

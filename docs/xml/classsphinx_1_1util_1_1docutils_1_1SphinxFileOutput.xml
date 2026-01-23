@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1util_1_1docutils_1_1SphinxFileOutput" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::util::docutils::SphinxFileOutput</compoundname>
+    <basecompoundref refid="classdocutils_1_1io_1_1FileOutput" prot="public" virt="non-virtual">docutils.io.FileOutput</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1util_1_1docutils_1_1SphinxFileOutput_1a2f2f304bc815c322b2f287bb332f0d18" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.util.docutils.SphinxFileOutput::overwrite_if_changed</definition>
+        <argsstring></argsstring>
+        <name>overwrite_if_changed</name>
+        <qualifiedname>sphinx.util.docutils.SphinxFileOutput.overwrite_if_changed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="435" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="435" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsphinx_1_1util_1_1docutils_1_1SphinxFileOutput_1a01afaf92d808904899058764897304d0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.util.docutils.SphinxFileOutput::destination_path</definition>
+        <argsstring></argsstring>
+        <name>destination_path</name>
+        <qualifiedname>sphinx.util.docutils.SphinxFileOutput.destination_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="445" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="445" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1util_1_1docutils_1_1SphinxFileOutput_1a2250c9cfc8ab93d2cec02633395e2fd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.util.docutils.SphinxFileOutput.__init__</definition>
+        <argsstring>(self, **Any kwargs)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>sphinx.util.docutils.SphinxFileOutput.__init__</qualifiedname>
+        <reimplements refid="classdocutils_1_1io_1_1FileOutput_1ad94db73d94fd02aacb2f1aa05b1e1426">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>**Any</type>
+          <defname>destination</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>:Parameters:
+    - `destination`: either a file-like object (which is written
+      directly) or `None` (which implies `sys.stdout` if no
+      `destination_path` given).
+    - `destination_path`: a path to a file, which is opened and then
+      written.
+    - `encoding`: the text encoding of the output file.
+    - `error_handler`: the encoding error handler to use.
+    - `autoclose`: close automatically after write (except when
+      `sys.stdout` or `sys.stderr` is the destination).
+    - `handle_io_errors`: ignored, deprecated, will be removed.
+    - `mode`: how the file is to be opened (see standard function
+      `open`). The default is &apos;w&apos;, providing universal newline
+      support for text files.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="434" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="434" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classsphinx_1_1util_1_1docutils_1_1SphinxFileOutput_1aaa8fdf80a98987fcc1d5f6c8ebaf056f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str sphinx.util.docutils.SphinxFileOutput.write</definition>
+        <argsstring>(self, str data)</argsstring>
+        <name>write</name>
+        <qualifiedname>sphinx.util.docutils.SphinxFileOutput.write</qualifiedname>
+        <reimplements refid="classdocutils_1_1io_1_1FileOutput_1a6f5f11cce5af15b7c1d017c0bf131d3d">write</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <defname>data</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Write `data` to a single file, also return it.
+
+`data` can be a `str` or `bytes` instance.
+If writing `bytes` fails, an attempt is made to write to
+the low-level interface ``self.destination.buffer``.
+
+If `data` is a `str` instance and `self.encoding` and
+`self.destination.encoding` are  set to different values, `data`
+is encoded to a `bytes` instance using `self.encoding`.
+
+Provisional: future versions may raise an error if `self.encoding`
+and `self.destination.encoding` are set to different values.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="439" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="439" bodyend="455"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Better FileOutput class for Sphinx.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+      </node>
+      <node id="2">
+        <label>docutils.io.FileOutput</label>
+        <link refid="classdocutils_1_1io_1_1FileOutput"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.io.Output</label>
+        <link refid="classdocutils_1_1io_1_1Output"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>sphinx.util.docutils.SphinxFileOutput</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxFileOutput"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>str</label>
+      </node>
+      <node id="4">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+      </node>
+      <node id="2">
+        <label>docutils.io.FileOutput</label>
+        <link refid="classdocutils_1_1io_1_1FileOutput"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>default_destination_path</edgelabel>
+          <edgelabel>mode</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.io.Output</label>
+        <link refid="classdocutils_1_1io_1_1Output"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>component_type</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>sphinx.util.docutils.SphinxFileOutput</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxFileOutput"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" line="431" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/util/docutils.py" bodystart="431" bodyend="455"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1util_1_1docutils_1_1SphinxFileOutput_1a2250c9cfc8ab93d2cec02633395e2fd1" prot="public" virt="non-virtual"><scope>sphinx::util::docutils::SphinxFileOutput</scope><name>__init__</name></member>
+      <member refid="classsphinx_1_1util_1_1docutils_1_1SphinxFileOutput_1a01afaf92d808904899058764897304d0" prot="public" virt="non-virtual"><scope>sphinx::util::docutils::SphinxFileOutput</scope><name>destination_path</name></member>
+      <member refid="classsphinx_1_1util_1_1docutils_1_1SphinxFileOutput_1a2f2f304bc815c322b2f287bb332f0d18" prot="public" virt="non-virtual"><scope>sphinx::util::docutils::SphinxFileOutput</scope><name>overwrite_if_changed</name></member>
+      <member refid="classsphinx_1_1util_1_1docutils_1_1SphinxFileOutput_1aaa8fdf80a98987fcc1d5f6c8ebaf056f" prot="public" virt="non-virtual"><scope>sphinx::util::docutils::SphinxFileOutput</scope><name>write</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

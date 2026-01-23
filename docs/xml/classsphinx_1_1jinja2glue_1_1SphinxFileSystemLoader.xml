@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1jinja2glue_1_1SphinxFileSystemLoader" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::jinja2glue::SphinxFileSystemLoader</compoundname>
+    <basecompoundref refid="classjinja2_1_1loaders_1_1FileSystemLoader" prot="public" virt="non-virtual">jinja2.loaders.FileSystemLoader</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsphinx_1_1jinja2glue_1_1SphinxFileSystemLoader_1a92047e0cfb4a87a238b5675b2f856704" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx.jinja2glue.SphinxFileSystemLoader::searchpath</definition>
+        <argsstring></argsstring>
+        <name>searchpath</name>
+        <qualifiedname>sphinx.jinja2glue.SphinxFileSystemLoader.searchpath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/jinja2glue.py" line="135" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/jinja2glue.py" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1jinja2glue_1_1SphinxFileSystemLoader_1a8d07dc2d85afb45aacdf28508050ce64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str, str, Callable[[], bool]]</type>
+        <definition> tuple[str, str, Callable[[], bool]] sphinx.jinja2glue.SphinxFileSystemLoader.get_source</definition>
+        <argsstring>(self, Environment environment, str template)</argsstring>
+        <name>get_source</name>
+        <qualifiedname>sphinx.jinja2glue.SphinxFileSystemLoader.get_source</qualifiedname>
+        <reimplements refid="classjinja2_1_1loaders_1_1FileSystemLoader_1aba31fbe6c9dc2c2e2bf8ad3337cd6588">get_source</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classjinja2_1_1environment_1_1Environment" kindref="compound">Environment</ref></type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>template</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the template source, filename and reload helper for a template.
+It&apos;s passed the environment and template name and has to return a
+tuple in the form ``(source, filename, uptodate)`` or raise a
+`TemplateNotFound` error if it can&apos;t locate the template.
+
+The source part of the returned tuple must be the source of the
+template as a string. The filename should be the name of the
+file on the filesystem if it was loaded from there, otherwise
+``None``. The filename is used by Python for the tracebacks
+if no loader extension is used.
+
+The last item in the tuple is the `uptodate` function.  If auto
+reloading is enabled it&apos;s always called to check if the template
+changed.  No arguments are passed so the function must store the
+old state somewhere (for example in a closure).  If it returns `False`
+the template will be reloaded.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/jinja2glue.py" line="126" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/jinja2glue.py" bodystart="128" bodyend="161"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>FileSystemLoader subclass that is not so strict about &apos;..&apos;  entries in
+template names.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>jinja2.loaders.BaseLoader</label>
+        <link refid="classjinja2_1_1loaders_1_1BaseLoader"/>
+      </node>
+      <node id="2">
+        <label>jinja2.loaders.FileSystemLoader</label>
+        <link refid="classjinja2_1_1loaders_1_1FileSystemLoader"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>sphinx.jinja2glue.SphinxFileSystemLoader</label>
+        <link refid="classsphinx_1_1jinja2glue_1_1SphinxFileSystemLoader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>jinja2.loaders.BaseLoader</label>
+        <link refid="classjinja2_1_1loaders_1_1BaseLoader"/>
+      </node>
+      <node id="2">
+        <label>jinja2.loaders.FileSystemLoader</label>
+        <link refid="classjinja2_1_1loaders_1_1FileSystemLoader"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>sphinx.jinja2glue.SphinxFileSystemLoader</label>
+        <link refid="classsphinx_1_1jinja2glue_1_1SphinxFileSystemLoader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/jinja2glue.py" line="121" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/jinja2glue.py" bodystart="121" bodyend="161"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1jinja2glue_1_1SphinxFileSystemLoader_1a8d07dc2d85afb45aacdf28508050ce64" prot="public" virt="non-virtual"><scope>sphinx::jinja2glue::SphinxFileSystemLoader</scope><name>get_source</name></member>
+      <member refid="classsphinx_1_1jinja2glue_1_1SphinxFileSystemLoader_1a92047e0cfb4a87a238b5675b2f856704" prot="public" virt="non-virtual"><scope>sphinx::jinja2glue::SphinxFileSystemLoader</scope><name>searchpath</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

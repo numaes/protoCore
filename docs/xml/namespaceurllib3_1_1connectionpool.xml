@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceurllib3_1_1connectionpool" kind="namespace" language="Python">
+    <compoundname>urllib3::connectionpool</compoundname>
+    <innerclass refid="classurllib3_1_1connectionpool_1_1ConnectionPool" prot="public">urllib3::connectionpool::ConnectionPool</innerclass>
+    <innerclass refid="classurllib3_1_1connectionpool_1_1HTTPConnectionPool" prot="public">urllib3::connectionpool::HTTPConnectionPool</innerclass>
+    <innerclass refid="classurllib3_1_1connectionpool_1_1HTTPSConnectionPool" prot="public">urllib3::connectionpool::HTTPSConnectionPool</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceurllib3_1_1connectionpool_1a30f26933e6aa30c9b96f6c5b0687ef12" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::connectionpool.log</definition>
+        <argsstring></argsstring>
+        <name>log</name>
+        <qualifiedname>urllib3.connectionpool.log</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connectionpool.py" line="61" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connectionpool.py" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1connectionpool_1a8159338578aaf6402de8ed2733661236" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::connectionpool._TYPE_TIMEOUT</definition>
+        <argsstring></argsstring>
+        <name>_TYPE_TIMEOUT</name>
+        <qualifiedname>urllib3.connectionpool._TYPE_TIMEOUT</qualifiedname>
+        <initializer>=  typing.Union[<ref refid="classurllib3_1_1util_1_1timeout_1_1Timeout" kindref="compound">Timeout</ref>, float, <ref refid="classurllib3_1_1util_1_1timeout_1_1__TYPE__DEFAULT" kindref="compound">_TYPE_DEFAULT</ref>, None]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connectionpool.py" line="63" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connectionpool.py" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1connectionpool_1aee912cc1dc91f3a328338b28de789106" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict urllib3::connectionpool._blocking_errnos</definition>
+        <argsstring></argsstring>
+        <name>_blocking_errnos</name>
+        <qualifiedname>urllib3.connectionpool._blocking_errnos</qualifiedname>
+        <initializer>=  {errno.EAGAIN, errno.EWOULDBLOCK}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connectionpool.py" line="117" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connectionpool.py" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceurllib3_1_1connectionpool_1a2f0ec6be0965e863546f3fc45d5cd817" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1connectionpool_1_1HTTPConnectionPool" kindref="compound">HTTPConnectionPool</ref></type>
+        <definition> HTTPConnectionPool urllib3.connectionpool.connection_from_url</definition>
+        <argsstring>(str url, **typing.Any kw)</argsstring>
+        <name>connection_from_url</name>
+        <qualifiedname>urllib3.connectionpool.connection_from_url</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>**typing.Any</type>
+          <declname>kw</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Given a url, return an :class:`.ConnectionPool` instance of its host.
+
+This is a shortcut for not having to parse out the scheme, host, and port
+of the url before creating an :class:`.ConnectionPool` instance.
+
+:param url:
+    Absolute URL string that must include the scheme. Port is optional.
+
+:param \\**kw:
+    Passes additional parameters to the constructor of the appropriate
+    :class:`.ConnectionPool`. Useful for specifying things like
+    timeout, maxsize, headers, etc.
+
+Example::
+
+    &gt;&gt;&gt; conn = connection_from_url(&apos;http://google.com/&apos;)
+    &gt;&gt;&gt; r = conn.request(&apos;GET&apos;, &apos;/&apos;)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connectionpool.py" line="1108" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connectionpool.py" bodystart="1108" bodyend="1137"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1connectionpool_1a8bf9859c52693ba77d827528534080df" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.connectionpool._normalize_host</definition>
+        <argsstring>(None host, str|None scheme)</argsstring>
+        <name>_normalize_host</name>
+        <qualifiedname>urllib3.connectionpool._normalize_host</qualifiedname>
+        <param>
+          <type>None</type>
+          <declname>host</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>scheme</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connectionpool.py" line="1138" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connectionpool.py" bodystart="1138" bodyend="1141"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1connectionpool_1a9ea9ad7be429ed4c846104dbb3c65bef" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str urllib3.connectionpool._normalize_host</definition>
+        <argsstring>(str host, str|None scheme)</argsstring>
+        <name>_normalize_host</name>
+        <qualifiedname>urllib3.connectionpool._normalize_host</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>host</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>scheme</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connectionpool.py" line="1142" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connectionpool.py" bodystart="1142" bodyend="1144"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1connectionpool_1a1a92d428c64f6d4add518d4b273f0f22" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None urllib3.connectionpool._normalize_host</definition>
+        <argsstring>(str|None host, str|None scheme)</argsstring>
+        <name>_normalize_host</name>
+        <qualifiedname>urllib3.connectionpool._normalize_host</qualifiedname>
+        <param>
+          <type>str|None</type>
+          <declname>host</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>scheme</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Normalize hosts for comparisons and use with sockets.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connectionpool.py" line="1145" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connectionpool.py" bodystart="1145" bodyend="1162"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1connectionpool_1a4e406fcdf4f977ba5a24da0e78067675" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str urllib3.connectionpool._url_from_pool</definition>
+        <argsstring>(HTTPConnectionPool|HTTPSConnectionPool pool, str|None path=None)</argsstring>
+        <name>_url_from_pool</name>
+        <qualifiedname>urllib3.connectionpool._url_from_pool</qualifiedname>
+        <param>
+          <type><ref refid="classurllib3_1_1connectionpool_1_1HTTPConnectionPool" kindref="compound">HTTPConnectionPool</ref>|<ref refid="classurllib3_1_1connectionpool_1_1HTTPSConnectionPool" kindref="compound">HTTPSConnectionPool</ref></type>
+          <declname>pool</declname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>path</declname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns the URL from a given connection pool. This is mainly used for testing and logging.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connectionpool.py" line="1163" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connectionpool.py" bodystart="1165" bodyend="1169"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1connectionpool_1a242f24cce6a679dba5482ccb9358e52e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.connectionpool._close_pool_connections</definition>
+        <argsstring>(queue.LifoQueue[typing.Any] pool)</argsstring>
+        <name>_close_pool_connections</name>
+        <qualifiedname>urllib3.connectionpool._close_pool_connections</qualifiedname>
+        <param>
+          <type>queue.LifoQueue</type>
+          <declname>pool</declname>
+          <array>[typing.Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Drains a queue of connections and closes each one.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/connectionpool.py" line="1170" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/connectionpool.py" bodystart="1170" bodyend="1179"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/urllib3/connectionpool.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

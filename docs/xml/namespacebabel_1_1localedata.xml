@@ -1,0 +1,287 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacebabel_1_1localedata" kind="namespace" language="Python">
+    <compoundname>babel::localedata</compoundname>
+    <innerclass refid="classbabel_1_1localedata_1_1Alias" prot="public">babel::localedata::Alias</innerclass>
+    <innerclass refid="classbabel_1_1localedata_1_1LocaleDataDict" prot="public">babel::localedata::LocaleDataDict</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacebabel_1_1localedata_1a5db7ce08e3999812b5ea856f71dfca95" prot="protected" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict babel::localedata._cache</definition>
+        <argsstring></argsstring>
+        <name>_cache</name>
+        <qualifiedname>babel.localedata._cache</qualifiedname>
+        <initializer>=  {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/localedata.py" line="27" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/localedata.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1localedata_1a45515df5c5e09fd130f6a437e5fe66cf" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>babel::localedata._cache_lock</definition>
+        <argsstring></argsstring>
+        <name>_cache_lock</name>
+        <qualifiedname>babel.localedata._cache_lock</qualifiedname>
+        <initializer>=  threading.RLock()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/localedata.py" line="28" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/localedata.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1localedata_1a6e32778838f7af67f465a7464f9b9d1d" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>babel::localedata._dirname</definition>
+        <argsstring></argsstring>
+        <name>_dirname</name>
+        <qualifiedname>babel.localedata._dirname</qualifiedname>
+        <initializer>=  os.path.join(os.path.dirname(__file__), &apos;locale-data&apos;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/localedata.py" line="29" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/localedata.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1localedata_1afe3a7a8f5f91e6b1096ab7b94b3526e3" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>babel::localedata._windows_reserved_name_re</definition>
+        <argsstring></argsstring>
+        <name>_windows_reserved_name_re</name>
+        <qualifiedname>babel.localedata._windows_reserved_name_re</qualifiedname>
+        <initializer>=  re.compile(&quot;^(con|prn|aux|nul|com[0-9]|lpt[0-9])$&quot;, re.I)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/localedata.py" line="30" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/localedata.py" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacebabel_1_1localedata_1adbfda0ac79df17c8bd8a913435b92fa1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str|None</type>
+        <definition> str | None babel.localedata.normalize_locale</definition>
+        <argsstring>(str name)</argsstring>
+        <name>normalize_locale</name>
+        <qualifiedname>babel.localedata.normalize_locale</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Normalize a locale ID by stripping spaces and apply proper casing.
+
+Returns the normalized locale ID string or `None` if the ID is not
+recognized.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/localedata.py" line="33" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/localedata.py" bodystart="33" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1localedata_1ad7adb9f599e015760c1ccbcfa2ee9635" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str babel.localedata.resolve_locale_filename</definition>
+        <argsstring>(os.PathLike[str]|str name)</argsstring>
+        <name>resolve_locale_filename</name>
+        <qualifiedname>babel.localedata.resolve_locale_filename</qualifiedname>
+        <param>
+          <type>os.PathLike|str</type>
+          <declname>name</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Resolve a locale identifier to a `.dat` path on disk.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/localedata.py" line="47" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/localedata.py" bodystart="47" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1localedata_1a0c206b6240b40ed61706e67bea78fdd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool babel.localedata.exists</definition>
+        <argsstring>(str name)</argsstring>
+        <name>exists</name>
+        <qualifiedname>babel.localedata.exists</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check whether locale data is available for the given locale.
+
+Returns `True` if it exists, `False` otherwise.
+
+:param name: the locale identifier string
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/localedata.py" line="63" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/localedata.py" bodystart="63" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1localedata_1ac1646339229ece80ae9c346239708eef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[str]</type>
+        <definition> list[str] babel.localedata.locale_identifiers</definition>
+        <argsstring>()</argsstring>
+        <name>locale_identifiers</name>
+        <qualifiedname>babel.localedata.locale_identifiers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a list of all locale identifiers for which locale data is
+available.
+
+This data is cached after the first invocation.
+You can clear the cache by calling `locale_identifiers.cache_clear()`.
+
+.. versionadded:: 0.8.1
+
+:return: a list of locale identifiers (strings)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/localedata.py" line="79" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/localedata.py" bodystart="79" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1localedata_1af6b48aced1cc9e8e28245691ee2aec9e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool babel.localedata._is_non_likely_script</definition>
+        <argsstring>(str name)</argsstring>
+        <name>_is_non_likely_script</name>
+        <qualifiedname>babel.localedata._is_non_likely_script</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return whether the locale is of the form ``lang_Script``,
+and the script is not the likely script for the language.
+
+This implements the behavior of the ``nonlikelyScript`` value of the
+``localRules`` attribute for parent locales added in CLDR 45.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/localedata.py" line="98" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/localedata.py" bodystart="98" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1localedata_1afb556d8c732e6ebd9de1dd9a1c4ea5ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dict[str, Any]</type>
+        <definition> dict[str, Any] babel.localedata.load</definition>
+        <argsstring>(os.PathLike[str]|str name, bool merge_inherited=True)</argsstring>
+        <name>load</name>
+        <qualifiedname>babel.localedata.load</qualifiedname>
+        <param>
+          <type>os.PathLike|str</type>
+          <declname>name</declname>
+          <array>[str]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>merge_inherited</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Load the locale data for the given locale.
+
+The locale data is a dictionary that contains much of the data defined by
+the Common Locale Data Repository (CLDR). This data is stored as a
+collection of pickle files inside the ``babel`` package.
+
+&gt;&gt;&gt; d = load(&apos;en_US&apos;)
+&gt;&gt;&gt; d[&apos;languages&apos;][&apos;sv&apos;]
+u&apos;Swedish&apos;
+
+Note that the results are cached, and subsequent requests for the same
+locale return the same dictionary:
+
+&gt;&gt;&gt; d1 = load(&apos;en_US&apos;)
+&gt;&gt;&gt; d2 = load(&apos;en_US&apos;)
+&gt;&gt;&gt; d1 is d2
+True
+
+:param name: the locale identifier string (or &quot;root&quot;)
+:param merge_inherited: whether the inherited data should be merged into
+                        the data of the requested locale
+:raise `IOError`: if no locale data file is found for the given locale
+                  identifier, or one of the locales it inherits from
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/localedata.py" line="119" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/localedata.py" bodystart="119" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1localedata_1a1cefd34c4dee4f20144ec23ef46d3bfe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None babel.localedata.merge</definition>
+        <argsstring>(MutableMapping[Any, Any] dict1, Mapping[Any, Any] dict2)</argsstring>
+        <name>merge</name>
+        <qualifiedname>babel.localedata.merge</qualifiedname>
+        <param>
+          <type>MutableMapping</type>
+          <declname>dict1</declname>
+          <array>[Any, Any]</array>
+        </param>
+        <param>
+          <type>Mapping</type>
+          <declname>dict2</declname>
+          <array>[Any, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Merge the data from `dict2` into the `dict1` dictionary, making copies
+of nested dictionaries.
+
+&gt;&gt;&gt; d = {1: &apos;foo&apos;, 3: &apos;baz&apos;}
+&gt;&gt;&gt; merge(d, {1: &apos;Foo&apos;, 2: &apos;Bar&apos;})
+&gt;&gt;&gt; sorted(d.items())
+[(1, &apos;Foo&apos;), (2, &apos;Bar&apos;), (3, &apos;baz&apos;)]
+
+:param dict1: the dictionary to merge into
+:param dict2: the dictionary containing the data that should be merged
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/localedata.py" line="174" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/localedata.py" bodystart="174" bodyend="206"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>    babel.localedata
+    ~~~~~~~~~~~~~~~~
+
+    Low-level locale data access.
+
+    :note: The `Locale` class, which uses this module under the hood, provides a
+           more convenient interface for accessing the locale data.
+
+    :copyright: (c) 2013-2025 by the Babel Team.
+    :license: BSD, see LICENSE for more details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/babel/localedata.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

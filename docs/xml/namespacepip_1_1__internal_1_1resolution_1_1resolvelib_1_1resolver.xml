@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver" kind="namespace" language="Python">
+    <compoundname>pip::_internal::resolution::resolvelib::resolver</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1_1Resolver" prot="public">pip::_internal::resolution::resolvelib::resolver::Resolver</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1a42ac482e763a0a9f8aada5cd449f26fb" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::resolution::resolvelib::resolver.Result</definition>
+        <argsstring></argsstring>
+        <name>Result</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.resolver.Result</qualifiedname>
+        <initializer>=  RLResult[<ref refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Requirement" kindref="compound">Requirement</ref>, <ref refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate" kindref="compound">Candidate</ref>, str]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" line="32" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1a5dcec080265802c61eb4a6e08c345274" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::resolution::resolvelib::resolver.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.resolver.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" line="35" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1a6f976f8bb9a366641d4e51f7e2ad93b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Dict[Optional[str], int]</type>
+        <definition> Dict[Optional[str], int] pip._internal.resolution.resolvelib.resolver.get_topological_weights</definition>
+        <argsstring>(&quot;DirectedGraph[Optional[str]]&quot; graph, Set[str] requirement_keys)</argsstring>
+        <name>get_topological_weights</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.resolver.get_topological_weights</qualifiedname>
+        <param>
+          <type>&quot;DirectedGraph]&quot;</type>
+          <declname>graph</declname>
+          <array>[Optional[str]</array>
+        </param>
+        <param>
+          <type>Set</type>
+          <declname>requirement_keys</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Assign weights to each node based on how &quot;deep&quot; they are.
+
+This implementation may change at any point in the future without prior
+notice.
+
+We first simplify the dependency graph by pruning any leaves and giving them
+the highest weight: a package without any dependencies should be installed
+first. This is done again and again in the same way, giving ever less weight
+to the newly found leaves. The loop stops when no leaves are left: all
+remaining packages have at least one dependency left in the graph.
+
+Then we continue with the remaining graph, by taking the length for the
+longest path to any node from root, ignoring any paths that contain a single
+node twice (i.e. cycles). This is done through a depth-first search through
+the graph, while keeping track of the path to the node.
+
+Cycles in the graph result would result in node being revisited while also
+being on its own path. In this case, take no action. This helps ensure we
+don&apos;t get stuck in a cycle.
+
+When assigning weight, the longer path (i.e. larger length) is preferred.
+
+We are only interested in the weights of packages that are in the
+requirement_keys.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" line="217" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" bodystart="219" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1resolution_1_1resolvelib_1_1resolver_1aaab81704e57784b1cc1df84191e8d71b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Tuple[int, str]</type>
+        <definition> Tuple[int, str] pip._internal.resolution.resolvelib.resolver._req_set_item_sorter</definition>
+        <argsstring>(Tuple[str, InstallRequirement] item, Dict[Optional[str], int] weights)</argsstring>
+        <name>_req_set_item_sorter</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.resolver._req_set_item_sorter</qualifiedname>
+        <param>
+          <type>Tuple</type>
+          <declname>item</declname>
+          <array>[str, InstallRequirement]</array>
+        </param>
+        <param>
+          <type>Dict</type>
+          <defname>weights</defname>
+          <array>[Optional[str]</array>
+        </param>
+        <param>
+          <type>int]</type>
+          <declname>weights</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Key function used to sort install requirements for installation.
+
+Based on the &quot;weight&quot; mapping calculated in ``get_installation_order()``.
+The canonical package name is returned as the second member as a tie-
+breaker to ensure the result is predictable, which is useful in tests.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" line="306" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" bodystart="309" bodyend="318"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/resolver.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

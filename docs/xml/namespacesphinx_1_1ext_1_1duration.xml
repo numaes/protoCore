@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacesphinx_1_1ext_1_1duration" kind="namespace" language="Python">
+    <compoundname>sphinx::ext::duration</compoundname>
+    <innerclass refid="classsphinx_1_1ext_1_1duration_1_1__DurationDomainData" prot="protected">sphinx::ext::duration::_DurationDomainData</innerclass>
+    <innerclass refid="classsphinx_1_1ext_1_1duration_1_1DurationDomain" prot="public">sphinx::ext::duration::DurationDomain</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacesphinx_1_1ext_1_1duration_1a9f34fc904c94a4cac55226fd90f9b74e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>sphinx::ext::duration.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>sphinx.ext.duration.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/duration.py" line="27" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/duration.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1duration_1a5101b74fe877fbd7f94605cdecd989b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.duration.on_builder_inited</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>on_builder_inited</name>
+        <qualifiedname>sphinx.ext.duration.on_builder_inited</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Initialize DurationDomain on bootstrap.
+
+This clears the results of the last build.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/duration.py" line="58" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/duration.py" bodystart="58" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1duration_1a2d3bac7f4054fd46b4162de147e961e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.duration.on_source_read</definition>
+        <argsstring>(Sphinx app, str docname, list[str] content)</argsstring>
+        <name>on_source_read</name>
+        <qualifiedname>sphinx.ext.duration.on_source_read</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>docname</declname>
+        </param>
+        <param>
+          <type>list</type>
+          <declname>content</declname>
+          <array>[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Start to measure reading duration.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/duration.py" line="67" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/duration.py" bodystart="67" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1duration_1a749e75cef8939213ea290e8caf96196a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.duration.on_doctree_read</definition>
+        <argsstring>(Sphinx app, nodes.document doctree)</argsstring>
+        <name>on_doctree_read</name>
+        <qualifiedname>sphinx.ext.duration.on_doctree_read</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type>nodes.document</type>
+          <declname>doctree</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Record a reading duration.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/duration.py" line="72" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/duration.py" bodystart="72" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1duration_1ab941ef247cdc5e8745e9e48450560cd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None sphinx.ext.duration.on_build_finished</definition>
+        <argsstring>(Sphinx app, Exception error)</argsstring>
+        <name>on_build_finished</name>
+        <qualifiedname>sphinx.ext.duration.on_build_finished</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <param>
+          <type>Exception</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Display duration ranking on the current build.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/duration.py" line="79" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/duration.py" bodystart="79" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesphinx_1_1ext_1_1duration_1a89e04f0c572fdabeb170cf858828965e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>dict[str, bool|str]</type>
+        <definition> dict[str, bool | str] sphinx.ext.duration.setup</definition>
+        <argsstring>(Sphinx app)</argsstring>
+        <name>setup</name>
+        <qualifiedname>sphinx.ext.duration.setup</qualifiedname>
+        <param>
+          <type><ref refid="classsphinx_1_1application_1_1Sphinx" kindref="compound">Sphinx</ref></type>
+          <declname>app</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/duration.py" line="96" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/duration.py" bodystart="96" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Measure document reading durations.</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/sphinx/ext/duration.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

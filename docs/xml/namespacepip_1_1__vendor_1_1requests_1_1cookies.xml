@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1requests_1_1cookies" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::requests::cookies</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1requests_1_1cookies_1_1CookieConflictError" prot="public">pip::_vendor::requests::cookies::CookieConflictError</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1requests_1_1cookies_1_1MockRequest" prot="public">pip::_vendor::requests::cookies::MockRequest</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1requests_1_1cookies_1_1MockResponse" prot="public">pip::_vendor::requests::cookies::MockResponse</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1requests_1_1cookies_1_1RequestsCookieJar" prot="public">pip::_vendor::requests::cookies::RequestsCookieJar</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1cookies_1a75a6b9475a7e84a5f6c60e07ed1b5883" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.cookies.extract_cookies_to_jar</definition>
+        <argsstring>(jar, request, response)</argsstring>
+        <name>extract_cookies_to_jar</name>
+        <qualifiedname>pip._vendor.requests.cookies.extract_cookies_to_jar</qualifiedname>
+        <param>
+          <type>jar</type>
+          <defname>jar</defname>
+        </param>
+        <param>
+          <type>request</type>
+          <defname>request</defname>
+        </param>
+        <param>
+          <type>response</type>
+          <defname>response</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Extract the cookies from the response into a CookieJar.
+
+:param jar: cookielib.CookieJar (not necessarily a RequestsCookieJar)
+:param request: our own requests.Request object
+:param response: urllib3.HTTPResponse object
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/cookies.py" line="124" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/cookies.py" bodystart="124" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1cookies_1abebc06a5ddd0a1b7a5abcd5146554e24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.cookies.get_cookie_header</definition>
+        <argsstring>(jar, request)</argsstring>
+        <name>get_cookie_header</name>
+        <qualifiedname>pip._vendor.requests.cookies.get_cookie_header</qualifiedname>
+        <param>
+          <type>jar</type>
+          <defname>jar</defname>
+        </param>
+        <param>
+          <type>request</type>
+          <defname>request</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Produce an appropriate Cookie header string to be sent with `request`, or None.
+
+:rtype: str
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/cookies.py" line="140" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/cookies.py" bodystart="140" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1cookies_1a819aad63f98fcb8f089290ee7b5a9e94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.cookies.remove_cookie_by_name</definition>
+        <argsstring>(cookiejar, name, domain=None, path=None)</argsstring>
+        <name>remove_cookie_by_name</name>
+        <qualifiedname>pip._vendor.requests.cookies.remove_cookie_by_name</qualifiedname>
+        <param>
+          <type>cookiejar</type>
+          <defname>cookiejar</defname>
+        </param>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <param>
+          <type>domain</type>
+          <defname>domain</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>path</type>
+          <defname>path</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Unsets a cookie by name, by default over all domains and paths.
+
+Wraps CookieJar.clear(), is O(n).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/cookies.py" line="151" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/cookies.py" bodystart="151" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1cookies_1a05eba79e914e8bf95f91a56a50a44bd5" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.cookies._copy_cookie_jar</definition>
+        <argsstring>(jar)</argsstring>
+        <name>_copy_cookie_jar</name>
+        <qualifiedname>pip._vendor.requests.cookies._copy_cookie_jar</qualifiedname>
+        <param>
+          <type>jar</type>
+          <defname>jar</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/cookies.py" line="440" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/cookies.py" bodystart="440" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1cookies_1a8d1db1e19c624e6d9dd657863dc96061" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.cookies.create_cookie</definition>
+        <argsstring>(name, value, **kwargs)</argsstring>
+        <name>create_cookie</name>
+        <qualifiedname>pip._vendor.requests.cookies.create_cookie</qualifiedname>
+        <param>
+          <type>name</type>
+          <defname>name</defname>
+        </param>
+        <param>
+          <type>value</type>
+          <defname>value</defname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>kwargs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Make a cookie from underspecified parameters.
+
+By default, the pair of `name` and `value` will be set for the domain &apos;&apos;
+and sent on every request (this is sometimes called a &quot;supercookie&quot;).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/cookies.py" line="455" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/cookies.py" bodystart="455" bodyend="491"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1cookies_1a829fc7eec79894dcb3f5b12d6b5e3e9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.cookies.morsel_to_cookie</definition>
+        <argsstring>(morsel)</argsstring>
+        <name>morsel_to_cookie</name>
+        <qualifiedname>pip._vendor.requests.cookies.morsel_to_cookie</qualifiedname>
+        <param>
+          <type>morsel</type>
+          <defname>morsel</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Convert a Morsel object into a Cookie containing the one k/v pair.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/cookies.py" line="492" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/cookies.py" bodystart="492" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1cookies_1a026cc4216c9e463455e48036b940f34d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.cookies.cookiejar_from_dict</definition>
+        <argsstring>(cookie_dict, cookiejar=None, overwrite=True)</argsstring>
+        <name>cookiejar_from_dict</name>
+        <qualifiedname>pip._vendor.requests.cookies.cookiejar_from_dict</qualifiedname>
+        <param>
+          <type>cookie_dict</type>
+          <defname>cookie_dict</defname>
+        </param>
+        <param>
+          <type>cookiejar</type>
+          <defname>cookiejar</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>overwrite</type>
+          <defname>overwrite</defname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns a CookieJar from a key/value dictionary.
+
+:param cookie_dict: Dict of key/values to insert into CookieJar.
+:param cookiejar: (optional) A cookiejar to add the cookies to.
+:param overwrite: (optional) If False, will not replace cookies
+    already in the jar with new ones.
+:rtype: CookieJar
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/cookies.py" line="521" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/cookies.py" bodystart="521" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1requests_1_1cookies_1a8377c7fdef36c8577430075465b36d13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.requests.cookies.merge_cookies</definition>
+        <argsstring>(cookiejar, cookies)</argsstring>
+        <name>merge_cookies</name>
+        <qualifiedname>pip._vendor.requests.cookies.merge_cookies</qualifiedname>
+        <param>
+          <type>cookiejar</type>
+          <defname>cookiejar</defname>
+        </param>
+        <param>
+          <type>cookies</type>
+          <defname>cookies</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Add cookies to cookiejar and returns a merged CookieJar.
+
+:param cookiejar: CookieJar object to add the cookies to.
+:param cookies: Dictionary or CookieJar object to be added.
+:rtype: CookieJar
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/cookies.py" line="542" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/requests/cookies.py" bodystart="542" bodyend="562"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>requests.cookies
+~~~~~~~~~~~~~~~~
+
+Compatibility code to be able to use `cookielib.CookieJar` with requests.
+
+requests.utils imports from here, so be careful with imports.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/requests/cookies.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

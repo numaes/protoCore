@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1metadata" kind="namespace" language="Python">
+    <compoundname>pip::_internal::metadata</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1metadata_1_1Backend" prot="public">pip::_internal::metadata::Backend</innerclass>
+    <innernamespace refid="namespacepip_1_1__internal_1_1metadata_1_1__json">pip::_internal::metadata::_json</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1metadata_1_1base">pip::_internal::metadata::base</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1metadata_1_1importlib">pip::_internal::metadata::importlib</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1metadata_1_1pkg__resources">pip::_internal::metadata::pkg_resources</innernamespace>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1metadata_1a7880655e12ddf65373a695865b03445e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::metadata.Protocol</definition>
+        <argsstring></argsstring>
+        <name>Protocol</name>
+        <qualifiedname>pip._internal.metadata.Protocol</qualifiedname>
+        <initializer>=  object</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/__init__.py" line="14" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/__init__.py" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1metadata_1af6e782d77a43822d27e2bfef18ac8275" prot="private" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_internal::metadata.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>pip._internal.metadata.__all__</qualifiedname>
+        <initializer>=  [
+    &quot;BaseDistribution&quot;,
+    &quot;BaseEnvironment&quot;,
+    &quot;FilesystemWheel&quot;,
+    &quot;MemoryWheel&quot;,
+    &quot;Wheel&quot;,
+    &quot;get_default_environment&quot;,
+    &quot;get_environment&quot;,
+    &quot;get_wheel_distribution&quot;,
+    &quot;select_backend&quot;,
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/__init__.py" line="16" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/__init__.py" bodystart="16" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1metadata_1a865ea01361351880f07f551e562d2166" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.metadata._should_use_importlib_metadata</definition>
+        <argsstring>()</argsstring>
+        <name>_should_use_importlib_metadata</name>
+        <qualifiedname>pip._internal.metadata._should_use_importlib_metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Whether to use the ``importlib.metadata`` or ``pkg_resources`` backend.
+
+By default, pip uses ``importlib.metadata`` on Python 3.11+, and
+``pkg_resourcess`` otherwise. This can be overridden by a couple of ways:
+
+* If environment variable ``_PIP_USE_IMPORTLIB_METADATA`` is set, it
+  dictates whether ``importlib.metadata`` is used, regardless of Python
+  version.
+* On Python 3.11+, Python distributors can patch ``importlib.metadata``
+  to add a global constant ``_PIP_USE_IMPORTLIB_METADATA = False``. This
+  makes pip use ``pkg_resources`` (unless the user set the aforementioned
+  environment variable to *True*).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/__init__.py" line="29" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/__init__.py" bodystart="29" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1metadata_1a88e0921ded5bdbcd8601757542d99e63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1metadata_1_1Backend" kindref="compound">Backend</ref></type>
+        <definition> Backend pip._internal.metadata.select_backend</definition>
+        <argsstring>()</argsstring>
+        <name>select_backend</name>
+        <qualifiedname>pip._internal.metadata.select_backend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/__init__.py" line="59" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/__init__.py" bodystart="59" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1metadata_1a681e74ea6f11474951e9ca35341525b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseEnvironment" kindref="compound">BaseEnvironment</ref></type>
+        <definition> BaseEnvironment pip._internal.metadata.get_default_environment</definition>
+        <argsstring>()</argsstring>
+        <name>get_default_environment</name>
+        <qualifiedname>pip._internal.metadata.get_default_environment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the default representation for the current environment.
+
+This returns an Environment instance from the chosen backend. The default
+Environment instance should be built from ``sys.path`` and may use caching
+to share instance state accorss calls.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/__init__.py" line="69" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/__init__.py" bodystart="69" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1metadata_1a94630b6140c3b40a6048d9df3e3d6afb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseEnvironment" kindref="compound">BaseEnvironment</ref></type>
+        <definition> BaseEnvironment pip._internal.metadata.get_environment</definition>
+        <argsstring>(Optional[List[str]] paths)</argsstring>
+        <name>get_environment</name>
+        <qualifiedname>pip._internal.metadata.get_environment</qualifiedname>
+        <param>
+          <type>Optional]</type>
+          <declname>paths</declname>
+          <array>[List[str]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get a representation of the environment specified by ``paths``.
+
+This returns an Environment instance from the chosen backend based on the
+given import paths. The backend must build a fresh instance representing
+the state of installed distributions when this function is called.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/__init__.py" line="79" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/__init__.py" bodystart="79" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1metadata_1ab6e8621b3f7d7abb15cf16bb62e8d70d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" kindref="compound">BaseDistribution</ref></type>
+        <definition> BaseDistribution pip._internal.metadata.get_directory_distribution</definition>
+        <argsstring>(str directory)</argsstring>
+        <name>get_directory_distribution</name>
+        <qualifiedname>pip._internal.metadata.get_directory_distribution</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>directory</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the distribution metadata representation in the specified directory.
+
+This returns a Distribution instance from the chosen backend based on
+the given on-disk ``.dist-info`` directory.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/__init__.py" line="89" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/__init__.py" bodystart="89" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1metadata_1aafa67c98f1bfd1f136598f34cf30b2b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" kindref="compound">BaseDistribution</ref></type>
+        <definition> BaseDistribution pip._internal.metadata.get_wheel_distribution</definition>
+        <argsstring>(Wheel wheel, str canonical_name)</argsstring>
+        <name>get_wheel_distribution</name>
+        <qualifiedname>pip._internal.metadata.get_wheel_distribution</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1Wheel" kindref="compound">Wheel</ref></type>
+          <declname>wheel</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>canonical_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the representation of the specified wheel&apos;s distribution metadata.
+
+This returns a Distribution instance from the chosen backend based on
+the given wheel&apos;s ``.dist-info`` directory.
+
+:param canonical_name: Normalized project name of the given wheel.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/__init__.py" line="98" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/__init__.py" bodystart="98" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1metadata_1a40f0efba94f6f925ffbe76b8fb522d93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" kindref="compound">BaseDistribution</ref></type>
+        <definition> BaseDistribution pip._internal.metadata.get_metadata_distribution</definition>
+        <argsstring>(bytes metadata_contents, str filename, str canonical_name)</argsstring>
+        <name>get_metadata_distribution</name>
+        <qualifiedname>pip._internal.metadata.get_metadata_distribution</qualifiedname>
+        <param>
+          <type>bytes</type>
+          <declname>metadata_contents</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>canonical_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the dist representation of the specified METADATA file contents.
+
+This returns a Distribution instance from the chosen backend sourced from the data
+in `metadata_contents`.
+
+:param metadata_contents: Contents of a METADATA file within a dist, or one served
+                          via PEP 658.
+:param filename: Filename for the dist this metadata represents.
+:param canonical_name: Normalized project name of the given dist.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/__init__.py" line="109" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/__init__.py" bodystart="113" bodyend="129"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/__init__.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,583 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1packaging_1_1tags" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::packaging::tags</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1packaging_1_1tags_1_1Tag" prot="public">pip::_vendor::packaging::tags::Tag</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a5f40ea79d0df10ad1695414a7834a60c" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::packaging::tags.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._vendor.packaging.tags.logger</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="25" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a7ece6d29b4e242dd4f2aa81b755ccee2" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::packaging::tags.PythonVersion</definition>
+        <argsstring></argsstring>
+        <name>PythonVersion</name>
+        <qualifiedname>pip._vendor.packaging.tags.PythonVersion</qualifiedname>
+        <initializer>=  Sequence[int]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="27" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a7612b6784b6253e387d39de8dfdffbeb" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::packaging::tags.MacVersion</definition>
+        <argsstring></argsstring>
+        <name>MacVersion</name>
+        <qualifiedname>pip._vendor.packaging.tags.MacVersion</qualifiedname>
+        <initializer>=  Tuple[int, int]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="28" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a4ace9162505be7229427f08e67aa4a19" prot="public" static="no" mutable="no">
+        <type>dict</type>
+        <definition>dict pip::_vendor::packaging::tags.INTERPRETER_SHORT_NAMES</definition>
+        <argsstring></argsstring>
+        <name>INTERPRETER_SHORT_NAMES</name>
+        <qualifiedname>pip._vendor.packaging.tags.INTERPRETER_SHORT_NAMES</qualifiedname>
+        <initializer>=  {
+    &quot;python&quot;: &quot;py&quot;,  # Generic.
+    &quot;cpython&quot;: &quot;cp&quot;,
+    &quot;pypy&quot;: &quot;pp&quot;,
+    &quot;ironpython&quot;: &quot;ip&quot;,
+    &quot;jython&quot;: &quot;jy&quot;,
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="30" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1ab5a609e58b7e036d344656dff13f37f6" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int pip::_vendor::packaging::tags._32_BIT_INTERPRETER</definition>
+        <argsstring></argsstring>
+        <name>_32_BIT_INTERPRETER</name>
+        <qualifiedname>pip._vendor.packaging.tags._32_BIT_INTERPRETER</qualifiedname>
+        <initializer>=  2 ** 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="39" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a0c1e2e2c14a0a32f18446974dbbf7d4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>FrozenSet[<ref refid="classpip_1_1__vendor_1_1packaging_1_1tags_1_1Tag" kindref="compound">Tag</ref>]</type>
+        <definition> FrozenSet[Tag] pip._vendor.packaging.tags.parse_tag</definition>
+        <argsstring>(str tag)</argsstring>
+        <name>parse_tag</name>
+        <qualifiedname>pip._vendor.packaging.tags.parse_tag</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>tag</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parses the provided tag (e.g. `py3-none-any`) into a frozenset of Tag instances.
+
+Returning a set is required due to the possibility that the tag is a
+compressed tag set.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="96" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="96" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a80da562d982450f6c237cd81fb2f76fb" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Union[int, str, None]</type>
+        <definition> Union[int, str, None] pip._vendor.packaging.tags._get_config_var</definition>
+        <argsstring>(str name, bool warn=False)</argsstring>
+        <name>_get_config_var</name>
+        <qualifiedname>pip._vendor.packaging.tags._get_config_var</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>warn</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="112" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="112" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1aaca3076e5806ef5095672851c59fea04" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.packaging.tags._normalize_string</definition>
+        <argsstring>(str string)</argsstring>
+        <name>_normalize_string</name>
+        <qualifiedname>pip._vendor.packaging.tags._normalize_string</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>string</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="121" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="121" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a0470c3c837a515a8d6d9b48380229cff" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.packaging.tags._abi3_applies</definition>
+        <argsstring>(PythonVersion python_version)</argsstring>
+        <name>_abi3_applies</name>
+        <qualifiedname>pip._vendor.packaging.tags._abi3_applies</qualifiedname>
+        <param>
+          <type><ref refid="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a7ece6d29b4e242dd4f2aa81b755ccee2" kindref="member">PythonVersion</ref></type>
+          <declname>python_version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Determine if the Python version supports abi3.
+
+PEP 384 was first implemented in Python 3.2.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="125" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="125" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a9980ec3e35cb7d1859ca9662dc88499d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[str]</type>
+        <definition> List[str] pip._vendor.packaging.tags._cpython_abis</definition>
+        <argsstring>(PythonVersion py_version, bool warn=False)</argsstring>
+        <name>_cpython_abis</name>
+        <qualifiedname>pip._vendor.packaging.tags._cpython_abis</qualifiedname>
+        <param>
+          <type><ref refid="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a7ece6d29b4e242dd4f2aa81b755ccee2" kindref="member">PythonVersion</ref></type>
+          <declname>py_version</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>warn</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="134" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="134" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a51a02afc05f1cff08e35fc718925272d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[<ref refid="classpip_1_1__vendor_1_1packaging_1_1tags_1_1Tag" kindref="compound">Tag</ref>]</type>
+        <definition> Iterator[Tag] pip._vendor.packaging.tags.cpython_tags</definition>
+        <argsstring>(Optional[PythonVersion] python_version=None, Optional[Iterable[str]] abis=None, Optional[Iterable[str]] platforms=None, *bool warn=False)</argsstring>
+        <name>cpython_tags</name>
+        <qualifiedname>pip._vendor.packaging.tags.cpython_tags</qualifiedname>
+        <param>
+          <type>Optional</type>
+          <declname>python_version</declname>
+          <array>[PythonVersion]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <declname>abis</declname>
+          <array>[Iterable[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <declname>platforms</declname>
+          <array>[Iterable[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*bool</type>
+          <declname>warn</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Yields the tags for a CPython interpreter.
+
+The tags consist of:
+- cp&lt;python_version&gt;-&lt;abi&gt;-&lt;platform&gt;
+- cp&lt;python_version&gt;-abi3-&lt;platform&gt;
+- cp&lt;python_version&gt;-none-&lt;platform&gt;
+- cp&lt;less than python_version&gt;-abi3-&lt;platform&gt;  # Older Python versions down to 3.2.
+
+If python_version only specifies a major version then user-provided ABIs and
+the &apos;none&apos; ABItag will be used.
+
+If &apos;abi3&apos; or &apos;none&apos; are specified in &apos;abis&apos; then they will be yielded at
+their normal position and not at the beginning.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="170" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="176" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1ad1cb8625e07071932cc126a8e464446d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[str]</type>
+        <definition> Iterator[str] pip._vendor.packaging.tags._generic_abi</definition>
+        <argsstring>()</argsstring>
+        <name>_generic_abi</name>
+        <qualifiedname>pip._vendor.packaging.tags._generic_abi</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="227" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="227" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a6dd8f8c7e16f2da9caef33f04312c667" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[<ref refid="classpip_1_1__vendor_1_1packaging_1_1tags_1_1Tag" kindref="compound">Tag</ref>]</type>
+        <definition> Iterator[Tag] pip._vendor.packaging.tags.generic_tags</definition>
+        <argsstring>(Optional[str] interpreter=None, Optional[Iterable[str]] abis=None, Optional[Iterable[str]] platforms=None, *bool warn=False)</argsstring>
+        <name>generic_tags</name>
+        <qualifiedname>pip._vendor.packaging.tags.generic_tags</qualifiedname>
+        <param>
+          <type>Optional</type>
+          <declname>interpreter</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <declname>abis</declname>
+          <array>[Iterable[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <declname>platforms</declname>
+          <array>[Iterable[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*bool</type>
+          <declname>warn</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Yields the tags for a generic interpreter.
+
+The tags consist of:
+- &lt;interpreter&gt;-&lt;abi&gt;-&lt;platform&gt;
+
+The &quot;none&quot; ABI will be added if it was not explicitly provided.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="233" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="239" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a69ebb7d97aa369f8f3eb32d43c359b49" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[str]</type>
+        <definition> Iterator[str] pip._vendor.packaging.tags._py_interpreter_range</definition>
+        <argsstring>(PythonVersion py_version)</argsstring>
+        <name>_py_interpreter_range</name>
+        <qualifiedname>pip._vendor.packaging.tags._py_interpreter_range</qualifiedname>
+        <param>
+          <type><ref refid="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a7ece6d29b4e242dd4f2aa81b755ccee2" kindref="member">PythonVersion</ref></type>
+          <declname>py_version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Yields Python versions in descending order.
+
+After the latest version, the major-only version will be yielded, and then
+all previous versions of that major version.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="263" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="263" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a71e0d43dbaf3fafd6b471bf15bd8b30f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[<ref refid="classpip_1_1__vendor_1_1packaging_1_1tags_1_1Tag" kindref="compound">Tag</ref>]</type>
+        <definition> Iterator[Tag] pip._vendor.packaging.tags.compatible_tags</definition>
+        <argsstring>(Optional[PythonVersion] python_version=None, Optional[str] interpreter=None, Optional[Iterable[str]] platforms=None)</argsstring>
+        <name>compatible_tags</name>
+        <qualifiedname>pip._vendor.packaging.tags.compatible_tags</qualifiedname>
+        <param>
+          <type>Optional</type>
+          <declname>python_version</declname>
+          <array>[PythonVersion]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>interpreter</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional]</type>
+          <declname>platforms</declname>
+          <array>[Iterable[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Yields the sequence of tags that are compatible with a specific version of Python.
+
+The tags consist of:
+- py*-none-&lt;platform&gt;
+- &lt;interpreter&gt;-none-any  # ... if `interpreter` is provided.
+- py*-none-any
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="278" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="282" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a7fc3fb53f7e30e0c776cd5e05011c67f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.packaging.tags._mac_arch</definition>
+        <argsstring>(str arch, bool is_32bit=_32_BIT_INTERPRETER)</argsstring>
+        <name>_mac_arch</name>
+        <qualifiedname>pip._vendor.packaging.tags._mac_arch</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>arch</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_32bit</declname>
+          <defval><ref refid="namespacepip_1_1__vendor_1_1packaging_1_1tags_1ab5a609e58b7e036d344656dff13f37f6" kindref="member">_32_BIT_INTERPRETER</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="303" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="303" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a446f11dafd845d37efb90edec8790516" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[str]</type>
+        <definition> List[str] pip._vendor.packaging.tags._mac_binary_formats</definition>
+        <argsstring>(MacVersion version, str cpu_arch)</argsstring>
+        <name>_mac_binary_formats</name>
+        <qualifiedname>pip._vendor.packaging.tags._mac_binary_formats</qualifiedname>
+        <param>
+          <type><ref refid="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a7612b6784b6253e387d39de8dfdffbeb" kindref="member">MacVersion</ref></type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>cpu_arch</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="313" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="313" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a96c5946f8433cceff99eacf2704bdb75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[str]</type>
+        <definition> Iterator[str] pip._vendor.packaging.tags.mac_platforms</definition>
+        <argsstring>(Optional[MacVersion] version=None, Optional[str] arch=None)</argsstring>
+        <name>mac_platforms</name>
+        <qualifiedname>pip._vendor.packaging.tags.mac_platforms</qualifiedname>
+        <param>
+          <type>Optional</type>
+          <declname>version</declname>
+          <array>[MacVersion]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>arch</declname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Yields the platform tags for a macOS system.
+
+The `version` parameter is a two-item tuple specifying the macOS version to
+generate platform tags for. The `arch` parameter is the CPU architecture to
+generate platform tags for. Both parameters default to the appropriate value
+for the current system.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="345" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="347" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1af82f8c9d4f551f4136bdbf9776bb2e55" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[str]</type>
+        <definition> Iterator[str] pip._vendor.packaging.tags._linux_platforms</definition>
+        <argsstring>(bool is_32bit=_32_BIT_INTERPRETER)</argsstring>
+        <name>_linux_platforms</name>
+        <qualifiedname>pip._vendor.packaging.tags._linux_platforms</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>is_32bit</declname>
+          <defval><ref refid="namespacepip_1_1__vendor_1_1packaging_1_1tags_1ab5a609e58b7e036d344656dff13f37f6" kindref="member">_32_BIT_INTERPRETER</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="417" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="417" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a533bf5e93d97f6dae9ae81f49502408b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[str]</type>
+        <definition> Iterator[str] pip._vendor.packaging.tags._generic_platforms</definition>
+        <argsstring>()</argsstring>
+        <name>_generic_platforms</name>
+        <qualifiedname>pip._vendor.packaging.tags._generic_platforms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="430" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="430" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a4be47d12d84e1099250e8f2b8c669667" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[str]</type>
+        <definition> Iterator[str] pip._vendor.packaging.tags.platform_tags</definition>
+        <argsstring>()</argsstring>
+        <name>platform_tags</name>
+        <qualifiedname>pip._vendor.packaging.tags.platform_tags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Provides the platform tags for this installation.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="434" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="434" bodyend="445"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a4a559837cf2ddc5a1b4dc2bba4c0e7e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.packaging.tags.interpreter_name</definition>
+        <argsstring>()</argsstring>
+        <name>interpreter_name</name>
+        <qualifiedname>pip._vendor.packaging.tags.interpreter_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns the name of the running interpreter.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="446" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="446" bodyend="453"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a0c28d98faacbccb2a4ae49769411c5d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.packaging.tags.interpreter_version</definition>
+        <argsstring>(*bool warn=False)</argsstring>
+        <name>interpreter_version</name>
+        <qualifiedname>pip._vendor.packaging.tags.interpreter_version</qualifiedname>
+        <param>
+          <type>*bool</type>
+          <declname>warn</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns the version of the running interpreter.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="454" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="454" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a16347d7eec2a7398207098e6d307429f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.packaging.tags._version_nodot</definition>
+        <argsstring>(PythonVersion version)</argsstring>
+        <name>_version_nodot</name>
+        <qualifiedname>pip._vendor.packaging.tags._version_nodot</qualifiedname>
+        <param>
+          <type><ref refid="namespacepip_1_1__vendor_1_1packaging_1_1tags_1a7ece6d29b4e242dd4f2aa81b755ccee2" kindref="member">PythonVersion</ref></type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="466" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="466" bodyend="469"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1packaging_1_1tags_1acfc6efe5b8765b32c84ec77753628a93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[<ref refid="classpip_1_1__vendor_1_1packaging_1_1tags_1_1Tag" kindref="compound">Tag</ref>]</type>
+        <definition> Iterator[Tag] pip._vendor.packaging.tags.sys_tags</definition>
+        <argsstring>(*bool warn=False)</argsstring>
+        <name>sys_tags</name>
+        <qualifiedname>pip._vendor.packaging.tags.sys_tags</qualifiedname>
+        <param>
+          <type>*bool</type>
+          <declname>warn</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Returns the sequence of tag triples for the running interpreter.
+
+The order of the sequence corresponds to priority order for the
+interpreter, from most to least important.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="470" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" bodystart="470" bodyend="488"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/tags.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

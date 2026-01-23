@@ -1,0 +1,934 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__vendor_1_1rich_1_1progress" kind="namespace" language="Python">
+    <compoundname>pip::_vendor::rich::progress</compoundname>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1progress_1_1__ReadContext" prot="protected">pip::_vendor::rich::progress::_ReadContext</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1progress_1_1__Reader" prot="protected">pip::_vendor::rich::progress::_Reader</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1progress_1_1__TrackThread" prot="protected">pip::_vendor::rich::progress::_TrackThread</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1progress_1_1BarColumn" prot="public">pip::_vendor::rich::progress::BarColumn</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1progress_1_1DownloadColumn" prot="public">pip::_vendor::rich::progress::DownloadColumn</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1progress_1_1FileSizeColumn" prot="public">pip::_vendor::rich::progress::FileSizeColumn</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1progress_1_1MofNCompleteColumn" prot="public">pip::_vendor::rich::progress::MofNCompleteColumn</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1progress_1_1Progress" prot="public">pip::_vendor::rich::progress::Progress</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1progress_1_1ProgressColumn" prot="public">pip::_vendor::rich::progress::ProgressColumn</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1progress_1_1ProgressSample" prot="public">pip::_vendor::rich::progress::ProgressSample</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1progress_1_1RenderableColumn" prot="public">pip::_vendor::rich::progress::RenderableColumn</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1progress_1_1SpinnerColumn" prot="public">pip::_vendor::rich::progress::SpinnerColumn</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1progress_1_1Task" prot="public">pip::_vendor::rich::progress::Task</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1progress_1_1TaskProgressColumn" prot="public">pip::_vendor::rich::progress::TaskProgressColumn</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1progress_1_1TextColumn" prot="public">pip::_vendor::rich::progress::TextColumn</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1progress_1_1TimeElapsedColumn" prot="public">pip::_vendor::rich::progress::TimeElapsedColumn</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1progress_1_1TimeRemainingColumn" prot="public">pip::_vendor::rich::progress::TimeRemainingColumn</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1progress_1_1TotalFileSizeColumn" prot="public">pip::_vendor::rich::progress::TotalFileSizeColumn</innerclass>
+    <innerclass refid="classpip_1_1__vendor_1_1rich_1_1progress_1_1TransferSpeedColumn" prot="public">pip::_vendor::rich::progress::TransferSpeedColumn</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1progress_1a61267743070291b72c1f3260551c340e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::rich::progress.TaskID</definition>
+        <argsstring></argsstring>
+        <name>TaskID</name>
+        <qualifiedname>pip._vendor.rich.progress.TaskID</qualifiedname>
+        <initializer>=  NewType(&quot;TaskID&quot;, int)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" line="53" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1progress_1a3c15e0afca52fba304b31379ed8f0c18" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::rich::progress.ProgressType</definition>
+        <argsstring></argsstring>
+        <name>ProgressType</name>
+        <qualifiedname>pip._vendor.rich.progress.ProgressType</qualifiedname>
+        <initializer>=  TypeVar(&quot;ProgressType&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" line="55" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1progress_1ae6c746033f603175d0db137799c2f7e7" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::rich::progress.GetTimeCallable</definition>
+        <argsstring></argsstring>
+        <name>GetTimeCallable</name>
+        <qualifiedname>pip._vendor.rich.progress.GetTimeCallable</qualifiedname>
+        <initializer>=  Callable[[], float]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" line="57" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1progress_1af0e23600fd5dd6df564214dcf4ee4269" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::rich::progress._I</definition>
+        <argsstring></argsstring>
+        <name>_I</name>
+        <qualifiedname>pip._vendor.rich.progress._I</qualifiedname>
+        <initializer>=  typing.TypeVar(&quot;_I&quot;, TextIO, BinaryIO)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" line="60" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1progress_1a108aa6c7904a8f33123d587a332a83e4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::rich::progress.syntax</definition>
+        <argsstring></argsstring>
+        <name>syntax</name>
+        <qualifiedname>pip._vendor.rich.progress.syntax</qualifiedname>
+        <initializer>=  <ref refid="classpip_1_1__vendor_1_1rich_1_1syntax_1_1Syntax" kindref="compound">Syntax</ref>(
+        ,
+        &quot;python&quot;,
+        line_numbers=True,
+    )</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" line="1648" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" bodystart="1648" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1progress_1af737dbeb357fff8930de32413de57f52" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::rich::progress.table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>pip._vendor.rich.progress.table</qualifiedname>
+        <initializer>=  <ref refid="classpip_1_1__vendor_1_1rich_1_1table_1_1Table" kindref="compound">Table</ref>(&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" line="1664" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" bodystart="1664" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1progress_1ac04261964d5fc085c8b4832d7dd2d8de" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_vendor::rich::progress.progress_renderables</definition>
+        <argsstring></argsstring>
+        <name>progress_renderables</name>
+        <qualifiedname>pip._vendor.rich.progress.progress_renderables</qualifiedname>
+        <initializer>=  [
+        &quot;Text may be printed while the progress bars are rendering.&quot;,
+        <ref refid="classpip_1_1__vendor_1_1rich_1_1panel_1_1Panel" kindref="compound">Panel</ref>(&quot;In fact, [i]any[/i] renderable will work&quot;),
+        &quot;Such as [magenta]tables[/]...&quot;,
+        table,
+        &quot;Pretty printed structures...&quot;,
+        {&quot;type&quot;: &quot;example&quot;, &quot;text&quot;: &quot;Pretty printed&quot;},
+        &quot;Syntax...&quot;,
+        <ref refid="namespacepip_1_1__vendor_1_1rich_1_1progress_1a108aa6c7904a8f33123d587a332a83e4" kindref="member">syntax</ref>,
+        <ref refid="classpip_1_1__vendor_1_1rich_1_1rule_1_1Rule" kindref="compound">Rule</ref>(&quot;Give it a try!&quot;),
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" line="1667" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" bodystart="1667" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1progress_1a8b4366bce9103c0c7cd967358c275f6a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::rich::progress.examples</definition>
+        <argsstring></argsstring>
+        <name>examples</name>
+        <qualifiedname>pip._vendor.rich.progress.examples</qualifiedname>
+        <initializer>=  cycle(<ref refid="namespacepip_1_1__vendor_1_1rich_1_1progress_1ac04261964d5fc085c8b4832d7dd2d8de" kindref="member">progress_renderables</ref>)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" line="1681" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" bodystart="1681" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1progress_1adf87c96f8a5be2161ec4aebc0f6249f2" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::rich::progress.console</definition>
+        <argsstring></argsstring>
+        <name>console</name>
+        <qualifiedname>pip._vendor.rich.progress.console</qualifiedname>
+        <initializer>=  <ref refid="classpip_1_1__vendor_1_1rich_1_1console_1_1Console" kindref="compound">Console</ref>(record=True)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" line="1683" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" bodystart="1683" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1progress_1a100dc0418d8a95df34700df862f4d11a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::rich::progress.transient</definition>
+        <argsstring></argsstring>
+        <name>transient</name>
+        <qualifiedname>pip._vendor.rich.progress.transient</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" line="1690" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" bodystart="1690" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1progress_1a1b77877912176b7fee5da5bb03dc7fa5" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::rich::progress.task1</definition>
+        <argsstring></argsstring>
+        <name>task1</name>
+        <qualifiedname>pip._vendor.rich.progress.task1</qualifiedname>
+        <initializer>=  progress.add_task(&quot;[red]Downloading&quot;, total=1000)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" line="1693" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" bodystart="1693" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1progress_1aa595b215d3fa0eec5f751524c96473b0" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::rich::progress.task2</definition>
+        <argsstring></argsstring>
+        <name>task2</name>
+        <qualifiedname>pip._vendor.rich.progress.task2</qualifiedname>
+        <initializer>=  progress.add_task(&quot;[green]Processing&quot;, total=1000)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" line="1694" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" bodystart="1694" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1progress_1ae36550cfc303427b8d538ab5e890c4f4" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::rich::progress.task3</definition>
+        <argsstring></argsstring>
+        <name>task3</name>
+        <qualifiedname>pip._vendor.rich.progress.task3</qualifiedname>
+        <initializer>=  progress.add_task(&quot;[yellow]Thinking&quot;, total=None)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" line="1695" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" bodystart="1695" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__vendor_1_1rich_1_1progress_1a60d849dcb2560afd0dc6a2375af843be" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_vendor::rich::progress.advance</definition>
+        <argsstring></argsstring>
+        <name>advance</name>
+        <qualifiedname>pip._vendor.rich.progress.advance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" line="1698" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" bodystart="1698" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1progress_1a685964282f038d4f3820a9eb047f4f96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterable[<ref refid="namespacepip_1_1__vendor_1_1rich_1_1progress_1a3c15e0afca52fba304b31379ed8f0c18" kindref="member">ProgressType</ref>]</type>
+        <definition> Iterable[ProgressType] pip._vendor.rich.progress.track</definition>
+        <argsstring>(Union[Sequence[ProgressType], Iterable[ProgressType]] sequence, str description=&quot;Working...&quot;, Optional[float] total=None, bool auto_refresh=True, Optional[Console] console=None, bool transient=False, Optional[Callable[[], float]] get_time=None, float refresh_per_second=10, StyleType style=&quot;bar.back&quot;, StyleType complete_style=&quot;bar.complete&quot;, StyleType finished_style=&quot;bar.finished&quot;, StyleType pulse_style=&quot;bar.pulse&quot;, float update_period=0.1, bool disable=False, bool show_speed=True)</argsstring>
+        <name>track</name>
+        <qualifiedname>pip._vendor.rich.progress.track</qualifiedname>
+        <param>
+          <type>Union</type>
+          <defname>sequence</defname>
+          <array>[Sequence[ProgressType]</array>
+        </param>
+        <param>
+          <type>Iterable]</type>
+          <declname>sequence</declname>
+          <defname>description</defname>
+          <array>[ProgressType]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>description</declname>
+          <defname>total</defname>
+          <defval>&quot;Working...&quot;</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>total</declname>
+          <defname>auto_refresh</defname>
+          <array>[float]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>auto_refresh</declname>
+          <defname>console</defname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>console</declname>
+          <defname>transient</defname>
+          <array>[Console]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>transient</declname>
+          <defname>get_time</defname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <defname>refresh_per_second</defname>
+          <array>[Callable[[]</array>
+        </param>
+        <param>
+          <type>float]]</type>
+          <declname>get_time</declname>
+          <defname>style</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>refresh_per_second</declname>
+          <defname>complete_style</defname>
+          <defval>10</defval>
+        </param>
+        <param>
+          <type>StyleType</type>
+          <declname>style</declname>
+          <defname>finished_style</defname>
+          <defval>&quot;bar.back&quot;</defval>
+        </param>
+        <param>
+          <type>StyleType</type>
+          <declname>complete_style</declname>
+          <defname>pulse_style</defname>
+          <defval>&quot;bar.complete&quot;</defval>
+        </param>
+        <param>
+          <type>StyleType</type>
+          <declname>finished_style</declname>
+          <defname>update_period</defname>
+          <defval>&quot;bar.finished&quot;</defval>
+        </param>
+        <param>
+          <type>StyleType</type>
+          <declname>pulse_style</declname>
+          <defname>disable</defname>
+          <defval>&quot;bar.pulse&quot;</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>update_period</declname>
+          <defname>show_speed</defname>
+          <defval>0.1</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>disable</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>show_speed</declname>
+          <defval>True</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Track progress by iterating over a sequence.
+
+Args:
+    sequence (Iterable[ProgressType]): A sequence (must support &quot;len&quot;) you wish to iterate over.
+    description (str, optional): Description of task show next to progress bar. Defaults to &quot;Working&quot;.
+    total: (float, optional): Total number of steps. Default is len(sequence).
+    auto_refresh (bool, optional): Automatic refresh, disable to force a refresh after each iteration. Default is True.
+    transient: (bool, optional): Clear the progress on exit. Defaults to False.
+    console (Console, optional): Console to write to. Default creates internal Console instance.
+    refresh_per_second (float): Number of times per second to refresh the progress information. Defaults to 10.
+    style (StyleType, optional): Style for the bar background. Defaults to &quot;bar.back&quot;.
+    complete_style (StyleType, optional): Style for the completed bar. Defaults to &quot;bar.complete&quot;.
+    finished_style (StyleType, optional): Style for a finished bar. Defaults to &quot;bar.finished&quot;.
+    pulse_style (StyleType, optional): Style for pulsing bars. Defaults to &quot;bar.pulse&quot;.
+    update_period (float, optional): Minimum time (in seconds) between calls to update(). Defaults to 0.1.
+    disable (bool, optional): Disable display of progress.
+    show_speed (bool, optional): Show speed if total isn&apos;t known. Defaults to True.
+Returns:
+    Iterable[ProgressType]: An iterable of the values in the sequence.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" line="103" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" bodystart="119" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1progress_1ac2a645f97e2063080f549ab4ed24e510" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ContextManager[BinaryIO]</type>
+        <definition> ContextManager[BinaryIO] pip._vendor.rich.progress.wrap_file</definition>
+        <argsstring>(BinaryIO file, int total, *str description=&quot;Reading...&quot;, bool auto_refresh=True, Optional[Console] console=None, bool transient=False, Optional[Callable[[], float]] get_time=None, float refresh_per_second=10, StyleType style=&quot;bar.back&quot;, StyleType complete_style=&quot;bar.complete&quot;, StyleType finished_style=&quot;bar.finished&quot;, StyleType pulse_style=&quot;bar.pulse&quot;, bool disable=False)</argsstring>
+        <name>wrap_file</name>
+        <qualifiedname>pip._vendor.rich.progress.wrap_file</qualifiedname>
+        <param>
+          <type>BinaryIO</type>
+          <declname>file</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>total</declname>
+        </param>
+        <param>
+          <type>*str</type>
+          <declname>description</declname>
+          <defval>&quot;Reading...&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>auto_refresh</declname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>console</declname>
+          <array>[Console]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>transient</declname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <defname>get_time</defname>
+          <array>[Callable[[]</array>
+        </param>
+        <param>
+          <type>float]]</type>
+          <declname>get_time</declname>
+          <defname>refresh_per_second</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>refresh_per_second</declname>
+          <defname>style</defname>
+          <defval>10</defval>
+        </param>
+        <param>
+          <type>StyleType</type>
+          <declname>style</declname>
+          <defname>complete_style</defname>
+          <defval>&quot;bar.back&quot;</defval>
+        </param>
+        <param>
+          <type>StyleType</type>
+          <declname>complete_style</declname>
+          <defname>finished_style</defname>
+          <defval>&quot;bar.complete&quot;</defval>
+        </param>
+        <param>
+          <type>StyleType</type>
+          <declname>finished_style</declname>
+          <defname>pulse_style</defname>
+          <defval>&quot;bar.finished&quot;</defval>
+        </param>
+        <param>
+          <type>StyleType</type>
+          <declname>pulse_style</declname>
+          <defname>disable</defname>
+          <defval>&quot;bar.pulse&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>disable</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Read bytes from a file while tracking progress.
+
+Args:
+    file (Union[str, PathLike[str], BinaryIO]): The path to the file to read, or a file-like object in binary mode.
+    total (int): Total number of bytes to read.
+    description (str, optional): Description of task show next to progress bar. Defaults to &quot;Reading&quot;.
+    auto_refresh (bool, optional): Automatic refresh, disable to force a refresh after each iteration. Default is True.
+    transient: (bool, optional): Clear the progress on exit. Defaults to False.
+    console (Console, optional): Console to write to. Default creates internal Console instance.
+    refresh_per_second (float): Number of times per second to refresh the progress information. Defaults to 10.
+    style (StyleType, optional): Style for the bar background. Defaults to &quot;bar.back&quot;.
+    complete_style (StyleType, optional): Style for the completed bar. Defaults to &quot;bar.complete&quot;.
+    finished_style (StyleType, optional): Style for a finished bar. Defaults to &quot;bar.finished&quot;.
+    pulse_style (StyleType, optional): Style for pulsing bars. Defaults to &quot;bar.pulse&quot;.
+    disable (bool, optional): Disable display of progress.
+Returns:
+    ContextManager[BinaryIO]: A context manager yielding a progress reader.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" line="294" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" bodystart="309" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1progress_1ac89915f1185e85629818cd7a4ffb54da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ContextManager[TextIO]</type>
+        <definition> ContextManager[TextIO] pip._vendor.rich.progress.open</definition>
+        <argsstring>(Union[str, &quot;PathLike[str]&quot;, bytes] file, Union[Literal[&quot;rt&quot;], Literal[&quot;r&quot;]] mode, int buffering=-1, Optional[str] encoding=None, Optional[str] errors=None, Optional[str] newline=None, *Optional[int] total=None, str description=&quot;Reading...&quot;, bool auto_refresh=True, Optional[Console] console=None, bool transient=False, Optional[Callable[[], float]] get_time=None, float refresh_per_second=10, StyleType style=&quot;bar.back&quot;, StyleType complete_style=&quot;bar.complete&quot;, StyleType finished_style=&quot;bar.finished&quot;, StyleType pulse_style=&quot;bar.pulse&quot;, bool disable=False)</argsstring>
+        <name>open</name>
+        <qualifiedname>pip._vendor.rich.progress.open</qualifiedname>
+        <param>
+          <type>Union&quot;</type>
+          <defname>file</defname>
+          <array>[str, &quot;PathLike[str]</array>
+        </param>
+        <param>
+          <type>bytes]</type>
+          <declname>file</declname>
+          <defname>mode</defname>
+        </param>
+        <param>
+          <type>Union</type>
+          <defname>buffering</defname>
+          <array>[Literal[&quot;rt&quot;]</array>
+        </param>
+        <param>
+          <type>Literal]</type>
+          <declname>mode</declname>
+          <defname>encoding</defname>
+          <array>[&quot;r&quot;]</array>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>buffering</declname>
+          <defname>errors</defname>
+          <defval>-1</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>encoding</declname>
+          <defname>newline</defname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>errors</declname>
+          <defname>total</defname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>newline</declname>
+          <defname>description</defname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*Optional</type>
+          <declname>total</declname>
+          <defname>auto_refresh</defname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>description</declname>
+          <defname>console</defname>
+          <defval>&quot;Reading...&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>auto_refresh</declname>
+          <defname>transient</defname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>console</declname>
+          <defname>get_time</defname>
+          <array>[Console]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>transient</declname>
+          <defname>refresh_per_second</defname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <defname>style</defname>
+          <array>[Callable[[]</array>
+        </param>
+        <param>
+          <type>float]]</type>
+          <declname>get_time</declname>
+          <defname>complete_style</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>refresh_per_second</declname>
+          <defname>finished_style</defname>
+          <defval>10</defval>
+        </param>
+        <param>
+          <type>StyleType</type>
+          <declname>style</declname>
+          <defname>pulse_style</defname>
+          <defval>&quot;bar.back&quot;</defval>
+        </param>
+        <param>
+          <type>StyleType</type>
+          <declname>complete_style</declname>
+          <defname>disable</defname>
+          <defval>&quot;bar.complete&quot;</defval>
+        </param>
+        <param>
+          <type>StyleType</type>
+          <declname>finished_style</declname>
+          <defval>&quot;bar.finished&quot;</defval>
+        </param>
+        <param>
+          <type>StyleType</type>
+          <declname>pulse_style</declname>
+          <defval>&quot;bar.pulse&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>disable</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" line="360" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" bodystart="380" bodyend="384"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1progress_1a46b784d92311265a810270d3d52e303c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ContextManager[BinaryIO]</type>
+        <definition> ContextManager[BinaryIO] pip._vendor.rich.progress.open</definition>
+        <argsstring>(Union[str, &quot;PathLike[str]&quot;, bytes] file, Literal[&quot;rb&quot;] mode, int buffering=-1, Optional[str] encoding=None, Optional[str] errors=None, Optional[str] newline=None, *Optional[int] total=None, str description=&quot;Reading...&quot;, bool auto_refresh=True, Optional[Console] console=None, bool transient=False, Optional[Callable[[], float]] get_time=None, float refresh_per_second=10, StyleType style=&quot;bar.back&quot;, StyleType complete_style=&quot;bar.complete&quot;, StyleType finished_style=&quot;bar.finished&quot;, StyleType pulse_style=&quot;bar.pulse&quot;, bool disable=False)</argsstring>
+        <name>open</name>
+        <qualifiedname>pip._vendor.rich.progress.open</qualifiedname>
+        <param>
+          <type>Union&quot;</type>
+          <defname>file</defname>
+          <array>[str, &quot;PathLike[str]</array>
+        </param>
+        <param>
+          <type>bytes]</type>
+          <declname>file</declname>
+          <defname>mode</defname>
+        </param>
+        <param>
+          <type>Literal</type>
+          <declname>mode</declname>
+          <defname>buffering</defname>
+          <array>[&quot;rb&quot;]</array>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>buffering</declname>
+          <defname>encoding</defname>
+          <defval>-1</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>encoding</declname>
+          <defname>errors</defname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>errors</declname>
+          <defname>newline</defname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>newline</declname>
+          <defname>total</defname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*Optional</type>
+          <declname>total</declname>
+          <defname>description</defname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>description</declname>
+          <defname>auto_refresh</defname>
+          <defval>&quot;Reading...&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>auto_refresh</declname>
+          <defname>console</defname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>console</declname>
+          <defname>transient</defname>
+          <array>[Console]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>transient</declname>
+          <defname>get_time</defname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <defname>refresh_per_second</defname>
+          <array>[Callable[[]</array>
+        </param>
+        <param>
+          <type>float]]</type>
+          <declname>get_time</declname>
+          <defname>style</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>refresh_per_second</declname>
+          <defname>complete_style</defname>
+          <defval>10</defval>
+        </param>
+        <param>
+          <type>StyleType</type>
+          <declname>style</declname>
+          <defname>finished_style</defname>
+          <defval>&quot;bar.back&quot;</defval>
+        </param>
+        <param>
+          <type>StyleType</type>
+          <declname>complete_style</declname>
+          <defname>pulse_style</defname>
+          <defval>&quot;bar.complete&quot;</defval>
+        </param>
+        <param>
+          <type>StyleType</type>
+          <declname>finished_style</declname>
+          <defname>disable</defname>
+          <defval>&quot;bar.finished&quot;</defval>
+        </param>
+        <param>
+          <type>StyleType</type>
+          <declname>pulse_style</declname>
+          <defval>&quot;bar.pulse&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>disable</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" line="385" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" bodystart="405" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__vendor_1_1rich_1_1progress_1ae63d31c455b4eae69e4e15bc33b75782" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Union[ContextManager[BinaryIO], ContextManager[TextIO]]</type>
+        <definition> Union[ContextManager[BinaryIO], ContextManager[TextIO]] pip._vendor.rich.progress.open</definition>
+        <argsstring>(Union[str, &quot;PathLike[str]&quot;, bytes] file, Union[Literal[&quot;rb&quot;], Literal[&quot;rt&quot;], Literal[&quot;r&quot;]] mode=&quot;r&quot;, int buffering=-1, Optional[str] encoding=None, Optional[str] errors=None, Optional[str] newline=None, *Optional[int] total=None, str description=&quot;Reading...&quot;, bool auto_refresh=True, Optional[Console] console=None, bool transient=False, Optional[Callable[[], float]] get_time=None, float refresh_per_second=10, StyleType style=&quot;bar.back&quot;, StyleType complete_style=&quot;bar.complete&quot;, StyleType finished_style=&quot;bar.finished&quot;, StyleType pulse_style=&quot;bar.pulse&quot;, bool disable=False)</argsstring>
+        <name>open</name>
+        <qualifiedname>pip._vendor.rich.progress.open</qualifiedname>
+        <param>
+          <type>Union&quot;</type>
+          <defname>file</defname>
+          <array>[str, &quot;PathLike[str]</array>
+        </param>
+        <param>
+          <type>bytes]</type>
+          <declname>file</declname>
+          <defname>mode</defname>
+        </param>
+        <param>
+          <type>Union</type>
+          <defname>buffering</defname>
+          <array>[Literal[&quot;rb&quot;]</array>
+        </param>
+        <param>
+          <type>Literal</type>
+          <defname>encoding</defname>
+          <array>[&quot;rt&quot;]</array>
+        </param>
+        <param>
+          <type>Literal]</type>
+          <declname>mode</declname>
+          <defname>errors</defname>
+          <array>[&quot;r&quot;]</array>
+          <defval>&quot;r&quot;</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>buffering</declname>
+          <defname>newline</defname>
+          <defval>-1</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>encoding</declname>
+          <defname>total</defname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>errors</declname>
+          <defname>description</defname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>newline</declname>
+          <defname>auto_refresh</defname>
+          <array>[str]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>*Optional</type>
+          <declname>total</declname>
+          <defname>console</defname>
+          <array>[int]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>description</declname>
+          <defname>transient</defname>
+          <defval>&quot;Reading...&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>auto_refresh</declname>
+          <defname>get_time</defname>
+          <defval>True</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>console</declname>
+          <defname>refresh_per_second</defname>
+          <array>[Console]</array>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>transient</declname>
+          <defname>style</defname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <defname>complete_style</defname>
+          <array>[Callable[[]</array>
+        </param>
+        <param>
+          <type>float]]</type>
+          <declname>get_time</declname>
+          <defname>finished_style</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>refresh_per_second</declname>
+          <defname>pulse_style</defname>
+          <defval>10</defval>
+        </param>
+        <param>
+          <type>StyleType</type>
+          <declname>style</declname>
+          <defname>disable</defname>
+          <defval>&quot;bar.back&quot;</defval>
+        </param>
+        <param>
+          <type>StyleType</type>
+          <declname>complete_style</declname>
+          <defval>&quot;bar.complete&quot;</defval>
+        </param>
+        <param>
+          <type>StyleType</type>
+          <declname>finished_style</declname>
+          <defval>&quot;bar.finished&quot;</defval>
+        </param>
+        <param>
+          <type>StyleType</type>
+          <declname>pulse_style</declname>
+          <defval>&quot;bar.pulse&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>disable</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Read bytes from a file while tracking progress.
+
+Args:
+    path (Union[str, PathLike[str], BinaryIO]): The path to the file to read, or a file-like object in binary mode.
+    mode (str): The mode to use to open the file. Only supports &quot;r&quot;, &quot;rb&quot; or &quot;rt&quot;.
+    buffering (int): The buffering strategy to use, see :func:`io.open`.
+    encoding (str, optional): The encoding to use when reading in text mode, see :func:`io.open`.
+    errors (str, optional): The error handling strategy for decoding errors, see :func:`io.open`.
+    newline (str, optional): The strategy for handling newlines in text mode, see :func:`io.open`
+    total: (int, optional): Total number of bytes to read. Must be provided if reading from a file handle. Default for a path is os.stat(file).st_size.
+    description (str, optional): Description of task show next to progress bar. Defaults to &quot;Reading&quot;.
+    auto_refresh (bool, optional): Automatic refresh, disable to force a refresh after each iteration. Default is True.
+    transient: (bool, optional): Clear the progress on exit. Defaults to False.
+    console (Console, optional): Console to write to. Default creates internal Console instance.
+    refresh_per_second (float): Number of times per second to refresh the progress information. Defaults to 10.
+    style (StyleType, optional): Style for the bar background. Defaults to &quot;bar.back&quot;.
+    complete_style (StyleType, optional): Style for the completed bar. Defaults to &quot;bar.complete&quot;.
+    finished_style (StyleType, optional): Style for a finished bar. Defaults to &quot;bar.finished&quot;.
+    pulse_style (StyleType, optional): Style for pulsing bars. Defaults to &quot;bar.pulse&quot;.
+    disable (bool, optional): Disable display of progress.
+    encoding (str, optional): The encoding to use when reading in text mode.
+
+Returns:
+    ContextManager[BinaryIO]: A context manager yielding a progress reader.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" line="409" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" bodystart="429" bodyend="494"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/rich/progress.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

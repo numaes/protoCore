@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathToken" kind="class" language="Python" prot="public">
+    <compoundname>docutils::utils::math::mathml_elements::MathToken</compoundname>
+    <basecompoundref refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathElement" prot="public" virt="non-virtual">docutils.utils.math.mathml_elements.MathElement</basecompoundref>
+    <derivedcompoundref refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1mi" prot="public" virt="non-virtual">docutils.utils.math.mathml_elements.mi</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1mn" prot="public" virt="non-virtual">docutils.utils.math.mathml_elements.mn</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1mo" prot="public" virt="non-virtual">docutils.utils.math.mathml_elements.mo</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1mtext" prot="public" virt="non-virtual">docutils.utils.math.mathml_elements.mtext</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathToken_1af580996912af915a33236226e5194a87" prot="public" static="yes" mutable="no">
+        <type>int</type>
+        <definition>int docutils.utils.math.mathml_elements.MathToken::nchildren</definition>
+        <argsstring></argsstring>
+        <name>nchildren</name>
+        <qualifiedname>docutils.utils.math.mathml_elements.MathToken.nchildren</qualifiedname>
+        <initializer>=  0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" line="276" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" bodystart="276" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathToken_1a4d82439249cb91918630f9a8b490dd4e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.utils.math.mathml_elements.MathToken::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>docutils.utils.math.mathml_elements.MathToken.text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" line="283" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" bodystart="283" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathToken_1ab85cde000aec58ef6988fe19753d73ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.utils.math.mathml_elements.MathToken.__init__</definition>
+        <argsstring>(self, text, **attributes)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>docutils.utils.math.mathml_elements.MathToken.__init__</qualifiedname>
+        <reimplements refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathElement_1a52041a0a3e3bd5e0f23e9fdfdadf6444">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathToken_1a4d82439249cb91918630f9a8b490dd4e" kindref="member">text</ref></type>
+          <declname>children</declname>
+        </param>
+        <param>
+          <type>**</type>
+          <declname>attributes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Set up node with `children` and `attributes`.
+
+Attribute names are normalised to lowercase.
+You may use &quot;CLASS&quot; to set a &quot;class&quot; attribute.
+Attribute values are converted to strings
+(with True -&gt; &quot;true&quot; and False -&gt; &quot;false&quot;).
+
+&gt;&gt;&gt; math(CLASS=&apos;test&apos;, level=3, split=True)
+math(class=&apos;test&apos;, level=&apos;3&apos;, split=&apos;true&apos;)
+&gt;&gt;&gt; math(CLASS=&apos;test&apos;, level=3, split=True).toxml()
+&apos;&lt;math class=&quot;test&quot; level=&quot;3&quot; split=&quot;true&quot;&gt;&lt;/math&gt;&apos;</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" line="278" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" bodystart="278" bodyend="288"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Token Element: contains textual data instead of children.
+
+Expect text data on initialisation.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>ET::Element</label>
+      </node>
+      <node id="1">
+        <label>docutils.utils.math.mathml_elements.MathToken</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathToken"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.utils.math.mathml_elements.MathElement</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathElement"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.utils.math.mathml_elements.mi</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1mi"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>docutils.utils.math.mathml_elements.mn</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1mn"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>docutils.utils.math.mathml_elements.mo</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1mo"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>docutils.utils.math.mathml_elements.mtext</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1mtext"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>ET::Element</label>
+      </node>
+      <node id="1">
+        <label>docutils.utils.math.mathml_elements.MathToken</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathToken"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.utils.math.mathml_elements.MathElement</label>
+        <link refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathElement"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" line="271" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/utils/math/mathml_elements.py" bodystart="271" bodyend="288"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathToken_1ab85cde000aec58ef6988fe19753d73ac" prot="public" virt="non-virtual"><scope>docutils::utils::math::mathml_elements::MathToken</scope><name>__init__</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathToken_1af580996912af915a33236226e5194a87" prot="public" virt="non-virtual"><scope>docutils::utils::math::mathml_elements::MathToken</scope><name>nchildren</name></member>
+      <member refid="classdocutils_1_1utils_1_1math_1_1mathml__elements_1_1MathToken_1a4d82439249cb91918630f9a8b490dd4e" prot="public" virt="non-virtual"><scope>docutils::utils::math::mathml_elements::MathToken</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

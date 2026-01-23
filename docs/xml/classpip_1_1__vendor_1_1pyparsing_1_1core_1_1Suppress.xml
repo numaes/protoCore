@@ -1,0 +1,293 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Suppress" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::pyparsing::core::Suppress</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1TokenConverter" prot="public" virt="non-virtual">pip._vendor.pyparsing.core.TokenConverter</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Suppress_1a401302719d331defa387e6cfae4d6a51" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.pyparsing.core.Suppress::expr</definition>
+        <argsstring></argsstring>
+        <name>expr</name>
+        <qualifiedname>pip._vendor.pyparsing.core.Suppress.expr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="5861" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="5861" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Suppress_1ad94f9df91563c13d9794f656e86bd957" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.core.Suppress.__init__</definition>
+        <argsstring>(self, Union[ParserElement, str] expr, bool savelist=False)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._vendor.pyparsing.core.Suppress.__init__</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1TokenConverter_1a4764ab6e6f511e403fe23e1656da9498">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Union</type>
+          <declname>expr</declname>
+          <array>[ParserElement, str]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>savelist</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="5855" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="5855" bodyend="5859"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Suppress_1a58c9a33de3504579502691878bd15031" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;ParserElement&quot;</type>
+        <definition> &quot;ParserElement&quot; pip._vendor.pyparsing.core.Suppress.__add__</definition>
+        <argsstring>(self, other)</argsstring>
+        <name>__add__</name>
+        <qualifiedname>pip._vendor.pyparsing.core.Suppress.__add__</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement_1a57e21307948426d1b9756b554104e94f">__add__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>other</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Implementation of ``+`` operator - returns :class:`And`. Adding strings to a :class:`ParserElement`
+converts them to :class:`Literal`\\ s by default.
+
+Example::
+
+    greet = Word(alphas) + &quot;,&quot; + Word(alphas) + &quot;!&quot;
+    hello = &quot;Hello, World!&quot;
+    print(hello, &quot;-&gt;&quot;, greet.parse_string(hello))
+
+prints::
+
+    Hello, World! -&gt; [&apos;Hello&apos;, &apos;,&apos;, &apos;World&apos;, &apos;!&apos;]
+
+``...`` may be used as a parse expression as a short form of :class:`SkipTo`::
+
+    Literal(&apos;start&apos;) + ... + Literal(&apos;end&apos;)
+
+is equivalent to::
+
+    Literal(&apos;start&apos;) + SkipTo(&apos;end&apos;)(&quot;_skipped*&quot;) + Literal(&apos;end&apos;)
+
+Note that the skipped text is returned with &apos;_skipped&apos; as a results name,
+and to support having multiple skips in the same parser, the value returned is
+a list of all skipped text.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="5860" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="5860" bodyend="5865"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Suppress_1a982e23038b9c7d2cbf5da2c65a5443b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;ParserElement&quot;</type>
+        <definition> &quot;ParserElement&quot; pip._vendor.pyparsing.core.Suppress.__sub__</definition>
+        <argsstring>(self, other)</argsstring>
+        <name>__sub__</name>
+        <qualifiedname>pip._vendor.pyparsing.core.Suppress.__sub__</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement_1aa31f0023b17ad4f1a731443e37502b02">__sub__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>other</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Implementation of ``-`` operator, returns :class:`And` with error stop
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="5866" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="5866" bodyend="5871"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Suppress_1a86925cd8263ca14b7840353f0c47f961" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.core.Suppress.postParse</definition>
+        <argsstring>(self, instring, loc, tokenlist)</argsstring>
+        <name>postParse</name>
+        <qualifiedname>pip._vendor.pyparsing.core.Suppress.postParse</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement_1ad6027b9a1c057063120376b1a81613e3">postParse</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>instring</type>
+          <defname>instring</defname>
+        </param>
+        <param>
+          <type>loc</type>
+          <defname>loc</defname>
+        </param>
+        <param>
+          <type>tokenlist</type>
+          <defname>tokenlist</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="5872" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="5872" bodyend="5874"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Suppress_1a6871faeb0778e8c8c58abb858516a293" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+        <definition> ParserElement pip._vendor.pyparsing.core.Suppress.suppress</definition>
+        <argsstring>(self)</argsstring>
+        <name>suppress</name>
+        <qualifiedname>pip._vendor.pyparsing.core.Suppress.suppress</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement_1a884b5e09bec4228e9b9e79e7f0fd1a9d">suppress</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Suppresses the output of this :class:`ParserElement`; useful to keep punctuation from
+cluttering up returned output.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="5875" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="5875" bodyend="5878"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Converter for ignoring the results of a parsed expression.
+
+Example::
+
+    source = &quot;a, b, c,d&quot;
+    wd = Word(alphas)
+    wd_list1 = wd + (&apos;,&apos; + wd)[...]
+    print(wd_list1.parse_string(source))
+
+    # often, delimiters that are useful during parsing are just in the
+    # way afterward - use Suppress to keep them out of the parsed output
+    wd_list2 = wd + (Suppress(&apos;,&apos;) + wd)[...]
+    print(wd_list2.parse_string(source))
+
+    # Skipped text (using &apos;...&apos;) can be suppressed as well
+    source = &quot;lead in START relevant text END trailing text&quot;
+    start_marker = Keyword(&quot;START&quot;)
+    end_marker = Keyword(&quot;END&quot;)
+    find_body = Suppress(...) + start_marker + ... + end_marker
+    print(find_body.parse_string(source)
+
+prints::
+
+    [&apos;a&apos;, &apos;,&apos;, &apos;b&apos;, &apos;,&apos;, &apos;c&apos;, &apos;,&apos;, &apos;d&apos;]
+    [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;d&apos;]
+    [&apos;START&apos;, &apos;relevant text &apos;, &apos;END&apos;]
+
+(See also :class:`DelimitedList`.)
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="5">
+        <label>ABC</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.pyparsing.core.Suppress</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Suppress"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.pyparsing.core.ParseElementEnhance</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParseElementEnhance"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._vendor.pyparsing.core.ParserElement</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pyparsing.core.TokenConverter</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1TokenConverter"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>ABC</label>
+      </node>
+      <node id="6">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.pyparsing.core.Suppress</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Suppress"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.pyparsing.core.ParseElementEnhance</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParseElementEnhance"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>pip._vendor.pyparsing.core.ParserElement</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>DEFAULT_WHITE_CHARS</edgelabel>
+          <edgelabel>defaultName</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>_parse</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pyparsing.core.TokenConverter</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1TokenConverter"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>Tuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="5824" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="5824" bodyend="5878"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Suppress_1a58c9a33de3504579502691878bd15031" prot="public" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::Suppress</scope><name>__add__</name></member>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Suppress_1ad94f9df91563c13d9794f656e86bd957" prot="public" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::Suppress</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Suppress_1a982e23038b9c7d2cbf5da2c65a5443b7" prot="public" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::Suppress</scope><name>__sub__</name></member>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Suppress_1a401302719d331defa387e6cfae4d6a51" prot="public" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::Suppress</scope><name>expr</name></member>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Suppress_1a86925cd8263ca14b7840353f0c47f961" prot="public" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::Suppress</scope><name>postParse</name></member>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1Suppress_1a6871faeb0778e8c8c58abb858516a293" prot="public" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::Suppress</scope><name>suppress</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

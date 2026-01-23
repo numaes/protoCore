@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1index_1_1package__finder" kind="namespace" language="Python">
+    <compoundname>pip::_internal::index::package_finder</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1index_1_1package__finder_1_1BestCandidateResult" prot="public">pip::_internal::index::package_finder::BestCandidateResult</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1index_1_1package__finder_1_1CandidateEvaluator" prot="public">pip::_internal::index::package_finder::CandidateEvaluator</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1index_1_1package__finder_1_1CandidatePreferences" prot="public">pip::_internal::index::package_finder::CandidatePreferences</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1index_1_1package__finder_1_1LinkEvaluator" prot="public">pip::_internal::index::package_finder::LinkEvaluator</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1index_1_1package__finder_1_1LinkType" prot="public">pip::_internal::index::package_finder::LinkType</innerclass>
+    <innerclass refid="classpip_1_1__internal_1_1index_1_1package__finder_1_1PackageFinder" prot="public">pip::_internal::index::package_finder::PackageFinder</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1index_1_1package__finder_1af57a1bafd52bf59fe5a8b9ec907fd51d" prot="private" static="no" mutable="no">
+        <type>list</type>
+        <definition>list pip::_internal::index::package_finder.__all__</definition>
+        <argsstring></argsstring>
+        <name>__all__</name>
+        <qualifiedname>pip._internal.index.package_finder.__all__</qualifiedname>
+        <initializer>=  [&quot;FormatControl&quot;, &quot;BestCandidateResult&quot;, &quot;PackageFinder&quot;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/index/package_finder.py" line="42" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/index/package_finder.py" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1index_1_1package__finder_1a230f7eba264091230ab47832046fc2f5" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::index::package_finder.logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>pip._internal.index.package_finder.logger</qualifiedname>
+        <initializer>=  getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/index/package_finder.py" line="45" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/index/package_finder.py" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1index_1_1package__finder_1a6e43cd6584e1508c9578cad30e0fdc2a" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::index::package_finder.BuildTag</definition>
+        <argsstring></argsstring>
+        <name>BuildTag</name>
+        <qualifiedname>pip._internal.index.package_finder.BuildTag</qualifiedname>
+        <initializer>=  Union[Tuple[()], Tuple[int, str]]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/index/package_finder.py" line="47" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/index/package_finder.py" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1index_1_1package__finder_1a8c4b6db75eb88d67a055ab321dd6ec30" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::index::package_finder.CandidateSortingKey</definition>
+        <argsstring></argsstring>
+        <name>CandidateSortingKey</name>
+        <qualifiedname>pip._internal.index.package_finder.CandidateSortingKey</qualifiedname>
+        <initializer>=  Tuple[int, int, int, <ref refid="classpip_1_1__vendor_1_1packaging_1_1version_1_1__BaseVersion" kindref="compound">_BaseVersion</ref>, Optional[int], <ref refid="namespacepip_1_1__internal_1_1index_1_1package__finder_1a6e43cd6584e1508c9578cad30e0fdc2a" kindref="member">BuildTag</ref>]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/index/package_finder.py" line="48" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/index/package_finder.py" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1index_1_1package__finder_1a44692bf2dcc15d7f206d270a422455ce" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.index.package_finder._check_link_requires_python</definition>
+        <argsstring>(Link link, Tuple[int, int, int] version_info, bool ignore_requires_python=False)</argsstring>
+        <name>_check_link_requires_python</name>
+        <qualifiedname>pip._internal.index.package_finder._check_link_requires_python</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1models_1_1link_1_1Link" kindref="compound">Link</ref></type>
+          <declname>link</declname>
+        </param>
+        <param>
+          <type>Tuple</type>
+          <declname>version_info</declname>
+          <array>[int, int, int]</array>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>ignore_requires_python</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return whether the given Python version is compatible with a link&apos;s
+&quot;Requires-Python&quot; value.
+
+:param version_info: A 3-tuple of ints representing the Python
+    major-minor-micro version to check.
+:param ignore_requires_python: Whether to ignore the &quot;Requires-Python&quot;
+    value if the given Python version isn&apos;t compatible.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/index/package_finder.py" line="51" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/index/package_finder.py" bodystart="55" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1index_1_1package__finder_1a876e1cd4452e3f990efec7ab27b703a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>List[<ref refid="classpip_1_1__internal_1_1models_1_1candidate_1_1InstallationCandidate" kindref="compound">InstallationCandidate</ref>]</type>
+        <definition> List[InstallationCandidate] pip._internal.index.package_finder.filter_unallowed_hashes</definition>
+        <argsstring>(List[InstallationCandidate] candidates, Optional[Hashes] hashes, str project_name)</argsstring>
+        <name>filter_unallowed_hashes</name>
+        <qualifiedname>pip._internal.index.package_finder.filter_unallowed_hashes</qualifiedname>
+        <param>
+          <type>List</type>
+          <declname>candidates</declname>
+          <array>[InstallationCandidate]</array>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>hashes</declname>
+          <array>[Hashes]</array>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>project_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Filter out candidates whose hashes aren&apos;t allowed, and return a new
+list of candidates.
+
+If at least one candidate has an allowed hash, then all candidates with
+either an allowed hash or no hash specified are returned.  Otherwise,
+the given candidates are returned.
+
+Including the candidates with no hash specified when there is a match
+allows a warning to be logged if there is a more preferred candidate
+with no hash specified.  Returning all candidates in the case of no
+matches lets pip report the hash of the candidate that would otherwise
+have been installed (e.g. permitting the user to more easily update
+their requirements file with the desired hash).
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/index/package_finder.py" line="252" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/index/package_finder.py" bodystart="256" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1index_1_1package__finder_1a9a5e4d6fc63d9853dcac2e44a4596f1b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition> int pip._internal.index.package_finder._find_name_version_sep</definition>
+        <argsstring>(str fragment, str canonical_name)</argsstring>
+        <name>_find_name_version_sep</name>
+        <qualifiedname>pip._internal.index.package_finder._find_name_version_sep</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>fragment</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>canonical_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Find the separator&apos;s index based on the package&apos;s canonical name.
+
+:param fragment: A &lt;package&gt;+&lt;version&gt; filename &quot;fragment&quot; (stem) or
+    egg fragment.
+:param canonical_name: The package&apos;s canonical name.
+
+This function is needed since the canonicalized name does not necessarily
+have the same length as the egg info&apos;s name part. An example::
+
+&gt;&gt;&gt; fragment = &apos;foo__bar-1.0&apos;
+&gt;&gt;&gt; canonical_name = &apos;foo-bar&apos;
+&gt;&gt;&gt; _find_name_version_sep(fragment, canonical_name)
+8
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/index/package_finder.py" line="986" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/index/package_finder.py" bodystart="986" bodyend="1011"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1index_1_1package__finder_1a3b584dafae114c4d615017417606cee3" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._internal.index.package_finder._extract_version_from_fragment</definition>
+        <argsstring>(str fragment, str canonical_name)</argsstring>
+        <name>_extract_version_from_fragment</name>
+        <qualifiedname>pip._internal.index.package_finder._extract_version_from_fragment</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>fragment</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>canonical_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Parse the version string from a &lt;package&gt;+&lt;version&gt; filename
+&quot;fragment&quot; (stem) or egg fragment.
+
+:param fragment: The string to parse. E.g. foo-2.1
+:param canonical_name: The canonicalized name of the package this
+    belongs to.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/index/package_finder.py" line="1012" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/index/package_finder.py" bodystart="1012" bodyend="1028"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Routines related to PyPI, indexes</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/index/package_finder.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

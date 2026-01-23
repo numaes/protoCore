@@ -1,0 +1,560 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution" kind="class" language="Python" prot="public">
+    <compoundname>pip::_internal::metadata::pkg_resources::Distribution</compoundname>
+    <basecompoundref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" prot="public" virt="non-virtual">pip._internal.metadata.base.BaseDistribution</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a45247d34ce3a1dc3d566633008870ffe" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>pip._internal.metadata.pkg_resources.Distribution::_dist</definition>
+        <argsstring></argsstring>
+        <name>_dist</name>
+        <qualifiedname>pip._internal.metadata.pkg_resources.Distribution._dist</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" line="77" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a69108892f238414f0b760fe74f5ff783" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._internal.metadata.pkg_resources.Distribution.__init__</definition>
+        <argsstring>(self, pkg_resources.Distribution dist)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._internal.metadata.pkg_resources.Distribution.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution" kindref="compound">pkg_resources.Distribution</ref></type>
+          <declname>dist</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" line="76" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" bodystart="76" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a183ce37d39d52e3d78c3941842d40cc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" kindref="compound">BaseDistribution</ref></type>
+        <definition> BaseDistribution pip._internal.metadata.pkg_resources.Distribution.from_directory</definition>
+        <argsstring>(cls, str directory)</argsstring>
+        <name>from_directory</name>
+        <qualifiedname>pip._internal.metadata.pkg_resources.Distribution.from_directory</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution_1a2cc1a112ab352bd65b867e991aff489a">from_directory</reimplements>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>directory</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Load the distribution from a metadata directory.
+
+:param directory: Path to a metadata directory, e.g. ``.dist-info``.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" line="80" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" bodystart="80" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a1bf6f42ff8de37af3f9710f8217b57b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" kindref="compound">BaseDistribution</ref></type>
+        <definition> BaseDistribution pip._internal.metadata.pkg_resources.Distribution.from_metadata_file_contents</definition>
+        <argsstring>(cls, bytes metadata_contents, str filename, str project_name)</argsstring>
+        <name>from_metadata_file_contents</name>
+        <qualifiedname>pip._internal.metadata.pkg_resources.Distribution.from_metadata_file_contents</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution_1a98cb7e239f38285ad2eaa07c7b42f0ff">from_metadata_file_contents</reimplements>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <param>
+          <type>bytes</type>
+          <declname>metadata_contents</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>project_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Load the distribution from the contents of a METADATA file.
+
+This is used to implement PEP 658 by generating a &quot;shallow&quot; dist object that can
+be used for resolution without downloading or building the actual dist yet.
+
+:param metadata_contents: The contents of a METADATA file.
+:param filename: File name for the dist with this metadata.
+:param project_name: Name of the project this dist represents.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" line="100" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" bodystart="105" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a890a936ec36ab65e957e822023a5a86c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution" kindref="compound">BaseDistribution</ref></type>
+        <definition> BaseDistribution pip._internal.metadata.pkg_resources.Distribution.from_wheel</definition>
+        <argsstring>(cls, Wheel wheel, str name)</argsstring>
+        <name>from_wheel</name>
+        <qualifiedname>pip._internal.metadata.pkg_resources.Distribution.from_wheel</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution_1ae966dd38c530a9f66f84b3c8d63c72af">from_wheel</reimplements>
+        <param>
+          <type>cls</type>
+          <defname>cls</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1Wheel" kindref="compound">Wheel</ref></type>
+          <declname>wheel</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Load the distribution from a given wheel.
+
+:param wheel: A concrete wheel definition.
+:param name: File name of the wheel.
+
+:raises InvalidWheel: Whenever loading of the wheel causes a
+    :py:exc:`zipfile.BadZipFile` exception to be thrown.
+:raises UnsupportedWheel: If the wheel is a valid zip, but malformed
+    internally.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" line="117" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" bodystart="117" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a0f2f12c49a237ef615c9763d10b66e6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._internal.metadata.pkg_resources.Distribution.location</definition>
+        <argsstring>(self)</argsstring>
+        <name>location</name>
+        <qualifiedname>pip._internal.metadata.pkg_resources.Distribution.location</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution_1af41d226a9fda04459c2e55c71152b3b0">location</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Where the distribution is loaded from.
+
+A string value is not necessarily a filesystem path, since distributions
+can be loaded from other sources, e.g. arbitrary zip archives. ``None``
+means the distribution is created in-memory.
+
+Do not canonicalize this value with e.g. ``pathlib.Path.resolve()``. If
+this is a symbolic link, we want to preserve the relative path between
+it and files in the distribution.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" line="138" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" bodystart="138" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a69c080810a0abf33739b0ba504294f84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._internal.metadata.pkg_resources.Distribution.installed_location</definition>
+        <argsstring>(self)</argsstring>
+        <name>installed_location</name>
+        <qualifiedname>pip._internal.metadata.pkg_resources.Distribution.installed_location</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution_1a7b8ca58a5cb63e3a24770c20277e8af4">installed_location</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" line="142" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" bodystart="142" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a35090523d1446c5481fa719a98f60024" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Optional[str]</type>
+        <definition> Optional[str] pip._internal.metadata.pkg_resources.Distribution.info_location</definition>
+        <argsstring>(self)</argsstring>
+        <name>info_location</name>
+        <qualifiedname>pip._internal.metadata.pkg_resources.Distribution.info_location</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution_1a56619abc0475c8d438b991f8d8e1a055">info_location</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Location of the .[egg|dist]-info directory or file.
+
+Similarly to ``location``, a string value is not necessarily a
+filesystem path. ``None`` means the distribution is created in-memory.
+
+For a modern .dist-info installation on disk, this should be something
+like ``{location}/{raw_name}-{version}.dist-info``.
+
+Do not canonicalize this value with e.g. ``pathlib.Path.resolve()``. If
+this is a symbolic link, we want to preserve the relative path between
+it and other files in the distribution.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" line="153" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" bodystart="153" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1ad612216d14334974accb8035cef73b80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.metadata.pkg_resources.Distribution.installed_by_distutils</definition>
+        <argsstring>(self)</argsstring>
+        <name>installed_by_distutils</name>
+        <qualifiedname>pip._internal.metadata.pkg_resources.Distribution.installed_by_distutils</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution_1aaa615d03b373dc96ddeee2e9a44997ed">installed_by_distutils</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Whether this distribution is installed with legacy distutils format.
+
+A distribution installed with &quot;raw&quot; distutils not patched by setuptools
+uses one single file at ``info_location`` to store metadata. We need to
+treat this specially on uninstallation.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" line="157" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" bodystart="157" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a7851a31e77a4b5ade8ac9c0b53fb5157" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>NormalizedName</type>
+        <definition> NormalizedName pip._internal.metadata.pkg_resources.Distribution.canonical_name</definition>
+        <argsstring>(self)</argsstring>
+        <name>canonical_name</name>
+        <qualifiedname>pip._internal.metadata.pkg_resources.Distribution.canonical_name</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution_1a5d02beb1eec3ba74a10efd10c7023998">canonical_name</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" line="167" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" bodystart="167" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1ac83e189aa08d2465284bb5d465190dde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>DistributionVersion</type>
+        <definition> DistributionVersion pip._internal.metadata.pkg_resources.Distribution.version</definition>
+        <argsstring>(self)</argsstring>
+        <name>version</name>
+        <qualifiedname>pip._internal.metadata.pkg_resources.Distribution.version</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution_1af4024115351223c1472e72e4c17da2fc">version</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" line="171" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" bodystart="171" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a03d9167c7b35407de32bfaf1de4cfc93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.metadata.pkg_resources.Distribution.is_file</definition>
+        <argsstring>(self, InfoPath path)</argsstring>
+        <name>is_file</name>
+        <qualifiedname>pip._internal.metadata.pkg_resources.Distribution.is_file</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution_1a7d73497f34cd9c21d84e16747c1f6fd9">is_file</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>InfoPath</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check whether an entry in the info directory is a file.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" line="174" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" bodystart="174" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1ae01494c58d2380d7131f54ca66f6b529" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[str]</type>
+        <definition> Iterator[str] pip._internal.metadata.pkg_resources.Distribution.iter_distutils_script_names</definition>
+        <argsstring>(self)</argsstring>
+        <name>iter_distutils_script_names</name>
+        <qualifiedname>pip._internal.metadata.pkg_resources.Distribution.iter_distutils_script_names</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution_1a5dc1079f05fb0c1ef3a501269a1b2cbe">iter_distutils_script_names</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Find distutils &apos;scripts&apos; entries metadata.
+
+If &apos;scripts&apos; is supplied in ``setup.py``, distutils records those in the
+installed distribution&apos;s ``scripts`` directory, a file for each script.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" line="177" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" bodystart="177" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a0cf924ce0fc51f545d24d00b1e62d304" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._internal.metadata.pkg_resources.Distribution.read_text</definition>
+        <argsstring>(self, InfoPath path)</argsstring>
+        <name>read_text</name>
+        <qualifiedname>pip._internal.metadata.pkg_resources.Distribution.read_text</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution_1aee8b95b847303b9f182a3e50fa87117b">read_text</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>InfoPath</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Read a file in the info directory.
+
+:raise FileNotFoundError: If ``path`` does not exist in the directory.
+:raise NoneMetadataError: If ``path`` exists in the info directory, but
+    cannot be read.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" line="180" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" bodystart="180" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1afb2203fd7dc18b79d17cb35f308ea70e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterable[<ref refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseEntryPoint" kindref="compound">BaseEntryPoint</ref>]</type>
+        <definition> Iterable[BaseEntryPoint] pip._internal.metadata.pkg_resources.Distribution.iter_entry_points</definition>
+        <argsstring>(self)</argsstring>
+        <name>iter_entry_points</name>
+        <qualifiedname>pip._internal.metadata.pkg_resources.Distribution.iter_entry_points</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution_1a18341abdd382d00cd47ecd0e98334803">iter_entry_points</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" line="189" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" bodystart="189" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a45334b4f287e5e16bb9989f6ab9da304" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterable[<ref refid="classpip_1_1__vendor_1_1packaging_1_1requirements_1_1Requirement" kindref="compound">Requirement</ref>]</type>
+        <definition> Iterable[Requirement] pip._internal.metadata.pkg_resources.Distribution.iter_dependencies</definition>
+        <argsstring>(self, Collection[str] extras=())</argsstring>
+        <name>iter_dependencies</name>
+        <qualifiedname>pip._internal.metadata.pkg_resources.Distribution.iter_dependencies</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution_1a648b3e933e59fd5eb8dc5da04c21b761">iter_dependencies</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>Collection</type>
+          <declname>extras</declname>
+          <array>[str]</array>
+          <defval>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Dependencies of this distribution.
+
+For modern .dist-info distributions, this is the collection of
+&quot;Requires-Dist:&quot; entries in distribution metadata.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" line="217" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" bodystart="217" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a6973bf63e63ac086ba81ffea224f0286" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterable[str]</type>
+        <definition> Iterable[str] pip._internal.metadata.pkg_resources.Distribution.iter_provided_extras</definition>
+        <argsstring>(self)</argsstring>
+        <name>iter_provided_extras</name>
+        <qualifiedname>pip._internal.metadata.pkg_resources.Distribution.iter_provided_extras</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution_1a5db8facc5a972a81548e7c27efced097">iter_provided_extras</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Extras provided by this distribution.
+
+For modern .dist-info distributions, this is the collection of
+&quot;Provides-Extra:&quot; entries in distribution metadata.
+
+The return value of this function is not particularly useful other than
+display purposes due to backward compatibility issues and the extra
+names being poorly normalized prior to PEP 685. If you want to perform
+logic operations on extras, use :func:`is_extra_provided` instead.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" line="223" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" bodystart="223" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1ab0cdc90d846eed9aa84b5a05be4a3158" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._internal.metadata.pkg_resources.Distribution.is_extra_provided</definition>
+        <argsstring>(self, str extra)</argsstring>
+        <name>is_extra_provided</name>
+        <qualifiedname>pip._internal.metadata.pkg_resources.Distribution.is_extra_provided</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution_1a84e49af139520524522ac4621e0647cf">is_extra_provided</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>extra</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check whether an extra is provided by this distribution.
+
+This is needed mostly for compatibility issues with pkg_resources not
+following the extra normalization rules defined in PEP 685.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" line="226" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" bodystart="226" bodyend="229"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a7d4ae76260de7d1936446c407277ad5b" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>email.message.Message</type>
+        <definition> email.message.Message pip._internal.metadata.pkg_resources.Distribution._metadata_impl</definition>
+        <argsstring>(self)</argsstring>
+        <name>_metadata_impl</name>
+        <qualifiedname>pip._internal.metadata.pkg_resources.Distribution._metadata_impl</qualifiedname>
+        <reimplements refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution_1a18a2f14fc837c208a6d54ce9482417cf">_metadata_impl</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>:raises NoneMetadataError: if the distribution reports `has_metadata()`
+    True but `get_metadata()` returns None.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" line="195" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" bodystart="195" bodyend="216"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>pip._internal.metadata.pkg_resources.Distribution</label>
+        <link refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.metadata.base.BaseDistribution</label>
+        <link refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Protocol</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>pip._internal.metadata.pkg_resources.Distribution</label>
+        <link refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._internal.metadata.base.BaseDistribution</label>
+        <link refid="classpip_1_1__internal_1_1metadata_1_1base_1_1BaseDistribution"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>Protocol</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" line="75" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/metadata/pkg_resources.py" bodystart="75" bodyend="229"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a69108892f238414f0b760fe74f5ff783" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::pkg_resources::Distribution</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a45247d34ce3a1dc3d566633008870ffe" prot="protected" virt="non-virtual"><scope>pip::_internal::metadata::pkg_resources::Distribution</scope><name>_dist</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a7d4ae76260de7d1936446c407277ad5b" prot="protected" virt="non-virtual"><scope>pip::_internal::metadata::pkg_resources::Distribution</scope><name>_metadata_impl</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a7851a31e77a4b5ade8ac9c0b53fb5157" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::pkg_resources::Distribution</scope><name>canonical_name</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a183ce37d39d52e3d78c3941842d40cc7" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::pkg_resources::Distribution</scope><name>from_directory</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a1bf6f42ff8de37af3f9710f8217b57b8" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::pkg_resources::Distribution</scope><name>from_metadata_file_contents</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a890a936ec36ab65e957e822023a5a86c" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::pkg_resources::Distribution</scope><name>from_wheel</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a35090523d1446c5481fa719a98f60024" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::pkg_resources::Distribution</scope><name>info_location</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1ad612216d14334974accb8035cef73b80" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::pkg_resources::Distribution</scope><name>installed_by_distutils</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a69c080810a0abf33739b0ba504294f84" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::pkg_resources::Distribution</scope><name>installed_location</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1ab0cdc90d846eed9aa84b5a05be4a3158" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::pkg_resources::Distribution</scope><name>is_extra_provided</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a03d9167c7b35407de32bfaf1de4cfc93" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::pkg_resources::Distribution</scope><name>is_file</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a45334b4f287e5e16bb9989f6ab9da304" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::pkg_resources::Distribution</scope><name>iter_dependencies</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1ae01494c58d2380d7131f54ca66f6b529" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::pkg_resources::Distribution</scope><name>iter_distutils_script_names</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1afb2203fd7dc18b79d17cb35f308ea70e" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::pkg_resources::Distribution</scope><name>iter_entry_points</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a6973bf63e63ac086ba81ffea224f0286" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::pkg_resources::Distribution</scope><name>iter_provided_extras</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a0f2f12c49a237ef615c9763d10b66e6b" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::pkg_resources::Distribution</scope><name>location</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1a0cf924ce0fc51f545d24d00b1e62d304" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::pkg_resources::Distribution</scope><name>read_text</name></member>
+      <member refid="classpip_1_1__internal_1_1metadata_1_1pkg__resources_1_1Distribution_1ac83e189aa08d2465284bb5d465190dde" prot="public" virt="non-virtual"><scope>pip::_internal::metadata::pkg_resources::Distribution</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

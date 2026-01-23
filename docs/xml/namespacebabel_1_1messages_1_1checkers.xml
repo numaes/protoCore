@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacebabel_1_1messages_1_1checkers" kind="namespace" language="Python">
+    <compoundname>babel::messages::checkers</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1checkers_1ae989ca2ff4a473c330ef5d39bbd4b1fb" prot="protected" static="no" mutable="no">
+        <type>list</type>
+        <definition>list babel::messages::checkers._string_format_compatibilities</definition>
+        <argsstring></argsstring>
+        <name>_string_format_compatibilities</name>
+        <qualifiedname>babel.messages.checkers._string_format_compatibilities</qualifiedname>
+        <initializer>=  [
+    {&apos;i&apos;, &apos;d&apos;, &apos;u&apos;},
+    {&apos;x&apos;, &apos;X&apos;},
+    {&apos;f&apos;, &apos;F&apos;, &apos;g&apos;, &apos;G&apos;},
+]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/checkers.py" line="19" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/checkers.py" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacebabel_1_1messages_1_1checkers_1add80e35d5e2de45d06978a790ae005e1" prot="public" static="no" mutable="no">
+        <type>list</type>
+        <definition>list babel::messages::checkers.checkers</definition>
+        <argsstring></argsstring>
+        <name>checkers</name>
+        <qualifiedname>babel.messages.checkers.checkers</qualifiedname>
+        <initializer>=  <ref refid="namespacebabel_1_1messages_1_1checkers_1ab6526be8755386e3827192ba862e3647" kindref="member">_find_checkers</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/checkers.py" line="168" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/checkers.py" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1checkers_1a30abed1c5817921c730b79a351eba427" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None babel.messages.checkers.num_plurals</definition>
+        <argsstring>(Catalog|None catalog, Message message)</argsstring>
+        <name>num_plurals</name>
+        <qualifiedname>babel.messages.checkers.num_plurals</qualifiedname>
+        <param>
+          <type><ref refid="classbabel_1_1messages_1_1catalog_1_1Catalog" kindref="compound">Catalog</ref>|None</type>
+          <declname>catalog</declname>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1messages_1_1catalog_1_1Message" kindref="compound">Message</ref></type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Verify the number of plurals in the translation.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/checkers.py" line="26" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/checkers.py" bodystart="26" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1checkers_1a062bac5f14e0a7cb9be7ebfdb03cbe96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None babel.messages.checkers.python_format</definition>
+        <argsstring>(Catalog|None catalog, Message message)</argsstring>
+        <name>python_format</name>
+        <qualifiedname>babel.messages.checkers.python_format</qualifiedname>
+        <param>
+          <type><ref refid="classbabel_1_1messages_1_1catalog_1_1Catalog" kindref="compound">Catalog</ref>|None</type>
+          <declname>catalog</declname>
+        </param>
+        <param>
+          <type><ref refid="classbabel_1_1messages_1_1catalog_1_1Message" kindref="compound">Message</ref></type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Verify the format string placeholders in the translation.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/checkers.py" line="46" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/checkers.py" bodystart="46" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1checkers_1a9dd46f4f7741138f61c25db52c974d78" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None babel.messages.checkers._validate_format</definition>
+        <argsstring>(str format, str alternative)</argsstring>
+        <name>_validate_format</name>
+        <qualifiedname>babel.messages.checkers._validate_format</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>alternative</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Test format string `alternative` against `format`.  `format` can be the
+msgid of a message and `alternative` one of the `msgstr`\\s.  The two
+arguments are not interchangeable as `alternative` may contain less
+placeholders if `format` uses named placeholders.
+
+If the string formatting of `alternative` is compatible to `format` the
+function returns `None`, otherwise a `TranslationError` is raised.
+
+Examples for compatible format strings:
+
+&gt;&gt;&gt; _validate_format(&apos;Hello %s!&apos;, &apos;Hallo %s!&apos;)
+&gt;&gt;&gt; _validate_format(&apos;Hello %i!&apos;, &apos;Hallo %d!&apos;)
+
+Example for an incompatible format strings:
+
+&gt;&gt;&gt; _validate_format(&apos;Hello %(name)s!&apos;, &apos;Hallo %s!&apos;)
+Traceback (most recent call last):
+  ...
+TranslationError: the format strings are of different kinds
+
+This function is used by the `python_format` checker.
+
+:param format: The original format string
+:param alternative: The alternative format string that should be checked
+                    against format
+:raises TranslationError: on formatting errors
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/checkers.py" line="62" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/checkers.py" bodystart="62" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacebabel_1_1messages_1_1checkers_1ab6526be8755386e3827192ba862e3647" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>list[Callable[[<ref refid="classbabel_1_1messages_1_1catalog_1_1Catalog" kindref="compound">Catalog</ref>|None, <ref refid="classbabel_1_1messages_1_1catalog_1_1Message" kindref="compound">Message</ref>], object]]</type>
+        <definition> list[Callable[[Catalog | None, Message], object]] babel.messages.checkers._find_checkers</definition>
+        <argsstring>()</argsstring>
+        <name>_find_checkers</name>
+        <qualifiedname>babel.messages.checkers._find_checkers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/babel/messages/checkers.py" line="157" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/checkers.py" bodystart="157" bodyend="167"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>    babel.messages.checkers
+    ~~~~~~~~~~~~~~~~~~~~~~~
+
+    Various routines that help with validation of translations.
+
+    :since: version 0.9
+
+    :copyright: (c) 2013-2025 by the Babel Team.
+    :license: BSD, see LICENSE for more details.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/babel/messages/checkers.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

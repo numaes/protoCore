@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1ext_1_1autodoc_1_1ClassLevelDocumenter" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::ext::autodoc::ClassLevelDocumenter</compoundname>
+    <basecompoundref refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter" prot="public" virt="non-virtual">sphinx.ext.autodoc.Documenter</basecompoundref>
+    <derivedcompoundref refid="classsphinx_1_1ext_1_1autodoc_1_1MethodDocumenter" prot="public" virt="non-virtual">sphinx.ext.autodoc.MethodDocumenter</derivedcompoundref>
+    <derivedcompoundref refid="classsphinx_1_1ext_1_1autodoc_1_1PropertyDocumenter" prot="public" virt="non-virtual">sphinx.ext.autodoc.PropertyDocumenter</derivedcompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1ext_1_1autodoc_1_1ClassLevelDocumenter_1a1745f4a70317ff54d6e78ef39137e6da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str|None, list[str]]</type>
+        <definition> tuple[str | None, list[str]] sphinx.ext.autodoc.ClassLevelDocumenter.resolve_name</definition>
+        <argsstring>(self, str|None modname, Any parents, str path, str base)</argsstring>
+        <name>resolve_name</name>
+        <qualifiedname>sphinx.ext.autodoc.ClassLevelDocumenter.resolve_name</qualifiedname>
+        <reimplements refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter_1ad35164b7b2be5eaa6f04bb0966d1b46f">resolve_name</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str|None</type>
+          <declname>modname</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>parents</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>base</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Resolve the module and name of the object to document given by the
+arguments and the current module/class.
+
+Must return a pair of the module name and a chain of attributes; for
+example, it would return ``(&apos;zipfile&apos;, [&apos;ZipFile&apos;, &apos;open&apos;])`` for the
+``zipfile.ZipFile.open`` method.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1343" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1345" bodyend="1372"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Specialized Documenter subclass for objects on class level (methods,
+attributes).
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>sphinx.ext.autodoc.ClassLevelDocumenter</label>
+        <link refid="classsphinx_1_1ext_1_1autodoc_1_1ClassLevelDocumenter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.ext.autodoc.Documenter</label>
+        <link refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter"/>
+      </node>
+      <node id="3">
+        <label>sphinx.ext.autodoc.MethodDocumenter</label>
+        <link refid="classsphinx_1_1ext_1_1autodoc_1_1MethodDocumenter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>sphinx.ext.autodoc.PropertyDocumenter</label>
+        <link refid="classsphinx_1_1ext_1_1autodoc_1_1PropertyDocumenter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>sphinx.ext.autodoc.ClassLevelDocumenter</label>
+        <link refid="classsphinx_1_1ext_1_1autodoc_1_1ClassLevelDocumenter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.ext.autodoc.Documenter</label>
+        <link refid="classsphinx_1_1ext_1_1autodoc_1_1Documenter"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>content_indent</edgelabel>
+          <edgelabel>objtype</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" line="1338" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/ext/autodoc/__init__.py" bodystart="1338" bodyend="1372"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1ext_1_1autodoc_1_1ClassLevelDocumenter_1a1745f4a70317ff54d6e78ef39137e6da" prot="public" virt="non-virtual"><scope>sphinx::ext::autodoc::ClassLevelDocumenter</scope><name>resolve_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

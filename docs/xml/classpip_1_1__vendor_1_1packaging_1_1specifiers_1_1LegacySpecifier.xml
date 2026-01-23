@@ -1,0 +1,370 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::packaging::specifiers::LegacySpecifier</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1__IndividualSpecifier" prot="public" virt="non-virtual">pip._vendor.packaging.specifiers._IndividualSpecifier</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier_1a56a9c559388bdb7e6a1f5c6c80bc285b" prot="protected" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str pip._vendor.packaging.specifiers.LegacySpecifier::_regex_str</definition>
+        <argsstring></argsstring>
+        <name>_regex_str</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.LegacySpecifier._regex_str</qualifiedname>
+        <initializer>=  r&quot;&quot;&quot;
+        (?P&lt;<ref refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1__IndividualSpecifier_1ac547c8cd4d814f0e91b7d489187cd25e" kindref="member">operator</ref>&gt;(==|!=|&lt;=|&gt;=|&lt;|&gt;))
+        \s*
+        (?P&lt;<ref refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1__IndividualSpecifier_1a13ff9ffea307759cc7a2b7583a56d7e2" kindref="member">version</ref>&gt;
+            [^,;\s)]* # Since this is a &quot;legacy&quot; specifier, and the <ref refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1__IndividualSpecifier_1a13ff9ffea307759cc7a2b7583a56d7e2" kindref="member">version</ref>
+                      # string can be just about anything, we match everything
+                      # except for whitespace, a semi-colon for marker support,
+                      # a closing paren since versions can be enclosed in
+                      # them, and a comma since it&apos;s a <ref refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1__IndividualSpecifier_1a13ff9ffea307759cc7a2b7583a56d7e2" kindref="member">version</ref> separator.
+        )
+        &quot;&quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="229" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier_1a6fb33d788ba4253ec6e881ed62ba6b63" prot="protected" static="yes" mutable="no">
+        <type></type>
+        <definition>pip._vendor.packaging.specifiers.LegacySpecifier::_regex</definition>
+        <argsstring></argsstring>
+        <name>_regex</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.LegacySpecifier._regex</qualifiedname>
+        <initializer>=  re.compile(r&quot;^\s*&quot; + _regex_str + r&quot;\s*$&quot;, re.VERBOSE | re.IGNORECASE)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="241" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier_1ae4eea4f8cc428cf601677a2cd41320a3" prot="protected" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict pip._vendor.packaging.specifiers.LegacySpecifier::_operators</definition>
+        <argsstring></argsstring>
+        <name>_operators</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.LegacySpecifier._operators</qualifiedname>
+        <initializer>=  {
+        &quot;==&quot;: &quot;equal&quot;,
+        &quot;!=&quot;: &quot;not_equal&quot;,
+        &quot;&lt;=&quot;: &quot;less_than_equal&quot;,
+        &quot;&gt;=&quot;: &quot;greater_than_equal&quot;,
+        &quot;&lt;&quot;: &quot;less_than&quot;,
+        &quot;&gt;&quot;: &quot;greater_than&quot;,
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="243" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="243" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier_1a642eb27bd97e926afa813783bfc31a07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None pip._vendor.packaging.specifiers.LegacySpecifier.__init__</definition>
+        <argsstring>(self, str spec=&quot;&quot;, Optional[bool] prereleases=None)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.LegacySpecifier.__init__</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1__IndividualSpecifier_1a448683a6ceabcffd374f9d8575b64670">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>spec</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>Optional</type>
+          <declname>prereleases</declname>
+          <array>[bool]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="252" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="252" bodyend="260"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier_1a67bfd50b43c6052b4bb6be5ffcbaa0b0" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classpip_1_1__vendor_1_1packaging_1_1version_1_1LegacyVersion" kindref="compound">LegacyVersion</ref></type>
+        <definition> LegacyVersion pip._vendor.packaging.specifiers.LegacySpecifier._coerce_version</definition>
+        <argsstring>(self, UnparsedVersion version)</argsstring>
+        <name>_coerce_version</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.LegacySpecifier._coerce_version</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1__IndividualSpecifier_1a0936610d313e7a5e3c402be6c8f25cce">_coerce_version</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacepip_1_1__vendor_1_1packaging_1_1specifiers_1a72a62ad16de8c039a2c3293fcb57ea8c" kindref="member">UnparsedVersion</ref></type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="261" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="261" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier_1aa992abfe636b5dcc36fb73c9ba6eadc5" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.packaging.specifiers.LegacySpecifier._compare_equal</definition>
+        <argsstring>(self, LegacyVersion prospective, str spec)</argsstring>
+        <name>_compare_equal</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.LegacySpecifier._compare_equal</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1packaging_1_1version_1_1LegacyVersion" kindref="compound">LegacyVersion</ref></type>
+          <declname>prospective</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="266" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="266" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier_1a9772d84edb67d9cc164ae26e13621e1c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.packaging.specifiers.LegacySpecifier._compare_not_equal</definition>
+        <argsstring>(self, LegacyVersion prospective, str spec)</argsstring>
+        <name>_compare_not_equal</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.LegacySpecifier._compare_not_equal</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1packaging_1_1version_1_1LegacyVersion" kindref="compound">LegacyVersion</ref></type>
+          <declname>prospective</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="269" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="269" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier_1a97c4a9b07607db6a9fc75305fad07592" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.packaging.specifiers.LegacySpecifier._compare_less_than_equal</definition>
+        <argsstring>(self, LegacyVersion prospective, str spec)</argsstring>
+        <name>_compare_less_than_equal</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.LegacySpecifier._compare_less_than_equal</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1packaging_1_1version_1_1LegacyVersion" kindref="compound">LegacyVersion</ref></type>
+          <declname>prospective</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="272" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="272" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier_1a40b61cc2c25af7c94aa651295b25dab1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.packaging.specifiers.LegacySpecifier._compare_greater_than_equal</definition>
+        <argsstring>(self, LegacyVersion prospective, str spec)</argsstring>
+        <name>_compare_greater_than_equal</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.LegacySpecifier._compare_greater_than_equal</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1packaging_1_1version_1_1LegacyVersion" kindref="compound">LegacyVersion</ref></type>
+          <declname>prospective</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="275" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="277" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier_1a64bc4cd3d43b304356d7ef3c3da8043a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.packaging.specifiers.LegacySpecifier._compare_less_than</definition>
+        <argsstring>(self, LegacyVersion prospective, str spec)</argsstring>
+        <name>_compare_less_than</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.LegacySpecifier._compare_less_than</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1packaging_1_1version_1_1LegacyVersion" kindref="compound">LegacyVersion</ref></type>
+          <declname>prospective</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="280" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="280" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier_1a7f8ae49153f63ae98b5fcaa3aba95924" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool pip._vendor.packaging.specifiers.LegacySpecifier._compare_greater_than</definition>
+        <argsstring>(self, LegacyVersion prospective, str spec)</argsstring>
+        <name>_compare_greater_than</name>
+        <qualifiedname>pip._vendor.packaging.specifiers.LegacySpecifier._compare_greater_than</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1packaging_1_1version_1_1LegacyVersion" kindref="compound">LegacyVersion</ref></type>
+          <declname>prospective</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="283" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="283" bodyend="286"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="5">
+        <label>abc.ABCMeta</label>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.packaging.specifiers.LegacySpecifier</label>
+        <link refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.packaging.specifiers.BaseSpecifier</label>
+        <link refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1BaseSpecifier"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.packaging.specifiers._IndividualSpecifier</label>
+        <link refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1__IndividualSpecifier"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>abc.ABCMeta</label>
+      </node>
+      <node id="7">
+        <label>str</label>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.packaging.specifiers.LegacySpecifier</label>
+        <link refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>_regex_str</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>pip._vendor.packaging.specifiers.BaseSpecifier</label>
+        <link refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1BaseSpecifier"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.packaging.specifiers._IndividualSpecifier</label>
+        <link refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1__IndividualSpecifier"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>_regex</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>Pattern</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" line="227" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/packaging/specifiers.py" bodystart="227" bodyend="286"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier_1a642eb27bd97e926afa813783bfc31a07" prot="public" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::LegacySpecifier</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier_1a67bfd50b43c6052b4bb6be5ffcbaa0b0" prot="protected" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::LegacySpecifier</scope><name>_coerce_version</name></member>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier_1aa992abfe636b5dcc36fb73c9ba6eadc5" prot="protected" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::LegacySpecifier</scope><name>_compare_equal</name></member>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier_1a7f8ae49153f63ae98b5fcaa3aba95924" prot="protected" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::LegacySpecifier</scope><name>_compare_greater_than</name></member>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier_1a40b61cc2c25af7c94aa651295b25dab1" prot="protected" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::LegacySpecifier</scope><name>_compare_greater_than_equal</name></member>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier_1a64bc4cd3d43b304356d7ef3c3da8043a" prot="protected" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::LegacySpecifier</scope><name>_compare_less_than</name></member>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier_1a97c4a9b07607db6a9fc75305fad07592" prot="protected" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::LegacySpecifier</scope><name>_compare_less_than_equal</name></member>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier_1a9772d84edb67d9cc164ae26e13621e1c" prot="protected" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::LegacySpecifier</scope><name>_compare_not_equal</name></member>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier_1ae4eea4f8cc428cf601677a2cd41320a3" prot="protected" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::LegacySpecifier</scope><name>_operators</name></member>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier_1a6fb33d788ba4253ec6e881ed62ba6b63" prot="protected" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::LegacySpecifier</scope><name>_regex</name></member>
+      <member refid="classpip_1_1__vendor_1_1packaging_1_1specifiers_1_1LegacySpecifier_1a56a9c559388bdb7e6a1f5c6c80bc285b" prot="protected" virt="non-virtual"><scope>pip::_vendor::packaging::specifiers::LegacySpecifier</scope><name>_regex_str</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsphinx_1_1domains_1_1std_1_1OptionXRefRole" kind="class" language="Python" prot="public">
+    <compoundname>sphinx::domains::std::OptionXRefRole</compoundname>
+    <basecompoundref refid="classsphinx_1_1roles_1_1XRefRole" prot="public" virt="non-virtual">sphinx.roles.XRefRole</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classsphinx_1_1domains_1_1std_1_1OptionXRefRole_1a6dbcdd9ef6d573c53c7c90211b594926" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>tuple[str, str]</type>
+        <definition> tuple[str, str] sphinx.domains.std.OptionXRefRole.process_link</definition>
+        <argsstring>(self, BuildEnvironment env, Element refnode, bool has_explicit_title, str title, str target)</argsstring>
+        <name>process_link</name>
+        <qualifiedname>sphinx.domains.std.OptionXRefRole.process_link</qualifiedname>
+        <reimplements refid="classsphinx_1_1roles_1_1XRefRole_1a8e79880f14a6d67c2b52fa4fd2c2d8a3">process_link</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classsphinx_1_1environment_1_1BuildEnvironment" kindref="compound">BuildEnvironment</ref></type>
+          <declname>env</declname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1nodes_1_1Element" kindref="compound">Element</ref></type>
+          <declname>refnode</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>has_explicit_title</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>title</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Called after parsing title and target text, and creating the
+reference node (given in *refnode*).  This method can alter the
+reference node and must return a new (or the same) ``(title, target)``
+tuple.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" line="352" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" bodystart="359" bodyend="363"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>sphinx.domains.std.OptionXRefRole</label>
+        <link refid="classsphinx_1_1domains_1_1std_1_1OptionXRefRole"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.roles.XRefRole</label>
+        <link refid="classsphinx_1_1roles_1_1XRefRole"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.util.docutils.ReferenceRole</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1ReferenceRole"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>sphinx.util.docutils.SphinxRole</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxRole"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="7">
+        <label>Sequence</label>
+      </node>
+      <node id="5">
+        <label>str</label>
+      </node>
+      <node id="6">
+        <label>docutils.parsers.rst.states.Inliner</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Inliner"/>
+        <childnode refid="5" relation="usage">
+          <edgelabel>email_pattern</edgelabel>
+          <edgelabel>emailc</edgelabel>
+          <edgelabel>non_unescaped_whitespace_escape_before</edgelabel>
+          <edgelabel>non_whitespace_after</edgelabel>
+          <edgelabel>non_whitespace_before</edgelabel>
+          <edgelabel>non_whitespace_escape_before</edgelabel>
+          <edgelabel>rfc_url</edgelabel>
+          <edgelabel>simplename</edgelabel>
+          <edgelabel>uri_end</edgelabel>
+          <edgelabel>uri_end_delim</edgelabel>
+          <edgelabel>...</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>sphinx.domains.std.OptionXRefRole</label>
+        <link refid="classsphinx_1_1domains_1_1std_1_1OptionXRefRole"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sphinx.roles.XRefRole</label>
+        <link refid="classsphinx_1_1roles_1_1XRefRole"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sphinx.util.docutils.ReferenceRole</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1ReferenceRole"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>target</edgelabel>
+          <edgelabel>title</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>sphinx.util.docutils.SphinxRole</label>
+        <link refid="classsphinx_1_1util_1_1docutils_1_1SphinxRole"/>
+        <childnode refid="5" relation="usage">
+          <edgelabel>name</edgelabel>
+          <edgelabel>rawtext</edgelabel>
+          <edgelabel>text</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>inliner</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>content</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" line="351" column="1" bodyfile="venv/lib/python3.12/site-packages/sphinx/domains/std/__init__.py" bodystart="351" bodyend="363"/>
+    <listofallmembers>
+      <member refid="classsphinx_1_1domains_1_1std_1_1OptionXRefRole_1a6dbcdd9ef6d573c53c7c90211b594926" prot="public" virt="non-virtual"><scope>sphinx::domains::std::OptionXRefRole</scope><name>process_link</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

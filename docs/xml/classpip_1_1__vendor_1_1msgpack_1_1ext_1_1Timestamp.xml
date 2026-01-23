@@ -1,0 +1,425 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp" kind="class" language="Python" prot="public">
+    <compoundname>pip::_vendor::msgpack::ext::Timestamp</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">object</basecompoundref>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a1f6e5958dd91fc4f2a32d7579e9cd500" prot="private" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list pip._vendor.msgpack.ext.Timestamp::__slots__</definition>
+        <argsstring></argsstring>
+        <name>__slots__</name>
+        <qualifiedname>pip._vendor.msgpack.ext.Timestamp.__slots__</qualifiedname>
+        <initializer>=  [&quot;seconds&quot;, &quot;nanoseconds&quot;]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" line="43" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a402dde70e5dd6bfc4d783bb780a00c8f" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.msgpack.ext.Timestamp::seconds</definition>
+        <argsstring></argsstring>
+        <name>seconds</name>
+        <qualifiedname>pip._vendor.msgpack.ext.Timestamp.seconds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" line="66" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a6445f24723dbb45fb5f6f7e527acf222" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.msgpack.ext.Timestamp::nanoseconds</definition>
+        <argsstring></argsstring>
+        <name>nanoseconds</name>
+        <qualifiedname>pip._vendor.msgpack.ext.Timestamp.nanoseconds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" line="67" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a189e8382c1c2e74905151f2c345c7227" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.msgpack.ext.Timestamp.__init__</definition>
+        <argsstring>(self, seconds, nanoseconds=0)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._vendor.msgpack.ext.Timestamp.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a402dde70e5dd6bfc4d783bb780a00c8f" kindref="member">seconds</ref></type>
+          <defname>seconds</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a6445f24723dbb45fb5f6f7e527acf222" kindref="member">nanoseconds</ref></type>
+          <defname>nanoseconds</defname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Initialize a Timestamp object.
+
+:param int seconds:
+    Number of seconds since the UNIX epoch (00:00:00 UTC Jan 1 1970, minus leap seconds).
+    May be negative.
+
+:param int nanoseconds:
+    Number of nanoseconds to add to `seconds` to get fractional time.
+    Maximum is 999_999_999.  Default is 0.
+
+Note: Negative times (before the UNIX epoch) are represented as negative seconds + positive ns.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" line="45" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" bodystart="45" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a013fc47f5264f8f98347d41528198a81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.msgpack.ext.Timestamp.__repr__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__repr__</name>
+        <qualifiedname>pip._vendor.msgpack.ext.Timestamp.__repr__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>String representation of Timestamp.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" line="69" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" bodystart="69" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a4d3fe80cc99d376d86be9c189eea461b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.msgpack.ext.Timestamp.__eq__</definition>
+        <argsstring>(self, other)</argsstring>
+        <name>__eq__</name>
+        <qualifiedname>pip._vendor.msgpack.ext.Timestamp.__eq__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>other</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check for equality with another Timestamp object</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" line="75" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" bodystart="75" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1ac38b8cada8075f7a1133b06bc99b2317" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.msgpack.ext.Timestamp.__ne__</definition>
+        <argsstring>(self, other)</argsstring>
+        <name>__ne__</name>
+        <qualifiedname>pip._vendor.msgpack.ext.Timestamp.__ne__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>other</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>not-equals method (see :func:`__eq__()`)</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" line="83" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" bodystart="83" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1accadf1f207cfa332dad570e06c9a9056" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.msgpack.ext.Timestamp.__hash__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__hash__</name>
+        <qualifiedname>pip._vendor.msgpack.ext.Timestamp.__hash__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" line="87" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" bodystart="87" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a99e7db66d1b47d7bae513149d80079b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.msgpack.ext.Timestamp.to_bytes</definition>
+        <argsstring>(self)</argsstring>
+        <name>to_bytes</name>
+        <qualifiedname>pip._vendor.msgpack.ext.Timestamp.to_bytes</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Pack this Timestamp object into bytes.
+
+Used for pure-Python msgpack packing.
+
+:returns data: Payload for EXT message with code -1 (timestamp type)
+:rtype: bytes
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" line="117" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" bodystart="117" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a069f7ce9fee3ffade49127b3122ed4fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.msgpack.ext.Timestamp.to_unix</definition>
+        <argsstring>(self)</argsstring>
+        <name>to_unix</name>
+        <qualifiedname>pip._vendor.msgpack.ext.Timestamp.to_unix</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the timestamp as a floating-point value.
+
+:returns: posix timestamp
+:rtype: float
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" line="149" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" bodystart="149" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a874a46e70553e53bd3309c4d3f040895" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.msgpack.ext.Timestamp.to_unix_nano</definition>
+        <argsstring>(self)</argsstring>
+        <name>to_unix_nano</name>
+        <qualifiedname>pip._vendor.msgpack.ext.Timestamp.to_unix_nano</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the timestamp as a unixtime in nanoseconds.
+
+:returns: posix timestamp in nanoseconds
+:rtype: int
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" line="166" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" bodystart="166" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1ab87720a52a1bdd13be0b590aa15576e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.msgpack.ext.Timestamp.to_datetime</definition>
+        <argsstring>(self)</argsstring>
+        <name>to_datetime</name>
+        <qualifiedname>pip._vendor.msgpack.ext.Timestamp.to_datetime</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the timestamp as a UTC datetime.
+
+Python 2 is not supported.
+
+:rtype: datetime.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" line="174" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" bodystart="174" bodyend="184"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a9fb05630c33ac8aeaad788860d7a9c10" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.msgpack.ext.Timestamp.from_bytes</definition>
+        <argsstring>(b)</argsstring>
+        <name>from_bytes</name>
+        <qualifiedname>pip._vendor.msgpack.ext.Timestamp.from_bytes</qualifiedname>
+        <param>
+          <type>b</type>
+          <defname>b</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Unpack bytes into a `Timestamp` object.
+
+Used for pure-Python msgpack unpacking.
+
+:param b: Payload from msgpack ext message with code -1
+:type b: bytes
+
+:returns: Timestamp object unpacked from msgpack ext payload
+:rtype: Timestamp
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" line="91" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" bodystart="91" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1abbf8f3b8451d2cbc1feaab2fa496e5cb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.msgpack.ext.Timestamp.from_unix</definition>
+        <argsstring>(unix_sec)</argsstring>
+        <name>from_unix</name>
+        <qualifiedname>pip._vendor.msgpack.ext.Timestamp.from_unix</qualifiedname>
+        <param>
+          <type>unix_sec</type>
+          <defname>unix_sec</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create a Timestamp from posix timestamp in seconds.
+
+:param unix_float: Posix timestamp in seconds.
+:type unix_float: int or float.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" line="139" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" bodystart="139" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a3e70913bf22853d5ce51af9c8bf1d74f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.msgpack.ext.Timestamp.from_unix_nano</definition>
+        <argsstring>(unix_ns)</argsstring>
+        <name>from_unix_nano</name>
+        <qualifiedname>pip._vendor.msgpack.ext.Timestamp.from_unix_nano</qualifiedname>
+        <param>
+          <type>unix_ns</type>
+          <defname>unix_ns</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create a Timestamp from posix timestamp in nanoseconds.
+
+:param int unix_ns: Posix timestamp in nanoseconds.
+:rtype: Timestamp
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" line="158" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" bodystart="158" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1af28d01f4f9089ff5e86bfe9216e21c1d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.msgpack.ext.Timestamp.from_datetime</definition>
+        <argsstring>(dt)</argsstring>
+        <name>from_datetime</name>
+        <qualifiedname>pip._vendor.msgpack.ext.Timestamp.from_datetime</qualifiedname>
+        <param>
+          <type>dt</type>
+          <defname>dt</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create a Timestamp from datetime with tzinfo.
+
+Python 2 is not supported.
+
+:rtype: Timestamp
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" line="186" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" bodystart="186" bodyend="194"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Timestamp represents the Timestamp extension type in msgpack.
+
+When built with Cython, msgpack uses C methods to pack and unpack `Timestamp`. When using pure-Python
+msgpack, :func:`to_bytes` and :func:`from_bytes` are used to pack and unpack `Timestamp`.
+
+This class is immutable: Do not override seconds and nanoseconds.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.msgpack.ext.Timestamp</label>
+        <link refid="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.msgpack.ext.Timestamp</label>
+        <link refid="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" line="34" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/msgpack/ext.py" bodystart="34" bodyend="194"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a4d3fe80cc99d376d86be9c189eea461b" prot="public" virt="non-virtual"><scope>pip::_vendor::msgpack::ext::Timestamp</scope><name>__eq__</name></member>
+      <member refid="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1accadf1f207cfa332dad570e06c9a9056" prot="public" virt="non-virtual"><scope>pip::_vendor::msgpack::ext::Timestamp</scope><name>__hash__</name></member>
+      <member refid="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a189e8382c1c2e74905151f2c345c7227" prot="public" virt="non-virtual"><scope>pip::_vendor::msgpack::ext::Timestamp</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1ac38b8cada8075f7a1133b06bc99b2317" prot="public" virt="non-virtual"><scope>pip::_vendor::msgpack::ext::Timestamp</scope><name>__ne__</name></member>
+      <member refid="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a013fc47f5264f8f98347d41528198a81" prot="public" virt="non-virtual"><scope>pip::_vendor::msgpack::ext::Timestamp</scope><name>__repr__</name></member>
+      <member refid="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a1f6e5958dd91fc4f2a32d7579e9cd500" prot="private" virt="non-virtual"><scope>pip::_vendor::msgpack::ext::Timestamp</scope><name>__slots__</name></member>
+      <member refid="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a9fb05630c33ac8aeaad788860d7a9c10" prot="public" virt="non-virtual"><scope>pip::_vendor::msgpack::ext::Timestamp</scope><name>from_bytes</name></member>
+      <member refid="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1af28d01f4f9089ff5e86bfe9216e21c1d" prot="public" virt="non-virtual"><scope>pip::_vendor::msgpack::ext::Timestamp</scope><name>from_datetime</name></member>
+      <member refid="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1abbf8f3b8451d2cbc1feaab2fa496e5cb" prot="public" virt="non-virtual"><scope>pip::_vendor::msgpack::ext::Timestamp</scope><name>from_unix</name></member>
+      <member refid="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a3e70913bf22853d5ce51af9c8bf1d74f" prot="public" virt="non-virtual"><scope>pip::_vendor::msgpack::ext::Timestamp</scope><name>from_unix_nano</name></member>
+      <member refid="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a6445f24723dbb45fb5f6f7e527acf222" prot="public" virt="non-virtual"><scope>pip::_vendor::msgpack::ext::Timestamp</scope><name>nanoseconds</name></member>
+      <member refid="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a402dde70e5dd6bfc4d783bb780a00c8f" prot="public" virt="non-virtual"><scope>pip::_vendor::msgpack::ext::Timestamp</scope><name>seconds</name></member>
+      <member refid="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a99e7db66d1b47d7bae513149d80079b3" prot="public" virt="non-virtual"><scope>pip::_vendor::msgpack::ext::Timestamp</scope><name>to_bytes</name></member>
+      <member refid="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1ab87720a52a1bdd13be0b590aa15576e5" prot="public" virt="non-virtual"><scope>pip::_vendor::msgpack::ext::Timestamp</scope><name>to_datetime</name></member>
+      <member refid="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a069f7ce9fee3ffade49127b3122ed4fa" prot="public" virt="non-virtual"><scope>pip::_vendor::msgpack::ext::Timestamp</scope><name>to_unix</name></member>
+      <member refid="classpip_1_1__vendor_1_1msgpack_1_1ext_1_1Timestamp_1a874a46e70553e53bd3309c4d3f040895" prot="public" virt="non-virtual"><scope>pip::_vendor::msgpack::ext::Timestamp</scope><name>to_unix_nano</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="md_Structural_01description_2guides_203__contributing" kind="page">
+    <compoundname>md_Structural_01description_2guides_203__contributing</compoundname>
+    <title>Guide: How to Contribute to Proto</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><anchor id="md_Structural_01description_2guides_203__contributing_1autotoc_md68"/> </para>
+<sect1 id="md_Structural_01description_2guides_203__contributing_1autotoc_md69">
+<title>Introduction</title>
+<para>Thank you for your interest in contributing to Proto! We welcome contributions from everyone, whether you&apos;re fixing a bug, improving documentation, or proposing a major new feature. This document outlines the process for contributing to ensure it&apos;s as smooth as possible for everyone involved.</para>
+</sect1>
+<sect1 id="md_Structural_01description_2guides_203__contributing_1autotoc_md70">
+<title>Getting Started</title>
+<para>Before you start, it&apos;s a good idea to familiarize yourself with the project&apos;s architecture. The <bold><ulink url="../architecture/">Architecture Deep Dive documents</ulink></bold> are the best place to start.</para>
+<para>Make sure you can build the project locally by following the <bold><ref refid="md_Structural_01description_2guides_201__quick__start" kindref="compound">Quick Start Guide</ref></bold>.</para>
+</sect1>
+<sect1 id="md_Structural_01description_2guides_203__contributing_1autotoc_md71">
+<title>The Contribution Workflow</title>
+<para>We follow a standard GitHub-based workflow.</para>
+<para><orderedlist>
+<listitem><para><bold>Fork the Repository:</bold> Start by forking the main Proto repository to your own GitHub account.</para>
+</listitem><listitem><para><bold>Create a New Branch:</bold> For each new feature or bugfix, create a descriptive branch in your fork. ```sh </para>
+</listitem></orderedlist>
+</para>
+</sect1>
+<sect1 id="md_Structural_01description_2guides_203__contributing_1autotoc_md72">
+<title>Example for a new feature</title>
+<para>git checkout -b feature/add-new-widget</para>
+</sect1>
+<sect1 id="md_Structural_01description_2guides_203__contributing_1autotoc_md73">
+<title>Example for a bugfix</title>
+<para>git checkout -b fix/resolve-memory-leak ```</para>
+<para><orderedlist>
+<listitem><para><bold>Make Your Changes:</bold> Write your code or documentation. Please adhere to the following guidelines.</para>
+</listitem><listitem><para><bold>Write Tests:</bold> If you are adding a new feature or fixing a bug, please add a corresponding test case to the test suite to verify its correctness.</para>
+</listitem><listitem><para><bold>Ensure Tests Pass:</bold> Run the full test suite locally to ensure your changes haven&apos;t introduced any regressions. <computeroutput>sh @section autotoc_md74 From the build directory make test </computeroutput></para>
+</listitem><listitem><para><bold>Commit Your Work:</bold> Write clear and concise commit messages. A good commit message explains the &quot;what&quot; and the &quot;why&quot; of the change.</para>
+</listitem><listitem><para><bold>Push to Your Fork:</bold> Push your branch to your personal fork on GitHub. <computeroutput>sh git push origin feature/add-new-widget </computeroutput></para>
+</listitem><listitem><para><bold>Open a Pull Request (PR):</bold> Go to the main Proto repository and open a new Pull Request. The PR description should clearly explain the changes you&apos;ve made. If it resolves an existing issue, be sure to reference it (e.g., <computeroutput>Closes #123</computeroutput>).</para>
+</listitem></orderedlist>
+</para>
+<sect2 id="md_Structural_01description_2guides_203__contributing_1autotoc_md75">
+<title>Coding Style</title>
+<para><itemizedlist>
+<listitem><para><bold>C++:</bold> We adhere to the Google C++ Style Guide. Please try to match the style of the existing codebase.</para>
+</listitem><listitem><para>**Python (<computeroutput>proto_python</computeroutput>):** We follow the PEP 8 style guide.</para>
+</listitem><listitem><para><bold>Documentation:</bold> We use Markdown. Please keep line lengths reasonable (around 80-100 characters) to make diffs easier to read.</para>
+</listitem></itemizedlist>
+</para>
+</sect2>
+<sect2 id="md_Structural_01description_2guides_203__contributing_1autotoc_md76">
+<title>Proposing Major Changes</title>
+<para>If you want to propose a significant architectural change, please <bold>open an issue or start a discussion</bold> on the GitHub Discussions page first. This allows the community to discuss the proposal before you invest a lot of time in writing code. This is the best way to ensure your contribution will be aligned with the project&apos;s direction and ultimately accepted.</para>
+</sect2>
+<sect2 id="md_Structural_01description_2guides_203__contributing_1autotoc_md77">
+<title>Code of Conduct</title>
+<para>We are committed to providing a welcoming and inclusive environment. All contributors are expected to abide by our Code of Conduct. (Note: A <computeroutput>CODE_OF_CONDUCT.md</computeroutput> file would need to be created for a real project). </para>
+</sect2>
+</sect1>
+    </detaileddescription>
+    <location file="Structural description/guides/03_contributing.md"/>
+  </compounddef>
+</doxygen>

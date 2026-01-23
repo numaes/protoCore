@@ -1,0 +1,284 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1Component" kind="class" language="Python" prot="public">
+    <compoundname>docutils::Component</compoundname>
+    <basecompoundref refid="classdocutils_1_1SettingsSpec" prot="public" virt="non-virtual">docutils.SettingsSpec</basecompoundref>
+    <basecompoundref refid="classdocutils_1_1TransformSpec" prot="public" virt="non-virtual">docutils.TransformSpec</basecompoundref>
+    <derivedcompoundref refid="classdocutils_1_1parsers_1_1Parser" prot="public" virt="non-virtual">docutils.parsers.Parser</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1readers_1_1Reader" prot="public" virt="non-virtual">docutils.readers.Reader</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1writers_1_1Writer" prot="public" virt="non-virtual">docutils.writers.Writer</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1Component_1aa174a8959a4f30c8fbec539d04f9e4b7" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.Component::component_type</definition>
+        <argsstring></argsstring>
+        <name>component_type</name>
+        <qualifiedname>docutils.Component.component_type</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/__init__.py" line="277" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/__init__.py" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1Component_1a33c1f5f3814351f7c4c0cde83e247b47" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple docutils.Component::supported</definition>
+        <argsstring></argsstring>
+        <name>supported</name>
+        <qualifiedname>docutils.Component.supported</qualifiedname>
+        <initializer>=  ()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/__init__.py" line="281" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/__init__.py" bodystart="281" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1Component_1a9d064162d25a9e9e0521218742b97191" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.Component.supports</definition>
+        <argsstring>(self, format)</argsstring>
+        <name>supports</name>
+        <qualifiedname>docutils.Component.supports</qualifiedname>
+        <reimplementedby refid="classdocutils_1_1writers_1_1pseudoxml_1_1Writer_1ad65cb84c8520758d55658770128a8ca9">supports</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>format</type>
+          <defname>format</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Is `format` supported by this component?
+
+To be used by transforms to ask the dependent component if it supports
+a certain input context or output format.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/__init__.py" line="284" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/__init__.py" bodystart="284" bodyend="292"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Base class for Docutils components.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>docutils.Component</label>
+        <link refid="classdocutils_1_1Component"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+      </node>
+      <node id="3">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+      </node>
+      <node id="4">
+        <label>docutils.parsers.Parser</label>
+        <link refid="classdocutils_1_1parsers_1_1Parser"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>docutils.parsers.null.Parser</label>
+        <link refid="classdocutils_1_1parsers_1_1null_1_1Parser"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>docutils.parsers.rst.Parser</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1Parser"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>docutils.readers.ReReader</label>
+        <link refid="classdocutils_1_1readers_1_1ReReader"/>
+        <childnode refid="9" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>docutils.readers.Reader</label>
+        <link refid="classdocutils_1_1readers_1_1Reader"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>docutils.readers.doctree.Reader</label>
+        <link refid="classdocutils_1_1readers_1_1doctree_1_1Reader"/>
+        <childnode refid="10" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>docutils.readers.pep.Reader</label>
+        <link refid="classdocutils_1_1readers_1_1pep_1_1Reader"/>
+        <childnode refid="12" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>docutils.readers.standalone.Reader</label>
+        <link refid="classdocutils_1_1readers_1_1standalone_1_1Reader"/>
+        <childnode refid="9" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>docutils.writers.UnfilteredWriter</label>
+        <link refid="classdocutils_1_1writers_1_1UnfilteredWriter"/>
+        <childnode refid="14" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>docutils.writers.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1Writer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>docutils.writers._html_base.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1__html__base_1_1Writer"/>
+        <childnode refid="14" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>docutils.writers.docutils_xml.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1docutils__xml_1_1Writer"/>
+        <childnode refid="14" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>docutils.writers.html4css1.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1html4css1_1_1Writer"/>
+        <childnode refid="18" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>docutils.writers.html5_polyglot.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1html5__polyglot_1_1Writer"/>
+        <childnode refid="18" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>docutils.writers.latex2e.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1latex2e_1_1Writer"/>
+        <childnode refid="14" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>docutils.writers.manpage.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1manpage_1_1Writer"/>
+        <childnode refid="14" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>docutils.writers.null.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1null_1_1Writer"/>
+        <childnode refid="15" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>docutils.writers.odf_odt.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1odf__odt_1_1Writer"/>
+        <childnode refid="14" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>docutils.writers.pep_html.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1pep__html_1_1Writer"/>
+        <childnode refid="19" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>docutils.writers.pseudoxml.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1pseudoxml_1_1Writer"/>
+        <childnode refid="14" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>docutils.writers.s5_html.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1s5__html_1_1Writer"/>
+        <childnode refid="19" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>docutils.writers.xetex.Writer</label>
+        <link refid="classdocutils_1_1writers_1_1xetex_1_1Writer"/>
+        <childnode refid="25" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>sphinx.io.SphinxDummyWriter</label>
+        <link refid="classsphinx_1_1io_1_1SphinxDummyWriter"/>
+        <childnode refid="15" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>sphinx.parsers.Parser</label>
+        <link refid="classsphinx_1_1parsers_1_1Parser"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>sphinx.parsers.RSTParser</label>
+        <link refid="classsphinx_1_1parsers_1_1RSTParser"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+        <childnode refid="8" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>sphinx.writers.html.HTMLWriter</label>
+        <link refid="classsphinx_1_1writers_1_1html_1_1HTMLWriter"/>
+        <childnode refid="19" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>sphinx.writers.manpage.ManualPageWriter</label>
+        <link refid="classsphinx_1_1writers_1_1manpage_1_1ManualPageWriter"/>
+        <childnode refid="27" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>docutils.Component</label>
+        <link refid="classdocutils_1_1Component"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>docutils.SettingsSpec</label>
+        <link refid="classdocutils_1_1SettingsSpec"/>
+      </node>
+      <node id="3">
+        <label>docutils.TransformSpec</label>
+        <link refid="classdocutils_1_1TransformSpec"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/docutils/__init__.py" line="273" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/__init__.py" bodystart="273" bodyend="292"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1Component_1aa174a8959a4f30c8fbec539d04f9e4b7" prot="public" virt="non-virtual"><scope>docutils::Component</scope><name>component_type</name></member>
+      <member refid="classdocutils_1_1Component_1a33c1f5f3814351f7c4c0cde83e247b47" prot="public" virt="non-virtual"><scope>docutils::Component</scope><name>supported</name></member>
+      <member refid="classdocutils_1_1Component_1a9d064162d25a9e9e0521218742b97191" prot="public" virt="non-virtual"><scope>docutils::Component</scope><name>supports</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

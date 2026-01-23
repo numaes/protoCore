@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1__PendingSkip" kind="class" language="Python" prot="protected">
+    <compoundname>pip::_vendor::pyparsing::core::_PendingSkip</compoundname>
+    <basecompoundref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" prot="public" virt="non-virtual">pip._vendor.pyparsing.core.ParserElement</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1__PendingSkip_1a25eaaf837e99bd639f1d2ce893a894a5" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.pyparsing.core._PendingSkip::anchor</definition>
+        <argsstring></argsstring>
+        <name>anchor</name>
+        <qualifiedname>pip._vendor.pyparsing.core._PendingSkip.anchor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="2336" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="2336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1__PendingSkip_1acf7579afd49bff91bbdd08c3e029bb0d" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip._vendor.pyparsing.core._PendingSkip::must_skip</definition>
+        <argsstring></argsstring>
+        <name>must_skip</name>
+        <qualifiedname>pip._vendor.pyparsing.core._PendingSkip.must_skip</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="2337" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="2337" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1__PendingSkip_1a0428e9bd9c6bdceed30590d4bf4996f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.core._PendingSkip.__init__</definition>
+        <argsstring>(self, ParserElement expr, bool must_skip=False)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>pip._vendor.pyparsing.core._PendingSkip.__init__</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement_1a0fb7923210a43b3a9b977e6b6d2d8d36">__init__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement" kindref="compound">ParserElement</ref></type>
+          <declname>expr</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>must_skip</declname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="2334" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="2334" bodyend="2338"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1__PendingSkip_1a39e2cd9f60b32560568a62d36a8bec4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;ParserElement&quot;</type>
+        <definition> &quot;ParserElement&quot; pip._vendor.pyparsing.core._PendingSkip.__add__</definition>
+        <argsstring>(self, other)</argsstring>
+        <name>__add__</name>
+        <qualifiedname>pip._vendor.pyparsing.core._PendingSkip.__add__</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement_1a57e21307948426d1b9756b554104e94f">__add__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>other</type>
+          <defname>other</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Implementation of ``+`` operator - returns :class:`And`. Adding strings to a :class:`ParserElement`
+converts them to :class:`Literal`\\ s by default.
+
+Example::
+
+    greet = Word(alphas) + &quot;,&quot; + Word(alphas) + &quot;!&quot;
+    hello = &quot;Hello, World!&quot;
+    print(hello, &quot;-&gt;&quot;, greet.parse_string(hello))
+
+prints::
+
+    Hello, World! -&gt; [&apos;Hello&apos;, &apos;,&apos;, &apos;World&apos;, &apos;!&apos;]
+
+``...`` may be used as a parse expression as a short form of :class:`SkipTo`::
+
+    Literal(&apos;start&apos;) + ... + Literal(&apos;end&apos;)
+
+is equivalent to::
+
+    Literal(&apos;start&apos;) + SkipTo(&apos;end&apos;)(&quot;_skipped*&quot;) + Literal(&apos;end&apos;)
+
+Note that the skipped text is returned with &apos;_skipped&apos; as a results name,
+and to support having multiple skips in the same parser, the value returned is
+a list of all skipped text.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="2342" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="2342" bodyend="2362"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1__PendingSkip_1ad4493a6694b47897f783ffc0a4da404e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.core._PendingSkip.__repr__</definition>
+        <argsstring>(self)</argsstring>
+        <name>__repr__</name>
+        <qualifiedname>pip._vendor.pyparsing.core._PendingSkip.__repr__</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement_1ad4e58d65d2e9b1d746977150da822a04">__repr__</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="2363" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="2363" bodyend="2365"/>
+      </memberdef>
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1__PendingSkip_1a3ef8031a1cbfd0c5a73b373435769027" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>pip._vendor.pyparsing.core._PendingSkip.parseImpl</definition>
+        <argsstring>(self, *args)</argsstring>
+        <name>parseImpl</name>
+        <qualifiedname>pip._vendor.pyparsing.core._PendingSkip.parseImpl</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement_1a0e531e21dacd0c3e480762c54e771001">parseImpl</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>*</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="2366" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="2366" bodyend="2371"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1__PendingSkip_1a7f99559874e3d8201ffab8ff82607591" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>str</type>
+        <definition> str pip._vendor.pyparsing.core._PendingSkip._generateDefaultName</definition>
+        <argsstring>(self)</argsstring>
+        <name>_generateDefaultName</name>
+        <qualifiedname>pip._vendor.pyparsing.core._PendingSkip._generateDefaultName</qualifiedname>
+        <reimplements refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement_1a329230862b752d8c9e9c9fdc66ff2336">_generateDefaultName</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Child classes must define this method, which defines how the ``default_name`` is set.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="2339" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="2339" bodyend="2341"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>ABC</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.pyparsing.core._PendingSkip</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1__PendingSkip"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pyparsing.core.ParserElement</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>ABC</label>
+      </node>
+      <node id="4">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>pip._vendor.pyparsing.core._PendingSkip</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1__PendingSkip"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>pip._vendor.pyparsing.core.ParserElement</label>
+        <link refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1ParserElement"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>DEFAULT_WHITE_CHARS</edgelabel>
+          <edgelabel>defaultName</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>_parse</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>Tuple</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" line="2331" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_vendor/pyparsing/core.py" bodystart="2331" bodyend="2371"/>
+    <listofallmembers>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1__PendingSkip_1a39e2cd9f60b32560568a62d36a8bec4b" prot="public" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::_PendingSkip</scope><name>__add__</name></member>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1__PendingSkip_1a0428e9bd9c6bdceed30590d4bf4996f0" prot="public" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::_PendingSkip</scope><name>__init__</name></member>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1__PendingSkip_1ad4493a6694b47897f783ffc0a4da404e" prot="public" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::_PendingSkip</scope><name>__repr__</name></member>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1__PendingSkip_1a7f99559874e3d8201ffab8ff82607591" prot="protected" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::_PendingSkip</scope><name>_generateDefaultName</name></member>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1__PendingSkip_1a25eaaf837e99bd639f1d2ce893a894a5" prot="public" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::_PendingSkip</scope><name>anchor</name></member>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1__PendingSkip_1acf7579afd49bff91bbdd08c3e029bb0d" prot="public" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::_PendingSkip</scope><name>must_skip</name></member>
+      <member refid="classpip_1_1__vendor_1_1pyparsing_1_1core_1_1__PendingSkip_1a3ef8031a1cbfd0c5a73b373435769027" prot="public" virt="non-virtual"><scope>pip::_vendor::pyparsing::core::_PendingSkip</scope><name>parseImpl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

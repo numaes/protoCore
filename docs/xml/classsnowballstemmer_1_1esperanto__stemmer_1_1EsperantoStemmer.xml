@@ -1,0 +1,713 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer" kind="class" language="Python" prot="public">
+    <compoundname>snowballstemmer::esperanto_stemmer::EsperantoStemmer</compoundname>
+    <basecompoundref refid="classsnowballstemmer_1_1basestemmer_1_1BaseStemmer" prot="public" virt="non-virtual">snowballstemmer.basestemmer.BaseStemmer</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a67694c0977599b85b4d37c78c0c70d0a" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict snowballstemmer.esperanto_stemmer.EsperantoStemmer::g_vowel</definition>
+        <argsstring></argsstring>
+        <name>g_vowel</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.g_vowel</qualifiedname>
+        <initializer>=  {u&quot;a&quot;, u&quot;e&quot;, u&quot;i&quot;, u&quot;o&quot;, u&quot;u&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="14" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="14" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a2d2c032b6b34ed180e8c523e37bf773f" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict snowballstemmer.esperanto_stemmer.EsperantoStemmer::g_aou</definition>
+        <argsstring></argsstring>
+        <name>g_aou</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.g_aou</qualifiedname>
+        <initializer>=  {u&quot;a&quot;, u&quot;o&quot;, u&quot;u&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="16" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1abea6e867f05597477995c08861d4b05e" prot="public" static="yes" mutable="no">
+        <type>dict</type>
+        <definition>dict snowballstemmer.esperanto_stemmer.EsperantoStemmer::g_digit</definition>
+        <argsstring></argsstring>
+        <name>g_digit</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.g_digit</qualifiedname>
+        <initializer>=  {u&quot;0&quot;, u&quot;1&quot;, u&quot;2&quot;, u&quot;3&quot;, u&quot;4&quot;, u&quot;5&quot;, u&quot;6&quot;, u&quot;7&quot;, u&quot;8&quot;, u&quot;9&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="18" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a907ce1b75035106a8e55c226b77644fe" prot="public" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool snowballstemmer.esperanto_stemmer.EsperantoStemmer::B_foreign</definition>
+        <argsstring></argsstring>
+        <name>B_foreign</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.B_foreign</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="20" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a42940754d9d33c94020af485a6395288" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.esperanto_stemmer.EsperantoStemmer::a_0</definition>
+        <argsstring></argsstring>
+        <name>a_0</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.a_0</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;&quot;, -1, 14),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;-&quot;, 0, 13),
+        Among(u&quot;cx&quot;, 0, 1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;gx&quot;, 0, 2),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;hx&quot;, 0, 3),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;jx&quot;, 0, 4),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;q&quot;, 0, 12),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;sx&quot;, 0, 5),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ux&quot;, 0, 6),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;w&quot;, 0, 12),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;x&quot;, 0, 12),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;y&quot;, 0, 12),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;á&quot;, 0, 7),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;é&quot;, 0, 8),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;í&quot;, 0, 9),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ó&quot;, 0, 10),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ú&quot;, 0, 11)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="419" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="419" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a566d8cc978d819a976dc56567203c617" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.esperanto_stemmer.EsperantoStemmer::a_1</definition>
+        <argsstring></argsstring>
+        <name>a_1</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.a_1</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;as&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;i&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;is&quot;, 1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;os&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;u&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;us&quot;, 4, -1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="439" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="439" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a7aa532cb4b5700e89d0f659eb46b67d4" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.esperanto_stemmer.EsperantoStemmer::a_2</definition>
+        <argsstring></argsstring>
+        <name>a_2</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.a_2</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ci&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;gi&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;hi&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;li&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ili&quot;, 3, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ŝli&quot;, 3, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;mi&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ni&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;oni&quot;, 7, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ri&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;si&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;vi&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ivi&quot;, 11, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ĝi&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ŝi&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;iŝi&quot;, 14, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;malŝi&quot;, 14, -1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="448" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="448" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1af035d176904369cd0fdee2aa3e64504f" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.esperanto_stemmer.EsperantoStemmer::a_3</definition>
+        <argsstring></argsstring>
+        <name>a_3</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.a_3</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;amb&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;bald&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;malbald&quot;, 1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;morg&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;postmorg&quot;, 3, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;adi&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;hodi&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ank&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ĉirk&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;tutĉirk&quot;, 8, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;presk&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;almen&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;apen&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;hier&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;antaŭhier&quot;, 13, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;malgr&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ankor&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;kontr&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;anstat&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;kvaz&quot;, -1, -1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="468" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="468" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a61992eb15908f965087f8aa1db9e80ff" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.esperanto_stemmer.EsperantoStemmer::a_4</definition>
+        <argsstring></argsstring>
+        <name>a_4</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.a_4</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;aliu&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;unu&quot;, -1, -1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="491" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="491" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a88abe523615a6276834d7d253d798aeb" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.esperanto_stemmer.EsperantoStemmer::a_5</definition>
+        <argsstring></argsstring>
+        <name>a_5</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.a_5</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;aha&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;haha&quot;, 0, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;haleluja&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;hola&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;hosana&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;maltra&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;hura&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ĥaĥa&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ekde&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;elde&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;disde&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ehe&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;maltre&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;dirlididi&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;malpli&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;malĉi&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;malkaj&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;amen&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;tamen&quot;, 17, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;oho&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;maltro&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;minus&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;uhu&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;muu&quot;, -1, -1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="496" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="496" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1af6c586917e6dee80ab7af75a46acf43f" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.esperanto_stemmer.EsperantoStemmer::a_6</definition>
+        <argsstring></argsstring>
+        <name>a_6</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.a_6</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;tri&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;du&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;unu&quot;, -1, -1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="523" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="523" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a42d20a9438374efd12690a55df1e44df" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.esperanto_stemmer.EsperantoStemmer::a_7</definition>
+        <argsstring></argsstring>
+        <name>a_7</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.a_7</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;dek&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;cent&quot;, -1, -1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="529" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="529" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a7b8065b9516477c3cd3e04ce88144ab9" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.esperanto_stemmer.EsperantoStemmer::a_8</definition>
+        <argsstring></argsstring>
+        <name>a_8</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.a_8</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;k&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;kelk&quot;, 0, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;nen&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;t&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;mult&quot;, 3, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;samt&quot;, 3, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ĉ&quot;, -1, -1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="534" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="534" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1aa11033c906ae20a865dadc832258008c" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list snowballstemmer.esperanto_stemmer.EsperantoStemmer::a_9</definition>
+        <argsstring></argsstring>
+        <name>a_9</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.a_9</qualifiedname>
+        <initializer>=  [
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;a&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;e&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;i&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;j&quot;, -1, -1, __r_not_after_letter),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;aj&quot;, 3, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;oj&quot;, 3, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;n&quot;, -1, -1, __r_not_after_letter),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;an&quot;, 6, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;en&quot;, 6, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;jn&quot;, 6, -1, __r_not_after_letter),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ajn&quot;, 9, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;ojn&quot;, 9, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;on&quot;, 6, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;o&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;as&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;is&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;os&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;us&quot;, -1, -1),
+        <ref refid="classsnowballstemmer_1_1among_1_1Among" kindref="compound">Among</ref>(u&quot;u&quot;, -1, -1)
+    ]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="544" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="544" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a0eaf10795141b0299d7a2a7e03d2c7be" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.esperanto_stemmer.EsperantoStemmer::B_foreign</definition>
+        <argsstring></argsstring>
+        <name>B_foreign</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.B_foreign</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="23" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1ad2ad3ae0e9d78237f770b244d6f98aa2" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.esperanto_stemmer.EsperantoStemmer::bra</definition>
+        <argsstring></argsstring>
+        <name>bra</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.bra</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="27" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a68725d6ee452140a3e4b0e8c28342b0e" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.esperanto_stemmer.EsperantoStemmer::ket</definition>
+        <argsstring></argsstring>
+        <name>ket</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.ket</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="29" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a91e2c173ed05e8171cddecf961ff31ff" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.esperanto_stemmer.EsperantoStemmer::cursor</definition>
+        <argsstring></argsstring>
+        <name>cursor</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.cursor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="78" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1af72a14ccd693729df3248e9b47ec7e56" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>snowballstemmer.esperanto_stemmer.EsperantoStemmer::limit_backward</definition>
+        <argsstring></argsstring>
+        <name>limit_backward</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.limit_backward</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="370" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="370" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a21707e63aae24d7f08d88dde63f7c879" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.esperanto_stemmer.EsperantoStemmer.__r_canonical_form</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_canonical_form</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.__r_canonical_form</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="22" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="22" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a877126612d4ba003e3e4d164ac2c364a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.esperanto_stemmer.EsperantoStemmer.__r_initial_apostrophe</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_initial_apostrophe</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.__r_initial_apostrophe</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="87" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="87" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a2a79b0571a16ef61b6841c42d0dadae2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.esperanto_stemmer.EsperantoStemmer.__r_pronoun</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_pronoun</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.__r_pronoun</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="102" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="102" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a1a406a935310e17496779dcaf776ee48" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.esperanto_stemmer.EsperantoStemmer.__r_final_apostrophe</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_final_apostrophe</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.__r_final_apostrophe</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="129" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="129" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1aa6c08c03efd8a54b9d5c4a35984d938f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.esperanto_stemmer.EsperantoStemmer.__r_ujn_suffix</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_ujn_suffix</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.__r_ujn_suffix</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="180" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="180" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a8a1d19704daebdc30cae016b84b171db" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.esperanto_stemmer.EsperantoStemmer.__r_uninflected</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_uninflected</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.__r_uninflected</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="213" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="213" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a9f557d2168f16755135e0578e3c04a64" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.esperanto_stemmer.EsperantoStemmer.__r_merged_numeral</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_merged_numeral</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.__r_merged_numeral</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="229" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="229" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1aa10874988e9282e079d89f1a74d3e4bf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.esperanto_stemmer.EsperantoStemmer.__r_correlative</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_correlative</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.__r_correlative</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="236" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="236" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a77266963d9c883a073cdcfa51ae75e21" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.esperanto_stemmer.EsperantoStemmer.__r_long_word</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_long_word</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.__r_long_word</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="296" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="296" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a6a2a85694b197e8b2a1a1d21fdc5d6d3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.esperanto_stemmer.EsperantoStemmer.__r_not_after_letter</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_not_after_letter</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.__r_not_after_letter</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="332" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="332" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a59635b0f701b89510df3e815c7c98532" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.esperanto_stemmer.EsperantoStemmer.__r_standard_suffix</definition>
+        <argsstring>(self)</argsstring>
+        <name>__r_standard_suffix</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer.__r_standard_suffix</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="346" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="346" bodyend="361"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a4003d3d4ac7a4d0950f0f02b59f0f260" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>snowballstemmer.esperanto_stemmer.EsperantoStemmer._stem</definition>
+        <argsstring>(self)</argsstring>
+        <name>_stem</name>
+        <qualifiedname>snowballstemmer.esperanto_stemmer.EsperantoStemmer._stem</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="362" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="362" bodyend="418"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>This class implements the stemming algorithm defined by a snowball script.
+Generated from esperanto.sbl by Snowball 3.0.1 - https://snowballstem.org/
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>snowballstemmer.esperanto_stemmer.EsperantoStemmer</label>
+        <link refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>snowballstemmer.basestemmer.BaseStemmer</label>
+        <link refid="classsnowballstemmer_1_1basestemmer_1_1BaseStemmer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>object</label>
+      </node>
+      <node id="1">
+        <label>snowballstemmer.esperanto_stemmer.EsperantoStemmer</label>
+        <link refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>snowballstemmer.basestemmer.BaseStemmer</label>
+        <link refid="classsnowballstemmer_1_1basestemmer_1_1BaseStemmer"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" line="8" column="1" bodyfile="venv/lib/python3.12/site-packages/snowballstemmer/esperanto_stemmer.py" bodystart="8" bodyend="566"/>
+    <listofallmembers>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a21707e63aae24d7f08d88dde63f7c879" prot="private" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>__r_canonical_form</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1aa10874988e9282e079d89f1a74d3e4bf" prot="private" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>__r_correlative</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a1a406a935310e17496779dcaf776ee48" prot="private" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>__r_final_apostrophe</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a877126612d4ba003e3e4d164ac2c364a" prot="private" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>__r_initial_apostrophe</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a77266963d9c883a073cdcfa51ae75e21" prot="private" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>__r_long_word</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a9f557d2168f16755135e0578e3c04a64" prot="private" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>__r_merged_numeral</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a6a2a85694b197e8b2a1a1d21fdc5d6d3" prot="private" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>__r_not_after_letter</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a2a79b0571a16ef61b6841c42d0dadae2" prot="private" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>__r_pronoun</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a59635b0f701b89510df3e815c7c98532" prot="private" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>__r_standard_suffix</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1aa6c08c03efd8a54b9d5c4a35984d938f" prot="private" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>__r_ujn_suffix</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a8a1d19704daebdc30cae016b84b171db" prot="private" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>__r_uninflected</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a4003d3d4ac7a4d0950f0f02b59f0f260" prot="protected" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>_stem</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a42940754d9d33c94020af485a6395288" prot="public" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>a_0</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a566d8cc978d819a976dc56567203c617" prot="public" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>a_1</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a7aa532cb4b5700e89d0f659eb46b67d4" prot="public" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>a_2</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1af035d176904369cd0fdee2aa3e64504f" prot="public" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>a_3</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a61992eb15908f965087f8aa1db9e80ff" prot="public" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>a_4</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a88abe523615a6276834d7d253d798aeb" prot="public" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>a_5</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1af6c586917e6dee80ab7af75a46acf43f" prot="public" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>a_6</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a42d20a9438374efd12690a55df1e44df" prot="public" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>a_7</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a7b8065b9516477c3cd3e04ce88144ab9" prot="public" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>a_8</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1aa11033c906ae20a865dadc832258008c" prot="public" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>a_9</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a907ce1b75035106a8e55c226b77644fe" prot="public" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>B_foreign</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a0eaf10795141b0299d7a2a7e03d2c7be" prot="public" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>B_foreign</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1ad2ad3ae0e9d78237f770b244d6f98aa2" prot="public" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>bra</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a91e2c173ed05e8171cddecf961ff31ff" prot="public" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>cursor</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a2d2c032b6b34ed180e8c523e37bf773f" prot="public" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>g_aou</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1abea6e867f05597477995c08861d4b05e" prot="public" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>g_digit</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a67694c0977599b85b4d37c78c0c70d0a" prot="public" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>g_vowel</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1a68725d6ee452140a3e4b0e8c28342b0e" prot="public" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>ket</name></member>
+      <member refid="classsnowballstemmer_1_1esperanto__stemmer_1_1EsperantoStemmer_1af72a14ccd693729df3248e9b47ec7e56" prot="public" virt="non-virtual"><scope>snowballstemmer::esperanto_stemmer::EsperantoStemmer</scope><name>limit_backward</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

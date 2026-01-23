@@ -1,0 +1,788 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState" kind="class" language="Python" prot="public">
+    <compoundname>docutils::parsers::rst::states::RSTState</compoundname>
+    <basecompoundref refid="classdocutils_1_1statemachine_1_1StateWS" prot="public" virt="non-virtual">docutils.statemachine.StateWS</basecompoundref>
+    <derivedcompoundref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Body" prot="public" virt="non-virtual">docutils.parsers.rst.states.Body</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1QuotedLiteralBlock" prot="public" virt="non-virtual">docutils.parsers.rst.states.QuotedLiteralBlock</derivedcompoundref>
+    <derivedcompoundref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text" prot="public" virt="non-virtual">docutils.parsers.rst.states.Text</derivedcompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a2929822bc21d74c330c524f53aaf599b" prot="public" static="yes" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RSTState::nested_sm</definition>
+        <argsstring></argsstring>
+        <name>nested_sm</name>
+        <qualifiedname>docutils.parsers.rst.states.RSTState.nested_sm</qualifiedname>
+        <initializer>=  <ref refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1NestedStateMachine" kindref="compound">NestedStateMachine</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="209" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a8375fdb87ebbb8e77175f0ed9c0c141a" prot="public" static="yes" mutable="no">
+        <type>list</type>
+        <definition>list docutils.parsers.rst.states.RSTState::nested_sm_cache</definition>
+        <argsstring></argsstring>
+        <name>nested_sm_cache</name>
+        <qualifiedname>docutils.parsers.rst.states.RSTState.nested_sm_cache</qualifiedname>
+        <initializer>=  []</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="210" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="210" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a35b052d1744b746ca1ed2b36fe1408cf" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RSTState::nested_sm_kwargs</definition>
+        <argsstring></argsstring>
+        <name>nested_sm_kwargs</name>
+        <qualifiedname>docutils.parsers.rst.states.RSTState.nested_sm_kwargs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="213" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a697f0286ecb7c2a4d64a7fadec9f98cc" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RSTState::memo</definition>
+        <argsstring></argsstring>
+        <name>memo</name>
+        <qualifiedname>docutils.parsers.rst.states.RSTState.memo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="220" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a492316982b5cfd692fe05302d09d70c9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RSTState::reporter</definition>
+        <argsstring></argsstring>
+        <name>reporter</name>
+        <qualifiedname>docutils.parsers.rst.states.RSTState.reporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="221" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="221" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1ab2f32a611bef1b1c6ddbfddd91d58075" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RSTState::inliner</definition>
+        <argsstring></argsstring>
+        <name>inliner</name>
+        <qualifiedname>docutils.parsers.rst.states.RSTState.inliner</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="222" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1ad05309b955d4186dc04bdf6808f171f2" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RSTState::document</definition>
+        <argsstring></argsstring>
+        <name>document</name>
+        <qualifiedname>docutils.parsers.rst.states.RSTState.document</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="223" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1aa17ebbfdebc7afa81f28fd0653b83bd9" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RSTState::parent</definition>
+        <argsstring></argsstring>
+        <name>parent</name>
+        <qualifiedname>docutils.parsers.rst.states.RSTState.parent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="224" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="224" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a2baca5762327f76433445e87dd7e3fc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RSTState.__init__</definition>
+        <argsstring>(self, state_machine, debug=False)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>docutils.parsers.rst.states.RSTState.__init__</qualifiedname>
+        <reimplements refid="classdocutils_1_1statemachine_1_1StateWS_1aedcda59b9a844a7cf098e50febecadde">__init__</reimplements>
+        <reimplementedby refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1QuotedLiteralBlock_1ab3021b07bfd98eb22f0b0b8c85eefea1">__init__</reimplementedby>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1statemachine_1_1State_1a53b7644cdad55f7cf544d7431b021571" kindref="member">state_machine</ref></type>
+          <defname>state_machine</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1statemachine_1_1State_1a21c75bc16ebc63ea1559189f1acc3802" kindref="member">debug</ref></type>
+          <defname>debug</defname>
+          <defval>False</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Initialize a `StateSM` object; extends `State.__init__()`.
+
+Check for indent state machine attributes, set defaults if not set.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="212" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="212" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1acf7cbc46f2e2065f638dd640b0392ed4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RSTState.runtime_init</definition>
+        <argsstring>(self)</argsstring>
+        <name>runtime_init</name>
+        <qualifiedname>docutils.parsers.rst.states.RSTState.runtime_init</qualifiedname>
+        <reimplements refid="classdocutils_1_1statemachine_1_1State_1a6f8f62f0289a2146f19b6569fb1458ea">runtime_init</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Initialize this `State` before running the state machine; called from
+`self.state_machine.run()`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="217" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="217" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a6a8818a4ab37653cd050ad3c0f08875a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RSTState.goto_line</definition>
+        <argsstring>(self, abs_line_offset)</argsstring>
+        <name>goto_line</name>
+        <qualifiedname>docutils.parsers.rst.states.RSTState.goto_line</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>abs_line_offset</type>
+          <defname>abs_line_offset</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Jump to input line `abs_line_offset`, ignoring jumps past the end.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="229" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="229" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a9232fa00eea49924667c9baea0779781" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RSTState.no_match</definition>
+        <argsstring>(self, context, transitions)</argsstring>
+        <name>no_match</name>
+        <qualifiedname>docutils.parsers.rst.states.RSTState.no_match</qualifiedname>
+        <reimplements refid="classdocutils_1_1statemachine_1_1State_1a46de5b1150d3d01e25fe46bf30f51afc">no_match</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>context</type>
+          <defname>context</defname>
+        </param>
+        <param>
+          <type><ref refid="classdocutils_1_1statemachine_1_1State_1a30dfc9f8434dbf8ed896c5015a1c9427" kindref="member">transitions</ref></type>
+          <defname>transitions</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Override `StateWS.no_match` to generate a system message.
+
+This code should never be run.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="238" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="238" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1ab3f956ae81f4abf6b272a731f79222ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RSTState.bof</definition>
+        <argsstring>(self, context)</argsstring>
+        <name>bof</name>
+        <qualifiedname>docutils.parsers.rst.states.RSTState.bof</qualifiedname>
+        <reimplements refid="classdocutils_1_1statemachine_1_1State_1a07ba97dcba3191bdfe3b3ce443c33452">bof</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>context</type>
+          <defname>context</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Called at beginning of file.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="251" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="251" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1acf826b13abf1d45e97e948d107fef4bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RSTState.nested_parse</definition>
+        <argsstring>(self, block, input_offset, node, match_titles=False, state_machine_class=None, state_machine_kwargs=None)</argsstring>
+        <name>nested_parse</name>
+        <qualifiedname>docutils.parsers.rst.states.RSTState.nested_parse</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>block</type>
+          <defname>block</defname>
+        </param>
+        <param>
+          <type>input_offset</type>
+          <defname>input_offset</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <param>
+          <type>match_titles</type>
+          <defname>match_titles</defname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>state_machine_class</type>
+          <defname>state_machine_class</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>state_machine_kwargs</type>
+          <defname>state_machine_kwargs</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create a new StateMachine rooted at `node` and run it over the input
+`block`.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="255" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="256" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1aa87f97b7d8a883b05e519fafb0eff413" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RSTState.nested_list_parse</definition>
+        <argsstring>(self, block, input_offset, node, initial_state, blank_finish, blank_finish_state=None, extra_settings={}, match_titles=False, state_machine_class=None, state_machine_kwargs=None)</argsstring>
+        <name>nested_list_parse</name>
+        <qualifiedname>docutils.parsers.rst.states.RSTState.nested_list_parse</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>block</type>
+          <defname>block</defname>
+        </param>
+        <param>
+          <type>input_offset</type>
+          <defname>input_offset</defname>
+        </param>
+        <param>
+          <type>node</type>
+          <defname>node</defname>
+        </param>
+        <param>
+          <type>initial_state</type>
+          <defname>initial_state</defname>
+        </param>
+        <param>
+          <type>blank_finish</type>
+          <defname>blank_finish</defname>
+        </param>
+        <param>
+          <type>blank_finish_state</type>
+          <defname>blank_finish_state</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>extra_settings</type>
+          <defname>extra_settings</defname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>match_titles</type>
+          <defname>match_titles</defname>
+          <defval>False</defval>
+        </param>
+        <param>
+          <type>state_machine_class</type>
+          <defname>state_machine_class</defname>
+          <defval>None</defval>
+        </param>
+        <param>
+          <type>state_machine_kwargs</type>
+          <defname>state_machine_kwargs</defname>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Create a new StateMachine rooted at `node` and run it over the input
+`block`. Also keep track of optional intermediate blank lines and the
+required final one.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="292" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="298" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a3c950bcb6be79f0d128e79d6ccb50ee7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RSTState.section</definition>
+        <argsstring>(self, title, source, style, lineno, messages)</argsstring>
+        <name>section</name>
+        <qualifiedname>docutils.parsers.rst.states.RSTState.section</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>title</type>
+          <defname>title</defname>
+        </param>
+        <param>
+          <type>source</type>
+          <defname>source</defname>
+        </param>
+        <param>
+          <type>style</type>
+          <defname>style</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacedocutils_1_1parsers_1_1rst_1ae9fd95584c96566be7dc095b64e7c26b" kindref="member">lineno</ref></type>
+          <defname>lineno</defname>
+        </param>
+        <param>
+          <type>messages</type>
+          <defname>messages</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check for a valid subsection and create one if it checks out.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="322" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="322" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a058f8d8cee8ddc24ac1df292f9ff57f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RSTState.check_subsection</definition>
+        <argsstring>(self, source, style, lineno)</argsstring>
+        <name>check_subsection</name>
+        <qualifiedname>docutils.parsers.rst.states.RSTState.check_subsection</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>source</type>
+          <defname>source</defname>
+        </param>
+        <param>
+          <type>style</type>
+          <defname>style</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacedocutils_1_1parsers_1_1rst_1ae9fd95584c96566be7dc095b64e7c26b" kindref="member">lineno</ref></type>
+          <defname>lineno</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check for a valid subsection header.  Return True or False.
+
+When a new section is reached that isn&apos;t a subsection of the current
+section, back up the line count (use ``previous_line(-x)``), then
+``raise EOFError``.  The current StateMachine will finish, then the
+calling StateMachine can re-examine the title.  This will work its way
+back up the calling chain until the correct section level isreached.
+
+@@@ Alternative: Evaluate the title, store the title info &amp; level, and
+back up the chain until that level is reached.  Store in memo? Or
+return in results?
+
+:Exception: `EOFError` when a sibling or supersection encountered.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="327" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="327" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a6e9e29b350b0ad7ebf1154edd3d44ca9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RSTState.title_inconsistent</definition>
+        <argsstring>(self, sourcetext, lineno)</argsstring>
+        <name>title_inconsistent</name>
+        <qualifiedname>docutils.parsers.rst.states.RSTState.title_inconsistent</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>sourcetext</type>
+          <defname>sourcetext</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacedocutils_1_1parsers_1_1rst_1ae9fd95584c96566be7dc095b64e7c26b" kindref="member">lineno</ref></type>
+          <defname>lineno</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="368" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="368" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a8f79efdc9496d89456e964bf3360322e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RSTState.new_subsection</definition>
+        <argsstring>(self, title, lineno, messages)</argsstring>
+        <name>new_subsection</name>
+        <qualifiedname>docutils.parsers.rst.states.RSTState.new_subsection</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>title</type>
+          <defname>title</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacedocutils_1_1parsers_1_1rst_1ae9fd95584c96566be7dc095b64e7c26b" kindref="member">lineno</ref></type>
+          <defname>lineno</defname>
+        </param>
+        <param>
+          <type>messages</type>
+          <defname>messages</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Append new subsection to document tree. On return, check level.</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="374" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="374" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a77f9de6f6116937a098014209464db6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RSTState.paragraph</definition>
+        <argsstring>(self, lines, lineno)</argsstring>
+        <name>paragraph</name>
+        <qualifiedname>docutils.parsers.rst.states.RSTState.paragraph</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>lines</type>
+          <defname>lines</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacedocutils_1_1parsers_1_1rst_1ae9fd95584c96566be7dc095b64e7c26b" kindref="member">lineno</ref></type>
+          <defname>lineno</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return a list (paragraph &amp; messages) &amp; a boolean: literal_block next?
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="400" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="400" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a7f7691db57b736f35c1ebc6d56a9dff9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RSTState.inline_text</definition>
+        <argsstring>(self, text, lineno)</argsstring>
+        <name>inline_text</name>
+        <qualifiedname>docutils.parsers.rst.states.RSTState.inline_text</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>text</type>
+          <defname>text</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacedocutils_1_1parsers_1_1rst_1ae9fd95584c96566be7dc095b64e7c26b" kindref="member">lineno</ref></type>
+          <defname>lineno</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return 2 lists: nodes (text and inline elements), and system_messages.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="421" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="421" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1ab50b597c5a44b4b55c05b274f6d64463" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>docutils.parsers.rst.states.RSTState.unindent_warning</definition>
+        <argsstring>(self, node_name)</argsstring>
+        <name>unindent_warning</name>
+        <qualifiedname>docutils.parsers.rst.states.RSTState.unindent_warning</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>node_name</type>
+          <defname>node_name</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="429" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="429" bodyend="436"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>reStructuredText State superclass.
+
+Contains methods used by all State subclasses.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="20">
+        <label>breathe.renderer.sphinxrenderer.InlineText</label>
+        <link refid="classbreathe_1_1renderer_1_1sphinxrenderer_1_1InlineText"/>
+        <childnode refid="19" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>docutils.parsers.rst.states.RSTState</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>docutils.parsers.rst.directives.misc.MetaBody</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1directives_1_1misc_1_1MetaBody"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>docutils.parsers.rst.states.Body</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Body"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>docutils.parsers.rst.states.BulletList</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1BulletList"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>docutils.parsers.rst.states.Definition</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Definition"/>
+        <childnode refid="21" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>docutils.parsers.rst.states.DefinitionList</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1DefinitionList"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>docutils.parsers.rst.states.EnumeratedList</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1EnumeratedList"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>docutils.parsers.rst.states.Explicit</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Explicit"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>docutils.parsers.rst.states.ExtensionOptions</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1ExtensionOptions"/>
+        <childnode refid="13" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>docutils.parsers.rst.states.FieldList</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1FieldList"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>docutils.parsers.rst.states.Line</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Line"/>
+        <childnode refid="21" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>docutils.parsers.rst.states.LineBlock</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1LineBlock"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>docutils.parsers.rst.states.OptionList</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1OptionList"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>docutils.parsers.rst.states.QuotedLiteralBlock</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1QuotedLiteralBlock"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>docutils.parsers.rst.states.RFC2822Body</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RFC2822Body"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>docutils.parsers.rst.states.RFC2822List</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RFC2822List"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>docutils.parsers.rst.states.SpecializedBody</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1SpecializedBody"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>docutils.parsers.rst.states.SpecializedText</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1SpecializedText"/>
+        <childnode refid="19" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>docutils.parsers.rst.states.SubstitutionDef</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1SubstitutionDef"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>docutils.parsers.rst.states.Text</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1Text"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.statemachine.State</label>
+        <link refid="classdocutils_1_1statemachine_1_1State"/>
+      </node>
+      <node id="2">
+        <label>docutils.statemachine.StateWS</label>
+        <link refid="classdocutils_1_1statemachine_1_1StateWS"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>docutils.parsers.rst.states.RSTState</label>
+        <link refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>docutils.statemachine.State</label>
+        <link refid="classdocutils_1_1statemachine_1_1State"/>
+      </node>
+      <node id="2">
+        <label>docutils.statemachine.StateWS</label>
+        <link refid="classdocutils_1_1statemachine_1_1StateWS"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" line="201" column="1" bodyfile="venv/lib/python3.12/site-packages/docutils/parsers/rst/states.py" bodystart="201" bodyend="436"/>
+    <listofallmembers>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a2baca5762327f76433445e87dd7e3fc7" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RSTState</scope><name>__init__</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1ab3f956ae81f4abf6b272a731f79222ac" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RSTState</scope><name>bof</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a058f8d8cee8ddc24ac1df292f9ff57f4" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RSTState</scope><name>check_subsection</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1ad05309b955d4186dc04bdf6808f171f2" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RSTState</scope><name>document</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a6a8818a4ab37653cd050ad3c0f08875a" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RSTState</scope><name>goto_line</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a7f7691db57b736f35c1ebc6d56a9dff9" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RSTState</scope><name>inline_text</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1ab2f32a611bef1b1c6ddbfddd91d58075" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RSTState</scope><name>inliner</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a697f0286ecb7c2a4d64a7fadec9f98cc" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RSTState</scope><name>memo</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1aa87f97b7d8a883b05e519fafb0eff413" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RSTState</scope><name>nested_list_parse</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1acf826b13abf1d45e97e948d107fef4bb" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RSTState</scope><name>nested_parse</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a2929822bc21d74c330c524f53aaf599b" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RSTState</scope><name>nested_sm</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a8375fdb87ebbb8e77175f0ed9c0c141a" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RSTState</scope><name>nested_sm_cache</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a35b052d1744b746ca1ed2b36fe1408cf" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RSTState</scope><name>nested_sm_kwargs</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a8f79efdc9496d89456e964bf3360322e" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RSTState</scope><name>new_subsection</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a9232fa00eea49924667c9baea0779781" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RSTState</scope><name>no_match</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a77f9de6f6116937a098014209464db6c" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RSTState</scope><name>paragraph</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1aa17ebbfdebc7afa81f28fd0653b83bd9" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RSTState</scope><name>parent</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a492316982b5cfd692fe05302d09d70c9" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RSTState</scope><name>reporter</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1acf7cbc46f2e2065f638dd640b0392ed4" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RSTState</scope><name>runtime_init</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a3c950bcb6be79f0d128e79d6ccb50ee7" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RSTState</scope><name>section</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1a6e9e29b350b0ad7ebf1154edd3d44ca9" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RSTState</scope><name>title_inconsistent</name></member>
+      <member refid="classdocutils_1_1parsers_1_1rst_1_1states_1_1RSTState_1ab50b597c5a44b4b55c05b274f6d64463" prot="public" virt="non-virtual"><scope>docutils::parsers::rst::states::RSTState</scope><name>unindent_warning</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,513 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch" kind="namespace" language="Python">
+    <compoundname>urllib3::contrib::emscripten::fetch</compoundname>
+    <innerclass refid="classurllib3_1_1contrib_1_1emscripten_1_1fetch_1_1__JSPIReadStream" prot="protected">urllib3::contrib::emscripten::fetch::_JSPIReadStream</innerclass>
+    <innerclass refid="classurllib3_1_1contrib_1_1emscripten_1_1fetch_1_1__ReadStream" prot="protected">urllib3::contrib::emscripten::fetch::_ReadStream</innerclass>
+    <innerclass refid="classurllib3_1_1contrib_1_1emscripten_1_1fetch_1_1__RequestError" prot="protected">urllib3::contrib::emscripten::fetch::_RequestError</innerclass>
+    <innerclass refid="classurllib3_1_1contrib_1_1emscripten_1_1fetch_1_1__StreamingError" prot="protected">urllib3::contrib::emscripten::fetch::_StreamingError</innerclass>
+    <innerclass refid="classurllib3_1_1contrib_1_1emscripten_1_1fetch_1_1__StreamingFetcher" prot="protected">urllib3::contrib::emscripten::fetch::_StreamingFetcher</innerclass>
+    <innerclass refid="classurllib3_1_1contrib_1_1emscripten_1_1fetch_1_1__TimeoutError" prot="protected">urllib3::contrib::emscripten::fetch::_TimeoutError</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1a2e2737a62c77dad7539ad20a8a8ffe2b" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple urllib3::contrib::emscripten::fetch.HEADERS_TO_IGNORE</definition>
+        <argsstring></argsstring>
+        <name>HEADERS_TO_IGNORE</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch.HEADERS_TO_IGNORE</qualifiedname>
+        <initializer>=  (&quot;user-agent&quot;,)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="63" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1a724a846257cba3c54ab79f30d6a02a4a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int urllib3::contrib::emscripten::fetch.SUCCESS_HEADER</definition>
+        <argsstring></argsstring>
+        <name>SUCCESS_HEADER</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch.SUCCESS_HEADER</qualifiedname>
+        <initializer>=  -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="65" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1ac6eebcb97a840f1cd924ecd82679f13f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int urllib3::contrib::emscripten::fetch.SUCCESS_EOF</definition>
+        <argsstring></argsstring>
+        <name>SUCCESS_EOF</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch.SUCCESS_EOF</qualifiedname>
+        <initializer>=  -2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="66" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1a5c1c638088121652632017c025e30846" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int urllib3::contrib::emscripten::fetch.ERROR_TIMEOUT</definition>
+        <argsstring></argsstring>
+        <name>ERROR_TIMEOUT</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch.ERROR_TIMEOUT</qualifiedname>
+        <initializer>=  -3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="67" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1a77efbd9d157b02ba6423d57843dbffad" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int urllib3::contrib::emscripten::fetch.ERROR_EXCEPTION</definition>
+        <argsstring></argsstring>
+        <name>ERROR_EXCEPTION</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch.ERROR_EXCEPTION</qualifiedname>
+        <initializer>=  -4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="68" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1acfbf8defc970fbf05d70ae66641431c7" prot="protected" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple urllib3::contrib::emscripten::fetch._STREAMING_WORKER_CODE</definition>
+        <argsstring></argsstring>
+        <name>_STREAMING_WORKER_CODE</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch._STREAMING_WORKER_CODE</qualifiedname>
+        <initializer>=  (
+    files(__package__)
+    .joinpath(&quot;emscripten_fetch_worker.js&quot;)
+    .read_text(encoding=&quot;utf-8&quot;)
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="70" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1ad27f8f1d7933736e856dd598a73d36c1" prot="protected" static="no" mutable="no">
+        <type><ref refid="classurllib3_1_1contrib_1_1emscripten_1_1fetch_1_1__StreamingFetcher" kindref="compound">_StreamingFetcher</ref></type>
+        <definition>urllib3::contrib::emscripten::fetch._fetcher</definition>
+        <argsstring></argsstring>
+        <name>_fetcher</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch._fetcher</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="433" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="433" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1a3d2cdc8e6c924151416860aca951233c" prot="public" static="no" mutable="no">
+        <type>tuple</type>
+        <definition>tuple urllib3::contrib::emscripten::fetch.NODE_JSPI_ERROR</definition>
+        <argsstring></argsstring>
+        <name>NODE_JSPI_ERROR</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch.NODE_JSPI_ERROR</qualifiedname>
+        <initializer>=  (
+    &quot;urllib3 only works in Node.js with pyodide.runPythonAsync&quot;
+    &quot; and requires the flag --experimental-wasm-stack-switching in &quot;
+    &quot; versions of node &lt;24.&quot;
+)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="444" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="444" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1af55add1f5489757b20bdb7036c149fb6" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool urllib3::contrib::emscripten::fetch._SHOWN_TIMEOUT_WARNING</definition>
+        <argsstring></argsstring>
+        <name>_SHOWN_TIMEOUT_WARNING</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch._SHOWN_TIMEOUT_WARNING</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="468" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="468" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1a48600a80f691b808009cd291582362cb" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool urllib3::contrib::emscripten::fetch._SHOWN_STREAMING_WARNING</definition>
+        <argsstring></argsstring>
+        <name>_SHOWN_STREAMING_WARNING</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch._SHOWN_STREAMING_WARNING</qualifiedname>
+        <initializer>=  False</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="479" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="479" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1a1737d1ba6509067a0d679ccd4a11d9a3" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>JsProxy</type>
+        <definition> JsProxy urllib3.contrib.emscripten.fetch._obj_from_dict</definition>
+        <argsstring>(dict[str, Any] dict_val)</argsstring>
+        <name>_obj_from_dict</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch._obj_from_dict</qualifiedname>
+        <param>
+          <type>dict</type>
+          <declname>dict_val</declname>
+          <array>[str, Any]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="99" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="99" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1a2e45db8aff17d29d64ecf3d08af3fe5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.contrib.emscripten.fetch.is_in_browser_main_thread</definition>
+        <argsstring>()</argsstring>
+        <name>is_in_browser_main_thread</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch.is_in_browser_main_thread</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="412" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="412" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1a080d04e1fdb739349942c46ddd229b67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.contrib.emscripten.fetch.is_cross_origin_isolated</definition>
+        <argsstring>()</argsstring>
+        <name>is_cross_origin_isolated</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch.is_cross_origin_isolated</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="416" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="416" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1a0f3bc4b5c59f80758db509f168fad4be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.contrib.emscripten.fetch.is_in_node</definition>
+        <argsstring>()</argsstring>
+        <name>is_in_node</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch.is_in_node</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="420" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="420" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1a893135d1f7316919ef2f89d1cabd189b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.contrib.emscripten.fetch.is_worker_available</definition>
+        <argsstring>()</argsstring>
+        <name>is_worker_available</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch.is_worker_available</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="429" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="429" bodyend="432"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1a7f44d022f7339bdb768f7bc5ea4d66a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenResponse" kindref="compound">EmscriptenResponse</ref>|None</type>
+        <definition> EmscriptenResponse | None urllib3.contrib.emscripten.fetch.send_streaming_request</definition>
+        <argsstring>(EmscriptenRequest request)</argsstring>
+        <name>send_streaming_request</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch.send_streaming_request</qualifiedname>
+        <param>
+          <type>EmscriptenRequest</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="451" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="451" bodyend="467"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1a438585bf27eae04c4ef843006d2cecf6" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.contrib.emscripten.fetch._show_timeout_warning</definition>
+        <argsstring>()</argsstring>
+        <name>_show_timeout_warning</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch._show_timeout_warning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="471" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="471" bodyend="478"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1aba9dd5dae3c1ae870ed1b4d2fec3cfc7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None urllib3.contrib.emscripten.fetch._show_streaming_warning</definition>
+        <argsstring>()</argsstring>
+        <name>_show_streaming_warning</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch._show_streaming_warning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="482" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="482" bodyend="500"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1a139c81e5c624b83b0634e528f1324de8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenResponse" kindref="compound">EmscriptenResponse</ref></type>
+        <definition> EmscriptenResponse urllib3.contrib.emscripten.fetch.send_request</definition>
+        <argsstring>(EmscriptenRequest request)</argsstring>
+        <name>send_request</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch.send_request</qualifiedname>
+        <param>
+          <type>EmscriptenRequest</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="501" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="501" bodyend="549"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1a1e83e36902fecd94abda3b6c6810e499" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenResponse" kindref="compound">EmscriptenResponse</ref></type>
+        <definition> EmscriptenResponse urllib3.contrib.emscripten.fetch.send_jspi_request</definition>
+        <argsstring>(EmscriptenRequest request, bool streaming)</argsstring>
+        <name>send_jspi_request</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch.send_jspi_request</qualifiedname>
+        <param>
+          <type>EmscriptenRequest</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>streaming</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Send a request using WebAssembly JavaScript Promise Integration
+to wrap the asynchronous JavaScript fetch api (experimental).
+
+:param request:
+    Request to send
+
+:param streaming:
+    Whether to stream the response
+
+:return: The response object
+:rtype: EmscriptenResponse
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="550" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="552" bodyend="627"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1a718048a89b4035471ffe1fd993774925" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Any</type>
+        <definition> Any urllib3.contrib.emscripten.fetch._run_sync_with_timeout</definition>
+        <argsstring>(Any promise, float timeout, Any js_abort_controller, EmscriptenRequest|None request, EmscriptenResponse|None response)</argsstring>
+        <name>_run_sync_with_timeout</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch._run_sync_with_timeout</qualifiedname>
+        <param>
+          <type>Any</type>
+          <declname>promise</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>timeout</declname>
+        </param>
+        <param>
+          <type>Any</type>
+          <declname>js_abort_controller</declname>
+        </param>
+        <param>
+          <type>EmscriptenRequest|None</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type><ref refid="classurllib3_1_1contrib_1_1emscripten_1_1response_1_1EmscriptenResponse" kindref="compound">EmscriptenResponse</ref>|None</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Await a JavaScript promise synchronously with a timeout which is implemented
+via the AbortController
+
+:param promise:
+    Javascript promise to await
+
+:param timeout:
+    Timeout in seconds
+
+:param js_abort_controller:
+    A JavaScript AbortController object, used on timeout
+
+:param request:
+    The request being handled
+
+:param response:
+    The response being handled (if it exists yet)
+
+:raises _TimeoutError: If the request times out
+:raises _RequestError: If the request raises a JavaScript exception
+
+:return: The result of awaiting the promise.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="628" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="634" bodyend="681"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1afe6694a5375fe4a54fab509fd4ad4f8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.contrib.emscripten.fetch.has_jspi</definition>
+        <argsstring>()</argsstring>
+        <name>has_jspi</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch.has_jspi</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return true if jspi can be used.
+
+This requires both browser support and also WebAssembly
+to be in the correct state - i.e. that the javascript
+call into python was async not sync.
+
+:return: True if jspi can be used.
+:rtype: bool
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="682" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="682" bodyend="700"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1ac3809edc6818304c6afb12b7a329ac73" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.contrib.emscripten.fetch._is_node_js</definition>
+        <argsstring>()</argsstring>
+        <name>_is_node_js</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch._is_node_js</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Check if we are in Node.js.
+
+:return: True if we are in Node.js.
+:rtype: bool
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="701" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="701" bodyend="715"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1a310c592a723a83db5481b1cc8a3f2e2c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool|None</type>
+        <definition> bool | None urllib3.contrib.emscripten.fetch.streaming_ready</definition>
+        <argsstring>()</argsstring>
+        <name>streaming_ready</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch.streaming_ready</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="716" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="716" bodyend="722"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceurllib3_1_1contrib_1_1emscripten_1_1fetch_1a352bd9762c4861d2018e4e8bf1c7c8db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition> bool urllib3.contrib.emscripten.fetch.wait_for_streaming_ready</definition>
+        <argsstring>()</argsstring>
+        <name>wait_for_streaming_ready</name>
+        <qualifiedname>urllib3.contrib.emscripten.fetch.wait_for_streaming_ready</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="723" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" bodystart="723" bodyend="729"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Support for streaming http requests in emscripten.
+
+A few caveats -
+
+If your browser (or Node.js) has WebAssembly JavaScript Promise Integration enabled
+https://github.com/WebAssembly/js-promise-integration/blob/main/proposals/js-promise-integration/Overview.md
+*and* you launch pyodide using `pyodide.runPythonAsync`, this will fetch data using the
+JavaScript asynchronous fetch api (wrapped via `pyodide.ffi.call_sync`). In this case
+timeouts and streaming should just work.
+
+Otherwise, it uses a combination of XMLHttpRequest and a web-worker for streaming.
+
+This approach has several caveats:
+
+Firstly, you can&apos;t do streaming http in the main UI thread, because atomics.wait isn&apos;t allowed.
+Streaming only works if you&apos;re running pyodide in a web worker.
+
+Secondly, this uses an extra web worker and SharedArrayBuffer to do the asynchronous fetch
+operation, so it requires that you have crossOriginIsolation enabled, by serving over https
+(or from localhost) with the two headers below set:
+
+    Cross-Origin-Opener-Policy: same-origin
+    Cross-Origin-Embedder-Policy: require-corp
+
+You can tell if cross origin isolation is successfully enabled by looking at the global crossOriginIsolated variable in
+JavaScript console. If it isn&apos;t, streaming requests will fallback to XMLHttpRequest, i.e. getting the whole
+request into a buffer and then returning it. it shows a warning in the JavaScript console in this case.
+
+Finally, the webworker which does the streaming fetch is created on initial import, but will only be started once
+control is returned to javascript. Call `await wait_for_streaming_ready()` to wait for streaming fetch.
+
+NB: in this code, there are a lot of JavaScript objects. They are named js_*
+to make it clear what type of object they are.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/urllib3/contrib/emscripten/fetch.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

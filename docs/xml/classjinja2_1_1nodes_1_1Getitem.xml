@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1nodes_1_1Getitem" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::nodes::Getitem</compoundname>
+    <basecompoundref refid="classjinja2_1_1nodes_1_1Expr" prot="public" virt="non-virtual">jinja2.nodes.Expr</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1Getitem_1a4dc78a88b07ec33aca386c31837f0847" prot="public" static="yes" mutable="no">
+        <type>tuple</type>
+        <definition>tuple jinja2.nodes.Getitem::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>jinja2.nodes.Getitem.fields</qualifiedname>
+        <initializer>=  (&quot;node&quot;, &quot;arg&quot;, &quot;ctx&quot;)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="836" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="836" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1Getitem_1a413e0c84616b561eb5b3cbafcda08e69" prot="public" static="yes" mutable="no">
+        <type><ref refid="classjinja2_1_1nodes_1_1Expr" kindref="compound">Expr</ref></type>
+        <definition>Expr jinja2.nodes.Getitem::node</definition>
+        <argsstring></argsstring>
+        <name>node</name>
+        <qualifiedname>jinja2.nodes.Getitem.node</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="837" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="837" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1Getitem_1a924105ef43a3e94d87d31446078b921b" prot="public" static="yes" mutable="no">
+        <type><ref refid="classjinja2_1_1nodes_1_1Expr" kindref="compound">Expr</ref></type>
+        <definition>Expr jinja2.nodes.Getitem::arg</definition>
+        <argsstring></argsstring>
+        <name>arg</name>
+        <qualifiedname>jinja2.nodes.Getitem.arg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="838" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="838" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classjinja2_1_1nodes_1_1Getitem_1a6b12a3599c7f0dff8cc08e570796a8ca" prot="public" static="yes" mutable="no">
+        <type>str</type>
+        <definition>str jinja2.nodes.Getitem::ctx</definition>
+        <argsstring></argsstring>
+        <name>ctx</name>
+        <qualifiedname>jinja2.nodes.Getitem.ctx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="839" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="839" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjinja2_1_1nodes_1_1Getitem_1a2997b47e0c3e159be7ff2edc37512dd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Any</type>
+        <definition> t.Any jinja2.nodes.Getitem.as_const</definition>
+        <argsstring>(self, t.Optional[EvalContext] eval_ctx=None)</argsstring>
+        <name>as_const</name>
+        <qualifiedname>jinja2.nodes.Getitem.as_const</qualifiedname>
+        <reimplements refid="classjinja2_1_1nodes_1_1Expr_1afc3c83d61cdf1d87d4a3f54637efb194">as_const</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Optional</type>
+          <declname>eval_ctx</declname>
+          <array>[EvalContext]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Return the value of the expression as constant or raise
+:exc:`Impossible` if this was not possible.
+
+An :class:`EvalContext` can be provided, if none is given
+a default context is created which requires the nodes to have
+an attached environment.
+
+.. versionchanged:: 2.4
+   the `eval_ctx` parameter was added.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="841" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="841" bodyend="854"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Get an attribute or item from an expression and prefer the item.</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.nodes.Getitem</label>
+        <link refid="classjinja2_1_1nodes_1_1Getitem"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.nodes.Expr</label>
+        <link refid="classjinja2_1_1nodes_1_1Expr"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.nodes.Node</label>
+        <link refid="classjinja2_1_1nodes_1_1Node"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>jinja2.nodes.NodeType</label>
+        <link refid="classjinja2_1_1nodes_1_1NodeType"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="7">
+        <label>str</label>
+      </node>
+      <node id="1">
+        <label>jinja2.nodes.Getitem</label>
+        <link refid="classjinja2_1_1nodes_1_1Getitem"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="2" relation="usage">
+          <edgelabel>arg</edgelabel>
+          <edgelabel>node</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>ctx</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.nodes.Expr</label>
+        <link refid="classjinja2_1_1nodes_1_1Expr"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>jinja2.nodes.Node</label>
+        <link refid="classjinja2_1_1nodes_1_1Node"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>jinja2.nodes.NodeType</label>
+        <link refid="classjinja2_1_1nodes_1_1NodeType"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>metaclass</label>
+      </node>
+      <node id="6">
+        <label>type</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/jinja2/nodes.py" line="833" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/nodes.py" bodystart="833" bodyend="854"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1nodes_1_1Getitem_1a924105ef43a3e94d87d31446078b921b" prot="public" virt="non-virtual"><scope>jinja2::nodes::Getitem</scope><name>arg</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Getitem_1a2997b47e0c3e159be7ff2edc37512dd2" prot="public" virt="non-virtual"><scope>jinja2::nodes::Getitem</scope><name>as_const</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Getitem_1a6b12a3599c7f0dff8cc08e570796a8ca" prot="public" virt="non-virtual"><scope>jinja2::nodes::Getitem</scope><name>ctx</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Getitem_1a4dc78a88b07ec33aca386c31837f0847" prot="public" virt="non-virtual"><scope>jinja2::nodes::Getitem</scope><name>fields</name></member>
+      <member refid="classjinja2_1_1nodes_1_1Getitem_1a413e0c84616b561eb5b3cbafcda08e69" prot="public" virt="non-virtual"><scope>jinja2::nodes::Getitem</scope><name>node</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

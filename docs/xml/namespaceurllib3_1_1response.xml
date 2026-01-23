@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespaceurllib3_1_1response" kind="namespace" language="Python">
+    <compoundname>urllib3::response</compoundname>
+    <innerclass refid="classurllib3_1_1response_1_1BaseHTTPResponse" prot="public">urllib3::response::BaseHTTPResponse</innerclass>
+    <innerclass refid="classurllib3_1_1response_1_1BrotliDecoder" prot="public">urllib3::response::BrotliDecoder</innerclass>
+    <innerclass refid="classurllib3_1_1response_1_1BytesQueueBuffer" prot="public">urllib3::response::BytesQueueBuffer</innerclass>
+    <innerclass refid="classurllib3_1_1response_1_1ContentDecoder" prot="public">urllib3::response::ContentDecoder</innerclass>
+    <innerclass refid="classurllib3_1_1response_1_1DeflateDecoder" prot="public">urllib3::response::DeflateDecoder</innerclass>
+    <innerclass refid="classurllib3_1_1response_1_1GzipDecoder" prot="public">urllib3::response::GzipDecoder</innerclass>
+    <innerclass refid="classurllib3_1_1response_1_1GzipDecoderState" prot="public">urllib3::response::GzipDecoderState</innerclass>
+    <innerclass refid="classurllib3_1_1response_1_1HTTPResponse" prot="public">urllib3::response::HTTPResponse</innerclass>
+    <innerclass refid="classurllib3_1_1response_1_1MultiDecoder" prot="public">urllib3::response::MultiDecoder</innerclass>
+    <innerclass refid="classurllib3_1_1response_1_1ZstdDecoder" prot="public">urllib3::response::ZstdDecoder</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceurllib3_1_1response_1a7423849daa29df3934043570f52805a2" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::response.brotli</definition>
+        <argsstring></argsstring>
+        <name>brotli</name>
+        <qualifiedname>urllib3.response.brotli</qualifiedname>
+        <initializer>=  None</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/response.py" line="27" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1response_1a773cf8e93128a20b77eb5ab2977526b6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::response.log</definition>
+        <argsstring></argsstring>
+        <name>log</name>
+        <qualifiedname>urllib3.response.log</qualifiedname>
+        <initializer>=  logging.getLogger(__name__)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/response.py" line="51" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1response_1a13fd5e2e43fc8df8b626b7abe4215936" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool urllib3::response::HAS_ZSTD</definition>
+        <argsstring></argsstring>
+        <name>HAS_ZSTD</name>
+        <qualifiedname>urllib3.response.HAS_ZSTD</qualifiedname>
+        <initializer>=  True</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/response.py" line="153" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceurllib3_1_1response_1ae185c7844b544a5cb196c714f32d6eec" prot="protected" static="no" mutable="no">
+        <type></type>
+        <definition>urllib3::response._zstd_version</definition>
+        <argsstring></argsstring>
+        <name>_zstd_version</name>
+        <qualifiedname>urllib3.response._zstd_version</qualifiedname>
+        <initializer>=  tuple(
+            map(int, re.search(r&quot;^([0-9]+)\.([0-9]+)&quot;, zstd.__version__).groups())  # type: ignore[union-attr]
+        )</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/response.py" line="183" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="183" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceurllib3_1_1response_1a59aef106567efad17bf184d8f32fd3d7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classurllib3_1_1response_1_1ContentDecoder" kindref="compound">ContentDecoder</ref></type>
+        <definition> ContentDecoder urllib3.response._get_decoder</definition>
+        <argsstring>(str mode)</argsstring>
+        <name>_get_decoder</name>
+        <qualifiedname>urllib3.response._get_decoder</qualifiedname>
+        <param>
+          <type>str</type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/urllib3/response.py" line="235" column="1" bodyfile="venv/lib/python3.12/site-packages/urllib3/response.py" bodystart="235" bodyend="252"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/urllib3/response.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

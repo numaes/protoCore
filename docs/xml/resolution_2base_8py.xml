@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="resolution_2base_8py" kind="file" language="Python">
+    <compoundname>base.py</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1resolution_1_1base_1_1BaseResolver" prot="public">pip::_internal::resolution::base::BaseResolver</innerclass>
+    <innernamespace refid="namespacepip">pip</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal">pip::_internal</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1resolution">pip::_internal::resolution</innernamespace>
+    <innernamespace refid="namespacepip_1_1__internal_1_1resolution_1_1base">pip::_internal::resolution::base</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="namespacepip_1_1__internal_1_1resolution" refkind="compound"><highlight class="keyword">from</highlight><highlight class="normal"><sp/>typing<sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>Callable,<sp/>List,<sp/>Optional</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1req_1_1req__install" kindref="compound">pip._internal.req.req_install</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>InstallRequirement</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">from</highlight><highlight class="normal"><sp/><ref refid="namespacepip_1_1__internal_1_1req_1_1req__set" kindref="compound">pip._internal.req.req_set</ref><sp/></highlight><highlight class="keyword">import</highlight><highlight class="normal"><sp/>RequirementSet</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal">InstallRequirementProvider<sp/>=<sp/>Callable[</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/>[str,<sp/>Optional[InstallRequirement]],<sp/>InstallRequirement</highlight></codeline>
+<codeline lineno="8"><highlight class="normal">]</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11" refid="classpip_1_1__internal_1_1resolution_1_1base_1_1BaseResolver" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1resolution_1_1base_1_1BaseResolver" kindref="compound">BaseResolver</ref>:</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1resolution_1_1base_1_1BaseResolver_1a6543e273c7e6dca0ae95a5c3f3792d64" kindref="member">resolve</ref>(</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,<sp/>root_reqs:<sp/>List[InstallRequirement],<sp/>check_supported_wheels:<sp/>bool</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/>RequirementSet:</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>NotImplementedError()</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">def<sp/></highlight><highlight class="normal"><ref refid="classpip_1_1__internal_1_1resolution_1_1base_1_1BaseResolver_1ac12947b2d893de0e4e64f73e4384c590" kindref="member">get_installation_order</ref>(</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>self,<sp/>req_set:<sp/>RequirementSet</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>-&gt;<sp/>List[InstallRequirement]:</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">raise</highlight><highlight class="normal"><sp/>NotImplementedError()</highlight></codeline>
+    </programlisting>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/resolution/base.py"/>
+  </compounddef>
+</doxygen>

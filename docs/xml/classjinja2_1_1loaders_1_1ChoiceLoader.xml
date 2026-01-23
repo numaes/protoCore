@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classjinja2_1_1loaders_1_1ChoiceLoader" kind="class" language="Python" prot="public">
+    <compoundname>jinja2::loaders::ChoiceLoader</compoundname>
+    <basecompoundref refid="classjinja2_1_1loaders_1_1BaseLoader" prot="public" virt="non-virtual">jinja2.loaders.BaseLoader</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classjinja2_1_1loaders_1_1ChoiceLoader_1aa6232f3a1b868ce9be3e9b329a5dd21b" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>jinja2.loaders.ChoiceLoader::loaders</definition>
+        <argsstring></argsstring>
+        <name>loaders</name>
+        <qualifiedname>jinja2.loaders.ChoiceLoader.loaders</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/loaders.py" line="583" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/loaders.py" bodystart="583" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classjinja2_1_1loaders_1_1ChoiceLoader_1a57ad837a8466747999483006cd896d3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>None</type>
+        <definition> None jinja2.loaders.ChoiceLoader.__init__</definition>
+        <argsstring>(self, t.Sequence[BaseLoader] loaders)</argsstring>
+        <name>__init__</name>
+        <qualifiedname>jinja2.loaders.ChoiceLoader.__init__</qualifiedname>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>t.Sequence</type>
+          <declname>loaders</declname>
+          <array>[BaseLoader]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/loaders.py" line="582" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/loaders.py" bodystart="582" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1loaders_1_1ChoiceLoader_1a57652d8256502415393121a1ae6e3f8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.Tuple[str, t.Optional[str], t.Optional[t.Callable[[], bool]]]</type>
+        <definition> t.Tuple[str, t.Optional[str], t.Optional[t.Callable[[], bool]]] jinja2.loaders.ChoiceLoader.get_source</definition>
+        <argsstring>(self, &quot;Environment&quot; environment, str template)</argsstring>
+        <name>get_source</name>
+        <qualifiedname>jinja2.loaders.ChoiceLoader.get_source</qualifiedname>
+        <reimplements refid="classjinja2_1_1loaders_1_1BaseLoader_1a7e222ad2ab60e2cfd58c11822b0c4951">get_source</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>template</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Get the template source, filename and reload helper for a template.
+It&apos;s passed the environment and template name and has to return a
+tuple in the form ``(source, filename, uptodate)`` or raise a
+`TemplateNotFound` error if it can&apos;t locate the template.
+
+The source part of the returned tuple must be the source of the
+template as a string. The filename should be the name of the
+file on the filesystem if it was loaded from there, otherwise
+``None``. The filename is used by Python for the tracebacks
+if no loader extension is used.
+
+The last item in the tuple is the `uptodate` function.  If auto
+reloading is enabled it&apos;s always called to check if the template
+changed.  No arguments are passed so the function must store the
+old state somewhere (for example in a closure).  If it returns `False`
+the template will be reloaded.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/loaders.py" line="585" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/loaders.py" bodystart="587" bodyend="594"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1loaders_1_1ChoiceLoader_1a374f17fb3dee5ffd44e27db365e4370e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>&quot;Template&quot;</type>
+        <definition> &quot;Template&quot; jinja2.loaders.ChoiceLoader.load</definition>
+        <argsstring>(self, &quot;Environment&quot; environment, str name, t.Optional[t.MutableMapping[str, t.Any]] globals=None)</argsstring>
+        <name>load</name>
+        <qualifiedname>jinja2.loaders.ChoiceLoader.load</qualifiedname>
+        <reimplements refid="classjinja2_1_1loaders_1_1BaseLoader_1aec17b1b1367164ea6cb8c532b8033255">load</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <param>
+          <type>&quot;Environment&quot;</type>
+          <declname>environment</declname>
+        </param>
+        <param>
+          <type>str</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>t.Optional]</type>
+          <declname>globals</declname>
+          <array>[t.MutableMapping[str, t.Any]</array>
+          <defval>None</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Loads a template.  This method looks up the template in the cache
+or loads one by calling :meth:`get_source`.  Subclasses should not
+override this method as loaders working on collections of other
+loaders (such as :class:`PrefixLoader` or :class:`ChoiceLoader`)
+will not call this method but `get_source` directly.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/loaders.py" line="596" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/loaders.py" bodystart="601" bodyend="608"/>
+      </memberdef>
+      <memberdef kind="function" id="classjinja2_1_1loaders_1_1ChoiceLoader_1a8eaa4f26fbb8be6539787b078bb0bbd9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>t.List[str]</type>
+        <definition> t.List[str] jinja2.loaders.ChoiceLoader.list_templates</definition>
+        <argsstring>(self)</argsstring>
+        <name>list_templates</name>
+        <qualifiedname>jinja2.loaders.ChoiceLoader.list_templates</qualifiedname>
+        <reimplements refid="classjinja2_1_1loaders_1_1BaseLoader_1acb576631d9b98370780cf622e2433992">list_templates</reimplements>
+        <param>
+          <type>self</type>
+          <defname>self</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Iterates over all templates.  If the loader does not support that
+it should raise a :exc:`TypeError` which is the default behavior.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/jinja2/loaders.py" line="609" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/loaders.py" bodystart="609" bodyend="615"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>This loader works like the `PrefixLoader` just that no prefix is
+specified.  If a template could not be found by one loader the next one
+is tried.
+
+&gt;&gt;&gt; loader = ChoiceLoader([
+...     FileSystemLoader(&apos;/path/to/user/templates&apos;),
+...     FileSystemLoader(&apos;/path/to/system/templates&apos;)
+... ])
+
+This is useful if you want to allow users to override builtin templates
+from a different location.
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>jinja2.loaders.ChoiceLoader</label>
+        <link refid="classjinja2_1_1loaders_1_1ChoiceLoader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.loaders.BaseLoader</label>
+        <link refid="classjinja2_1_1loaders_1_1BaseLoader"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>jinja2.loaders.ChoiceLoader</label>
+        <link refid="classjinja2_1_1loaders_1_1ChoiceLoader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>jinja2.loaders.BaseLoader</label>
+        <link refid="classjinja2_1_1loaders_1_1BaseLoader"/>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/jinja2/loaders.py" line="568" column="1" bodyfile="venv/lib/python3.12/site-packages/jinja2/loaders.py" bodystart="568" bodyend="615"/>
+    <listofallmembers>
+      <member refid="classjinja2_1_1loaders_1_1ChoiceLoader_1a57ad837a8466747999483006cd896d3e" prot="public" virt="non-virtual"><scope>jinja2::loaders::ChoiceLoader</scope><name>__init__</name></member>
+      <member refid="classjinja2_1_1loaders_1_1ChoiceLoader_1a57652d8256502415393121a1ae6e3f8e" prot="public" virt="non-virtual"><scope>jinja2::loaders::ChoiceLoader</scope><name>get_source</name></member>
+      <member refid="classjinja2_1_1loaders_1_1ChoiceLoader_1a8eaa4f26fbb8be6539787b078bb0bbd9" prot="public" virt="non-virtual"><scope>jinja2::loaders::ChoiceLoader</scope><name>list_templates</name></member>
+      <member refid="classjinja2_1_1loaders_1_1ChoiceLoader_1a374f17fb3dee5ffd44e27db365e4370e" prot="public" virt="non-virtual"><scope>jinja2::loaders::ChoiceLoader</scope><name>load</name></member>
+      <member refid="classjinja2_1_1loaders_1_1ChoiceLoader_1aa6232f3a1b868ce9be3e9b329a5dd21b" prot="public" virt="non-virtual"><scope>jinja2::loaders::ChoiceLoader</scope><name>loaders</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

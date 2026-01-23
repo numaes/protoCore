@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="namespacepip_1_1__internal_1_1resolution_1_1resolvelib_1_1found__candidates" kind="namespace" language="Python">
+    <compoundname>pip::_internal::resolution::resolvelib::found_candidates</compoundname>
+    <innerclass refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1found__candidates_1_1FoundCandidates" prot="public">pip::_internal::resolution::resolvelib::found_candidates::FoundCandidates</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1resolution_1_1resolvelib_1_1found__candidates_1a5dc497406a3176c6265b8c383ee1ca94" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::resolution::resolvelib::found_candidates.IndexCandidateInfo</definition>
+        <argsstring></argsstring>
+        <name>IndexCandidateInfo</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.found_candidates.IndexCandidateInfo</qualifiedname>
+        <initializer>=  Tuple[<ref refid="classpip_1_1__vendor_1_1packaging_1_1version_1_1__BaseVersion" kindref="compound">_BaseVersion</ref>, Callable[[], Optional[<ref refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate" kindref="compound">Candidate</ref>]]]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/found_candidates.py" line="19" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/found_candidates.py" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacepip_1_1__internal_1_1resolution_1_1resolvelib_1_1found__candidates_1ad3a8f843281127d3565e14d85d93f6d6" prot="public" static="no" mutable="no">
+        <type></type>
+        <definition>pip::_internal::resolution::resolvelib::found_candidates.SequenceCandidate</definition>
+        <argsstring></argsstring>
+        <name>SequenceCandidate</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.found_candidates.SequenceCandidate</qualifiedname>
+        <initializer>=  Sequence[<ref refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate" kindref="compound">Candidate</ref>]</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/found_candidates.py" line="22" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/found_candidates.py" bodystart="22" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1resolution_1_1resolvelib_1_1found__candidates_1afa66a7fc7d47623ffbe465fc310f3d20" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[<ref refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate" kindref="compound">Candidate</ref>]</type>
+        <definition> Iterator[Candidate] pip._internal.resolution.resolvelib.found_candidates._iter_built</definition>
+        <argsstring>(Iterator[IndexCandidateInfo] infos)</argsstring>
+        <name>_iter_built</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.found_candidates._iter_built</qualifiedname>
+        <param>
+          <type>Iterator</type>
+          <declname>infos</declname>
+          <array>[IndexCandidateInfo]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Iterator for ``FoundCandidates``.
+
+This iterator is used when the package is not already installed. Candidates
+from index come later in their normal ordering.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/found_candidates.py" line="37" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/found_candidates.py" bodystart="37" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1resolution_1_1resolvelib_1_1found__candidates_1a5cd49b222f61f8035d4a840411d605ab" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[<ref refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate" kindref="compound">Candidate</ref>]</type>
+        <definition> Iterator[Candidate] pip._internal.resolution.resolvelib.found_candidates._iter_built_with_prepended</definition>
+        <argsstring>(Candidate installed, Iterator[IndexCandidateInfo] infos)</argsstring>
+        <name>_iter_built_with_prepended</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.found_candidates._iter_built_with_prepended</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate" kindref="compound">Candidate</ref></type>
+          <declname>installed</declname>
+        </param>
+        <param>
+          <type>Iterator</type>
+          <declname>infos</declname>
+          <array>[IndexCandidateInfo]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Iterator for ``FoundCandidates``.
+
+This iterator is used when the resolver prefers the already-installed
+candidate and NOT to upgrade. The installed candidate is therefore
+always yielded first, and candidates from index come later in their
+normal ordering, except skipped when the version is already installed.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/found_candidates.py" line="54" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/found_candidates.py" bodystart="56" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacepip_1_1__internal_1_1resolution_1_1resolvelib_1_1found__candidates_1a7fa95dab7454b1accc89245ba3d194fc" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Iterator[<ref refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate" kindref="compound">Candidate</ref>]</type>
+        <definition> Iterator[Candidate] pip._internal.resolution.resolvelib.found_candidates._iter_built_with_inserted</definition>
+        <argsstring>(Candidate installed, Iterator[IndexCandidateInfo] infos)</argsstring>
+        <name>_iter_built_with_inserted</name>
+        <qualifiedname>pip._internal.resolution.resolvelib.found_candidates._iter_built_with_inserted</qualifiedname>
+        <param>
+          <type><ref refid="classpip_1_1__internal_1_1resolution_1_1resolvelib_1_1base_1_1Candidate" kindref="compound">Candidate</ref></type>
+          <declname>installed</declname>
+        </param>
+        <param>
+          <type>Iterator</type>
+          <declname>infos</declname>
+          <array>[IndexCandidateInfo]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>Iterator for ``FoundCandidates``.
+
+This iterator is used when the resolver prefers to upgrade an
+already-installed package. Candidates from index are returned in their
+normal ordering, except replaced when the version is already installed.
+
+The implementation iterates through and yields other candidates, inserting
+the installed candidate exactly once before we start yielding older or
+equivalent candidates, or after all other candidates if they are all newer.
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/found_candidates.py" line="76" column="1" bodyfile="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/found_candidates.py" bodystart="78" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Utilities to lazily create and visit candidates found.
+
+Creating and visiting a candidate is a *very* costly operation. It involves
+fetching, extracting, potentially building modules from source, and verifying
+distribution metadata. It is therefore crucial for performance to keep
+everything here lazy all the way down, so we only touch candidates that we
+absolutely need, and not &quot;download the world&quot; when we only need one version of
+something.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="venv/lib/python3.12/site-packages/pip/_internal/resolution/resolvelib/found_candidates.py" line="1" column="1"/>
+  </compounddef>
+</doxygen>

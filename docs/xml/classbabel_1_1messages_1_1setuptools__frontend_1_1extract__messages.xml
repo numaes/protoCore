@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classbabel_1_1messages_1_1setuptools__frontend_1_1extract__messages" kind="class" language="Python" prot="public">
+    <compoundname>babel::messages::setuptools_frontend::extract_messages</compoundname>
+    <basecompoundref refid="classbabel_1_1messages_1_1frontend_1_1ExtractMessages" prot="public" virt="non-virtual">babel.messages.frontend.ExtractMessages</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">Command</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>Message extraction command for use in ``setup.py`` scripts.
+
+If correctly installed, this command is available to Setuptools-using
+setup scripts automatically. For projects using plain old ``distutils``,
+the command needs to be registered explicitly in ``setup.py``::
+
+    from babel.messages.setuptools_frontend import extract_messages
+
+    setup(
+        ...
+        cmdclass = {&apos;extract_messages&apos;: extract_messages}
+    )
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>babel.messages.setuptools_frontend.extract_messages</label>
+        <link refid="classbabel_1_1messages_1_1setuptools__frontend_1_1extract__messages"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>babel.messages.frontend.CommandMixin</label>
+        <link refid="classbabel_1_1messages_1_1frontend_1_1CommandMixin"/>
+      </node>
+      <node id="2">
+        <label>babel.messages.frontend.ExtractMessages</label>
+        <link refid="classbabel_1_1messages_1_1frontend_1_1ExtractMessages"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>Command</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>babel.messages.setuptools_frontend.extract_messages</label>
+        <link refid="classbabel_1_1messages_1_1setuptools__frontend_1_1extract__messages"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>babel.messages.frontend.CommandMixin</label>
+        <link refid="classbabel_1_1messages_1_1frontend_1_1CommandMixin"/>
+      </node>
+      <node id="2">
+        <label>babel.messages.frontend.ExtractMessages</label>
+        <link refid="classbabel_1_1messages_1_1frontend_1_1ExtractMessages"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>as_args</edgelabel>
+          <edgelabel>description</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>str</label>
+      </node>
+      <node id="5">
+        <label>Command</label>
+      </node>
+    </collaborationgraph>
+    <location file="venv/lib/python3.12/site-packages/babel/messages/setuptools_frontend.py" line="53" column="1" bodyfile="venv/lib/python3.12/site-packages/babel/messages/setuptools_frontend.py" bodystart="53" bodyend="68"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
