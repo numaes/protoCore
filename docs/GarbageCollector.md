@@ -40,21 +40,22 @@ While the world is stopped, the GC identifies all root objects:
 ### Phase 4: Mark
 - Performs a depth-first traversal starting from the roots.
 - Uses the `processReferences` virtual method on `Cell` implementations to discover reachable objects.
-- Visited objects are tracked in a set (currently `std::unordered_set`).
+- Reachable objects are marked using a bit-flag in the `Cell::next_and_flags` atomic member (bit 0). This is highly efficient as it avoids the allocation and hashing overhead of a separate set.
 
 ### Phase 5: Sweep
 - Iterates through the **captured snapshot** of `DirtySegments`.
 - For each cell in a segment:
     - If it was **not** marked, it is finalized (`finalize()`) and returned to the global `freeCells` list.
-    - If it was marked, it remains in the heap.
+    - If it was marked, the flag is cleared (`unmark()`), and it remains in the heap for the next cycle.
 - Cleans up processed `DirtySegments` from the snapshot. New segments added by threads during the Mark phase are ignored and will be processed in the next cycle.
 
-## Future Improvements
+## Optimization Features
+- **Inline Caching**: Per-thread attribute caches (`ProtoThreadExtension::attributeCache`) speed up prototype chain traversals.
+- **Bit-Marking**: Efficient marking using the lower bits of aligned pointers in the cell chain.
+- **Atomic References**: Thread-safe `mutable_ref` generation using an atomic counter in `ProtoSpace`.
 
-Based on recent technical audits, the following improvements are planned:
-- **Attribute Lookup Caching**: Integrate thread-local inline caches to speed up prototype chain traversals.
-- **Marking Optimization**: Replace the current `std::unordered_set` based marking with a more efficient bitset or marking bits in the cell header.
-- **Secure Reference Generation**: Move to atomic 64-bit counters or thread-local random generators for `mutable_ref` generation to avoid collisions.
+## Future Improvements
+- **Multi-threaded Marking**: Parallelize the mark phase to handle very large heaps.
 
 ## Synchronization Mechanisms
 

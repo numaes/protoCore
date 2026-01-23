@@ -11,17 +11,17 @@ This audit evaluates the architecture of `protoCore`, focusing on the object mod
 
 ## Identified Weaknesses & Potential Issues
 
-### 1. Attribute Lookup Performance
-- **Issue**: `getAttribute` performs a linear search through the prototype chain. If the chain is deep, this becomes very expensive.
-- **Evidence**: `Proto.cpp:98` shows the lookup loop, which doesn't utilize the `attributeCache` found in `ProtoThreadExtension`.
+### 1. Attribute Lookup Performance (Optimized)
+- **Status**: **RESOLVED** in Phase 1.
+- **Solution**: Implemented per-thread **Inline Caching** in `getAttribute`. Stale entries are invalidated in `setAttribute`.
 
-### 2. GC Marking Efficiency
-- **Issue**: The `std::unordered_set<const Cell*> visited` in `ProtoSpace.cpp:171` incurs significant overhead due to internal allocations and hashing during the high-frequency mark phase.
-- **Impact**: Increased "Stop-The-World" latency or marking duration.
+### 2. GC Marking Efficiency (Optimized)
+- **Status**: **RESOLVED** in Phase 1.
+- **Solution**: Replaced `std::unordered_set` with bit-marking in the `Cell::next` pointer. This eliminated hashing overhead and reduced memory pressure.
 
-### 3. Thread-Safety of Reference Generation
-- **Issue**: `generate_mutable_ref()` uses `std::rand()` (`Proto.cpp:13`), which is NOT thread-safe and has a high probability of collisions for long-running systems.
-- **Impact**: Potential data corruption or state collisions in the `mutableRoot`.
+### 3. Thread-Safety of Reference Generation (Robust)
+- **Status**: **RESOLVED** in Phase 2.
+- **Solution**: Implemented an atomic 64-bit counter (`nextMutableRef`) in `ProtoSpace` to ensure unique and thread-safe IDs.
 
 ### 4. Limited Concurrency in GC
 - **Issue**: While the mark phase runs concurrently with the world resumed, the marking itself is not multi-threaded.
@@ -30,12 +30,12 @@ This audit evaluates the architecture of `protoCore`, focusing on the object mod
 ## Proposed Improvements
 
 ### Phase 1: Performance Optimizations
-- [ ] **Implement Inline Caching**: Integrate the `attributeCache` in `ProtoThreadExtension` into the `getAttribute` and `setAttribute` methods.
-- [ ] **Optimize GC Visited Set**: Replace `std::unordered_set` with a more efficient structure, such as a bitset or a hardware-friendly marking bit in the `Cell` header (if alignment allows).
+- [x] **Implement Inline Caching**: Integrated the `attributeCache` in `ProtoThreadExtension` into the `getAttribute` and `setAttribute` methods.
+- [x] **Optimize GC Visited Set**: Replaced `std::unordered_set` with bit-marking in the `Cell` header (using lower bits of the 64-byte aligned pointer).
 
 ### Phase 2: Robustness & Safety
-- [ ] **Thread-Safe Mutable References**: Replace `std::rand()` with a thread-local random generator or an atomic 64-bit counter to ensure unique `mutable_ref` IDs.
-- [ ] **Static Dispatch for Primitives**: Ensure that operations on tagged pointers (like arithmetic) are as fast as possible by avoiding `toImpl` overhead where not strictly necessary.
+- [x] **Thread-Safe Mutable References**: Replaced `std::rand()` with an atomic counter in `ProtoSpace` to ensure unique `mutable_ref` IDs.
+- [x] **Static Dispatch for Primitives**: Optimized arithmetic paths in `Integer.cpp` using direct union access.
 
 ### Phase 3: Advanced Optimization
 - [ ] **Static Dispatch for Primitives**: Ensure that operations on tagged pointers (like arithmetic) are as fast as possible by avoiding `toImpl` overhead where not strictly necessary.
