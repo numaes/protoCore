@@ -10,8 +10,8 @@
 
 namespace proto
 {
-    unsigned long generate_mutable_ref() {
-        return static_cast<unsigned long>(std::rand());
+    unsigned long generate_mutable_ref(ProtoContext* context) {
+        return context->space->nextMutableRef++;
     }
 
     const ProtoObject* ProtoObject::getPrototype(ProtoContext* context) const
@@ -64,7 +64,7 @@ namespace proto
     const ProtoObject* ProtoObject::newChild(ProtoContext* context, bool isMutable) const
     {
         if (!this->isCell(context)) return PROTO_NONE;
-        auto* newObject = new(context) ProtoObjectCell(context, new(context) ParentLinkImplementation(context, toImpl<const ProtoObjectCell>(this)->parent, this), toImpl<const ProtoSparseListImplementation>(context->newSparseList()), isMutable ? generate_mutable_ref() : 0);
+        auto* newObject = new(context) ProtoObjectCell(context, new(context) ParentLinkImplementation(context, toImpl<const ProtoObjectCell>(this)->parent, this), toImpl<const ProtoSparseListImplementation>(context->newSparseList()), isMutable ? generate_mutable_ref(context) : 0);
         return newObject->asObject(context);
     }
 
@@ -97,6 +97,20 @@ namespace proto
 
     const ProtoObject* ProtoObject::getAttribute(ProtoContext* context, const ProtoString* name) const
     {
+        // 1. Inline Cache Lookup
+        AttributeCacheEntry* cache = nullptr;
+        unsigned long hash_idx = 0;
+        if (context->thread) {
+            auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
+            if (threadImpl->extension) {
+                cache = threadImpl->extension->attributeCache;
+                hash_idx = (reinterpret_cast<uintptr_t>(this) ^ name->getHash(context)) % THREAD_CACHE_DEPTH;
+                if (cache[hash_idx].object == this && cache[hash_idx].name == name) {
+                    return cache[hash_idx].result;
+                }
+            }
+        }
+
         const ProtoObject* currentObject = this;
         const unsigned long attr_hash = name->getHash(context);
         while (currentObject) {
@@ -111,12 +125,17 @@ namespace proto
                  if (storedState != PROTO_NONE) {
                      auto* storedOc = toImpl<const ProtoObjectCell>(storedState);
                      attributes = storedOc->attributes;
-                     oc = storedOc; 
+                     oc = storedOc;
                  }
             }
 
             if (attributes->implHas(context, attr_hash)) {
-                return attributes->implGetAt(context, attr_hash);
+                const auto* result = attributes->implGetAt(context, attr_hash);
+                // Update Cache
+                if (cache) {
+                    cache[hash_idx] = {this, result, name};
+                }
+                return result;
             }
             if (oc->parent) currentObject = oc->parent->getObject(context);
             else currentObject = nullptr;
@@ -129,6 +148,18 @@ namespace proto
 
     const ProtoObject* ProtoObject::setAttribute(ProtoContext* context, const ProtoString* name, const ProtoObject* value) const
     {
+        // 1. Invalidate Cache
+        if (context->thread) {
+            auto* threadImpl = toImpl<ProtoThreadImplementation>(context->thread);
+            if (threadImpl->extension) {
+                unsigned long hash_idx = (reinterpret_cast<uintptr_t>(this) ^ name->getHash(context)) % THREAD_CACHE_DEPTH;
+                if (threadImpl->extension->attributeCache[hash_idx].object == this &&
+                    threadImpl->extension->attributeCache[hash_idx].name == name) {
+                    threadImpl->extension->attributeCache[hash_idx] = {nullptr, nullptr, nullptr};
+                }
+            }
+        }
+
         ProtoObjectPointer pa{};
         pa.oid = this;
         if (pa.op.pointer_tag != POINTER_TAG_OBJECT) return this;

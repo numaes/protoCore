@@ -173,13 +173,12 @@ namespace proto {
                 lock.unlock(); // Allow threads to run while we mark and sweep
                 
                 // --- PHASE 4: MARK ---
-                std::unordered_set<const Cell*> visited;
                 while (!workList.empty()) {
                     const Cell* cell = workList.back();
                     workList.pop_back();
-                    
-                    if (visited.find(cell) == visited.end()) {
-                        visited.insert(cell);
+
+                    if (!cell->isMarked()) {
+                        const_cast<Cell*>(cell)->mark();
                         cell->processReferences(space->rootContext, &workList, [](ProtoContext* ctx, void* self, const Cell* ref) {
                             static_cast<std::vector<const Cell*>*>(self)->push_back(ref);
                         });
@@ -193,18 +192,20 @@ namespace proto {
                 while (currentSeg) {
                     Cell* cell = currentSeg->cellChain;
                     while (cell) {
-                        Cell* nextCell = cell->next;
-                        if (visited.find(cell) == visited.end()) {
+                        Cell* nextCell = cell->getNext();
+                        if (!cell->isMarked()) {
                             cell->finalize(space->rootContext);
-                            
+
                             std::lock_guard<std::mutex> freeLock(ProtoSpace::globalMutex);
-                            cell->next = space->freeCells;
+                            cell->setNext(space->freeCells);
                             space->freeCells = cell;
                             space->freeCellsCount++;
+                        } else {
+                            cell->unmark();
                         }
                         cell = nextCell;
                     }
-                    
+
                     DirtySegment* nextSeg = currentSeg->next;
                     delete currentSeg;
                     currentSeg = nextSeg;
@@ -242,7 +243,8 @@ namespace proto {
         dirtySegments(nullptr),
         freeCells(nullptr),
         gcStarted(false),
-        mainContext(nullptr)
+        mainContext(nullptr),
+        nextMutableRef(1)
     {
         // Initialize prototypes
         // Initialize prototypes
@@ -330,15 +332,15 @@ namespace proto {
             Cell* batchHead = this->freeCells;
             Cell* current = batchHead;
             int count = 1;
-            
+
             // Try to get blocksPerAllocation (or as many as we have)
-            while (current->next && count < this->blocksPerAllocation) {
-                current = current->next;
+            while (current->getNext() && count < this->blocksPerAllocation) {
+                current = current->getNext();
                 count++;
             }
-            
-            this->freeCells = current->next;
-            current->next = nullptr;
+
+            this->freeCells = current->getNext();
+            current->setNext(nullptr);
             this->freeCellsCount -= count;
             return batchHead;
         }
@@ -363,20 +365,20 @@ namespace proto {
         // Chain the newly allocated cells and add them to the global free list
         // but we return the first blocksPerAllocation to the requesting thread
         BigCell* bigCellPtr = reinterpret_cast<BigCell*>(newMemory);
-        
+
         // Batch to return
         for (int i = 0; i < this->blocksPerAllocation - 1; ++i) {
-            reinterpret_cast<Cell*>(&bigCellPtr[i])->next = reinterpret_cast<Cell*>(&bigCellPtr[i+1]);
+            reinterpret_cast<Cell*>(&bigCellPtr[i])->setNext(reinterpret_cast<Cell*>(&bigCellPtr[i+1]));
         }
-        reinterpret_cast<Cell*>(&bigCellPtr[this->blocksPerAllocation - 1])->next = nullptr;
-        
+        reinterpret_cast<Cell*>(&bigCellPtr[this->blocksPerAllocation - 1])->setNext(nullptr);
+
         // Remaining go to global free list
         if (blocksToAllocate > this->blocksPerAllocation) {
             Cell* globalHead = reinterpret_cast<Cell*>(&bigCellPtr[this->blocksPerAllocation]);
             for (int i = this->blocksPerAllocation; i < blocksToAllocate - 1; ++i) {
-                reinterpret_cast<Cell*>(&bigCellPtr[i])->next = reinterpret_cast<Cell*>(&bigCellPtr[i+1]);
+                reinterpret_cast<Cell*>(&bigCellPtr[i])->setNext(reinterpret_cast<Cell*>(&bigCellPtr[i+1]));
             }
-            reinterpret_cast<Cell*>(&bigCellPtr[blocksToAllocate - 1])->next = this->freeCells;
+            reinterpret_cast<Cell*>(&bigCellPtr[blocksToAllocate - 1])->setNext(this->freeCells);
             this->freeCells = globalHead;
             this->freeCellsCount += (blocksToAllocate - this->blocksPerAllocation);
         }

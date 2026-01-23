@@ -109,7 +109,7 @@ TEST_F(ContextTest, LifecycleAndReturnValuePromotion) {
     // 6. Assert the state of the parent context (g_context)
     // The parent's "young generation" should now contain the ReturnReference and the closureLocals.
     ASSERT_NE(g_context->lastAllocatedCell, nullptr);
-    ASSERT_NE(g_context->lastAllocatedCell->next, nullptr); // Points to closureLocals
+    ASSERT_NE(g_context->lastAllocatedCell->getNext(), nullptr); // Points to closureLocals
 
     // This cell must be a ReturnReference
     const Cell* ref_cell = g_context->lastAllocatedCell;

@@ -185,24 +185,33 @@ namespace proto
 
     const ProtoObject* Integer::add(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
-        if (left->isDouble(context) || right->isDouble(context)) {
-            // If either operand is a double, convert both to double and perform double addition
-            return context->fromDouble(left->asDouble(context) + right->asDouble(context));
-        }
-        if (!isInteger(left) || !isInteger(right)) {
-            throw std::runtime_error("Objects are not integer types for addition.");
-        }
+        ProtoObjectPointer lp{}, rp{};
+        lp.oid = left; rp.oid = right;
 
-        // --- FAST PATH for SmallInt + SmallInt ---
-        if (isSmallInteger(left) && isSmallInteger(right)) {
-            __int128_t result_128 = (__int128_t)asLong(context, left) + (__int128_t)asLong(context, right);
+        // --- FASTEST PATH: SmallInt + SmallInt ---
+        if (lp.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && lp.op.embedded_type == EMBEDDED_TYPE_SMALLINT &&
+            rp.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && rp.op.embedded_type == EMBEDDED_TYPE_SMALLINT)
+        {
+            __int128_t result_128 = (__int128_t)lp.si.smallInteger + (__int128_t)rp.si.smallInteger;
             const long long min_small_int = -(1LL << 53);
             const long long max_small_int = (1LL << 53) - 1;
 
             if (result_128 >= min_small_int && result_128 <= max_small_int) {
-                return fromLong(context, (long long)result_128);
+                ProtoObjectPointer res{};
+                res.si.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
+                res.si.embedded_type = EMBEDDED_TYPE_SMALLINT;
+                res.si.smallInteger = (long long)result_128;
+                return res.oid;
             }
-            // Fall through to slow path if it overflows SmallInt
+        }
+
+        // --- DOUBLE PATH ---
+        if (lp.op.pointer_tag == POINTER_TAG_DOUBLE || rp.op.pointer_tag == POINTER_TAG_DOUBLE) {
+            return context->fromDouble(left->asDouble(context) + right->asDouble(context));
+        }
+
+        if (!isInteger(left) || !isInteger(right)) {
+            throw std::runtime_error("Objects are not integer types for addition.");
         }
 
         // --- SLOW PATH (Generic Case for LargeIntegers) ---
@@ -228,24 +237,33 @@ namespace proto
 
     const ProtoObject* Integer::subtract(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
-        if (left->isDouble(context) || right->isDouble(context)) {
-            // If either operand is a double, convert both to double and perform double subtraction
-            return context->fromDouble(left->asDouble(context) - right->asDouble(context));
-        }
-        if (!isInteger(left) || !isInteger(right)) {
-            throw std::runtime_error("Objects are not integer types for subtraction.");
-        }
+        ProtoObjectPointer lp{}, rp{};
+        lp.oid = left; rp.oid = right;
 
-        // --- FAST PATH for SmallInt - SmallInt ---
-        if (isSmallInteger(left) && isSmallInteger(right)) {
-            __int128_t result_128 = (__int128_t)asLong(context, left) - (__int128_t)asLong(context, right);
+        // --- FASTEST PATH: SmallInt - SmallInt ---
+        if (lp.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && lp.op.embedded_type == EMBEDDED_TYPE_SMALLINT &&
+            rp.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && rp.op.embedded_type == EMBEDDED_TYPE_SMALLINT)
+        {
+            __int128_t result_128 = (__int128_t)lp.si.smallInteger - (__int128_t)rp.si.smallInteger;
             const long long min_small_int = -(1LL << 53);
             const long long max_small_int = (1LL << 53) - 1;
 
             if (result_128 >= min_small_int && result_128 <= max_small_int) {
-                return fromLong(context, (long long)result_128);
+                ProtoObjectPointer res{};
+                res.si.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
+                res.si.embedded_type = EMBEDDED_TYPE_SMALLINT;
+                res.si.smallInteger = (long long)result_128;
+                return res.oid;
             }
-            // Fall through to slow path if it overflows SmallInt
+        }
+
+        // --- DOUBLE PATH ---
+        if (lp.op.pointer_tag == POINTER_TAG_DOUBLE || rp.op.pointer_tag == POINTER_TAG_DOUBLE) {
+            return context->fromDouble(left->asDouble(context) - right->asDouble(context));
+        }
+
+        if (!isInteger(left) || !isInteger(right)) {
+            throw std::runtime_error("Objects are not integer types for subtraction.");
         }
 
         // --- SLOW PATH (Generic Case) ---
@@ -276,24 +294,33 @@ namespace proto
 
     const ProtoObject* Integer::multiply(ProtoContext* context, const ProtoObject* left, const ProtoObject* right)
     {
-        if (left->isDouble(context) || right->isDouble(context)) {
-            // If either operand is a double, convert both to double and perform double multiplication
-            return context->fromDouble(left->asDouble(context) * right->asDouble(context));
-        }
-        if (!isInteger(left) || !isInteger(right)) {
-            throw std::runtime_error("Objects are not integer types for multiplication.");
-        }
+        ProtoObjectPointer lp{}, rp{};
+        lp.oid = left; rp.oid = right;
 
-        // --- FAST PATH for SmallInt * SmallInt ---
-        if (isSmallInteger(left) && isSmallInteger(right)) {
-            __int128_t result_128 = (__int128_t)asLong(context, left) * (__int128_t)asLong(context, right);
+        // --- FASTEST PATH: SmallInt * SmallInt ---
+        if (lp.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && lp.op.embedded_type == EMBEDDED_TYPE_SMALLINT &&
+            rp.op.pointer_tag == POINTER_TAG_EMBEDDED_VALUE && rp.op.embedded_type == EMBEDDED_TYPE_SMALLINT)
+        {
+            __int128_t result_128 = (__int128_t)lp.si.smallInteger * (__int128_t)rp.si.smallInteger;
             const long long min_small_int = -(1LL << 53);
             const long long max_small_int = (1LL << 53) - 1;
 
             if (result_128 >= min_small_int && result_128 <= max_small_int) {
-                return fromLong(context, (long long)result_128);
+                ProtoObjectPointer res{};
+                res.si.pointer_tag = POINTER_TAG_EMBEDDED_VALUE;
+                res.si.embedded_type = EMBEDDED_TYPE_SMALLINT;
+                res.si.smallInteger = (long long)result_128;
+                return res.oid;
             }
-            // Fall through to slow path if it overflows SmallInt
+        }
+
+        // --- DOUBLE PATH ---
+        if (lp.op.pointer_tag == POINTER_TAG_DOUBLE || rp.op.pointer_tag == POINTER_TAG_DOUBLE) {
+            return context->fromDouble(left->asDouble(context) * right->asDouble(context));
+        }
+
+        if (!isInteger(left) || !isInteger(right)) {
+            throw std::runtime_error("Objects are not integer types for multiplication.");
         }
 
         // --- SLOW PATH (Generic Case) ---

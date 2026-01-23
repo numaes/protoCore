@@ -338,12 +338,12 @@ namespace proto {
         return reinterpret_cast<const Impl *>(raw_ptr_value);
     }
 
-    unsigned long generate_mutable_ref();
+    unsigned long generate_mutable_ref(ProtoContext* context);
     bool isInteger(const ProtoObject* obj);
 
     class Cell {
     public:
-        Cell *next;
+        std::atomic<uintptr_t> next_and_flags;
 
         explicit Cell(ProtoContext *context, Cell *n = nullptr);
 
@@ -356,9 +356,21 @@ namespace proto {
 
         virtual unsigned long getHash(ProtoContext *context) const;
 
-        virtual const ProtoObject *implAsObject(ProtoContext *context) const = 0;
+        virtual const ProtoObject* implAsObject(ProtoContext *context) const = 0;
 
-        static void *operator new(size_t size, ProtoContext *context);
+        static void* operator new(size_t size, ProtoContext *context);
+
+        // Flags: bit 0 is Mark
+        inline void mark() { next_and_flags.fetch_or(0x1UL); }
+        inline void unmark() { next_and_flags.fetch_and(~0x1UL); }
+        inline bool isMarked() const { return (next_and_flags.load() & 0x1UL) != 0; }
+
+        inline Cell* getNext() const { return reinterpret_cast<Cell*>(next_and_flags.load() & ~0x3FUL); }
+        inline void setNext(Cell* n) {
+            uintptr_t current = next_and_flags.load();
+            uintptr_t flags = current & 0x3FUL;
+            next_and_flags.store(reinterpret_cast<uintptr_t>(n) | flags);
+        }
     };
 
     class ParentLinkImplementation : public Cell {

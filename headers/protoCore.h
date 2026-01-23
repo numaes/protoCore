@@ -649,6 +649,7 @@ namespace proto
         int state;
         ProtoContext* rootContext;
         std::atomic<ProtoSparseList*> mutableRoot;
+        std::atomic<unsigned long> nextMutableRef;
 
         // --- Maquinaria Interna (Público por ahora) ---
 

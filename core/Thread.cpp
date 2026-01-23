@@ -153,7 +153,7 @@ namespace proto {
 
         Cell* newCell = this->extension->freeCells;
         if (newCell) {
-            this->extension->freeCells = newCell->next;
+            this->extension->freeCells = newCell->getNext();
         }
         return newCell;
     }

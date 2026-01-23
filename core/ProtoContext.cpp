@@ -173,11 +173,11 @@ namespace proto
             // Local context pool check
             if (this->freeCells) {
                 newCell = this->freeCells;
-                this->freeCells = newCell->next;
+                this->freeCells = newCell->getNext();
             } else if (this->space) {
                 newCell = this->space->getFreeCells(nullptr);
                 if (newCell) {
-                    this->freeCells = newCell->next;
+                    this->freeCells = newCell->getNext();
                 }
             }
         } else {
@@ -205,7 +205,7 @@ namespace proto
      */
     void ProtoContext::addCell2Context(Cell* cell)
     {
-        cell->next = this->lastAllocatedCell;
+        cell->setNext(this->lastAllocatedCell);
         this->lastAllocatedCell = cell;
     }
 
@@ -282,7 +282,7 @@ namespace proto
     const ProtoObject* ProtoContext::newObject(const bool mutableObject)
     {
         const auto* attributes = toImpl<const ProtoSparseListImplementation>(newSparseList());
-        return (new(this) ProtoObjectCell(this, nullptr, attributes, mutableObject ? generate_mutable_ref() : 0))->asObject(this);
+        return (new(this) ProtoObjectCell(this, nullptr, attributes, mutableObject ? generate_mutable_ref(this) : 0))->asObject(this);
     }
 
     const ProtoObject* ProtoContext::fromBoolean(bool value) {
