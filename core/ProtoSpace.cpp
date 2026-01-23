@@ -305,15 +305,6 @@ namespace proto {
             this->gcStarted = true;
             this->gcCV.notify_all();
         }
-
-        if (!this->freeCells && this->gcStarted) {
-            // Wait for current GC to finish before asking OS for more.
-            // We must increment parkedThreads to avoid deadlocking the STW phase.
-            this->parkedThreads++;
-            this->gcCV.notify_all(); // Notify GC thread that we are parked
-            this->gcCV.wait(lock, [this] { return !this->gcStarted || this->freeCells; });
-            this->parkedThreads--;
-        }
         
         // If we have free cells in the global list, return a batch
         if (this->freeCells) {

@@ -68,7 +68,8 @@ While the world is stopped, the GC identifies all root objects:
 
 - Threads request batches of cells from `ProtoSpace` (`getFreeCells`).
 - If the free list is low, the GC is triggered.
-- If no free cells are available even after a GC, `ProtoSpace` allocates a new chunk of memory from the OS using `posix_memalign`.
+- **Concurrent Allocation**: Threads can continue to allocate memory from the OS (growing the heap) even if a GC cycle is currently running. This ensures that a high allocation rate does not stall the entire system.
+- If no free cells are available and a GC cycle is not enough to satisfy the request, `ProtoSpace` allocates a new chunk of memory from the OS using `posix_memalign`.
 
 ## How to use
 
