@@ -31,6 +31,7 @@ While the world is stopped, the GC identifies all root objects:
 - **Global Roots**: Key prototypes and global objects in `ProtoSpace`.
 - **Thread Stacks**: Automatic locals and closure locals in all active `ProtoContext` objects across all threads.
 - **Young Generations**: Any outstanding `lastAllocatedCell` chains in active contexts are flushed to `DirtySegments`.
+- **Heap Snapshot**: The list of `DirtySegments` to be analyzed is captured and cleared from the global pool. This ensures the GC works on a consistent snapshot of objects that existed at the start of the cycle.
 
 ### Phase 3: Resume The World
 - Once roots are safely collected into a work-list, the `stwFlag` is cleared.
@@ -42,11 +43,11 @@ While the world is stopped, the GC identifies all root objects:
 - Visited objects are tracked in a set (currently `std::unordered_set`).
 
 ### Phase 5: Sweep
-- Iterates through all `DirtySegments`.
+- Iterates through the **captured snapshot** of `DirtySegments`.
 - For each cell in a segment:
     - If it was **not** marked, it is finalized (`finalize()`) and returned to the global `freeCells` list.
     - If it was marked, it remains in the heap.
-- Cleans up processed `DirtySegments`.
+- Cleans up processed `DirtySegments` from the snapshot. New segments added by threads during the Mark phase are ignored and will be processed in the next cycle.
 
 ## Synchronization Mechanisms
 

@@ -161,6 +161,11 @@ namespace proto {
                     if (rootCtx->closureLocals) addRootObj(reinterpret_cast<const ProtoObject*>(rootCtx->closureLocals));
                     rootCtx = rootCtx->previous;
                 }
+
+                // 6. Capture the heap snapshot (segments to process)
+                // This MUST be done during STW to ensure we only sweep what existed at root collection.
+                DirtySegment* segmentsToProcess = space->dirtySegments;
+                space->dirtySegments = nullptr;
                 
                 // --- PHASE 3: RESUME THE WORLD ---
                 space->stwFlag.store(false);
@@ -182,15 +187,7 @@ namespace proto {
                 }
                 
                 // --- PHASE 5: SWEEP ---
-                // We need to lock dirtySegments access
                 space->gcStarted = false; // Reset here
-                
-                DirtySegment* segmentsToProcess = nullptr;
-                {
-                    std::lock_guard<std::mutex> sweepLock(ProtoSpace::globalMutex);
-                    segmentsToProcess = space->dirtySegments;
-                    space->dirtySegments = nullptr;
-                }
 
                 DirtySegment* currentSeg = segmentsToProcess;
                 while (currentSeg) {
