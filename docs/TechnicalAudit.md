@@ -37,9 +37,8 @@ This audit evaluates the architecture of `protoCore`, focusing on the object mod
 - [ ] **Thread-Safe Mutable References**: Replace `std::rand()` with a thread-local random generator or an atomic 64-bit counter to ensure unique `mutable_ref` IDs.
 - [ ] **Static Dispatch for Primitives**: Ensure that operations on tagged pointers (like arithmetic) are as fast as possible by avoiding `toImpl` overhead where not strictly necessary.
 
-### Phase 3: Advanced GC Features
-- [ ] **Parallel Marking**: Allow multiple GC worker threads to share the work-list during the mark phase.
-- [ ] **Generational Collection Enhancement**: Move from a simple "submit young generation" to a full generational collector (nursery vs. tenured space) to reduce the frequency of scanning the entire heap.
+### Phase 3: Advanced Optimization
+- [ ] **Static Dispatch for Primitives**: Ensure that operations on tagged pointers (like arithmetic) are as fast as possible by avoiding `toImpl` overhead where not strictly necessary.
 
 ## Architecture Roadmap
-The core model is robust for its intended purpose. The next major evolution should focus on JIT compilation or bytecode execution to complement the efficient object model.
+The core model is robust for its intended purpose. The next major evolution should focus on JIT compilation or bytecode execution to complement the efficient object model, leveraging the inherent simplicity and safety of the current GC design.

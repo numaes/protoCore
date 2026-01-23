@@ -54,7 +54,6 @@ While the world is stopped, the GC identifies all root objects:
 Based on recent technical audits, the following improvements are planned:
 - **Attribute Lookup Caching**: Integrate thread-local inline caches to speed up prototype chain traversals.
 - **Marking Optimization**: Replace the current `std::unordered_set` based marking with a more efficient bitset or marking bits in the cell header.
-- **Parallel Marking**: Implement multi-threaded marking to reduce GC cycle duration on large heaps.
 - **Secure Reference Generation**: Move to atomic 64-bit counters or thread-local random generators for `mutable_ref` generation to avoid collisions.
 
 ## Synchronization Mechanisms
