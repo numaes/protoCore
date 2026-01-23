@@ -17,6 +17,10 @@ namespace proto {
     {
     }
 
+    void ProtoSetImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
+        if (list) method(context, self, reinterpret_cast<const ProtoObject*>(list)->asCell(context));
+    }
+
     const ProtoObject* ProtoSetImplementation::implAsObject(ProtoContext* context) const {
         ProtoObjectPointer p;
         p.setImplementation = this;
@@ -51,5 +55,9 @@ namespace proto {
         p.setIteratorImplementation = this;
         p.op.pointer_tag = POINTER_TAG_SET_ITERATOR;
         return p.oid;
+    }
+
+    void ProtoSetIteratorImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
+        if (iterator) method(context, self, iterator);
     }
 }

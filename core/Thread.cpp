@@ -22,6 +22,14 @@ namespace proto {
             } catch (const std::exception& e) {
                 std::cerr << "Uncaught exception in thread: " << e.what() << std::endl;
             }
+            context->space->runningThreads--;
+            {
+                std::lock_guard<std::mutex> lock(ProtoSpace::globalMutex);
+                unsigned long threadId = reinterpret_cast<uintptr_t>(context->thread);
+                auto* threadsImpl = toImpl<const ProtoSparseListImplementation>(context->space->threads);
+                context->space->threads = const_cast<ProtoSparseList*>(threadsImpl->implRemoveAt(context, threadId)->asSparseList(context));
+            }
+            context->space->gcCV.notify_all(); // Notify GC that a thread finished
         }
     }
 
@@ -59,7 +67,17 @@ namespace proto {
             const Cell* cell
             )
     ) const {
-        // Nothing to do here
+        for (int i = 0; i < THREAD_CACHE_DEPTH; ++i) {
+            if (this->attributeCache[i].object && this->attributeCache[i].object->isCell(context)) {
+                method(context, self, this->attributeCache[i].object->asCell(context));
+            }
+            if (this->attributeCache[i].result && this->attributeCache[i].result->isCell(context)) {
+                method(context, self, this->attributeCache[i].result->asCell(context));
+            }
+            if (this->attributeCache[i].name && reinterpret_cast<const ProtoObject*>(this->attributeCache[i].name)->isCell(context)) {
+                method(context, self, reinterpret_cast<const ProtoObject*>(this->attributeCache[i].name)->asCell(context));
+            }
+        }
     }
 
     const ProtoObject* ProtoThreadExtension::implAsObject(ProtoContext* context) const {
@@ -89,10 +107,21 @@ namespace proto {
         this->extension = new (context) ProtoThreadExtension(context);
         this->context = new (context) ProtoContext(space, nullptr, nullptr, nullptr, args, kwargs);
         this->context->thread = (ProtoThread*)this->asThread(context);
+        {
+            std::lock_guard<std::mutex> lock(ProtoSpace::globalMutex);
+            unsigned long threadId = reinterpret_cast<uintptr_t>(this->asThread(context));
+            auto* threadsImpl = toImpl<const ProtoSparseListImplementation>(space->threads);
+            space->threads = const_cast<ProtoSparseList*>(threadsImpl->implSetAt(context, threadId, (const ProtoObject*)this->asThread(context))->asSparseList(context));
+            space->runningThreads++;
+        }
         this->extension->osThread = new std::thread(thread_main, this->context, mainFunction, args, kwargs);
     }
 
     ProtoThreadImplementation::~ProtoThreadImplementation() {
+        std::lock_guard<std::mutex> lock(ProtoSpace::globalMutex);
+        unsigned long threadId = reinterpret_cast<uintptr_t>(this->asThread(this->context));
+        auto* threadsImpl = toImpl<const ProtoSparseListImplementation>(space->threads);
+        space->threads = const_cast<ProtoSparseList*>(threadsImpl->implRemoveAt(this->context, threadId)->asSparseList(this->context));
     }
 
     void ProtoThreadImplementation::processReferences(
@@ -130,8 +159,15 @@ namespace proto {
     }
 
     void ProtoThreadImplementation::implSynchToGC() {
-        // This is a placeholder for a real implementation.
-        // A real implementation would need to coordinate with the GC.
+        if (this->space->stwFlag.load()) {
+            this->space->parkedThreads++;
+            {
+                std::unique_lock<std::mutex> lock(ProtoSpace::globalMutex);
+                this->space->gcCV.notify_all(); // Notify GC that a thread parked
+                this->space->stopTheWorldCV.wait(lock, [this] { return !this->space->stwFlag.load(); });
+            }
+            this->space->parkedThreads--;
+        }
     }
 
     void ProtoThreadImplementation::implSetCurrentContext(ProtoContext* context) {

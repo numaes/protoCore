@@ -522,6 +522,7 @@ namespace proto
 
         Cell* lastAllocatedCell;
         unsigned long allocatedCellsCount;
+        Cell* freeCells;
     };
 
     /**
@@ -671,8 +672,11 @@ namespace proto
         std::condition_variable stopTheWorldCV;
         std::condition_variable restartTheWorldCV;
         std::condition_variable gcCV;
-        bool gcStarted;
+        std::atomic<bool> gcStarted;
         std::atomic<int> runningThreads;
+        std::atomic<bool> stwFlag;
+        std::atomic<int> parkedThreads;
+        ProtoContext* mainContext;
 
         static std::mutex globalMutex;
     };

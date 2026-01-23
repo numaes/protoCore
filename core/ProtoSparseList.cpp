@@ -219,6 +219,12 @@ namespace proto
         return nullptr;
     }
 
+    void ProtoSparseListImplementation::processReferences(ProtoContext* context, void* self, void (*method)(ProtoContext*, void*, const Cell*)) const {
+        if (value && value->isCell(context)) method(context, self, value->asCell(context));
+        if (previous) method(context, self, previous);
+        if (next) method(context, self, next);
+    }
+
     const ProtoObject* ProtoSparseListImplementation::implAsObject(ProtoContext* context) const {
         ProtoObjectPointer p{};
         p.voidPointer = const_cast<ProtoSparseListImplementation*>(this);

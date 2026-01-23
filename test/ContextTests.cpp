@@ -12,7 +12,7 @@ protected:
 
     void SetUp() override {
         space = new proto::ProtoSpace();
-        rootContext = new ProtoContext(space, nullptr, nullptr, nullptr, nullptr, nullptr);
+        rootContext = space->rootContext;
     }
 
     void TearDown() override {
