@@ -124,10 +124,30 @@ All core collection types in Proto are implemented as persistent, immutable data
 Proto implements a flexible and dynamic object model inspired by the Self programming language and JavaScript.
 
 *   **`ProtoObjectCell`**: A standard object is represented internally by a `ProtoObjectCell`. This cell contains:
-    *   A `ParentLink` pointing to its prototype(s).
+    *   A `ParentLink` pointing to its prototype(s). The `ParentLinkImplementation` allows for a linked list of parents, effectively enabling multiple inheritance through delegation.
     *   A `ProtoSparseList` to hold its own local attributes.
-*   **Prototype Chains**: Objects inherit behavior and data from their prototypes. The `ParentLink` forms a chain (or more accurately, a directed acyclic graph), allowing for multiple inheritance. Attribute lookup traverses this graph until a match is found or the chain ends.
+*   **Prototype Chains**: Objects inherit behavior and data from their prototypes. The `ParentLink` forms a chain (or more accurately, a directed acyclic graph), allowing for multiple inheritance. Attribute lookup traverses this graph depth-first until a match is found or all paths end.
+*   **Methods and Bindings**: When a function is retrieved from an object, it is often wrapped in a `ProtoMethodCell`. This cell binds the function to the `self` object, ensuring that when the method is invoked, it has access to the correct receiver.
 *   **Controlled Mutability**: While the default is immutability, Proto provides a safe mechanism for controlled mutation. A mutable object holds a unique ID that refers to an entry in a global, thread-safe sparse list (`mutableRoot` in `ProtoSpace`). A "mutation" is an atomic `compare-and-swap` operation that replaces the immutable value associated with that ID, preserving the safety of the overall system while providing the convenience of mutable state.
+
+---
+
+## 4. Execution Model and Method Invocation
+
+The execution in Proto is centered around the `ProtoContext` and the concept of "trampoline" calls.
+
+### Method Invocation Lifecycle
+
+1.  **Lookup**: When a method is called on a `ProtoObject`, the system first looks for the attribute in the object's own `ProtoSparseList`.
+2.  **Delegation**: If not found locally, it recursively searches through the `ParentLink` chain.
+3.  **Binding**: If the found value is a function (a `ProtoMethod`), it is wrapped in a `ProtoMethodCell` along with the receiver (`self`).
+4.  **Invocation**: The `ProtoMethodCell::implInvoke` is called. This sets up the execution environment within the current `ProtoContext`.
+
+### The `ReturnReference` Mechanism
+
+Internally, Proto uses a special `ReturnReference` cell. This is not exposed to the user but serves as a way for methods to return values through the `ProtoContext` while still being managed by the garbage collector. It ensures that the return value is tracked as a root if a GC cycle occurs exactly during a return operation.
+
+---
 
 ## Conclusion: A Synergistic Design
 
